@@ -1,13 +1,13 @@
 # Translators:
-# Carlos Rodríguez <carlos.rodriguez@otrs.com>, 2018
 # 신홍열 <hyshin@shinjjang.com>, 2018
+# Carlos Rodríguez <carlos.rodriguez@otrs.com>, 2018
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-02-21 13:30+0000\n"
+"POT-Creation-Date: 2019-04-05 00:59+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
-"Last-Translator: 신홍열 <hyshin@shinjjang.com>, 2018\n"
+"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>, 2018\n"
 "Language-Team: Korean (https://www.transifex.com/otrs/teams/23435/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -6706,10 +6706,14 @@ msgid "The display name and email address will be shown on mail you send."
 msgstr "표시 이름과 이메일 주소가 보내는 메일에 표시됩니다."
 
 #. Template: AdminSystemAddress
+msgid "This system address cannot be set to invalid."
+msgstr ""
+
+#. Template: AdminSystemAddress
 msgid ""
 "This system address cannot be set to invalid, because it is used in one or "
-"more queue(s)."
-msgstr "이 시스템 주소는 하나 이상의 대기열(s)에서 사용되기 때문에 유효하지 않게 설정할 수 없습니다. "
+"more queue(s) or auto response(s)."
+msgstr ""
 
 #. Template: AdminSystemConfiguration
 msgid "online administrator documentation"
@@ -7060,8 +7064,8 @@ msgid "Your email address is"
 msgstr "귀하의 이메일 주소 : "
 
 #. Template: AdminTemplateAttachment
-msgid "Manage Templates-Attachments Relations"
-msgstr "템플릿 관리 - 첨부파일 관계"
+msgid "Manage Template-Attachment Relations"
+msgstr ""
 
 #. Template: AdminTemplateAttachment
 msgid "Toggle active for all"
@@ -7972,16 +7976,16 @@ msgid "Split"
 msgstr "분리"
 
 #. Template: AgentStatisticsAdd
-msgid "Statistics Overview"
-msgstr "통계 개요"
-
-#. Template: AgentStatisticsAdd
-msgid "Read more about statistics in OTRS"
-msgstr "OTRS의 통계에 대해 자세히 알아보십시오."
+msgid "Statistics Management"
+msgstr ""
 
 #. Template: AgentStatisticsAdd
 msgid "Add Statistics"
 msgstr "통계 추가"
+
+#. Template: AgentStatisticsAdd
+msgid "Read more about statistics in OTRS"
+msgstr "OTRS의 통계에 대해 자세히 알아보십시오."
 
 #. Template: AgentStatisticsAdd
 msgid "Dynamic Matrix"
@@ -8016,6 +8020,10 @@ msgid "Create Statistic"
 msgstr "통계 생성"
 
 #. Template: AgentStatisticsEdit
+msgid "Edit Statistics"
+msgstr ""
+
+#. Template: AgentStatisticsEdit
 msgid "Run now"
 msgstr "지금 실행"
 
@@ -8026,6 +8034,10 @@ msgstr "통계 미리보기"
 #. Template: AgentStatisticsEdit
 msgid "Save Statistic"
 msgstr "통계 저장"
+
+#. Template: AgentStatisticsImport
+msgid "Import Statistics"
+msgstr ""
 
 #. Template: AgentStatisticsImport
 msgid "Import Statistics Configuration"
@@ -8058,6 +8070,14 @@ msgstr "통계 \"%s\"  삭제"
 #. Template: AgentStatisticsOverview
 msgid "Delete statistic %s"
 msgstr "통계 \"%s\" 삭제"
+
+#. Template: AgentStatisticsView
+msgid "Statistics Overview"
+msgstr "통계 개요"
+
+#. Template: AgentStatisticsView
+msgid "View Statistics"
+msgstr ""
 
 #. Template: AgentStatisticsView
 msgid "Statistics Information"
@@ -10521,6 +10541,10 @@ msgid "There was an error getting data for ACL with ID %s"
 msgstr "ID가 %s 인 ACL에 대한 데이터를 가져 오는 중 오류가 발생했습니다."
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
+msgid "%s (copy) %s"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminACL.pm
 msgid ""
 "Please note that ACL restrictions will be ignored for the Superuser account "
 "(UserID 1)."
@@ -10641,6 +10665,10 @@ msgstr "ID가 %s 인 알림 데이터를 가져 오는 중 오류가 발생했�
 #. Perl Module: Kernel/Modules/AdminAppointmentNotificationEvent.pm
 msgid "Unknown Notification %s!"
 msgstr "알 수없는 알림 %s!"
+
+#. Perl Module: Kernel/Modules/AdminAppointmentNotificationEvent.pm
+msgid "%s (copy)"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminAppointmentNotificationEvent.pm
 msgid "There was an error creating the Notification"
@@ -12599,6 +12627,22 @@ msgid "Ticket (%s) is not unlocked!"
 msgstr "티켓 (%s)은 잠금 해제되지 않았습니다!"
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
+msgid ""
+"The following tickets were ignored because they are locked by another agent "
+"or you don't have write access to tickets: %s."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketBulk.pm
+msgid ""
+"The following ticket was ignored because it is locked by another agent or "
+"you don't have write access to ticket: %s."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketBulk.pm
+msgid "You need to select at least one ticket."
+msgstr "하나 이상의 티켓을 선택해야 합니다."
+
+#. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid "Bulk feature is not enabled!"
 msgstr "대량 기능을 사용할 수 없습니다!"
 
@@ -12611,10 +12655,6 @@ msgid ""
 "You either selected no ticket or only tickets which are locked by other "
 "agents."
 msgstr "티켓을 선택하지 않았거나 다른 상담원이 잠근 티켓만 선택했습니다."
-
-#. Perl Module: Kernel/Modules/AgentTicketBulk.pm
-msgid "You need to select at least one ticket."
-msgstr "하나 이상의 티켓을 선택해야 합니다."
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid ""
@@ -13859,6 +13899,10 @@ msgid "Standard"
 msgstr "표준"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
+msgid "The following tickets are not updated: %s."
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "h"
 msgstr "시간"
 
@@ -15060,6 +15104,10 @@ msgstr "배포를 결정할 수 없습니다."
 msgid "Kernel Version"
 msgstr "커널 버전"
 
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/KernelVersion.pm
+msgid "Could not determine kernel version."
+msgstr ""
+
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Load.pm
 msgid "System Load"
 msgstr "시스템로드"
@@ -15328,16 +15376,16 @@ msgstr "레거시 구성 백업 파일이 없습니다."
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/LegacyConfigBackups.pm
 msgid ""
-"Legacy configuration backup files found in %s, but they might still be "
-"required by some packages."
-msgstr "레거시 구성 백업 파일은 %s에서 발견되었지만 일부 패키지에서는 여전히 필요합니다."
+"Legacy configuration backup files found in Kernel/Config/Backups folder, but"
+" they might still be required by some packages."
+msgstr ""
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/LegacyConfigBackups.pm
 msgid ""
 "Legacy configuration backup files are no longer needed for the installed "
-"packages, please remove them from %s."
-msgstr "레거시 구성 백업 파일은 설치된 패키지에 더 이상 필요하지 않으므로 %s에서 제거하십시오."
+"packages, please remove them from Kernel/Config/Backups folder."
+msgstr ""
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/PackageDeployment.pm
@@ -15507,10 +15555,6 @@ msgstr "사용자 기본 시간대"
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
 msgid "User default time zone is not set."
 msgstr "사용자 기본 시간대가 설정되지 않았습니다."
-
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
-msgid "OTRS time zone setting for calendar"
-msgstr "캘린더의 OTRS 시간대 설정"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
 msgid "Calendar time zone is not set."
@@ -17813,6 +17857,14 @@ msgstr ""
 "key2 *)\"또는 \"(* key1 * || * key2 *)\"와 같은 조건의 티켓 제목을 사용하십시오."
 
 #. SysConfig
+msgid "Allows generic agent to execute custom command line scripts."
+msgstr ""
+
+#. SysConfig
+msgid "Allows generic agent to execute custom modules."
+msgstr ""
+
+#. SysConfig
 msgid ""
 "Allows having a medium format ticket overview (CustomerInfo => 1 - shows "
 "also the customer information)."
@@ -18041,10 +18093,8 @@ msgstr "전역 서식있는 텍스트 설정에 기반"
 #. SysConfig
 msgid ""
 "Basic fulltext index settings. Execute \"bin/otrs.Console.pl "
-"Maint::Ticket::FulltextIndexRebuild\" in order to generate a new index."
+"Maint::Ticket::FulltextIndex --rebuild\" in order to generate a new index."
 msgstr ""
-"기본 전체 텍스트 색인 설정. 새 인덱스를 생성하려면 \"bin / otrs.Console.pl Maint :: Ticket :: "
-"FulltextIndexRebuild\"를 실행하십시오."
 
 #. SysConfig
 msgid ""
@@ -22579,8 +22629,8 @@ msgid ""
 "Helps to extend your articles full-text search (From, To, Cc, Subject and "
 "Body search). It will strip all articles and will build an index after "
 "article creation, increasing fulltext searches about 50%. To create an "
-"initial index use \"bin/otrs.Console.pl "
-"Maint::Ticket::FulltextIndexRebuild\"."
+"initial index use \"bin/otrs.Console.pl Maint::Ticket::FulltextIndex "
+"--rebuild\"."
 msgstr ""
 
 #. SysConfig
@@ -26508,6 +26558,10 @@ msgid ""
 msgstr ""
 "에이전트 인터페이스의 티켓 확대보기에서 외부 페이지에 대한 링크를 표시합니다. 이 링크를 표시하거나 표시하지 않으려는 추가 액세스 제어는"
 " 키 \"그룹\"과 \"rw : group1; move_into : group2\"와 같은 내용을 사용하여 수행 할 수 있습니다."
+
+#. SysConfig
+msgid "Shows the article head information in the agent zoom view."
+msgstr ""
 
 #. SysConfig
 msgid ""

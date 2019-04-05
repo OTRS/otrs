@@ -2,13 +2,13 @@
 # Udo Bretz, 2018
 # Jaroslav Balaz <balazj315@gmail.com>, 2018
 # Милорад Јовановић <j.milorad@gmail.com>, 2018
-# Martin Gruner <martin.gruner@otrs.com>, 2018
+# Martin Gruner <martin.gruner@otrs.com>, 2019
 # Dusan Vuckovic, 2019
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-02-21 13:30+0000\n"
+"POT-Creation-Date: 2019-04-05 00:59+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: Dusan Vuckovic, 2019\n"
 "Language-Team: Serbian (https://www.transifex.com/otrs/teams/23435/sr/)\n"
@@ -7127,12 +7127,16 @@ msgstr ""
 "Приказано име и имејл адреса ће бити приказани на поруци коју сте послали."
 
 #. Template: AdminSystemAddress
+msgid "This system address cannot be set to invalid."
+msgstr "Ова системска адреса се не може означити као неважећа."
+
+#. Template: AdminSystemAddress
 msgid ""
 "This system address cannot be set to invalid, because it is used in one or "
-"more queue(s)."
+"more queue(s) or auto response(s)."
 msgstr ""
 "Ова системска адреса се не може означити као неважећа јер се користи у "
-"једном или више редова."
+"једном или више аутоматских одговора."
 
 #. Template: AdminSystemConfiguration
 msgid "online administrator documentation"
@@ -7510,7 +7514,7 @@ msgid "Your email address is"
 msgstr "Ваша имејл адреса је"
 
 #. Template: AdminTemplateAttachment
-msgid "Manage Templates-Attachments Relations"
+msgid "Manage Template-Attachment Relations"
 msgstr "Управљање релацијама шаблони-прилози"
 
 #. Template: AdminTemplateAttachment
@@ -8456,16 +8460,16 @@ msgid "Split"
 msgstr "Подели"
 
 #. Template: AgentStatisticsAdd
-msgid "Statistics Overview"
-msgstr "Преглед статистика"
-
-#. Template: AgentStatisticsAdd
-msgid "Read more about statistics in OTRS"
-msgstr "Прочитајте више о статистикама у OTRS"
+msgid "Statistics Management"
+msgstr "Управљање статистикама"
 
 #. Template: AgentStatisticsAdd
 msgid "Add Statistics"
 msgstr "Додај статистику"
+
+#. Template: AgentStatisticsAdd
+msgid "Read more about statistics in OTRS"
+msgstr "Прочитајте више о статистикама у OTRS"
 
 #. Template: AgentStatisticsAdd
 msgid "Dynamic Matrix"
@@ -8500,6 +8504,10 @@ msgid "Create Statistic"
 msgstr "Креирај статистику"
 
 #. Template: AgentStatisticsEdit
+msgid "Edit Statistics"
+msgstr "Уређивање статистика"
+
+#. Template: AgentStatisticsEdit
 msgid "Run now"
 msgstr "Покрени сад"
 
@@ -8510,6 +8518,10 @@ msgstr "Преглед статистике"
 #. Template: AgentStatisticsEdit
 msgid "Save Statistic"
 msgstr "Сачувај статистику"
+
+#. Template: AgentStatisticsImport
+msgid "Import Statistics"
+msgstr "Увоз статистика"
 
 #. Template: AgentStatisticsImport
 msgid "Import Statistics Configuration"
@@ -8542,6 +8554,14 @@ msgstr "Обриши статистику \"%s\""
 #. Template: AgentStatisticsOverview
 msgid "Delete statistic %s"
 msgstr "Обриши статистику %s"
+
+#. Template: AgentStatisticsView
+msgid "Statistics Overview"
+msgstr "Преглед статистика"
+
+#. Template: AgentStatisticsView
+msgid "View Statistics"
+msgstr "Преглед статистика"
 
 #. Template: AgentStatisticsView
 msgid "Statistics Information"
@@ -11086,6 +11106,10 @@ msgid "There was an error getting data for ACL with ID %s"
 msgstr "Дошло је до грешке приликом прибављања података за ACL листу са ИД %s"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
+msgid "%s (copy) %s"
+msgstr "%s (копија) %s"
+
+#. Perl Module: Kernel/Modules/AdminACL.pm
 msgid ""
 "Please note that ACL restrictions will be ignored for the Superuser account "
 "(UserID 1)."
@@ -11208,6 +11232,10 @@ msgstr "Дошло је до грешке приликом прибављања 
 #. Perl Module: Kernel/Modules/AdminAppointmentNotificationEvent.pm
 msgid "Unknown Notification %s!"
 msgstr "Непознато обавештење %s!"
+
+#. Perl Module: Kernel/Modules/AdminAppointmentNotificationEvent.pm
+msgid "%s (copy)"
+msgstr "%s (копија)"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentNotificationEvent.pm
 msgid "There was an error creating the Notification"
@@ -13207,6 +13235,26 @@ msgid "Ticket (%s) is not unlocked!"
 msgstr "Тикет (%s) није откључан!"
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
+msgid ""
+"The following tickets were ignored because they are locked by another agent "
+"or you don't have write access to tickets: %s."
+msgstr ""
+"Следећи тикети су били игнорисани зато што су закључани од стране другог "
+"оператера или зато што немате право уписа у њих: %s."
+
+#. Perl Module: Kernel/Modules/AgentTicketBulk.pm
+msgid ""
+"The following ticket was ignored because it is locked by another agent or "
+"you don't have write access to ticket: %s."
+msgstr ""
+"Следећи тикет је игнорисан зато што је закључан од стране другог оператера "
+"или зато што немате право уписа у исти: %s."
+
+#. Perl Module: Kernel/Modules/AgentTicketBulk.pm
+msgid "You need to select at least one ticket."
+msgstr "Неопходно је да изаберете бар један тикет."
+
+#. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid "Bulk feature is not enabled!"
 msgstr "Масовна функција није активирана!"
 
@@ -13221,10 +13269,6 @@ msgid ""
 msgstr ""
 "Нисте селектовали ни један тикет или само тикете које су закључали други "
 "оператери."
-
-#. Perl Module: Kernel/Modules/AgentTicketBulk.pm
-msgid "You need to select at least one ticket."
-msgstr "Неопходно је да изаберете бар један тикет."
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid ""
@@ -14497,6 +14541,10 @@ msgid "Standard"
 msgstr "Стандардан"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
+msgid "The following tickets are not updated: %s."
+msgstr "Следећи тикети нису ажурирани: %s."
+
+#. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "h"
 msgstr "ч"
 
@@ -15225,6 +15273,10 @@ msgid ""
 "packages via the \"AllowNotVerifiedPackages\" system configuration "
 "setting.</p>"
 msgstr ""
+"<p>Инсталација пакета који нису верификовани од стране OTRS групе није "
+"подразумевано омогућена. Можете активирати инсталацију неверификованих "
+"пакета путем \"AllowNotVerifiedPackages\" опције у системској "
+"конфигурацији.</p>"
 
 #. Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
 msgid "The process \"%s\" and all of its data has been imported successfully."
@@ -15772,6 +15824,10 @@ msgstr "Није могуће утврдити расподелу."
 msgid "Kernel Version"
 msgstr "Кернел верзија"
 
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/KernelVersion.pm
+msgid "Could not determine kernel version."
+msgstr "Није могуће утврдити кернел верзију"
+
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Load.pm
 msgid "System Load"
 msgstr "Оптерећење система"
@@ -16045,20 +16101,20 @@ msgstr "Нису пронађене резервне копије прошлих
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/LegacyConfigBackups.pm
 msgid ""
-"Legacy configuration backup files found in %s, but they might still be "
-"required by some packages."
+"Legacy configuration backup files found in Kernel/Config/Backups folder, but"
+" they might still be required by some packages."
 msgstr ""
-"Пронађене су резервне копије прошлих конфигурација у %s, међутим могу бити "
-"неопходне за рад инсталираних пакета."
+"Пронађене су резервне копије прошлих конфигурација у Kernel/Config/Backups, "
+"међутим могу бити неопходне за рад инсталираних пакета."
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/LegacyConfigBackups.pm
 msgid ""
 "Legacy configuration backup files are no longer needed for the installed "
-"packages, please remove them from %s."
+"packages, please remove them from Kernel/Config/Backups folder."
 msgstr ""
 "Резервне копије прошлих конфигурација више нису неопходне за рад "
-"инсталираних пакета, молимо уклоните их из %s."
+"инсталираних пакета, молимо уклоните их из Kernel/Config/Backups."
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/PackageDeployment.pm
@@ -16234,10 +16290,6 @@ msgstr "Подразумевана временска зона корисник�
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
 msgid "User default time zone is not set."
 msgstr "Подразумевана временска зона корисника није подешена."
-
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
-msgid "OTRS time zone setting for calendar"
-msgstr "OTRS временска зона календара"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
 msgid "Calendar time zone is not set."
@@ -18680,6 +18732,14 @@ msgstr ""
 "\"(*key1*||*key2*)\"."
 
 #. SysConfig
+msgid "Allows generic agent to execute custom command line scripts."
+msgstr "Омогућава генеричком оператеру да извршава командне скрипте."
+
+#. SysConfig
+msgid "Allows generic agent to execute custom modules."
+msgstr "Омогућава генеричком оператеру да извршава додатне модуле."
+
+#. SysConfig
 msgid ""
 "Allows having a medium format ticket overview (CustomerInfo => 1 - shows "
 "also the customer information)."
@@ -18956,10 +19016,11 @@ msgstr "Базирано на глобалним RichText поставкама"
 #. SysConfig
 msgid ""
 "Basic fulltext index settings. Execute \"bin/otrs.Console.pl "
-"Maint::Ticket::FulltextIndexRebuild\" in order to generate a new index."
+"Maint::Ticket::FulltextIndex --rebuild\" in order to generate a new index."
 msgstr ""
-"Основн подешавање индекса целог текста. Изврши \"bin/otrs.Console.pl "
-"Maint::Ticket::FulltextIndexRebuild\" како би се генерисао нови индекс."
+"Основно подешавање индекса целог текста. Покрените \"bin/otrs.Console.pl "
+"Maint::Ticket::FulltextIndexRebuild --rebuild\" како би се генерисао нови "
+"индекс."
 
 #. SysConfig
 msgid ""
@@ -24259,14 +24320,14 @@ msgid ""
 "Helps to extend your articles full-text search (From, To, Cc, Subject and "
 "Body search). It will strip all articles and will build an index after "
 "article creation, increasing fulltext searches about 50%. To create an "
-"initial index use \"bin/otrs.Console.pl "
-"Maint::Ticket::FulltextIndexRebuild\"."
+"initial index use \"bin/otrs.Console.pl Maint::Ticket::FulltextIndex "
+"--rebuild\"."
 msgstr ""
 "Омогућује проширену текстуалну претрагу ваших чланака (претрага по пољима "
 "From, To, Cc, Subject и Body). Сви постојећи чланци ће бити реиндексирани, "
 "нови додати у индекс претраге по креирању, тиме убрзавајући текстуалну "
 "претрагу за око 50%. За креирање почетног индекса користите "
-"\"bin/otrs.Console.pl Maint::Ticket::FulltextIndexRebuild\"."
+"\"bin/otrs.Console.pl Maint::Ticket::FulltextIndexRebuild --rebuild\"."
 
 #. SysConfig
 msgid "High Contrast"
@@ -28834,6 +28895,12 @@ msgstr ""
 "Приказује везу на екстерну страну у детаљном прегледу тикета у интерфејсу "
 "оператера. ДОдатна контрола приказа ове везе може се постићи коришћењем "
 "кључа \"Group\" са садржајем \"rw:group1;move_into:group2\"."
+
+#. SysConfig
+msgid "Shows the article head information in the agent zoom view."
+msgstr ""
+"Увек приказује све детаљне информације чланка тикета у детаљном прегледу "
+"оператера."
 
 #. SysConfig
 msgid ""

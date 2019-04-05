@@ -35,7 +35,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.943881928951433;
+    $Self->{Completeness}        = 0.941438356164384;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -2049,8 +2049,9 @@ sub Data {
         'This email address is already used as system email address.' => 'Этот адрес электронной почты уже используется как системный адрес.',
         'The display name and email address will be shown on mail you send.' =>
             'Отображаемое имя и адрес электронной почты будут показываться в отправляемой вами почте.',
-        'This system address cannot be set to invalid, because it is used in one or more queue(s).' =>
-            'Этот системный адрес электронной почты не может быть сделан недействительным, так как он используется как минимум в одной очереди.',
+        'This system address cannot be set to invalid.' => '',
+        'This system address cannot be set to invalid, because it is used in one or more queue(s) or auto response(s).' =>
+            '',
 
         # Template: AdminSystemConfiguration
         'online administrator documentation' => 'онлайн-руководство администратора',
@@ -2485,9 +2486,9 @@ sub Data {
         'Split' => 'Разделить',
 
         # Template: AgentStatisticsAdd
-        'Statistics Overview' => 'Перечень отчетов',
-        'Read more about statistics in OTRS' => 'Читайте еще об отчетах в OTRS',
+        'Statistics Management' => '',
         'Add Statistics' => 'Добавить отчет',
+        'Read more about statistics in OTRS' => 'Читайте еще об отчетах в OTRS',
         'Dynamic Matrix' => 'Динамическая матрица',
         'Each cell contains a singular data point.' => 'Каждая ячейка содержит одну точку данных.',
         'Dynamic List' => 'Динамический список',
@@ -2498,11 +2499,13 @@ sub Data {
         'Create Statistic' => 'Создать отчет',
 
         # Template: AgentStatisticsEdit
+        'Edit Statistics' => '',
         'Run now' => 'Выполнить сейчас',
         'Statistics Preview' => 'Предпросмотр отчета',
         'Save Statistic' => 'Сохранить отчет',
 
         # Template: AgentStatisticsImport
+        'Import Statistics' => '',
         'Import Statistics Configuration' => 'Импортировать настройки Отчета',
 
         # Template: AgentStatisticsOverview
@@ -2515,6 +2518,8 @@ sub Data {
         'Delete statistic %s' => 'Удалить отчет %s',
 
         # Template: AgentStatisticsView
+        'Statistics Overview' => 'Перечень отчетов',
+        'View Statistics' => '',
         'Statistics Information' => 'Информация об отчете',
         'Created by' => 'Создал',
         'Changed by' => 'Изменил',
@@ -3376,6 +3381,7 @@ sub Data {
         'There was an error synchronizing the ACLs.' => 'Произошла ошибка при синхронизации ACL.',
         'ACL %s could not be deleted' => 'Невозможно удалить ACL %s',
         'There was an error getting data for ACL with ID %s' => 'Произошла ошибка при получении данный от ACL с ID %s',
+        '%s (copy) %s' => '',
         'Please note that ACL restrictions will be ignored for the Superuser account (UserID 1).' =>
             'Обратите внимание, что для аккаунта Superuser (UserID 1) ограничения ACL игнорируются.',
         'Exact match' => 'Полное совпадение',
@@ -3414,6 +3420,7 @@ sub Data {
         'There was an error getting data for Notification with ID:%s!' =>
             'Произошла ошибка при получении данных для Уведомления с ID: %s!',
         'Unknown Notification %s!' => 'Неизвестное Уведомление %s!',
+        '%s (copy)' => '',
         'There was an error creating the Notification' => 'Произошла ошибка при создании Уведомления',
         'Notifications could not be Imported due to a unknown error, please check OTRS logs for more information' =>
             'Уведомления не могут быть импортированы из-за неизвестной ошибки, проверьте, пожалуйста, логи OTRS для получения более детальной информации',
@@ -4074,11 +4081,15 @@ sub Data {
         # Perl Module: Kernel/Modules/AgentTicketBulk.pm
         'Can\'t lock Tickets, no TicketIDs are given!' => 'Невозможно заблокировать заявку, не задан TicketID!',
         'Ticket (%s) is not unlocked!' => 'Заявка (%s) была разблокирована!',
+        'The following tickets were ignored because they are locked by another agent or you don\'t have write access to tickets: %s.' =>
+            '',
+        'The following ticket was ignored because it is locked by another agent or you don\'t have write access to ticket: %s.' =>
+            '',
+        'You need to select at least one ticket.' => 'Вам нужно выбрать как минимум одну заявку.',
         'Bulk feature is not enabled!' => 'Массовое действие не разрешено!',
         'No selectable TicketID is given!' => 'Не задан доступный TicketID!',
         'You either selected no ticket or only tickets which are locked by other agents.' =>
             'Вы либо не выбрали ни одной заявки, либо все заявки блокированы другими агентами.',
-        'You need to select at least one ticket.' => 'Вам нужно выбрать как минимум одну заявку.',
         'The following tickets were ignored because they are locked by another agent or you don\'t have write access to these tickets: %s.' =>
             'Следующие заявки были не выбраны так как они заблокированы другими агентами или у вас нет прав на запись для этих заявок: %s.',
         'The following tickets were locked: %s.' => 'Текущие заявки были заблокированы: %s.',
@@ -4532,6 +4543,7 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/Layout.pm
         'Standard' => 'Стандартный',
+        'The following tickets are not updated: %s.' => '',
         'h' => 'ч',
         'm' => 'мин',
         'd' => 'дн',
@@ -5014,6 +5026,7 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/KernelVersion.pm
         'Kernel Version' => 'Версия ядра',
+        'Could not determine kernel version.' => 'Не удалось определить версию ядра.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Load.pm
         'System Load' => 'Нагрузка системы',
@@ -5104,9 +5117,9 @@ sub Data {
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/LegacyConfigBackups.pm
         'Legacy Configuration Backups' => 'Резервные копии устаревшей конфигурации',
         'No legacy configuration backup files found.' => 'Нет устаревших файлов резервного копирования конфигурации.',
-        'Legacy configuration backup files found in %s, but they might still be required by some packages.' =>
+        'Legacy configuration backup files found in Kernel/Config/Backups folder, but they might still be required by some packages.' =>
             '',
-        'Legacy configuration backup files are no longer needed for the installed packages, please remove them from %s.' =>
+        'Legacy configuration backup files are no longer needed for the installed packages, please remove them from Kernel/Config/Backups folder.' =>
             '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/PackageDeployment.pm
@@ -5172,7 +5185,6 @@ sub Data {
         'OTRS time zone is not set.' => 'Временная зона OTRS не установлена.',
         'User default time zone' => 'Временная зона пользователя по умолчанию',
         'User default time zone is not set.' => 'Временная зона пользователя не установлена.',
-        'OTRS time zone setting for calendar' => 'Параметр OTRS TimeZone для календаря ',
         'Calendar time zone is not set.' => 'Временная зона календаря не установлена.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/UI/AgentSkinUsage.pm
@@ -6003,6 +6015,9 @@ Thanks for your help!
             'Позволяет задать расширенные возможности поиска в интерфейсе клиента. При включении его, появится возможность поиска с использованием конструкций типа "(key1&&key2)" или "(key1||key2)".',
         'Allows extended search conditions in ticket search of the generic agent interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
             'Позволяет задать расширенные возможности поиска в интерфейсе агента в заданиях Планировщика. При включении его, появится возможность поиска с использованием конструкций типа "(key1&&key2)" или "(key1||key2)".',
+        'Allows generic agent to execute custom command line scripts.' =>
+            '',
+        'Allows generic agent to execute custom modules.' => '',
         'Allows having a medium format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
             'Допускает использование medium режима просмотра заявок (CustomerInfo => 1 - показывает также информацию о клиенте).',
         'Allows having a small format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
@@ -6072,8 +6087,8 @@ Thanks for your help!
         'Balanced white skin by Felix Niklas (slim version).' => 'Сбалансированный белый окрас интерфейса от Felix Niklas (уменьшенная версия).',
         'Balanced white skin by Felix Niklas.' => 'Сбалансированный белый окрас интерфейса от Felix Niklas.',
         'Based on global RichText setting' => 'Основано на глобальной настройке RichText',
-        'Basic fulltext index settings. Execute "bin/otrs.Console.pl Maint::Ticket::FulltextIndexRebuild" in order to generate a new index.' =>
-            'Базовые настройки индексирования для полнотекстового поиска. Выполните скрипт "bin/otrs.Console.pl Maint::Ticket::FulltextIndexRebuild" для генерации новых индексов.',
+        'Basic fulltext index settings. Execute "bin/otrs.Console.pl Maint::Ticket::FulltextIndex --rebuild" in order to generate a new index.' =>
+            '',
         'Blocks all the incoming emails that do not have a valid ticket number in subject with From: @example.com address.' =>
             'Блокирует все входящие письма, не содержащие в поле Тема правильного номера заявки и имеющих в поле From(от): @example.com',
         'Bounced to "%s".' => 'Перенаправлено «%s».',
@@ -7350,7 +7365,7 @@ Thanks for your help!
         'Graph: Stacked Area Chart' => 'Диаграммы: области с накоплениями',
         'Greek' => 'Греческий',
         'Hebrew' => 'Иврит',
-        'Helps to extend your articles full-text search (From, To, Cc, Subject and Body search). It will strip all articles and will build an index after article creation, increasing fulltext searches about 50%. To create an initial index use "bin/otrs.Console.pl Maint::Ticket::FulltextIndexRebuild".' =>
+        'Helps to extend your articles full-text search (From, To, Cc, Subject and Body search). It will strip all articles and will build an index after article creation, increasing fulltext searches about 50%. To create an initial index use "bin/otrs.Console.pl Maint::Ticket::FulltextIndex --rebuild".' =>
             '',
         'High Contrast' => 'Высокий контраст',
         'High contrast skin for visually impaired users.' => 'Высококонтрастная тема оформления для слабовидящих пользователей',
@@ -8356,6 +8371,7 @@ Thanks for your help!
         'Shows information on how to start OTRS Daemon' => 'Показывает информацию о том как запустить OTRS Daemon',
         'Shows link to external page in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
             'Показать ссылку на внешнюю страницу на странице подробного просмотра заявки в интерфейсе агента. Дополнительный контроль доступа, чтобы показывать или не показывать эту ссылку, можно реализовать используя Ключ "Группа" и Содержимое "rw: group1; move_into: group2".',
+        'Shows the article head information in the agent zoom view.' => '',
         'Shows the articles sorted normally or in reverse, under ticket zoom in the agent interface.' =>
             'Показывать сообщения к заявке отсортированными в обычном или обратном порядке в интерфейсе агента.',
         'Shows the customer user information (phone and email) in the compose screen.' =>

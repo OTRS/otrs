@@ -23,7 +23,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.166981293976317;
+    $Self->{Completeness}        = 0.166780821917808;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -2037,7 +2037,8 @@ sub Data {
         'This email address is already used as system email address.' => '',
         'The display name and email address will be shown on mail you send.' =>
             '',
-        'This system address cannot be set to invalid, because it is used in one or more queue(s).' =>
+        'This system address cannot be set to invalid.' => '',
+        'This system address cannot be set to invalid, because it is used in one or more queue(s) or auto response(s).' =>
             '',
 
         # Template: AdminSystemConfiguration
@@ -2473,9 +2474,9 @@ sub Data {
         'Split' => 'Sadalīt',
 
         # Template: AgentStatisticsAdd
-        'Statistics Overview' => '',
-        'Read more about statistics in OTRS' => '',
+        'Statistics Management' => '',
         'Add Statistics' => '',
+        'Read more about statistics in OTRS' => '',
         'Dynamic Matrix' => '',
         'Each cell contains a singular data point.' => '',
         'Dynamic List' => '',
@@ -2486,11 +2487,13 @@ sub Data {
         'Create Statistic' => '',
 
         # Template: AgentStatisticsEdit
+        'Edit Statistics' => '',
         'Run now' => '',
         'Statistics Preview' => '',
         'Save Statistic' => '',
 
         # Template: AgentStatisticsImport
+        'Import Statistics' => '',
         'Import Statistics Configuration' => '',
 
         # Template: AgentStatisticsOverview
@@ -2503,6 +2506,8 @@ sub Data {
         'Delete statistic %s' => '',
 
         # Template: AgentStatisticsView
+        'Statistics Overview' => '',
+        'View Statistics' => '',
         'Statistics Information' => '',
         'Created by' => 'Izveidojis',
         'Changed by' => 'Mainījis',
@@ -3364,6 +3369,7 @@ sub Data {
         'There was an error synchronizing the ACLs.' => '',
         'ACL %s could not be deleted' => '',
         'There was an error getting data for ACL with ID %s' => '',
+        '%s (copy) %s' => '',
         'Please note that ACL restrictions will be ignored for the Superuser account (UserID 1).' =>
             '',
         'Exact match' => '',
@@ -3402,6 +3408,7 @@ sub Data {
         'There was an error getting data for Notification with ID:%s!' =>
             '',
         'Unknown Notification %s!' => '',
+        '%s (copy)' => '',
         'There was an error creating the Notification' => '',
         'Notifications could not be Imported due to a unknown error, please check OTRS logs for more information' =>
             '',
@@ -4062,11 +4069,15 @@ sub Data {
         # Perl Module: Kernel/Modules/AgentTicketBulk.pm
         'Can\'t lock Tickets, no TicketIDs are given!' => '',
         'Ticket (%s) is not unlocked!' => '',
+        'The following tickets were ignored because they are locked by another agent or you don\'t have write access to tickets: %s.' =>
+            '',
+        'The following ticket was ignored because it is locked by another agent or you don\'t have write access to ticket: %s.' =>
+            '',
+        'You need to select at least one ticket.' => '',
         'Bulk feature is not enabled!' => '',
         'No selectable TicketID is given!' => '',
         'You either selected no ticket or only tickets which are locked by other agents.' =>
             '',
-        'You need to select at least one ticket.' => '',
         'The following tickets were ignored because they are locked by another agent or you don\'t have write access to these tickets: %s.' =>
             '',
         'The following tickets were locked: %s.' => '',
@@ -4520,6 +4531,7 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/Layout.pm
         'Standard' => 'Standarta',
+        'The following tickets are not updated: %s.' => '',
         'h' => 'h',
         'm' => 'min',
         'd' => '',
@@ -5002,6 +5014,7 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/KernelVersion.pm
         'Kernel Version' => 'Kodola versija',
+        'Could not determine kernel version.' => 'Nevarēja noteikt kodola versiju.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Load.pm
         'System Load' => 'Sistēmas slodze',
@@ -5092,9 +5105,9 @@ sub Data {
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/LegacyConfigBackups.pm
         'Legacy Configuration Backups' => '',
         'No legacy configuration backup files found.' => '',
-        'Legacy configuration backup files found in %s, but they might still be required by some packages.' =>
+        'Legacy configuration backup files found in Kernel/Config/Backups folder, but they might still be required by some packages.' =>
             '',
-        'Legacy configuration backup files are no longer needed for the installed packages, please remove them from %s.' =>
+        'Legacy configuration backup files are no longer needed for the installed packages, please remove them from Kernel/Config/Backups folder.' =>
             '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/PackageDeployment.pm
@@ -5160,7 +5173,6 @@ sub Data {
         'OTRS time zone is not set.' => '',
         'User default time zone' => '',
         'User default time zone is not set.' => '',
-        'OTRS time zone setting for calendar' => '',
         'Calendar time zone is not set.' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/UI/AgentSkinUsage.pm
@@ -5980,6 +5992,9 @@ Thanks for your help!
             '',
         'Allows extended search conditions in ticket search of the generic agent interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
             '',
+        'Allows generic agent to execute custom command line scripts.' =>
+            '',
+        'Allows generic agent to execute custom modules.' => '',
         'Allows having a medium format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
             '',
         'Allows having a small format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
@@ -6049,7 +6064,7 @@ Thanks for your help!
         'Balanced white skin by Felix Niklas (slim version).' => '',
         'Balanced white skin by Felix Niklas.' => '',
         'Based on global RichText setting' => '',
-        'Basic fulltext index settings. Execute "bin/otrs.Console.pl Maint::Ticket::FulltextIndexRebuild" in order to generate a new index.' =>
+        'Basic fulltext index settings. Execute "bin/otrs.Console.pl Maint::Ticket::FulltextIndex --rebuild" in order to generate a new index.' =>
             '',
         'Blocks all the incoming emails that do not have a valid ticket number in subject with From: @example.com address.' =>
             '',
@@ -7327,7 +7342,7 @@ Thanks for your help!
         'Graph: Stacked Area Chart' => '',
         'Greek' => '',
         'Hebrew' => '',
-        'Helps to extend your articles full-text search (From, To, Cc, Subject and Body search). It will strip all articles and will build an index after article creation, increasing fulltext searches about 50%. To create an initial index use "bin/otrs.Console.pl Maint::Ticket::FulltextIndexRebuild".' =>
+        'Helps to extend your articles full-text search (From, To, Cc, Subject and Body search). It will strip all articles and will build an index after article creation, increasing fulltext searches about 50%. To create an initial index use "bin/otrs.Console.pl Maint::Ticket::FulltextIndex --rebuild".' =>
             '',
         'High Contrast' => '',
         'High contrast skin for visually impaired users.' => '',
@@ -8333,6 +8348,7 @@ Thanks for your help!
         'Shows information on how to start OTRS Daemon' => '',
         'Shows link to external page in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
             '',
+        'Shows the article head information in the agent zoom view.' => '',
         'Shows the articles sorted normally or in reverse, under ticket zoom in the agent interface.' =>
             '',
         'Shows the customer user information (phone and email) in the compose screen.' =>

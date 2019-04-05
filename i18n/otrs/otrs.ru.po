@@ -22,7 +22,6 @@
 # Дмитрий Сериков <dserikov@onlinetours.ru>, 2018
 # Hellbartonio <hellbartonio@mail.ru>, 2018
 # Sergey Klimovich <sergei.klimovich@gmail.com>, 2018
-# Yuri Kolesniov <ynkolesnikov@gmail.com>, 2018
 # Sergey Stepanov <Stepanov.SA@bashkortostan.ru>, 2018
 # Anatoly A <aaksinenko@gmail.com>, 2018
 # Siarhei Gribov <Bars232@gmail.com>, 2018
@@ -33,13 +32,14 @@
 # toshkov, 2019
 # Yuri Myasoedov <omerta13@yandex.ru>, 2019
 # Александр Федоров <somerandompilotguy45@gmail.com>, 2019
+# Yuri Kolesniov <ynkolesnikov@gmail.com>, 2019
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-02-21 13:30+0000\n"
+"POT-Creation-Date: 2019-04-05 00:59+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
-"Last-Translator: Александр Федоров <somerandompilotguy45@gmail.com>, 2019\n"
+"Last-Translator: Yuri Kolesniov <ynkolesnikov@gmail.com>, 2019\n"
 "Language-Team: Russian (https://www.transifex.com/otrs/teams/23435/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -7187,12 +7187,14 @@ msgstr ""
 " вами почте."
 
 #. Template: AdminSystemAddress
+msgid "This system address cannot be set to invalid."
+msgstr ""
+
+#. Template: AdminSystemAddress
 msgid ""
 "This system address cannot be set to invalid, because it is used in one or "
-"more queue(s)."
+"more queue(s) or auto response(s)."
 msgstr ""
-"Этот системный адрес электронной почты не может быть сделан "
-"недействительным, так как он используется как минимум в одной очереди."
 
 #. Template: AdminSystemConfiguration
 msgid "online administrator documentation"
@@ -7567,8 +7569,8 @@ msgid "Your email address is"
 msgstr "Ваш email адрес "
 
 #. Template: AdminTemplateAttachment
-msgid "Manage Templates-Attachments Relations"
-msgstr "Управление связями Шаблоны - Вложения"
+msgid "Manage Template-Attachment Relations"
+msgstr ""
 
 #. Template: AdminTemplateAttachment
 msgid "Toggle active for all"
@@ -8513,16 +8515,16 @@ msgid "Split"
 msgstr "Разделить"
 
 #. Template: AgentStatisticsAdd
-msgid "Statistics Overview"
-msgstr "Перечень отчетов"
-
-#. Template: AgentStatisticsAdd
-msgid "Read more about statistics in OTRS"
-msgstr "Читайте еще об отчетах в OTRS"
+msgid "Statistics Management"
+msgstr ""
 
 #. Template: AgentStatisticsAdd
 msgid "Add Statistics"
 msgstr "Добавить отчет"
+
+#. Template: AgentStatisticsAdd
+msgid "Read more about statistics in OTRS"
+msgstr "Читайте еще об отчетах в OTRS"
 
 #. Template: AgentStatisticsAdd
 msgid "Dynamic Matrix"
@@ -8557,6 +8559,10 @@ msgid "Create Statistic"
 msgstr "Создать отчет"
 
 #. Template: AgentStatisticsEdit
+msgid "Edit Statistics"
+msgstr ""
+
+#. Template: AgentStatisticsEdit
 msgid "Run now"
 msgstr "Выполнить сейчас"
 
@@ -8567,6 +8573,10 @@ msgstr "Предпросмотр отчета"
 #. Template: AgentStatisticsEdit
 msgid "Save Statistic"
 msgstr "Сохранить отчет"
+
+#. Template: AgentStatisticsImport
+msgid "Import Statistics"
+msgstr ""
 
 #. Template: AgentStatisticsImport
 msgid "Import Statistics Configuration"
@@ -8599,6 +8609,14 @@ msgstr "Удалить отчет \"%s\"."
 #. Template: AgentStatisticsOverview
 msgid "Delete statistic %s"
 msgstr "Удалить отчет %s"
+
+#. Template: AgentStatisticsView
+msgid "Statistics Overview"
+msgstr "Перечень отчетов"
+
+#. Template: AgentStatisticsView
+msgid "View Statistics"
+msgstr ""
 
 #. Template: AgentStatisticsView
 msgid "Statistics Information"
@@ -11154,6 +11172,10 @@ msgid "There was an error getting data for ACL with ID %s"
 msgstr "Произошла ошибка при получении данный от ACL с ID %s"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
+msgid "%s (copy) %s"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminACL.pm
 msgid ""
 "Please note that ACL restrictions will be ignored for the Superuser account "
 "(UserID 1)."
@@ -11276,6 +11298,10 @@ msgstr "Произошла ошибка при получении данных �
 #. Perl Module: Kernel/Modules/AdminAppointmentNotificationEvent.pm
 msgid "Unknown Notification %s!"
 msgstr "Неизвестное Уведомление %s!"
+
+#. Perl Module: Kernel/Modules/AdminAppointmentNotificationEvent.pm
+msgid "%s (copy)"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminAppointmentNotificationEvent.pm
 msgid "There was an error creating the Notification"
@@ -13267,6 +13293,22 @@ msgid "Ticket (%s) is not unlocked!"
 msgstr "Заявка (%s) была разблокирована!"
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
+msgid ""
+"The following tickets were ignored because they are locked by another agent "
+"or you don't have write access to tickets: %s."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketBulk.pm
+msgid ""
+"The following ticket was ignored because it is locked by another agent or "
+"you don't have write access to ticket: %s."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketBulk.pm
+msgid "You need to select at least one ticket."
+msgstr "Вам нужно выбрать как минимум одну заявку."
+
+#. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid "Bulk feature is not enabled!"
 msgstr "Массовое действие не разрешено!"
 
@@ -13281,10 +13323,6 @@ msgid ""
 msgstr ""
 "Вы либо не выбрали ни одной заявки, либо все заявки блокированы другими "
 "агентами."
-
-#. Perl Module: Kernel/Modules/AgentTicketBulk.pm
-msgid "You need to select at least one ticket."
-msgstr "Вам нужно выбрать как минимум одну заявку."
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid ""
@@ -14560,6 +14598,10 @@ msgid "Standard"
 msgstr "Стандартный"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
+msgid "The following tickets are not updated: %s."
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "h"
 msgstr "ч"
 
@@ -15828,6 +15870,10 @@ msgstr "Не удалось определить дистрибутив ОС"
 msgid "Kernel Version"
 msgstr "Версия ядра"
 
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/KernelVersion.pm
+msgid "Could not determine kernel version."
+msgstr "Не удалось определить версию ядра."
+
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Load.pm
 msgid "System Load"
 msgstr "Нагрузка системы"
@@ -16101,15 +16147,15 @@ msgstr "Нет устаревших файлов резервного копир
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/LegacyConfigBackups.pm
 msgid ""
-"Legacy configuration backup files found in %s, but they might still be "
-"required by some packages."
+"Legacy configuration backup files found in Kernel/Config/Backups folder, but"
+" they might still be required by some packages."
 msgstr ""
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/LegacyConfigBackups.pm
 msgid ""
 "Legacy configuration backup files are no longer needed for the installed "
-"packages, please remove them from %s."
+"packages, please remove them from Kernel/Config/Backups folder."
 msgstr ""
 
 #. Perl Module:
@@ -16289,10 +16335,6 @@ msgstr "Временная зона пользователя по умолчан
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
 msgid "User default time zone is not set."
 msgstr "Временная зона пользователя не установлена."
-
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
-msgid "OTRS time zone setting for calendar"
-msgstr "Параметр OTRS TimeZone для календаря "
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
 msgid "Calendar time zone is not set."
@@ -18764,6 +18806,14 @@ msgstr ""
 "использованием конструкций типа \"(key1&&key2)\" или \"(key1||key2)\"."
 
 #. SysConfig
+msgid "Allows generic agent to execute custom command line scripts."
+msgstr ""
+
+#. SysConfig
+msgid "Allows generic agent to execute custom modules."
+msgstr ""
+
+#. SysConfig
 msgid ""
 "Allows having a medium format ticket overview (CustomerInfo => 1 - shows "
 "also the customer information)."
@@ -19045,11 +19095,8 @@ msgstr "Основано на глобальной настройке RichText"
 #. SysConfig
 msgid ""
 "Basic fulltext index settings. Execute \"bin/otrs.Console.pl "
-"Maint::Ticket::FulltextIndexRebuild\" in order to generate a new index."
+"Maint::Ticket::FulltextIndex --rebuild\" in order to generate a new index."
 msgstr ""
-"Базовые настройки индексирования для полнотекстового поиска. Выполните "
-"скрипт \"bin/otrs.Console.pl Maint::Ticket::FulltextIndexRebuild\" для "
-"генерации новых индексов."
 
 #. SysConfig
 msgid ""
@@ -24165,8 +24212,8 @@ msgid ""
 "Helps to extend your articles full-text search (From, To, Cc, Subject and "
 "Body search). It will strip all articles and will build an index after "
 "article creation, increasing fulltext searches about 50%. To create an "
-"initial index use \"bin/otrs.Console.pl "
-"Maint::Ticket::FulltextIndexRebuild\"."
+"initial index use \"bin/otrs.Console.pl Maint::Ticket::FulltextIndex "
+"--rebuild\"."
 msgstr ""
 
 #. SysConfig
@@ -28500,6 +28547,10 @@ msgstr ""
 "в интерфейсе агента. Дополнительный контроль доступа, чтобы показывать или "
 "не показывать эту ссылку, можно реализовать используя Ключ \"Группа\" и "
 "Содержимое \"rw: group1; move_into: group2\"."
+
+#. SysConfig
+msgid "Shows the article head information in the agent zoom view."
+msgstr ""
 
 #. SysConfig
 msgid ""

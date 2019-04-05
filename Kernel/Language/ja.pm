@@ -27,7 +27,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y/%M/%D';
     $Self->{DateInputFormat}     = '%Y/%M/%D';
     $Self->{DateInputFormatLong} = '%Y/%M/%D - %T';
-    $Self->{Completeness}        = 0.765917281620045;
+    $Self->{Completeness}        = 0.763869863013699;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -2044,8 +2044,9 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'This email address is already used as system email address.' => 'このメールアドレスは、すでにシステム用メールアドレスとして利用されています。',
         'The display name and email address will be shown on mail you send.' =>
             '表示名、メールアドレスは送信メールに表示されます。',
-        'This system address cannot be set to invalid, because it is used in one or more queue(s).' =>
-            'このシステムアドレスは、１つ(ないし2つ以上)のキューで利用されているため、無効化することができません。',
+        'This system address cannot be set to invalid.' => '',
+        'This system address cannot be set to invalid, because it is used in one or more queue(s) or auto response(s).' =>
+            '',
 
         # Template: AdminSystemConfiguration
         'online administrator documentation' => 'オンライン管理者向けドキュメント',
@@ -2480,9 +2481,9 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Split' => '分割',
 
         # Template: AgentStatisticsAdd
-        'Statistics Overview' => 'レポート一覧',
-        'Read more about statistics in OTRS' => 'OTRSのレポートについて詳細を読む',
+        'Statistics Management' => '',
         'Add Statistics' => 'レポートを追加',
+        'Read more about statistics in OTRS' => 'OTRSのレポートについて詳細を読む',
         'Dynamic Matrix' => '集計',
         'Each cell contains a singular data point.' => '各セルには特異点が含まれています。',
         'Dynamic List' => '一覧',
@@ -2493,11 +2494,13 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Create Statistic' => 'レポートを作成',
 
         # Template: AgentStatisticsEdit
+        'Edit Statistics' => '',
         'Run now' => '今すぐ実行',
         'Statistics Preview' => 'レポートのプレビュー',
         'Save Statistic' => 'レポートを保存',
 
         # Template: AgentStatisticsImport
+        'Import Statistics' => '',
         'Import Statistics Configuration' => 'レポート設定をインポート',
 
         # Template: AgentStatisticsOverview
@@ -2510,6 +2513,8 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Delete statistic %s' => 'レポート"%s"を削除',
 
         # Template: AgentStatisticsView
+        'Statistics Overview' => 'レポート一覧',
+        'View Statistics' => '',
         'Statistics Information' => 'レポート情報',
         'Created by' => '作成者',
         'Changed by' => '変更者',
@@ -3372,6 +3377,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'There was an error synchronizing the ACLs.' => 'ACL間の同期処理中にエラーが発生しました。',
         'ACL %s could not be deleted' => 'ACL %s は削除できません',
         'There was an error getting data for ACL with ID %s' => '',
+        '%s (copy) %s' => '',
         'Please note that ACL restrictions will be ignored for the Superuser account (UserID 1).' =>
             'スーパーユーザー・アカウント（UserID 1）ではACLの制限が無視されることに注意して下さい。',
         'Exact match' => '完全一致',
@@ -3410,6 +3416,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'There was an error getting data for Notification with ID:%s!' =>
             '',
         'Unknown Notification %s!' => '',
+        '%s (copy)' => '',
         'There was an error creating the Notification' => '',
         'Notifications could not be Imported due to a unknown error, please check OTRS logs for more information' =>
             '',
@@ -4070,11 +4077,15 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         # Perl Module: Kernel/Modules/AgentTicketBulk.pm
         'Can\'t lock Tickets, no TicketIDs are given!' => 'チケットIDが存在しないため、チケットをロックできませんでした！',
         'Ticket (%s) is not unlocked!' => 'チケット(%s)はアンロックされていません！',
+        'The following tickets were ignored because they are locked by another agent or you don\'t have write access to tickets: %s.' =>
+            '',
+        'The following ticket was ignored because it is locked by another agent or you don\'t have write access to ticket: %s.' =>
+            '',
+        'You need to select at least one ticket.' => '少なくとも1件のチケットを選択する必要があります。',
         'Bulk feature is not enabled!' => '一括機能が有効になっていません！',
         'No selectable TicketID is given!' => '選択可能なチケットIDが存在しません！',
         'You either selected no ticket or only tickets which are locked by other agents.' =>
             'チケットを選択していないか、他の担当者によってロックされているチケットしか選択していません。',
-        'You need to select at least one ticket.' => '少なくとも1件のチケットを選択する必要があります。',
         'The following tickets were ignored because they are locked by another agent or you don\'t have write access to these tickets: %s.' =>
             '',
         'The following tickets were locked: %s.' => '',
@@ -4528,6 +4539,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
 
         # Perl Module: Kernel/Output/HTML/Layout.pm
         'Standard' => 'スタンダード',
+        'The following tickets are not updated: %s.' => '',
         'h' => '時間',
         'm' => '分',
         'd' => '日',
@@ -5010,6 +5022,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/KernelVersion.pm
         'Kernel Version' => 'カーネルバージョン',
+        'Could not determine kernel version.' => 'カーネルバージョンを特定できませんでした',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Load.pm
         'System Load' => 'システムロード',
@@ -5100,9 +5113,9 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/LegacyConfigBackups.pm
         'Legacy Configuration Backups' => '従来構成のバックアップ',
         'No legacy configuration backup files found.' => '従来構成のバックアップファイルは見つかりませんでした。',
-        'Legacy configuration backup files found in %s, but they might still be required by some packages.' =>
-            'Legacy configuration backup files found in %s, but they might still be required by some packages.',
-        'Legacy configuration backup files are no longer needed for the installed packages, please remove them from %s.' =>
+        'Legacy configuration backup files found in Kernel/Config/Backups folder, but they might still be required by some packages.' =>
+            '',
+        'Legacy configuration backup files are no longer needed for the installed packages, please remove them from Kernel/Config/Backups folder.' =>
             '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/PackageDeployment.pm
@@ -5168,7 +5181,6 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'OTRS time zone is not set.' => 'OTRSのタイムゾーンが設定されていません。',
         'User default time zone' => 'ユーザーのデフォルトタイムゾーン',
         'User default time zone is not set.' => 'ユーザーのデフォルトのタイムゾーンが設定されていません。',
-        'OTRS time zone setting for calendar' => 'カレンダーに対するOTRSタイムゾーン設定',
         'Calendar time zone is not set.' => 'カレンダーのタイムゾーンが設定されていません。',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/UI/AgentSkinUsage.pm
@@ -5997,6 +6009,9 @@ Thanks for your help!
             '',
         'Allows extended search conditions in ticket search of the generic agent interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
             '',
+        'Allows generic agent to execute custom command line scripts.' =>
+            '',
+        'Allows generic agent to execute custom modules.' => '',
         'Allows having a medium format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
             '中程度のフォーマットでのチケット一覧の表示を許可します（CustomerInfo => 1 - 顧客情報も表示します)。',
         'Allows having a small format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
@@ -6066,7 +6081,7 @@ Thanks for your help!
         'Balanced white skin by Felix Niklas (slim version).' => '',
         'Balanced white skin by Felix Niklas.' => 'Felix Niklasによるバランスト・ホワイト・スキンです。',
         'Based on global RichText setting' => '',
-        'Basic fulltext index settings. Execute "bin/otrs.Console.pl Maint::Ticket::FulltextIndexRebuild" in order to generate a new index.' =>
+        'Basic fulltext index settings. Execute "bin/otrs.Console.pl Maint::Ticket::FulltextIndex --rebuild" in order to generate a new index.' =>
             '',
         'Blocks all the incoming emails that do not have a valid ticket number in subject with From: @example.com address.' =>
             '件名に有効なチケット番号を持たない全ての受信メールを、From: @example.com addressを用いてブロックします。',
@@ -7353,7 +7368,7 @@ Contentはダイナミック・フィールドの形式によって設定内容�
         'Graph: Stacked Area Chart' => 'グラフ:積み上げ面グラフ',
         'Greek' => 'ギリシャ語',
         'Hebrew' => 'ヘブライ語',
-        'Helps to extend your articles full-text search (From, To, Cc, Subject and Body search). It will strip all articles and will build an index after article creation, increasing fulltext searches about 50%. To create an initial index use "bin/otrs.Console.pl Maint::Ticket::FulltextIndexRebuild".' =>
+        'Helps to extend your articles full-text search (From, To, Cc, Subject and Body search). It will strip all articles and will build an index after article creation, increasing fulltext searches about 50%. To create an initial index use "bin/otrs.Console.pl Maint::Ticket::FulltextIndex --rebuild".' =>
             '',
         'High Contrast' => '',
         'High contrast skin for visually impaired users.' => '',
@@ -8360,6 +8375,7 @@ Contentはダイナミック・フィールドの形式によって設定内容�
         'Shows information on how to start OTRS Daemon' => 'OTRSデーモンの起動手順を紹介します。',
         'Shows link to external page in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
             '',
+        'Shows the article head information in the agent zoom view.' => '',
         'Shows the articles sorted normally or in reverse, under ticket zoom in the agent interface.' =>
             '担当者インタフェースのチケット・ズームの下で、ノーマルまたは逆順でソートされた項目を表示します。',
         'Shows the customer user information (phone and email) in the compose screen.' =>

@@ -2,6 +2,7 @@
  - 2019-04-04 Fixed bug#[14408](https://bugs.otrs.org/show_bug.cgi?id=14408) - Short description of CustomerID's field does not show on the views of process.
 
 #6.0.18 2019-04-26
+ - 2019-04-02 Updated translations, thanks to all translators.
  - 2019-04-02 Fixed bug#[14055](https://bugs.otrs.org/show_bug.cgi?id=14055) - Translation of "copy" to german in AdminNotificationEvent wrong.
  - 2019-04-01 Fixed bug#[14442](https://bugs.otrs.org/show_bug.cgi?id=14442) - Legacy references to customer interface and public interface.
  - 2019-04-01 Fixed bug#[14345](https://bugs.otrs.org/show_bug.cgi?id=14345) - The timestamp information in the action AdminLog is wrong.
