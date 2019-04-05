@@ -44,7 +44,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#UserLanguageUpdate", 'css' )->VerifiedClick();
 
         # check for update preference message on screen
-        my $UpdateMessage = "Benutzereinstellungen erfolgreich aktualisiert!";
+        my $UpdateMessage = "Einstellungen erfolgreich aktualisiert!";
         $Self->True(
             index( $Selenium->get_page_source(), $UpdateMessage ) > -1,
             'Customer preference language - updated'
