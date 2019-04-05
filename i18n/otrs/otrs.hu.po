@@ -9,7 +9,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-02-21 13:30+0000\n"
+"POT-Creation-Date: 2019-04-05 00:59+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: Balázs Úr <ur.balazs@fsf.hu>, 2019\n"
 "Language-Team: Hungarian (https://www.transifex.com/otrs/teams/23435/hu/)\n"
@@ -7270,12 +7270,16 @@ msgstr ""
 "leveleknél."
 
 #. Template: AdminSystemAddress
+msgid "This system address cannot be set to invalid."
+msgstr "Ezt a rendszercímet nem lehet érvénytelenre állítani."
+
+#. Template: AdminSystemAddress
 msgid ""
 "This system address cannot be set to invalid, because it is used in one or "
-"more queue(s)."
+"more queue(s) or auto response(s)."
 msgstr ""
 "Ezt a rendszercímet nem lehet érvénytelenre állítani, mert egy vagy több "
-"várólistában használják."
+"várólistában vagy automatikus válaszban használják."
 
 #. Template: AdminSystemConfiguration
 msgid "online administrator documentation"
@@ -7666,8 +7670,8 @@ msgid "Your email address is"
 msgstr "Az e-mail címe"
 
 #. Template: AdminTemplateAttachment
-msgid "Manage Templates-Attachments Relations"
-msgstr "Sablonok–Mellékletek kapcsolatainak kezelése"
+msgid "Manage Template-Attachment Relations"
+msgstr "Sablon–Melléklet kapcsolatok kezelése"
 
 #. Template: AdminTemplateAttachment
 msgid "Toggle active for all"
@@ -8162,7 +8166,7 @@ msgstr "Keresési beállítások módosítása"
 
 #. Template: AgentCustomerUserInformationCenter
 msgid "Customer User Information Center"
-msgstr "Ügyfél-felhasználó információs központ"
+msgstr "Ügyfél-felhasználó információs-központ"
 
 #. Template: AgentDaemonInfo
 msgid ""
@@ -8618,16 +8622,16 @@ msgid "Split"
 msgstr "Felosztás"
 
 #. Template: AgentStatisticsAdd
-msgid "Statistics Overview"
-msgstr "Statisztikák áttekintő"
+msgid "Statistics Management"
+msgstr "Statisztikakezelés"
+
+#. Template: AgentStatisticsAdd
+msgid "Add Statistics"
+msgstr "Statisztika hozzáadása"
 
 #. Template: AgentStatisticsAdd
 msgid "Read more about statistics in OTRS"
 msgstr "Tudjon meg többet az OTRS-ben lévő statisztikákról"
-
-#. Template: AgentStatisticsAdd
-msgid "Add Statistics"
-msgstr "Statisztikák hozzáadása"
 
 #. Template: AgentStatisticsAdd
 msgid "Dynamic Matrix"
@@ -8662,6 +8666,10 @@ msgid "Create Statistic"
 msgstr "Statisztika létrehozása"
 
 #. Template: AgentStatisticsEdit
+msgid "Edit Statistics"
+msgstr "Statisztika szerkesztése"
+
+#. Template: AgentStatisticsEdit
 msgid "Run now"
 msgstr "Futtatás most"
 
@@ -8672,6 +8680,10 @@ msgstr "Statisztikák előnézet"
 #. Template: AgentStatisticsEdit
 msgid "Save Statistic"
 msgstr "Statisztika mentése"
+
+#. Template: AgentStatisticsImport
+msgid "Import Statistics"
+msgstr "Statisztika importálása"
 
 #. Template: AgentStatisticsImport
 msgid "Import Statistics Configuration"
@@ -8704,6 +8716,14 @@ msgstr "„%s” statisztika törlése"
 #. Template: AgentStatisticsOverview
 msgid "Delete statistic %s"
 msgstr "%s statisztika törlése"
+
+#. Template: AgentStatisticsView
+msgid "Statistics Overview"
+msgstr "Statisztikák áttekintő"
+
+#. Template: AgentStatisticsView
+msgid "View Statistics"
+msgstr "Statisztika megtekintése"
 
 #. Template: AgentStatisticsView
 msgid "Statistics Information"
@@ -8757,7 +8777,7 @@ msgstr "Jegyzet hozzáadása ehhez: %s%s%s"
 
 #. Template: AgentTicketActionCommon
 msgid "Set Pending Time for %s%s%s"
-msgstr "%s%s%s várakozó idejének beállítása"
+msgstr "%s%s%s várakozási idejének beállítása"
 
 #. Template: AgentTicketActionCommon
 msgid "Change Priority of %s%s%s"
@@ -8915,7 +8935,7 @@ msgstr "Egyesítés"
 
 #. Template: AgentTicketBulk
 msgid "Merge to"
-msgstr "Egyesítés ezzel"
+msgstr "Egyesítés ezzel:"
 
 #. Template: AgentTicketBulk
 msgid "Invalid ticket identifier!"
@@ -11275,6 +11295,10 @@ msgstr ""
 "Hiba történt az adatok lekérésekor a(z) %s azonosítóval rendelkező ACL-nél"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
+msgid "%s (copy) %s"
+msgstr "%s (másolat) %s"
+
+#. Perl Module: Kernel/Modules/AdminACL.pm
 msgid ""
 "Please note that ACL restrictions will be ignored for the Superuser account "
 "(UserID 1)."
@@ -11399,6 +11423,10 @@ msgstr ""
 #. Perl Module: Kernel/Modules/AdminAppointmentNotificationEvent.pm
 msgid "Unknown Notification %s!"
 msgstr "Ismeretlen értesítés: %s!"
+
+#. Perl Module: Kernel/Modules/AdminAppointmentNotificationEvent.pm
+msgid "%s (copy)"
+msgstr "%s (másolat)"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentNotificationEvent.pm
 msgid "There was an error creating the Notification"
@@ -13426,6 +13454,26 @@ msgid "Ticket (%s) is not unlocked!"
 msgstr "A jegy (%s) nincs feloldva!"
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
+msgid ""
+"The following tickets were ignored because they are locked by another agent "
+"or you don't have write access to tickets: %s."
+msgstr ""
+"A következő jegyek figyelmen kívül lettek hagyva, mert egy másik ügyintéző "
+"zárolta azokat vagy nincs írási hozzáférése a jegyekhez: %s."
+
+#. Perl Module: Kernel/Modules/AgentTicketBulk.pm
+msgid ""
+"The following ticket was ignored because it is locked by another agent or "
+"you don't have write access to ticket: %s."
+msgstr ""
+"A következő jegy figyelmen kívül lett hagyva, mert egy másik ügyintéző "
+"zárolta azt vagy nincs írási hozzáférése a jegyhez: %s."
+
+#. Perl Module: Kernel/Modules/AgentTicketBulk.pm
+msgid "You need to select at least one ticket."
+msgstr "Legalább egy jegyet ki kell választania."
+
+#. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid "Bulk feature is not enabled!"
 msgstr "A tömeges funkció nincs engedélyezve!"
 
@@ -13440,10 +13488,6 @@ msgid ""
 msgstr ""
 "Vagy nem választott ki jegyet, vagy csak olyan jegyeket, amelyeket más "
 "ügyintézők zároltak."
-
-#. Perl Module: Kernel/Modules/AgentTicketBulk.pm
-msgid "You need to select at least one ticket."
-msgstr "Legalább egy jegyet ki kell választania."
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid ""
@@ -14750,6 +14794,10 @@ msgid "Standard"
 msgstr "Szabványos"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
+msgid "The following tickets are not updated: %s."
+msgstr "A következő jegyek nem lettek frissítve: %s."
+
+#. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "h"
 msgstr "ó"
 
@@ -16040,6 +16088,10 @@ msgstr "Nem sikerült meghatározni a disztribúciót."
 msgid "Kernel Version"
 msgstr "Kernel verzió"
 
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/KernelVersion.pm
+msgid "Could not determine kernel version."
+msgstr "Nem sikerült meghatározni a kernel verzióját."
+
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Load.pm
 msgid "System Load"
 msgstr "Rendszerterhelés"
@@ -16315,20 +16367,22 @@ msgstr "Nem találhatók örökölt biztonsági mentés fájlok."
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/LegacyConfigBackups.pm
 msgid ""
-"Legacy configuration backup files found in %s, but they might still be "
-"required by some packages."
+"Legacy configuration backup files found in Kernel/Config/Backups folder, but"
+" they might still be required by some packages."
 msgstr ""
-"Örökölt konfigurációs biztonsági mentés fájlok találhatók ebben: %s, de "
-"néhány csomagnak még szükségük lehet rájuk."
+"Örökölt konfigurációs biztonsági mentés fájlok találhatók a "
+"Kernel/Config/Backups mappában, de néhány csomagnak még szükségük lehet "
+"rájuk."
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/LegacyConfigBackups.pm
 msgid ""
 "Legacy configuration backup files are no longer needed for the installed "
-"packages, please remove them from %s."
+"packages, please remove them from Kernel/Config/Backups folder."
 msgstr ""
 "Az örökölt konfigurációs biztonsági mentés fájlok többé nem szükségesek a "
-"telepített csomagokhoz, távolítsa el azokat innen: %s."
+"telepített csomagokhoz, távolítsa el azokat a Kernel/Config/Backups "
+"mappából."
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/PackageDeployment.pm
@@ -16510,10 +16564,6 @@ msgstr "Felhasználó alapértelmezett időzónája"
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
 msgid "User default time zone is not set."
 msgstr "A felhasználó alapértelmezett időzónája nincs beállítva."
-
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
-msgid "OTRS time zone setting for calendar"
-msgstr "OTRS időzóna-beállítás a naptárhoz"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
 msgid "Calendar time zone is not set."
@@ -19038,6 +19088,17 @@ msgstr ""
 "„(*kulcs1*||*kulcs2*)”."
 
 #. SysConfig
+msgid "Allows generic agent to execute custom command line scripts."
+msgstr ""
+"Lehetővé teszi az általános ügyintézőnek az egyéni parancssori parancsfájlok"
+" végrehajtását."
+
+#. SysConfig
+msgid "Allows generic agent to execute custom modules."
+msgstr ""
+"Lehetővé teszi az általános ügyintézőnek az egyéni modulok végrehajtását."
+
+#. SysConfig
 msgid ""
 "Allows having a medium format ticket overview (CustomerInfo => 1 - shows "
 "also the customer information)."
@@ -19320,11 +19381,11 @@ msgstr "Globális RichText beállítás alapján"
 #. SysConfig
 msgid ""
 "Basic fulltext index settings. Execute \"bin/otrs.Console.pl "
-"Maint::Ticket::FulltextIndexRebuild\" in order to generate a new index."
+"Maint::Ticket::FulltextIndex --rebuild\" in order to generate a new index."
 msgstr ""
 "Alapvető szabad-szavas index beállítások. Futtassa a „bin/otrs.Console.pl "
-"Maint::Ticket::FulltextIndexRebuild” parancsfájlt egy új index előállítása "
-"érdekében."
+"Maint::Ticket::FulltextIndex --rebuild” parancsfájlt egy új index "
+"előállítása érdekében."
 
 #. SysConfig
 msgid ""
@@ -20086,7 +20147,7 @@ msgstr "Ügyfél-felhasználó információs-központ keresés."
 
 #. SysConfig
 msgid "Customer User Information Center."
-msgstr "Ügyfél-felhasználó információs központ."
+msgstr "Ügyfél-felhasználó információs-központ."
 
 #. SysConfig
 msgid "Customer Users ↔ Customers"
@@ -24821,15 +24882,15 @@ msgid ""
 "Helps to extend your articles full-text search (From, To, Cc, Subject and "
 "Body search). It will strip all articles and will build an index after "
 "article creation, increasing fulltext searches about 50%. To create an "
-"initial index use \"bin/otrs.Console.pl "
-"Maint::Ticket::FulltextIndexRebuild\"."
+"initial index use \"bin/otrs.Console.pl Maint::Ticket::FulltextIndex "
+"--rebuild\"."
 msgstr ""
 "Segít kiterjeszteni a bejegyzések szabad-szavas keresését (feladó, címzett, "
 "másolat, tárgy és törzs keresés). Fel fogja darabolni az összes bejegyzést, "
 "és egy indexet fog felépíteni a bejegyzés létrehozása után, körülbelül "
 "50%-kal növelve a szabad-szavas kereséseket. Egy kezdeti index "
-"létrehozásához használja a „bin/otrs.Console.pl "
-"Maint::Ticket::FulltextIndexRebuild” parancsfájlt."
+"létrehozásához használja a „bin/otrs.Console.pl Maint::Ticket::FulltextIndex"
+" --rebuild” parancsfájlt."
 
 #. SysConfig
 msgid "High Contrast"
@@ -27613,7 +27674,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Running Process Tickets"
-msgstr "Futó folyamat jegyek"
+msgstr "Futó folyamatjegyek"
 
 #. SysConfig
 msgid ""
@@ -29608,6 +29669,11 @@ msgstr ""
 "jegynagyítás nézetében. A hivatkozás megjelenítéséhez vagy elrejtéséhez "
 "további hozzáférés vezérlő készíthető a „Group” kulcs és az "
 "„rw:csoport1;move_into:csoport2” értékhez hasonló tartalom használatával."
+
+#. SysConfig
+msgid "Shows the article head information in the agent zoom view."
+msgstr ""
+"Megjeleníti a bejegyzésfejléc információit a ügyintézői nagyítás nézeten."
 
 #. SysConfig
 msgid ""

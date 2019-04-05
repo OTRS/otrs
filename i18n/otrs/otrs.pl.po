@@ -9,7 +9,6 @@
 # Michał Kiełkowski <michal.kielkowski@lhsystems.com>, 2018
 # Mateusz Małek <transifex@mkwm.eu.org>, 2018
 # Przemyslaw Kolba <pkolba@tk.energostal.pl>, 2018
-# Jerzy Ruszczak <orcio6@o2.pl>, 2018
 # Adam <reedu@wp.pl>, 2018
 # Kamil Zając <kz@itpartners.com.pl>, 2018
 # Bartosz Huczek <bhuczek@sas24.pl>, 2018
@@ -17,13 +16,14 @@
 # Daniel Lisiecki, 2019
 # Patryk Zera <sanchez@atlasnet.pl>, 2019
 # Łukasz Beczek <lukbec+transifex@gmail.com>, 2019
+# Jerzy Ruszczak <orcio6@o2.pl>, 2019
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-02-21 13:30+0000\n"
+"POT-Creation-Date: 2019-04-05 00:59+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
-"Last-Translator: Łukasz Beczek <lukbec+transifex@gmail.com>, 2019\n"
+"Last-Translator: Jerzy Ruszczak <orcio6@o2.pl>, 2019\n"
 "Language-Team: Polish (https://www.transifex.com/otrs/teams/23435/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -7058,9 +7058,13 @@ msgstr ""
 "Wyświetlana nazwa oraz adres e-mail będą umieszczane w wysyłanej poczcie."
 
 #. Template: AdminSystemAddress
+msgid "This system address cannot be set to invalid."
+msgstr ""
+
+#. Template: AdminSystemAddress
 msgid ""
 "This system address cannot be set to invalid, because it is used in one or "
-"more queue(s)."
+"more queue(s) or auto response(s)."
 msgstr ""
 
 #. Template: AdminSystemConfiguration
@@ -7416,7 +7420,7 @@ msgid "Your email address is"
 msgstr "Twój adres e-mail to"
 
 #. Template: AdminTemplateAttachment
-msgid "Manage Templates-Attachments Relations"
+msgid "Manage Template-Attachment Relations"
 msgstr ""
 
 #. Template: AdminTemplateAttachment
@@ -8330,16 +8334,16 @@ msgid "Split"
 msgstr "Podziel"
 
 #. Template: AgentStatisticsAdd
-msgid "Statistics Overview"
-msgstr "Przegląd statystyk"
-
-#. Template: AgentStatisticsAdd
-msgid "Read more about statistics in OTRS"
+msgid "Statistics Management"
 msgstr ""
 
 #. Template: AgentStatisticsAdd
 msgid "Add Statistics"
 msgstr "Dodaj Statystyki"
+
+#. Template: AgentStatisticsAdd
+msgid "Read more about statistics in OTRS"
+msgstr ""
 
 #. Template: AgentStatisticsAdd
 msgid "Dynamic Matrix"
@@ -8374,6 +8378,10 @@ msgid "Create Statistic"
 msgstr "Utwórz statystykę"
 
 #. Template: AgentStatisticsEdit
+msgid "Edit Statistics"
+msgstr ""
+
+#. Template: AgentStatisticsEdit
 msgid "Run now"
 msgstr "Uruchom teraz"
 
@@ -8384,6 +8392,10 @@ msgstr "Podgląd statystyk"
 #. Template: AgentStatisticsEdit
 msgid "Save Statistic"
 msgstr "Zapisz Statystyki"
+
+#. Template: AgentStatisticsImport
+msgid "Import Statistics"
+msgstr ""
 
 #. Template: AgentStatisticsImport
 msgid "Import Statistics Configuration"
@@ -8416,6 +8428,14 @@ msgstr "Usuń statystykę \"%s\""
 #. Template: AgentStatisticsOverview
 msgid "Delete statistic %s"
 msgstr "Usuń statystykę %s"
+
+#. Template: AgentStatisticsView
+msgid "Statistics Overview"
+msgstr "Przegląd statystyk"
+
+#. Template: AgentStatisticsView
+msgid "View Statistics"
+msgstr ""
 
 #. Template: AgentStatisticsView
 msgid "Statistics Information"
@@ -10910,6 +10930,10 @@ msgid "There was an error getting data for ACL with ID %s"
 msgstr "Nastąpił błąd przy pobieraniu danych dla ACL o ID %s"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
+msgid "%s (copy) %s"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminACL.pm
 msgid ""
 "Please note that ACL restrictions will be ignored for the Superuser account "
 "(UserID 1)."
@@ -11030,6 +11054,10 @@ msgstr ""
 #. Perl Module: Kernel/Modules/AdminAppointmentNotificationEvent.pm
 msgid "Unknown Notification %s!"
 msgstr "Nieznane Powiadomienie %s!"
+
+#. Perl Module: Kernel/Modules/AdminAppointmentNotificationEvent.pm
+msgid "%s (copy)"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminAppointmentNotificationEvent.pm
 msgid "There was an error creating the Notification"
@@ -12992,6 +13020,22 @@ msgid "Ticket (%s) is not unlocked!"
 msgstr "Zgłoszenie (%s) nie jest odblokowane!"
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
+msgid ""
+"The following tickets were ignored because they are locked by another agent "
+"or you don't have write access to tickets: %s."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketBulk.pm
+msgid ""
+"The following ticket was ignored because it is locked by another agent or "
+"you don't have write access to ticket: %s."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketBulk.pm
+msgid "You need to select at least one ticket."
+msgstr "Musisz zaznaczyć przynajmniej jedno zgłoszenie."
+
+#. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid "Bulk feature is not enabled!"
 msgstr ""
 
@@ -13004,10 +13048,6 @@ msgid ""
 "You either selected no ticket or only tickets which are locked by other "
 "agents."
 msgstr ""
-
-#. Perl Module: Kernel/Modules/AgentTicketBulk.pm
-msgid "You need to select at least one ticket."
-msgstr "Musisz zaznaczyć przynajmniej jedno zgłoszenie."
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid ""
@@ -14239,6 +14279,10 @@ msgid "Standard"
 msgstr "Standard"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
+msgid "The following tickets are not updated: %s."
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "h"
 msgstr "godz."
 
@@ -15457,6 +15501,10 @@ msgstr "Nie udało się określić dystrybucji."
 msgid "Kernel Version"
 msgstr "Wersja jądra systemu"
 
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/KernelVersion.pm
+msgid "Could not determine kernel version."
+msgstr "Nie udało się określić wersji jądra systemu."
+
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Load.pm
 msgid "System Load"
 msgstr "Obciążenie systemu"
@@ -15731,15 +15779,15 @@ msgstr ""
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/LegacyConfigBackups.pm
 msgid ""
-"Legacy configuration backup files found in %s, but they might still be "
-"required by some packages."
+"Legacy configuration backup files found in Kernel/Config/Backups folder, but"
+" they might still be required by some packages."
 msgstr ""
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/LegacyConfigBackups.pm
 msgid ""
 "Legacy configuration backup files are no longer needed for the installed "
-"packages, please remove them from %s."
+"packages, please remove them from Kernel/Config/Backups folder."
 msgstr ""
 
 #. Perl Module:
@@ -15906,10 +15954,6 @@ msgstr "Domyślna strefa czasowa użytkownika"
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
 msgid "User default time zone is not set."
 msgstr "Nie ustawiona domyślna strefa czasowa użytkownika."
-
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
-msgid "OTRS time zone setting for calendar"
-msgstr "Strefa czasowa OTRS dla kalendarza"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
 msgid "Calendar time zone is not set."
@@ -18225,6 +18269,14 @@ msgid ""
 msgstr ""
 
 #. SysConfig
+msgid "Allows generic agent to execute custom command line scripts."
+msgstr ""
+
+#. SysConfig
+msgid "Allows generic agent to execute custom modules."
+msgstr ""
+
+#. SysConfig
 msgid ""
 "Allows having a medium format ticket overview (CustomerInfo => 1 - shows "
 "also the customer information)."
@@ -18484,7 +18536,7 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Basic fulltext index settings. Execute \"bin/otrs.Console.pl "
-"Maint::Ticket::FulltextIndexRebuild\" in order to generate a new index."
+"Maint::Ticket::FulltextIndex --rebuild\" in order to generate a new index."
 msgstr ""
 
 #. SysConfig
@@ -23128,8 +23180,8 @@ msgid ""
 "Helps to extend your articles full-text search (From, To, Cc, Subject and "
 "Body search). It will strip all articles and will build an index after "
 "article creation, increasing fulltext searches about 50%. To create an "
-"initial index use \"bin/otrs.Console.pl "
-"Maint::Ticket::FulltextIndexRebuild\"."
+"initial index use \"bin/otrs.Console.pl Maint::Ticket::FulltextIndex "
+"--rebuild\"."
 msgstr ""
 
 #. SysConfig
@@ -26997,6 +27049,10 @@ msgid ""
 "Shows link to external page in the ticket zoom view of the agent interface. "
 "Additional access control to show or not show this link can be done by using"
 " Key \"Group\" and Content like \"rw:group1;move_into:group2\"."
+msgstr ""
+
+#. SysConfig
+msgid "Shows the article head information in the agent zoom view."
 msgstr ""
 
 #. SysConfig

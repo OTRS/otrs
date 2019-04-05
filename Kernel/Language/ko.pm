@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '';
     $Self->{DateInputFormat}     = '';
     $Self->{DateInputFormatLong} = '';
-    $Self->{Completeness}        = 0.985755963617642;
+    $Self->{Completeness}        = 0.982705479452055;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -2038,8 +2038,9 @@ sub Data {
         'This email address is already used as system email address.' => '이 전자 메일 주소는 이미 시스템 전자 메일 주소로 사용됩니다.',
         'The display name and email address will be shown on mail you send.' =>
             '표시 이름과 이메일 주소가 보내는 메일에 표시됩니다.',
-        'This system address cannot be set to invalid, because it is used in one or more queue(s).' =>
-            '이 시스템 주소는 하나 이상의 대기열(s)에서 사용되기 때문에 유효하지 않게 설정할 수 없습니다. ',
+        'This system address cannot be set to invalid.' => '',
+        'This system address cannot be set to invalid, because it is used in one or more queue(s) or auto response(s).' =>
+            '',
 
         # Template: AdminSystemConfiguration
         'online administrator documentation' => '온라인 관리자 문서',
@@ -2474,9 +2475,9 @@ sub Data {
         'Split' => '분리',
 
         # Template: AgentStatisticsAdd
-        'Statistics Overview' => '통계 개요',
-        'Read more about statistics in OTRS' => 'OTRS의 통계에 대해 자세히 알아보십시오.',
+        'Statistics Management' => '',
         'Add Statistics' => '통계 추가',
+        'Read more about statistics in OTRS' => 'OTRS의 통계에 대해 자세히 알아보십시오.',
         'Dynamic Matrix' => '가변 매트릭스',
         'Each cell contains a singular data point.' => '각 셀에는 단일 데이터 요소가 포함되어 있습니다.',
         'Dynamic List' => '가변 리스트',
@@ -2487,11 +2488,13 @@ sub Data {
         'Create Statistic' => '통계 생성',
 
         # Template: AgentStatisticsEdit
+        'Edit Statistics' => '',
         'Run now' => '지금 실행',
         'Statistics Preview' => '통계 미리보기',
         'Save Statistic' => '통계 저장',
 
         # Template: AgentStatisticsImport
+        'Import Statistics' => '',
         'Import Statistics Configuration' => '통계 설정 Import',
 
         # Template: AgentStatisticsOverview
@@ -2504,6 +2507,8 @@ sub Data {
         'Delete statistic %s' => '통계 "%s" 삭제',
 
         # Template: AgentStatisticsView
+        'Statistics Overview' => '통계 개요',
+        'View Statistics' => '',
         'Statistics Information' => '통계 정보',
         'Created by' => '작성자 : ',
         'Changed by' => '변경자 ',
@@ -3365,6 +3370,7 @@ sub Data {
         'There was an error synchronizing the ACLs.' => 'ACL을 동기화하는 중 오류가 발생했습니다.',
         'ACL %s could not be deleted' => 'ACL %s을 삭제할 수 없습니다.',
         'There was an error getting data for ACL with ID %s' => 'ID가 %s 인 ACL에 대한 데이터를 가져 오는 중 오류가 발생했습니다.',
+        '%s (copy) %s' => '',
         'Please note that ACL restrictions will be ignored for the Superuser account (UserID 1).' =>
             '수퍼 유저 계정 (UserID 1)에 대한 ACL 제한은 무시됩니다.',
         'Exact match' => '정확히 일치',
@@ -3403,6 +3409,7 @@ sub Data {
         'There was an error getting data for Notification with ID:%s!' =>
             'ID가 %s 인 알림 데이터를 가져 오는 중 오류가 발생했습니다.',
         'Unknown Notification %s!' => '알 수없는 알림 %s!',
+        '%s (copy)' => '',
         'There was an error creating the Notification' => '알림을 만드는 중 오류가 발생했습니다.',
         'Notifications could not be Imported due to a unknown error, please check OTRS logs for more information' =>
             '알 수없는 오류로 인해 알림을 가져올 수 없습니다. 자세한 내용은 OTRS 로그를 확인하십시오.',
@@ -4063,11 +4070,15 @@ sub Data {
         # Perl Module: Kernel/Modules/AgentTicketBulk.pm
         'Can\'t lock Tickets, no TicketIDs are given!' => '티켓을 잠글 수 없으며 TicketID가 제공되지 않습니다!',
         'Ticket (%s) is not unlocked!' => '티켓 (%s)은 잠금 해제되지 않았습니다!',
+        'The following tickets were ignored because they are locked by another agent or you don\'t have write access to tickets: %s.' =>
+            '',
+        'The following ticket was ignored because it is locked by another agent or you don\'t have write access to ticket: %s.' =>
+            '',
+        'You need to select at least one ticket.' => '하나 이상의 티켓을 선택해야 합니다.',
         'Bulk feature is not enabled!' => '대량 기능을 사용할 수 없습니다!',
         'No selectable TicketID is given!' => '선택할 수있는 TicketID가 제공되지 않습니다!',
         'You either selected no ticket or only tickets which are locked by other agents.' =>
             '티켓을 선택하지 않았거나 다른 상담원이 잠근 티켓만 선택했습니다.',
-        'You need to select at least one ticket.' => '하나 이상의 티켓을 선택해야 합니다.',
         'The following tickets were ignored because they are locked by another agent or you don\'t have write access to these tickets: %s.' =>
             '다음 티켓은 다른 에이전트에 의해 잠겨 있거나이 티켓에 대한 쓰기 권한이 없기 때문에 무시되었습니다 : %s.',
         'The following tickets were locked: %s.' => '다음 티켓이 잠겼습니다 : %s.',
@@ -4521,6 +4532,7 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/Layout.pm
         'Standard' => '표준',
+        'The following tickets are not updated: %s.' => '',
         'h' => '시간',
         'm' => '분',
         'd' => '일',
@@ -5003,6 +5015,7 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/KernelVersion.pm
         'Kernel Version' => '커널 버전',
+        'Could not determine kernel version.' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Load.pm
         'System Load' => '시스템로드',
@@ -5093,10 +5106,10 @@ sub Data {
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/LegacyConfigBackups.pm
         'Legacy Configuration Backups' => '레거시 구성 백업',
         'No legacy configuration backup files found.' => '레거시 구성 백업 파일이 없습니다.',
-        'Legacy configuration backup files found in %s, but they might still be required by some packages.' =>
-            '레거시 구성 백업 파일은 %s에서 발견되었지만 일부 패키지에서는 여전히 필요합니다.',
-        'Legacy configuration backup files are no longer needed for the installed packages, please remove them from %s.' =>
-            '레거시 구성 백업 파일은 설치된 패키지에 더 이상 필요하지 않으므로 %s에서 제거하십시오.',
+        'Legacy configuration backup files found in Kernel/Config/Backups folder, but they might still be required by some packages.' =>
+            '',
+        'Legacy configuration backup files are no longer needed for the installed packages, please remove them from Kernel/Config/Backups folder.' =>
+            '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/PackageDeployment.pm
         'Package Installation Status' => '패키지 설치 상태',
@@ -5161,7 +5174,6 @@ sub Data {
         'OTRS time zone is not set.' => 'OTRS 시간대가 설정되지 않았습니다.',
         'User default time zone' => '사용자 기본 시간대',
         'User default time zone is not set.' => '사용자 기본 시간대가 설정되지 않았습니다.',
-        'OTRS time zone setting for calendar' => '캘린더의 OTRS 시간대 설정',
         'Calendar time zone is not set.' => '달력 표준 시간대가 설정되지 않았습니다.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/UI/AgentSkinUsage.pm
@@ -5992,6 +6004,9 @@ Thanks for your help!
             '고객 인터페이스의 티켓 검색에서 확장 된 검색 조건을 허용합니다. 이 기능을 사용하면 e. 지. "(* key1 * && * key2 *)"또는 "(* key1 * || * key2 *)"와 같은 조건의 티켓 제목을 사용하십시오.',
         'Allows extended search conditions in ticket search of the generic agent interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
             '일반 에이전트 인터페이스의 티켓 검색에서 확장 된 검색 조건을 허용합니다. 이 기능을 사용하면 e. 지. "(* key1 * && * key2 *)"또는 "(* key1 * || * key2 *)"와 같은 조건의 티켓 제목을 사용하십시오.',
+        'Allows generic agent to execute custom command line scripts.' =>
+            '',
+        'Allows generic agent to execute custom modules.' => '',
         'Allows having a medium format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
             '중간 형식 티켓 개요 (CustomerInfo => 1 - 고객 정보도 표시)를 허용합니다.',
         'Allows having a small format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
@@ -6061,8 +6076,8 @@ Thanks for your help!
         'Balanced white skin by Felix Niklas (slim version).' => 'Felix Niklas (슬림 버전)의 균형 잡힌 하얀 피부.',
         'Balanced white skin by Felix Niklas.' => 'Felix Niklas의 균형 잡힌 하얀 피부.',
         'Based on global RichText setting' => '전역 서식있는 텍스트 설정에 기반',
-        'Basic fulltext index settings. Execute "bin/otrs.Console.pl Maint::Ticket::FulltextIndexRebuild" in order to generate a new index.' =>
-            '기본 전체 텍스트 색인 설정. 새 인덱스를 생성하려면 "bin / otrs.Console.pl Maint :: Ticket :: FulltextIndexRebuild"를 실행하십시오.',
+        'Basic fulltext index settings. Execute "bin/otrs.Console.pl Maint::Ticket::FulltextIndex --rebuild" in order to generate a new index.' =>
+            '',
         'Blocks all the incoming emails that do not have a valid ticket number in subject with From: @example.com address.' =>
             '보낸 사람 : @ example.com 주소로 유효한 티켓 번호가없는 수신 전자 메일을 모두 차단합니다.',
         'Bounced to "%s".' => 'Bounced to "%s".',
@@ -7339,7 +7354,7 @@ Thanks for your help!
         'Graph: Stacked Area Chart' => '그래프 : 누적 영역 차트',
         'Greek' => '그리스 사람',
         'Hebrew' => '헤브라이 사람',
-        'Helps to extend your articles full-text search (From, To, Cc, Subject and Body search). It will strip all articles and will build an index after article creation, increasing fulltext searches about 50%. To create an initial index use "bin/otrs.Console.pl Maint::Ticket::FulltextIndexRebuild".' =>
+        'Helps to extend your articles full-text search (From, To, Cc, Subject and Body search). It will strip all articles and will build an index after article creation, increasing fulltext searches about 50%. To create an initial index use "bin/otrs.Console.pl Maint::Ticket::FulltextIndex --rebuild".' =>
             '',
         'High Contrast' => '고 대비',
         'High contrast skin for visually impaired users.' => '시각 장애가 있는 사용자를 위한 고 대비 피부.',
@@ -8345,6 +8360,7 @@ Thanks for your help!
         'Shows information on how to start OTRS Daemon' => 'OTRS 데몬을 시작하는 방법에 대한 정보를 보여줍니다.',
         'Shows link to external page in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
             '에이전트 인터페이스의 티켓 확대보기에서 외부 페이지에 대한 링크를 표시합니다. 이 링크를 표시하거나 표시하지 않으려는 추가 액세스 제어는 키 "그룹"과 "rw : group1; move_into : group2"와 같은 내용을 사용하여 수행 할 수 있습니다.',
+        'Shows the article head information in the agent zoom view.' => '',
         'Shows the articles sorted normally or in reverse, under ticket zoom in the agent interface.' =>
             '에이전트 인터페이스의 티켓 확대/축소에서 기사를 정상적으로 또는 역순으로 정렬하여 표시합니다.',
         'Shows the customer user information (phone and email) in the compose screen.' =>

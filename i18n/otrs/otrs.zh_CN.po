@@ -19,7 +19,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-02-21 13:30+0000\n"
+"POT-Creation-Date: 2019-04-05 00:59+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: 汇民 王 <whuim@qq.com>, 2019\n"
 "Language-Team: Chinese (China) (https://www.transifex.com/otrs/teams/23435/zh_CN/)\n"
@@ -6654,10 +6654,14 @@ msgid "The display name and email address will be shown on mail you send."
 msgstr "邮件地址和显示名称将在发送的邮件中显示。"
 
 #. Template: AdminSystemAddress
+msgid "This system address cannot be set to invalid."
+msgstr ""
+
+#. Template: AdminSystemAddress
 msgid ""
 "This system address cannot be set to invalid, because it is used in one or "
-"more queue(s)."
-msgstr "该系统地址不能设置为无效，因为它已在一个或多个队列中使用。"
+"more queue(s) or auto response(s)."
+msgstr ""
 
 #. Template: AdminSystemConfiguration
 msgid "online administrator documentation"
@@ -7002,8 +7006,8 @@ msgid "Your email address is"
 msgstr "你的邮件地址是"
 
 #. Template: AdminTemplateAttachment
-msgid "Manage Templates-Attachments Relations"
-msgstr "管理模板和附件的关系"
+msgid "Manage Template-Attachment Relations"
+msgstr "管理模板和附件的关联"
 
 #. Template: AdminTemplateAttachment
 msgid "Toggle active for all"
@@ -7909,16 +7913,16 @@ msgid "Split"
 msgstr "拆分"
 
 #. Template: AgentStatisticsAdd
-msgid "Statistics Overview"
-msgstr "统计概览"
-
-#. Template: AgentStatisticsAdd
-msgid "Read more about statistics in OTRS"
-msgstr "详细了解OTR关于统计的信息"
+msgid "Statistics Management"
+msgstr ""
 
 #. Template: AgentStatisticsAdd
 msgid "Add Statistics"
 msgstr "添加统计"
+
+#. Template: AgentStatisticsAdd
+msgid "Read more about statistics in OTRS"
+msgstr "详细了解OTR关于统计的信息"
 
 #. Template: AgentStatisticsAdd
 msgid "Dynamic Matrix"
@@ -7953,6 +7957,10 @@ msgid "Create Statistic"
 msgstr "创建统计"
 
 #. Template: AgentStatisticsEdit
+msgid "Edit Statistics"
+msgstr ""
+
+#. Template: AgentStatisticsEdit
 msgid "Run now"
 msgstr "立即运行"
 
@@ -7963,6 +7971,10 @@ msgstr "统计预览"
 #. Template: AgentStatisticsEdit
 msgid "Save Statistic"
 msgstr "保存统计"
+
+#. Template: AgentStatisticsImport
+msgid "Import Statistics"
+msgstr ""
 
 #. Template: AgentStatisticsImport
 msgid "Import Statistics Configuration"
@@ -7995,6 +8007,14 @@ msgstr "删除统计“%s”"
 #. Template: AgentStatisticsOverview
 msgid "Delete statistic %s"
 msgstr "删除统计%s"
+
+#. Template: AgentStatisticsView
+msgid "Statistics Overview"
+msgstr "统计概览"
+
+#. Template: AgentStatisticsView
+msgid "View Statistics"
+msgstr ""
 
 #. Template: AgentStatisticsView
 msgid "Statistics Information"
@@ -10449,6 +10469,10 @@ msgid "There was an error getting data for ACL with ID %s"
 msgstr "获得ID为%s 的ACL的数据时出现了一个错误"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
+msgid "%s (copy) %s"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminACL.pm
 msgid ""
 "Please note that ACL restrictions will be ignored for the Superuser account "
 "(UserID 1)."
@@ -10569,6 +10593,10 @@ msgstr "获取ID为%s的通知数据时出现了一个错误！"
 #. Perl Module: Kernel/Modules/AdminAppointmentNotificationEvent.pm
 msgid "Unknown Notification %s!"
 msgstr "未知通知 %s！"
+
+#. Perl Module: Kernel/Modules/AdminAppointmentNotificationEvent.pm
+msgid "%s (copy)"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminAppointmentNotificationEvent.pm
 msgid "There was an error creating the Notification"
@@ -12523,6 +12551,22 @@ msgid "Ticket (%s) is not unlocked!"
 msgstr "工单（%s）没有解锁！"
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
+msgid ""
+"The following tickets were ignored because they are locked by another agent "
+"or you don't have write access to tickets: %s."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketBulk.pm
+msgid ""
+"The following ticket was ignored because it is locked by another agent or "
+"you don't have write access to ticket: %s."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketBulk.pm
+msgid "You need to select at least one ticket."
+msgstr "你需要选择至少一个工单。"
+
+#. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid "Bulk feature is not enabled!"
 msgstr "批量操作功能还没有启用！"
 
@@ -12535,10 +12579,6 @@ msgid ""
 "You either selected no ticket or only tickets which are locked by other "
 "agents."
 msgstr "你要么没有选择工单，要么只选择了已被其他服务人员锁定的工单。"
-
-#. Perl Module: Kernel/Modules/AgentTicketBulk.pm
-msgid "You need to select at least one ticket."
-msgstr "你需要选择至少一个工单。"
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid ""
@@ -13768,6 +13808,10 @@ msgid "Standard"
 msgstr "标准"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
+msgid "The following tickets are not updated: %s."
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "h"
 msgstr "时"
 
@@ -14970,6 +15014,10 @@ msgstr "不能确定发行版本。"
 msgid "Kernel Version"
 msgstr "内核版本"
 
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/KernelVersion.pm
+msgid "Could not determine kernel version."
+msgstr ""
+
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Load.pm
 msgid "System Load"
 msgstr "系统负载"
@@ -15237,16 +15285,16 @@ msgstr "找不到遗留的配置备份文件。"
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/LegacyConfigBackups.pm
 msgid ""
-"Legacy configuration backup files found in %s, but they might still be "
-"required by some packages."
-msgstr "可在%s找到旧版配置的备份文件，某些软件包可能仍需要它们。"
+"Legacy configuration backup files found in Kernel/Config/Backups folder, but"
+" they might still be required by some packages."
+msgstr ""
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/LegacyConfigBackups.pm
 msgid ""
 "Legacy configuration backup files are no longer needed for the installed "
-"packages, please remove them from %s."
-msgstr "已安装的软件包不再需要旧版配置的备份文件，请将其从%s中删除。"
+"packages, please remove them from Kernel/Config/Backups folder."
+msgstr ""
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/PackageDeployment.pm
@@ -15411,10 +15459,6 @@ msgstr "用户默认时区"
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
 msgid "User default time zone is not set."
 msgstr "用户默认时区未设置。"
-
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
-msgid "OTRS time zone setting for calendar"
-msgstr "OTRS时区设置，用于日历"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
 msgid "Calendar time zone is not set."
@@ -17675,6 +17719,14 @@ msgid ""
 msgstr "允许在自动任务界面搜索工单时扩展搜索条件，通过这个功能您可以按如下条件搜索：“(key1&&key2)”或“(key1||key2)”。"
 
 #. SysConfig
+msgid "Allows generic agent to execute custom command line scripts."
+msgstr ""
+
+#. SysConfig
+msgid "Allows generic agent to execute custom modules."
+msgstr ""
+
+#. SysConfig
 msgid ""
 "Allows having a medium format ticket overview (CustomerInfo => 1 - shows "
 "also the customer information)."
@@ -17902,10 +17954,8 @@ msgstr "基于全局富文本设置"
 #. SysConfig
 msgid ""
 "Basic fulltext index settings. Execute \"bin/otrs.Console.pl "
-"Maint::Ticket::FulltextIndexRebuild\" in order to generate a new index."
+"Maint::Ticket::FulltextIndex --rebuild\" in order to generate a new index."
 msgstr ""
-"基本的全文索引设置。执行\"bin/otrs.Console.pl "
-"Maint::Ticket::FulltextIndexRebuild\"以生成一个新索引。"
 
 #. SysConfig
 msgid ""
@@ -22246,11 +22296,9 @@ msgid ""
 "Helps to extend your articles full-text search (From, To, Cc, Subject and "
 "Body search). It will strip all articles and will build an index after "
 "article creation, increasing fulltext searches about 50%. To create an "
-"initial index use \"bin/otrs.Console.pl "
-"Maint::Ticket::FulltextIndexRebuild\"."
+"initial index use \"bin/otrs.Console.pl Maint::Ticket::FulltextIndex "
+"--rebuild\"."
 msgstr ""
-"帮助扩展信件全文搜索（发件人、收件人、抄送、主题和正文搜索）。它将在信件创建后剥离所有信件并建立索引，提升全文搜索50%的效率。可使用命令\"bin/otrs.Console.pl"
-" Maint::Ticket::FulltextIndexRebuild\"来创建初始索引。"
 
 #. SysConfig
 msgid "High Contrast"
@@ -26018,6 +26066,10 @@ msgid ""
 msgstr ""
 "在服务人员界面的工单详情视图中显示到外部页面的链接。 可以通过使用键“Group”和内容如“rw：group1; "
 "move_into：group2”来完成额外的访问控制，以显示或不显示此链接。"
+
+#. SysConfig
+msgid "Shows the article head information in the agent zoom view."
+msgstr ""
 
 #. SysConfig
 msgid ""

@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.999828385103827;
+    $Self->{Completeness}        = 1;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -2043,8 +2043,9 @@ sub Data {
         'This email address is already used as system email address.' => 'Ez az e-mail cím már használatban van rendszer e-mail címként.',
         'The display name and email address will be shown on mail you send.' =>
             'A megjelenített név és az e-mail cím meg lesz jelenítve az elküldött leveleknél.',
-        'This system address cannot be set to invalid, because it is used in one or more queue(s).' =>
-            'Ezt a rendszercímet nem lehet érvénytelenre állítani, mert egy vagy több várólistában használják.',
+        'This system address cannot be set to invalid.' => 'Ezt a rendszercímet nem lehet érvénytelenre állítani.',
+        'This system address cannot be set to invalid, because it is used in one or more queue(s) or auto response(s).' =>
+            'Ezt a rendszercímet nem lehet érvénytelenre állítani, mert egy vagy több várólistában vagy automatikus válaszban használják.',
 
         # Template: AdminSystemConfiguration
         'online administrator documentation' => 'interneten lévő adminisztrátori kézikönyv',
@@ -2166,7 +2167,7 @@ sub Data {
         'Your email address is' => 'Az e-mail címe',
 
         # Template: AdminTemplateAttachment
-        'Manage Template-Attachment Relations' => '',
+        'Manage Template-Attachment Relations' => 'Sablon–Melléklet kapcsolatok kezelése',
         'Toggle active for all' => 'Aktiválás ki- és bekapcsolása mindenkinek',
         'Link %s to selected %s' => '%s összekapcsolása a kijelölt %s elemmel',
 
@@ -2315,7 +2316,7 @@ sub Data {
         'Change search options' => 'Keresési beállítások módosítása',
 
         # Template: AgentCustomerUserInformationCenter
-        'Customer User Information Center' => 'Ügyfél-felhasználó információs központ',
+        'Customer User Information Center' => 'Ügyfél-felhasználó információs-központ',
 
         # Template: AgentDaemonInfo
         'The OTRS Daemon is a daemon process that performs asynchronous tasks, e.g. ticket escalation triggering, email sending, etc.' =>
@@ -2479,9 +2480,9 @@ sub Data {
         'Split' => 'Felosztás',
 
         # Template: AgentStatisticsAdd
-        'Statistics Overview' => 'Statisztikák áttekintő',
+        'Statistics Management' => 'Statisztikakezelés',
+        'Add Statistics' => 'Statisztika hozzáadása',
         'Read more about statistics in OTRS' => 'Tudjon meg többet az OTRS-ben lévő statisztikákról',
-        'Add Statistics' => 'Statisztikák hozzáadása',
         'Dynamic Matrix' => 'Dinamikus mátrix',
         'Each cell contains a singular data point.' => 'Minden egyes cella egyetlen adatpontot tartalmaz.',
         'Dynamic List' => 'Dinamikus lista',
@@ -2492,11 +2493,13 @@ sub Data {
         'Create Statistic' => 'Statisztika létrehozása',
 
         # Template: AgentStatisticsEdit
+        'Edit Statistics' => 'Statisztika szerkesztése',
         'Run now' => 'Futtatás most',
         'Statistics Preview' => 'Statisztikák előnézet',
         'Save Statistic' => 'Statisztika mentése',
 
         # Template: AgentStatisticsImport
+        'Import Statistics' => 'Statisztika importálása',
         'Import Statistics Configuration' => 'Statisztikák beállításának importálása',
 
         # Template: AgentStatisticsOverview
@@ -2509,6 +2512,8 @@ sub Data {
         'Delete statistic %s' => '%s statisztika törlése',
 
         # Template: AgentStatisticsView
+        'Statistics Overview' => 'Statisztikák áttekintő',
+        'View Statistics' => 'Statisztika megtekintése',
         'Statistics Information' => 'Statisztikák információi',
         'Created by' => 'Létrehozta',
         'Changed by' => 'Módosította',
@@ -2524,7 +2529,7 @@ sub Data {
         'Change Owner of %s%s%s' => '%s%s%s tulajdonosának módosítása',
         'Close %s%s%s' => '%s%s%s lezárása',
         'Add Note to %s%s%s' => 'Jegyzet hozzáadása ehhez: %s%s%s',
-        'Set Pending Time for %s%s%s' => '%s%s%s várakozó idejének beállítása',
+        'Set Pending Time for %s%s%s' => '%s%s%s várakozási idejének beállítása',
         'Change Priority of %s%s%s' => '%s%s%s prioritásának módosítása',
         'Change Responsible of %s%s%s' => '%s%s%s felelősének módosítása',
         'All fields marked with an asterisk (*) are mandatory.' => 'Minden csillaggal (*) jelölt mező kötelező.',
@@ -2568,7 +2573,7 @@ sub Data {
         'Ticket Bulk Action' => 'Tömeges jegyművelet',
         'Send Email' => 'E-mail küldése',
         'Merge' => 'Egyesítés',
-        'Merge to' => 'Egyesítés ezzel',
+        'Merge to' => 'Egyesítés ezzel:',
         'Invalid ticket identifier!' => 'Érvénytelen jegyazonosító!',
         'Merge to oldest' => 'Egyesítés a legrégebbivel',
         'Link together' => 'Összekapcsolás',
@@ -3370,6 +3375,7 @@ sub Data {
         'There was an error synchronizing the ACLs.' => 'Hiba történt az ACL-ek szinkronizálásakor.',
         'ACL %s could not be deleted' => 'A(z) %s ACL törlése nem sikerült',
         'There was an error getting data for ACL with ID %s' => 'Hiba történt az adatok lekérésekor a(z) %s azonosítóval rendelkező ACL-nél',
+        '%s (copy) %s' => '%s (másolat) %s',
         'Please note that ACL restrictions will be ignored for the Superuser account (UserID 1).' =>
             'Ne feledje, hogy az ACL korlátozások mellőzve lesznek a rendszergazda fióknál (1-es felhasználó-azonosító).',
         'Exact match' => 'Pontos egyezés',
@@ -3408,6 +3414,7 @@ sub Data {
         'There was an error getting data for Notification with ID:%s!' =>
             'Hiba történt az adatok lekérésekor az ID:%s azonosítóval rendelkező értesítésnél!',
         'Unknown Notification %s!' => 'Ismeretlen értesítés: %s!',
+        '%s (copy)' => '%s (másolat)',
         'There was an error creating the Notification' => 'Hiba történt az értesítés létrehozásakor',
         'Notifications could not be Imported due to a unknown error, please check OTRS logs for more information' =>
             'Az értesítéseket nem sikerült importálni egy ismeretlen hiba miatt, további információkért nézze meg az OTRS naplókat',
@@ -4068,11 +4075,15 @@ sub Data {
         # Perl Module: Kernel/Modules/AgentTicketBulk.pm
         'Can\'t lock Tickets, no TicketIDs are given!' => 'Nem lehet zárolni a jegyeket, nincsenek jegyazonosítók megadva!',
         'Ticket (%s) is not unlocked!' => 'A jegy (%s) nincs feloldva!',
+        'The following tickets were ignored because they are locked by another agent or you don\'t have write access to tickets: %s.' =>
+            'A következő jegyek figyelmen kívül lettek hagyva, mert egy másik ügyintéző zárolta azokat vagy nincs írási hozzáférése a jegyekhez: %s.',
+        'The following ticket was ignored because it is locked by another agent or you don\'t have write access to ticket: %s.' =>
+            'A következő jegy figyelmen kívül lett hagyva, mert egy másik ügyintéző zárolta azt vagy nincs írási hozzáférése a jegyhez: %s.',
+        'You need to select at least one ticket.' => 'Legalább egy jegyet ki kell választania.',
         'Bulk feature is not enabled!' => 'A tömeges funkció nincs engedélyezve!',
         'No selectable TicketID is given!' => 'Nincs kiválasztható jegyazonosító megadva!',
         'You either selected no ticket or only tickets which are locked by other agents.' =>
             'Vagy nem választott ki jegyet, vagy csak olyan jegyeket, amelyeket más ügyintézők zároltak.',
-        'You need to select at least one ticket.' => 'Legalább egy jegyet ki kell választania.',
         'The following tickets were ignored because they are locked by another agent or you don\'t have write access to these tickets: %s.' =>
             'A következő jegyek figyelmen kívül lettek hagyva, mert másik ügyintéző zárolta azokat vagy nincs írási hozzáférése ezekhez a jegyekhez: %s.',
         'The following tickets were locked: %s.' => 'A következő jegyek zárolva lettek: %s.',
@@ -4526,6 +4537,7 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/Layout.pm
         'Standard' => 'Szabványos',
+        'The following tickets are not updated: %s.' => 'A következő jegyek nem lettek frissítve: %s.',
         'h' => 'ó',
         'm' => 'p',
         'd' => 'n',
@@ -5008,6 +5020,7 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/KernelVersion.pm
         'Kernel Version' => 'Kernel verzió',
+        'Could not determine kernel version.' => 'Nem sikerült meghatározni a kernel verzióját.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Load.pm
         'System Load' => 'Rendszerterhelés',
@@ -5098,10 +5111,10 @@ sub Data {
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/LegacyConfigBackups.pm
         'Legacy Configuration Backups' => 'Örökölt konfigurációs biztonsági mentések',
         'No legacy configuration backup files found.' => 'Nem találhatók örökölt biztonsági mentés fájlok.',
-        'Legacy configuration backup files found in %s, but they might still be required by some packages.' =>
-            'Örökölt konfigurációs biztonsági mentés fájlok találhatók ebben: %s, de néhány csomagnak még szükségük lehet rájuk.',
-        'Legacy configuration backup files are no longer needed for the installed packages, please remove them from %s.' =>
-            'Az örökölt konfigurációs biztonsági mentés fájlok többé nem szükségesek a telepített csomagokhoz, távolítsa el azokat innen: %s.',
+        'Legacy configuration backup files found in Kernel/Config/Backups folder, but they might still be required by some packages.' =>
+            'Örökölt konfigurációs biztonsági mentés fájlok találhatók a Kernel/Config/Backups mappában, de néhány csomagnak még szükségük lehet rájuk.',
+        'Legacy configuration backup files are no longer needed for the installed packages, please remove them from Kernel/Config/Backups folder.' =>
+            'Az örökölt konfigurációs biztonsági mentés fájlok többé nem szükségesek a telepített csomagokhoz, távolítsa el azokat a Kernel/Config/Backups mappából.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/PackageDeployment.pm
         'Package Installation Status' => 'Csomagtelepítési állapot',
@@ -5166,7 +5179,6 @@ sub Data {
         'OTRS time zone is not set.' => 'Az OTRS időzónája nincs beállítva.',
         'User default time zone' => 'Felhasználó alapértelmezett időzónája',
         'User default time zone is not set.' => 'A felhasználó alapértelmezett időzónája nincs beállítva.',
-        'OTRS time zone setting for calendar' => 'OTRS időzóna-beállítás a naptárhoz',
         'Calendar time zone is not set.' => 'A naptár időzónája nincs beállítva.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/UI/AgentSkinUsage.pm
@@ -5997,6 +6009,9 @@ Az Ön segélyszolgálat csapata
             'Lehetővé teszi a kiterjesztett keresési feltételeket az ügyfélfelület jegykeresésében. Ezzel a funkcióval rákereshet például a jegycímre olyan típusú feltételekkel mint „(*kulcs1*&&*kulcs2*)” vagy „(*kulcs1*||*kulcs2*)”.',
         'Allows extended search conditions in ticket search of the generic agent interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
             'Lehetővé teszi a kiterjesztett keresési feltételeket az általános ügyintézői felület jegykeresésében. Ezzel a funkcióval rákereshet például a jegycímre olyan típusú feltételekkel mint „(*kulcs1*&&*kulcs2*)” vagy „(*kulcs1*||*kulcs2*)”.',
+        'Allows generic agent to execute custom command line scripts.' =>
+            'Lehetővé teszi az általános ügyintézőnek az egyéni parancssori parancsfájlok végrehajtását.',
+        'Allows generic agent to execute custom modules.' => 'Lehetővé teszi az általános ügyintézőnek az egyéni modulok végrehajtását.',
         'Allows having a medium format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
             'Lehetővé teszi a közepes formátumú jegyáttekintőt (CustomerInfo => 1 – megjeleníti az ügyfél-információkat is).',
         'Allows having a small format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
@@ -6066,8 +6081,8 @@ Az Ön segélyszolgálat csapata
         'Balanced white skin by Felix Niklas (slim version).' => 'Kiegyenlített fehér felszín Felix Niklas-tól (karcsú változat).',
         'Balanced white skin by Felix Niklas.' => 'Kiegyenlített fehér felszín Felix Niklas-tól.',
         'Based on global RichText setting' => 'Globális RichText beállítás alapján',
-        'Basic fulltext index settings. Execute "bin/otrs.Console.pl Maint::Ticket::FulltextIndexRebuild" in order to generate a new index.' =>
-            'Alapvető szabad-szavas index beállítások. Futtassa a „bin/otrs.Console.pl Maint::Ticket::FulltextIndexRebuild” parancsfájlt egy új index előállítása érdekében.',
+        'Basic fulltext index settings. Execute "bin/otrs.Console.pl Maint::Ticket::FulltextIndex --rebuild" in order to generate a new index.' =>
+            'Alapvető szabad-szavas index beállítások. Futtassa a „bin/otrs.Console.pl Maint::Ticket::FulltextIndex --rebuild” parancsfájlt egy új index előállítása érdekében.',
         'Blocks all the incoming emails that do not have a valid ticket number in subject with From: @example.com address.' =>
             'Az összes bejövő e-mailt blokkolja, amelyeknek nincs érvényes jegyszáma a tárgyban a @example.com feladójú címmel.',
         'Bounced to "%s".' => 'Átirányítva ide: „%s”.',
@@ -6253,7 +6268,7 @@ Az Ön segélyszolgálat csapata
         'Customer User Information' => 'Ügyfélfelhasználó-információk',
         'Customer User Information Center Search.' => 'Ügyfél-felhasználó információs-központ keresés.',
         'Customer User Information Center search.' => 'Ügyfél-felhasználó információs-központ keresés.',
-        'Customer User Information Center.' => 'Ügyfél-felhasználó információs központ.',
+        'Customer User Information Center.' => 'Ügyfél-felhasználó információs-központ.',
         'Customer Users ↔ Customers' => 'Ügyfél-felhasználók ↔ Ügyfelek',
         'Customer Users ↔ Groups' => 'Ügyfél-felhasználók ↔ Csoportok',
         'Customer Users ↔ Services' => 'Ügyfél-felhasználók ↔ Szolgáltatások',
@@ -7344,8 +7359,8 @@ Az Ön segélyszolgálat csapata
         'Graph: Stacked Area Chart' => 'Grafikon: halmozott területdiagram',
         'Greek' => 'Görög',
         'Hebrew' => 'Héber',
-        'Helps to extend your articles full-text search (From, To, Cc, Subject and Body search). It will strip all articles and will build an index after article creation, increasing fulltext searches about 50%. To create an initial index use "bin/otrs.Console.pl Maint::Ticket::FulltextIndexRebuild".' =>
-            'Segít kiterjeszteni a bejegyzések szabad-szavas keresését (feladó, címzett, másolat, tárgy és törzs keresés). Fel fogja darabolni az összes bejegyzést, és egy indexet fog felépíteni a bejegyzés létrehozása után, körülbelül 50%-kal növelve a szabad-szavas kereséseket. Egy kezdeti index létrehozásához használja a „bin/otrs.Console.pl Maint::Ticket::FulltextIndexRebuild” parancsfájlt.',
+        'Helps to extend your articles full-text search (From, To, Cc, Subject and Body search). It will strip all articles and will build an index after article creation, increasing fulltext searches about 50%. To create an initial index use "bin/otrs.Console.pl Maint::Ticket::FulltextIndex --rebuild".' =>
+            'Segít kiterjeszteni a bejegyzések szabad-szavas keresését (feladó, címzett, másolat, tárgy és törzs keresés). Fel fogja darabolni az összes bejegyzést, és egy indexet fog felépíteni a bejegyzés létrehozása után, körülbelül 50%-kal növelve a szabad-szavas kereséseket. Egy kezdeti index létrehozásához használja a „bin/otrs.Console.pl Maint::Ticket::FulltextIndex --rebuild” parancsfájlt.',
         'High Contrast' => 'Nagy kontraszt',
         'High contrast skin for visually impaired users.' => 'Nagy kontrasztú felszín a látássérült felhasználóknak.',
         'Hindi' => 'Hindi',
@@ -7926,7 +7941,7 @@ Az Ön segélyszolgálat csapata
         'Roles ↔ Groups' => 'Szerepek ↔ Csoportok',
         'Run file based generic agent jobs (Note: module name needs to be specified in -configuration-module param e.g. "Kernel::System::GenericAgent").' =>
             'Fájlalapú általános ügyintéző feladatok futtatása (Megjegyzés: a modul nevét meg kell adni a -configuration-module paraméterben, például „Kernel::System::GenericAgent”).',
-        'Running Process Tickets' => 'Futó folyamat jegyek',
+        'Running Process Tickets' => 'Futó folyamatjegyek',
         'Runs an initial wildcard search of the existing customer company when accessing the AdminCustomerCompany module.' =>
             'A meglévő ügyfél-vállalat kezdeti helyettesítő karakter keresését futtatja az AdminCustomerCompany modulhoz való hozzáféréskor.',
         'Runs an initial wildcard search of the existing customer users when accessing the AdminCustomerUser module.' =>
@@ -8350,6 +8365,7 @@ Az Ön segélyszolgálat csapata
         'Shows information on how to start OTRS Daemon' => 'Információkat jelenít meg arról, hogy hogyan indítsa az OTRS démont',
         'Shows link to external page in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
             'Külső oldalra mutató hivatkozást jelenít meg az ügyintézői felület jegynagyítás nézetében. A hivatkozás megjelenítéséhez vagy elrejtéséhez további hozzáférés vezérlő készíthető a „Group” kulcs és az „rw:csoport1;move_into:csoport2” értékhez hasonló tartalom használatával.',
+        'Shows the article head information in the agent zoom view.' => 'Megjeleníti a bejegyzésfejléc információit a ügyintézői nagyítás nézeten.',
         'Shows the articles sorted normally or in reverse, under ticket zoom in the agent interface.' =>
             'Megjeleníti a bejegyzéseket normálisan vagy fordítottan rendezve a jegynagyítás alatt az ügyintézői felületen.',
         'Shows the customer user information (phone and email) in the compose screen.' =>

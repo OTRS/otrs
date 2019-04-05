@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.946799382186374;
+    $Self->{Completeness}        = 0.944520547945205;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -2043,8 +2043,9 @@ sub Data {
         'This email address is already used as system email address.' => 'Este endereço de e-mail já está sendo usado como Endereço de E-mail do Sistema.',
         'The display name and email address will be shown on mail you send.' =>
             'O nome de exibição e endereço de e-mail serão mostrados no e-mail enviado.',
-        'This system address cannot be set to invalid, because it is used in one or more queue(s).' =>
-            'Este Endereço de E-mail do Sistema não pode ser definido como inválido, por ele já estar sendo usado em uma ou mais Filas.',
+        'This system address cannot be set to invalid.' => '',
+        'This system address cannot be set to invalid, because it is used in one or more queue(s) or auto response(s).' =>
+            '',
 
         # Template: AdminSystemConfiguration
         'online administrator documentation' => 'documentação de administrador online',
@@ -2479,9 +2480,9 @@ sub Data {
         'Split' => 'Dividir',
 
         # Template: AgentStatisticsAdd
-        'Statistics Overview' => 'Visão Geral de Estatísticas',
-        'Read more about statistics in OTRS' => 'Leia mais sobre estatísticas no OTRS',
+        'Statistics Management' => '',
         'Add Statistics' => 'Adicionar estatísticas',
+        'Read more about statistics in OTRS' => 'Leia mais sobre estatísticas no OTRS',
         'Dynamic Matrix' => 'Matriz Dinâmica ',
         'Each cell contains a singular data point.' => 'Cada célula contém um ponto de dado singular.',
         'Dynamic List' => 'Lista Dinâmica',
@@ -2492,11 +2493,13 @@ sub Data {
         'Create Statistic' => 'Criar Estatística',
 
         # Template: AgentStatisticsEdit
+        'Edit Statistics' => '',
         'Run now' => 'Executar agora',
         'Statistics Preview' => 'Pré-visualização da Estatística ',
         'Save Statistic' => 'Salvar Estatística',
 
         # Template: AgentStatisticsImport
+        'Import Statistics' => '',
         'Import Statistics Configuration' => 'Importar Configurações de Estatísticas',
 
         # Template: AgentStatisticsOverview
@@ -2509,6 +2512,8 @@ sub Data {
         'Delete statistic %s' => 'Excluir estatística %s',
 
         # Template: AgentStatisticsView
+        'Statistics Overview' => 'Visão Geral de Estatísticas',
+        'View Statistics' => '',
         'Statistics Information' => 'Informações das Estatísticas',
         'Created by' => 'Criado por',
         'Changed by' => 'Alterado por',
@@ -3370,6 +3375,7 @@ sub Data {
         'There was an error synchronizing the ACLs.' => 'Houve um erro sincronizando a ACLs',
         'ACL %s could not be deleted' => 'ACL %s não pode ser excluída',
         'There was an error getting data for ACL with ID %s' => 'Houve um erro ao obter dados da ACL com ID %s',
+        '%s (copy) %s' => '',
         'Please note that ACL restrictions will be ignored for the Superuser account (UserID 1).' =>
             'Favor observar que restrições de ACL serão ignoradas para a conta de Super Usuário (ID de Usuário 1).',
         'Exact match' => 'Correspondência exata',
@@ -3408,6 +3414,7 @@ sub Data {
         'There was an error getting data for Notification with ID:%s!' =>
             'Houve um erro na obtenção de dados para a Notificação com ID:%s!',
         'Unknown Notification %s!' => 'Notificação Desconhecida %s!',
+        '%s (copy)' => '',
         'There was an error creating the Notification' => 'Houve algum erro ao criar a Notificação',
         'Notifications could not be Imported due to a unknown error, please check OTRS logs for more information' =>
             'Notificações não puderam ser importadas devido a um erro desconhecido. Por favor verifique os logs do OTRS para mais informações',
@@ -4068,11 +4075,15 @@ sub Data {
         # Perl Module: Kernel/Modules/AgentTicketBulk.pm
         'Can\'t lock Tickets, no TicketIDs are given!' => 'Impossível bloquear o Chamado, nenhum TicketIDs foi informado!',
         'Ticket (%s) is not unlocked!' => 'Ticket (%s) não está desbloqueado!',
+        'The following tickets were ignored because they are locked by another agent or you don\'t have write access to tickets: %s.' =>
+            '',
+        'The following ticket was ignored because it is locked by another agent or you don\'t have write access to ticket: %s.' =>
+            '',
+        'You need to select at least one ticket.' => 'Você precisa selecionar ao menos um Ticket.',
         'Bulk feature is not enabled!' => 'Recurso \'em massa\' não está habilitado. ',
         'No selectable TicketID is given!' => 'Nenhum TicketID selecionável foi informado!',
         'You either selected no ticket or only tickets which are locked by other agents.' =>
             'Você selecionou nenhum Ticket ou somente ticket os quais estão bloqueados por outro Agente.',
-        'You need to select at least one ticket.' => 'Você precisa selecionar ao menos um Ticket.',
         'The following tickets were ignored because they are locked by another agent or you don\'t have write access to these tickets: %s.' =>
             'Os Tickets a seguir serão ignorados porque eles estão bloquados por outro Agente ou você não tem permissão de escrita para estes Tickets: %s',
         'The following tickets were locked: %s.' => 'Os Tickets a seguir foram bloqueados: %s',
@@ -4526,6 +4537,7 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/Layout.pm
         'Standard' => 'Padrão',
+        'The following tickets are not updated: %s.' => '',
         'h' => 'h',
         'm' => 'm',
         'd' => 'd',
@@ -5008,6 +5020,7 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/KernelVersion.pm
         'Kernel Version' => 'Versão do Kernel',
+        'Could not determine kernel version.' => 'Não foi possível determinar a versão do kernel.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Load.pm
         'System Load' => 'Carga do sistema',
@@ -5098,9 +5111,9 @@ sub Data {
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/LegacyConfigBackups.pm
         'Legacy Configuration Backups' => 'Backups de Legado de Configuração',
         'No legacy configuration backup files found.' => 'Nenhum arquivo de backup de legado de configuração foi encontrado.',
-        'Legacy configuration backup files found in %s, but they might still be required by some packages.' =>
+        'Legacy configuration backup files found in Kernel/Config/Backups folder, but they might still be required by some packages.' =>
             '',
-        'Legacy configuration backup files are no longer needed for the installed packages, please remove them from %s.' =>
+        'Legacy configuration backup files are no longer needed for the installed packages, please remove them from Kernel/Config/Backups folder.' =>
             '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/PackageDeployment.pm
@@ -5166,7 +5179,6 @@ sub Data {
         'OTRS time zone is not set.' => 'O fuso horário OTRS não foi definido.',
         'User default time zone' => 'Fuso horário padrão para usuário',
         'User default time zone is not set.' => 'O fuso horário padrão para usuário não foi definido.',
-        'OTRS time zone setting for calendar' => 'Configuração de fuso horário OTRS para calendário',
         'Calendar time zone is not set.' => 'Fuso horário de calendário não foi definido.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/UI/AgentSkinUsage.pm
@@ -5997,6 +6009,9 @@ Obrigado pela ajuda!
             '',
         'Allows extended search conditions in ticket search of the generic agent interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
             'Permite condições de pesquisa extendidas na pesquisa de ticket da interface de agente genérico. Com esta funcionalidade, você pode pesquisar, por exemplo, o título do ticket com condições como "(*chave1*&&*chave2*)" or "(*chave1*||*chave2*)".',
+        'Allows generic agent to execute custom command line scripts.' =>
+            '',
+        'Allows generic agent to execute custom modules.' => '',
         'Allows having a medium format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
             'Permite ter uma visão em formato médio do chamado (CustomerInfo => 1 - mostra também as informações do cliente).',
         'Allows having a small format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
@@ -6066,7 +6081,7 @@ Obrigado pela ajuda!
         'Balanced white skin by Felix Niklas (slim version).' => '',
         'Balanced white skin by Felix Niklas.' => 'Pele branca balanceada por Felix Niklas.',
         'Based on global RichText setting' => 'Baseado na configuração global RichText',
-        'Basic fulltext index settings. Execute "bin/otrs.Console.pl Maint::Ticket::FulltextIndexRebuild" in order to generate a new index.' =>
+        'Basic fulltext index settings. Execute "bin/otrs.Console.pl Maint::Ticket::FulltextIndex --rebuild" in order to generate a new index.' =>
             '',
         'Blocks all the incoming emails that do not have a valid ticket number in subject with From: @example.com address.' =>
             'Bloqueia todos os e-mails recebidos que não possuam um número de chamado válido no assunto com endereço De: @exemplo.com.',
@@ -7344,7 +7359,7 @@ Obrigado pela ajuda!
         'Graph: Stacked Area Chart' => '',
         'Greek' => 'Grego',
         'Hebrew' => 'Hebreu',
-        'Helps to extend your articles full-text search (From, To, Cc, Subject and Body search). It will strip all articles and will build an index after article creation, increasing fulltext searches about 50%. To create an initial index use "bin/otrs.Console.pl Maint::Ticket::FulltextIndexRebuild".' =>
+        'Helps to extend your articles full-text search (From, To, Cc, Subject and Body search). It will strip all articles and will build an index after article creation, increasing fulltext searches about 50%. To create an initial index use "bin/otrs.Console.pl Maint::Ticket::FulltextIndex --rebuild".' =>
             '',
         'High Contrast' => 'Alto Contraste',
         'High contrast skin for visually impaired users.' => '',
@@ -8350,6 +8365,7 @@ Obrigado pela ajuda!
         'Shows information on how to start OTRS Daemon' => 'Mostra informações de como inciar o Daemon OTRS',
         'Shows link to external page in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
             'Mostra um link para uma página externa na visão de zoom de ticket na interface de agente. Controle de acesso adicional para exibir este link ou não pode ser feito ao utilizar como Chave "Group" e Conteúdo como "rw:group1;move_into:group2".',
+        'Shows the article head information in the agent zoom view.' => '',
         'Shows the articles sorted normally or in reverse, under ticket zoom in the agent interface.' =>
             'Mostra os artigos ordenados normalmente ou em reverso no zoom de ticket da interface de agente.',
         'Shows the customer user information (phone and email) in the compose screen.' =>

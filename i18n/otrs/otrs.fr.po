@@ -20,19 +20,19 @@
 # Patrick Lentz, 2018
 # Alexis Prodhomme <ap@gen-ip.fr>, 2018
 # Snake, 2018
-# Egareg JAOUEN <egareg.jaouen@elitt.com>, 2018
-# v cw <vincentcw@yahoo.fr>, 2018
 # lulu chillou <chillou2000@yahoo.fr>, 2018
 # cdelasalle <carole.delasalle@interieur.gouv.fr>, 2018
 # Martin Gruner <martin.gruner@otrs.com>, 2018
 # Tangi Midy <midy.tangi@gmail.com>, 2018
+# v cw <vincentcw@yahoo.fr>, 2019
+# Egareg JAOUEN <egareg.jaouen@elitt.com>, 2019
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-02-21 13:30+0000\n"
+"POT-Creation-Date: 2019-04-05 00:59+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
-"Last-Translator: Tangi Midy <midy.tangi@gmail.com>, 2018\n"
+"Last-Translator: Egareg JAOUEN <egareg.jaouen@elitt.com>, 2019\n"
 "Language-Team: French (https://www.transifex.com/otrs/teams/23435/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1217,7 +1217,7 @@ msgstr "statut du compte"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Back to overview"
-msgstr ""
+msgstr "Revenir à l'aperçu"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Filter for Accounts"
@@ -1669,7 +1669,7 @@ msgstr ""
 
 #. Template: AdminCustomerUserGroup
 msgid "Filter for groups"
-msgstr ""
+msgstr "Filtre pour les groupes"
 
 #. Template: AdminCustomerUserGroup
 msgid "Select the customer user - group permissions."
@@ -1715,11 +1715,11 @@ msgstr "Ajouter un nouveau champ pour l'objet"
 
 #. Template: AdminDynamicField
 msgid "Filter for Dynamic Fields"
-msgstr ""
+msgstr "Filtre pour les Champs Dynamiques"
 
 #. Template: AdminDynamicField
 msgid "Filter for dynamic fields"
-msgstr ""
+msgstr "Filtre pour les champs dynamiques"
 
 #. Template: AdminDynamicField
 msgid "More Business Fields"
@@ -6944,9 +6944,13 @@ msgstr ""
 "vous envoyez."
 
 #. Template: AdminSystemAddress
+msgid "This system address cannot be set to invalid."
+msgstr ""
+
+#. Template: AdminSystemAddress
 msgid ""
 "This system address cannot be set to invalid, because it is used in one or "
-"more queue(s)."
+"more queue(s) or auto response(s)."
 msgstr ""
 
 #. Template: AdminSystemConfiguration
@@ -7295,8 +7299,8 @@ msgid "Your email address is"
 msgstr "Votre e-mail est"
 
 #. Template: AdminTemplateAttachment
-msgid "Manage Templates-Attachments Relations"
-msgstr "Gérer les relations entre les pièces jointes et les modèles"
+msgid "Manage Template-Attachment Relations"
+msgstr ""
 
 #. Template: AdminTemplateAttachment
 msgid "Toggle active for all"
@@ -8210,15 +8214,15 @@ msgid "Split"
 msgstr "Scinder"
 
 #. Template: AgentStatisticsAdd
-msgid "Statistics Overview"
-msgstr ""
-
-#. Template: AgentStatisticsAdd
-msgid "Read more about statistics in OTRS"
+msgid "Statistics Management"
 msgstr ""
 
 #. Template: AgentStatisticsAdd
 msgid "Add Statistics"
+msgstr ""
+
+#. Template: AgentStatisticsAdd
+msgid "Read more about statistics in OTRS"
 msgstr ""
 
 #. Template: AgentStatisticsAdd
@@ -8254,6 +8258,10 @@ msgid "Create Statistic"
 msgstr ""
 
 #. Template: AgentStatisticsEdit
+msgid "Edit Statistics"
+msgstr ""
+
+#. Template: AgentStatisticsEdit
 msgid "Run now"
 msgstr ""
 
@@ -8263,6 +8271,10 @@ msgstr ""
 
 #. Template: AgentStatisticsEdit
 msgid "Save Statistic"
+msgstr ""
+
+#. Template: AgentStatisticsImport
+msgid "Import Statistics"
 msgstr ""
 
 #. Template: AgentStatisticsImport
@@ -8295,6 +8307,14 @@ msgstr ""
 
 #. Template: AgentStatisticsOverview
 msgid "Delete statistic %s"
+msgstr ""
+
+#. Template: AgentStatisticsView
+msgid "Statistics Overview"
+msgstr ""
+
+#. Template: AgentStatisticsView
+msgid "View Statistics"
 msgstr ""
 
 #. Template: AgentStatisticsView
@@ -10806,6 +10826,10 @@ msgid "There was an error getting data for ACL with ID %s"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
+msgid "%s (copy) %s"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminACL.pm
 msgid ""
 "Please note that ACL restrictions will be ignored for the Superuser account "
 "(UserID 1)."
@@ -10928,6 +10952,10 @@ msgstr ""
 #. Perl Module: Kernel/Modules/AdminAppointmentNotificationEvent.pm
 msgid "Unknown Notification %s!"
 msgstr "Notification inconnue %s !"
+
+#. Perl Module: Kernel/Modules/AdminAppointmentNotificationEvent.pm
+msgid "%s (copy)"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminAppointmentNotificationEvent.pm
 msgid "There was an error creating the Notification"
@@ -12892,6 +12920,22 @@ msgid "Ticket (%s) is not unlocked!"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
+msgid ""
+"The following tickets were ignored because they are locked by another agent "
+"or you don't have write access to tickets: %s."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketBulk.pm
+msgid ""
+"The following ticket was ignored because it is locked by another agent or "
+"you don't have write access to ticket: %s."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketBulk.pm
+msgid "You need to select at least one ticket."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid "Bulk feature is not enabled!"
 msgstr ""
 
@@ -12903,10 +12947,6 @@ msgstr ""
 msgid ""
 "You either selected no ticket or only tickets which are locked by other "
 "agents."
-msgstr ""
-
-#. Perl Module: Kernel/Modules/AgentTicketBulk.pm
-msgid "You need to select at least one ticket."
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
@@ -14135,6 +14175,10 @@ msgid "Standard"
 msgstr "Standard"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
+msgid "The following tickets are not updated: %s."
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "h"
 msgstr "h"
 
@@ -15359,6 +15403,10 @@ msgstr "Impossible de déterminer la distribution. "
 msgid "Kernel Version"
 msgstr "Version du Noyau"
 
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/KernelVersion.pm
+msgid "Could not determine kernel version."
+msgstr "Impossible de déterminer la version du noyau. "
+
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Load.pm
 msgid "System Load"
 msgstr "Charge système"
@@ -15626,15 +15674,15 @@ msgstr ""
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/LegacyConfigBackups.pm
 msgid ""
-"Legacy configuration backup files found in %s, but they might still be "
-"required by some packages."
+"Legacy configuration backup files found in Kernel/Config/Backups folder, but"
+" they might still be required by some packages."
 msgstr ""
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/LegacyConfigBackups.pm
 msgid ""
 "Legacy configuration backup files are no longer needed for the installed "
-"packages, please remove them from %s."
+"packages, please remove them from Kernel/Config/Backups folder."
 msgstr ""
 
 #. Perl Module:
@@ -15795,10 +15843,6 @@ msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
 msgid "User default time zone is not set."
-msgstr ""
-
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
-msgid "OTRS time zone setting for calendar"
 msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
@@ -18105,6 +18149,14 @@ msgid ""
 msgstr ""
 
 #. SysConfig
+msgid "Allows generic agent to execute custom command line scripts."
+msgstr ""
+
+#. SysConfig
+msgid "Allows generic agent to execute custom modules."
+msgstr ""
+
+#. SysConfig
 msgid ""
 "Allows having a medium format ticket overview (CustomerInfo => 1 - shows "
 "also the customer information)."
@@ -18331,7 +18383,7 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Basic fulltext index settings. Execute \"bin/otrs.Console.pl "
-"Maint::Ticket::FulltextIndexRebuild\" in order to generate a new index."
+"Maint::Ticket::FulltextIndex --rebuild\" in order to generate a new index."
 msgstr ""
 
 #. SysConfig
@@ -22588,8 +22640,8 @@ msgid ""
 "Helps to extend your articles full-text search (From, To, Cc, Subject and "
 "Body search). It will strip all articles and will build an index after "
 "article creation, increasing fulltext searches about 50%. To create an "
-"initial index use \"bin/otrs.Console.pl "
-"Maint::Ticket::FulltextIndexRebuild\"."
+"initial index use \"bin/otrs.Console.pl Maint::Ticket::FulltextIndex "
+"--rebuild\"."
 msgstr ""
 
 #. SysConfig
@@ -26160,6 +26212,10 @@ msgid ""
 "Shows link to external page in the ticket zoom view of the agent interface. "
 "Additional access control to show or not show this link can be done by using"
 " Key \"Group\" and Content like \"rw:group1;move_into:group2\"."
+msgstr ""
+
+#. SysConfig
+msgid "Shows the article head information in the agent zoom view."
 msgstr ""
 
 #. SysConfig

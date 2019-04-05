@@ -26,7 +26,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.700532006178136;
+    $Self->{Completeness}        = 0.698801369863014;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -2043,7 +2043,8 @@ sub Data {
         'This email address is already used as system email address.' => '',
         'The display name and email address will be shown on mail you send.' =>
             'نام نمایش داده شده و آدرس ایمیل در ایمیلی که شما می‌فرستید نمایش داده خواهد شد.',
-        'This system address cannot be set to invalid, because it is used in one or more queue(s).' =>
+        'This system address cannot be set to invalid.' => '',
+        'This system address cannot be set to invalid, because it is used in one or more queue(s) or auto response(s).' =>
             '',
 
         # Template: AdminSystemConfiguration
@@ -2479,9 +2480,9 @@ sub Data {
         'Split' => 'جدا ساختن',
 
         # Template: AgentStatisticsAdd
-        'Statistics Overview' => '',
-        'Read more about statistics in OTRS' => '',
+        'Statistics Management' => '',
         'Add Statistics' => '',
+        'Read more about statistics in OTRS' => '',
         'Dynamic Matrix' => 'ماتریس پویا',
         'Each cell contains a singular data point.' => '',
         'Dynamic List' => 'لیست پویا',
@@ -2492,11 +2493,13 @@ sub Data {
         'Create Statistic' => 'آماردرست ',
 
         # Template: AgentStatisticsEdit
+        'Edit Statistics' => '',
         'Run now' => 'الان اجرا کن',
         'Statistics Preview' => ' پیش آمار',
         'Save Statistic' => '',
 
         # Template: AgentStatisticsImport
+        'Import Statistics' => '',
         'Import Statistics Configuration' => '',
 
         # Template: AgentStatisticsOverview
@@ -2509,6 +2512,8 @@ sub Data {
         'Delete statistic %s' => 'حذف آمار %s',
 
         # Template: AgentStatisticsView
+        'Statistics Overview' => '',
+        'View Statistics' => '',
         'Statistics Information' => '',
         'Created by' => 'ایجاد شده توسط',
         'Changed by' => 'تغییر یافته توسط',
@@ -3370,6 +3375,7 @@ sub Data {
         'There was an error synchronizing the ACLs.' => 'یک خطای هماهنگ سازی ACL وجود دارد.',
         'ACL %s could not be deleted' => 'ACL %s نمی تواند حذف شود',
         'There was an error getting data for ACL with ID %s' => 'یک خطای گرفتن داده برای ACL با ID وجود دارد %s',
+        '%s (copy) %s' => '',
         'Please note that ACL restrictions will be ignored for the Superuser account (UserID 1).' =>
             '',
         'Exact match' => 'مطابقت کامل',
@@ -3408,6 +3414,7 @@ sub Data {
         'There was an error getting data for Notification with ID:%s!' =>
             'یک خطای گرفتن داده برای هشدار  با ID وجود دارد: %s !',
         'Unknown Notification %s!' => 'هشدار نامشخص  از طریق %s !',
+        '%s (copy)' => '',
         'There was an error creating the Notification' => 'خطایی در ایجاد هشدار  وجود دارد',
         'Notifications could not be Imported due to a unknown error, please check OTRS logs for more information' =>
             'اطلاعیه نمی تواند به دلیل یک خطای ناشناخته وارد شود، لطفا OTRS سیاهه های مربوط را بررسی کنید برای اطلاعات بیشتر',
@@ -4068,11 +4075,15 @@ sub Data {
         # Perl Module: Kernel/Modules/AgentTicketBulk.pm
         'Can\'t lock Tickets, no TicketIDs are given!' => 'نمی توانید درخواست را قفل کنید، هیچ TicketIDs داده نمی شود!',
         'Ticket (%s) is not unlocked!' => 'درخواست  ( %s )باز نشده است .',
+        'The following tickets were ignored because they are locked by another agent or you don\'t have write access to tickets: %s.' =>
+            '',
+        'The following ticket was ignored because it is locked by another agent or you don\'t have write access to ticket: %s.' =>
+            '',
+        'You need to select at least one ticket.' => 'شما نیاز به انتخاب حداقل یک بلیط.',
         'Bulk feature is not enabled!' => 'از ویژگی های فله فعال نیست!',
         'No selectable TicketID is given!' => 'بدون TicketID انتخاب داده شده است!',
         'You either selected no ticket or only tickets which are locked by other agents.' =>
             'شما هم بدون بلیط و یا فقط بلیط که توسط عوامل دیگر قفل شده انتخاب شده است.',
-        'You need to select at least one ticket.' => 'شما نیاز به انتخاب حداقل یک بلیط.',
         'The following tickets were ignored because they are locked by another agent or you don\'t have write access to these tickets: %s.' =>
             '',
         'The following tickets were locked: %s.' => '',
@@ -4526,6 +4537,7 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/Layout.pm
         'Standard' => 'استاندارد',
+        'The following tickets are not updated: %s.' => '',
         'h' => 'h',
         'm' => 'm',
         'd' => 'd',
@@ -5008,6 +5020,7 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/KernelVersion.pm
         'Kernel Version' => 'نسخه اصلی',
+        'Could not determine kernel version.' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Load.pm
         'System Load' => 'بارگزاری سیستم',
@@ -5098,9 +5111,9 @@ sub Data {
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/LegacyConfigBackups.pm
         'Legacy Configuration Backups' => '',
         'No legacy configuration backup files found.' => '',
-        'Legacy configuration backup files found in %s, but they might still be required by some packages.' =>
+        'Legacy configuration backup files found in Kernel/Config/Backups folder, but they might still be required by some packages.' =>
             '',
-        'Legacy configuration backup files are no longer needed for the installed packages, please remove them from %s.' =>
+        'Legacy configuration backup files are no longer needed for the installed packages, please remove them from Kernel/Config/Backups folder.' =>
             '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/PackageDeployment.pm
@@ -5166,7 +5179,6 @@ sub Data {
         'OTRS time zone is not set.' => '',
         'User default time zone' => '',
         'User default time zone is not set.' => '',
-        'OTRS time zone setting for calendar' => '',
         'Calendar time zone is not set.' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/UI/AgentSkinUsage.pm
@@ -5997,6 +6009,9 @@ Thanks for your help!
             '',
         'Allows extended search conditions in ticket search of the generic agent interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
             'اجازه می دهد تا شرایط جستجو شده در جستجوی بلیط از رابط عامل عمومی است. با این ویژگی شما می توانید به عنوان مثال عنوان بلیط با این نوع از شرایط مانند \ جستجو "(* key1 * && * key2 *) " یا \ "(* key1 * || * key2 *) ".',
+        'Allows generic agent to execute custom command line scripts.' =>
+            '',
+        'Allows generic agent to execute custom modules.' => '',
         'Allows having a medium format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
             'اجازه می دهد تا داشتن یک دید کلی قطع متوسط ​​بلیط (CustomerInfo => 1 - نشان می دهد نیز اطلاعات مربوط به مشتری).',
         'Allows having a small format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
@@ -6066,8 +6081,8 @@ Thanks for your help!
         'Balanced white skin by Felix Niklas (slim version).' => 'پوست سفید متعادل کننده شده توسط فلیکس نیکلاس (نسخه باریک).',
         'Balanced white skin by Felix Niklas.' => 'پوست سفید متعادل کننده شده توسط فلیکس نیکلاس.',
         'Based on global RichText setting' => 'بر اساس تنظیم RichText جهانی',
-        'Basic fulltext index settings. Execute "bin/otrs.Console.pl Maint::Ticket::FulltextIndexRebuild" in order to generate a new index.' =>
-            'تنظیمات عمومی شاخص متن. اجرای \ "بن / otrs.Console.pl سیستم maint :: بلیط :: FulltextIndexRebuild " به منظور تولید یک شاخص جدید.',
+        'Basic fulltext index settings. Execute "bin/otrs.Console.pl Maint::Ticket::FulltextIndex --rebuild" in order to generate a new index.' =>
+            '',
         'Blocks all the incoming emails that do not have a valid ticket number in subject with From: @example.com address.' =>
             'بلوک تمام ایمیل های دریافتی است که یک تعداد بلیط معتبر در موضوع با از ندارید: @ example.com آدرس.',
         'Bounced to "%s".' => 'لینک ثابت به : "%s"',
@@ -7344,7 +7359,7 @@ Thanks for your help!
         'Graph: Stacked Area Chart' => 'نمودار: نمودار محیطی پشتهای',
         'Greek' => 'یونانی',
         'Hebrew' => 'عبری',
-        'Helps to extend your articles full-text search (From, To, Cc, Subject and Body search). It will strip all articles and will build an index after article creation, increasing fulltext searches about 50%. To create an initial index use "bin/otrs.Console.pl Maint::Ticket::FulltextIndexRebuild".' =>
+        'Helps to extend your articles full-text search (From, To, Cc, Subject and Body search). It will strip all articles and will build an index after article creation, increasing fulltext searches about 50%. To create an initial index use "bin/otrs.Console.pl Maint::Ticket::FulltextIndex --rebuild".' =>
             '',
         'High Contrast' => '',
         'High contrast skin for visually impaired users.' => '',
@@ -8350,6 +8365,7 @@ Thanks for your help!
         'Shows information on how to start OTRS Daemon' => 'نشان می دهد اطلاعات در مورد چگونگی شروع OTRS دیمون',
         'Shows link to external page in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
             '',
+        'Shows the article head information in the agent zoom view.' => '',
         'Shows the articles sorted normally or in reverse, under ticket zoom in the agent interface.' =>
             'مقالات طبقه بندی شده اند به طور معمول یا در جهت معکوس، تحت زوم بلیط در رابط عامل نشان می دهد.',
         'Shows the customer user information (phone and email) in the compose screen.' =>
