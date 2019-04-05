@@ -86,7 +86,7 @@ $Selenium->RunTest(
                 "return \$('table.DashboardUserOnline span.UserStatusIcon.Inline.Active:visible').length"
             ),
             "$TestUserLogin - found active status icon",
-        );
+        ) || die;
 
         # Verify only one customer user is accounted for.
         my $CustomersLink = $Selenium->find_element("//a[contains(\@id, \'UserOnlineCustomer' )]");
