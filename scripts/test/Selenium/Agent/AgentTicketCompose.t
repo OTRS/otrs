@@ -14,30 +14,28 @@ use vars (qw($Self));
 
 use Kernel::Language;
 
-# get selenium object
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
 
-        # get needed objects
         my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
         my $Helper       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-        # disable check email addresses
+        # Disable check email addresses.
         $Helper->ConfigSettingChange(
             Key   => 'CheckEmailAddresses',
             Value => 0,
         );
 
-        # do not check RichText
+        # Do not check RichText.
         $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Frontend::RichText',
             Value => 0
         );
 
-        # do not check service and type
+        # Do not check service and type.
         $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Ticket::Service',
@@ -49,20 +47,19 @@ $Selenium->RunTest(
             Value => 0
         );
 
-        # disable RequiredLock for AgentTicketCompose
+        # Disable RequiredLock for AgentTicketCompose.
         $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Ticket::Frontend::AgentTicketCompose###RequiredLock',
             Value => 0
         );
-
         $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Ticket::Frontend::AgentTicketCompose###DefaultArticleType',
             Value => 'email-internal'
         );
 
-        # use test email backend
+        # Use test email backend.
         $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'SendmailModule',
@@ -165,7 +162,7 @@ $Selenium->RunTest(
 
         my @DynamicFieldIDs;
 
-        # Create test dynamic field of type date
+        # Create test dynamic field of type date.
         for my $DynamicFieldType ( sort keys %DynamicFields ) {
 
             my $DynamicFieldID = $DynamicFieldObject->DynamicFieldAdd(
@@ -180,10 +177,9 @@ $Selenium->RunTest(
             push @DynamicFieldIDs, $DynamicFieldID;
         }
 
-        # get standard template object
         my $StandardTemplateObject = $Kernel::OM->Get('Kernel::System::StandardTemplate');
 
-        # create a new template
+        # Create a new template.
         my $TemplateID = $StandardTemplateObject->StandardTemplateAdd(
             Name     => 'New Standard Template' . $RandomID,
             Template => "Thank you for your email.
@@ -213,7 +209,7 @@ $Selenium->RunTest(
             "Standard template is created - ID $TemplateID",
         );
 
-        # assign template to the queue
+        # Assign template to the queue.
         my $Success = $Kernel::OM->Get('Kernel::System::Queue')->QueueStandardTemplateMemberAdd(
             QueueID            => 1,
             StandardTemplateID => $TemplateID,
@@ -263,10 +259,9 @@ $Selenium->RunTest(
             "UserID '$UserID' set permission for 'admin' group"
         );
 
-        # get customer user object
         my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
 
-        # add test customer for testing
+        # Add test customer for testing.
         my $TestCustomer       = 'Customer' . $RandomID;
         my $CustomerEmail      = "$TestCustomer\@localhost.com";
         my $TestCustomerUserID = $CustomerUserObject->CustomerUserAdd(
@@ -284,7 +279,7 @@ $Selenium->RunTest(
             "CustomerUserAdd - ID $TestCustomerUserID",
         );
 
-        # set customer user language
+        # Set customer user language.
         my $Language = 'es';
         $Success = $CustomerUserObject->SetPreferences(
             Key    => 'UserLanguage',
@@ -296,10 +291,9 @@ $Selenium->RunTest(
             "Customer user language is set.",
         );
 
-        # get ticket object
         my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
-        # create test ticket
+        # Create test ticket.
         my %TicketData = (
             State    => 'new',
             Priority => '4 high',
@@ -335,9 +329,8 @@ $Selenium->RunTest(
 
         my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 
+        # Set dynamic field values.
         for my $DynamicFieldType ( sort keys %DynamicFieldValues, sort keys %DynamicFieldDateValues ) {
-
-            # Set the value from the dynamic field.
             my $DynamicFieldConfig = $DynamicFieldObject->DynamicFieldGet(
                 Name => $DynamicFields{$DynamicFieldType}->{Name},
             );
@@ -350,7 +343,7 @@ $Selenium->RunTest(
             );
         }
 
-        # create test email article
+        # Create test email article.
         my $ArticleID = $TicketObject->ArticleCreate(
             TicketID       => $TicketID,
             ArticleType    => 'email-external',
@@ -374,7 +367,7 @@ $Selenium->RunTest(
             TicketID => $TicketID,
         );
 
-        # create test user and login
+        # Create test user and login.
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => [ 'admin', 'users' ],
         ) || die "Did not get test user";
@@ -385,43 +378,32 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
-        # get script alias
         my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
 
-        # navigate to created test ticket in AgentTicketZoom page
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
-
-        # click on reply
-        $Selenium->execute_script(
-            "\$('#ResponseID').val('$TemplateID').trigger('redraw.InputField').trigger('change');"
+        # Navigate to AgentTicketCompose page.
+        $Selenium->VerifiedGet(
+            "${ScriptAlias}index.pl?Action=AgentTicketCompose;TicketID=$TicketID;ArticleID=$ArticleID;ResponseID=$TemplateID"
         );
 
-        # switch to compose window
-        $Selenium->WaitFor( WindowCount => 2 );
-        my $Handles = $Selenium->get_window_handles();
-        $Selenium->switch_to_window( $Handles->[1] );
-
-        # wait without jQuery because it might not be loaded yet
-        $Selenium->WaitFor( JavaScript => 'return document.getElementById("ToCustomer");' );
-
-        # check AgentTicketCompose page
+        # Check AgentTicketCompose page.
         for my $ID (
             qw(ToCustomer CcCustomer BccCustomer Subject RichText
             FileUpload StateID ArticleTypeID submitRichText)
             )
         {
+            $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#$ID').length;" );
             my $Element = $Selenium->find_element( "#$ID", 'css' );
             $Element->is_enabled();
         }
 
         $Self->Is(
-            $Selenium->execute_script('return $("#ArticleTypeID option:selected").val()'),
+            $Selenium->execute_script('return $("#ArticleTypeID option:selected").val();'),
             2,
             "Default article type is honored",
         );
 
-        # test bug #11810 - http://bugs.otrs.org/show_bug.cgi?id=11810
-        # translate ticket data tags (e.g. <OTRS_TICKET_State> ) in standard template
+        # Test bug #11810 - http://bugs.otrs.org/show_bug.cgi?id=11810.
+        # Translate ticket data tags (e.g. <OTRS_TICKET_State> ) in standard template.
         $Kernel::OM->ObjectParamAdd(
             'Kernel::Language' => {
                 UserLanguage => $Language,
@@ -429,10 +411,10 @@ $Selenium->RunTest(
         );
         my $LanguageObject = $Kernel::OM->Get('Kernel::Language');
 
+        # Check translated values.
         for my $Item ( sort keys %TicketData ) {
             my $TransletedTicketValue = $LanguageObject->Translate( $TicketData{$Item} );
 
-            # check translated value
             $Self->True(
                 index( $Selenium->get_page_source(), $TransletedTicketValue ) > -1,
                 "Translated \'$Item\' value is found - $TransletedTicketValue .",
@@ -460,7 +442,7 @@ $Selenium->RunTest(
 
             my $TransletedDynamicFieldValue = $LanguageObject->Translate($Value);
 
-            # check dynamic field date format
+            # Check dynamic field date format.
             $Self->True(
                 index( $Selenium->get_page_source(), $DynamicFieldType . ': ' . $TransletedDynamicFieldValue . "\n" )
                     > -1,
@@ -478,25 +460,19 @@ $Selenium->RunTest(
                 'NoSeconds',
             );
 
-            # check dynamic field date format
+            # Check dynamic field date format.
             $Self->True(
                 index( $Selenium->get_page_source(), $DynamicFieldType . ': ' . $LanguageFormatDateValue . "\n" ) > -1,
                 "Translated date format for  \'DynamicField_$DynamicFields{$DynamicFieldType}->{Name}\' value is found - $LanguageFormatDateValue.",
             );
         }
 
-        # input required fields and submit compose
-        my $AutoCompleteString = "\"$TestCustomer $TestCustomer\" <$TestCustomer\@localhost.com> ($TestCustomer)";
-
-        # add test text to body
-        my $ComposeText = "Selenium Compose Text";
-        $Selenium->find_element( "#RichText", 'css' )->send_keys($ComposeText);
-
         # Try to add the same customer user, expecting server error for duplicated entry, see bug #9731.
+        $Selenium->find_element( "#RichText",   'css' )->send_keys("Selenium Compose Text");
         $Selenium->find_element( "#ToCustomer", 'css' )->send_keys($TestCustomer);
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length' );
-        $Selenium->execute_script("\$('li.ui-menu-item:contains($TestCustomer)').click()");
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".Dialog.Modal").length' );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length;' );
+        $Selenium->execute_script("\$('li.ui-menu-item:contains($TestCustomer)').click();");
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".Dialog.Modal").length;' );
 
         $Self->Is(
             $Selenium->execute_script('return $(".Dialog.Modal .Header h1").text().trim();'),
@@ -504,38 +480,25 @@ $Selenium->RunTest(
             "Warning dialog for entry duplication is found",
         );
 
-        # click 'Ok' for modal dialog 'Duplicated entry'
-        $Selenium->find_element("//button[\@id='DialogButton1'][\@type='button']")->click();
+        # Close the dialog.
+        $Selenium->find_element( "#DialogButton1", 'css' )->click();
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".Dialog.Modal").length;' );
 
-        # submit form
-        $Selenium->find_element( "#submitRichText", 'css' )->click();
+        $Selenium->find_element( "#submitRichText", 'css' )->VerifiedClick();
 
-        $Selenium->WaitFor( WindowCount => 1 );
-        $Selenium->switch_to_window( $Handles->[0] );
+        # Navigate to AgentTicketHistory page.
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketHistory;TicketID=$TicketID");
 
-        # force sub menus to be visible in order to be able to click one of the links
-        $Selenium->execute_script("\$('.Cluster ul ul').addClass('ForceVisible');");
+        # Wait until page has loaded, if necessary.
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".CancelClosePopup").length;' );
 
-        $Selenium->find_element("//*[text()='History']")->VerifiedClick();
-
-        $Selenium->WaitFor( WindowCount => 2 );
-        $Handles = $Selenium->get_window_handles();
-        $Selenium->switch_to_window( $Handles->[1] );
-
-        # wait until page has loaded, if necessary
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".CancelClosePopup").length' );
-
-        # verify that compose worked as expected
+        # Verify that compose worked as expected.
         my $HistoryText = "Email sent to \"\"$TestCustomer $TestCustomer\"";
 
         $Self->True(
             index( $Selenium->get_page_source(), $HistoryText ) > -1,
             "Compose executed correctly",
         );
-
-        $Selenium->close();
-        $Selenium->switch_to_window( $Handles->[0] );
-        $Selenium->WaitFor( WindowCount => 1 );
 
         # Test ticket lock and owner after closing AgentTicketCompose popup (see bug#12479).
         # Enable RequiredLock for AgentTicketCompose.
@@ -560,6 +523,8 @@ $Selenium->RunTest(
         # Navigate to created test ticket in AgentTicketZoom page.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
 
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#ResponseID").length;' );
+
         my %TicketDataBeforeUndo = $TicketObject->TicketGet(
             TicketID => $TicketID,
         );
@@ -581,13 +546,19 @@ $Selenium->RunTest(
 
         # Switch to compose window.
         $Selenium->WaitFor( WindowCount => 2 );
-        $Handles = $Selenium->get_window_handles();
+        my $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
 
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".UndoClosePopup").length' );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".UndoClosePopup").length;' );
+
+        $Self->Is(
+            $Selenium->execute_script('return $(".UndoClosePopup").length;'),
+            1,
+            "'.UndoClosePopup' is loaded in the page"
+        );
 
         # Click on 'Undo&Close' to close popup and set state and owner to the previous values.
-        $Selenium->execute_script('$(".UndoClosePopup").click();');
+        $Selenium->find_element( ".UndoClosePopup", 'css' )->click();
         $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
 
@@ -595,9 +566,8 @@ $Selenium->RunTest(
         my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
         $CacheObject->CleanUp( Type => 'Ticket' );
 
-        # Refresh screen.
-        $Selenium->VerifiedRefresh();
-        sleep 2;
+        # Go again to created test ticket in AgentTicketZoom page.
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
 
         my %TicketDataAfterUndo = $TicketObject->TicketGet(
             TicketID => $TicketID,
@@ -614,7 +584,7 @@ $Selenium->RunTest(
             "After undo - Ticket owner is still test user $UserID"
         ) || die;
 
-        # delete created test ticket
+        # Delete test ticket.
         $Success = $TicketObject->TicketDelete(
             TicketID => $TicketID,
             UserID   => 1,
@@ -633,7 +603,7 @@ $Selenium->RunTest(
             "Ticket with ticket ID $TicketID is deleted"
         );
 
-        # delete standard template
+        # Delete standard template.
         $Success = $StandardTemplateObject->StandardTemplateDelete(
             ID => $TemplateID,
         );
@@ -642,7 +612,7 @@ $Selenium->RunTest(
             "Standard template is deleted - ID $TemplateID"
         );
 
-        # delete created test customer user
+        # Delete test customer user.
         my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
         $TestCustomer = $DBObject->Quote($TestCustomer);
         $Success      = $DBObject->Do(
@@ -654,9 +624,8 @@ $Selenium->RunTest(
             "Delete customer user - $TestCustomer",
         );
 
+        # Delete test dynamic fields.
         for my $DynamicFieldID (@DynamicFieldIDs) {
-
-            # delete created test dynamic field
             $Success = $DynamicFieldObject->DynamicFieldDelete(
                 ID     => $DynamicFieldID,
                 UserID => 1,
