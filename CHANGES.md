@@ -1,4 +1,5 @@
 #6.0.19 ????-??-??
+ - 2019-04-12 Updated CPAN module Mozilla::CA.
  - 2019-04-04 Fixed bug#[14408](https://bugs.otrs.org/show_bug.cgi?id=14408) - Short description of CustomerID's field does not show on the views of process.
 
 #6.0.18 2019-04-26
