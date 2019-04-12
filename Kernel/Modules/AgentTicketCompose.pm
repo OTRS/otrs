@@ -2084,11 +2084,15 @@ sub _Mask {
 
             my %CustomerSearch = $CustomerUserObject->CustomerSearch(
                 PostMasterSearch => $Email->address(),
-                Limit            => 1,
             );
 
             if (%CustomerSearch) {
+
+                CUSTOMERUSER:
                 for my $CustomerUserID ( sort keys %CustomerSearch ) {
+
+                    next CUSTOMERUSER if $Param{Cc} !~ /$CustomerSearch{$CustomerUserID}/;
+
                     push @EmailAddressesCc, {
                         CustomerKey        => $CustomerUserID,
                         CustomerTicketText => $CustomerSearch{$CustomerUserID},
@@ -2120,11 +2124,15 @@ sub _Mask {
 
             my %CustomerSearch = $CustomerUserObject->CustomerSearch(
                 PostMasterSearch => $Email->address(),
-                Limit            => 1,
             );
 
             if (%CustomerSearch) {
+
+                CUSTOMERUSER:
                 for my $CustomerUserID ( sort keys %CustomerSearch ) {
+
+                    next CUSTOMERUSER if $Param{To} !~ /$CustomerSearch{$CustomerUserID}/;
+
                     push @EmailAddressesTo, {
                         CustomerKey        => $CustomerUserID,
                         CustomerTicketText => $CustomerSearch{$CustomerUserID},
