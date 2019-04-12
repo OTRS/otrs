@@ -401,22 +401,12 @@ $Selenium->RunTest(
 
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
-        # Navigate to created test ticket in AgentTicketZoom page.
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
-
-        # Click on reply.
-        $Selenium->InputFieldValueSet(
-            Element => "#ResponseID$ArticleID",
-            Value   => $TemplateID,
+        # Navigate to AgentTicketCompose page.
+        $Selenium->VerifiedGet(
+            "${ScriptAlias}index.pl?Action=AgentTicketCompose;TicketID=$TicketID;ArticleID=$ArticleID;ResponseID=$TemplateID"
         );
 
-        # Switch to compose window.
-        $Selenium->WaitFor( WindowCount => 2 );
-        my $Handles = $Selenium->get_window_handles();
-        $Selenium->switch_to_window( $Handles->[1] );
-
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#ToCustomer").length;' );
-        sleep 2;
 
         # Check duplication of customer user who doesn't exist in the system (see bug#13784).
         $Selenium->find_element( "#ToCustomer", 'css' )->send_keys( 'Test', "\N{U+E007}" );
@@ -470,7 +460,6 @@ $Selenium->RunTest(
             FileUpload StateID IsVisibleForCustomer submitRichText)
             )
         {
-            $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#$ID').length;" );
             my $Element = $Selenium->find_element( "#$ID", 'css' );
             $Element->is_enabled();
         }
@@ -490,10 +479,10 @@ $Selenium->RunTest(
         );
         my $LanguageObject = $Kernel::OM->Get('Kernel::Language');
 
+        # Check translated values.
         for my $Item ( sort keys %TicketData ) {
             my $TransletedTicketValue = $LanguageObject->Translate( $TicketData{$Item} );
 
-            # Check translated value.
             $Self->True(
                 index( $Selenium->get_page_source(), $TransletedTicketValue ) > -1,
                 "Translated \'$Item\' value is found - $TransletedTicketValue .",
@@ -566,19 +555,10 @@ $Selenium->RunTest(
 
         # Input required fields and submit compose.
         $Selenium->find_element( "#RichText",       'css' )->send_keys('Selenium Compose Text');
-        $Selenium->find_element( "#submitRichText", 'css' )->click();
+        $Selenium->find_element( "#submitRichText", 'css' )->VerifiedClick();
 
-        $Selenium->WaitFor( WindowCount => 1 );
-        $Selenium->switch_to_window( $Handles->[0] );
-
-        # Force sub menus to be visible in order to be able to click one of the links.
-        $Selenium->execute_script("\$('.Cluster ul ul').addClass('ForceVisible');");
-
-        $Selenium->find_element("//*[text()='History']")->click();
-
-        $Selenium->WaitFor( WindowCount => 2 );
-        $Handles = $Selenium->get_window_handles();
-        $Selenium->switch_to_window( $Handles->[1] );
+        # Navigate to AgentTicketHistory page.
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketHistory;TicketID=$TicketID");
 
         # Wait until page has loaded, if necessary.
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".CancelClosePopup").length;' );
@@ -589,10 +569,6 @@ $Selenium->RunTest(
             index( $Selenium->get_page_source(), $HistoryText ) > -1,
             'Compose executed correctly'
         );
-
-        $Selenium->close();
-        $Selenium->switch_to_window( $Handles->[0] );
-        $Selenium->WaitFor( WindowCount => 1 );
 
         $Helper->ConfigSettingChange(
             Valid => 1,
@@ -623,6 +599,8 @@ $Selenium->RunTest(
         # Navigate to created test ticket in AgentTicketZoom page.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
 
+        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#ResponseID$ArticleID').length;" );
+
         my %TicketDataBeforeUndo = $TicketObject->TicketGet(
             TicketID => $TicketID,
         );
@@ -645,11 +623,12 @@ $Selenium->RunTest(
 
         # Switch to compose window.
         $Selenium->WaitFor( WindowCount => 2 );
-        $Handles = $Selenium->get_window_handles();
+        my $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
 
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".UndoClosePopup").length;' );
-        sleep 2;
+        $Selenium->WaitForjQueryEventBound(
+            CSSSelector => '.UndoClosePopup',
+        );
 
         # Check if Ticket number is shown correctly in text field.
         # See bug#133995 https://bugs.otrs.org/show_bug.cgi?id=13995
@@ -671,9 +650,8 @@ $Selenium->RunTest(
         my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
         $CacheObject->CleanUp( Type => 'Ticket' );
 
-        # Refresh screen.
-        $Selenium->VerifiedRefresh();
-        sleep 2;
+        # Navigate to created test ticket in AgentTicketZoom page.
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
 
         my %TicketDataAfterUndo = $TicketObject->TicketGet(
             TicketID => $TicketID,
