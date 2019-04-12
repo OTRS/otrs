@@ -1,4 +1,5 @@
 #5.0.36 ????-??-??
+ - 2019-04-12 Updated CPAN module Mozilla::CA.
 
 #5.0.35 2019-04-26
  - 2019-04-03 Synchronized translation files.
