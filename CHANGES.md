@@ -1,4 +1,5 @@
 #6.0.19 ????-??-??
+ - 2019-04-16 Fixed bug#[14494](https://bugs.otrs.org/show_bug.cgi?id=14494) - Wrong service selection in AgentTicketSearch.
  - 2019-04-12 Fixed bug#[14400](https://bugs.otrs.org/show_bug.cgi?id=14400) - Reply add more then one email address - for every connected customeruser table one address.
  - 2019-04-12 Updated CPAN module Mozilla::CA.
  - 2019-04-04 Fixed bug#[14408](https://bugs.otrs.org/show_bug.cgi?id=14408) - Short description of CustomerID's field does not show on the views of process.

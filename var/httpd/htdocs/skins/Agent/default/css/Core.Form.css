@@ -347,6 +347,14 @@ button.Reset:active {
     width: 16px;
 }
 
+.DialogTreeSearch span {
+    color: #AAAAAA;
+    cursor: pointer;
+    font-weight: bold;
+    position: relative;
+    right: 10px;
+}
+
 #TreeContainer #TreeSearch input {
     display: block;
     margin: 10px 12px 0px 12px;

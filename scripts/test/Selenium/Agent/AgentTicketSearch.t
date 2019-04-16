@@ -664,6 +664,67 @@ $Selenium->RunTest(
             "TicketID $TicketIDs[2] is found in the table"
         );
 
+        # Verify tree selection view in AgentTicketSearch for multiple fields. See bug#14494.
+        $Helper->ConfigSettingChange(
+            Key   => 'ModernizeFormFields',
+            Value => 0,
+        );
+
+        # Refresh screen.
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketSearch");
+        $Selenium->WaitForjQueryEventBound(
+            CSSSelector => '#Attribute',
+            Event       => 'change',
+        );
+
+        $Selenium->InputFieldValueSet(
+            Element => '#Attribute',
+            Value   => 'QueueIDs',
+        );
+        $Selenium->InputFieldValueSet(
+            Element => '#Attribute',
+            Value   => 'CreatedQueueIDs',
+        );
+
+        # Click to show tree selection for both fields.
+        $Selenium->WaitForjQueryEventBound(
+            CSSSelector => '.ShowTreeSelection',
+        );
+        $Selenium->execute_script("\$('.ShowTreeSelection').click();");
+
+        $Selenium->WaitForjQueryEventBound(
+            CSSSelector => '.DialogTreeSearch > input',
+            Event       => 'keyup',
+        );
+
+        # Filter by Created in Queue.
+        $Selenium->execute_script(
+            "\$('#CreatedQueueIDs').siblings('.DialogTreeSearch').find('input').val('Junk').keyup();");
+
+        # Verify only one visible entry is found in tree view selection for Created in Queue.
+        $Self->True(
+            $Selenium->execute_script(
+                "return \$('#CreatedQueueIDs').siblings('#JSTree').find('ul li:visible').length === 1;"),
+            "Tree view filter for Created in Queue correctly found expected value."
+        );
+
+        # Filter by Queue.
+        $Selenium->execute_script("\$('#QueueIDs').siblings('.DialogTreeSearch').find('input').val('Misc').keyup();");
+
+        # Verify only one visible entry is found in tree view selection for Created in Queue.
+        $Self->True(
+            $Selenium->execute_script("return \$('#QueueIDs').siblings('#JSTree').find('ul li:visible').length === 1;"),
+            "Tree view filter for Queue correctly found expected value."
+        );
+
+        # Click to remove filter for Queue and verify that Created in Queue remained filtered.
+        $Selenium->execute_script("\$('#QueueIDs').siblings('.DialogTreeSearch').find('span').click();");
+        $Self->True(
+            $Selenium->execute_script(
+                "return \$('#CreatedQueueIDs').siblings('#JSTree').find('ul li:visible').length === 1;"),
+            "Tree view filter for CreatedQueueIDs correctly found expected value after removing Queue tree view filter."
+        );
+
         # Change test user language and verify searchable Article Fields are translated.
         # See bug#13913 (https://bugs.otrs.org/show_bug.cgi?id=13913).
 

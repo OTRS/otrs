@@ -251,6 +251,7 @@ Core.UI.TreeSelection = (function (TargetNS) {
                 .jstree('destroy')
                 .remove();
             $SelectObj.show();
+            $TriggerObj.siblings('.DialogTreeSearch').remove();
             return false;
         }
 
@@ -357,6 +358,28 @@ Core.UI.TreeSelection = (function (TargetNS) {
                 .prepend($TreeObj)
                 .prepend('<div id="TreeSearch"><input type="text" id="TreeSearchInput" placeholder="' + Core.Language.Translate('Search') + '..." /><span title="' + Core.Language.Translate('Delete') + '">x</span></div>')
                 .append('<input type="button" id="SubmitTree" class="Primary" title="' + Core.Language.Translate('Apply') + '" value="' + Core.Language.Translate('Apply') + '" />');
+
+            // Get the element which is currently being focused and set the focus to the search field
+            $CurrentFocusedObj = document.activeElement;
+            $('#TreeSearch').find('input').focus();
+
+            $('#TreeSearch').find('input').on('keyup', function() {
+                $TreeObj.jstree('search', $(this).val());
+
+                // Make sure sub-trees of matched nodes are expanded
+                $('.jstree-search')
+                    .parent()
+                    .removeClass('jstree-open')
+                    .addClass('jstree-closed')
+                    .find('ins').click(function() {
+                        $(this).nextAll('ul').find('li').show();
+                    });
+            });
+
+            $('#TreeSearch').find('span').on('click', function() {
+                $(this).prev('input').val('');
+                $TreeObj.jstree('clear_search');
+            });
         }
         else {
             $TreeObj
@@ -365,29 +388,28 @@ Core.UI.TreeSelection = (function (TargetNS) {
                 .show();
             $SelectObj.hide();
             $TriggerObj.addClass('TreeSelectionVisible');
+            $('<div class="DialogTreeSearch"><input type="text" class="W50pc" id="TreeSearchInput" placeholder="' + Core.Language.Translate('Search') + '..." /><span title="' + Core.Language.Translate('Delete') + '">x</span></div>').insertBefore($TreeObj);
+
+            $('.DialogTreeSearch').find('input').on('keyup', function() {
+                $(this).closest('.Field').find('#JSTree').jstree('search', $(this).val());
+
+                // Make sure sub-trees of matched nodes are expanded
+                $(this).find('.jstree-search')
+                    .parent()
+                    .removeClass('jstree-open')
+                    .addClass('jstree-closed')
+                    .find('ins').click(function() {
+                        $(this).nextAll('ul').find('li').show();
+                    });
+            });
+
+            // Clear only search input of JTress, which is clicked.
+            // There can be more on the search screen.
+            $('.DialogTreeSearch').find('span').on('click', function() {
+                $(this).prev('input').val('');
+                $(this).closest('.Field').find('#JSTree').jstree('clear_search');
+            });
         }
-
-        // Get the element which is currently being focused and set the focus to the search field
-        $CurrentFocusedObj = document.activeElement;
-        $('#TreeSearch').find('input').focus();
-
-        $('#TreeSearch').find('input').on('keyup', function() {
-            $TreeObj.jstree('search', $(this).val());
-
-            // Make sure sub-trees of matched nodes are expanded
-            $('.jstree-search')
-                .parent()
-                .removeClass('jstree-open')
-                .addClass('jstree-closed')
-                .find('ins').click(function() {
-                    $(this).nextAll('ul').find('li').show();
-                });
-        });
-
-        $('#TreeSearch').find('span').on('click', function() {
-            $(this).prev('input').val('');
-            $TreeObj.jstree('clear_search');
-        });
 
         $('#TreeContainer').find('input#SubmitTree').on('click', function() {
             var SelectedObj = $TreeObj.jstree('get_selected', true),
