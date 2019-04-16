@@ -244,9 +244,81 @@ $Selenium->RunTest(
             "Customer auto complete field after focus lost"
         );
 
-        # Close AgentTicketCustomer screen.
-        $Selenium->close();
+        # Check if CustomerID read only field can be disabled. See bug#14412.
+        # Disable CustomerID read only.
+        $Selenium->find_element( "a.CancelClosePopup", 'css' )->click();
+
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'Ticket::Frontend::AgentTicketCustomer::CustomerIDReadOnly',
+            Value => 0
+        );
+
+        # Wait for update.
         $Selenium->WaitFor( WindowCount => 1 );
+        $Selenium->switch_to_window( $Handles->[0] );
+
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketIDs[0]");
+
+        # Force sub menus to be visible in order to be able to click one of the links.
+        $Selenium->execute_script("\$('.Cluster ul ul').addClass('ForceVisible');");
+
+        # Go to AgentTicketCustomer, it causes open popup screen, wait will be done by WaitFor.
+        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketCustomer' )]")->click();
+
+        # Switch to another window.
+        $Selenium->WaitFor( WindowCount => 2 );
+        $Handles = $Selenium->get_window_handles();
+        $Selenium->switch_to_window( $Handles->[1] );
+
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof($) === "function" && $("#SelectionCustomerID").length === 1'
+        );
+
+        my $RandomCustomerUser = 'RandomCustomerUser' . $Helper->GetRandomID();
+        $Selenium->find_element( "#CustomerAutoComplete", 'css' )->clear();
+        $Selenium->find_element( "#CustomerID",           'css' )->clear();
+        $Selenium->find_element( "#CustomerAutoComplete", 'css' )->send_keys($RandomCustomerUser);
+        $Selenium->find_element( "#CustomerID",           'css' )->send_keys($RandomCustomerUser);
+
+        # Check if select button is enabled.
+        $Self->Is(
+            $Selenium->execute_script("return \$('#SelectionCustomerID').prop('disabled')"),
+            0,
+            "Button to select a other CustomerID is disabled",
+        );
+
+        # Check if CustomerID is not cleared on blur event.
+        $Selenium->find_element( "#CustomerAutoComplete", 'css' )->click();
+        $Selenium->find_element( "#CustomerID",           'css' )->click();
+
+        $Self->Is(
+            $Selenium->execute_script("return \$('#CustomerID').val().trim();"),
+            $RandomCustomerUser,
+            "CustomerID is not cleared"
+        );
+
+        # Return CustomerID read only to default.
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'Ticket::Frontend::AgentTicketCustomer::CustomerIDReadOnly',
+            Value => 1
+        );
+
+        $Selenium->find_element( "#Submit", 'css' )->click();
+
+        # Wait for update.
+        $Selenium->WaitFor( WindowCount => 1 );
+        $Selenium->switch_to_window( $Handles->[0] );
+
+        # Check if CustomerID is changed correctly.
+        $Self->True(
+            $Selenium->find_element(
+                "//a[contains(\@href, \'Action=AgentCustomerInformationCenter;CustomerID=$RandomCustomerUser')]"
+            ),
+            "CustomerID is change to $RandomCustomerUser",
+        );
 
         # Delete created test tickets.
         for my $TicketID (@TicketIDs) {

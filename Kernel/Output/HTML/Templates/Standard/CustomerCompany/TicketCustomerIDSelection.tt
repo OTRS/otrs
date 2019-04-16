@@ -8,7 +8,7 @@
 
 <label for="CustomerID"[% IF Required %] class="Mandatory"[% END %]>[% IF Required %]<span class="Marker">*</span> [% END %][% Translate("Customer ID") | html %]:</label>
 <div class="Field">
-    <input type="text" name="CustomerID" id="CustomerID" value="[% Data.CustomerID | html %]"  readonly="readonly" class="W75pc[% IF Required %] Validate_Required[% END %] [% Data.CustomerIDInvalid | html %]"/>
+    <input type="text" name="CustomerID" id="CustomerID" value="[% Data.CustomerID | html %]" [% IF Readonly %] readonly="readonly" [% END %] class="W75pc[% IF Required %] Validate_Required[% END %] [% Data.CustomerIDInvalid | html %]"/>
 [% IF Required %]
     <div id="CustomerAutoCompleteError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
     <div id="CustomerAutoCompleteServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
