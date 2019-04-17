@@ -383,7 +383,7 @@ $Selenium->RunTest(
         $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
 
         # Set auto response to test address,
-        # and check if will redurn server error if system address set invalid.
+        # and check if will return server error if system address set invalid.
         $Success = $AutoResponseObject->AutoResponseUpdate(
             ID          => $AutoResponseID,
             Name        => $AutoResponseNameRand,
@@ -402,8 +402,13 @@ $Selenium->RunTest(
 
         $Selenium->find_element( "#Submit", 'css' )->click();
 
+        $Selenium->WaitFor(
+            JavaScript => 'return typeof($) === "function" && $(".Dialog:visible").length === 1;'
+        );
+
         # Confirm JS error.
         $Selenium->find_element( "#DialogButton1", 'css' )->click();
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".Dialog.Modal").length' );
 
         $Self->Is(
             $Selenium->execute_script(
@@ -450,8 +455,13 @@ $Selenium->RunTest(
         $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#Submit", 'css' )->click();
 
+        $Selenium->WaitFor(
+            JavaScript => 'return typeof($) === "function" && $(".Dialog:visible").length === 1;'
+        );
+
         # Confirm JS error.
         $Selenium->find_element( "#DialogButton1", 'css' )->click();
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".Dialog.Modal").length' );
 
         $Self->Is(
             $Selenium->execute_script(
