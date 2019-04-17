@@ -312,6 +312,13 @@ $Selenium->RunTest(
         $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
 
+        $Selenium->VerifiedRefresh();
+
+        # Wait for "Customer Information".
+        $Selenium->WaitFor(
+            JavaScript => 'return typeof($) === "function" && $(".SidebarColumn fieldset .Value").length'
+        );
+
         # Check if CustomerID is changed correctly.
         $Self->True(
             $Selenium->find_element(
