@@ -3943,6 +3943,15 @@ sub _FromOTRSTimeZone {
     );
     $DateTimeObject->ToTimeZone( TimeZone => $Param{TimeZone} );
 
+    if ( !$DateTimeObject ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Error creating DateTime object.",
+        );
+
+        return;
+    }
+
     return $DateTimeObject->ToString();
 }
 
@@ -3979,6 +3988,16 @@ sub _ToOTRSTimeZone {
         'Kernel::System::DateTime',
         ObjectParams => \%Param,
     );
+
+    if ( !$DateTimeObject ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Error creating DateTime object.",
+        );
+
+        return;
+    }
+
     $DateTimeObject->ToOTRSTimeZone();
 
     return $DateTimeObject->ToString();

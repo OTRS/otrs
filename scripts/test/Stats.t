@@ -598,6 +598,29 @@ $Self->True(
     'StatsCleanUp() - clean up stats',
 );
 
+# Check _ToOTRSTimeZone for invalid date (Daylight Saving Time).
+# See bug#14511 for more information.
+my $String = $StatsObject->_ToOTRSTimeZone(
+    String   => '2019-03-31 02:30:00',
+    TimeZone => 'Europe/Berlin',
+);
+
+$Self->False(
+    $String,
+    '_ToOTRSTimeZone() - invalid date',
+);
+
+# Check _ToOTRSTimeZone for valid date.
+$String = $StatsObject->_ToOTRSTimeZone(
+    String   => '2019-03-31 12:30:00',
+    TimeZone => 'Europe/Berlin',
+);
+
+$Self->True(
+    $String,
+    '_ToOTRSTimeZone() - valid date',
+);
+
 # cleanup is done by RestoreDatabase
 
 1;
