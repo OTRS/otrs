@@ -437,11 +437,17 @@ JAVASCRIPT
                 "//a[contains(\@href, \'Action=AgentStatistics;Subaction=DeleteAction;StatID=$StatsIDLast\' )]"
             )->VerifiedClick();
 
+            $Selenium->VerifiedRefresh();
+            $Selenium->WaitFor(
+                JavaScript =>
+                    "return typeof(\$) === 'function' && !\$('a[href*=\"Action=AgentStatistics;Subaction=Edit;StatID=$StatsIDLast\"]').length;"
+            );
+
             $Self->True(
                 index( $Selenium->get_page_source(), "Action=AgentStatistics;Subaction=Edit;StatID=$StatsIDLast" )
                     == -1,
                 "StatsData statistic is deleted - $StatsData->{Title} "
-            );
+            ) || die;
         }
 
         my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
