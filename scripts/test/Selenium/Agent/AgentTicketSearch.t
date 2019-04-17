@@ -26,6 +26,12 @@ $Selenium->RunTest(
             Value => 0,
         );
 
+        # Enable ModernizeFormFields.
+        $Helper->ConfigSettingChange(
+            Key   => 'ModernizeFormFields',
+            Value => 1,
+        );
+
         my $RandomID = $Helper->GetRandomID();
 
         my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
@@ -699,29 +705,48 @@ $Selenium->RunTest(
 
         # Filter by Created in Queue.
         $Selenium->execute_script(
-            "\$('#CreatedQueueIDs').siblings('.DialogTreeSearch').find('input').val('Junk').keyup();");
+            "\$('#CreatedQueueIDs').siblings('.DialogTreeSearch').find('input').val('Junk').trigger('keyup');"
+        );
 
         # Verify only one visible entry is found in tree view selection for Created in Queue.
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return \$('#CreatedQueueIDs').siblings('.JSTreeField').find('ul li a').hasClass('jstree-search');"
+        );
         $Self->True(
             $Selenium->execute_script(
-                "return \$('#CreatedQueueIDs').siblings('#JSTree').find('ul li:visible').length === 1;"),
+                "return \$('#CreatedQueueIDs').siblings('.JSTreeField').find('ul li a').hasClass('jstree-search');"
+            ),
             "Tree view filter for Created in Queue correctly found expected value."
         );
 
         # Filter by Queue.
-        $Selenium->execute_script("\$('#QueueIDs').siblings('.DialogTreeSearch').find('input').val('Misc').keyup();");
+        $Selenium->execute_script(
+            "\$('#QueueIDs').siblings('.DialogTreeSearch').find('input').val('Misc').trigger('keyup');"
+        );
 
         # Verify only one visible entry is found in tree view selection for Created in Queue.
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return \$('#QueueIDs').siblings('.JSTreeField').find('ul li a').hasClass('jstree-search');"
+        );
         $Self->True(
-            $Selenium->execute_script("return \$('#QueueIDs').siblings('#JSTree').find('ul li:visible').length === 1;"),
+            $Selenium->execute_script(
+                "return \$('#QueueIDs').siblings('.JSTreeField').find('ul li a').hasClass('jstree-search');"
+            ),
             "Tree view filter for Queue correctly found expected value."
         );
 
         # Click to remove filter for Queue and verify that Created in Queue remained filtered.
         $Selenium->execute_script("\$('#QueueIDs').siblings('.DialogTreeSearch').find('span').click();");
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return !\$('#QueueIDs').siblings('.JSTreeField').find('ul li a').hasClass('jstree-search');"
+        );
         $Self->True(
             $Selenium->execute_script(
-                "return \$('#CreatedQueueIDs').siblings('#JSTree').find('ul li:visible').length === 1;"),
+                "return \$('#CreatedQueueIDs').siblings('.JSTreeField').find('ul li a').hasClass('jstree-search');"
+            ),
             "Tree view filter for CreatedQueueIDs correctly found expected value after removing Queue tree view filter."
         );
 

@@ -222,7 +222,7 @@ Core.UI.TreeSelection = (function (TargetNS) {
      */
     TargetNS.ShowTreeSelection = function($TriggerObj) {
 
-        var $TreeObj = $('<div id="JSTree"><ul></ul></div>'),
+        var $TreeObj = $('<div class="JSTreeField"><ul></ul></div>'),
             $SelectObj = $TriggerObj.prevAll('select'),
             SelectSize = $SelectObj.attr('size'),
             Multiple = ($SelectObj.attr('multiple') !== '' && $SelectObj.attr('multiple') !== undefined) ? true : false,
@@ -388,10 +388,10 @@ Core.UI.TreeSelection = (function (TargetNS) {
                 .show();
             $SelectObj.hide();
             $TriggerObj.addClass('TreeSelectionVisible');
-            $('<div class="DialogTreeSearch"><input type="text" class="W50pc" id="TreeSearchInput" placeholder="' + Core.Language.Translate('Search') + '..." /><span title="' + Core.Language.Translate('Delete') + '">x</span></div>').insertBefore($TreeObj);
+            $('<div class="DialogTreeSearch"><input type="text" class="W50pc" placeholder="' + Core.Language.Translate('Search') + '..." /><span title="' + Core.Language.Translate('Delete') + '">x</span></div>').insertBefore($TreeObj);
 
             $('.DialogTreeSearch').find('input').on('keyup', function() {
-                $(this).closest('.Field').find('#JSTree').jstree('search', $(this).val());
+                $(this).closest('.Field').find('.JSTreeField').jstree('search', $(this).val());
 
                 // Make sure sub-trees of matched nodes are expanded
                 $(this).find('.jstree-search')
@@ -407,7 +407,7 @@ Core.UI.TreeSelection = (function (TargetNS) {
             // There can be more on the search screen.
             $('.DialogTreeSearch').find('span').on('click', function() {
                 $(this).prev('input').val('');
-                $(this).closest('.Field').find('#JSTree').jstree('clear_search');
+                $(this).closest('.Field').find('.JSTreeField').jstree('clear_search');
             });
         }
 

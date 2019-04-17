@@ -361,7 +361,7 @@ button.Reset:active {
     width: 92%;
 }
 
-#JSTree {
+.JSTreeField {
     background-color: #FFFFFF;
     border: 1px solid #ccc;
     height: 72%;
@@ -373,26 +373,26 @@ button.Reset:active {
     padding: 0px 10px 10px 10px;
 }
 
-#JSTree.InOverlay {
+.JSTreeField.InOverlay {
     margin: 5px 5px 5px 0px;
     width: 85%;
     float: left;
 }
 
-#JSTree .Disabled > a {
+.JSTreeField .Disabled > a {
     color: #aaa;
     font-style: italic;
 }
 
-#JSTree .jstree-search {
+.JSTreeField .jstree-search {
     color: #E07006;
 }
 
-#JSTree .jstree-search.jstree-clicked {
+.JSTreeField .jstree-search.jstree-clicked {
     color: #000;
 }
 
-#JSTree .jstree-clicked {
+.JSTreeField .jstree-clicked {
     background: #f3960d;
     background: -moz-linear-gradient(top,  #ffe7bd 0%, #fbba49 20%, #f6ad3e 51%, #f3960d 51%, #e98207 95%, #e07006 100%);
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffe7bd), color-stop(20%,#fbba49), color-stop(51%,#f6ad3e), color-stop(51%,#f3960d), color-stop(95%,#e98207), color-stop(100%,#e07006));
@@ -404,12 +404,12 @@ button.Reset:active {
     padding: 0px 3px;
 }
 
-#JSTree .jstree-hovered {
+.JSTreeField .jstree-hovered {
     background-color: #eee;
     border-color: #ddd;
 }
 
-#JSTree a:focus {
+.JSTreeField a:focus {
     background-color: #eee;
     border-color: #ddd;
 }
