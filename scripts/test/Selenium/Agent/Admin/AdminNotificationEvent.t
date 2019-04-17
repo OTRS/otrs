@@ -480,6 +480,12 @@ $Selenium->RunTest(
 
         $Selenium->find_element("//button[\@value=\'Upload Notification configuration']")->VerifiedClick();
 
+        my $ErrorMessage = 'There where errors adding/updating the following Notifications';
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return typeof(\$) === 'function' && !\$('tr.Invalid td a:contains($ErrorMessage)').length;"
+        );
+
         $Selenium->find_element(
             "//p[contains(text(), \'There where errors adding/updating the following Notifications')]"
         );
