@@ -94,11 +94,20 @@ $Selenium->RunTest(
             JavaScript => "return typeof(\$) === 'function' && \$('#Invoker').length === 1"
         );
 
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
+        );
+
         my $InvokerName = "Invoker$RandomID";
         $Selenium->find_element( '#Invoker', 'css' )->send_keys($InvokerName);
 
         # Click on 'Save'.
-        $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
+        $Selenium->find_element( "#Submit", 'css' )->click();
+
+        $Selenium->WaitFor(
+            JavaScript => "return typeof(\$) === 'function' && \$('#EventType').length === 1"
+        );
 
         # Check if Modernize class is included to Add Event Trigger select.
         $Self->Is(
