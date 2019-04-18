@@ -375,13 +375,17 @@ div.DnDUploadBox {
 div.DnDUpload {
     border: 1px solid #ccc;
     color: #aaa;
-    height: 60px;
-    line-height: 85px;
+    min-height: 60px;
     text-align: center;
     position: relative;
     margin-bottom: 5px;
     max-width: 622px;
     box-sizing: border-box;
+}
+
+span.ReadyForUpload {
+    padding: 30px 0px 5px;
+    display: block;
 }
 
 div.DnDUpload:focus {

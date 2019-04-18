@@ -1,4 +1,5 @@
 #6.0.19 ????-??-??
+ - 2019-04-18 Fixed bug#[14482](https://bugs.otrs.org/show_bug.cgi?id=14482) - File upload help text is wrapped and overflow in small resolution.
  - 2019-04-17 Fixed bug#[14511](https://bugs.otrs.org/show_bug.cgi?id=14511) - Statistic does not work during daylight saving time.
  - 2019-04-17 Fixed bug#[14427](https://bugs.otrs.org/show_bug.cgi?id=14427) - Fulltext search has no result if search term contains backslash followed by white space.
  - 2019-04-16 Fixed bug#[14412](https://bugs.otrs.org/show_bug.cgi?id=14412) - Customerid is not a free field when changing customer from AgentTicketZoom.
