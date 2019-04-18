@@ -273,6 +273,8 @@ sub Run {
             }
         }
 
+        $GetParam{NewQueueID} = $NewQueueID;
+
         # use default if ticket type is not available in screen but activated on system
         if ( $ConfigObject->Get('Ticket::Type') && !$Config->{'TicketType'} ) {
             my %TypeList = reverse $TicketObject->TicketTypeList(
