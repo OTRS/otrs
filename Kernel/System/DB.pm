@@ -1502,7 +1502,7 @@ sub QueryCondition {
                     return "1=0";
                 }
                 elsif (
-                       $SQL !~ m/ AND $/
+                    $SQL !~ m/ AND $/
                     && $Position + 3 < $#Array
                     || ( $Position + 3 == $#Array && $Array[$Position] eq '&' && $Array[ $Position - 1 ] eq ')' )
                     )
@@ -1522,7 +1522,7 @@ sub QueryCondition {
                     return "1=0";
                 }
                 elsif (
-                       $SQL !~ m/ OR $/
+                    $SQL !~ m/ OR $/
                     && $Position + 3 < $#Array
                     || ( $Position + 3 == $#Array && $Array[$Position] eq '&' && $Array[ $Position - 1 ] eq ')' )
                     )
