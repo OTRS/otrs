@@ -703,10 +703,10 @@ $Selenium->RunTest(
             Event       => 'keyup',
         );
 
+        my @SearchElements = $Selenium->find_elements("//input[contains(\@placeholder,'Search...')]");
+
         # Filter by Created in Queue.
-        $Selenium->execute_script(
-            "\$('#CreatedQueueIDs').siblings('.DialogTreeSearch').find('input').val('Junk').trigger('keyup');"
-        );
+        $SearchElements[1]->send_keys('Junk');
 
         # Verify only one visible entry is found in tree view selection for Created in Queue.
         $Selenium->WaitFor(
@@ -721,9 +721,7 @@ $Selenium->RunTest(
         );
 
         # Filter by Queue.
-        $Selenium->execute_script(
-            "\$('#QueueIDs').siblings('.DialogTreeSearch').find('input').val('Misc').trigger('keyup');"
-        );
+        $SearchElements[0]->send_keys('Misc');
 
         # Verify only one visible entry is found in tree view selection for Created in Queue.
         $Selenium->WaitFor(
