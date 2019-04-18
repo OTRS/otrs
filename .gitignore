@@ -7,6 +7,7 @@
 .DS_Store
 *.swp
 *.swo
+.vstags
 *~
 
 # OTRS
