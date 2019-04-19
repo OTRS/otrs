@@ -288,7 +288,6 @@ $Selenium->RunTest(
         # Switch window back.
         $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
-
         sleep 2;
 
         # Verify new URL.
@@ -315,7 +314,7 @@ $Selenium->RunTest(
         }
         $Self->True(
             $Success,
-            "TicketDelete - ID $TicketID"
+            "Deleted test ticket - $TicketID",
         );
 
         # Delete created test dynamic fields.
