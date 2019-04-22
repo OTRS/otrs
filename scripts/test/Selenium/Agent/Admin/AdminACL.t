@@ -664,9 +664,18 @@ JAVASCRIPT
             TicketID => $TicketID,
             UserID   => 1,
         );
+
+        # Ticket deletion could fail if apache still writes to ticket history. Try again in this case.
+        if ( !$Success ) {
+            sleep 3;
+            $Success = $TicketObject->TicketDelete(
+                TicketID => $TicketID,
+                UserID   => 1,
+            );
+        }
         $Self->True(
             $Success,
-            "TicketID $TicketID is deleted",
+            "Deleted test ticket - $TicketID",
         );
 
         # Delete queues.
@@ -682,13 +691,13 @@ JAVASCRIPT
             }
         }
 
-        # navigate to AdminACL screen
+        # Navigate to AdminACL screen.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminACL");
 
-        # sync ACL information from database with the system configuration
+        # Sync ACL information from database with the system configuration.
         $Selenium->find_element("//a[contains(\@href, 'Action=AdminACL;Subaction=ACLDeploy' )]")->VerifiedClick();
 
-        # make sure the cache is correct
+        # Make sure the cache is correct.
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
             Type => 'ACLEditor_ACL',
         );
