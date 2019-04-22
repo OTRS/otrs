@@ -217,7 +217,8 @@ $Selenium->RunTest(
         ) || die;
 
         # Click to expand article widget information and verify css.
-        $Selenium->find_element( '.WidgetAction.Expand', 'css' )->click();
+        $Selenium->execute_script("\$('.WidgetAction.Expand').click();");
+
         $Selenium->WaitFor(
             JavaScript => 'return typeof($) === "function" && $(".WidgetMenu").hasClass("SpacingBottom");'
         );
