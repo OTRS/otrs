@@ -697,16 +697,12 @@ $Selenium->RunTest(
             CSSSelector => '.ShowTreeSelection',
         );
         $Selenium->execute_script("\$('.ShowTreeSelection').click();");
-
-        $Selenium->WaitForjQueryEventBound(
-            CSSSelector => '.DialogTreeSearch > input',
-            Event       => 'keyup',
-        );
+        sleep 1;
 
         my @SearchElements = $Selenium->find_elements("//input[contains(\@placeholder,'Search...')]");
 
         # Filter by Created in Queue.
-        $SearchElements[1]->send_keys( 'Junk', "\N{U+E015}" );
+        $SearchElements[1]->send_keys( 'Junk' );
 
         # Verify only one visible entry is found in tree view selection for Created in Queue.
         $Selenium->WaitFor(
@@ -721,7 +717,7 @@ $Selenium->RunTest(
         );
 
         # Filter by Queue.
-        $SearchElements[0]->send_keys( 'Misc', "\N{U+E015}" );
+        $SearchElements[0]->send_keys( 'Misc' );
 
         # Verify only one visible entry is found in tree view selection for Created in Queue.
         $Selenium->WaitFor(
