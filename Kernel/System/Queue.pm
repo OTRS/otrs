@@ -750,7 +750,7 @@ add queue with attributes
         Name                => 'Some::Queue',
         ValidID             => 1,
         GroupID             => 1,
-        Calendar            => 'Calendar1', # (optional)
+        Calendar            => '1',         # (optional)
         FirstResponseTime   => 120,         # (optional)
         FirstResponseNotify => 60,          # (optional, notify agent if first response escalation is 60% reached)
         UpdateTime          => 180,         # (optional)

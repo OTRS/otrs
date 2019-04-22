@@ -67,7 +67,7 @@ sub Configure {
     );
     $Self->AddOption(
         Name        => 'first-response-time',
-        Description => 'Ticket first respone time in minutes for the new queue.',
+        Description => 'Ticket first response time in minutes for the new queue.',
         Required    => 0,
         HasValue    => 1,
         ValueRegex  => qr/\d/smx,
@@ -88,7 +88,7 @@ sub Configure {
     );
     $Self->AddOption(
         Name        => 'calendar',
-        Description => 'Name of the calendar for the new queue.',
+        Description => 'Calendar order number for the new queue.',
         Required    => 0,
         HasValue    => 1,
         ValueRegex  => qr/.*/smx,
