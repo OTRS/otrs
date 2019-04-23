@@ -465,6 +465,13 @@ JAVASCRIPT
                 "return !\$('#UserSkin').closest('.WidgetSimple').hasClass('HasOverlay')"
         );
 
+        $Self->True(
+            $Selenium->find_element(
+                "//div[contains(\@class, 'MessageBox Notice' )]//a[contains(\@href, 'Action=AgentPreferences;Subaction=Group;Group=Miscellaneous' )]"
+            ),
+            "Notification contains user miscellaneous group link"
+        );
+
         # check, if reload notification is shown
         $LanguageObject = Kernel::Language->new(
             UserLanguage => "en",
@@ -477,6 +484,13 @@ JAVASCRIPT
         $Selenium->WaitFor(
             JavaScript =>
                 "return \$('div.MessageBox.Notice:contains(\"" . $NotificationTranslation . "\")').length"
+        );
+
+        $Self->True(
+            $Selenium->find_element(
+                "//div[contains(\@class, 'MessageBox Notice' )]//a[contains(\@href, 'Action=AgentPreferences;Subaction=Group;Group=UserProfile' )]"
+            ),
+            "Notification contains user profile group link"
         );
 
         # reload the screen
