@@ -25,8 +25,8 @@ for my $SlaveActive ( 0, 1 ) {
         $Kernel::OM->Get('Kernel::Config')->Set(
             Key => 'Core::MirrorDB::DSN',
 
-            # add space character so that DSN strings seem to be different, otherwise slave is not used
-            Value => $Kernel::OM->Get('Kernel::Config')->Get('DatabaseDSN') . ' ',
+            # Add a character so that DSN strings seem to be different, otherwise slave is not used.
+            Value => $Kernel::OM->Get('Kernel::Config')->Get('DatabaseDSN') . ';',
         );
         $Kernel::OM->Get('Kernel::Config')->Set(
             Key   => 'Core::MirrorDB::User',
