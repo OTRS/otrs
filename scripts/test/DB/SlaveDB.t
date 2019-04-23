@@ -133,24 +133,24 @@ for my $SlaveActive ( 0, 1 ) {
         $DBObject->Disconnect();
 
         $Self->False(
-            $DBObject->{dbh}->ping(),
+            $DBObject->{dbh}->{Active},
             "$TestPrefix master object is disconnected",
         );
 
         $Self->False(
-            $DBObject->{SlaveDBObject}->{dbh}->ping(),
+            $DBObject->{SlaveDBObject}->{dbh}->{Active},
             "$TestPrefix slave object is disconnected",
         );
 
         $DBObject->Connect();
 
         $Self->True(
-            $DBObject->{dbh}->ping(),
+            $DBObject->{dbh}->{Active},
             "$TestPrefix master object is reconnected",
         );
 
         $Self->True(
-            $DBObject->{SlaveDBObject}->{dbh}->ping(),
+            $DBObject->{SlaveDBObject}->{dbh}->{Active},
             "$TestPrefix slave object is reconnected",
         );
     }
