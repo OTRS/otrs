@@ -13,6 +13,7 @@
 #6.0.18 2019-04-26
  - 2019-04-02 Updated translations, thanks to all translators.
  - 2019-04-02 Fixed bug#[14055](https://bugs.otrs.org/show_bug.cgi?id=14055) - Translation of "copy" to german in AdminNotificationEvent wrong.
+ - 2019-04-01 Made article header expansion state configurable. For this, there is is a new setting `Ticket::Frontend::ArticleHeadVisibleDefault`, which is inactive by default and can be activated to show the article header area expanded by default.
  - 2019-04-01 Fixed bug#[14442](https://bugs.otrs.org/show_bug.cgi?id=14442) - Legacy references to customer interface and public interface.
  - 2019-04-01 Fixed bug#[14345](https://bugs.otrs.org/show_bug.cgi?id=14345) - The timestamp information in the action AdminLog is wrong.
  - 2019-04-01 Fixed bug#[14243](https://bugs.otrs.org/show_bug.cgi?id=14243) - It is possible set system address to invalid even though there is auto response with this address.
