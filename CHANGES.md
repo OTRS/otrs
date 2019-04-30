@@ -1,14 +1,18 @@
 #6.0.19 ????-??-??
  - 2019-04-23 Fixed bug#[14509](https://bugs.otrs.org/show_bug.cgi?id=14509) - The agent's notification bar has a wrong URL.
+   It was only indicated by IE, since other browsers automatically redirected to the same page.
  - 2019-04-18 Fixed bug#[14504](https://bugs.otrs.org/show_bug.cgi?id=14504) - Queue based ACL does not work for AgentTicketActionCommon.
- - 2019-04-18 Fixed bug#[14482](https://bugs.otrs.org/show_bug.cgi?id=14482) - File upload help text is wrapped and overflow in small resolution.
+ - 2019-04-18 Fixed bug#[14482](https://bugs.otrs.org/show_bug.cgi?id=14482) - File upload help text is wrapped and overflows on small resolutions.
  - 2019-04-17 Fixed bug#[14511](https://bugs.otrs.org/show_bug.cgi?id=14511) - Statistic does not work during daylight saving time.
+   Fatal error was fixed during  generation of statistics based on an unexisting hour, which is lost during the time switch.
  - 2019-04-17 Fixed bug#[14427](https://bugs.otrs.org/show_bug.cgi?id=14427) - Fulltext search has no result if search term contains backslash followed by white space.
- - 2019-04-16 Fixed bug#[14412](https://bugs.otrs.org/show_bug.cgi?id=14412) - Customerid is not a free field when changing customer from AgentTicketZoom.
- - 2019-04-16 Fixed bug#[14494](https://bugs.otrs.org/show_bug.cgi?id=14494) - Wrong service selection in AgentTicketSearch.
+ - 2019-04-16 Fixed bug#[14412](https://bugs.otrs.org/show_bug.cgi?id=14412) - CustomerID cannot be changed in ticket action for changing customer.
+   Config option `Ticket::Frontend::AgentTicketCustomer::CustomerIDReadOnly` was not honored.
+ - 2019-04-16 Fixed bug#[14494](https://bugs.otrs.org/show_bug.cgi?id=14494) - Wrong service selection in ticket search dialog.
+   Tree view selection field has been improved to also work in modal dialogs.
  - 2019-04-12 Fixed bug#[14400](https://bugs.otrs.org/show_bug.cgi?id=14400) - Reply add more then one email address - for every connected customeruser table one address.
  - 2019-04-12 Updated CPAN module Mozilla::CA.
- - 2019-04-04 Fixed bug#[14408](https://bugs.otrs.org/show_bug.cgi?id=14408) - Short description of CustomerID's field does not show on the views of process.
+ - 2019-04-04 Fixed bug#[14408](https://bugs.otrs.org/show_bug.cgi?id=14408) - Short description of CustomerID fields is not shown in the process views.
 
 #6.0.18 2019-04-26
  - 2019-04-02 Updated translations, thanks to all translators.
