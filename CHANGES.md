@@ -10,7 +10,6 @@
    Config option `Ticket::Frontend::AgentTicketCustomer::CustomerIDReadOnly` was not honored.
  - 2019-04-16 Fixed bug#[14494](https://bugs.otrs.org/show_bug.cgi?id=14494) - Wrong service selection in ticket search dialog.
    Tree view selection field has been improved to also work in modal dialogs.
- - 2019-04-12 Fixed bug#[14400](https://bugs.otrs.org/show_bug.cgi?id=14400) - Reply add more then one email address - for every connected customeruser table one address.
  - 2019-04-12 Updated CPAN module Mozilla::CA.
  - 2019-04-04 Fixed bug#[14408](https://bugs.otrs.org/show_bug.cgi?id=14408) - Short description of CustomerID fields is not shown in the process views.
 
