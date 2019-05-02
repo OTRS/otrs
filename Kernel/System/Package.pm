@@ -140,7 +140,7 @@ returns a list of repository packages
     my @List = $PackageObject->RepositoryList();
 
     my @List = $PackageObject->RepositoryList(
-        Result => 'short',  # will only return name, version, install_status md5sum and vendor
+        Result => 'short',  # will only return name, version, install_status md5sum, vendor and build commit ID
         instead of the structure
     );
 
@@ -187,6 +187,12 @@ sub RepositoryList {
         # correct any 'dos-style' line endings - http://bugs.otrs.org/show_bug.cgi?id=9838
         $Row[3] =~ s{\r\n}{\n}xmsg;
         $Package{MD5sum} = $Self->{MainObject}->MD5sum( String => \$Row[3] );
+
+        # Extract and include build commit ID.
+        if ( $Row[3] =~ m{ <BuildCommitID> (.*) </BuildCommitID> }smx ) {
+            $Package{BuildCommitID} = $1;
+            $Package{BuildCommitID} =~ s{ ^\s+|\s+$ }{}gsmx;
+        }
 
         # get package attributes
         if ( $Row[3] && $Result eq 'Short' ) {

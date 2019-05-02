@@ -15,6 +15,7 @@ use File::stat;
 use Storable();
 use Term::ANSIColor();
 
+use Kernel::System::VariableCheck qw(IsArrayRefWithData);
 use Kernel::System::UnitTest::Driver;
 
 our @ObjectDependencies = (
@@ -22,6 +23,7 @@ our @ObjectDependencies = (
     'Kernel::System::Encode',
     'Kernel::System::JSON',
     'Kernel::System::Main',
+    'Kernel::System::Package',
     'Kernel::System::SupportDataCollector',
     'Kernel::System::WebUserAgent',
 );
@@ -237,6 +239,44 @@ sub _SubmitResults {
 
     my %SupportData = $Kernel::OM->Get('Kernel::System::SupportDataCollector')->Collect();
     die "Could not collect SupportData.\n" if !$SupportData{Success};
+
+    # Include versioning information as part of the support data.
+    #   Get framework commit ID from the RELEASE file.
+    my $ReleaseFile = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
+        Location => $Kernel::OM->Get('Kernel::Config')->Get('Home') . '/RELEASE',
+    );
+
+    if ( ${$ReleaseFile} =~ /COMMIT\_ID\s=\s(.*)$/ ) {
+        my $FrameworkCommitID = $1;
+        push @{ $SupportData{Result} },
+            {
+            Value       => $FrameworkCommitID,
+            Label       => 'Framework',
+            DisplayPath => 'Unit Test/Versioning Information',
+            Identifier  => 'VersionHash',
+            Status      => 1,
+            };
+    }
+
+    # Get build commit IDs of all installed packages.
+    my @PackageList = $Kernel::OM->Get('Kernel::System::Package')->RepositoryList(
+        Result => 'short',
+    );
+
+    if ( IsArrayRefWithData( \@PackageList ) ) {
+        for my $Package (@PackageList) {
+            if ( $Package->{BuildCommitID} ) {
+                push @{ $SupportData{Result} },
+                    {
+                    Value       => $Package->{BuildCommitID},
+                    Label       => $Package->{Name},
+                    DisplayPath => 'Unit Test/Versioning Information',
+                    Identifier  => 'VersionHash',
+                    Status      => 1,
+                    };
+            }
+        }
+    }
 
     my %SubmitData = (
         Auth     => $Param{SubmitAuth} // '',
