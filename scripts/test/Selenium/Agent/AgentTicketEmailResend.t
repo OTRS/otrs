@@ -216,6 +216,10 @@ $Selenium->RunTest(
             "CSS is correct for collapsed article widget."
         ) || die;
 
+        $Selenium->WaitForjQueryEventBound(
+            CSSSelector => '.WidgetAction.Expand',
+        );
+
         # Click to expand article widget information and verify css.
         $Selenium->execute_script("\$('.WidgetAction.Expand').click();");
 
@@ -403,14 +407,8 @@ $Selenium->RunTest(
         # Verify message log details button is shown.
         $Selenium->find_element( 'Message Log', 'link_text' );
 
-        # Expand sub-menus in order to be able to click one of the links.
-        $Selenium->execute_script("\$('.Cluster ul ul').addClass('ForceVisible');");
-
-        $Selenium->find_element("//*[text()='History']")->click();
-
-        $Selenium->WaitFor( WindowCount => 2 );
-        $Handles = $Selenium->get_window_handles();
-        $Selenium->switch_to_window( $Handles->[1] );
+        # Navigate to AgentTicketHistory screen.
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketHistory;TicketID=$TicketID");
 
         # Wait until page has loaded, if necessary.
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".CancelClosePopup").length;' );
