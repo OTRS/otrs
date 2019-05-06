@@ -13,7 +13,6 @@ use utf8;
 use vars (qw($Self));
 use Time::HiRes qw(sleep);
 
-# get selenium object
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 # This test checks if the customer auto completion works correctly.
@@ -23,35 +22,24 @@ my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 $Selenium->RunTest(
     sub {
 
-        # get helper object
-        my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-
-        # get config object
+        my $Helper       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
         my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-        # don't check email address validity
+        # Don't check email address validity.
         $Helper->ConfigSettingChange(
             Key   => 'CheckEmailAddresses',
             Value => 0,
         );
 
-        # create test user and login
+        # Create test user.
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => ['users'],
         ) || die "Did not get test user";
-
-        $Selenium->Login(
-            Type     => 'Agent',
-            User     => $TestUserLogin,
-            Password => $TestUserLogin,
-        );
 
         # Create some CustomerIDs for the test.
         my @CustomerIDs;
 
         for my $Counter ( 1 .. 3 ) {
-
-            # create test Customer
             my $CustomerName = "Customer-$Counter-" . $Helper->GetRandomID();
             my $CustomerID   = $Kernel::OM->Get('Kernel::System::CustomerCompany')->CustomerCompanyAdd(
                 CustomerID          => $CustomerName,
@@ -69,7 +57,7 @@ $Selenium->RunTest(
 
         my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
 
-        # create a test customer
+        # Create test customer user.
         my $TestCustomerUser1 = $Helper->TestCustomerUserCreate()
             || die "Did not get test customer user";
 
@@ -93,7 +81,7 @@ $Selenium->RunTest(
             "Updated test user 1"
         );
 
-        # set customer user as a member of company
+        # Set customer user as a member of company.
         $Success = $CustomerUserObject->CustomerUserCustomerMemberAdd(
             CustomerUserID => $TestCustomerUser1,
             CustomerID     => $CustomerIDs[1],
@@ -130,8 +118,8 @@ $Selenium->RunTest(
         my $TestCustomerUser3 = $Helper->TestCustomerUserCreate()
             || die "Did not get test customer user";
 
-        # update customer user 3 with very similar data as customer user 2
-        # disable customer user email uniqueness check temporarily
+        # Update customer user 3 with very similar data as customer user 2.
+        # Disable customer user email uniqueness check temporarily.
         my $CustomerUserConfig = $ConfigObject->Get('CustomerUser');
         $CustomerUserConfig->{CustomerUserEmailUniqCheck} = 0;
         $Helper->ConfigSettingChange(
@@ -156,20 +144,27 @@ $Selenium->RunTest(
             "Updated test user 3"
         );
 
+        # Login as test user.
+        $Selenium->Login(
+            Type     => 'Agent',
+            User     => $TestUserLogin,
+            Password => $TestUserLogin,
+        );
+
         my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
 
-        # open AgentTicketPhone screen
+        # Open AgentTicketPhone screen.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketPhone");
 
         # First test that the additional CustomerID select button is visible but disabled, because the field
         #   is readonly as default.
         $Self->Is(
-            $Selenium->execute_script("return \$('#SelectionCustomerID').prop('disabled')"),
+            $Selenium->execute_script("return \$('#SelectionCustomerID').prop('disabled');"),
             1,
             "Button to select a other CustomerID is disabled",
         );
         $Self->Is(
-            $Selenium->execute_script("return \$('#SelectionCustomerID').prop('title')"),
+            $Selenium->execute_script("return \$('#SelectionCustomerID').prop('title');"),
             'The customer ID is not changeable, no other customer ID can be assigned to this ticket.',
             'Button text for the not changeable CustomerID is found on screen',
         );
@@ -183,7 +178,7 @@ $Selenium->RunTest(
         $Selenium->VerifiedRefresh();
 
         $Self->Is(
-            $Selenium->execute_script("return \$('#SelectionCustomerID').prop('disabled')"),
+            $Selenium->execute_script("return \$('#SelectionCustomerID').prop('disabled');"),
             1,
             "Button to select a other CustomerID is disabled",
         );
@@ -226,16 +221,16 @@ $Selenium->RunTest(
 
         for my $AutocompleteInput ( sort keys %AutoCompleteExpected ) {
 
-            # check autocomplete field
+            # Check autocomplete field.
             $Selenium->find_element( "input.CustomerAutoComplete", 'css' )->clear();
             $Selenium->find_element( "input.CustomerAutoComplete", 'css' )->send_keys($AutocompleteInput);
 
             if ( $AutoCompleteExpected{$AutocompleteInput}->{Expected} ) {
 
-                # wait for autocomplete to load
+                # Wait for autocomplete to load.
                 $Selenium->WaitFor(
                     JavaScript =>
-                        "return typeof(\$) === 'function' && \$('li.ui-menu-item:visible').length === $AutoCompleteExpected{$AutocompleteInput}->{Expected}"
+                        "return typeof(\$) === 'function' && \$('li.ui-menu-item:visible').length === $AutoCompleteExpected{$AutocompleteInput}->{Expected};"
                 );
             }
             else {
@@ -247,12 +242,12 @@ $Selenium->RunTest(
 
                 # Wait for ajax call after customer user selection.
                 $Selenium->WaitFor(
-                    JavaScript => 'return typeof($) === "function" && !$("span.AJAXLoader:visible").length',
+                    JavaScript => 'return typeof($) === "function" && !$("span.AJAXLoader:visible").length;',
                 );
             }
 
             my $AutoCompleteEntries = $Selenium->execute_script(
-                "return \$('ul.ui-autocomplete li.ui-menu-item:visible').length",
+                "return \$('ul.ui-autocomplete li.ui-menu-item:visible').length;",
             );
 
             $Self->Is(
@@ -263,18 +258,18 @@ $Selenium->RunTest(
 
             if ( $AutoCompleteExpected{$AutocompleteInput}->{Expected} ) {
 
-                # select customer user
-                $Selenium->execute_script("\$('li.ui-menu-item:contains($AutocompleteInput)').click()");
+                # Select customer user.
+                $Selenium->execute_script("\$('li.ui-menu-item:contains($AutocompleteInput)').click();");
 
-                # Wait until customer data is loading (CustomerID is filled after CustomerAutoComplete)
-                $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#CustomerID").val().length' );
+                # Wait until customer data is loading (CustomerID is filled after CustomerAutoComplete).
+                $Selenium->WaitFor( JavaScript => 'return $("#CustomerID").val().length;' );
 
                 # Wait for ajax call after customer user selection.
                 $Selenium->WaitFor(
-                    JavaScript => 'return typeof($) === "function" && !$("span.AJAXLoader:visible").length',
+                    JavaScript => 'return !$("span.AJAXLoader:visible").length;',
                 );
 
-                # check if customer is selected
+                # Check if customer user is selected.
                 $Self->Is(
                     $Selenium->find_element( "#CustomerTicketText_1", 'css' )->get_value(),
                     $AutoCompleteExpected{$AutocompleteInput}->{CustomerUser},
@@ -289,16 +284,13 @@ $Selenium->RunTest(
             {
 
                 $Selenium->WaitFor(
-                    JavaScript => 'return !$("#SelectionCustomerID").prop("disabled")',
+                    JavaScript => 'return !$("#SelectionCustomerID").prop("disabled");',
                 );
 
                 $Selenium->find_element( "#SelectionCustomerID", 'css' )->click();
                 $Selenium->WaitFor(
-                    JavaScript => 'return typeof($) === "function" && $(".Dialog:visible").length === 1;'
-                );
-                $Selenium->WaitFor(
                     JavaScript =>
-                        'return typeof($) === "function" && $("#SelectionCustomerIDAll:visible").length'
+                        'return typeof($) === "function" && $(".Dialog:visible").length && $("#SelectionCustomerIDAll:visible").length;'
                 );
 
                 if ( $AutoCompleteExpected{$AutocompleteInput}->{SelectAssigendCustomerID} ) {
@@ -313,7 +305,7 @@ $Selenium->RunTest(
                     if ( !$AutoCompleteExpected{$AutocompleteInput}->{Expected} ) {
                         $Self->Is(
                             $Selenium->execute_script(
-                                "return \$('#SelectionCustomerIDAssigned:visible').length"
+                                "return \$('#SelectionCustomerIDAssigned:visible').length;"
                             ),
                             0,
                             "SelectionCustomerIDAssigned is not visible",
@@ -325,24 +317,23 @@ $Selenium->RunTest(
                         ->send_keys( $AutoCompleteExpected{$AutocompleteInput}->{SelectAllCustomerID} );
 
                     # Wait for autocomplete to load.
-                    $Selenium->WaitFor(
-                        JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length'
-                    );
+                    $Selenium->WaitFor( JavaScript => 'return !$(".AJAXLoader:visible").length;' );
                     sleep 1;
 
-                    # select customer id
+                    # Select customer id.
                     $Selenium->execute_script(
-                        "\$('li.ui-menu-item:contains($AutoCompleteExpected{$AutocompleteInput}->{SelectAllCustomerID})').click()"
+                        "\$('li.ui-menu-item:contains($AutoCompleteExpected{$AutocompleteInput}->{SelectAllCustomerID})').click();"
                     );
 
                 }
 
                 $Selenium->WaitFor(
-                    JavaScript => 'return typeof($) === "function" && !$("#SelectionCustomerIDAll:visible").length;'
+                    JavaScript =>
+                        'return typeof($) === "function" && !$("#SelectionCustomerIDAll:visible").length && !$(".Dialog:visible").length;'
                 );
             }
 
-            # check if correct CustomerID is filled
+            # Check if correct CustomerID is filled.
             $Self->Is(
                 $Selenium->find_element( "#CustomerID", 'css' )->get_value(),
                 $AutoCompleteExpected{$AutocompleteInput}->{CustomerID},
