@@ -486,6 +486,8 @@ $Selenium->RunTest(
                 "return typeof(\$) === 'function' && !\$('tr.Invalid td a:contains($ErrorMessage)').length;"
         );
 
+        $Selenium->WaitFor( JavaScript => "return \$('p:contains($ErrorMessage)').length;" );
+
         $Selenium->find_element(
             "//p[contains(text(), \'There where errors adding/updating the following Notifications')]"
         );
