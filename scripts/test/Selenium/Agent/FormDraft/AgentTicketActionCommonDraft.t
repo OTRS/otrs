@@ -280,7 +280,7 @@ $Selenium->RunTest(
                 if ( $Test->{Fields}->{$Field}->{Type} eq 'DropDown' ) {
                     $Selenium->WaitFor(
                         JavaScript =>
-                            "return typeof(\$) === 'function' && \$('#$Test->{Fields}->{$Field}->{ID}').length"
+                            "return typeof(\$) === 'function' && \$('#$Test->{Fields}->{$Field}->{ID}').length;"
                     );
 
                     $Selenium->InputFieldValueSet(
@@ -292,7 +292,7 @@ $Selenium->RunTest(
 
                     # Make the file upload field visible.
                     $Selenium->execute_script(
-                        "\$('#FileUpload').css('display', 'block')"
+                        "\$('#FileUpload').css('display', 'block');"
                     );
                     $Selenium->WaitFor(
                         JavaScript =>
@@ -306,13 +306,13 @@ $Selenium->RunTest(
 
                     $Selenium->WaitFor(
                         JavaScript =>
-                            "return typeof(\$) === 'function' && \$('.AttachmentList tbody tr td.Filename:contains(Main-Test1.pdf)').length === 1"
+                            "return typeof(\$) === 'function' && \$('.AttachmentList tbody tr td.Filename:contains(Main-Test1.pdf)').length === 1;"
                     );
 
                     # Check if uploaded.
                     $Self->Is(
                         $Selenium->execute_script(
-                            "return \$('.AttachmentList tbody tr td.Filename:contains(Main-Test1.pdf)').length"
+                            "return \$('.AttachmentList tbody tr td.Filename:contains(Main-Test1.pdf)').length;"
                         ),
                         1,
                         $Test->{Module} . " - Uploaded file correctly"
@@ -323,7 +323,7 @@ $Selenium->RunTest(
                     # wait for the CKE to load
                     $Selenium->WaitFor(
                         JavaScript =>
-                            "return \$('body.cke_editable', \$('.cke_wysiwyg_frame').contents()).length == 1"
+                            "return \$('body.cke_editable', \$('.cke_wysiwyg_frame').contents()).length == 1;"
                     );
 
                     $Selenium->execute_script(
@@ -337,7 +337,7 @@ $Selenium->RunTest(
                 else {
                     $Selenium->WaitFor(
                         JavaScript =>
-                            "return typeof(\$) === 'function' && \$('#$Test->{Fields}->{$Field}->{ID}').length"
+                            "return typeof(\$) === 'function' && \$('#$Test->{Fields}->{$Field}->{ID}').length;"
                     );
 
                     $Selenium->find_element( "#$Test->{Fields}->{$Field}->{ID}", 'css' )->clear();
@@ -433,11 +433,11 @@ $Selenium->RunTest(
 
                     $Selenium->WaitFor(
                         JavaScript =>
-                            "return typeof(\$) === 'function' && \$('#$ID').length && \$('#$ID').val() == '$Value'"
+                            "return typeof(\$) === 'function' && \$('#$ID').length && \$('#$ID').val() == '$Value';"
                     );
 
                     $Self->Is(
-                        $Selenium->execute_script("return \$('#$ID').val()"),
+                        $Selenium->execute_script("return \$('#$ID').val();"),
                         $Value,
                         "Initial Draft value for $Test->{Module} field $FieldValue is correct - $Value"
                     );
@@ -452,14 +452,14 @@ $Selenium->RunTest(
                     # there should be only one file with a certain name
                     $Self->Is(
                         $Selenium->execute_script(
-                            "return \$('.AttachmentList tbody tr td.Filename:contains(Main-Test1.pdf)').length"
+                            "return \$('.AttachmentList tbody tr td.Filename:contains(Main-Test1.pdf)').length;"
                         ),
                         1,
                         $Test->{Module} . " - Uploaded file correctly"
                     );
                     $Self->Is(
                         $Selenium->execute_script(
-                            "return \$('.AttachmentList tbody tr td.Filename').length"
+                            "return \$('.AttachmentList tbody tr td.Filename').length;"
                         ),
                         1,
                         $Test->{Module} . " - Only one file present"
@@ -468,7 +468,7 @@ $Selenium->RunTest(
                     # Add a second file.
                     $Selenium->VerifiedRefresh();
                     $Selenium->execute_script(
-                        "\$('#FileUpload').css('display', 'block')"
+                        "\$('#FileUpload').css('display', 'block');"
                     );
                     $Selenium->WaitFor(
                         JavaScript =>
@@ -482,13 +482,13 @@ $Selenium->RunTest(
 
                     $Selenium->WaitFor(
                         JavaScript =>
-                            "return typeof(\$) === 'function' && \$('.AttachmentList tbody tr td.Filename:contains(Main-Test1.doc)').length === 1"
+                            "return typeof(\$) === 'function' && \$('.AttachmentList tbody tr td.Filename:contains(Main-Test1.doc)').length === 1;"
                     );
 
                     # Check if uploaded.
                     $Self->Is(
                         $Selenium->execute_script(
-                            "return \$('.AttachmentList tbody tr td.Filename:contains(Main-Test1.doc)').length"
+                            "return \$('.AttachmentList tbody tr td.Filename:contains(Main-Test1.doc)').length;"
                         ),
                         1,
                         $Test->{Module} . " - Uploaded file correctly"
@@ -499,7 +499,7 @@ $Selenium->RunTest(
                     # wait for the CKE to load
                     $Selenium->WaitFor(
                         JavaScript =>
-                            "return \$('body.cke_editable', \$('.cke_wysiwyg_frame').contents()).length == 1"
+                            "return \$('body.cke_editable', \$('.cke_wysiwyg_frame').contents()).length == 1;"
                     );
 
                     $Self->Is(
@@ -522,11 +522,11 @@ $Selenium->RunTest(
 
                     $Selenium->WaitFor(
                         JavaScript =>
-                            "return typeof(\$) === 'function' && \$('#$ID').length && \$('#$ID').val() == '$Value'"
+                            "return typeof(\$) === 'function' && \$('#$ID').length && \$('#$ID').val() == '$Value';"
                     );
 
                     $Self->Is(
-                        $Selenium->execute_script("return \$('#$ID').val()"),
+                        $Selenium->execute_script("return \$('#$ID').val();"),
                         $Value,
                         "Initial Draft value for $Test->{Module} field $FieldValue is correct - $Value"
                     );
@@ -594,7 +594,7 @@ $Selenium->RunTest(
             # Wait until page has loaded, if necessary.
             $Selenium->WaitFor(
                 JavaScript =>
-                    'return typeof($) === "function" && $(".WidgetSimple").length;'
+                    'return typeof($) === "function" && $(".WidgetSimple").length && $(".CancelClosePopup").length;'
             );
 
             # Verify updated Draft values.
@@ -606,11 +606,11 @@ $Selenium->RunTest(
 
                     $Selenium->WaitFor(
                         JavaScript =>
-                            "return typeof(\$) === 'function' && \$('#$ID').length && \$('#$ID').val() == '$UpdatedValue'"
+                            "return typeof(\$) === 'function' && \$('#$ID').length && \$('#$ID').val() == '$UpdatedValue';"
                     );
 
                     $Self->Is(
-                        $Selenium->execute_script("return \$('#$ID').val()"),
+                        $Selenium->execute_script("return \$('#$ID').val();"),
                         $UpdatedValue,
                         "Updated Draft value for $Test->{Module} field $FieldValue is correct - $UpdatedValue"
                     );
@@ -619,13 +619,13 @@ $Selenium->RunTest(
 
                     $Selenium->WaitFor(
                         JavaScript =>
-                            "return typeof(\$) === 'function' && \$('.AttachmentList tbody tr td.Filename').length === 2"
+                            "return typeof(\$) === 'function' && \$('.AttachmentList tbody tr td.Filename').length === 2;"
                     );
 
                     # there should be two files now
                     $Self->Is(
                         $Selenium->execute_script(
-                            "return \$('.AttachmentList tbody tr td.Filename').length"
+                            "return \$('.AttachmentList tbody tr td.Filename').length;"
                         ),
                         2,
                         $Test->{Module} . " - Uploaded file correctly"
@@ -636,7 +636,7 @@ $Selenium->RunTest(
                     # wait for the CKE to load
                     $Selenium->WaitFor(
                         JavaScript =>
-                            "return \$('body.cke_editable', \$('.cke_wysiwyg_frame').contents()).length == 1"
+                            "return \$('body.cke_editable', \$('.cke_wysiwyg_frame').contents()).length == 1;"
                     );
 
                     $Self->Is(
@@ -651,11 +651,11 @@ $Selenium->RunTest(
 
                     $Selenium->WaitFor(
                         JavaScript =>
-                            "return typeof(\$) === 'function' && \$('#$ID').length && \$('#$ID').val() == '$UpdatedValue'"
+                            "return typeof(\$) === 'function' && \$('#$ID').length && \$('#$ID').val() == '$UpdatedValue';"
                     );
 
                     $Self->Is(
-                        $Selenium->execute_script("return \$('#$ID').val()"),
+                        $Selenium->execute_script("return \$('#$ID').val();"),
                         $UpdatedValue,
                         "Updated Draft value for $Test->{Module} field $FieldValue is correct - $UpdatedValue"
                     );
@@ -740,7 +740,7 @@ $Selenium->RunTest(
         # Check validation.
         $Self->Is(
             $Selenium->execute_script(
-                "return \$('#Subject').hasClass('Error')"
+                "return \$('#Subject').hasClass('Error');"
             ),
             '1',
             'Client side validation correctly detected missing input value',
