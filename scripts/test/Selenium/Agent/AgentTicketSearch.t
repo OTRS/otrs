@@ -702,7 +702,7 @@ $Selenium->RunTest(
         my @SearchElements = $Selenium->find_elements("//input[contains(\@placeholder,'Search...')]");
 
         # Filter by Created in Queue.
-        $SearchElements[1]->send_keys( 'Junk' );
+        $SearchElements[1]->send_keys('Junk');
 
         # Verify only one visible entry is found in tree view selection for Created in Queue.
         $Selenium->WaitFor(
@@ -717,7 +717,7 @@ $Selenium->RunTest(
         );
 
         # Filter by Queue.
-        $SearchElements[0]->send_keys( 'Misc' );
+        $SearchElements[0]->send_keys('Misc');
 
         # Verify only one visible entry is found in tree view selection for Created in Queue.
         $Selenium->WaitFor(
