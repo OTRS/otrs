@@ -161,6 +161,12 @@ $Selenium->RunTest(
                 Element => '#UserLanguage',
                 Value   => $Language,
             );
+
+            $Selenium->WaitForjQueryEventBound(
+                CSSSelector =>
+                    "form:has(input[type=hidden][name=Group][value=Language]) .WidgetSimple .SettingUpdateBox button",
+            );
+
             $Selenium->execute_script(
                 "\$('#UserLanguage').closest('.WidgetSimple').find('.SettingUpdateBox').find('button').trigger('click');"
             );
@@ -217,6 +223,12 @@ $Selenium->RunTest(
 
         # try updating the UserGoogleAuthenticatorSecret (which has a regex validation configured)
         $Selenium->find_element( "#UserGoogleAuthenticatorSecretKey", 'css' )->send_keys('Invalid Key');
+
+        $Selenium->WaitForjQueryEventBound(
+            CSSSelector =>
+                "form:has(input[type=hidden][name=Group][value=GoogleAuthenticatorSecretKey]) .WidgetSimple .SettingUpdateBox button",
+        );
+
         $Selenium->execute_script(
             "\$('#UserGoogleAuthenticatorSecretKey').closest('.WidgetSimple').find('.SettingUpdateBox').find('button').trigger('click');"
         );
@@ -290,6 +302,12 @@ $Selenium->RunTest(
                 })
             ).val('$MaliciousCode').trigger('redraw.InputField').trigger('change');"
         );
+
+        $Selenium->WaitForjQueryEventBound(
+            CSSSelector =>
+                "form:has(input[type=hidden][name=Group][value=Language]) .WidgetSimple .SettingUpdateBox button",
+        );
+
         $Selenium->execute_script(
             "\$('#UserLanguage').closest('.WidgetSimple').find('.SettingUpdateBox').find('button').trigger('click');"
         );
@@ -447,6 +465,12 @@ JAVASCRIPT
             Element => '#UserSkin',
             Value   => 'ivory',
         );
+
+        $Selenium->WaitForjQueryEventBound(
+            CSSSelector =>
+                "form:has(input[type=hidden][name=Group][value=Skin]) .WidgetSimple .SettingUpdateBox button",
+        );
+
         $Selenium->execute_script(
             "\$('#UserSkin').closest('.WidgetSimple').find('.SettingUpdateBox').find('button').trigger('click');"
         );
