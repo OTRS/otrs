@@ -134,8 +134,8 @@ $Selenium->RunTest(
         # Click on the split action.
         $Selenium->find_element( '.SplitSelection', 'css' )->click();
 
-        $Selenium->WaitFor(
-            JavaScript => 'return $("#SplitSubmit").length'
+        $Selenium->WaitForjQueryEventBound(
+            CSSSelector => '#SplitSubmit',
         );
 
         # Change it to Process.
