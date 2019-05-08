@@ -432,6 +432,12 @@ sub Template {
         $Language = $User{UserLanguage};
     }
 
+    # If template type is 'Create' and there is customer user information, treat it as a ticket param in order to
+    # correctly replace customer user tags. See bug#14455.
+    if ( $Template{TemplateType} eq 'Create' && $Param{CustomerUserID} ) {
+        $Ticket{CustomerUserID} = $Param{CustomerUserID};
+    }
+
     # if customer language is not defined, set default language
     $Language //= $Kernel::OM->Get('Kernel::Config')->Get('DefaultLanguage') || 'en';
 

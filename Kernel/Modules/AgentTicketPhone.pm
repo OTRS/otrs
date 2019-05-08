@@ -1816,8 +1816,9 @@ sub Run {
 
                 # set template text, replace smart tags (limited as ticket is not created)
                 $TemplateText = $TemplateGenerator->Template(
-                    TemplateID => $GetParam{StandardTemplateID},
-                    UserID     => $Self->{UserID},
+                    TemplateID     => $GetParam{StandardTemplateID},
+                    UserID         => $Self->{UserID},
+                    CustomerUserID => $CustomerUser,
                 );
 
                 # create StdAttachmentObject
