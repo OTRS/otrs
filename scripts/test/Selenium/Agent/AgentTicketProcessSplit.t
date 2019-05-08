@@ -144,7 +144,7 @@ $Selenium->RunTest(
             Value   => 'ProcessTicket',
         );
         $Selenium->WaitFor(
-            JavaScript => 'return $("#ProcessEntityID").length'
+            JavaScript => 'return $("#ProcessEntityID").length;'
         );
 
         # Change it to Process EntityID.
@@ -166,7 +166,7 @@ $Selenium->RunTest(
 
         # Check if customer user input is on create process screen.
         $Selenium->WaitFor(
-            JavaScript => 'return $("#CustomerAutoComplete").length'
+            JavaScript => 'return $("#CustomerAutoComplete").length;'
         );
 
         my $RandomCustomerUser = 'RandomCustomerUser' . $Helper->GetRandomID();
@@ -177,7 +177,7 @@ $Selenium->RunTest(
 
         # Check if select button is enabled.
         $Self->Is(
-            $Selenium->execute_script("return \$('#SelectionCustomerID').prop('disabled')"),
+            $Selenium->execute_script("return \$('#SelectionCustomerID').prop('disabled');"),
             0,
             "Button to select a other CustomerID is disabled",
         );
@@ -195,7 +195,7 @@ $Selenium->RunTest(
 
         # Check if customer user input is on create process screen.
         $Selenium->WaitFor(
-            JavaScript => 'return $("#CustomerAutoComplete").length'
+            JavaScript => 'return $("#CustomerAutoComplete").length;'
         );
 
         # Create Process ticket without article.
@@ -207,7 +207,7 @@ $Selenium->RunTest(
         push @DeleteTicketIDs, $TicketID[1];
 
         $Selenium->WaitFor(
-            JavaScript => 'return $(".AsBlock.LinkObjectLink").length'
+            JavaScript => 'return typeof($) === "function" && $(".AsBlock.LinkObjectLink").length;'
         );
 
         # Verify there is link to parent ticket.
@@ -218,11 +218,16 @@ $Selenium->RunTest(
             "Link to parent ticket is found",
         );
 
+        # Scroll down.
+        $Selenium->execute_script(
+            "\$('a.LinkObjectLink[href*=\"Action=AgentTicketZoom;TicketID=$TicketID\"]')[0].scrollIntoView(true);",
+        );
+
         # Go to linked Ticket.
         $Selenium->find_element("//a[contains(\@href, 'Action=AgentTicketZoom;TicketID=$TicketID' )]")->VerifiedClick();
 
         $Selenium->WaitFor(
-            JavaScript => 'return $(".AsBlock.LinkObjectLink").length'
+            JavaScript => 'return typeof($) === "function" && $(".AsBlock.LinkObjectLink").length;'
         );
 
         # Verify there is link to child ticket.
