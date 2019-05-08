@@ -831,7 +831,7 @@
         </Value>
     </Setting>
     <Setting Name="Daemon::SchedulerCronTaskManager::Task###GeneticInterfaceDebugLogCleanup" Required="0" Valid="1">
-        <Description Translatable="1">Renew existing SMIME certificates from customer backend. Note: SMIME and SMIME::FetchFromCustomer needs to be enabled in SysConfig and customer backend needs to be configured to fetch UserSMIMECertificate attribute.</Description>
+        <Description Translatable="1">Removes old generic interface debug log entries created before the specified amount of days.</Description>
         <Navigation>Daemon::SchedulerCronTaskManager::Task</Navigation>
         <Value>
             <Hash>
