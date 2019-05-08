@@ -1,4 +1,5 @@
 #6.0.19 ????-??-??
+ - 2019-05-08 Fixed bug#[14400](https://bugs.otrs.org/show_bug.cgi?id=14400) - Reply adds the same email address for every connected customer user table.
  - 2019-04-23 Fixed bug#[14509](https://bugs.otrs.org/show_bug.cgi?id=14509) - The agent's notification bar has a wrong URL.
    It was only indicated by IE, since other browsers automatically redirected to the same page.
  - 2019-04-18 Fixed bug#[14504](https://bugs.otrs.org/show_bug.cgi?id=14504) - Queue based ACL does not work for AgentTicketActionCommon.

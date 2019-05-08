@@ -2087,12 +2087,15 @@ sub _Mask {
                 Limit            => 1,
             );
 
+            # CustomerSearch hash could have one item from each backend, so insert just the first one.
             if (%CustomerSearch) {
+                CUSTOMERUSERID:
                 for my $CustomerUserID ( sort keys %CustomerSearch ) {
                     push @EmailAddressesCc, {
                         CustomerKey        => $CustomerUserID,
                         CustomerTicketText => $CustomerSearch{$CustomerUserID},
                     };
+                    last CUSTOMERUSERID;
                 }
             }
             else {
@@ -2123,12 +2126,15 @@ sub _Mask {
                 Limit            => 1,
             );
 
+            # CustomerSearch hash could have one item from each backend, so insert just the first one.
             if (%CustomerSearch) {
+                CUSTOMERUSERID:
                 for my $CustomerUserID ( sort keys %CustomerSearch ) {
                     push @EmailAddressesTo, {
                         CustomerKey        => $CustomerUserID,
                         CustomerTicketText => $CustomerSearch{$CustomerUserID},
                     };
+                    last CUSTOMERUSERID;
                 }
             }
             else {
