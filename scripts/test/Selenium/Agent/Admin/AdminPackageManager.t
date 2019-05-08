@@ -94,63 +94,20 @@ my $CheckBreadcrumb = sub {
 
 $Selenium->RunTest(
     sub {
-
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-        # For test stability check if package is already installed.
-        my $PackageCheck = $PackageObject->PackageIsInstalled(
-            Name => 'Test',
+        # For the sake of stability, check if test package is already installed.
+        my $TestPackage = $PackageObject->RepositoryGet(
+            Name            => 'Test',
+            Version         => '0.0.1',
+            DisableWarnings => 1,
         );
 
-        # If package is installed, remove it so we can install it again in the test.
-        if ($PackageCheck) {
-            my $FileString = '<?xml version="1.0" encoding="utf-8" ?>
-                <otrs_package version="1.0">
-                  <Name>Test</Name>
-                  <Version>0.0.1</Version>
-                  <Framework>x.x.x</Framework>
-                  <Vendor>OTRS AG</Vendor>
-                  <URL>https://otrs.com/</URL>
-                  <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
-                  <ChangeLog>2005-11-10 New package (some test &lt; &gt; &amp;).</ChangeLog>
-                  <Description Lang="en">A test package (some test &lt; &gt; &amp;).</Description>
-                  <Description Lang="de">Ein Test Paket (some test &lt; &gt; &amp;).</Description>
-                  <ModuleRequired Version="1.112">Encode</ModuleRequired>
-                  <BuildDate>2005-11-10 21:17:16</BuildDate>
-                  <BuildHost>yourhost.example.com</BuildHost>
-                  <CodeInstall>
-                   # just a test &lt;some&gt; plus some &amp; text
-                  </CodeInstall>
-                  <DatabaseInstall>
-                    <TableCreate Name="test_package">
-                        <Column Name="name_a" Required="true" Type="INTEGER"/>
-                        <Column Name="name_b" Required="true" Size="60" Type="VARCHAR"/>
-                        <Column Name="name_c" Required="false" Size="60" Type="VARCHAR"/>
-                    </TableCreate>
-                    <Insert Table="test_package">
-                        <Data Key="name_a">1234</Data>
-                        <Data Key="name_b" Type="Quote">some text</Data>
-                        <Data Key="name_c" Type="Quote">some text &lt;more&gt;
-                          text &amp; text
-                        </Data>
-                    </Insert>
-                    <Insert Table="test_package">
-                        <Data Key="name_a">0</Data>
-                        <Data Key="name_b" Type="Quote">1</Data>
-                    </Insert>
-                  </DatabaseInstall>
-                  <DatabaseUninstall>
-                    <TableDrop Name="test_package"/>
-                  </DatabaseUninstall>
-                  <Filelist>
-                    <File Location="var/tmp/Test" Permission="644" Encode="Base64">aGVsbG8K</File>
-                    <File Location="var/Test" Permission="644" Encode="Base64">aGVsbG8K</File>
-                  </Filelist>
-                </otrs_package>';
-
-            my $PackageUninstall = $PackageObject->PackageUninstall( String => $FileString );
+        # If test package is installed, remove it so we can install it again.
+        if ($TestPackage) {
+            my $PackageUninstall = $PackageObject->PackageUninstall( String => $TestPackage );
             $Self->True(
-                $PackageUninstall,
+                $TestPackage,
                 'Test package is uninstalled'
             );
         }
@@ -260,7 +217,7 @@ $Selenium->RunTest(
                 'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
         );
 
-        $PackageCheck = $PackageObject->PackageIsInstalled(
+        my $PackageCheck = $PackageObject->PackageIsInstalled(
             Name => 'Test',
         );
         $Self->True(
@@ -355,5 +312,21 @@ $Selenium->RunTest(
         );
     }
 );
+
+# Do an implicit cleanup of the test package, in case it's still present in the system.
+#   If Selenium Run() method above fails because of an error, it will not proceed to uninstall the test package in an
+#   interactive way. Here we check for existence of the test package, and remove it only if it's found.
+my $TestPackage = $PackageObject->RepositoryGet(
+    Name            => 'Test',
+    Version         => '0.0.1',
+    DisableWarnings => 1,
+);
+if ($TestPackage) {
+    my $PackageUninstall = $PackageObject->PackageUninstall( String => $TestPackage );
+    $Self->True(
+        $TestPackage,
+        'Test package is cleaned up'
+    );
+}
 
 1;
