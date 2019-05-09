@@ -352,6 +352,15 @@ sub Form {
         AttachmentsInclude => 1,
     );
 
+    # Strip out external content if BlockLoadingRemoteContent is enabled.
+    if ( $ConfigObject->Get('Ticket::Frontend::BlockLoadingRemoteContent') ) {
+        my %SafetyCheckResult = $Kernel::OM->Get('Kernel::System::HTMLUtils')->Safety(
+            String       => $Data{Body},
+            NoExtSrcLoad => 1,
+        );
+        $Data{Body} = $SafetyCheckResult{String};
+    }
+
     # If article is not a MIMEBase article, include sender name for correct quoting.
     if ( !$Data{From} ) {
         my %ArticleFields = $LayoutObject->ArticleFields(

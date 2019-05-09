@@ -5047,8 +5047,7 @@ sub RichTextDocumentServe {
 
         if ( !$Param{LoadExternalImages} ) {
 
-            # Strip out external images, but show a confirmation button to
-            #   load them explicitly.
+            # Strip out external content.
             my %SafetyCheckResult = $Kernel::OM->Get('Kernel::System::HTMLUtils')->Safety(
                 String       => $Param{Data}->{Content},
                 NoApplet     => 1,
@@ -5063,7 +5062,12 @@ sub RichTextDocumentServe {
 
             $Param{Data}->{Content} = $SafetyCheckResult{String};
 
-            if ( $SafetyCheckResult{Replace} ) {
+           # Show confirmation button to load external content explicitly only if BlockLoadingRemoteContent is disabled.
+            if (
+                $SafetyCheckResult{Replace}
+                && !$Kernel::OM->Get('Kernel::Config')->Get('Ticket::Frontend::BlockLoadingRemoteContent')
+                )
+            {
 
                 # Generate blocker message.
                 my $Message = $Self->Output( TemplateFile => 'AttachmentBlocker' );

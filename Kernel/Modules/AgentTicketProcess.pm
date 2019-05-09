@@ -2650,8 +2650,8 @@ sub _RenderTitle {
 sub _RenderArticle {
     my ( $Self, %Param ) = @_;
 
-    # get layout object
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     for my $Needed (qw(FormID Ticket)) {
         if ( !$Param{$Needed} ) {
@@ -2690,6 +2690,15 @@ sub _RenderArticle {
             UploadCacheObject  => $Kernel::OM->Get('Kernel::System::Web::UploadCache'),
             AttachmentsInclude => 1,
         );
+
+        # Strip out external content if BlockLoadingRemoteContent is enabled.
+        if ( $ConfigObject->Get('Ticket::Frontend::BlockLoadingRemoteContent') ) {
+            my %SafetyCheckResult = $Kernel::OM->Get('Kernel::System::HTMLUtils')->Safety(
+                String       => $Param{GetParam}->{Body},
+                NoExtSrcLoad => 1,
+            );
+            $Param{GetParam}->{Body} = $SafetyCheckResult{String};
+        }
     }
 
     # get all attachments meta data
@@ -2822,9 +2831,6 @@ sub _RenderArticle {
     if ( IsHashRefWithData( $Param{Error} ) && $Param{Error}->{'TimeUnits'} ) {
         $Param{TimeUnitsInvalid} = 'ServerError';
     }
-
-    # get config object
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # show time units
     if (

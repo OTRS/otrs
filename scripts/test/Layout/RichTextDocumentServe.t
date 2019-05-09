@@ -24,6 +24,13 @@ $Kernel::OM->ObjectParamAdd(
 );
 my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
+# Disable global external content blocking.
+$Helper->ConfigSettingChange(
+    Valid => 1,
+    Key   => 'Ticket::Frontend::BlockLoadingRemoteContent',
+    Value => 0,
+);
+
 my @Tests = (
     {
         Name => '',

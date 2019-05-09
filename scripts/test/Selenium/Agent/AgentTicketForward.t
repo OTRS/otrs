@@ -44,6 +44,13 @@ $Selenium->RunTest(
             Value => 0
         );
 
+        # Disable global external content blocking.
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'Ticket::Frontend::BlockLoadingRemoteContent',
+            Value => 0,
+        );
+
         # Create test ticket.
         my $TicketID = $TicketObject->TicketCreate(
             Title        => 'Selenium ticket',
@@ -119,19 +126,10 @@ $Selenium->RunTest(
 
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
-        # Navigate to created test ticket in AgentTicketZoom page.
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
-
-        # Click on forward.
-        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketForward;TicketID=$TicketID;' )]")->click();
-
-        # Switch to forward window.
-        $Selenium->WaitFor( WindowCount => 2 );
-        my $Handles = $Selenium->get_window_handles();
-        $Selenium->switch_to_window( $Handles->[1] );
-
-        # Wait until page has loaded, if necessary.
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#ToCustomer").length' );
+        # Navigate to AgentTicketForward page.
+        $Selenium->VerifiedGet(
+            "${ScriptAlias}index.pl?Action=AgentTicketForward;TicketID=$TicketID;ArticleID=$ArticleID"
+        );
 
         # Check AgentTicketFoward page.
         for my $ID (
@@ -139,6 +137,7 @@ $Selenium->RunTest(
             FileUpload ComposeStateID IsVisibleForCustomer submitRichText)
             )
         {
+            $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#$ID').length;" );
             my $Element = $Selenium->find_element( "#$ID", 'css' );
             $Element->is_enabled();
             $Element->is_displayed();
@@ -146,20 +145,15 @@ $Selenium->RunTest(
 
         # Input fields and send forward.
         $Selenium->find_element( "#ToCustomer", 'css' )->send_keys($TestCustomer);
-
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length' );
-        $Selenium->execute_script("\$('li.ui-menu-item:contains($TestCustomer)').click()");
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length;' );
+        $Selenium->execute_script("\$('li.ui-menu-item:contains($TestCustomer)').click();");
 
         $Selenium->InputFieldValueSet(
             Element => '#ComposeStateID',
             Value   => '4',
         );
 
-        $Selenium->find_element( "#submitRichText", 'css' )->click();
-
-        # Return back to AgentTicketZoom.
-        $Selenium->WaitFor( WindowCount => 1 );
-        $Selenium->switch_to_window( $Handles->[0] );
+        $Selenium->find_element( "#submitRichText", 'css' )->VerifiedClick();
 
         # Navigate to AgentTicketHistory of created test ticket.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketHistory;TicketID=$TicketID");
@@ -168,6 +162,71 @@ $Selenium->RunTest(
         $Self->True(
             index( $Selenium->get_page_source(), "Forwarded to " ) > -1,
             'Action Forward executed correctly'
+        );
+
+        # Test external content loading depends on BlockLoadingRemoteContent setting (see bug#14398).
+        # Enable RichText.
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'Frontend::RichText',
+            Value => 1,
+        );
+
+        my $RandomID = $Helper->GetRandomID();
+
+        # Create another email article.
+        my $ImgSource           = 'http://example.com/image.png';
+        my $ArticleIDExtContent = $ArticleBackendObject->ArticleCreate(
+            TicketID             => $TicketID,
+            SenderType           => 'customer',
+            IsVisibleForCustomer => 1,
+            Subject              => 'some short description',
+            Body => '<!DOCTYPE html><html><body>' . $RandomID . '<br /><img src="' . $ImgSource . '"/></body></html>',
+            Charset        => 'utf-8',
+            MimeType       => 'text/html',
+            HistoryType    => 'EmailCustomer',
+            HistoryComment => 'Some free text!',
+            UserID         => 1,
+        );
+        $Self->True(
+            $ArticleID,
+            "ArticleID $ArticleIDExtContent is created",
+        );
+
+        # Navigate to AgentTicketForward page of article with external content.
+        $Selenium->VerifiedGet(
+            "${ScriptAlias}index.pl?Action=AgentTicketForward;TicketID=$TicketID;ArticleID=$ArticleIDExtContent"
+        );
+
+        # Wait until CKEditor content is updated.
+        $Selenium->WaitFor(
+            JavaScript => "return CKEDITOR.instances.RichText.getData().indexOf('$ImgSource') > -1;",
+        );
+
+        # Verify external content is loaded due to disabled BlockLoadingRemoteContent.
+        $Self->True(
+            $Selenium->execute_script("return CKEDITOR.instances.RichText.getData().indexOf('$ImgSource') > -1;"),
+            "BlockLoadingRemoteContent is disabled - external content is loaded"
+        );
+
+        # Enable global external content blocking.
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'Ticket::Frontend::BlockLoadingRemoteContent',
+            Value => 1,
+        );
+
+        $Selenium->VerifiedRefresh();
+
+        # Wait until CKEditor content is updated.
+        $Selenium->WaitFor(
+            JavaScript => "return CKEDITOR.instances.RichText.getData().indexOf('$RandomID') > -1;",
+        );
+
+        # Verify external content is not loaded due to enabled BlockLoadingRemoteContent.
+        $Self->False(
+            $Selenium->execute_script("return CKEDITOR.instances.RichText.getData().indexOf('$ImgSource') > -1;"),
+            "BlockLoadingRemoteContent is enabled - external content is not loaded"
         );
 
         # Delete created test ticket.

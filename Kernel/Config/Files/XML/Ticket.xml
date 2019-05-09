@@ -1743,6 +1743,13 @@
             </Item>
         </Value>
     </Setting>
+    <Setting Name="Ticket::Frontend::BlockLoadingRemoteContent" Required="1" Valid="1">
+        <Description Translatable="1">Makes the application block external content loading.</Description>
+        <Navigation>Frontend::Agent</Navigation>
+        <Value>
+            <Item ValueType="Checkbox">0</Item>
+        </Value>
+    </Setting>
     <Setting Name="Ticket::Frontend::CustomerInfoCompose" Required="1" Valid="1">
         <Description Translatable="1">Shows the customer user information (phone and email) in the compose screen.</Description>
         <Navigation>Frontend::Agent</Navigation>
