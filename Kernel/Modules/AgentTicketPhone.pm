@@ -351,6 +351,15 @@ sub Run {
                 $Article{ContentType} = 'text/plain';
             }
 
+            # Strip out external content if needed.
+            if ( $ConfigObject->Get('Ticket::Frontend::BlockLoadingRemoteContent') ) {
+                my %SafetyCheckResult = $Kernel::OM->Get('Kernel::System::HTMLUtils')->Safety(
+                    String       => $Article{Body},
+                    NoExtSrcLoad => 1,
+                );
+                $Article{Body} = $SafetyCheckResult{String};
+            }
+
             # show customer info
             if ( $ConfigObject->Get('Ticket::Frontend::CustomerInfoCompose') ) {
                 if ( $Article{CustomerUserID} ) {

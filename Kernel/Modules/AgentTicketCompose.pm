@@ -1180,6 +1180,15 @@ sub Run {
             UploadCacheObject => $UploadCacheObject,
         );
 
+        # Strip out external content if needed.
+        if ( $ConfigObject->Get('Ticket::Frontend::BlockLoadingRemoteContent') ) {
+            my %SafetyCheckResult = $Kernel::OM->Get('Kernel::System::HTMLUtils')->Safety(
+                String       => $Data{Body},
+                NoExtSrcLoad => 1,
+            );
+            $Data{Body} = $SafetyCheckResult{String};
+        }
+
         # restrict number of body lines if configured
         if (
             $Data{Body}

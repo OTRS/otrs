@@ -168,15 +168,6 @@ sub Run {
         # set filename for inline viewing
         $Data{Filename} = "Ticket-$Article{TicketNumber}-ArticleID-$Article{ArticleID}.html";
 
-        my $LoadExternalImages = $ParamObject->GetParam(
-            Param => 'LoadExternalImages'
-        ) || 0;
-
-        # safety check only on customer article
-        if ( !$LoadExternalImages && $Article{SenderType} ne 'customer' ) {
-            $LoadExternalImages = 1;
-        }
-
         # generate base url
         my $URL = 'Action=AgentTicketAttachment;Subaction=HTMLView'
             . ";ArticleID=$ArticleID;FileID=";
@@ -186,6 +177,22 @@ sub Run {
             ArticleID => $ArticleID,
             UserID    => $Self->{UserID},
         );
+
+        # Do not load external images if 'BlockLoadingRemoteContent' is enabled.
+        my $LoadExternalImages;
+        if ( $ConfigObject->Get('Ticket::Frontend::BlockLoadingRemoteContent') ) {
+            $LoadExternalImages = 0;
+        }
+        else {
+            $LoadExternalImages = $ParamObject->GetParam(
+                Param => 'LoadExternalImages'
+            ) || 0;
+
+            # Safety check only on customer article.
+            if ( !$LoadExternalImages && $Article{SenderType} ne 'customer' ) {
+                $LoadExternalImages = 1;
+            }
+        }
 
         # reformat rich text document to have correct charset and links to
         # inline documents
