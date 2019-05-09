@@ -478,6 +478,18 @@ $Selenium->RunTest(
         # Import existing template without overwrite.
         $Selenium->find_element( "#FileUpload", 'css' )->send_keys($Location);
 
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return typeof(\$) === 'function' && \$('#FileUpload').val().indexOf('Export_Notification_Ticket_create_notification.yml') !== -1;"
+        );
+
+        $Self->True(
+            $Selenium->execute_script(
+                "return \$('#FileUpload').val().indexOf('Export_Notification_Ticket_create_notification.yml') !== -1;"
+            ),
+            "Notification is uploaded",
+        );
+
         $Selenium->find_element("//button[\@value=\'Upload Notification configuration']")->VerifiedClick();
 
         my $ErrorMessage = 'There where errors adding/updating the following Notifications';
