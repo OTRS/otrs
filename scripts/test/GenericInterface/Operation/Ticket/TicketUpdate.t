@@ -1095,7 +1095,7 @@ for my $Test (@Tests) {
                 next ATTACHMENT if !IsHashRefWithData( \%Attachment );
 
                 # Convert content to base64.
-                $Attachment{Content} = MIME::Base64::encode_base64( $Attachment{Content} );
+                $Attachment{Content} = MIME::Base64::encode_base64( $Attachment{Content}, '' );
                 push @Attachments, {%Attachment};
             }
 

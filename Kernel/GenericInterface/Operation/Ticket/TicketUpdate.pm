@@ -2321,8 +2321,8 @@ sub _TicketUpdate {
 
             next ATTACHMENT if !IsHashRefWithData( \%Attachment );
 
-            # convert content to base64
-            $Attachment{Content} = MIME::Base64::encode_base64( $Attachment{Content} );
+            # convert content to base64, but prevent 76 chars brake, see bug#14500.
+            $Attachment{Content} = MIME::Base64::encode_base64( $Attachment{Content}, '' );
             push @Attachments, {%Attachment};
         }
 

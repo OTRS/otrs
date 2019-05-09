@@ -1,4 +1,5 @@
 #6.0.19 ????-??-??
+ - 2019-05-09 Fixed bug#[14500](https://bugs.otrs.org/show_bug.cgi?id=14500) - Webservice base64 contents line feed does not comply with  RFC 4648.
  - 2019-05-08 Fixed bug#[14532](https://bugs.otrs.org/show_bug.cgi?id=14532) - Wrong comment / documentation for Daemon::SchedulerCronTaskManager::Task###GeneticInterfaceDebugLogCleanup in Docs and SystemConfiguration.
  - 2019-05-08 Fixed bug#[14455](https://bugs.otrs.org/show_bug.cgi?id=14455) - OTRS tags '<OTRS_CUSTOMER_DATA_*>' don't work in 'Create' template.
  - 2019-05-08 Fixed bug#[14514](https://bugs.otrs.org/show_bug.cgi?id=14514) - Teams and agents list window is behind the appointment overview window.

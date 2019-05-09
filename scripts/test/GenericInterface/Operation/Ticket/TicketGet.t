@@ -786,7 +786,7 @@ my $ArticleAttachmentContentGet = sub {
             $Attachment{FileID} = $FileID;
 
             # convert content to base64
-            $Attachment{Content}            = $Param{NoContent} ? '' : encode_base64( $Attachment{Content} );
+            $Attachment{Content}            = $Param{NoContent} ? '' : encode_base64( $Attachment{Content}, '' );
             $Attachment{ContentID}          = '';
             $Attachment{ContentAlternative} = '';
             push @Attachments, {%Attachment};
