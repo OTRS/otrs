@@ -162,9 +162,14 @@ $Selenium->RunTest(
                 );
                 $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
 
+                $Selenium->WaitFor(
+                    JavaScript =>
+                        "return typeof(\$) === 'function' && \$('#DynamicFieldsTable tr:contains($RandomID)').length;"
+                );
+
                 # Check if test DynamicField show on AdminDynamicField screen.
                 $Self->True(
-                    index( $Selenium->get_page_source(), $RandomID ) > -1,
+                    $Selenium->execute_script("return \$('#DynamicFieldsTable tr:contains($RandomID)').length;"),
                     "$RandomID $ID $Type DynamicField found on page",
                 );
 
@@ -179,6 +184,10 @@ $Selenium->RunTest(
                         . $RandomID
                 );
 
+                $Selenium->WaitFor(
+                    JavaScript => "return typeof(\$) === 'function' && \$('#Label').length && \$('#ValidID').length;"
+                );
+
                 $Selenium->find_element( "#Label", 'css' )->clear();
                 $Selenium->find_element( "#Label", 'css' )->send_keys( $RandomID . "-update" );
                 $Selenium->InputFieldValueSet(
@@ -186,6 +195,11 @@ $Selenium->RunTest(
                     Value   => 2,
                 );
                 $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
+
+                $Selenium->WaitFor(
+                    JavaScript =>
+                        "return typeof(\$) === 'function' && \$('tr.Invalid td a:contains($RandomID)').length;"
+                );
 
                 # Check class of invalid DynamicField in the overview table.
                 $Self->True(
@@ -197,6 +211,10 @@ $Selenium->RunTest(
 
                 # Go to new DynamicField again after update and check values.
                 $Selenium->find_element( $RandomID, 'link_text' )->VerifiedClick();
+
+                $Selenium->WaitFor(
+                    JavaScript => "return typeof(\$) === 'function' && \$('#Name').length;"
+                );
 
                 # Check new DynamicField values.
                 $Self->Is(
@@ -288,10 +306,15 @@ $Selenium->RunTest(
         # Navigate to AdminDynamiField screen.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminDynamicField");
 
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return typeof(\$) === 'function' && \$('#ShowContextSettingsDialog').length;"
+        );
+
         # Set 10 fields per page.
         $Selenium->find_element( "a#ShowContextSettingsDialog", 'css' )->click();
         $Selenium->WaitFor(
-            JavaScript => 'return typeof($) === "function" && $("#AdminDynamicFieldsOverviewPageShown").length;'
+            JavaScript => 'return $("#AdminDynamicFieldsOverviewPageShown").length && $("#DialogButton1").length;'
         );
         $Selenium->InputFieldValueSet(
             Element => '#AdminDynamicFieldsOverviewPageShown',
@@ -325,8 +348,14 @@ $Selenium->RunTest(
         # Go back to AdminDynamiField screen.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminDynamicField");
 
+        # Wait until page has finished loading.
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#AdminDynamicFieldPage2").length;' );
+
         # Go to the second page.
         $Selenium->find_element( "#AdminDynamicFieldPage2", 'css' )->VerifiedClick();
+
+        # Wait until page has finished loading.
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#TicketDynamicField").length;' );
 
         # Click to create 'Text' type ticket dynamic field from the second page.
         $Selenium->InputFieldValueSet(
@@ -335,7 +364,7 @@ $Selenium->RunTest(
         );
 
         # Wait until page has finished loading.
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Name").length;' );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#FieldOrder").length;' );
 
         # Check FieldOrder default value.
         $Self->Is(
