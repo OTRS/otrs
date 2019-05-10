@@ -453,6 +453,10 @@ $Selenium->RunTest(
                 # Switch back to the main window.
                 $Selenium->WaitFor( WindowCount => 1 );
                 $Selenium->switch_to_window( $Handles->[0] );
+
+                $Selenium->WaitFor(
+                    JavaScript => "return typeof(\$) === 'function' && \$.active == 0;"
+                );
             }
         }
 
