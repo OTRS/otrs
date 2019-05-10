@@ -293,18 +293,6 @@ sub _ReplaceAdditionalAttributes {
         }
     }
 
-    my $Start = '<';
-    my $End   = '>';
-
-    if ($RichText) {
-        $Start = $HTMLUtilsObject->ToHTML(
-            String => $Start,
-        );
-        $End = $HTMLUtilsObject->ToHTML(
-            String => $End,
-        );
-    }
-
     my $TemplateGeneratorObject = $Kernel::OM->Get('Kernel::System::TemplateGenerator');
 
     # start replacing of OTRS smart tags
@@ -330,18 +318,18 @@ sub _ReplaceAdditionalAttributes {
                 Language   => $Language,
             );
 
-            # Convert quoted body to Ascii and create a completed
-            # html doc for correct displaying.
-            if ( $RichText && $Attribute eq 'Body' ) {
-
+            if ($RichText) {
                 $ConfigValue = $HTMLUtilsObject->ToAscii(
                     String => $ConfigValue,
                 );
 
-                $ConfigValue = $HTMLUtilsObject->DocumentComplete(
-                    String  => $ConfigValue,
-                    Charset => 'utf-8',
-                );
+                # For body, create a completed html doc for correct displaying.
+                if ( $Attribute eq 'Body' ) {
+                    $ConfigValue = $HTMLUtilsObject->DocumentComplete(
+                        String  => $ConfigValue,
+                        Charset => 'utf-8',
+                    );
+                }
             }
 
             $Param{Config}->{$Attribute} = $ConfigValue;

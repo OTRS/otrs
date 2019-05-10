@@ -891,7 +891,8 @@ my @Tests = (
                 TimeUnit => 123,
             },
         },
-        Success => 1,
+        Success        => 1,
+        CheckFromValue => 1,
     },
 
     {
@@ -923,8 +924,9 @@ my @Tests = (
                 TimeUnit => 123,
             },
         },
-        Success => 1,
-        Article => 1,
+        Success        => 1,
+        Article        => 1,
+        CheckFromValue => 1,
     },
     {
         Name   => 'Correct Ticket Email Article',
@@ -955,8 +957,9 @@ my @Tests = (
                 TimeUnit => 123,
             },
         },
-        Success => 1,
-        Article => 1,
+        Success        => 1,
+        Article        => 1,
+        CheckFromValue => 1,
     },
     {
         Name   => 'Correct Ticket Internal Article',
@@ -987,8 +990,9 @@ my @Tests = (
                 TimeUnit => 123,
             },
         },
-        Success => 1,
-        Article => 1,
+        Success        => 1,
+        Article        => 1,
+        CheckFromValue => 1,
     },
 
 );
@@ -1077,6 +1081,14 @@ for my $Test (@Tests) {
                     ArticleID     => $Articles[0]->{ArticleID},
                     DynamicFields => 1,
                 );
+
+                # Check 'From' value of article (see bug#13867).
+                if ( $Test->{CheckFromValue} ) {
+                    $Self->True(
+                        $Article{From} =~ /root\@localhost/,
+                        "Article 'From' value is correct",
+                    );
+                }
             }
         }
 

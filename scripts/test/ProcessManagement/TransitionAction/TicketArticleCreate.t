@@ -692,6 +692,28 @@ my @Tests = (
         },
         Success => 0,
     },
+    {
+        Name   => 'Correct using Phone backend without "From" parameter',
+        Config => {
+            UserID => $UserID,
+            Ticket => \%Ticket,
+            Config => {
+                SenderType           => 'agent',
+                IsVisibleForCustomer => 0,
+                CommunicationChannel => 'Phone',
+                Subject              => 'Test Phone',
+                Body                 => 'Test body',
+                HistoryType          => 'OwnerUpdate',
+                HistoryComment       => 'Some free text!',
+                To                   => 'Some Customer A <customer-a@example.com>',
+                Charset              => 'ISO-8859-15',
+                MimeType             => 'text/plain',
+                UnlockOnAway         => 1,
+            },
+        },
+        Success        => 1,
+        CheckFromValue => 1,
+    },
 );
 
 my %ExcludedArtributes = (
@@ -735,6 +757,14 @@ for my $Test (@Tests) {
             OnlyLast => 1,
         );
         my %Article = $ArticleObject->BackendForArticle( %{ $MetaArticles[-1] } )->ArticleGet( %{ $MetaArticles[-1] } );
+
+        # Check 'From' value of article (see bug#13867).
+        if ( $Test->{CheckFromValue} ) {
+            $Self->True(
+                $Article{From} =~ /root\@localhost/,
+                "Article 'From' value is correct",
+            );
+        }
 
         ATTRIBUTE:
         for my $Attribute ( sort keys %{ $Test->{Config}->{Config} } ) {
