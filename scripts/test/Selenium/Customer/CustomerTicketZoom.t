@@ -38,6 +38,22 @@ $Selenium->RunTest(
         my $TestCustomerUserLogin = $Helper->TestCustomerUserCreate(
         ) || die "Did not get test customer user";
 
+        # Change customer user first and last name.
+        my $RandomID          = $Helper->GetRandomID();
+        my $CustomerFirstName = 'FirstName';
+        my $CustomerLastName  = 'LastName, test (12345)';
+        $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserUpdate(
+            Source         => 'CustomerUser',
+            ID             => $TestCustomerUserLogin,
+            UserCustomerID => $TestCustomerUserLogin,
+            UserLogin      => $TestCustomerUserLogin,
+            UserFirstname  => $CustomerFirstName,
+            UserLastname   => $CustomerLastName,
+            UserEmail      => "$RandomID\@localhost.com",
+            ValidID        => 1,
+            UserID         => 1,
+        );
+
         # Create test ticket.
         my $TicketNumber = $TicketObject->TicketCreateNumber();
         my $TicketID     = $TicketObject->TicketCreate(
@@ -233,7 +249,8 @@ $Selenium->RunTest(
         # Check reply button.
         $Selenium->find_element("//a[contains(\@id, \'ReplyButton' )]")->click();
         $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#FollowUp.Visible').length" );
-        $Selenium->find_element("//button[contains(\@value, \'Submit' )]");
+        $Selenium->find_element( '#RichText', 'css' )->send_keys('TestBody');
+        $Selenium->find_element("//button[contains(\@value, \'Submit' )]")->VerifiedClick();
 
         # Change the ticket state to 'merged'.
         my $Merged = $TicketObject->TicketStateSet(
@@ -246,8 +263,7 @@ $Selenium->RunTest(
             "Ticket state changed to 'merged'",
         );
 
-        # Refresh the page.
-        $Selenium->VerifiedRefresh();
+        $Selenium->VerifiedGet("${ScriptAlias}customer.pl?Action=CustomerTicketZoom;TicketNumber=$TicketNumber");
 
         # Check if reply button is missing in merged ticket (bug#7301).
         $Self->Is(
@@ -261,6 +277,26 @@ $Selenium->RunTest(
             $Selenium->execute_script('return $("a[href*=\'Action=CustomerTicketPrint\']").length'),
             1,
             "Print button is found",
+        );
+
+        # Login to Agent interface and verify customer name in answer article.
+        my $TestUserLogin = $Helper->TestUserCreate(
+            Groups => [ 'admin', 'users' ],
+        ) || die "Did not get test user";
+
+        $Selenium->Login(
+            Type     => 'Agent',
+            User     => $TestUserLogin,
+            Password => $TestUserLogin,
+        );
+
+        # Navigate to AgentTicketZoom screen.
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
+
+        $Self->True(
+            $Selenium->execute_script(
+                'return $("#ArticleTable a:contains(\'FirstName LastName, test (12345)\')").length;'),
+            "Customer name found in reply article",
         );
 
         # Clean up test data from the DB.
