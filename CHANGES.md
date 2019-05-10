@@ -1,6 +1,6 @@
 #6.0.19 ????-??-??
  - 2019-05-09 Fixed bug#[14398](https://bugs.otrs.org/show_bug.cgi?id=14398) - External images are automatically loaded in forward screen.
-   New config 'Ticket::Frontend::BlockLoadingRemoteContent' is added. It controls if externnal content should be loaded, by default it is disabled.
+   New config named `Ticket::Frontend::BlockLoadingRemoteContent` has been added. It controls if loading of external resources will be blocked, by default it is disabled.
  - 2019-05-09 Fixed bug#[14500](https://bugs.otrs.org/show_bug.cgi?id=14500) - Webservice base64 contents line feed does not comply with  RFC 4648.
  - 2019-05-08 Fixed bug#[14532](https://bugs.otrs.org/show_bug.cgi?id=14532) - Wrong comment / documentation for Daemon::SchedulerCronTaskManager::Task###GeneticInterfaceDebugLogCleanup in Docs and SystemConfiguration.
  - 2019-05-08 Fixed bug#[14455](https://bugs.otrs.org/show_bug.cgi?id=14455) - OTRS tags '<OTRS_CUSTOMER_DATA_*>' don't work in 'Create' template.
