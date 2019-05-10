@@ -1,6 +1,6 @@
 #5.0.36 ????-??-??
  - 2019-05-09 Fixed bug#[14398](https://bugs.otrs.org/show_bug.cgi?id=14398) - External images are automatically loaded in forward screen.
-   New config 'Ticket::Frontend::BlockLoadingRemoteContent' is added. It controls if external content should be loaded, by default it is disabled.
+   New config named `Ticket::Frontend::BlockLoadingRemoteContent` has been added. It controls if loading of external resources will be blocked, by default it is disabled.
  - 2019-04-12 Updated CPAN module Mozilla::CA.
 
 #5.0.35 2019-04-26
