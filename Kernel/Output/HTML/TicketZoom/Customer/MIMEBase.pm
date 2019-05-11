@@ -157,6 +157,29 @@ sub ArticleRender {
         ChannelID => $Article{CommunicationChannelID},
     );
 
+    # Get screen config for CustomerTicketZoom
+    my $ScreenConfig = $ConfigObject->Get('Ticket::Frontend::CustomerTicketZoom');
+
+    # Define if internal notes that are marked as "visible for customer" should show the real name of the agent
+    #   or just a default agent name.
+    if (
+        $ScreenConfig->{DisplayNoteFrom}
+        && $ScreenConfig->{DisplayNoteFrom} eq 'DefaultAgentName'
+        && $CommunicationChannel{ChannelName} eq 'Internal'
+        && $Article{SenderType} eq 'agent'
+        && $Article{IsVisibleForCustomer}
+        )
+    {
+
+        my $DefaultAgentName
+            = $LayoutObject->{LanguageObject}->Translate( $ScreenConfig->{DefaultAgentName} || 'Support Agent' );
+        $ArticleFields{From}->{Realname}   = $DefaultAgentName;
+        $ArticleFields{From}->{Value}      = $DefaultAgentName;
+        $ArticleFields{Sender}->{Realname} = $DefaultAgentName;
+        $ArticleFields{Sender}->{Value}    = $DefaultAgentName;
+        $Article{FromRealname}             = $DefaultAgentName;
+    }
+
     my $Content = $LayoutObject->Output(
         TemplateFile => 'CustomerTicketZoom/ArticleRender/MIMEBase',
         Data         => {

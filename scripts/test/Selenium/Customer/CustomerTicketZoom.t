@@ -279,6 +279,87 @@ $Selenium->RunTest(
             "Print button is found",
         );
 
+        my $ArticleBackendObjectInternal = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForChannel(
+            ChannelName => 'Internal',
+        );
+
+        my $TestOriginalFrom = 'Agent Some Agent Some Agent' . $Helper->GetRandomID();
+
+        # Add article from agent, with enabled IsVisibleForCustomer.
+        my $ArticleID3 = $ArticleBackendObjectInternal->ArticleCreate(
+            TicketID             => $TicketID,
+            SenderType           => 'agent',
+            IsVisibleForCustomer => 1,
+            From                 => $TestOriginalFrom . ' <email@example.com>',
+            Subject              => $SubjectRandom,
+            Body                 => $TextRandom,
+            Charset              => 'charset=ISO-8859-15',
+            MimeType             => 'text/plain',
+            HistoryType          => 'AddNote',
+            HistoryComment       => 'Some free text!',
+            UserID               => 1,
+        );
+
+        $Self->True(
+            $ArticleID2,
+            "Article #2 is created - $ArticleID2",
+        );
+
+        # Use From field value.
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'Ticket::Frontend::CustomerTicketZoom###DisplayNoteFrom',
+            Value => 'FromField',
+        );
+
+        # Allow apache to pick up the changed SysConfig via Apache::Reload.
+        sleep 2;
+
+        # Refresh the page.
+        $Selenium->VerifiedRefresh();
+
+        # Check From field value.
+        my $FromString = $Selenium->execute_script(
+            "return \$('.MessageBody:eq(3) span:eq(0)').text().trim();"
+        );
+        $Self->Is(
+            $FromString,
+            $TestOriginalFrom,
+            "Test From content",
+        );
+
+        # Use default agent name setting.
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'Ticket::Frontend::CustomerTicketZoom###DisplayNoteFrom',
+            Value => 'DefaultAgentName',
+        );
+
+        my $TestDefaultAgentName = 'ADefaultValueForAgentName' . $Helper->GetRandomID();
+
+        # Set a default value for agent.
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'Ticket::Frontend::CustomerTicketZoom###DefaultAgentName',
+            Value => $TestDefaultAgentName,
+        );
+
+        # Allow apache to pick up the changed SysConfig via Apache::Reload.
+        sleep 2;
+
+        # Refresh the page.
+        $Selenium->VerifiedRefresh();
+
+        # Check From field value.
+        $FromString = $Selenium->execute_script(
+            "return \$('.MessageBody:eq(3) span:eq(0)').text().trim();"
+        );
+        $Self->Is(
+            $FromString,
+            $TestDefaultAgentName,
+            "Test From content",
+        );
+
         # Login to Agent interface and verify customer name in answer article.
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => [ 'admin', 'users' ],
@@ -295,7 +376,8 @@ $Selenium->RunTest(
 
         $Self->True(
             $Selenium->execute_script(
-                'return $("#ArticleTable a:contains(\'FirstName LastName, test (12345)\')").length;'),
+                'return $("#ArticleTable a:contains(\'FirstName LastName, test (12345)\')").length;'
+            ),
             "Customer name found in reply article",
         );
 

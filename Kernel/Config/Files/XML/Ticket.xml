@@ -7268,6 +7268,23 @@
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
+    <Setting Name="Ticket::Frontend::CustomerTicketZoom###DisplayNoteFrom" Required="1" Valid="1">
+        <Description Translatable="1">Defines the displayed style of the From field in notes that are visible for customers. A default agent name can be defined in Ticket::Frontend::CustomerTicketZoom###DefaultAgentName setting.</Description>
+        <Navigation>Frontend::Customer::View::TicketZoom</Navigation>
+        <Value>
+            <Item ValueType="Select" SelectedID="FromField">
+                <Item ValueType="Option" Value="FromField" Translatable="1">The value of the From field</Item>
+                <Item ValueType="Option" Value="DefaultAgentName" Translatable="1">Default agent name</Item>
+            </Item>
+        </Value>
+    </Setting>
+    <Setting Name="Ticket::Frontend::CustomerTicketZoom###DefaultAgentName" Required="1" Valid="1">
+        <Description Translatable="1">Defines the default agent name in the ticket zoom view of the customer interface.</Description>
+        <Navigation>Frontend::Customer::View::TicketZoom</Navigation>
+        <Value>
+            <Item ValueType="String" Translatable="1">Support Agent</Item>
+        </Value>
+    </Setting>
     <Setting Name="Ticket::CustomerTicketSearch::SearchLimit" Required="1" Valid="1">
         <Description Translatable="1">Maximum number of tickets to be displayed in the result of a search in the customer interface.</Description>
         <Navigation>Frontend::Customer::View::TicketSearch</Navigation>
