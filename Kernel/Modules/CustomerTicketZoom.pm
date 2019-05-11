@@ -1473,6 +1473,24 @@ sub _Mask {
 
         $LastSenderType = $Article{SenderType};
 
+        # Get screen config for CustomerTicketZoom
+        my $ScreenConfig = $ConfigObject->Get('Ticket::Frontend::CustomerTicketZoom');
+
+        # Define if external notes should show the real name of the agent
+        #   or just a default agent name.
+        if (
+            $ScreenConfig->{DisplayNoteFrom}
+            && $ScreenConfig->{DisplayNoteFrom} eq 'DefaultAgentName'
+            && $Article{SenderType} eq 'agent'
+            && $Article{ArticleType} eq 'note-external'
+            )
+        {
+            my $DefaultAgentName
+                = $LayoutObject->{LanguageObject}->Translate( $ScreenConfig->{DefaultAgentName} || 'Support Agent' );
+            $Article{From}         = $DefaultAgentName;
+            $Article{FromRealname} = $DefaultAgentName;
+        }
+
         $LayoutObject->Block(
             Name => 'Article',
             Data => \%Article,

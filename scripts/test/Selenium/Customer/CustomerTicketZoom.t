@@ -164,6 +164,80 @@ $Selenium->RunTest(
             "Reply button not found",
         );
 
+        my $TestOriginalFrom = 'Agent Some Agent Some Agent' . $Helper->GetRandomID() . ' <email@example.com>';
+
+        my $ArticleID2 = $TicketObject->ArticleCreate(
+            TicketID       => $TicketID,
+            ArticleType    => 'note-external',
+            SenderType     => 'agent',
+            From           => $TestOriginalFrom,
+            Subject        => $SubjectRandom,
+            Body           => $TextRandom,
+            ContentType    => 'text/html; charset=ISO-8859-15',
+            HistoryType    => 'AddNote',
+            HistoryComment => 'Some free text!',
+            UserID         => 1,
+        );
+        $Self->True(
+            $ArticleID2,
+            "Article is created - $ArticleID",
+        );
+
+        # Use From field value.
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'Ticket::Frontend::CustomerTicketZoom###DisplayNoteFrom',
+            Value => 'FromField',
+        );
+
+        # Allow apache to pick up the changed SysConfig via Apache::Reload.
+        sleep 2;
+
+        # Refresh the page.
+        $Selenium->VerifiedRefresh();
+
+        # Check From field value.
+        my $FromString = $Selenium->execute_script(
+            "return \$('.MessageBody:eq(1) span:eq(1)').text().trim();"
+        );
+        $Self->Is(
+            $FromString,
+            $TestOriginalFrom,
+            "Test From content",
+        );
+
+        # Use default agent name setting.
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'Ticket::Frontend::CustomerTicketZoom###DisplayNoteFrom',
+            Value => 'DefaultAgentName',
+        );
+
+        my $TestDefaultAgentName = 'ADefaultValueForAgentName' . $Helper->GetRandomID();
+
+        # Set a default value for agent.
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'Ticket::Frontend::CustomerTicketZoom###DefaultAgentName',
+            Value => $TestDefaultAgentName,
+        );
+
+        # Allow apache to pick up the changed SysConfig via Apache::Reload.
+        sleep 2;
+
+        # Refresh the page.
+        $Selenium->VerifiedRefresh();
+
+        # Check From field value.
+        $FromString = $Selenium->execute_script(
+            "return \$('.MessageBody:eq(1) span:eq(1)').text().trim();"
+        );
+        $Self->Is(
+            $FromString,
+            $TestDefaultAgentName,
+            "Test From content",
+        );
+
         # check print button
         $Selenium->find_element("//a[contains(\@href, \'Action=CustomerTicketPrint;' )]")->VerifiedClick();
 
