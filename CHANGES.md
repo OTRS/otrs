@@ -5,17 +5,17 @@
  - 2019-05-10 Fixed bug#[14512](https://bugs.otrs.org/show_bug.cgi?id=14512) - The customer name is wrong on the answer article.
  - 2019-05-09 Fixed bug#[14398](https://bugs.otrs.org/show_bug.cgi?id=14398) - External images are automatically loaded in forward screen.
    New config named `Ticket::Frontend::BlockLoadingRemoteContent` has been added. It controls if loading of external resources will be blocked, by default it is disabled.
- - 2019-05-09 Fixed bug#[14500](https://bugs.otrs.org/show_bug.cgi?id=14500) - Webservice base64 contents line feed does not comply with  RFC 4648.
+ - 2019-05-09 Fixed bug#[14500](https://bugs.otrs.org/show_bug.cgi?id=14500) - Webservice base64 contents line feed does not comply with RFC 4648.
  - 2019-05-08 Fixed bug#[14532](https://bugs.otrs.org/show_bug.cgi?id=14532) - Wrong comment / documentation for Daemon::SchedulerCronTaskManager::Task###GeneticInterfaceDebugLogCleanup in Docs and SystemConfiguration.
  - 2019-05-08 Fixed bug#[14455](https://bugs.otrs.org/show_bug.cgi?id=14455) - OTRS tags '<OTRS_CUSTOMER_DATA_*>' don't work in 'Create' template.
  - 2019-05-08 Fixed bug#[14514](https://bugs.otrs.org/show_bug.cgi?id=14514) - Teams and agents list window is behind the appointment overview window.
- - 2019-05-08 Fixed bug#[14400](https://bugs.otrs.org/show_bug.cgi?id=14400) - Reply adds the same email address for every connected customer user table.
+ - 2019-05-08 Fixed bug#[14400](https://bugs.otrs.org/show_bug.cgi?id=14400) - Reply adds the same email address for every connected customer user backend.
  - 2019-04-23 Fixed bug#[14509](https://bugs.otrs.org/show_bug.cgi?id=14509) - The agent's notification bar has a wrong URL.
    It was only indicated by IE, since other browsers automatically redirected to the same page.
- - 2019-04-18 Fixed bug#[14504](https://bugs.otrs.org/show_bug.cgi?id=14504) - Queue based ACL does not work for AgentTicketActionCommon.
+ - 2019-04-18 Fixed bug#[14504](https://bugs.otrs.org/show_bug.cgi?id=14504) - Queue based ACL does not work for AgentTicketActionCommon based screens.
  - 2019-04-18 Fixed bug#[14482](https://bugs.otrs.org/show_bug.cgi?id=14482) - File upload help text is wrapped and overflows on small resolutions.
  - 2019-04-17 Fixed bug#[14511](https://bugs.otrs.org/show_bug.cgi?id=14511) - Statistic does not work during daylight saving time.
-   Fatal error was fixed during  generation of statistics based on an unexisting hour, which is lost during the time switch.
+   Fatal error was fixed during generation of statistics based on an unexisting hour, which is lost during the time switch.
  - 2019-04-17 Fixed bug#[14427](https://bugs.otrs.org/show_bug.cgi?id=14427) - Fulltext search has no result if search term contains backslash followed by white space.
  - 2019-04-16 Fixed bug#[14412](https://bugs.otrs.org/show_bug.cgi?id=14412) - CustomerID cannot be changed in ticket action for changing customer.
    Config option `Ticket::Frontend::AgentTicketCustomer::CustomerIDReadOnly` was not honored.
