@@ -34,6 +34,12 @@ $Selenium->RunTest(
             Value => 0,
         );
 
+        # Disable check email address.
+        $Helper->ConfigSettingChange(
+            Key   => 'CheckEmailAddresses',
+            Value => 0,
+        );
+
         # Create test customer user.
         my $TestCustomerUserLogin = $Helper->TestCustomerUserCreate(
         ) || die "Did not get test customer user";
