@@ -31,11 +31,10 @@ $Kernel::OM->Get('Kernel::Config')->Set(
 );
 
 # define variables
-my $UserID     = 1;
 my $ModuleName = 'TicketArticleCreate';
 
 # set user details
-my ( $TestUserLogin, $TestUserID ) = $Helper->TestUserCreate();
+my ( $TestUserLogin, $UserID ) = $Helper->TestUserCreate();
 
 # get ticket object
 my $TicketObject         = $Kernel::OM->Get('Kernel::System::Ticket');
@@ -761,7 +760,7 @@ for my $Test (@Tests) {
         # Check 'From' value of article (see bug#13867).
         if ( $Test->{CheckFromValue} ) {
             $Self->True(
-                $Article{From} =~ /root\@localhost/,
+                $Article{From} =~ /$TestUserLogin/,
                 "Article 'From' value is correct",
             );
         }

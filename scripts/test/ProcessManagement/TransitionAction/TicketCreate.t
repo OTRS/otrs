@@ -29,12 +29,14 @@ $Kernel::OM->ObjectParamAdd(
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 # define variables
-my $UserID     = 1;
 my $ModuleName = 'TicketCreate';
 my $RandomID   = $Helper->GetRandomID();
 
 # set user details
-my ( $TestUserLogin, $TestUserID ) = $Helper->TestUserCreate();
+my ( $TestUserLogin, $UserID ) = $Helper->TestUserCreate();
+
+# Create another test user.
+my ( $TestUserLogin2, $TestUserID2 ) = $Helper->TestUserCreate();
 
 # use Test email backend
 my $Success = $Kernel::OM->Get('Kernel::Config')->Set(
@@ -858,7 +860,7 @@ my @Tests = (
                 ForceNotificationToUserID       => '1, 43, 56',
                 ExcludeNotificationToUserID     => '43, 56',
                 ExcludeMuteNotificationToUserID => '43, 56',
-                UserID                          => $TestUserID,
+                UserID                          => $TestUserID2,
             },
         },
         Success => 1,
@@ -1085,7 +1087,7 @@ for my $Test (@Tests) {
                 # Check 'From' value of article (see bug#13867).
                 if ( $Test->{CheckFromValue} ) {
                     $Self->True(
-                        $Article{From} =~ /root\@localhost/,
+                        $Article{From} =~ /$TestUserLogin/,
                         "Article 'From' value is correct",
                     );
                 }
