@@ -143,6 +143,12 @@ $Selenium->RunTest(
             },
         };
 
+        # Wait until page has loaded, if necessary.
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof($) === "function" && $("a.AsPopup:contains(Forward)").length;'
+        );
+
         # Click on Forward and switch window.
         $Selenium->find_element( "Forward", 'link_text' )->click();
 
@@ -163,9 +169,9 @@ $Selenium->RunTest(
                 $Selenium->find_element( "#$FormDraftCase->{Fields}->{$Field}->{ID}", 'css' )->send_keys($TestCustomer);
                 $Selenium->WaitFor(
                     JavaScript =>
-                        "return typeof(\$) === 'function' && \$('li.ui-menu-item:contains($TestCustomer):visible').length"
+                        "return typeof(\$) === 'function' && \$('li.ui-menu-item:contains($TestCustomer):visible').length;"
                 );
-                $Selenium->execute_script("\$('li.ui-menu-item:contains($TestCustomer)').click()");
+                $Selenium->execute_script("\$('li.ui-menu-item:contains($TestCustomer)').click();");
 
             }
             elsif ( $FormDraftCase->{Fields}->{$Field}->{Type} eq 'Attachment' ) {
@@ -173,7 +179,7 @@ $Selenium->RunTest(
                 # Make the file upload field visible.
                 $Selenium->VerifiedRefresh();
                 $Selenium->execute_script(
-                    "\$('#FileUpload').css('display', 'block')"
+                    "\$('#FileUpload').css('display', 'block');"
                 );
                 $Selenium->WaitFor(
                     JavaScript =>
@@ -193,7 +199,7 @@ $Selenium->RunTest(
                 # Check if uploaded.
                 $Self->True(
                     $Selenium->execute_script(
-                        "return \$('.AttachmentList tbody tr td.Filename:contains(Main-Test1.pdf)').length === 1"
+                        "return \$('.AttachmentList tbody tr td.Filename:contains(Main-Test1.pdf)').length === 1;"
                     ),
                     "Uploaded file 'Main-Test1.pdf' correctly"
                 );
@@ -210,7 +216,7 @@ $Selenium->RunTest(
         $Selenium->execute_script("\$('#FormDraftSave').click();");
         $Selenium->WaitFor(
             JavaScript =>
-                'return typeof($) === "function" && $("#FormDraftTitle").length;'
+                'return typeof($) === "function" && $("#FormDraftTitle").length && $("#SaveFormDraft").length;'
         );
         $Selenium->find_element( "#FormDraftTitle", 'css' )->send_keys($Title);
         $Selenium->find_element( "#SaveFormDraft",  'css' )->click();
@@ -219,8 +225,23 @@ $Selenium->RunTest(
         $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
 
+        # Wait until page has loaded.
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete;'
+        );
+
+        # Wait until all AJAX calls finished.
+        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$.active == 0" );
+
         # Refresh screen.
         $Selenium->VerifiedRefresh();
+
+        # Wait until page has loaded, if necessary.
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof($) === "function" && $("a.AsPopup:contains(Forward)").length;'
+        );
 
         # Verify FormDraft is created in zoom screen.
         $Self->True(
@@ -235,18 +256,14 @@ $Selenium->RunTest(
         $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
 
-        # Wait until page has loaded, if necessary.
-        $Selenium->WaitFor(
-            JavaScript =>
-                'return typeof($) === "function" && $("#submitRichText").length;'
+        $Selenium->WaitForjQueryEventBound(
+            CSSSelector => "#FormDraftSave",
         );
 
-        # Try to create FormDraft with same name, expecting error.
-        $Selenium->VerifiedRefresh();
         $Selenium->execute_script("\$('#FormDraftSave').click();");
         $Selenium->WaitFor(
             JavaScript =>
-                'return typeof($) === "function" && $("#FormDraftTitle").length;'
+                'return typeof($) === "function" && $("#FormDraftTitle").length && $("#SaveFormDraft").length;'
         );
         $Selenium->find_element( "#FormDraftTitle", 'css' )->send_keys($Title);
         $Selenium->find_element( "#SaveFormDraft",  'css' )->click();
@@ -267,6 +284,15 @@ $Selenium->RunTest(
         $Selenium->close();
         $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
+
+        # Wait until page has loaded.
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete;'
+        );
+
+        # Wait until all AJAX calls finished.
+        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$.active == 0" );
 
         my $ArticlePhoneChannelObject = $ArticleObject->BackendForChannel( ChannelName => 'Phone' );
 
@@ -290,6 +316,12 @@ $Selenium->RunTest(
 
         # Refresh screen.
         $Selenium->VerifiedRefresh();
+
+        # Wait until page has loaded, if necessary.
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return typeof(\$) === 'function' && \$('a[href*=\"Action=AgentTicket$FormDraftCase->{Module};TicketID=$TicketID;LoadFormDraft=1\"]').length;"
+        );
 
         # Click on test created FormDraft and switch window.
         $Selenium->find_element(
@@ -327,7 +359,7 @@ $Selenium->RunTest(
             if ( $FormDraftCase->{Fields}->{$FieldValue}->{Type} eq 'Input' ) {
 
                 $Self->Is(
-                    $Selenium->execute_script("return \$('#$FormDraftCase->{Fields}->{$FieldValue}->{ID}').val()"),
+                    $Selenium->execute_script("return \$('#$FormDraftCase->{Fields}->{$FieldValue}->{ID}').val();"),
                     $FormDraftCase->{Fields}->{$FieldValue}->{Value},
                     "Initial FormDraft value for $FormDraftCase->{Module} field $FieldValue is correct"
                 );
@@ -347,26 +379,27 @@ $Selenium->RunTest(
                 # There should be only one file with a certain name.
                 $Self->True(
                     $Selenium->execute_script(
-                        "return \$('.AttachmentList tbody tr td.Filename:contains(Main-Test1.pdf)').length === 1"
+                        "return \$('.AttachmentList tbody tr td.Filename:contains(Main-Test1.pdf)').length === 1;"
                     ),
                     "Uploaded file 'Main-Test1.pdf' correctly"
                 );
                 $Self->True(
                     $Selenium->execute_script(
-                        "return \$('.AttachmentList tbody tr td.Filename').length === 1"
+                        "return \$('.AttachmentList tbody tr td.Filename').length === 1;"
                     ),
                     "Only one file present"
                 );
 
                 # Add a second file.
                 $Selenium->VerifiedRefresh();
-                $Selenium->execute_script(
-                    "\$('#FileUpload').css('display', 'block')"
-                );
                 $Selenium->WaitFor(
                     JavaScript =>
-                        'return typeof($) === "function" && $("#FileUpload:visible").length;'
+                        'return typeof($) === "function" && $("#FileUpload").length;'
                 );
+                $Selenium->execute_script(
+                    "\$('#FileUpload').css('display', 'block');"
+                );
+                $Selenium->WaitFor( JavaScript => 'return $("#FileUpload:visible").length;' );
                 sleep 1;
 
                 # Upload a file.
@@ -381,7 +414,7 @@ $Selenium->RunTest(
                 # Check if uploaded.
                 $Self->True(
                     $Selenium->execute_script(
-                        "return \$('.AttachmentList tbody tr td.Filename:contains(Main-Test1.doc)').length === 1"
+                        "return \$('.AttachmentList tbody tr td.Filename:contains(Main-Test1.doc)').length === 1;"
                     ),
                     "Uploaded file 'Main-Test1.doc' correctly"
                 );
@@ -394,8 +427,23 @@ $Selenium->RunTest(
         $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
 
+        # Wait until page has loaded.
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete;'
+        );
+
+        # Wait until all AJAX calls finished.
+        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$.active == 0" );
+
         # Refresh screen.
         $Selenium->VerifiedRefresh();
+
+        # Wait until page has loaded, if necessary.
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return typeof(\$) === 'function' && \$('a[href*=\"Action=AgentTicket$FormDraftCase->{Module};TicketID=$TicketID;LoadFormDraft=1\"]').length;"
+        );
 
         # Click on test created FormDraft and switch window.
         $Selenium->find_element(
@@ -426,7 +474,7 @@ $Selenium->RunTest(
                 );
 
                 $Self->Is(
-                    $Selenium->execute_script("return \$('#$ID').val()"),
+                    $Selenium->execute_script("return \$('#$ID').val();"),
                     $UpdatedValue,
                     "Updated FormDraft value for $FormDraftCase->{Module} field $FieldValue is correct"
                 );
@@ -442,7 +490,7 @@ $Selenium->RunTest(
                 # there should be two files now
                 $Self->True(
                     $Selenium->execute_script(
-                        "return \$('.AttachmentList tbody tr td.Filename').length === 2"
+                        "return \$('.AttachmentList tbody tr td.Filename').length === 2;"
                     ),
                     "Uploaded file correctly"
                 );
@@ -452,6 +500,16 @@ $Selenium->RunTest(
         $Selenium->close();
         $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
+
+        # Wait until page has loaded.
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete;'
+        );
+
+        $Selenium->WaitForjQueryEventBound(
+            CSSSelector => ".FormDraftDelete",
+        );
 
         # Delete draft.
         $Selenium->find_element( ".FormDraftDelete", 'css' )->click();
