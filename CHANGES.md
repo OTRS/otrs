@@ -1,6 +1,6 @@
 #6.0.19 ????-??-??
- - 2019-05-11 Added new system configuration options `Ticket::Frontend::CustomerTicketZoom###DisplayNoteFrom` and `Ticket::Frontend::CustomerTicketZoom###DefaultAgentName` to define if agent name should be shown in external notes in the customer interface or should use a default generic name instead.
  - 2019-05-11 Fixed bug#[14491](https://bugs.otrs.org/show_bug.cgi?id=14491) - Ticket::DefineEmailFrom not used for external notes.
+   Added new system configuration options `Ticket::Frontend::CustomerTicketZoom###DisplayNoteFrom` and `Ticket::Frontend::CustomerTicketZoom###DefaultAgentName` to define if agent name should be shown in external notes in the customer interface or should use a default generic name instead.
  - 2019-05-10 Fixed bug#[13867](https://bugs.otrs.org/show_bug.cgi?id=13867) - Characters < and > are replaced in process management within TransitionAction.
  - 2019-05-10 Fixed bug#[14512](https://bugs.otrs.org/show_bug.cgi?id=14512) - The customer name is wrong on the answer article.
  - 2019-05-09 Fixed bug#[14398](https://bugs.otrs.org/show_bug.cgi?id=14398) - External images are automatically loaded in forward screen.
