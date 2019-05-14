@@ -54,18 +54,12 @@ $Selenium->RunTest(
             Value => 20,
         );
 
-        # Create test user and login.
+        # Create test user.
         my $Language      = 'de';
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups   => [ 'admin', 'users' ],
             Language => $Language,
         ) || die "Did not get test user";
-
-        $Selenium->Login(
-            Type     => 'Agent',
-            User     => $TestUserLogin,
-            Password => $TestUserLogin,
-        );
 
         my $TestUserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
             UserLogin => $TestUserLogin,
@@ -202,6 +196,13 @@ $Selenium->RunTest(
             );
         }
 
+        # Login as test user.
+        $Selenium->Login(
+            Type     => 'Agent',
+            User     => $TestUserLogin,
+            Password => $TestUserLogin,
+        );
+
         my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
 
         # Navigate to AgentTicketQueue screen.
@@ -245,7 +246,6 @@ $Selenium->RunTest(
             );
             $Element->is_enabled();
             $Element->is_displayed();
-            $Element->VerifiedClick();
 
             # Check different views for filters.
             for my $View (qw(Small Medium Preview)) {
@@ -253,6 +253,12 @@ $Selenium->RunTest(
                 # Return to default small view.
                 $Selenium->VerifiedGet(
                     "${ScriptAlias}index.pl?Action=AgentTicketQueue;QueueID=$Test->{QueueID};SortBy=Age;OrderBy=Down;View=Small"
+                );
+
+                # Wait until page has finished loading.
+                $Selenium->WaitFor(
+                    JavaScript =>
+                        "return typeof(\$) === 'function' && \$('a[href*=\"Action=AgentTicketQueue;Filter=Unlocked;View=$View;QueueID=$Test->{QueueID};SortBy=Age;OrderBy=Down;View=Small\"]').length;"
                 );
 
                 # Click on viewer controller.
@@ -298,7 +304,7 @@ $Selenium->RunTest(
         );
         $Self->True(
             $Selenium->execute_script("return \$('.Content .Preview').length;"),
-            "ArtilePreview is found"
+            "ArticlePreview is found"
         );
 
         # Enable config 'Ticket::Frontend::Overview::PreviewArticleSenderTypes' and set value
@@ -318,11 +324,11 @@ $Selenium->RunTest(
 
         $Self->False(
             $Selenium->execute_script("return \$('.Content .Preview').length;"),
-            "ArtilePreview is not found for customer sender type."
+            "ArticlePreview is not found for customer sender type."
         );
 
         # Go to small view for 'Delete' queue.
-        # See Bug 13826 - Queue Names are translated (but should not)
+        # See Bug 13826 - Queue Names are translated (but should not).
         $Selenium->VerifiedGet(
             "${ScriptAlias}index.pl?Action=AgentTicketQueue;QueueID=$Queues[2]->{QueueID};View=Small;Filter=Unlocked"
         );
@@ -330,7 +336,7 @@ $Selenium->RunTest(
         $Self->Is(
             $Selenium->execute_script("return \$('.OverviewBox.Small h1').text().trim();"),
             $LanguageObject->Translate('QueueView') . ": Delete",
-            "Title for filtered AgentTicketQueue screen is not transleted.",
+            "Title for filtered AgentTicketQueue screen is not translated.",
         );
 
         # Delete created test tickets.
@@ -366,12 +372,14 @@ $Selenium->RunTest(
             );
         }
 
+        my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+
         # Make sure the cache is correct.
         for my $Cache (
             qw (Ticket Queue)
             )
         {
-            $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
+            $CacheObject->CleanUp(
                 Type => $Cache,
             );
         }
