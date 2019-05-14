@@ -1,4 +1,5 @@
 #6.0.20 ????-??-??
+ - 2019-05-14 Fixed bug#[14488](https://bugs.otrs.org/show_bug.cgi?id=14488) - New note notification is only sent if agent has ro AND note permission on the queue.
 
 #6.0.19 2019-05-31
  - 2019-05-14 Added Macedonian and Romanian translations.
