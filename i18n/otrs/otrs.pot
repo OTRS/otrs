@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-04-05 01:12+0000\n"
+"POT-Creation-Date: 2019-05-14 10:36+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17318,6 +17318,10 @@ msgid "Default ProcessManagement entity prefixes for entity IDs that are automat
 msgstr ""
 
 #. SysConfig
+msgid "Default agent name"
+msgstr ""
+
+#. SysConfig
 msgid "Default data to use on attribute for ticket search screen. Example: \"TicketCreateTimePointFormat=year;TicketCreateTimePointStart=Last;TicketCreateTimePoint=2;\"."
 msgstr ""
 
@@ -17890,6 +17894,10 @@ msgid "Defines the default CSS used in rich text editors."
 msgstr ""
 
 #. SysConfig
+msgid "Defines the default agent name in the ticket zoom view of the customer interface."
+msgstr ""
+
+#. SysConfig
 msgid "Defines the default auto response type of the article for this operation."
 msgstr ""
 
@@ -18211,6 +18219,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Defines the default visibility of the article to customer for this operation."
+msgstr ""
+
+#. SysConfig
+msgid "Defines the displayed style of the From field in notes that are visible for customers. A default agent name can be defined in Ticket::Frontend::CustomerTicketZoom###DefaultAgentName setting."
 msgstr ""
 
 #. SysConfig
@@ -20394,6 +20406,10 @@ msgid "Loop protection: no auto-response sent to \"%s\"."
 msgstr ""
 
 #. SysConfig
+msgid "Macedonian"
+msgstr ""
+
+#. SysConfig
 msgid "Mail Accounts"
 msgstr ""
 
@@ -20407,6 +20423,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Main menu registration."
+msgstr ""
+
+#. SysConfig
+msgid "Makes the application block external content loading."
 msgstr ""
 
 #. SysConfig
@@ -21238,6 +21258,10 @@ msgid "Removed subscription for user \"%s\"."
 msgstr ""
 
 #. SysConfig
+msgid "Removes old generic interface debug log entries created before the specified amount of days."
+msgstr ""
+
+#. SysConfig
 msgid "Removes old system configuration deployments (Sunday mornings)."
 msgstr ""
 
@@ -21371,6 +21395,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Roles ↔ Groups"
+msgstr ""
+
+#. SysConfig
+msgid "Romanian"
 msgstr ""
 
 #. SysConfig
@@ -22710,6 +22738,10 @@ msgid "Strips empty lines on the ticket preview in the service view."
 msgstr ""
 
 #. SysConfig
+msgid "Support Agent"
+msgstr ""
+
+#. SysConfig
 msgid "Swahili"
 msgstr ""
 
@@ -22851,6 +22883,10 @@ msgstr ""
 
 #. SysConfig
 msgid "The text at the beginning of the subject when an email is forwarded, e.g. FW, Fwd, or WG."
+msgstr ""
+
+#. SysConfig
+msgid "The value of the From field"
 msgstr ""
 
 #. SysConfig
