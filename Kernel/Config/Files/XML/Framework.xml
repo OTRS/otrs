@@ -160,12 +160,14 @@
                 <Item Key="ko" Translatable="1">Korean</Item>
                 <Item Key="lt" Translatable="1">Lithuanian</Item>
                 <Item Key="lv" Translatable="1">Latvian</Item>
+                <Item Key="mk" Translatable="1">Macedonian</Item>
                 <Item Key="ms" Translatable="1">Malay</Item>
                 <Item Key="nl" Translatable="1">Dutch</Item>
                 <Item Key="nb_NO" Translatable="1">Norwegian</Item>
                 <Item Key="pt_BR" Translatable="1">Portuguese (Brasil)</Item>
                 <Item Key="pt" Translatable="1">Portuguese</Item>
                 <Item Key="pl" Translatable="1">Polish</Item>
+                <Item Key="ro" Translatable="1">Romanian</Item>
                 <Item Key="ru" Translatable="1">Russian</Item>
                 <Item Key="sl" Translatable="1">Slovenian</Item>
                 <Item Key="sr_Latn" Translatable="1">Serbian Latin</Item>
@@ -216,12 +218,14 @@
                 <Item Key="ko">한국어</Item>
                 <Item Key="lt">Lietuvių kalba</Item>
                 <Item Key="lv">Latvijas</Item>
+                <Item Key="mk">Mакедонски</Item>
                 <Item Key="ms">Melayu</Item>
                 <Item Key="nl">Nederlandse</Item>
                 <Item Key="nb_NO">Norsk bokmål</Item>
                 <Item Key="pt_BR">Português Brasileiro</Item>
                 <Item Key="pt">Português</Item>
                 <Item Key="pl">Polski</Item>
+                <Item Key="ro">Română</Item>
                 <Item Key="ru">Русский</Item>
                 <Item Key="sl">Slovenščina</Item>
                 <Item Key="sr_Latn">Srpski</Item>
