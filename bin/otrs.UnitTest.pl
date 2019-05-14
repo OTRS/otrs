@@ -31,7 +31,7 @@ use Kernel::System::ObjectManager;
 
 # get options
 my %Opts;
-getopt( 'ndsajcf', \%Opts );
+getopt( 'ndsajcfr', \%Opts );
 if ( $Opts{h} ) {
     print "otrs.UnitTest.pl - Run OTRS unit tests\n";
     print "Copyright (C) 2001-2019 OTRS AG, https://otrs.com/\n";
@@ -47,6 +47,7 @@ Usage: otrs.UnitTest.pl
     [-v]               # Show details for all tests, not just failing
     [-e]               # Specify if command return code should not indicate if tests were ok/not ok,
                        # but if submission was successful instead
+    [-r]               # Number of successive runs for every single unit test, default 1
 EOF
     exit 1;
 }
@@ -69,6 +70,7 @@ my $FunctionResult = $Kernel::OM->Get('Kernel::System::UnitTest')->Run(
     JobID                  => $Opts{j} || '',
     Scenario               => $Opts{c} || '',
     AttachmentPath         => $Opts{f} || '',
+    NumberOfTestRuns       => $Opts{r} || '',
 );
 
 if ( !$FunctionResult ) {

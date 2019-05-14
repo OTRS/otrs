@@ -72,6 +72,7 @@ run all or some tests located in C<scripts/test/**/*.t> and print the result.
                                                         #  You can specify %File%, %TestOk% and %TestNotOk% as dynamic arguments.
         PreSubmitScripts       => ['...'],              # Script(s) to execute after all tests have been executed
                                                         #  and the results are about to be sent to the server.
+        NumberOfTestRuns       => 10,                   # optional (default 1), number of successive runs for every single unit test
     );
 
 Please note that the individual test files are not executed in the main process,
@@ -107,6 +108,11 @@ sub Run {
         Recursive => 1,
     );
 
+    my $NumberOfTestRuns = $Param{NumberOfTestRuns};
+    if ( !$NumberOfTestRuns ) {
+        $NumberOfTestRuns = 1;
+    }
+
     FILE:
     for my $File (@Files) {
 
@@ -115,10 +121,12 @@ sub Run {
             next FILE;
         }
 
-        $Self->_HandleFile(
-            PostTestScripts => $Param{PostTestScripts},
-            File            => $File,
-        );
+        for ( 1 .. $NumberOfTestRuns ) {
+            $Self->_HandleFile(
+                PostTestScripts => $Param{PostTestScripts},
+                File            => $File,
+            );
+        }
     }
 
     # Use non-overridden time() function.
