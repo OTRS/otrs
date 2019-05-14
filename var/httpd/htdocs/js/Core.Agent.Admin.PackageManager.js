@@ -43,7 +43,10 @@ Core.Agent.Admin = Core.Agent.Admin || {};
             Data,
             function (Response) {
                 if (!Response || !Response.Success) {
-                    alert(Core.Language.Translate('An error occurred during communication.'));
+                    Core.UI.Dialog.ShowAlert(
+                        Core.Language.Translate('An error occurred during communication.'),
+                        Core.Language.Translate('No response from get package upgrade result.')
+                    );
                     return false;
                 }
 
@@ -113,7 +116,10 @@ Core.Agent.Admin = Core.Agent.Admin || {};
             Data,
             function (Response) {
                 if (!Response || !Response.Success) {
-                    alert(Core.Language.Translate('An error occurred during communication.'));
+                    Core.UI.Dialog.ShowAlert(
+                        Core.Language.Translate('An error occurred during communication.'),
+                        Core.Language.Translate('No response from package upgrade all.')
+                    );
                     return false;
                 }
 
@@ -191,7 +197,10 @@ Core.Agent.Admin = Core.Agent.Admin || {};
             Data,
             function (Response) {
                 if (!Response || !Response.Success) {
-                    alert(Core.Language.Translate('An error occurred during communication.'));
+                    Core.UI.Dialog.ShowAlert(
+                        Core.Language.Translate('An error occurred during communication.'),
+                        Core.Language.Translate('No response from get package upgrade run status.')
+                    );
                     return false;
                 }
 
