@@ -190,18 +190,22 @@ $Selenium->RunTest(
         # Navigate to zoom screen.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID;ArticleID=$ArticleID");
 
+        $Selenium->WaitForjQueryEventBound(
+            CSSSelector => '.SplitSelection',
+        );
+
         # Click on the split action.
         $Selenium->find_element( '.SplitSelection', 'css' )->click();
 
-        $Selenium->WaitFor(
-            JavaScript => 'return $("#SplitSubmit").length'
-        );
+        $Selenium->WaitFor( JavaScript => 'return $("#SplitSelection").length && $("#SplitSubmit").length;' );
 
         # Change it to Process Ticket.
         $Selenium->InputFieldValueSet(
             Element => '#SplitSelection',
             Value   => 'ProcessTicket',
         );
+
+        $Selenium->WaitFor( JavaScript => 'return $("#ProcessEntityID").length;' );
 
         # Select test process.
         $Selenium->InputFieldValueSet(
@@ -210,6 +214,13 @@ $Selenium->RunTest(
         );
 
         $Selenium->find_element( '#SplitSubmit', 'css' )->VerifiedClick();
+
+        # Wait until process is selected and all AJAX calls are finished.
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return typeof(\$) === 'function' && \$('#ProcessEntityID option:selected').text().trim() == 'TestProcess';"
+        );
+        $Selenium->WaitFor( JavaScript => "return \$.active == 0;" );
 
         # Wait for the CKE to load.
         $Selenium->WaitFor(
