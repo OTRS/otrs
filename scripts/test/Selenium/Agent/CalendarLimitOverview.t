@@ -43,11 +43,12 @@ $Selenium->RunTest(
         );
 
         # Create test calendars.
-        my @CalendarIDs;
+        my @Calendars;
         my $LastCalendarIndex = 15;
         for my $Count ( 0 .. $LastCalendarIndex ) {
-            my %Calendar = $CalendarObject->CalendarCreate(
-                CalendarName => "Calendar$Count-$RandomID",
+            my $CalendarName = "Calendar$Count-$RandomID";
+            my %Calendar     = $CalendarObject->CalendarCreate(
+                CalendarName => $CalendarName,
                 Color        => '#3A87AD',
                 GroupID      => $GroupID,
                 UserID       => $UserID,
@@ -57,7 +58,10 @@ $Selenium->RunTest(
                 $Calendar{CalendarID},
                 "CalendarID $Calendar{CalendarID} is created",
             );
-            push @CalendarIDs, $Calendar{CalendarID};
+            push @Calendars, {
+                CalendarID   => $Calendar{CalendarID},
+                CalendarName => $CalendarName,
+            };
 
             $Count++;
         }
@@ -78,12 +82,13 @@ $Selenium->RunTest(
         for my $Index ( 0 .. $LastCalendarIndex ) {
             my $Length  = ( $Index < $Limit ) ? 1         : 0;
             my $Checked = $Length             ? 'checked' : 'unchecked';
-            my $CalendarID = $CalendarIDs[$Index];
+            my $CalendarID   = $Calendars[$Index]->{CalendarID};
+            my $CalendarName = $Calendars[$Index]->{CalendarName};
 
             $Self->Is(
                 $Selenium->execute_script("return \$('#Calendar$CalendarID:checked').length;"),
                 $Length,
-                "By default - CalendarID $CalendarID - $Checked",
+                "By default - CalendarID $CalendarID, CalendarName $CalendarName - $Checked",
             ) || die;
         }
 
@@ -92,11 +97,16 @@ $Selenium->RunTest(
         # Uncheck all and then check calendars from the array.
         $Selenium->execute_script("\$('#Calendars tbody input[type=checkbox]').prop('checked', false);");
 
+        # Wait until all checkboxes are unchecked.
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return \$('#Calendars tbody input[type=checkbox]').filter( function() { return \$(this).prop('checked') == true; } ).length === 0;"
+        );
+
         for my $Index (@CheckedIndices) {
-            my $CalendarID = $CalendarIDs[$Index];
+            my $CalendarID = $Calendars[$Index]->{CalendarID};
             $Selenium->find_element( "#Calendar$CalendarID", 'css' )->click();
             $Selenium->WaitFor( JavaScript => "return \$('#Calendar$CalendarID:checked').length;" );
-            sleep 1;
         }
 
         # Go again to calendar overview page.
@@ -107,12 +117,13 @@ $Selenium->RunTest(
         for my $Index ( 0 .. $LastCalendarIndex ) {
             my $Length = ( grep { $_ == $Index } @CheckedIndices ) ? 1 : 0;
             my $Checked = $Length ? 'checked' : 'unchecked';
-            my $CalendarID = $CalendarIDs[$Index];
+            my $CalendarID   = $Calendars[$Index]->{CalendarID};
+            my $CalendarName = $Calendars[$Index]->{CalendarName};
 
             $Self->Is(
                 $Selenium->execute_script("return \$('#Calendar$CalendarID:checked').length;"),
                 $Length,
-                "After changes - Calendar $CalendarID - $Checked",
+                "After changes - CalendarID $CalendarID, CalendarName $CalendarName - $Checked",
             ) || die;
         }
 
@@ -121,7 +132,8 @@ $Selenium->RunTest(
         my $Success;
 
         # Delete test calendars.
-        for my $CalendarID (@CalendarIDs) {
+        for my $Calendar (@Calendars) {
+            my $CalendarID = $Calendar->{CalendarID};
             $Success = $DBObject->Do(
                 SQL  => "DELETE FROM calendar WHERE id = ?",
                 Bind => [ \$CalendarID ],
