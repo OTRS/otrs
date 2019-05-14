@@ -215,11 +215,17 @@ $Selenium->RunTest(
 
         # Go to calendar overview page.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentAppointmentCalendarOverview");
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".CalendarWidget.Loading").length' );
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof($) === "function" && !$(".CalendarWidget.Loading").length && $(".fc-toolbar .fc-prev-button").length;'
+        );
 
         # Go to previous week.
         $Selenium->find_element( '.fc-toolbar .fc-prev-button', 'css' )->click();
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".CalendarWidget.Loading").length' );
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof($) === "function" && !$(".CalendarWidget.Loading").length && $(".CalendarSwitch:visible").length == 3;'
+        );
 
         # Verify all three calendars are visible.
         $Self->Is(
@@ -248,7 +254,7 @@ $Selenium->RunTest(
 
         # Click on the timeline view for an appointment dialog.
         $Selenium->find_element( '.fc-timelineWeek-view .fc-slats td.fc-widget-content:nth-child(5)', 'css' )->click();
-        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#Title').length" );
+        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#Title').length;" );
 
         # Elements that are not allowed in dialog.
         for my $Element (qw(EditFormDelete EditFormCopy)) {
@@ -268,12 +274,12 @@ $Selenium->RunTest(
         );
         $Selenium->find_element( '#EndHour',     'css' )->send_keys('18');
         $Selenium->find_element( '.PluginField', 'css' )->send_keys($TicketNumber);
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length' );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length;' );
         $Selenium->execute_script("\$('li.ui-menu-item:contains($TicketNumber)').click();");
 
         $Selenium->WaitFor(
             JavaScript =>
-                "return typeof(\$) === 'function' && \$('.PluginContainer div a[target=\"_blank\"]').length"
+                "return typeof(\$) === 'function' && \$('.PluginContainer div a[target=\"_blank\"]').length;"
         );
 
         # Verify correct ticket is listed.
@@ -296,11 +302,11 @@ $Selenium->RunTest(
         $Selenium->find_element( '#EditFormSubmit', 'css' )->click();
         $Selenium->WaitFor(
             JavaScript =>
-                'return typeof($) === "function" && !$(".Dialog:visible").length && !$(".CalendarWidget.Loading").length'
+                'return typeof($) === "function" && !$(".Dialog:visible").length && !$(".CalendarWidget.Loading").length;'
         );
 
         # Wait until all AJAX calls finished.
-        $Selenium->WaitFor( JavaScript => "return \$.active == 0" );
+        $Selenium->WaitFor( JavaScript => "return \$.active == 0;" );
 
         # Verify first appointment is visible.
         $Self->Is(
@@ -315,12 +321,14 @@ $Selenium->RunTest(
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=${TicketID}");
 
         # Find link to the appointment on page.
-        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('a.LinkObjectLink').length" );
+        $Selenium->WaitFor( JavaScript => "return \$('a.LinkObjectLink').length;" );
         $Selenium->execute_script(
             "\$('.LinkObjectLink')[0].scrollIntoView(true);",
         );
         $Selenium->execute_script('$("a.LinkObjectLink")[0].click();');
-        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#Title').length" );
+        $Selenium->WaitFor(
+            JavaScript => "return typeof(\$) === 'function' && \$('#Title').length && \$('#CalendarID').length;"
+        );
 
         $Self->Is(
             $Selenium->execute_script(
@@ -355,16 +363,21 @@ $Selenium->RunTest(
         $Selenium->find_element( '#EditFormCancel', 'css' )->click();
         $Selenium->WaitFor(
             JavaScript =>
-                'return typeof($) === "function" && !$(".Dialog:visible").length && !$(".CalendarWidget.Loading").length'
+                'return typeof($) === "function" && !$(".Dialog:visible").length && !$(".CalendarWidget.Loading").length && $(".fc-toolbar .fc-prev-button").length;'
         );
 
         # Go to previous week.
         $Selenium->find_element( '.fc-toolbar .fc-prev-button', 'css' )->click();
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".CalendarWidget.Loading").length' );
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return !$(".CalendarWidget.Loading").length && $(".fc-timelineWeek-view .fc-slats td.fc-widget-content:nth-child(5)").length;'
+        );
 
         # Click on the timeline view for another appointment dialog.
         $Selenium->find_element( '.fc-timelineWeek-view .fc-slats td.fc-widget-content:nth-child(5)', 'css' )->click();
-        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#Title').length" );
+        $Selenium->WaitFor(
+            JavaScript => "return typeof(\$) === 'function' && \$('#Title').length && \$('#CalendarID').length;"
+        );
 
         # Enter some data.
         $Selenium->find_element( 'Title', 'name' )->send_keys('Appointment 2');
@@ -374,13 +387,13 @@ $Selenium->RunTest(
         );
 
         $Selenium->find_element( '#AllDay', 'css' )->click();
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#AllDay").prop("checked") === true' );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#AllDay").prop("checked") === true;' );
 
         # Click on Save.
         $Selenium->find_element( '#EditFormSubmit', 'css' )->click();
         $Selenium->WaitFor(
             JavaScript =>
-                'return typeof($) === "function" && !$(".Dialog:visible").length && !$(".CalendarWidget.Loading").length'
+                'return typeof($) === "function" && !$(".Dialog:visible").length && !$(".CalendarWidget.Loading").length;'
         );
 
         # Hide the first calendar from view.
@@ -388,11 +401,15 @@ $Selenium->RunTest(
         $Selenium->WaitFor(
             JavaScript => 'return typeof($) === "function" && $("#Calendar'
                 . $Calendar1{CalendarID}
-                . '").prop("checked") === false'
+                . '").prop("checked") === false;'
         );
         $Selenium->WaitFor(
             JavaScript =>
-                "return typeof(\$) === 'function' && \$('.fc-timeline-event .fc-title').text() === 'Appointment 2'"
+                "return typeof(\$) === 'function' && \$('.fc-timeline-event .fc-title').text() === 'Appointment 2';"
+        );
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return \$('.fc-timeline-event .fa-sun-o').length == 1;"
         );
 
         # Verify second appointment is visible.
@@ -413,9 +430,16 @@ $Selenium->RunTest(
             'Second appointment in an all day appointment',
         );
 
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return \$('.fc-timelineWeek-view .fc-slats td.fc-widget-content:nth-child(5)').length;"
+        );
+
         # Click again on the timeline view for an appointment dialog.
         $Selenium->find_element( '.fc-timelineWeek-view .fc-slats td.fc-widget-content:nth-child(5)', 'css' )->click();
-        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#Title').length" );
+        $Selenium->WaitFor(
+            JavaScript => "return typeof(\$) === 'function' && \$('#Title').length && \$('#CalendarID').length;"
+        );
 
         # Enter some data.
         $Selenium->find_element( 'Title', 'name' )->send_keys('Appointment 3');
@@ -433,18 +457,18 @@ $Selenium->RunTest(
         $Selenium->find_element( '#EditFormSubmit', 'css' )->click();
         $Selenium->WaitFor(
             JavaScript =>
-                'return typeof($) === "function" && !$(".Dialog:visible").length && !$(".CalendarWidget.Loading").length'
+                'return typeof($) === "function" && !$(".Dialog:visible").length && !$(".CalendarWidget.Loading").length;'
         );
 
         # Wait until all AJAX calls finished.
-        $Selenium->WaitFor( JavaScript => "return \$.active == 0" );
+        $Selenium->WaitFor( JavaScript => "return \$.active == 0;" );
 
         # Hide the second calendar from view.
         $Selenium->find_element( 'Calendar' . $Calendar2{CalendarID}, 'id' )->click();
         $Selenium->WaitFor(
             JavaScript => 'return typeof($) === "function" && $("#Calendar'
                 . $Calendar2{CalendarID}
-                . '").prop("checked") === false'
+                . '").prop("checked") === false;'
         );
 
         # Verify all third appointment occurences are visible.
@@ -460,7 +484,7 @@ $Selenium->RunTest(
         $Selenium->execute_script(
             "\$('.fc-timeline-event:eq(0) .fc-title').trigger('click');"
         );
-        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#EditFormDelete').length" );
+        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#EditFormDelete').length;" );
 
         # Click on Delete.
         $Selenium->find_element( '#EditFormDelete', 'css' )->click();
@@ -471,11 +495,11 @@ $Selenium->RunTest(
         # Wait for dialog to close and AJAX to finish.
         $Selenium->WaitFor(
             JavaScript =>
-                'return typeof($) === "function" && !$(".Dialog:visible").length && !$(".fc-timeline-event .fc-title").length'
+                'return typeof($) === "function" && !$(".Dialog:visible").length && !$(".fc-timeline-event .fc-title").length;'
         );
 
         # Wait until all AJAX calls finished.
-        $Selenium->WaitFor( JavaScript => "return \$.active == 0" );
+        $Selenium->WaitFor( JavaScript => "return \$.active == 0;" );
 
         # Verify all third appointment occurences have been removed.
         $Self->Is(
@@ -488,9 +512,9 @@ $Selenium->RunTest(
 
         # Show all three calendars.
         $Selenium->find_element( 'Calendar' . $Calendar1{CalendarID}, 'id' )->click();
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".CalendarWidget.Loading").length' );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".CalendarWidget.Loading").length;' );
         $Selenium->find_element( 'Calendar' . $Calendar2{CalendarID}, 'id' )->click();
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".CalendarWidget.Loading").length' );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".CalendarWidget.Loading").length;' );
 
         # Verify only two appointments are visible.
         $Self->Is(
@@ -505,7 +529,7 @@ $Selenium->RunTest(
         $Selenium->find_element( '.fc-toolbar .fc-jump-button', 'css' )->click();
         $Selenium->WaitFor(
             JavaScript =>
-                'return typeof($) === "function" && $("#Datepicker .ui-datepicker-calendar .Highlight").length === 1'
+                'return typeof($) === "function" && $("#Datepicker .ui-datepicker-calendar .Highlight").length === 1;'
         );
 
         # Verify exactly one day with appointments is highlighted.
@@ -519,12 +543,12 @@ $Selenium->RunTest(
 
         # Close datepicker.
         $Selenium->find_element( 'div#DatepickerOverlay', 'css' )->click();
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$("#DatepickerOverlay").length' );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$("#DatepickerOverlay").length;' );
 
         # Filter just third calendar.
         $Selenium->find_element( 'input#FilterCalendars', 'css' )->send_keys('Calendar3');
         $Selenium->WaitFor(
-            JavaScript => 'return typeof($) === "function" && $(".CalendarSwitch:visible").length === 1'
+            JavaScript => 'return typeof($) === "function" && $(".CalendarSwitch:visible").length === 1;'
         );
 
         # Verify only one calendar is shown in the list.
@@ -575,39 +599,41 @@ $Selenium->RunTest(
 
         # Reload page.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentAppointmentCalendarOverview");
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".CalendarWidget.Loading").length' );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".CalendarWidget.Loading").length;' );
 
         # Show the fourth calendar and hide all others.
         $Selenium->find_element( 'Calendar' . $Calendar4{CalendarID}, 'id' )->click();
         $Selenium->WaitFor(
             JavaScript => 'return typeof($) === "function" && $("#Calendar'
                 . $Calendar4{CalendarID}
-                . '").prop("checked") === true'
+                . '").prop("checked") === true;'
         );
         $Selenium->find_element( 'Calendar' . $Calendar1{CalendarID}, 'id' )->click();
         $Selenium->WaitFor(
             JavaScript => 'return typeof($) === "function" && $("#Calendar'
                 . $Calendar1{CalendarID}
-                . '").prop("checked") === false'
+                . '").prop("checked") === false;'
         );
         $Selenium->find_element( 'Calendar' . $Calendar2{CalendarID}, 'id' )->click();
         $Selenium->WaitFor(
             JavaScript => 'return typeof($) === "function" && $("#Calendar'
                 . $Calendar2{CalendarID}
-                . '").prop("checked") === false'
+                . '").prop("checked") === false;'
         );
         $Selenium->find_element( 'Calendar' . $Calendar3{CalendarID}, 'id' )->click();
         $Selenium->WaitFor(
             JavaScript => 'return typeof($) === "function" && $("#Calendar'
                 . $Calendar3{CalendarID}
-                . '").prop("checked") === false'
+                . '").prop("checked") === false;'
         );
+
+        $Selenium->WaitFor( JavaScript => 'return $(".fc-toolbar .fc-prev-button").length;' );
 
         # Go to previous week.
         $Selenium->find_element( '.fc-toolbar .fc-prev-button', 'css' )->click();
         $Selenium->WaitFor(
             JavaScript =>
-                'return typeof($) === "function" && !$(".CalendarWidget.Loading").length && $(".fc-event-container a").length'
+                'return typeof($) === "function" && !$(".CalendarWidget.Loading").length && $(".fc-event-container a").length;'
         );
 
         # Find the appointment link.
@@ -615,7 +641,7 @@ $Selenium->RunTest(
 
         # Click on appointment.
         $AppointmentLink->click();
-        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#Title').length" );
+        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#Title').length;" );
 
         my $TeamObjectRegistered
             = $Kernel::OM->Get('Kernel::System::Main')->Require( 'Kernel::System::Calendar::Team', Silent => 1 );
@@ -653,7 +679,7 @@ $Selenium->RunTest(
         for my $Element (qw(EditFormCancel)) {
             $Selenium->WaitFor(
                 JavaScript =>
-                    "return typeof(\$) === 'function' && \$('#$Element').length"
+                    "return typeof(\$) === 'function' && \$('#$Element').length;"
             );
             $ElementExists->(
                 UnitTestObject => $Self,
@@ -666,7 +692,7 @@ $Selenium->RunTest(
         $Selenium->find_element( '#EditFormCancel', 'css' )->click();
         $Selenium->WaitFor(
             JavaScript =>
-                'return typeof($) === "function" && !$(".Dialog:visible").length && !$(".CalendarWidget.Loading").length'
+                'return typeof($) === "function" && !$(".Dialog:visible").length && !$(".CalendarWidget.Loading").length;'
         );
 
         # Add move_into permissions to the user.
@@ -682,7 +708,7 @@ $Selenium->RunTest(
 
         # Click on appointment.
         $AppointmentLink->click();
-        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#Title').length" );
+        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#Title').length;" );
 
         # Check if fields are disabled.
         for my $Element (qw( CalendarID )) {
@@ -724,7 +750,7 @@ $Selenium->RunTest(
         for my $Element (qw(EditFormSubmit EditFormCancel)) {
             $Selenium->WaitFor(
                 JavaScript =>
-                    "return typeof(\$) === 'function' && \$('#$Element').length"
+                    "return typeof(\$) === 'function' && \$('#$Element').length;"
             );
             $ElementExists->(
                 UnitTestObject => $Self,
@@ -737,7 +763,7 @@ $Selenium->RunTest(
         $Selenium->find_element( '#EditFormCancel', 'css' )->click();
         $Selenium->WaitFor(
             JavaScript =>
-                'return typeof($) === "function" && !$(".Dialog:visible").length && !$(".CalendarWidget.Loading").length'
+                'return typeof($) === "function" && !$(".Dialog:visible").length && !$(".CalendarWidget.Loading").length;'
         );
 
         # Add create permissions to the user.
@@ -754,7 +780,7 @@ $Selenium->RunTest(
 
         # Click on appointment.
         $AppointmentLink->click();
-        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#Title').length" );
+        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#Title').length;" );
 
         # Check if fields are enabled.
         ELEMENT:
@@ -780,7 +806,7 @@ $Selenium->RunTest(
         for my $Element (qw(EditFormCopy EditFormSubmit EditFormDelete EditFormCancel)) {
             $Selenium->WaitFor(
                 JavaScript =>
-                    "return typeof(\$) === 'function' && \$('#$Element').length"
+                    "return typeof(\$) === 'function' && \$('#$Element').length;"
             );
             $ElementExists->(
                 UnitTestObject => $Self,
