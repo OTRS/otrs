@@ -76,7 +76,7 @@ $Selenium->RunTest(
 
         # Go to calendar overview page.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentAppointmentCalendarOverview");
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".CalendarWidget.Loading").length' );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".CalendarWidget.Loading").length;' );
 
         # Verify that only first calendars (limited by CalendarLimitOverview setting) are checked.
         for my $Index ( 0 .. $LastCalendarIndex ) {
@@ -104,18 +104,30 @@ $Selenium->RunTest(
         );
 
         for my $Index (@CheckedIndices) {
-            my $CalendarID = $Calendars[$Index]->{CalendarID};
+            my $CalendarID   = $Calendars[$Index]->{CalendarID};
+            my $CalendarName = $Calendars[$Index]->{CalendarName};
             $Selenium->find_element( "#Calendar$CalendarID", 'css' )->click();
-            $Selenium->WaitFor( JavaScript => "return \$('#Calendar$CalendarID:checked').length;" );
+            $Selenium->WaitFor(
+                JavaScript =>
+                    "return !\$('.CalendarWidget.Loading').length && \$('#Calendar$CalendarID:checked').length;"
+            );
+
+            $Self->True(
+                $Selenium->execute_script("return \$('#Calendar$CalendarID:checked').length;"),
+                "Checking - CalendarID $CalendarID, CalendarName $CalendarName - checked",
+            );
         }
 
         # Go again to calendar overview page.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentAppointmentCalendarOverview");
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".CalendarWidget.Loading").length;' );
 
+        # Create a hash from the array for easier comparison.
+        my %CheckedIndicesHash = map { $_ => 1 } @CheckedIndices;
+
         # Verify that only calendars from the array are checked (see bug#14054).
         for my $Index ( 0 .. $LastCalendarIndex ) {
-            my $Length = ( grep { $_ == $Index } @CheckedIndices ) ? 1 : 0;
+            my $Length = $CheckedIndicesHash{$Index} ? 1 : 0;
             my $Checked = $Length ? 'checked' : 'unchecked';
             my $CalendarID   = $Calendars[$Index]->{CalendarID};
             my $CalendarName = $Calendars[$Index]->{CalendarName};
