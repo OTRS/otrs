@@ -562,6 +562,13 @@ $Selenium->RunTest(
         $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
 
+        # Wait for reload to kick in.
+        sleep 1;
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
+        );
+
         # Clean Ticket cache, to get refreshed test ticket data.
         my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
         $CacheObject->CleanUp( Type => 'Ticket' );
