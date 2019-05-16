@@ -1,5 +1,5 @@
 #6.0.19 2019-05-31
- - 2019-05-15 Updated translations, thanks to all translators.
+ - 2019-05-16 Updated translations, thanks to all translators.
  - 2019-05-14 Added Macedonian and Romanian translations.
  - 2019-05-11 Fixed bug#[14491](https://bugs.otrs.org/show_bug.cgi?id=14491) - Ticket::DefineEmailFrom not used for external notes.
    Added new system configuration options `Ticket::Frontend::CustomerTicketZoom###DisplayNoteFrom` and `Ticket::Frontend::CustomerTicketZoom###DefaultAgentName` to define if agent name should be shown in external notes in the customer interface or should use a default generic name instead.
