@@ -535,7 +535,7 @@ sub Data {
         'Service' => 'Teenus',
         'Services' => 'Teenused',
         'State' => 'Olek',
-        'States' => 'Olek',
+        'States' => 'Seisund',
         'Status' => 'Seisund',
         'Statuses' => 'Seisundid',
         'Ticket Type' => 'Intsidendi tüüp',

@@ -535,7 +535,7 @@ sub Data {
         'Service' => 'Servis',
         'Services' => 'Servisler',
         'State' => 'Durum',
-        'States' => 'Durumlar',
+        'States' => 'Durum',
         'Status' => 'Durum',
         'Statuses' => 'Durumlar',
         'Ticket Type' => 'Bilet Tipi',

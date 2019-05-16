@@ -542,7 +542,7 @@ sub Data {
         'Service' => 'Service ',
         'Services' => 'Services',
         'State' => 'État ',
-        'States' => 'États',
+        'States' => 'État ',
         'Status' => 'État ',
         'Statuses' => 'États',
         'Ticket Type' => 'Type de demande',

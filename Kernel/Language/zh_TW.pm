@@ -244,7 +244,7 @@ sub Data {
             '這個e-mail已存在，請登入系統或更改您的密碼。',
         'Logout' => '退出',
         'Logout successful. Thank you for using %s!' => '成功登出，感謝您使用 %s!',
-        'Feature not active!' => '該功能尚未激活!',
+        'Feature not active!' => '該功能尚未啟用！',
         'Agent updated!' => '服務人員已更新！',
         'Database Selection' => '數據庫選擇',
         'Create Database' => '創建數據庫',
@@ -531,7 +531,7 @@ sub Data {
         'Priority updated!' => '優先級已更新!',
         'Signature added!' => '簽名已添加!',
         'Signature updated!' => '簽名已更新!',
-        'SLA' => 'SLA',
+        'SLA' => '服務級別協議',
         'Service Level Agreement' => '服務水平協議',
         'Service Level Agreements' => '服務水平協議',
         'Service' => '服務',
@@ -972,7 +972,7 @@ sub Data {
         'Allocate Services to Customer' => '為此用戶選擇服務',
         'Allocate Customers to Service' => '選擇使用此服務的用戶',
         'Toggle active state for all' => '切換激活狀態給全部',
-        'Active' => '激活',
+        'Active' => '啟用',
         'Toggle active state for %s' => '切換激活狀態給%s',
 
         # Template: AdminDynamicField
@@ -1023,7 +1023,7 @@ sub Data {
             '用“此刻”的時差(秒)計算默認值(例如，3600或-60)',
         'Define years period' => '定義年期',
         'Activate this feature to define a fixed range of years (in the future and in the past) to be displayed on the year part of the field.' =>
-            '激活此選項來定義固定的年份範圍(過去的和未來的), 用於顯示在此字段的年份中.',
+            '啟用此選項來定義固定的年份範圍 (過去和未來), 用於顯示在此字段的年份中.',
         'Years in the past' => '過去的幾年',
         'Years in the past to display (default: 5 years).' => '顯示過去的幾年 (默認: 5年)',
         'Years in the future' => '未來的幾年',
@@ -3915,7 +3915,7 @@ sub Data {
         'Feature not enabled!' => '沒有啓用功能!',
 
         # Perl Module: Kernel/Modules/AgentTicketWatcher.pm
-        'Feature is not active' => '功能沒有激活',
+        'Feature is not active' => '功能尚未啟用',
 
         # Perl Module: Kernel/Modules/AgentTicketZoom.pm
         'Link Deleted' => '已刪除的連結',
@@ -6891,7 +6891,7 @@ Thanks for your help!
         'Shows time use complete description (days, hours, minutes), if set to "Yes"; or just first letter (d, h, m), if set to "No".' =>
             '',
         'Simple' => '簡易',
-        'Skin' => '皮膚',
+        'Skin' => '主題',
         'Slovak' => '',
         'Slovenian' => '',
         'Software Package Manager.' => '',

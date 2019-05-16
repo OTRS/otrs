@@ -544,7 +544,7 @@ sub Data {
         'Service' => 'Tjeneste',
         'Services' => 'Tjenester',
         'State' => 'Status',
-        'States' => 'Statuser',
+        'States' => 'Status',
         'Status' => 'Status',
         'Statuses' => 'Statuser',
         'Ticket Type' => 'Sakstype',
@@ -671,7 +671,7 @@ sub Data {
         'Address %s replaced with registered customer address.' => 'Adressen %s er byttet ut med adressen som er registrert på kunde',
         'Customer user automatically added in Cc.' => 'Kundebrukeren ble automatisk lagt til Kopi-feltet',
         'Overview of all open Tickets' => 'Oversikt over alle tilgjengelige saker',
-        'Locked Tickets' => 'Mine private saker',
+        'Locked Tickets' => 'Mine personlige saker',
         'My Locked Tickets' => 'Mine låste saker',
         'My Watched Tickets' => 'Mine overvåkede saker',
         'My Responsible Tickets' => 'Saker jeg er ansvarlig for',
@@ -999,7 +999,7 @@ sub Data {
         'Deleting the field and its data. This may take a while...' => '',
 
         # Template: AdminDynamicFieldCheckbox
-        'Dynamic Fields' => 'Dynamiske felter',
+        'Dynamic Fields' => 'Dynamiske felte',
         'Field' => 'Felt',
         'Go back to overview' => 'Gå tilbake til oversikten',
         'General' => 'Generelt',
@@ -1047,7 +1047,7 @@ sub Data {
         # Template: AdminDynamicFieldDropdown
         'Possible values' => 'Tilgjengelige verdier',
         'Key' => 'Nøkkel',
-        'Value' => 'Innhold',
+        'Value' => 'Verdi',
         'Remove value' => 'Fjern verdi',
         'Add value' => 'Legg til verdi',
         'Add Value' => 'Legg til verdi',
@@ -2619,7 +2619,7 @@ sub Data {
             '',
 
         # Template: AgentDashboardTicketGeneric
-        'My locked tickets' => 'Mine låste saker',
+        'My locked tickets' => 'Mine saker',
         'My watched tickets' => 'Mine overvåkede saker',
         'My responsibilities' => 'Mine ansvar',
         'Tickets in My Queues' => 'Saker i Min Kø',
@@ -4860,7 +4860,7 @@ Thanks for your help!
         'Changed priority from "%s" (%s) to "%s" (%s).' => 'Endret prioritet fra «%s» (%s) til «%s» (%s).',
         'Changes the owner of tickets to everyone (useful for ASP). Normally only agent with rw permissions in the queue of the ticket will be shown.' =>
             'Endrer eier på saker til "alle" (brukbart for ASP). Normalt vil kun saksbehandlere med Les/skriv-tilgang til køen bli vist.',
-        'Checkbox' => 'Avkryssingsfelt',
+        'Checkbox' => 'Avkryssningsfelt',
         'Checks if an E-Mail is a followup to an existing ticket by searching the subject for a valid ticket number.' =>
             '',
         'Checks the SystemID in ticket number detection for follow-ups (use "No" if SystemID has been changed after using the system).' =>

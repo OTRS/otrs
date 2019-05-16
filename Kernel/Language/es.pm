@@ -540,7 +540,7 @@ sub Data {
         'Service' => 'Servicio',
         'Services' => 'Servicios',
         'State' => 'Estado',
-        'States' => 'Estados',
+        'States' => 'Estado',
         'Status' => 'Estado',
         'Statuses' => 'Estados',
         'Ticket Type' => 'Tipo de Ticket',
@@ -758,7 +758,7 @@ sub Data {
         'Reminder Reached' => 'Recordatorio Alcanzado',
         'Reminder Tickets' => 'Tickets Recordatorio',
         'Escalated Tickets' => 'Tickets Escalados',
-        'New Tickets' => 'Tickets Nuevos ',
+        'New Tickets' => 'Tickets Nuevos',
         'Open Tickets / Need to be answered' => 'Tickets Abiertos / Que necesitan de una respuesta',
         'All open tickets, these tickets have already been worked on, but need a response' =>
             'Todos los Tickets abiertos, ya se ha trabajado en estos tickets, pero necesitan una respuesta',
@@ -810,9 +810,9 @@ sub Data {
         'No data found.' => 'No se encontró ningún dato.',
 
         # Template: AdminACLEdit
-        'Edit ACL %s' => 'Editar la ACL %s',
+        'Edit ACL %s' => 'Editar ACL %s',
         'Go to overview' => 'Ir a la vista general',
-        'Delete ACL' => 'Borrar la ACL',
+        'Delete ACL' => 'Borrar ACL',
         'Delete Invalid ACL' => 'Borrar ACL no válida',
         'Match settings' => 'Ajustes de la coincidencia',
         'Set up matching criteria for this ACL. Use \'Properties\' to match the current screen or \'PropertiesDatabase\' to match attributes of the current ticket that are in the database.' =>
@@ -842,14 +842,14 @@ sub Data {
             'Crear una nueva ACL enviando los datos del formulario. Tras crear la ACL, podrá añadir elementos de configuración en el modo de edición.',
 
         # Template: AdminAttachment
-        'Attachment Management' => 'Gestión de adjuntos',
+        'Attachment Management' => 'Gestión de archivo adjunto',
         'Add attachment' => 'Añadir anexo',
         'List' => 'Lista',
         'Download file' => 'Descargar el archivo',
-        'Delete this attachment' => 'Borrar este adjunto',
+        'Delete this attachment' => 'Borrar este archivo adjunto',
         'Do you really want to delete this attachment?' => '¿Realmente desea eliminar este archivo adjunto?',
-        'Add Attachment' => 'Añadir un adjunto',
-        'Edit Attachment' => 'Editar adjunto',
+        'Add Attachment' => 'Añadir archivo adjunto',
+        'Edit Attachment' => 'Editar Archivo adjunto',
 
         # Template: AdminAutoResponse
         'Auto Response Management' => 'Gestión de respuestas automáticas',
@@ -911,8 +911,8 @@ sub Data {
         'Wildcards like \'*\' are allowed.' => 'Se permiten caracteres comodín como \'*\'.',
         'Add customer' => 'Añadir un cliente',
         'Select' => 'Seleccionar',
-        'List (only %s shown - more available)' => 'Listar (solo %s se muestra - más disponibles)',
-        'List (%s total)' => 'Listar (%s total)',
+        'List (only %s shown - more available)' => 'Lista (solo %s se muestra - más disponibles)',
+        'List (%s total)' => 'Lista (%s total)',
         'Please enter a search term to look for customers.' => 'Introduzca un término de búsqueda para buscar clientes.',
         'Add Customer' => 'Añadir un cliente',
 
@@ -1546,7 +1546,7 @@ sub Data {
         'Ticket Notification Management' => 'Gestión Notificación de Ticket',
         'Add notification' => 'Agregar notificación',
         'Export Notifications' => 'Exportar Notificaciones',
-        'Configuration Import' => 'Configuración Importaciones',
+        'Configuration Import' => 'Importar configuración',
         'Here you can upload a configuration file to import Ticket Notifications to your system. The file needs to be in .yml format as exported by the Ticket Notification module.' =>
             'Aquí puede cargar un archivo de configuración para importar Notificaciones de Ticket a su sistema. El archivo debe estar en formato .yml como exportados por el módulo de Notificación de Ticket.',
         'Overwrite existing notifications?' => 'Sobrescribir notificaciones existentes?',
@@ -2488,8 +2488,8 @@ sub Data {
         # Template: AdminTemplateAttachment
         'Manage Templates <-> Attachments Relations' => 'Gestionar Relación Plantillas <-> Archivos adjuntos',
         'Filter for Attachments' => 'Filtro para Archivos adjuntos',
-        'Change Template Relations for Attachment' => 'Cambiar las relaciones de Plantillas del Adunto',
-        'Change Attachment Relations for Template' => 'Cambiar las relaciones de Adjuntos de la Plantilla',
+        'Change Template Relations for Attachment' => 'Cambiar las relaciones de Plantilla para Archivos adjuntos',
+        'Change Attachment Relations for Template' => 'Cambiar las relaciones de Archivos adjuntos para Plantilla',
         'Toggle active for all' => 'Alternar a activo para todos',
         'Link %s to selected %s' => 'Enlaza %s al %s seleccionado',
 
@@ -2554,7 +2554,7 @@ sub Data {
             'Un Daemon funcionando de OTRS es obligatorio para su correcta operación.',
         'Starting the OTRS Daemon' => 'Iniciando el Daemon de OTRS',
         'Make sure that the file \'%s\' exists (without .dist extension). This cron job will check every 5 minutes if the OTRS Daemon is running and start it if needed.' =>
-            'Asegúrese de que el archivo \'%s\' existe (sin la extensión .dist). Este trabajo programado verificará cada 5 minutos si el Daemon de OTRS está corriendo y lo iniciará de ser necesario.',
+            'Asegúrese de que el archivo \'%s\' existe (sin la extensión .dist). Este trabajo programado verificará cada 5 minutos si OTRS Daemon se esta ejecutando y se iniciará de ser necesario.',
         'Execute \'%s start\' to make sure the cron jobs of the \'otrs\' user are active.' =>
             'Ejecute \'%s start\' para asegurarse de que el trabajo programado del usuario \'otrs\' está activo.',
         'After 5 minutes, check that the OTRS Daemon is running in the system (\'bin/otrs.Daemon.pl status\').' =>
@@ -2732,7 +2732,7 @@ sub Data {
         'Text will also be received by' => 'El texto también será recibido también por',
         'Spell check' => 'Verificar la ortografía',
         'Text Template' => 'Plantilla de texto',
-        'Setting a template will overwrite any text or attachment.' => 'Establecer una plantilla sobreescribirá cualquier texto o adjunto.',
+        'Setting a template will overwrite any text or attachment.' => 'Establecer una plantilla sobrescribirá cualquier texto o archivo adjunto.',
         'Note type' => 'Tipo de nota',
 
         # Template: AgentTicketBounce
@@ -2837,7 +2837,7 @@ sub Data {
         'Save Chat Into New Phone Ticket' => 'Guardar Chat En Nuevo Ticket Telefónico',
         'Create New Phone Ticket' => 'Crear un nuevo ticket telefónico',
         'Please include at least one customer for the ticket.' => 'Incluya al menos un cliente para el ticket',
-        'To queue' => 'A la cola',
+        'To queue' => 'En la cola',
         'Chat protocol' => 'Protocolo chat',
         'The chat will be appended as a separate article.' => 'El chat se agregará como un artículo separado.',
 
@@ -2870,9 +2870,9 @@ sub Data {
         'Remove' => 'Eliminar',
         'Searches in the attributes From, To, Cc, Subject and the article body, overriding other attributes with the same name.' =>
             'Busca en los atributos De, Para, Cc, Asunto y el cuerpo del artículo, ignorando otros atributos con el mismo nombre.',
-        'CustomerID (complex search)' => 'Identificación del cliente (búsqueda compleja)',
+        'CustomerID (complex search)' => 'ID del cliente (búsqueda compleja)',
         '(e. g. 234*)' => '(por ejemplo 234*)',
-        'CustomerID (exact match)' => 'Identificación del cliente (coincidencia exacta)',
+        'CustomerID (exact match)' => 'ID del cliente (coincidencia exacta)',
         'Customer User Login (complex search)' => 'Login de usuario Cliente (busqueda compleja)',
         '(e. g. U51*)' => '(por ejemplo U51*)',
         'Customer User Login (exact match)' => 'Login de usuario Cliente (coincidencia exacta)',
@@ -3764,7 +3764,7 @@ sub Data {
         'The object %s cannot link with other object!' => 'El objeto %s no puede vincularse con otro objeto!',
 
         # Perl Module: Kernel/Modules/AgentPreferences.pm
-        'Param Group is required!' => 'Se requiere Grupo de parámetros!',
+        'Param Group is required!' => '¡Se requiere Grupo de parámetros!',
 
         # Perl Module: Kernel/Modules/AgentStatistics.pm
         'Parameter %s is missing.' => 'Falta el parámetro %s',
@@ -3926,7 +3926,7 @@ sub Data {
         'Pending Time Set' => 'Establecer el Tiempo Pendiente',
         'Dynamic Field Updated' => 'Campo dinámico actualizado',
         'Outgoing Email (internal)' => 'Correo Saliente (Interno)',
-        'Ticket Created' => 'Ticket Creado',
+        'Ticket Created' => 'Ticket creado',
         'Type Updated' => 'Tipo Actualizado',
         'Escalation Update Time In Effect' => 'Tiempo de Actualización en Escalada en Efecto',
         'Escalation Update Time Stopped' => 'Tiempo de Actualización en Escalada Parado',
@@ -3935,7 +3935,7 @@ sub Data {
         'Internal Chat' => 'Chat interno',
         'Automatic Follow-Up Sent' => 'Seguimiento Automático Enviado',
         'Note Added' => 'Nota añadida',
-        'Note Added (Customer)' => 'Nota añadida (cliente)',
+        'Note Added (Customer)' => 'Nota añadida (Cliente)',
         'State Updated' => 'Estado actualizado',
         'Outgoing Answer' => 'Respuesta Saliente',
         'Service Updated' => 'Servicio actualizado',
@@ -3992,7 +3992,7 @@ sub Data {
         'Check SysConfig setting for %s::TicketTypeDefault.' => 'Revise los ajustes de la Configuración del Sistema para %s::TipodeTicketPredeterminado.',
 
         # Perl Module: Kernel/Modules/CustomerTicketOverview.pm
-        'Need CustomerID!' => '¡Se necesita la Identificación del cliente!',
+        'Need CustomerID!' => '¡Se necesita la ID del cliente!',
         'My Tickets' => 'Mis Tickets',
         'Company Tickets' => 'Tickets de Empresa',
 
@@ -4528,7 +4528,7 @@ sub Data {
         'Problem' => 'Problema',
 
         # Perl Module: Kernel/System/Ticket.pm
-        'Reset of unlock time.' => 'Reajuste del tiempo desbloqueado.',
+        'Reset of unlock time.' => 'Reajuste del tiempo de desbloqueo.',
 
         # Perl Module: Kernel/System/Ticket/Event/NotificationEvent/Transport/Email.pm
         'PGP sign only' => 'Solo Firma PGP',
@@ -4630,7 +4630,7 @@ sub Data {
             'Recibirá una notificación tan pronto como un ticket del cual seas propietario sea automáticamente desbloqueado.',
         'Ticket owner update notification' => 'Notificación de actualización de propietario de Ticket',
         'Ticket responsible update notification' => 'Notificación de actualización de responsable de Ticket',
-        'Ticket new note notification' => 'Notificación de nueva nota de ticket',
+        'Ticket new note notification' => 'Notificación de nueva nota en ticket',
         'Ticket queue update notification' => 'Notificación de actualización de cola de Ticket',
         'You will receive a notification if a ticket is moved into one of your "My Queues".' =>
             'Recibirá una notificación si un ticket es movido a "Mis colas".',
@@ -4949,7 +4949,7 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'Create Ticket' => '',
         'Create and manage Service Level Agreements (SLAs).' => 'Crea y gestiona Acuerdos de Nivel de Servicio (SLAs).',
         'Create and manage agents.' => 'Crea y gestiona agentes.',
-        'Create and manage attachments.' => 'Crea y gestiona Archivos adjuntos.',
+        'Create and manage attachments.' => 'Crear y gestionar archivos adjuntos.',
         'Create and manage customer users.' => 'Crea y gestiona usuarios clientes.',
         'Create and manage customers.' => 'Crea y gestiona clientes.',
         'Create and manage dynamic fields.' => 'Crea y gestiona campos dinámicos.',
@@ -6225,7 +6225,7 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'Maximum size (in characters) of the customer information table in the ticket zoom view.' =>
             '',
         'Merge this ticket and all articles into another ticket' => '',
-        'Merged Ticket <OTRS_TICKET> to <OTRS_MERGE_TO_TICKET>.' => 'Combinar Ticket  <OTRS_TICKET> con <OTRS_MERGE_TO_TICKET>.',
+        'Merged Ticket <OTRS_TICKET> to <OTRS_MERGE_TO_TICKET>.' => 'Fusionar Ticket  <OTRS_TICKET> con <OTRS_MERGE_TO_TICKET>.',
         'Miscellaneous' => 'Misceláneo',
         'Module for To-selection in new ticket screen in the customer interface.' =>
             '',
@@ -6454,7 +6454,7 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'Roles <-> Groups' => 'Roles <-> Grupos',
         'Run file based generic agent jobs (Note: module name needs to be specified in -configuration-module param e.g. "Kernel::System::GenericAgent").' =>
             '',
-        'Running Process Tickets' => 'Corriendo Tickets de Proceso',
+        'Running Process Tickets' => 'Tickets de Proceso en ejecución',
         'Runs an initial wildcard search of the existing customer company when accessing the AdminCustomerCompany module.' =>
             '',
         'Runs an initial wildcard search of the existing customer users when accessing the AdminCustomerUser module.' =>

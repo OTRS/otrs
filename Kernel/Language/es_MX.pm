@@ -307,8 +307,8 @@ sub Data {
         'Type added!' => '¡Tipo añadido!',
         'Type updated!' => '¡Tipo actualizado!',
         'Customer updated!' => '¡Cliente actualizado!',
-        'Customer company added!' => '¡Se agregó la compañía del cliente!',
-        'Customer company updated!' => '¡La compañía del cliente se actualizó!',
+        'Customer company added!' => '¡Se agregó la empresa del cliente!',
+        'Customer company updated!' => '¡La empresa del cliente se actualizó!',
         'Note: Company is invalid!' => 'Nota: La compañía es inválida.',
         'Mail account added!' => '¡Cuanta de correo agregada!',
         'Mail account updated!' => '¡Cuenta de correo actualizada!',
@@ -410,7 +410,7 @@ sub Data {
         'SHIFT' => 'SHIFT',
         'Undo' => 'Deshacer',
         'Redo' => 'Rehacer',
-        'OTRS Daemon is not running.' => 'El Daemon OTRS no está en ejecución.',
+        'OTRS Daemon is not running.' => 'El Demonio de OTRS no está en ejecución.',
         'Can\'t contact registration server. Please try again later.' => 'No es posible contactar con el servidor de registro. Por favor, inténtelo de nuevo más tarde.',
         'No content received from registration server. Please try again later.' =>
             'No se ha recibido ningún contenido del servidor de registro. Por favor, inténtelo de nuevo más tarde.',
@@ -535,7 +535,7 @@ sub Data {
         'Service' => 'Servicio',
         'Services' => 'Servicios',
         'State' => 'Estado',
-        'States' => 'Estados',
+        'States' => 'Estado',
         'Status' => 'Estado',
         'Statuses' => 'Estados',
         'Ticket Type' => 'Tipo de Ticket',
@@ -551,7 +551,7 @@ sub Data {
         'Ticket' => 'Ticket',
         'Createtime' => 'Fecha de creación ',
         'plain' => 'texto plano',
-        'Email' => 'Correo',
+        'Email' => 'Correo electrónico',
         'email' => 'correo',
         'Close' => 'Cerrar',
         'Action' => 'Acción',
@@ -764,8 +764,8 @@ sub Data {
         'Archived tickets' => 'Tickets Archivados',
         'Unarchived tickets' => 'Tickets No Archivados',
         'Ticket Information' => 'Información del Ticket',
-        'including subqueues' => 'incluir subsecuencias',
-        'excluding subqueues' => 'excluir subsecuencias',
+        'including subqueues' => 'incluir subfilas',
+        'excluding subqueues' => 'excluir subfilas',
 
         # Template: AAAWeekDay
         'Sun' => 'Dom',
@@ -849,10 +849,10 @@ sub Data {
         # Template: AdminAutoResponse
         'Auto Response Management' => 'Administración de Respuestas Automáticas',
         'Add auto response' => 'Agregar auto respuesta',
-        'Add Auto Response' => 'Agregar Auto Respuesta',
-        'Edit Auto Response' => 'Modificar Auto Respuesta',
+        'Add Auto Response' => 'Agregar Respuesta Automática',
+        'Edit Auto Response' => 'Modificar Respuesta Automática',
         'Response' => 'Respuesta',
-        'Auto response from' => 'Auto respuesta de',
+        'Auto response from' => 'Respuesta automática de',
         'Reference' => 'Referencia',
         'You can use the following tags' => 'Puede utilizar las siguientes etiquetas',
         'To get the first 20 character of the subject.' => 'Para obtener los primeros 20 caracteres del asunto.',
@@ -918,7 +918,7 @@ sub Data {
         'Customer user are needed to have a customer history and to login via customer panel.' =>
             'Los usuarios del cliente necesitan tener un historial de cliente e iniciar sesión por medio del panel de cliente.',
         'Last Login' => 'Último inicio de sesión',
-        'Login as' => 'Conectarse como',
+        'Login as' => 'Iniciar sesión como',
         'Switch to customer' => 'Cambiar a cliente',
         'Add Customer User' => 'Agregar Usuario del Cliente',
         'Edit Customer User' => 'Editar Usuario del Cliente',
@@ -1254,7 +1254,7 @@ sub Data {
         'Asynchronous' => 'Asíncrono ',
         'This invoker will be triggered by the configured events.' => 'Este invocador será disparado por los eventos configurados.',
         'Asynchronous event triggers are handled by the OTRS Scheduler Daemon in background (recommended).' =>
-            'Los disparadores de evento asíncronos son manejados por el Daemon Planificador de OTRS en segundo plano (recomendado).',
+            'Los disparadores de evento asíncronos son manejados por el Demonio Planificador de OTRS en segundo plano (recomendado).',
         'Synchronous event triggers would be processed directly during the web request.' =>
             'Los disparadores de eventos asíncronos serían procesados directamente durante la solicitud web.',
         'Save and continue' => 'Grabar y continuar',
@@ -2051,7 +2051,7 @@ sub Data {
         'Add Queue' => 'Agregar Fila',
         'Edit Queue' => 'Modificar Fila',
         'A queue with this name already exists!' => '¡Ya existe una fila con este nombre!',
-        'Sub-queue of' => 'Subfila de',
+        'Sub-queue of' => 'Sub-fila de',
         'Unlock timeout' => 'Tiempo para desbloqueo automático',
         '0 = no unlock' => '0 = sin desbloqueo',
         'Only business hours are counted.' => 'Sólo se contarán las horas de trabajo',
@@ -2080,15 +2080,15 @@ sub Data {
         'The signature for email answers.' => 'Firma para respuestas por correo.',
 
         # Template: AdminQueueAutoResponse
-        'Manage Queue-Auto Response Relations' => 'Administrar Relaciones Fila-Auto Respuesta',
+        'Manage Queue-Auto Response Relations' => 'Administrar Relaciones Fila-Respuesta Automática',
         'This filter allow you to show queues without auto responses' => 'Este filtro le permite mostrar las filas sin respuestas automáticas',
         'Queues without auto responses' => '',
         'This filter allow you to show all queues' => 'Este filtro le permite mostrar todas las filas',
         'Show all queues' => '',
         'Filter for Queues' => 'Filtro para Filas',
-        'Filter for Auto Responses' => 'Filtro para Auto Respuestas',
+        'Filter for Auto Responses' => 'Filtro para Respuestas Automáticas',
         'Auto Responses' => 'Respuestas Automáticas',
-        'Change Auto Response Relations for Queue' => 'Modificar Relaciones de Auto Respuesta para las Filas',
+        'Change Auto Response Relations for Queue' => 'Modificar las Relaciones de Respuesta Automática para la Fila',
 
         # Template: AdminQueueTemplates
         'Manage Template-Queue Relations' => 'Administrar Relaciones Plantilla-Fila',
@@ -2109,7 +2109,7 @@ sub Data {
         'Last communication with registration server' => 'Última comunicación con el servidor de registro',
         'System registration not possible' => 'No es posible Registrar su Sistema',
         'Please note that you can\'t register your system if OTRS Daemon is not running correctly!' =>
-            'Tenga en cuenta que no puede registrar su sistema si el Daemon OTRS no está funcionando correctamente!',
+            'Tenga en cuenta que no puede registrar su sistema si el Demonio de OTRS no está funcionando correctamente!',
         'Instructions' => 'Instrucciones',
         'System deregistration not possible' => 'No es posible dar de baja su sistema',
         'Please note that you can\'t deregister your system if you\'re using the %s or having a valid service contract.' =>
@@ -2529,7 +2529,7 @@ sub Data {
         'Customer Information Center' => 'Centro de Información de Clientes',
 
         # Template: AgentCustomerInformationCenterSearch
-        'Customer User' => 'Cliente',
+        'Customer User' => 'Usuario del Cliente',
 
         # Template: AgentCustomerSearch
         'Duplicated entry' => 'Entrada duplicada',
@@ -2546,8 +2546,8 @@ sub Data {
         'The OTRS Daemon is a daemon process that performs asynchronous tasks, e.g. ticket escalation triggering, email sending, etc.' =>
             'El Servicio OTRS es un proceso de servicio que efectúa tareas asíncronas, por ejemplo disparo de escalada de tickets, envío de emails, etc.',
         'A running OTRS Daemon is mandatory for correct system operation.' =>
-            'Es indispensable que el Daemon OTRS esté ejecutándose para que el sistema opere correctamente.',
-        'Starting the OTRS Daemon' => 'Iniciando el Daemon OTRS',
+            'Es indispensable que el Demonio de OTRS esté ejecutándose para que el sistema opere correctamente.',
+        'Starting the OTRS Daemon' => 'Iniciando el Demonio de OTRS',
         'Make sure that the file \'%s\' exists (without .dist extension). This cron job will check every 5 minutes if the OTRS Daemon is running and start it if needed.' =>
             '',
         'Execute \'%s start\' to make sure the cron jobs of the \'otrs\' user are active.' =>
@@ -2613,7 +2613,7 @@ sub Data {
         'My locked tickets' => 'Mis tickets bloqueados',
         'My watched tickets' => 'Mis tickes en seguimiento',
         'My responsibilities' => 'Mis responsabilidades',
-        'Tickets in My Queues' => 'Tickets en Mis Filas de Espera',
+        'Tickets in My Queues' => 'Tickets en Mis Filas',
         'Tickets in My Services' => 'Tickets en Mis Servicios',
         'Service Time' => 'Tiempo de Servicio',
         'Remove active filters for this widget.' => 'Eliminar los filtros activos para este widget.',
@@ -2805,7 +2805,7 @@ sub Data {
 
         # Template: AgentTicketMove
         'Move %s%s%s' => '',
-        'New Queue' => 'Fila nueva',
+        'New Queue' => 'Fila Nueva',
 
         # Template: AgentTicketOverviewMedium
         'Select all' => 'Seleccionar todos',
@@ -2832,7 +2832,7 @@ sub Data {
         'Save Chat Into New Phone Ticket' => 'Guardar Chat En Nuevo Ticket Telefónico',
         'Create New Phone Ticket' => 'Crear un Ticket Telefónico Nuevo',
         'Please include at least one customer for the ticket.' => 'Por favor, Incluya al menos un cliente para el ticket',
-        'To queue' => 'Para la fila de espera',
+        'To queue' => 'Para la fila',
         'Chat protocol' => 'Protocolo de Chat',
         'The chat will be appended as a separate article.' => 'El chat se agregará como un artículo separado.',
 
@@ -2873,7 +2873,7 @@ sub Data {
         'Customer User Login (exact match)' => '',
         'Attachment Name' => 'Nombre del Archivo Adjunto',
         '(e. g. m*file or myfi*)' => '(ej. m*archivo o miarchi*)',
-        'Created in Queue' => 'Creado en Fila',
+        'Created in Queue' => 'Creado en la Fila',
         'Lock state' => 'Estado de bloqueo',
         'Watcher' => 'Observador',
         'Article Create Time (before/after)' => 'Hora de Creación del Artículo (antes/después)',
@@ -3010,7 +3010,7 @@ sub Data {
             'Para utilizar OTRS correctamente, es necesario que habilite JavaScript en su explorador web.',
         'Browser Warning' => 'Advertencia del Explorador',
         'One moment please, you are being redirected...' => 'Un momento por favor, está siendo redirigido...',
-        'Login' => 'Identificador',
+        'Login' => 'Inicio de sesión',
         'User name' => 'Nombre de usuario',
         'Your user name' => 'Su nombre de usuario',
         'Your password' => 'Su contraseña',
@@ -3139,7 +3139,7 @@ sub Data {
         'Target user\'s browser does not support video and audio calling.' =>
             '',
         'Do you really want to continue?' => '¿Desea continuar?',
-        'Information about the OTRS Daemon' => 'Información acerca del Daemon de OTRS',
+        'Information about the OTRS Daemon' => 'Información acerca del Demonio de OTRS',
         'Communication error' => '',
         'This feature is part of the %s.  Please contact us at %s for an upgrade.' =>
             'Esta función es parte de %s. Por favor contacte con nosotros en %s para una adquirir esta funcionalidad.',
@@ -3556,7 +3556,7 @@ sub Data {
         'All agents subscribed to the ticket\'s queue' => 'Todos los agentes suscritos a la fila de espera del ticket',
         'All agents subscribed to the ticket\'s service' => 'Todos los agentes suscritos al servicio del ticket',
         'All agents subscribed to both the ticket\'s queue and service' =>
-            'Todos los agentes suscritos tanto a la fila de espera, como al servicio del ticket',
+            'Todos los agentes suscritos tanto a la fila, como al servicio del ticket',
         'Customer of the ticket' => 'Cliente del ticket',
         'Yes, but require at least one active notification method.' => '',
 
@@ -3989,7 +3989,7 @@ sub Data {
         # Perl Module: Kernel/Modules/CustomerTicketOverview.pm
         'Need CustomerID!' => '',
         'My Tickets' => 'Mis Tickets',
-        'Company Tickets' => 'Tickets de la Compañía',
+        'Company Tickets' => 'Tickets de la Empresa',
 
         # Perl Module: Kernel/Modules/CustomerTicketSearch.pm
         'Please remove the following words because they cannot be used for the search:' =>
@@ -4362,9 +4362,9 @@ sub Data {
         'Could not determine value.' => 'No es posible determinar el valor',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DaemonRunning.pm
-        'Daemon' => 'Daemon',
+        'Daemon' => 'Demonio',
         'Daemon is running.' => 'Demonio en ejecución.',
-        'Daemon is not running.' => 'El daemon no está en ejecución.',
+        'Daemon is not running.' => 'El demonio no está en ejecución.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
         'Database Records' => '',
@@ -4587,7 +4587,7 @@ sub Data {
         'new ticket' => 'nuevo ticket',
         'Follow-ups for closed tickets are not possible. A new ticket will be created.' =>
             '',
-        'Postmaster queue.' => 'Cola Postmaster.',
+        'Postmaster queue.' => 'Fila Postmaster.',
         'All default incoming tickets.' => 'Todo los tickers entrantes predeterminados.',
         'All junk tickets.' => 'Todo los tickets basura.',
         'All misc tickets.' => 'Todos los tickets misceláneos.',
@@ -4889,7 +4889,7 @@ Thanks for your help!
         'Comment for new history entries in the customer interface.' => 'Comentario para entradas nuevas en la historia, en la interfaz del cliente.',
         'Comment2' => '',
         'Communication' => 'Comunicación',
-        'Company Status' => 'Estado de la Compañía',
+        'Company Status' => 'Estado de la Empresa',
         'Company Tickets.' => 'Tickets de la Empresa',
         'Company name which will be included in outgoing emails as an X-Header.' =>
             'Nombre de la empresa que se incluirá en los correos electrónicos salientes como un X-Header.',
@@ -4927,7 +4927,7 @@ Thanks for your help!
         'Create and manage Service Level Agreements (SLAs).' => 'Crear y gestionar Acuerdos de Nivel de Servicio (SLAs).',
         'Create and manage agents.' => 'Crear y gestionar agentes.',
         'Create and manage attachments.' => 'Crear y gestionar archivos adjuntos.',
-        'Create and manage customer users.' => 'Crear y gestionar usuarios de clientes.',
+        'Create and manage customer users.' => 'Crear y gestionar usuarios de cliente.',
         'Create and manage customers.' => 'Crear y gestionar clientes.',
         'Create and manage dynamic fields.' => 'Crear y gestionar campos dinámicos.',
         'Create and manage groups.' => 'Crear y gestionar grupos.',
@@ -4961,7 +4961,7 @@ Thanks for your help!
         'Customer User <-> Groups' => '',
         'Customer User <-> Services' => '',
         'Customer User Administration' => 'Administración de Usuario del Cliente',
-        'Customer Users' => 'Clientes',
+        'Customer Users' => 'Usuarios del Cliente',
         'Customer called us.' => 'El cliente llamó.',
         'Customer item (icon) which shows the closed tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
             '',
@@ -5798,7 +5798,7 @@ Thanks for your help!
         'E-Mail Outbound' => 'Correo saliente',
         'Edit Customer Companies.' => '',
         'Edit Customer Users.' => 'Editar Usuarios del Cliente.',
-        'Edit customer company' => 'Editar compañía del cliente',
+        'Edit customer company' => 'Editar empresa del cliente',
         'Email Addresses' => 'Direcciones de Correo',
         'Email Outbound' => '',
         'Email sent to "%s".' => 'Correo enviado a "%s".',
@@ -6122,7 +6122,7 @@ Thanks for your help!
         'Link attachments to templates.' => 'Vincular archivo adjuntos con plantillas.',
         'Link customer user to groups.' => 'Vincular usuario de clientes  con grupos.',
         'Link customer user to services.' => 'Vincular usuarios de clientes con servicios,',
-        'Link queues to auto responses.' => 'Vincular filas de espera con auto-respuestas.',
+        'Link queues to auto responses.' => 'Vincular filas de espera con respuestas automáticas.',
         'Link roles to groups.' => 'Vincular roles con grupos.',
         'Link templates to queues.' => 'Vincular plantillas con filas de espera.',
         'Links 2 tickets with a "Normal" type link.' => 'Vincular 2 tickets con un vículo de tipo "Normal".',
@@ -6898,7 +6898,7 @@ Thanks for your help!
         'Some description!' => '',
         'Some picture description!' => '',
         'Sorts the tickets (ascendingly or descendingly) when a single queue is selected in the queue view and after the tickets are sorted by priority. Values: 0 = ascending (oldest on top, default), 1 = descending (youngest on top). Use the QueueID for the key and 0 or 1 for value.' =>
-            'Ordena los tickets (ascendente o descendentemente), luego de haberse ordenado por prioridad, cuando una sola fila se selecciona en la vista de filas. Values: 0 = ascendente (por defecto, más antiguo arriba), 1 = descendente (más reciente arriba). Use el identificador de la fila como Key y 0 ó 1 como Valor.',
+            'Ordena los tickets (ascendente o descendentemente), luego de haberse ordenado por prioridad, cuando una sola fila se selecciona en la vista de filas. Values: 0 = ascendente (por defecto, más antiguo arriba), 1 = descendente (más reciente arriba). Use el identificador de la fila como Llave y 0 ó 1 como Valor.',
         'Sorts the tickets (ascendingly or descendingly) when a single queue is selected in the service view and after the tickets are sorted by priority. Values: 0 = ascending (oldest on top, default), 1 = descending (youngest on top). Use the ServiceID for the key and 0 or 1 for value.' =>
             '',
         'Spam' => '',

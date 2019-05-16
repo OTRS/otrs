@@ -535,7 +535,7 @@ sub Data {
         'Service' => 'Servei',
         'Services' => 'Serveis',
         'State' => 'Estat',
-        'States' => 'Estats',
+        'States' => 'Estat',
         'Status' => 'Estat',
         'Statuses' => 'Estats',
         'Ticket Type' => 'Tipus de tiquet',

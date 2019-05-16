@@ -535,7 +535,7 @@ sub Data {
         'Service' => 'Paslauga',
         'Services' => 'Paslaugos',
         'State' => 'Būsena',
-        'States' => 'Būsenos',
+        'States' => 'Statusas',
         'Status' => 'Statusas',
         'Statuses' => 'Statusai',
         'Ticket Type' => 'Trikties tipas',

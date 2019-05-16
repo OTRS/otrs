@@ -540,7 +540,7 @@ sub Data {
         'Service' => 'خدمات',
         'Services' => 'خدمات',
         'State' => 'وضعیت',
-        'States' => 'وضعیت‌ها',
+        'States' => 'وضعیت',
         'Status' => 'وضعیت',
         'Statuses' => 'وضعیت‌ها',
         'Ticket Type' => 'نوع درخواست',

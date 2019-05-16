@@ -537,7 +537,7 @@ sub Data {
         'Service' => 'Palvelu',
         'Services' => 'Palvelut',
         'State' => 'Tila',
-        'States' => 'Tilat',
+        'States' => 'Tila',
         'Status' => 'Tila',
         'Statuses' => 'Tilat',
         'Ticket Type' => 'Tiketin tyyppi',
@@ -1552,7 +1552,7 @@ sub Data {
         'Delete this notification' => 'Poista tämä ilmoitus',
         'Do you really want to delete this notification?' => '',
         'Add Notification' => 'Lisää ilmoitus',
-        'Edit Notification' => 'Muokkaa huomautusta',
+        'Edit Notification' => 'Muokkaa ilmoitusta',
         'Show in agent preferences' => '',
         'Agent preferences tooltip' => '',
         'This message will be shown on the agent preferences screen as a tooltip for this notification.' =>

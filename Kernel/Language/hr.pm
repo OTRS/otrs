@@ -539,7 +539,7 @@ sub Data {
         'Service' => 'Usluga',
         'Services' => 'Usluge',
         'State' => 'Stanje',
-        'States' => 'Stanja',
+        'States' => 'Status',
         'Status' => 'Status',
         'Statuses' => 'Statusi',
         'Ticket Type' => 'Tip kartice',

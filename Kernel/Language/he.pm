@@ -540,7 +540,7 @@ sub Data {
         'Service' => 'שירות',
         'Services' => 'שירותים',
         'State' => 'מצב',
-        'States' => 'מצבים',
+        'States' => 'סטטוס',
         'Status' => 'סטטוס',
         'Statuses' => 'סטטוסים',
         'Ticket Type' => 'סוג פניה',

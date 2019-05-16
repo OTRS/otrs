@@ -806,9 +806,9 @@ sub Data {
         'No data found.' => 'Няма намерена информация',
 
         # Template: AdminACLEdit
-        'Edit ACL %s' => 'Промени ACL %s',
+        'Edit ACL %s' => 'Редактиране ACL %s',
         'Go to overview' => 'Отидете на преглед',
-        'Delete ACL' => 'Изтрии ACL',
+        'Delete ACL' => 'Изтрий ACL',
         'Delete Invalid ACL' => 'Изтриване на невалиден ACL',
         'Match settings' => 'Настройки на съвпадението',
         'Set up matching criteria for this ACL. Use \'Properties\' to match the current screen or \'PropertiesDatabase\' to match attributes of the current ticket that are in the database.' =>

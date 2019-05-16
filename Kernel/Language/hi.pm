@@ -537,7 +537,7 @@ sub Data {
         'Service' => 'सेवा',
         'Services' => 'सेवाएँ',
         'State' => 'अवस्था',
-        'States' => 'अवस्थाएँ',
+        'States' => 'स्तर',
         'Status' => 'स्तर',
         'Statuses' => 'स्तर',
         'Ticket Type' => 'टिकट के प्रकार',

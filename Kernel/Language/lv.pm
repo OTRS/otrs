@@ -4367,7 +4367,7 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
         'Database Records' => 'Datubāzes ieraksti',
-        'Tickets' => 'Pieteikumu',
+        'Tickets' => 'Pieteikumi',
         'Ticket History Entries' => '',
         'Articles' => '',
         'Attachments (DB, Without HTML)' => 'Pielikumi (DB, bez HTML)',
