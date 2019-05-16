@@ -47,15 +47,15 @@
 # Daniel Bastos <daniel@viperit.com.br>, 2018
 # Raimundo Neto <rferreira.passos@gmail.com>, 2019
 # Rangel Perez Sardinha <rangel@hsg.com.br>, 2019
-# Ricardo von Staa <ricardo.von.staa@otrs.com>, 2019
 # MBaeta <matheus.baeta@otrs.com>, 2019
+# Ricardo von Staa <ricardo.von.staa@otrs.com>, 2019
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-04-05 00:59+0000\n"
+"POT-Creation-Date: 2019-05-14 06:48+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
-"Last-Translator: MBaeta <matheus.baeta@otrs.com>, 2019\n"
+"Last-Translator: Ricardo von Staa <ricardo.von.staa@otrs.com>, 2019\n"
 "Language-Team: Portuguese (Brazil) (https://www.transifex.com/otrs/teams/23435/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20121,6 +20121,10 @@ msgstr ""
 "entidade que são automaticamente gerados."
 
 #. SysConfig
+msgid "Default agent name"
+msgstr ""
+
+#. SysConfig
 msgid ""
 "Default data to use on attribute for ticket search screen. Example: "
 "\"TicketCreateTimePointFormat=year;TicketCreateTimePointStart=Last;TicketCreateTimePoint=2;\"."
@@ -21254,6 +21258,12 @@ msgstr "Define o CSS padrão utilizados nos editores rich text."
 
 #. SysConfig
 msgid ""
+"Defines the default agent name in the ticket zoom view of the customer "
+"interface."
+msgstr ""
+
+#. SysConfig
+msgid ""
 "Defines the default auto response type of the article for this operation."
 msgstr "Define o tipo padrão de autorresposta do artigo para esta operação."
 
@@ -21872,6 +21882,13 @@ msgid ""
 "operation."
 msgstr ""
 "Define a visibilidade padrão do artigo para cliente para esta operação."
+
+#. SysConfig
+msgid ""
+"Defines the displayed style of the From field in notes that are visible for "
+"customers. A default agent name can be defined in "
+"Ticket::Frontend::CustomerTicketZoom###DefaultAgentName setting."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -25360,6 +25377,10 @@ msgid "Main menu registration."
 msgstr "Registro do menu principal."
 
 #. SysConfig
+msgid "Makes the application block external content loading."
+msgstr ""
+
+#. SysConfig
 msgid ""
 "Makes the application check the MX record of email addresses before sending "
 "an email or submitting a telephone or email ticket."
@@ -26836,6 +26857,12 @@ msgstr "Chamados com Lembrete"
 #. SysConfig
 msgid "Removed subscription for user \"%s\"."
 msgstr "Removida assinatura para o usuário \"%s\"."
+
+#. SysConfig
+msgid ""
+"Removes old generic interface debug log entries created before the specified"
+" amount of days."
+msgstr ""
 
 #. SysConfig
 msgid "Removes old system configuration deployments (Sunday mornings)."
@@ -29472,6 +29499,10 @@ msgid "Strips empty lines on the ticket preview in the service view."
 msgstr "Elimina linhas vazias na visão prévia de ticket da visão de serviço."
 
 #. SysConfig
+msgid "Support Agent"
+msgstr "Agente de Suporte"
+
+#. SysConfig
 msgid "Swahili"
 msgstr "Swahili"
 
@@ -29695,6 +29726,10 @@ msgid ""
 msgstr ""
 "O texto no começo de um assunto quando um e-mail é encaminhado. Exemplo: FW,"
 " Fwd, ou Enc."
+
+#. SysConfig
+msgid "The value of the From field"
+msgstr ""
 
 #. SysConfig
 msgid "Theme"

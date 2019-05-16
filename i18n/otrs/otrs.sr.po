@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-04-05 00:59+0000\n"
+"POT-Creation-Date: 2019-05-14 06:48+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: Dusan Vuckovic, 2019\n"
 "Language-Team: Serbian (https://www.transifex.com/otrs/teams/23435/sr/)\n"
@@ -19877,6 +19877,10 @@ msgstr ""
 "су аутоматски генерисани."
 
 #. SysConfig
+msgid "Default agent name"
+msgstr "Подразумевано име оператера"
+
+#. SysConfig
 msgid ""
 "Default data to use on attribute for ticket search screen. Example: "
 "\"TicketCreateTimePointFormat=year;TicketCreateTimePointStart=Last;TicketCreateTimePoint=2;\"."
@@ -20992,6 +20996,14 @@ msgstr "Дефинише подразумевани CSS употребљен у 
 
 #. SysConfig
 msgid ""
+"Defines the default agent name in the ticket zoom view of the customer "
+"interface."
+msgstr ""
+"Одређује подразумевано име оператера у детаљном приказу тикета у интерфејсу "
+"клијента."
+
+#. SysConfig
+msgid ""
 "Defines the default auto response type of the article for this operation."
 msgstr ""
 "Дефинише подразумевани тип аутоматског одговора чланка за ову операцију."
@@ -21653,6 +21665,16 @@ msgid ""
 "Defines the default visibility of the article to customer for this "
 "operation."
 msgstr "Дефинише видљивост чланка клијенту за ову операцију."
+
+#. SysConfig
+msgid ""
+"Defines the displayed style of the From field in notes that are visible for "
+"customers. A default agent name can be defined in "
+"Ticket::Frontend::CustomerTicketZoom###DefaultAgentName setting."
+msgstr ""
+"Дефинише подразумеван формат From поља напомена који су видљиви клијентима. "
+"Подразумевано име оператера може бити дефинисано у путем "
+"Ticket::Frontend::CustomerTicketZoom###DefaultAgentName."
 
 #. SysConfig
 msgid ""
@@ -25281,6 +25303,10 @@ msgid "Main menu registration."
 msgstr "Регистрација главног менија."
 
 #. SysConfig
+msgid "Makes the application block external content loading."
+msgstr "Приморава апликацију да блокира учитавање екстерног садржаја."
+
+#. SysConfig
 msgid ""
 "Makes the application check the MX record of email addresses before sending "
 "an email or submitting a telephone or email ticket."
@@ -26767,6 +26793,14 @@ msgstr "Тикети подсетника"
 #. SysConfig
 msgid "Removed subscription for user \"%s\"."
 msgstr "Претплата за корисника \"%s\" je искључена."
+
+#. SysConfig
+msgid ""
+"Removes old generic interface debug log entries created before the specified"
+" amount of days."
+msgstr ""
+"Уклања старе логове отклањања грешака генеричког интерфејса који су креирани"
+" пре дефинисаног броја дана."
 
 #. SysConfig
 msgid "Removes old system configuration deployments (Sunday mornings)."
@@ -29460,6 +29494,10 @@ msgid "Strips empty lines on the ticket preview in the service view."
 msgstr "Уклања празне линије у приказу тикета на прегледу услуга."
 
 #. SysConfig
+msgid "Support Agent"
+msgstr "Оператер подршке"
+
+#. SysConfig
 msgid "Swahili"
 msgstr "Свахили"
 
@@ -29688,6 +29726,10 @@ msgid ""
 "FW, Fwd, or WG."
 msgstr ""
 "Текст на почетку предмета када се имејл прослеђује, нпр. FW, Fwd, или WG."
+
+#. SysConfig
+msgid "The value of the From field"
+msgstr "Вредност From поља"
 
 #. SysConfig
 msgid "Theme"

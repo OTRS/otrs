@@ -37,7 +37,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-04-05 00:59+0000\n"
+"POT-Creation-Date: 2019-05-14 06:48+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: Yuri Kolesniov <ynkolesnikov@gmail.com>, 2019\n"
 "Language-Team: Russian (https://www.transifex.com/otrs/teams/23435/ru/)\n"
@@ -19952,6 +19952,10 @@ msgstr ""
 "Процессами, генерируемые автоматически (напр. A, T, AD, TA)."
 
 #. SysConfig
+msgid "Default agent name"
+msgstr ""
+
+#. SysConfig
 msgid ""
 "Default data to use on attribute for ticket search screen. Example: "
 "\"TicketCreateTimePointFormat=year;TicketCreateTimePointStart=Last;TicketCreateTimePoint=2;\"."
@@ -21023,6 +21027,12 @@ msgstr ""
 
 #. SysConfig
 msgid ""
+"Defines the default agent name in the ticket zoom view of the customer "
+"interface."
+msgstr ""
+
+#. SysConfig
+msgid ""
 "Defines the default auto response type of the article for this operation."
 msgstr "Задает стандартный тип автоответа для этой операции."
 
@@ -21674,6 +21684,13 @@ msgid ""
 msgstr ""
 "Задает видимость заметок/сообщений по умолчанию для клиента по этой "
 "операции."
+
+#. SysConfig
+msgid ""
+"Defines the displayed style of the From field in notes that are visible for "
+"customers. A default agent name can be defined in "
+"Ticket::Frontend::CustomerTicketZoom###DefaultAgentName setting."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -25129,6 +25146,10 @@ msgid "Main menu registration."
 msgstr "ModuleRegistration для главного меню."
 
 #. SysConfig
+msgid "Makes the application block external content loading."
+msgstr ""
+
+#. SysConfig
 msgid ""
 "Makes the application check the MX record of email addresses before sending "
 "an email or submitting a telephone or email ticket."
@@ -26540,6 +26561,12 @@ msgstr "Заявки с напоминанием"
 #. SysConfig
 msgid "Removed subscription for user \"%s\"."
 msgstr "Удалена подписка для пользователя «%s»."
+
+#. SysConfig
+msgid ""
+"Removes old generic interface debug log entries created before the specified"
+" amount of days."
+msgstr ""
 
 #. SysConfig
 msgid "Removes old system configuration deployments (Sunday mornings)."
@@ -29098,6 +29125,10 @@ msgid "Strips empty lines on the ticket preview in the service view."
 msgstr "Убирает пустые строки при предпросмотре заявки в обзоре сервисов."
 
 #. SysConfig
+msgid "Support Agent"
+msgstr ""
+
+#. SysConfig
 msgid "Swahili"
 msgstr "Суахили"
 
@@ -29322,6 +29353,10 @@ msgid ""
 "FW, Fwd, or WG."
 msgstr ""
 "Текст, предшествующий теме при пересылке письма, например, FW, Fwd, или WG."
+
+#. SysConfig
+msgid "The value of the From field"
+msgstr ""
 
 #. SysConfig
 msgid "Theme"

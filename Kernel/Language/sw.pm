@@ -27,7 +27,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%M/%D/%Y';
     $Self->{DateInputFormat}     = '%M/%D/%Y';
     $Self->{DateInputFormatLong} = '%M/%D/%Y - %T';
-    $Self->{Completeness}        = 0.489212328767123;
+    $Self->{Completeness}        = 0.488459565737733;
 
     # csv separator
     $Self->{Separator}         = ',';
@@ -6283,6 +6283,7 @@ Thanks for your help!
         'Default ACL values for ticket actions.' => 'Thamani za ACL chaguo msingi  kwa ajili ya vitendo vya tiketi.',
         'Default ProcessManagement entity prefixes for entity IDs that are automatically generated.' =>
             'Viambishi awali vya vipengeee halisi vya Usimamizi wa mchakato chaguo msingi kwa ajili ya kitambulisho cha kipengee halisi ambavyo vinatengenezwa otomatiki.',
+        'Default agent name' => '',
         'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimePointFormat=year;TicketCreateTimePointStart=Last;TicketCreateTimePoint=2;".' =>
             'Data chaguo misngi kutumika katika sifa kwa ajili ya skrini ya kutafuta ya tiketi.
 Mfano:
@@ -6531,6 +6532,8 @@ Mfano:
         'Defines the date input format used in forms (option or input fields).' =>
             'Inafafanua umbizo umbizo ingizo la tarehe linalotumika katika fomu (hiari au uga ingizo).',
         'Defines the default CSS used in rich text editors.' => 'Inafafanua CSS chaguo-msingi inayotumika katika wahariri wa matini tondoti.',
+        'Defines the default agent name in the ticket zoom view of the customer interface.' =>
+            '',
         'Defines the default auto response type of the article for this operation.' =>
             'Inafafanua aina ya majibu ya otomatiki chaguo msingi ya makala kwa operesheni hii.',
         'Defines the default body of a note in the ticket free text screen of the agent interface.' =>
@@ -6688,6 +6691,8 @@ Mfano:
         'Defines the default viewable sender types of a ticket (default: customer).' =>
             'Fafanua aina ya chaguo-msingi inayoonekana ya mtumaji ta tiketi (chaguo-msingi: mteja).',
         'Defines the default visibility of the article to customer for this operation.' =>
+            '',
+        'Defines the displayed style of the From field in notes that are visible for customers. A default agent name can be defined in Ticket::Frontend::CustomerTicketZoom###DefaultAgentName setting.' =>
             '',
         'Defines the dynamic fields that are used for displaying on calendar events.' =>
             'Fafanua uga zenye nguvu ambazo zinatumika kuonyesha matukio katika kalenda.',
@@ -7573,10 +7578,12 @@ Mfano:
         'Logout of customer panel.' => '',
         'Look into a ticket!' => 'Fungia kwenye tiketi',
         'Loop protection: no auto-response sent to "%s".' => '',
+        'Macedonian' => '',
         'Mail Accounts' => 'Akaunti za barua pepe',
         'MailQueue configuration settings.' => '',
         'Main menu item registration.' => '',
         'Main menu registration.' => 'Usajili wa menyu kuu.',
+        'Makes the application block external content loading.' => '',
         'Makes the application check the MX record of email addresses before sending an email or submitting a telephone or email ticket.' =>
             'Inafanya programu tumizi kuangalia kumbukumbu ya MX ya anwani za barua pepe kabla ya kutuma barua pepe au kukusanya kielezo au tiketi ya barua pepe.',
         'Makes the application check the syntax of email addresses.' => 'Inafanya programu tumizi kuangalia sintaksi ya anwani ya barua pepe.',
@@ -7871,6 +7878,8 @@ Mfano:
             '',
         'Reminder Tickets' => 'Tiketi za kumbukumbu',
         'Removed subscription for user "%s".' => 'Toa kujiunga kwa mtumiaji "%s".',
+        'Removes old generic interface debug log entries created before the specified amount of days.' =>
+            '',
         'Removes old system configuration deployments (Sunday mornings).' =>
             '',
         'Removes old ticket number counters (each 10 minutes).' => '',
@@ -7929,6 +7938,7 @@ Mfano:
             'Inaacha huduma zote katika orodha hata kama ni vipengele vidogo vya vipengele batili. ',
         'Right' => 'Haki',
         'Roles ↔ Groups' => '',
+        'Romanian' => '',
         'Run file based generic agent jobs (Note: module name needs to be specified in -configuration-module param e.g. "Kernel::System::GenericAgent").' =>
             '',
         'Running Process Tickets' => 'Endeshaji wa tiketi za mchakato.',
@@ -8497,6 +8507,7 @@ Mfano:
         'Strips empty lines on the ticket preview in the queue view.' => 'Toa mistari iliyowazi katika mapitio ya tiketi katika mandhari ya foleni.',
         'Strips empty lines on the ticket preview in the service view.' =>
             'Toa mistari iliyowazi katika mapitio ya tiketi katika mandhari ya huduma.',
+        'Support Agent' => '',
         'Swahili' => '',
         'Swedish' => '',
         'System Address Display Name' => '',
@@ -8557,6 +8568,7 @@ Mfano:
             'Matini mwanzoni mwa somo katika majibu ya barua pepe, mfano RE,AW au AS.',
         'The text at the beginning of the subject when an email is forwarded, e.g. FW, Fwd, or WG.' =>
             'Matini mwanzoni mwa somo wakati barua pepe inatumwa mbele, mfano FW, Fwd, au WG.',
+        'The value of the From field' => '',
         'Theme' => 'Mandhari',
         'This event module stores attributes from CustomerUser as DynamicFields tickets. Please see DynamicFieldFromCustomerUser::Mapping setting for how to configure the mapping.' =>
             '',

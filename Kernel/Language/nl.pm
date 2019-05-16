@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D-%M-%Y';
     $Self->{DateInputFormat}     = '%D-%M-%Y';
     $Self->{DateInputFormatLong} = '%D-%M-%Y - %T';
-    $Self->{Completeness}        = 0.496746575342466;
+    $Self->{Completeness}        = 0.500427423491195;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -122,8 +122,8 @@ sub Data {
         'Move into: users can modify appointments in the calendar, but without changing the calendar selection.' =>
             '',
         'Create: users can create and delete appointments in the calendar.' =>
-            '',
-        'Read/write: users can manage the calendar itself.' => '',
+            'Maken: gebruikers kunnen afspraken maken en verwijderen in de kalender',
+        'Read/write: users can manage the calendar itself.' => 'Lezen/Schrijven: gebruikers kunnen de kalender beheren',
         'Group' => 'Groep',
         'Changed' => 'Gewijzigd',
         'Created' => 'Aangemaakt',
@@ -151,25 +151,25 @@ sub Data {
         'Add entry' => 'Sleutel toevoegen',
         'Add' => 'Toevoegen',
         'Define rules for creating automatic appointments in this calendar based on ticket data.' =>
-            '',
+            'Definieer regels voor het automatisch aanmaken van afspraken in deze kalender, gebaseerd op gegevens van het ticket',
         'Add Rule' => 'Regel toevoegen',
         'Submit' => 'Versturen',
 
         # Template: AdminAppointmentImport
-        'Appointment Import' => '',
+        'Appointment Import' => 'Afspraak importeren',
         'Go back' => 'Ga terug',
-        'Uploaded file must be in valid iCal format (.ics).' => '',
+        'Uploaded file must be in valid iCal format (.ics).' => 'Opgeladen bestanden moeten een geldige iCal indeling hebben (.ics)',
         'If desired Calendar is not listed here, please make sure that you have at least \'create\' permissions.' =>
-            '',
+            'Als de gewenste kalender hier niet zichtbaar is, controleer dan of je ten minste \'create\' rechten hebt.',
         'Upload' => 'Upload',
-        'Update existing appointments?' => '',
+        'Update existing appointments?' => 'Bestaande afspraken bijwerken?',
         'All existing appointments in the calendar with same UniqueID will be overwritten.' =>
-            '',
+            'Alle bestaande afspraken in de kalender met dezelfde UniqueID zullen overschreven worden.',
         'Upload calendar' => 'Upload kalender',
-        'Import appointments' => '',
+        'Import appointments' => 'Afspraken importeren',
 
         # Template: AdminAppointmentNotificationEvent
-        'Appointment Notification Management' => '',
+        'Appointment Notification Management' => 'Meldingen voor afspraken beheren',
         'Add Notification' => 'Melding toevoegen',
         'Edit Notification' => 'Bewerk melding',
         'Export Notifications' => 'Meldingen exporteren',
@@ -244,15 +244,15 @@ sub Data {
 
         # Template: AdminAppointmentNotificationEventTransportEmailSettings
         'Additional recipient email addresses' => 'Aanvullende ontvanger e-mailadres',
-        'This field must have less then 200 characters.' => '',
+        'This field must have less then 200 characters.' => 'Dit veld mag maximaal 200 karakters bevatten',
         'Article visible for customer' => 'Article zichtbaar voor klant',
         'An article will be created if the notification is sent to the customer or an additional email address.' =>
             'Wanneer de melding wordt verstuurd naar de klant of een extra e-mail adres, wordt een artikel aangemaakt.',
         'Email template' => 'Email sjabloon',
         'Use this template to generate the complete email (only for HTML emails).' =>
             'Gebruik deze template om de complete mail te genereren (alleen voor HTML email).',
-        'Enable email security' => '',
-        'Email security level' => '',
+        'Enable email security' => 'Email beveiliging inschakelen',
+        'Email security level' => 'Niveau van email beveiliging',
         'If signing key/certificate is missing' => '',
         'If encryption key/certificate is missing' => '',
 
@@ -323,7 +323,7 @@ sub Data {
 
         # Template: AdminCommunicationLog
         'Communication Log' => 'Communicatielogboek',
-        'Time Range' => '',
+        'Time Range' => 'Bereik van tijd',
         'Show only communication logs created in specific time range.' =>
             'Toon alleen communicatielogboeken gemaakt binnen een bepaald tijdbereik.',
         'Filter for Communications' => 'Filter op communicatie',
@@ -335,10 +335,10 @@ sub Data {
         'If you click on the different entries, you will get redirected to a detailed screen about the message.' =>
             'Als u op de verschillende items klikt, wordt u omgeleid naar een gedetailleerd scherm over het bericht.',
         'Status for: %s' => 'Status van: %s',
-        'Failing accounts' => '',
-        'Some account problems' => '',
-        'No account problems' => '',
-        'No account activity' => '',
+        'Failing accounts' => 'Probleemaccount',
+        'Some account problems' => 'Bepaalde account problemen',
+        'No account problems' => 'Geen account probleem',
+        'No account activity' => 'Geen activiteit van account',
         'Number of accounts with problems: %s' => 'Aantal accounts met problemen: %s',
         'Number of accounts with warnings: %s' => 'Aantal account met waarschuwingen: %s',
         'Failing communications' => 'Falende communicatie',
@@ -348,7 +348,7 @@ sub Data {
         'Open communications' => 'Open communicaties',
         'No active communications' => 'Geen actieve communicatie',
         'Number of open communications: %s' => 'Aantal actieve communicatie: %s',
-        'Average processing time' => '',
+        'Average processing time' => 'Gemiddelde verwerkingstijd',
         'List of communications (%s)' => 'Lijst met communicatie (%s)',
         'Settings' => 'Instellingen',
         'Entries per page' => 'Items per pagina',
@@ -357,8 +357,8 @@ sub Data {
 
         # Template: AdminCommunicationLogAccounts
         'Account Status' => 'Accountstatus',
-        'Back to overview' => '',
-        'Filter for Accounts' => '',
+        'Back to overview' => 'Terug naar het overzicht',
+        'Filter for Accounts' => 'Account filter',
         'Filter for accounts' => 'Filter op accounts',
         'You can change the sort and order of those columns by clicking on the column header.' =>
             'U kunt de sortering en volgorde van de kolommen wijzigen door op de kolomkop te klikken.',
@@ -374,20 +374,20 @@ sub Data {
         'No communication log entries found.' => 'Geen communicatielogboekitems gevonden',
 
         # Template: AdminCommunicationLogCommunications
-        'Duration' => '',
+        'Duration' => 'Tijdsduur',
 
         # Template: AdminCommunicationLogObjectLog
         '#' => '#',
         'Priority' => 'Prioriteit',
         'Module' => 'Module',
         'Information' => 'Informatie',
-        'No log entries found.' => '',
+        'No log entries found.' => 'Geen logvermeldingen gevonden',
 
         # Template: AdminCommunicationLogZoom
         'Detail view for %s communication started at %s' => 'Detailweergave voor %s communicatie gestart om %s',
         'Filter for Log Entries' => '',
         'Filter for log entries' => 'Filter op logitems',
-        'Show only entries with specific priority and higher:' => '',
+        'Show only entries with specific priority and higher:' => 'Toon enkel items met deze prioriteit, of hoger',
         'Communication Log Overview (%s)' => 'Communicatielogboek overzicht (%s)',
         'No communication objects found.' => '',
         'Communication Log Details' => '',
@@ -462,10 +462,10 @@ sub Data {
         'The syntax of this email address is incorrect.' => 'De syntax van dit e-mailadres klopt niet.',
         'This CustomerID is invalid.' => 'Deze klantcode is ongeldig.',
         'Effective Permissions for Customer User' => 'Effectieve machtigingen voor klanten',
-        'Group Permissions' => '',
+        'Group Permissions' => 'Groepsrechten',
         'This customer user has no group permissions.' => 'Deze klant heeft geen groepsrechten.',
         'Table above shows effective group permissions for the customer user. The matrix takes into account all inherited permissions (e.g. via customer groups). Note: The table does not consider changes made to this form without submitting it.' =>
-            '',
+            'De bovenstaande tabel toont de effectieve rechten van de groep voor deze klant. De matrix houdt rekening met alle overgeërfde rechten (e.g. via klantgroepen). Merk op: de tabel houdt geen rekening met wijzigingen die in dit formulier werden aangebracht en nog niet opgeslagen zijn.',
         'Customer Access' => 'Bedrijf toegang',
         'Customer' => 'Klant',
         'This customer user has no customer access.' => 'Deze klant heeft geen toegang.',
@@ -6297,6 +6297,7 @@ Het Helpdesk Team
         'Default ACL values for ticket actions.' => '',
         'Default ProcessManagement entity prefixes for entity IDs that are automatically generated.' =>
             '',
+        'Default agent name' => '',
         'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimePointFormat=year;TicketCreateTimePointStart=Last;TicketCreateTimePoint=2;".' =>
             '',
         'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimeStartYear=2010;TicketCreateTimeStartMonth=10;TicketCreateTimeStartDay=4;TicketCreateTimeStopYear=2010;TicketCreateTimeStopMonth=11;TicketCreateTimeStopDay=3;".' =>
@@ -6542,6 +6543,8 @@ Het Helpdesk Team
         'Defines the date input format used in forms (option or input fields).' =>
             '',
         'Defines the default CSS used in rich text editors.' => '',
+        'Defines the default agent name in the ticket zoom view of the customer interface.' =>
+            '',
         'Defines the default auto response type of the article for this operation.' =>
             '',
         'Defines the default body of a note in the ticket free text screen of the agent interface.' =>
@@ -6699,6 +6702,8 @@ Het Helpdesk Team
         'Defines the default viewable sender types of a ticket (default: customer).' =>
             '',
         'Defines the default visibility of the article to customer for this operation.' =>
+            '',
+        'Defines the displayed style of the From field in notes that are visible for customers. A default agent name can be defined in Ticket::Frontend::CustomerTicketZoom###DefaultAgentName setting.' =>
             '',
         'Defines the dynamic fields that are used for displaying on calendar events.' =>
             '',
@@ -7584,10 +7589,12 @@ Het Helpdesk Team
         'Logout of customer panel.' => '',
         'Look into a ticket!' => 'Bekijk dit ticket.',
         'Loop protection: no auto-response sent to "%s".' => '',
+        'Macedonian' => '',
         'Mail Accounts' => '',
         'MailQueue configuration settings.' => '',
         'Main menu item registration.' => '',
         'Main menu registration.' => '',
+        'Makes the application block external content loading.' => '',
         'Makes the application check the MX record of email addresses before sending an email or submitting a telephone or email ticket.' =>
             '',
         'Makes the application check the syntax of email addresses.' => '',
@@ -7882,6 +7889,8 @@ Het Helpdesk Team
             '',
         'Reminder Tickets' => 'Tickets met herinnering',
         'Removed subscription for user "%s".' => 'Removed subscription for user "%s".',
+        'Removes old generic interface debug log entries created before the specified amount of days.' =>
+            '',
         'Removes old system configuration deployments (Sunday mornings).' =>
             '',
         'Removes old ticket number counters (each 10 minutes).' => '',
@@ -7940,6 +7949,7 @@ Het Helpdesk Team
             '',
         'Right' => '',
         'Roles ↔ Groups' => '',
+        'Romanian' => '',
         'Run file based generic agent jobs (Note: module name needs to be specified in -configuration-module param e.g. "Kernel::System::GenericAgent").' =>
             '',
         'Running Process Tickets' => '',
@@ -8508,6 +8518,7 @@ Het Helpdesk Team
         'Strips empty lines on the ticket preview in the queue view.' => '',
         'Strips empty lines on the ticket preview in the service view.' =>
             '',
+        'Support Agent' => '',
         'Swahili' => '',
         'Swedish' => '',
         'System Address Display Name' => '',
@@ -8568,6 +8579,7 @@ Het Helpdesk Team
             '',
         'The text at the beginning of the subject when an email is forwarded, e.g. FW, Fwd, or WG.' =>
             '',
+        'The value of the From field' => '',
         'Theme' => 'Thema',
         'This event module stores attributes from CustomerUser as DynamicFields tickets. Please see DynamicFieldFromCustomerUser::Mapping setting for how to configure the mapping.' =>
             '',

@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '';
     $Self->{DateInputFormat}     = '';
     $Self->{DateInputFormatLong} = '';
-    $Self->{Completeness}        = 0.982705479452055;
+    $Self->{Completeness}        = 0.981193366387417;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -6291,6 +6291,7 @@ Thanks for your help!
         'Default ACL values for ticket actions.' => '티켓 조치에 대한 기본 ACL 값.',
         'Default ProcessManagement entity prefixes for entity IDs that are automatically generated.' =>
             '자동으로 생성되는 엔티티 ID에 대한 기본 ProcessManagement 엔티티 접두사입니다.',
+        'Default agent name' => '',
         'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimePointFormat=year;TicketCreateTimePointStart=Last;TicketCreateTimePoint=2;".' =>
             '티켓 검색 화면의 속성에 사용할 기본 데이터입니다. 예 : "TicketCreateTimePointFormat = year; TicketCreateTimePointStart = 마지막; TicketCreateTimePoint = 2;".',
         'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimeStartYear=2010;TicketCreateTimeStartMonth=10;TicketCreateTimeStartDay=4;TicketCreateTimeStopYear=2010;TicketCreateTimeStopMonth=11;TicketCreateTimeStopDay=3;".' =>
@@ -6536,6 +6537,8 @@ Thanks for your help!
         'Defines the date input format used in forms (option or input fields).' =>
             '양식 (옵션 또는 입력 필드)에 사용되는 날짜 입력 형식을 정의합니다.',
         'Defines the default CSS used in rich text editors.' => '서식있는 텍스트 편집기에 사용되는 기본 CSS를 정의합니다.',
+        'Defines the default agent name in the ticket zoom view of the customer interface.' =>
+            '',
         'Defines the default auto response type of the article for this operation.' =>
             '이 작업에 대한 아티클의 기본 자동 응답 유형을 정의합니다.',
         'Defines the default body of a note in the ticket free text screen of the agent interface.' =>
@@ -6694,6 +6697,8 @@ Thanks for your help!
             '티켓의 기본 볼 수있는 보낸 사람 유형을 정의합니다 (기본값 : 고객).',
         'Defines the default visibility of the article to customer for this operation.' =>
             '이 작업을 위해 고객에게 기사의 기본 가시성을 정의합니다.',
+        'Defines the displayed style of the From field in notes that are visible for customers. A default agent name can be defined in Ticket::Frontend::CustomerTicketZoom###DefaultAgentName setting.' =>
+            '',
         'Defines the dynamic fields that are used for displaying on calendar events.' =>
             '달력 이벤트에 표시하는데 사용되는 동적 필드를 정의합니다.',
         'Defines the event object types that will be handled via AdminAppointmentNotificationEvent.' =>
@@ -7578,10 +7583,12 @@ Thanks for your help!
         'Logout of customer panel.' => '고객 패널 로그 아웃.',
         'Look into a ticket!' => '표를 보세요!',
         'Loop protection: no auto-response sent to "%s".' => '루프 보호 : 자동 응답이 "%s"로 전송되지 않습니다.',
+        'Macedonian' => '',
         'Mail Accounts' => '메일 계정',
         'MailQueue configuration settings.' => 'MailQueue 구성 설정.',
         'Main menu item registration.' => '기본 메뉴 항목 등록.',
         'Main menu registration.' => '기본 메뉴 등록.',
+        'Makes the application block external content loading.' => '',
         'Makes the application check the MX record of email addresses before sending an email or submitting a telephone or email ticket.' =>
             '전자 메일을 보내거나 전화 또는 전자 메일 티켓을 제출하기 전에 응용 프로그램에서 전자 메일 주소의 MX 레코드를 확인하게합니다.',
         'Makes the application check the syntax of email addresses.' => '응용 프로그램이 전자 메일 주소의 구문을 검사하도록 합니다.',
@@ -7876,6 +7883,8 @@ Thanks for your help!
             '통신 관련 정보를 기록하는데 사용할 수있는 로그 모듈을 등록합니다.',
         'Reminder Tickets' => '잊지 말아야 할 티켓',
         'Removed subscription for user "%s".' => '"%s" 사용자에 대한 가입이 삭제되었습니다.',
+        'Removes old generic interface debug log entries created before the specified amount of days.' =>
+            '',
         'Removes old system configuration deployments (Sunday mornings).' =>
             '이전 시스템 구성 배포 (일요일 오전)를 제거합니다.',
         'Removes old ticket number counters (each 10 minutes).' => '',
@@ -7934,6 +7943,7 @@ Thanks for your help!
             '서비스가 잘못된 요소의 하위 항목인 경우에도 목록의 모든 서비스를 유지합니다.',
         'Right' => '권리',
         'Roles ↔ Groups' => '역할 ↔ 그룹',
+        'Romanian' => '',
         'Run file based generic agent jobs (Note: module name needs to be specified in -configuration-module param e.g. "Kernel::System::GenericAgent").' =>
             '파일 기반 일반 에이전트 작업 실행 (참고 : 모듈 이름은 -configuration-module 매개 변수 예 : "Kernel :: System :: GenericAgent")에서 지정해야합니다.',
         'Running Process Tickets' => '프로세스 티켓 실행',
@@ -8502,6 +8512,7 @@ Thanks for your help!
         'Strips empty lines on the ticket preview in the queue view.' => '대기열 보기의 티켓 미리보기에서 빈 줄을 제거합니다.',
         'Strips empty lines on the ticket preview in the service view.' =>
             '서비스보기의 티켓 미리보기에서 빈 줄을 제거합니다.',
+        'Support Agent' => '',
         'Swahili' => '스와힐리어',
         'Swedish' => '스웨덴어',
         'System Address Display Name' => '시스템 주소 표시 이름',
@@ -8562,6 +8573,7 @@ Thanks for your help!
             '이메일 답장에서 제목의 시작 부분에있는 텍스트입니다 예 : RE, AW 또는 AS.',
         'The text at the beginning of the subject when an email is forwarded, e.g. FW, Fwd, or WG.' =>
             '이메일이 전달 될 때 제목의 시작 부분에있는 텍스트입니다 예 : FW, FWD 또는 WG.',
+        'The value of the From field' => '',
         'Theme' => '테마',
         'This event module stores attributes from CustomerUser as DynamicFields tickets. Please see DynamicFieldFromCustomerUser::Mapping setting for how to configure the mapping.' =>
             '이 이벤트 모듈은 CustomerUser의 특성을 DynamicFields 티켓으로 저장합니다. 매핑을 구성하는 방법은 DynamicFieldFromCustomerUser::Mapping 설정을 참조하십시오.',
