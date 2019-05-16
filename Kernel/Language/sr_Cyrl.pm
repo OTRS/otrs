@@ -3420,8 +3420,7 @@ sub Data {
         'There was an error setting the entity sync status.' => 'Дошло је до грешке приликом подешавања статуса синхронизације ентитета.',
         'There was an error synchronizing the ACLs.' => 'Дошло је до грешке при синхронизацији „ACLs”',
         'ACL %s could not be deleted' => '„ACL” листу %s није могуће обрисати',
-        'There was an error getting data for ACL with ID %s' => 'Дошло је до грешке приликом прибављања података за
-„ACL” листу са ИД %s',
+        'There was an error getting data for ACL with ID %s' => 'Дошло је до грешке приликом прибављања података за „ACL” листу са ИД %s',
         'Exact match' => 'Тачно поклапање',
         'Negated exact match' => 'Негирано тачно поклапање',
         'Regular expression' => 'Регуларни израз',
