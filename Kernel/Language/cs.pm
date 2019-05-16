@@ -31,7 +31,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.31051051051051;
+    $Self->{Completeness}        = 0.310137972405519;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -298,7 +298,7 @@ sub Data {
         'You have Out of Office enabled, would you like to disable it?' =>
             'Máte nastaveno "Mimo kancelář". Přejete si to vypnout?',
         'News about OTRS releases!' => 'Novinky o OTRS verzích!',
-        'Go to dashboard!' => 'Navštivte nástěnku!',
+        'Go to dashboard!' => 'Navštivte nástěnku.',
         'Customer %s added' => 'Zákazník %s přidán',
         'Role added!' => 'Role přidána!',
         'Role updated!' => 'Role aktualizována!',
@@ -542,7 +542,7 @@ sub Data {
         'Service' => 'Služba',
         'Services' => 'Služby',
         'State' => 'Stav',
-        'States' => 'Stav',
+        'States' => 'Stavy',
         'Status' => 'Stav',
         'Statuses' => 'Statusy',
         'Ticket Type' => 'Typ ticketu',
@@ -570,7 +570,7 @@ sub Data {
         'This is a' => 'Toto je',
         'to open it in a new window.' => 'pro otevření v novém okně.',
         'This is a HTML email. Click here to show it.' => 'Toto je HTML email. Pro zobrazení klikněte zde.',
-        'Free Fields' => 'Volná pole',
+        'Free Fields' => 'Prázdná pole',
         'Merge' => 'Sloučit',
         'merged' => 'Sloučeno',
         'closed successful' => 'uzavřeno - vyřešeno',
@@ -634,7 +634,7 @@ sub Data {
         'auto reply' => 'automatická odpověď',
         'auto reply/new ticket' => 'automatická odpověď/nový tiket',
         'Create' => 'Vytvořit',
-        'Answer' => 'Odpověd',
+        'Answer' => 'Odpověd.',
         'Phone call' => 'Telefoní hovor',
         'Ticket "%s" created!' => 'Tiket "%s" vytvořen!',
         'Ticket Number' => 'číslo tiketu',
@@ -4852,7 +4852,7 @@ Thanks for your help!
         'Change password' => '',
         'Change queue!' => '',
         'Change the customer for this ticket' => 'Změna Zákazníka Tiketu',
-        'Change the free fields for this ticket' => 'Upravit volná pole v tomto tiketu',
+        'Change the free fields for this ticket' => 'Upravit prázdná pole v tomto tiketu',
         'Change the priority for this ticket' => '',
         'Change the responsible for this ticket' => '',
         'Changed priority from "%s" (%s) to "%s" (%s).' => 'Priorita změněna z "%s" (%s) na "%s" (%s).',
@@ -5000,6 +5000,7 @@ Thanks for your help!
         'Default ACL values for ticket actions.' => 'Výchozi hodnoty ACL pro akce tiketů.',
         'Default ProcessManagement entity prefixes for entity IDs that are automatically generated.' =>
             '',
+        'Default agent name' => '',
         'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimePointFormat=year;TicketCreateTimePointStart=Last;TicketCreateTimePoint=2;".' =>
             '',
         'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimeStartYear=2010;TicketCreateTimeStartMonth=10;TicketCreateTimeStartDay=4;TicketCreateTimeStopYear=2010;TicketCreateTimeStopMonth=11;TicketCreateTimeStopDay=3;".' =>
@@ -5190,6 +5191,8 @@ Thanks for your help!
         'Defines the date input format used in forms (option or input fields).' =>
             '',
         'Defines the default CSS used in rich text editors.' => '',
+        'Defines the default agent name in the ticket zoom view of the customer interface.' =>
+            '',
         'Defines the default auto response type of the article for this operation.' =>
             '',
         'Defines the default body of a note in the ticket free text screen of the agent interface.' =>
@@ -5371,6 +5374,8 @@ Thanks for your help!
         'Defines the default value for the action parameter for the public frontend. The action parameter is used in the scripts of the system.' =>
             '',
         'Defines the default viewable sender types of a ticket (default: customer).' =>
+            '',
+        'Defines the displayed style of the From field in notes that are visible for customers. A default agent name can be defined in Ticket::Frontend::CustomerTicketZoom###DefaultAgentName setting.' =>
             '',
         'Defines the dynamic fields that are used for displaying on calendar events.' =>
             '',
@@ -6162,6 +6167,7 @@ Thanks for your help!
         'Loop-Protection! No auto-response sent to "%s".' => 'Přeposlání nepovoleno! Nebyla odeslána automatická odpověď na "%s".',
         'Mail Accounts' => '',
         'Main menu registration.' => '',
+        'Makes the application block external content loading.' => '',
         'Makes the application check the MX record of email addresses before sending an email or submitting a telephone or email ticket.' =>
             '',
         'Makes the application check the syntax of email addresses.' => '',
@@ -6975,6 +6981,7 @@ Thanks for your help!
         'Strips empty lines on the ticket preview in the queue view.' => '',
         'Strips empty lines on the ticket preview in the service view.' =>
             '',
+        'Support Agent' => '',
         'Swahili' => '',
         'Swedish' => '',
         'System Address Display Name' => '',
@@ -7028,6 +7035,7 @@ Thanks for your help!
             '',
         'The text at the beginning of the subject when an email is forwarded, e.g. FW, Fwd, or WG.' =>
             '',
+        'The value of the From field' => '',
         'This event module stores attributes from CustomerUser as DynamicFields tickets. Please see the setting above for how to configure the mapping.' =>
             '',
         'This is a description for TimeZone on Customer side.' => '',

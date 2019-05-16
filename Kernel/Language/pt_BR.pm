@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.916916916916917;
+    $Self->{Completeness}        = 0.915816836632673;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -198,7 +198,7 @@ sub Data {
         'Fulltext Search' => 'Busca por texto completo',
         'Data' => 'Dado',
         'Options' => 'Opções',
-        'Title' => 'Titulo',
+        'Title' => 'Título',
         'Item' => 'Item',
         'Delete' => 'Excluir',
         'Edit' => 'Editar',
@@ -540,7 +540,7 @@ sub Data {
         'Service' => 'Serviço',
         'Services' => 'Serviços',
         'State' => 'Estado',
-        'States' => 'Estado',
+        'States' => 'Estados',
         'Status' => 'Estado',
         'Statuses' => 'Estados',
         'Ticket Type' => 'Tipo de Chamado',
@@ -804,7 +804,7 @@ sub Data {
         'ACLs' => 'ACLs',
         'Please note: This table represents the execution order of the ACLs. If you need to change the order in which ACLs are executed, please change the names of the affected ACLs.' =>
             'Por favor note: Esta tabela representa a ordem de execução das ACLs. Se você precisa mudar a ordem em que as ACLs são executadas, por favor mude os nomes das ACLs afetadas.',
-        'ACL name' => 'Nome da ACL',
+        'ACL name' => 'Nome ACL',
         'Validity' => 'Validade',
         'Copy' => 'Copiar',
         'No data found.' => 'Nenhum dado encontrado.',
@@ -814,12 +814,12 @@ sub Data {
         'Go to overview' => 'Ir Para Visão Geral',
         'Delete ACL' => 'Excluir ACL',
         'Delete Invalid ACL' => 'Excluir ACL Inválida',
-        'Match settings' => 'Configurações de coincidência',
+        'Match settings' => 'Configurações de casamento',
         'Set up matching criteria for this ACL. Use \'Properties\' to match the current screen or \'PropertiesDatabase\' to match attributes of the current ticket that are in the database.' =>
-            'Configure critérios de coincidência para esta ACL. Use \'Properties\' para comparar dados na tela atual ou \'PropertiesDatabase\' para comparar com atributos do chamado atual que está armazenado no banco de dados.',
-        'Change settings' => 'Alterar configurações',
+            'Configure critérios de casamento para esta ACL. Use \'Properties\ para casar na tela atual ou \'PropertiesDatabase\' para casar atributos do chamado atual que está armazenado no banco de dados.',
+        'Change settings' => 'Configurações de alteração',
         'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is a white list, \'PossibleNot\' a black list.' =>
-            'Configure o que você quer alterar se o critério coincidir. Mantenha em mente que \'Possible\' é uma adição à lista e \'PossibleNot\', uma exclusão da lista.',
+            'Configure o que você quer alterar se o critério casar. Mantenha em mente que \'Possible\' é uma lista branca e \'PossibleNot\', uma lista negra.',
         'Check the official' => 'Verifique a oficial',
         'documentation' => 'documentação',
         'Show or hide the content' => 'Mostrar ou esconder o conteúdo',
@@ -907,11 +907,11 @@ sub Data {
         'Upgrade to %s' => 'Atualize para %s',
 
         # Template: AdminCustomerCompany
-        'Customer Management' => 'Gerenciamento de Cliente',
+        'Customer Management' => 'Gerenciamento de Entidade',
         'Wildcards like \'*\' are allowed.' => 'Coringas como \'*\' são permitidos.',
         'Add customer' => 'Adicionar Cliente',
         'Select' => 'Selecionar',
-        'List (only %s shown - more available)' => 'Listar (somente %s mostrado - mais disponível)',
+        'List (only %s shown - more available)' => 'Listar(somente %s mostrado - mais disponível)',
         'List (%s total)' => 'Listar (%s total)',
         'Please enter a search term to look for customers.' => 'Por favor, insira um termo de pesquisa para procurar clientes.',
         'Add Customer' => 'Adicionar Cliente',
@@ -925,7 +925,7 @@ sub Data {
         'Last Login' => 'Última Autenticação',
         'Login as' => 'Logar-se como',
         'Switch to customer' => 'Trocar para cliente',
-        'Add Customer User' => 'Adicionar Usuário Cliente',
+        'Add Customer User' => 'Adicionar Cliente',
         'Edit Customer User' => 'Editar Usuário Cliente',
         'This field is required and needs to be a valid email address.' =>
             'Este campo é obrigatório e deve ser um endereço de e-mail válido.',
@@ -958,8 +958,8 @@ sub Data {
         'Groups' => 'Grupos',
         'Change Group Relations for Customer' => 'Alterar as Relações de Grupo para o Cliente',
         'Change Customer Relations for Group' => 'Alterar as Relações de Cliente para o Grupo',
-        'Toggle %s Permission for all' => 'Alternar a Permissão %s para todos',
-        'Toggle %s permission for %s' => 'Alternar a permissão %s para %s',
+        'Toggle %s Permission for all' => 'Chavear a Permissão %s para todos',
+        'Toggle %s permission for %s' => 'Chavear a permissão %s para %s',
         'Customer Default Groups:' => 'Grupos-padrão para clientes:',
         'No changes can be made to these groups.' => 'Nenhuma alteração pode ser feita a estes grupos.',
         'ro' => 'Somente Leitura',
@@ -970,11 +970,11 @@ sub Data {
 
         # Template: AdminCustomerUserService
         'Manage Customer-Services Relations' => 'Gerenciar Relações Clientes-Serviços',
-        'Edit default services' => 'Alterar Serviços Padrão',
+        'Edit default services' => 'Alterar Serviços-Padrão',
         'Filter for Services' => 'Filtrar por Serviços',
         'Allocate Services to Customer' => 'Alocar Serviços Para Clientes',
         'Allocate Customers to Service' => 'Alocar Clientes Para Serviços',
-        'Toggle active state for all' => 'Alternar estado ativo para todos',
+        'Toggle active state for all' => 'Chavear estado ativo para todos',
         'Active' => 'Ativo',
         'Toggle active state for %s' => 'Chavear estado ativo para %s',
 
@@ -985,8 +985,8 @@ sub Data {
             'Para adicionar um novo campo, selecione o tipo de campo em uma das listas de objetos. O objeto define o domínio do campo e não pode ser alterado após a criação.',
         'Dynamic Fields List' => 'Lista de Campos Dinâmicos',
         'Dynamic fields per page' => 'Campos dinâmicos por página',
-        'Label' => 'Rótulo',
-        'Order' => 'Pedido',
+        'Label' => 'Campo',
+        'Order' => 'Ordem',
         'Object' => 'Objeto',
         'Delete this field' => 'Remover este campo',
         'Do you really want to delete this dynamic field? ALL associated data will be LOST!' =>
@@ -1028,15 +1028,15 @@ sub Data {
         'Activate this feature to define a fixed range of years (in the future and in the past) to be displayed on the year part of the field.' =>
             'Ative este recurso para definir uma faixa fixa de anos (no futuro e no passado) para exibir na parte anual do campo.',
         'Years in the past' => 'Anos No Passado',
-        'Years in the past to display (default: 5 years).' => 'Anos no Passado a Exibir (padrão: 5 anos).',
+        'Years in the past to display (default: 5 years).' => 'Anos no Passado à Exibir (padrão: 5 anos).',
         'Years in the future' => 'Anos no Futuro',
-        'Years in the future to display (default: 5 years).' => 'Anos no Futuro a Exibir (padrão: 5 anos).',
+        'Years in the future to display (default: 5 years).' => 'Anos no Futuro à Exibir (padrão: 5 anos).',
         'Show link' => 'Mostrar Link',
         'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
             'Aqui você pode especificar um link HTTP para o valor deste campo nas telas de Visão Geral e Detalhamento.',
-        'Link for preview' => 'Link para visualização',
+        'Link for preview' => 'Ligação para prever',
         'If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too.' =>
-            'Se preenchida, esta URL será visualizada ao se flutuar sobre o link no zoom do chamado. Por favor note que para isto funcionar, deve-se preencher também o campo URL comum acima.',
+            'Se preenchido, usar-se-á este URI para prever quando se sobrevoa este vínculo na majoração do chamado.  Por favor note que para isto funcionar, deve-se preencher também o campo URI comum acima.',
         'Restrict entering of dates' => 'Restringir entrada de datas',
         'Here you can restrict the entering of dates of tickets.' => 'Aqui você pode restringir a entrada de datas de tickets.',
 
@@ -1045,11 +1045,11 @@ sub Data {
         'Key' => 'Chave',
         'Value' => 'Valor',
         'Remove value' => 'Remover Valor',
-        'Add value' => 'Adicionar valor',
+        'Add value' => 'Adicionar Valor',
         'Add Value' => 'Adicionar Valor',
-        'Add empty value' => 'Adicionar valor vazio',
+        'Add empty value' => 'Adicionar Valor Vazio',
         'Activate this option to create an empty selectable value.' => 'Ative essa opção para criar um valor vazio selecionável.',
-        'Tree View' => 'Visualização em Árvore',
+        'Tree View' => 'Árvore',
         'Activate this option to display values as a tree.' => 'Ativar esta opção para exibir valores como uma árvore.',
         'Translatable values' => 'Valores Traduzíveis',
         'If you activate this option the values will be translated to the user defined language.' =>
@@ -1096,7 +1096,7 @@ sub Data {
         'Run this task' => 'Executar esta Tarefa',
         'Do you really want to delete this task?' => 'Você realmente deseja excluir essa tarefa?',
         'Job Settings' => 'Configurações de Tarefa',
-        'Job name' => 'Nome da Tarefa',
+        'Job name' => 'Tarefa',
         'The name you entered already exists.' => 'O nome digitado já existe.',
         'Toggle this widget' => 'Chavear este dispositivo',
         'Automatic execution (multiple tickets)' => 'Execução automática (chamados múltiplos)',
@@ -1105,7 +1105,7 @@ sub Data {
         'Schedule hours' => 'Horas Agendadas',
         'Schedule days' => 'Dias Agendados',
         'Currently this generic agent job will not run automatically.' =>
-            'Atualmente, essa tarefa do agente genérico não será executada automaticamente.',
+            'Atualmente, essa tarefa do atendente genérico não será executado automaticamente.',
         'To enable automatic execution select at least one value from minutes, hours and days!' =>
             'Para habilitar a execução automática, selecione pelo menos um valor de minutos, horas e dias!',
         'Event based execution (single ticket)' => 'Execução baseada em Evento (chamado simples)',
@@ -1132,10 +1132,10 @@ sub Data {
         'Customer user' => 'Usuário cliente',
         '(e. g. U5150)' => '(ex.: 12345654321)',
         'Fulltext-search in article (e. g. "Mar*in" or "Baue*").' => 'Pesquisa textual completa no artigo (ex. "Mur*lo" ou "Gleyc*").',
-        'Agent' => 'Agente',
-        'Ticket lock' => 'Bloqueio de Chamado',
+        'Agent' => 'Atendente',
+        'Ticket lock' => 'Chamado bloqueado',
         'Create times' => 'Horários de criação',
-        'No create time settings.' => 'Sem configurações de horário de criação',
+        'No create time settings.' => 'Ignorar horários de criação',
         'Ticket created' => 'Chamado criado',
         'Ticket created between' => 'Chamado criado entre',
         'Last changed times' => 'Última alteração',
@@ -1143,7 +1143,7 @@ sub Data {
         'Ticket last changed' => 'Última edição do chamado',
         'Ticket last changed between' => 'Última alteração do chamado entre',
         'Change times' => 'Horários de alteração',
-        'No change time settings.' => 'Sem configurações de horários de alteração.',
+        'No change time settings.' => 'Ignorar horários de alteração.',
         'Ticket changed' => 'Chamado alterado',
         'Ticket changed between' => 'Chamado alterado entre',
         'Close times' => 'Horários de fechamento',
@@ -1170,12 +1170,12 @@ sub Data {
         'Archive search option' => 'Opção de pesquisa de arquivo',
         'Update/Add Ticket Attributes' => 'Alterar/Adicionar Atributos do Chamado',
         'Set new service' => 'Configurar novo serviço',
-        'Set new Service Level Agreement' => 'Configurar novo Acordo de Nível de Serviço',
+        'Set new Service Level Agreement' => 'Configurar novo Acordo de Níve de Serviço',
         'Set new priority' => 'Configurar Nova Prioridade',
         'Set new queue' => 'Configurar Nova Fila',
         'Set new state' => 'Configurar Novo Estado',
         'Pending date' => 'Data de Pendência',
-        'Set new agent' => 'Configurar Novo Agente',
+        'Set new agent' => 'Configurar Novo Atendente',
         'new owner' => 'Novo Proprietário',
         'new responsible' => 'Novo Responsável',
         'Set new ticket lock' => 'Configurar Novo Bloqueio de Chamado',
@@ -1183,13 +1183,13 @@ sub Data {
         'New customer ID' => 'Novo ID de Cliente',
         'New title' => 'Novo Título',
         'New type' => 'Novo Tipo',
-        'New Dynamic Field Values' => 'Novos Valores de Campo Dinâmico',
+        'New Dynamic Field Values' => 'Novo Valor de Campo Dinâmico',
         'Archive selected tickets' => 'Arquivar chamados selecionados',
         'Add Note' => 'Adicionar Nota',
         'This field must have less then 200 characters.' => 'Este campo precisa ter menos de 200 caracteres.',
         'Time units' => 'Unidades de tempo',
         'Execute Ticket Commands' => 'Executar Comandos de Chamado',
-        'Send agent/customer notifications on changes' => 'Enviar Notificações de Alterações Para Agente/Cliente',
+        'Send agent/customer notifications on changes' => 'Enviar Notificações de Alterações Para Atendente/Cliente',
         'CMD' => 'Comando',
         'This command will be executed. ARG[0] will be the ticket number. ARG[1] the ticket id.' =>
             'Este comando será executado. ARG[0] será o número do chamado. ARG[1] o ID do chamado.',
@@ -1203,7 +1203,7 @@ sub Data {
         'Results' => 'Resultados',
         '%s Tickets affected! What do you want to do?' => '%s chamados afetados! O que você quer fazer?',
         'Warning: You used the DELETE option. All deleted tickets will be lost!' =>
-            'Atenção: Você usou a opção EXCLUIR. Todos os chamados excluídos serão perdidos!',
+            'Atenção: Você usou a opção DELETE. Todos os chamados excluídos serão perdidos!',
         'Warning: There are %s tickets affected but only %s may be modified during one job execution!' =>
             'Atenção: Existem %s tickets afetados mas apenas %s podem ser modificados durante a execução de um job!',
         'Edit job' => 'Alterar tarefa',
@@ -1226,7 +1226,7 @@ sub Data {
         'Select a single request to see its details.' => 'Selecione uma única requisição para ver os seus detalhes.',
         'Filter by type' => 'Filtrar por tipo',
         'Filter from' => 'Filtrar de',
-        'Filter to' => 'Filtrar para',
+        'Filter to' => 'Filtrar até',
         'Filter by remote IP' => 'Filtrar por IP remoto',
         'Limit' => 'Limite',
         'Refresh' => 'Atualizar',
@@ -1430,11 +1430,11 @@ sub Data {
             'Sentido de ordenação de saída para campos xml (começo da estrutura abaixo do encapsulamento de nome de função) - veja documentação sobre transporte SOAP.',
 
         # Template: AdminGenericInterfaceWebservice
-        'GenericInterface Web Service Management' => 'Gerenciamento de Web Service da Interface Genérica',
+        'GenericInterface Web Service Management' => 'Gerenciamento de Web Service',
         'Add web service' => 'Adicionar Web Server',
         'Clone web service' => 'Copiar Web Service',
         'The name must be unique.' => 'O nome deve ser único',
-        'Clone' => 'Clonar',
+        'Clone' => 'Copiar',
         'Export web service' => 'Exportar Web Service',
         'Import web service' => 'Importar Web Service',
         'Configuration File' => 'Arquivo de Configuração',
@@ -1576,7 +1576,7 @@ sub Data {
         'Send to' => 'Enviar para',
         'Send to these agents' => 'Enviar para estes atendentes',
         'Send to all group members (agents only)' => 'Enviar para todos os membros do grupo (apenas o agente)',
-        'Send to all role members' => 'Enviar para todos os membros da função',
+        'Send to all role members' => 'Enviar para todos os membros do papel',
         'Send on out of office' => 'Enviar em fora do esritório',
         'Also send if the user is currently out of office.' => 'Também enviar se o usuário se encontra fora do escritório..',
         'Once per day' => 'Uma vez por dia',
@@ -1709,7 +1709,7 @@ sub Data {
             'Por favor, desinstale os pacotes primeiro usando o Gerenciador de pacotes e tente novamente.',
         'You are about to downgrade to ((OTRS)) Community Edition and will lose the following features and all data related to these:' =>
             '',
-        'Chat' => 'Chat',
+        'Chat' => 'Bate-papo',
         'Report Generator' => 'Gerador de relatório',
         'Timeline view in ticket zoom' => 'Visão de linha do tempo nos detalhes do chamado',
         'DynamicField ContactWithData' => 'CampoDinâmico ContatoComDados',
@@ -2719,7 +2719,7 @@ sub Data {
         'All fields marked with an asterisk (*) are mandatory.' => 'Todos os campos marcados com um asterisco (*) são obrigatórios.',
         'Service invalid.' => 'Serviço inválido.',
         'New Owner' => 'Novo Proprietário',
-        'Please set a new owner!' => 'Por favor, defina um novo proprietário!',
+        'Please set a new owner!' => 'Por favor, configure um novo proprietário!',
         'New Responsible' => 'Novo Responsável',
         'Next state' => 'Próximo estado',
         'For all pending* states.' => 'Para todos os estados *pendente*.',
@@ -3054,7 +3054,7 @@ sub Data {
         # Template: CustomerTicketSearch
         'Profile' => 'Perfil',
         'e. g. 10*5155 or 105658*' => 'ex. 10*5155 ou 105658*',
-        'Customer ID' => 'ID do Cliente',
+        'Customer ID' => 'Cliente ID',
         'Fulltext search in tickets (e. g. "John*n" or "Will*")' => 'Busca de texto completa em chamados (ex. "J*ão" ou "Carl*")',
         'Recipient' => 'Destinatário',
         'Carbon Copy' => 'Cópia',
@@ -4146,7 +4146,7 @@ sub Data {
         'Session per user limit reached!' => 'Limite de sessão por usuário atingido!',
 
         # Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
-        'Configuration Options Reference' => 'Referência de Opções de Configuração',
+        'Configuration Options Reference' => 'Referência de opções de configuração',
         'This setting can not be changed.' => 'Esta configuração não pode ser alterada.',
         'This setting is not active by default.' => 'Esta configuração não está ativa por padrão.',
         'This setting can not be deactivated.' => 'Esta configuração não pode ser desativada.',
@@ -5009,6 +5009,7 @@ Obrigado pela ajuda!
         'Default ACL values for ticket actions.' => 'Valores padrão de ACL para as ações de chamado.',
         'Default ProcessManagement entity prefixes for entity IDs that are automatically generated.' =>
             'Prefixos de entidade de Gerenciamento de Processos padrão para IDs de entidade que são automaticamente gerados.',
+        'Default agent name' => '',
         'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimePointFormat=year;TicketCreateTimePointStart=Last;TicketCreateTimePoint=2;".' =>
             'Dados padrão para serem utilizados em atributo da tela de pesquisa de ticket. Por Exemplo: "TicketCreateTimePointFormat=year;TicketCreateTimePointStart=Last;TicketCreateTimePoint=2;".',
         'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimeStartYear=2010;TicketCreateTimeStartMonth=10;TicketCreateTimeStartDay=4;TicketCreateTimeStopYear=2010;TicketCreateTimeStopMonth=11;TicketCreateTimeStopDay=3;".' =>
@@ -5199,6 +5200,8 @@ Obrigado pela ajuda!
         'Defines the date input format used in forms (option or input fields).' =>
             'Define o formato de entrada de data utilizado em formulários (opção ou campos de entrada).',
         'Defines the default CSS used in rich text editors.' => 'Define o CSS padrão utilizados nos editores rich text.',
+        'Defines the default agent name in the ticket zoom view of the customer interface.' =>
+            '',
         'Defines the default auto response type of the article for this operation.' =>
             'Define o tipo padrão de autorresposta do artigo para esta operação.',
         'Defines the default body of a note in the ticket free text screen of the agent interface.' =>
@@ -5381,6 +5384,8 @@ Obrigado pela ajuda!
             '',
         'Defines the default viewable sender types of a ticket (default: customer).' =>
             'Define o tipo de remetente visível padrão de um ticker (padrão: cliente).',
+        'Defines the displayed style of the From field in notes that are visible for customers. A default agent name can be defined in Ticket::Frontend::CustomerTicketZoom###DefaultAgentName setting.' =>
+            '',
         'Defines the dynamic fields that are used for displaying on calendar events.' =>
             'Define os campos dinâmicos que são utilizados para mostrar em eventos de calendário.',
         'Defines the fall-back path to open fetchmail binary. Note: The name of the binary needs to be \'fetchmail\', if it is different please use a symbolic link.' =>
@@ -6171,6 +6176,7 @@ Obrigado pela ajuda!
         'Loop-Protection! No auto-response sent to "%s".' => 'Proteção de loop! Autorresposta enviada para "%s".',
         'Mail Accounts' => 'Contas de E-mail',
         'Main menu registration.' => 'Registro do menu principal.',
+        'Makes the application block external content loading.' => '',
         'Makes the application check the MX record of email addresses before sending an email or submitting a telephone or email ticket.' =>
             'Faz a aplicação verifica o registro MX de um endereço de e-mail antes de enviar um e-mail ou submeter um ticket de e-mail ou telefone.',
         'Makes the application check the syntax of email addresses.' => 'Faz a aplicação verificar a sintaxe de endereços de e-mail.',
@@ -6984,6 +6990,7 @@ Obrigado pela ajuda!
         'Strips empty lines on the ticket preview in the queue view.' => 'Elimina linhas vazias na visão prévia de ticket da visão de fila.',
         'Strips empty lines on the ticket preview in the service view.' =>
             'Elimina linhas vazias na visão prévia de ticket da visão de serviço.',
+        'Support Agent' => '',
         'Swahili' => 'Swahili',
         'Swedish' => 'Sueco',
         'System Address Display Name' => 'Nome de Exibição do Endereço de Sistema',
@@ -7037,6 +7044,7 @@ Obrigado pela ajuda!
             'O texto no começo do assunto de uma resposta de e-mail, por exemplo, RE, AW, ou AS.',
         'The text at the beginning of the subject when an email is forwarded, e.g. FW, Fwd, or WG.' =>
             'O texto no começo de um assunto quando um e-mail é encaminhado. Exemplo: FW, Fwd, ou Enc.',
+        'The value of the From field' => '',
         'This event module stores attributes from CustomerUser as DynamicFields tickets. Please see the setting above for how to configure the mapping.' =>
             '',
         'This is a description for TimeZone on Customer side.' => '',
@@ -7140,7 +7148,7 @@ Obrigado pela ajuda!
             'Usa destinatários Cc na lista de resposta Cc ao compor uma resposta de email na tela de composição de chamado da interface de agente.',
         'Uses richtext for viewing and editing ticket notification.' => 'Usar richtext para visualizar e editar notificações de chamados.',
         'Uses richtext for viewing and editing: articles, salutations, signatures, standard templates, auto responses and notifications.' =>
-            'Usar RichText quando visualizar e editar: artigos, saudações, assinaturas, modelos, auto respostas e notificações.',
+            'Usar texto rico quando visualizar e editar: artigos, saudações, assinaturas, modelos, auto respostas e notificações.',
         'Vietnam' => 'Vietnamita',
         'View performance benchmark results.' => 'Ver resultados da avaliação de desempenho.',
         'Watch this ticket' => 'Monitorar esse chamado',
@@ -7177,7 +7185,7 @@ Obrigado pela ajuda!
         'notice' => 'aviso',
         'pending' => 'pendente',
         'responsible' => 'responsável',
-        'stats' => 'estatísticas',
+        'stats' => 'status',
 
     };
     # $$STOP$$

@@ -26,7 +26,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.472272272272272;
+    $Self->{Completeness}        = 0.471705658868226;
 
     # csv separator
     $Self->{Separator} = '';
@@ -244,7 +244,7 @@ sub Data {
             '這個e-mail已存在，請登入系統或更改您的密碼。',
         'Logout' => '退出',
         'Logout successful. Thank you for using %s!' => '成功登出，感謝您使用 %s!',
-        'Feature not active!' => '該功能尚未啟用！',
+        'Feature not active!' => '該功能尚未激活!',
         'Agent updated!' => '服務人員已更新！',
         'Database Selection' => '數據庫選擇',
         'Create Database' => '創建數據庫',
@@ -531,7 +531,7 @@ sub Data {
         'Priority updated!' => '優先級已更新!',
         'Signature added!' => '簽名已添加!',
         'Signature updated!' => '簽名已更新!',
-        'SLA' => '服務級別協議',
+        'SLA' => 'SLA',
         'Service Level Agreement' => '服務水平協議',
         'Service Level Agreements' => '服務水平協議',
         'Service' => '服務',
@@ -972,7 +972,7 @@ sub Data {
         'Allocate Services to Customer' => '為此用戶選擇服務',
         'Allocate Customers to Service' => '選擇使用此服務的用戶',
         'Toggle active state for all' => '切換激活狀態給全部',
-        'Active' => '啟用',
+        'Active' => '激活',
         'Toggle active state for %s' => '切換激活狀態給%s',
 
         # Template: AdminDynamicField
@@ -1023,7 +1023,7 @@ sub Data {
             '用“此刻”的時差(秒)計算默認值(例如，3600或-60)',
         'Define years period' => '定義年期',
         'Activate this feature to define a fixed range of years (in the future and in the past) to be displayed on the year part of the field.' =>
-            '啟用此選項來定義固定的年份範圍 (過去和未來), 用於顯示在此字段的年份中.',
+            '激活此選項來定義固定的年份範圍(過去的和未來的), 用於顯示在此字段的年份中.',
         'Years in the past' => '過去的幾年',
         'Years in the past to display (default: 5 years).' => '顯示過去的幾年 (默認: 5年)',
         'Years in the future' => '未來的幾年',
@@ -3915,7 +3915,7 @@ sub Data {
         'Feature not enabled!' => '沒有啓用功能!',
 
         # Perl Module: Kernel/Modules/AgentTicketWatcher.pm
-        'Feature is not active' => '功能尚未啟用',
+        'Feature is not active' => '功能沒有激活',
 
         # Perl Module: Kernel/Modules/AgentTicketZoom.pm
         'Link Deleted' => '已刪除的連結',
@@ -4995,6 +4995,7 @@ Thanks for your help!
         'Default ACL values for ticket actions.' => '',
         'Default ProcessManagement entity prefixes for entity IDs that are automatically generated.' =>
             '',
+        'Default agent name' => '',
         'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimePointFormat=year;TicketCreateTimePointStart=Last;TicketCreateTimePoint=2;".' =>
             '',
         'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimeStartYear=2010;TicketCreateTimeStartMonth=10;TicketCreateTimeStartDay=4;TicketCreateTimeStopYear=2010;TicketCreateTimeStopMonth=11;TicketCreateTimeStopDay=3;".' =>
@@ -5185,6 +5186,8 @@ Thanks for your help!
         'Defines the date input format used in forms (option or input fields).' =>
             '',
         'Defines the default CSS used in rich text editors.' => '',
+        'Defines the default agent name in the ticket zoom view of the customer interface.' =>
+            '',
         'Defines the default auto response type of the article for this operation.' =>
             '',
         'Defines the default body of a note in the ticket free text screen of the agent interface.' =>
@@ -5366,6 +5369,8 @@ Thanks for your help!
         'Defines the default value for the action parameter for the public frontend. The action parameter is used in the scripts of the system.' =>
             '',
         'Defines the default viewable sender types of a ticket (default: customer).' =>
+            '',
+        'Defines the displayed style of the From field in notes that are visible for customers. A default agent name can be defined in Ticket::Frontend::CustomerTicketZoom###DefaultAgentName setting.' =>
             '',
         'Defines the dynamic fields that are used for displaying on calendar events.' =>
             '',
@@ -6157,6 +6162,7 @@ Thanks for your help!
         'Loop-Protection! No auto-response sent to "%s".' => 'Loop-Protection! No auto-response sent to "%s".',
         'Mail Accounts' => '郵件帳號',
         'Main menu registration.' => '',
+        'Makes the application block external content loading.' => '',
         'Makes the application check the MX record of email addresses before sending an email or submitting a telephone or email ticket.' =>
             '',
         'Makes the application check the syntax of email addresses.' => '',
@@ -6885,7 +6891,7 @@ Thanks for your help!
         'Shows time use complete description (days, hours, minutes), if set to "Yes"; or just first letter (d, h, m), if set to "No".' =>
             '',
         'Simple' => '簡易',
-        'Skin' => '主題',
+        'Skin' => '皮膚',
         'Slovak' => '',
         'Slovenian' => '',
         'Software Package Manager.' => '',
@@ -6970,6 +6976,7 @@ Thanks for your help!
         'Strips empty lines on the ticket preview in the queue view.' => '',
         'Strips empty lines on the ticket preview in the service view.' =>
             '',
+        'Support Agent' => '',
         'Swahili' => '',
         'Swedish' => '',
         'System Address Display Name' => '系統郵件地址顯示名稱',
@@ -7023,6 +7030,7 @@ Thanks for your help!
             '',
         'The text at the beginning of the subject when an email is forwarded, e.g. FW, Fwd, or WG.' =>
             '',
+        'The value of the From field' => '',
         'This event module stores attributes from CustomerUser as DynamicFields tickets. Please see the setting above for how to configure the mapping.' =>
             '',
         'This is a description for TimeZone on Customer side.' => '',

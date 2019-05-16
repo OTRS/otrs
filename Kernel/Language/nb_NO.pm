@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.55975975975976;
+    $Self->{Completeness}        = 0.559088182363527;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -544,7 +544,7 @@ sub Data {
         'Service' => 'Tjeneste',
         'Services' => 'Tjenester',
         'State' => 'Status',
-        'States' => 'Status',
+        'States' => 'Statuser',
         'Status' => 'Status',
         'Statuses' => 'Statuser',
         'Ticket Type' => 'Sakstype',
@@ -671,7 +671,7 @@ sub Data {
         'Address %s replaced with registered customer address.' => 'Adressen %s er byttet ut med adressen som er registrert på kunde',
         'Customer user automatically added in Cc.' => 'Kundebrukeren ble automatisk lagt til Kopi-feltet',
         'Overview of all open Tickets' => 'Oversikt over alle tilgjengelige saker',
-        'Locked Tickets' => 'Mine personlige saker',
+        'Locked Tickets' => 'Mine private saker',
         'My Locked Tickets' => 'Mine låste saker',
         'My Watched Tickets' => 'Mine overvåkede saker',
         'My Responsible Tickets' => 'Saker jeg er ansvarlig for',
@@ -999,7 +999,7 @@ sub Data {
         'Deleting the field and its data. This may take a while...' => '',
 
         # Template: AdminDynamicFieldCheckbox
-        'Dynamic Fields' => 'Dynamiske felte',
+        'Dynamic Fields' => 'Dynamiske felter',
         'Field' => 'Felt',
         'Go back to overview' => 'Gå tilbake til oversikten',
         'General' => 'Generelt',
@@ -1047,7 +1047,7 @@ sub Data {
         # Template: AdminDynamicFieldDropdown
         'Possible values' => 'Tilgjengelige verdier',
         'Key' => 'Nøkkel',
-        'Value' => 'Verdi',
+        'Value' => 'Innhold',
         'Remove value' => 'Fjern verdi',
         'Add value' => 'Legg til verdi',
         'Add Value' => 'Legg til verdi',
@@ -2619,7 +2619,7 @@ sub Data {
             '',
 
         # Template: AgentDashboardTicketGeneric
-        'My locked tickets' => 'Mine saker',
+        'My locked tickets' => 'Mine låste saker',
         'My watched tickets' => 'Mine overvåkede saker',
         'My responsibilities' => 'Mine ansvar',
         'Tickets in My Queues' => 'Saker i Min Kø',
@@ -4860,7 +4860,7 @@ Thanks for your help!
         'Changed priority from "%s" (%s) to "%s" (%s).' => 'Endret prioritet fra «%s» (%s) til «%s» (%s).',
         'Changes the owner of tickets to everyone (useful for ASP). Normally only agent with rw permissions in the queue of the ticket will be shown.' =>
             'Endrer eier på saker til "alle" (brukbart for ASP). Normalt vil kun saksbehandlere med Les/skriv-tilgang til køen bli vist.',
-        'Checkbox' => 'Avkryssningsfelt',
+        'Checkbox' => 'Avkryssingsfelt',
         'Checks if an E-Mail is a followup to an existing ticket by searching the subject for a valid ticket number.' =>
             '',
         'Checks the SystemID in ticket number detection for follow-ups (use "No" if SystemID has been changed after using the system).' =>
@@ -5002,6 +5002,7 @@ Thanks for your help!
         'Default ACL values for ticket actions.' => 'Standard ACL-verdier for sakshendelser',
         'Default ProcessManagement entity prefixes for entity IDs that are automatically generated.' =>
             '',
+        'Default agent name' => '',
         'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimePointFormat=year;TicketCreateTimePointStart=Last;TicketCreateTimePoint=2;".' =>
             '',
         'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimeStartYear=2010;TicketCreateTimeStartMonth=10;TicketCreateTimeStartDay=4;TicketCreateTimeStopYear=2010;TicketCreateTimeStopMonth=11;TicketCreateTimeStopDay=3;".' =>
@@ -5192,6 +5193,8 @@ Thanks for your help!
         'Defines the date input format used in forms (option or input fields).' =>
             'Spesifiserer datoformat på skjema (valg- eller tekstfelter).',
         'Defines the default CSS used in rich text editors.' => 'Spesifiserer standard CSS til bruk i rik-tekst-redigering.',
+        'Defines the default agent name in the ticket zoom view of the customer interface.' =>
+            '',
         'Defines the default auto response type of the article for this operation.' =>
             '',
         'Defines the default body of a note in the ticket free text screen of the agent interface.' =>
@@ -5373,6 +5376,8 @@ Thanks for your help!
         'Defines the default value for the action parameter for the public frontend. The action parameter is used in the scripts of the system.' =>
             '',
         'Defines the default viewable sender types of a ticket (default: customer).' =>
+            '',
+        'Defines the displayed style of the From field in notes that are visible for customers. A default agent name can be defined in Ticket::Frontend::CustomerTicketZoom###DefaultAgentName setting.' =>
             '',
         'Defines the dynamic fields that are used for displaying on calendar events.' =>
             '',
@@ -6164,6 +6169,7 @@ Thanks for your help!
         'Loop-Protection! No auto-response sent to "%s".' => 'Loop-Protection! No auto-response sent to «%s».',
         'Mail Accounts' => 'E-postkontoer',
         'Main menu registration.' => '',
+        'Makes the application block external content loading.' => '',
         'Makes the application check the MX record of email addresses before sending an email or submitting a telephone or email ticket.' =>
             'Gjør at systemet sjekker MX-oppføringen for e-postadressen før det sender en e-post eller oppretter en telefonsak eller e-postsak.',
         'Makes the application check the syntax of email addresses.' => 'Gjør at systemet sjekker at en e-postadresse er skrevet på riktig måte.',
@@ -6977,6 +6983,7 @@ Thanks for your help!
         'Strips empty lines on the ticket preview in the queue view.' => 'Tar vekk tomme linjer i saksvisningen i kølisten',
         'Strips empty lines on the ticket preview in the service view.' =>
             '',
+        'Support Agent' => '',
         'Swahili' => 'Swahili',
         'Swedish' => 'Svensk',
         'System Address Display Name' => '',
@@ -7030,6 +7037,7 @@ Thanks for your help!
             'Teksten i begynnelsen av emnet på et e-post-svar, f.eks. RE, SV',
         'The text at the beginning of the subject when an email is forwarded, e.g. FW, Fwd, or WG.' =>
             'Teksten i begynnelsen av emnet på en e-post som er videresendt, f.eks. VS, FW',
+        'The value of the From field' => '',
         'This event module stores attributes from CustomerUser as DynamicFields tickets. Please see the setting above for how to configure the mapping.' =>
             '',
         'This is a description for TimeZone on Customer side.' => '',

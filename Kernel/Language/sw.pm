@@ -27,7 +27,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%M/%D/%Y';
     $Self->{DateInputFormat}     = '%M/%D/%Y';
     $Self->{DateInputFormatLong} = '%M/%D/%Y - %T';
-    $Self->{Completeness}        = 0.693493493493494;
+    $Self->{Completeness}        = 0.692661467706459;
 
     # csv separator
     $Self->{Separator} = ',';
@@ -90,7 +90,7 @@ sub Data {
         'Time unit' => 'Kizio cha Muda',
         'wrote' => 'Iliandika',
         'Message' => 'Ujumbe',
-        'Error' => 'Kasoro',
+        'Error' => 'Kosa',
         'Bug Report' => 'Ripoti yenye makosa',
         'Attention' => 'Angalizo',
         'Warning' => 'Onyo',
@@ -137,7 +137,7 @@ sub Data {
         'Child' => 'Mtoto(Ndogo)',
         'Hit' => 'Gonga',
         'Hits' => 'Gonga',
-        'Text' => 'Nakala',
+        'Text' => 'Matini',
         'Standard' => 'Kiwango',
         'Lite' => 'Nyepesi',
         'User' => 'Mtumiaji',
@@ -181,7 +181,7 @@ sub Data {
         'Invalid time!' => 'Muda batili!',
         'Invalid date!' => 'Tarehe batili!',
         'Name' => 'Jina',
-        'Group' => 'Kundi',
+        'Group' => 'Kikundi',
         'Description' => 'Maelezo',
         'description' => 'maelezo',
         'Theme' => 'Mandhari',
@@ -196,7 +196,7 @@ sub Data {
         'Fulltext Search' => 'Tafuta nakala kamili',
         'Data' => 'Data',
         'Options' => 'Chaguo',
-        'Title' => 'Mada',
+        'Title' => 'Kichwa cha habari',
         'Item' => 'Kipengele',
         'Delete' => 'Futa',
         'Edit' => 'Hariri',
@@ -243,7 +243,7 @@ sub Data {
             'Uhalalishaji umefanikiwa, lakini hakuna rekodi za mteja zilizokutwa katika mazingira yake nyuma. Tafadhali wasiliana na kiongozi wako.',
         'This e-mail address already exists. Please log in or reset your password.' =>
             'Anwani ya barua pepe hii tayari ipo. Tafadhali ingia au weka upya neno lako la siri.',
-        'Logout' => 'Toka',
+        'Logout' => 'Funga',
         'Logout successful. Thank you for using %s!' => 'Umefanikiwa kutoka. Asante kwa kutumia %s!',
         'Feature not active!' => 'Kipengele hakipo amilifu.',
         'Agent updated!' => 'Wakala amesasishwa',
@@ -255,7 +255,7 @@ sub Data {
         'Install OTRS' => 'Sakinisha OTRS',
         'Intro' => 'Utangulizi',
         'License' => 'Leseni',
-        'Database' => 'Hifadhidata',
+        'Database' => 'Hifadhi data',
         'Configure Mail' => 'Sanidi barua pepe',
         'Database deleted.' => 'Hifadhi data imefutwa',
         'Enter the password for the administrative database user.' => 'Ingiza neo la siri kwa mtumiaji wa utawala wa hifadhi data',
@@ -371,8 +371,8 @@ sub Data {
         'Please press Back and try again.' => 'Tafadhali bofya nyuma na jaribu tena.',
         'Sent password reset instructions. Please check your email.' => 'Maelezo ya kuweka upya neno la siri yametumwa. Tafadhali angalia barua pepe yako.',
         'Sent new password to %s. Please check your email.' => 'Neno jipya la siri limetumwa kwa %s. Tafadhali angalia barua pepe yako.',
-        'Upcoming Events' => 'Matukio Yajayo',
-        'Event' => 'Kitendo',
+        'Upcoming Events' => 'Tukio lijalo',
+        'Event' => 'Tukio',
         'Events' => 'Matukio',
         'Invalid Token!' => 'Tuzo batili!',
         'more' => 'aidi',
@@ -381,7 +381,7 @@ sub Data {
         'Shown customer users' => 'Onyesha watumiaji wa mteja',
         'News' => 'Habari',
         'Product News' => 'Habari za bidhaa',
-        'OTRS News' => 'OTRS Habari',
+        'OTRS News' => 'Habari za OTRS',
         '7 Day Stats' => 'Takwimu za siku 7',
         'Process Management information from database is not in sync with the system configuration, please synchronize all processes.' =>
             'Habari za usimamizi wa mchakato kutoka kwenye hifadhi data hazilandani na  mfumo uliosanidishwa, tafadhali landanisha michakato yote.',
@@ -479,7 +479,7 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
 
         # Template: AAAPreferences
         'Preferences updated successfully!' => 'Mapendeleo yamefanikiwa kusasishwa!',
-        'User Profile' => 'Umbo wa Mtumiaji',
+        'User Profile' => 'Maelezo mafupi ya mtumiaji',
         'Email Settings' => 'Mipangilio ya barua pepe',
         'Other Settings' => 'Mipangilio mingine',
         'Notification Settings' => '',
@@ -560,7 +560,7 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
         'Close' => 'Funga',
         'Action' => 'Kitendo',
         'Attachment' => 'Kiambatanishi',
-        'Attachments' => 'Viambatanisho',
+        'Attachments' => 'Viambatanishi',
         'This message was written in a character set other than your own.' =>
             'Ujumbe huu wa maneno uliandikwa kwa mpangilio wa herufi ambao sio wako.',
         'If it is not displayed correctly,' => 'Kama haijaonyeshwa kw ausahihi,',
@@ -755,9 +755,9 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
         'Phone Call Outbound' => 'Simu iliyofungwa nje',
         'Phone Call Inbound' => 'Simu inayofungwa ndani',
         'Reminder Reached' => 'Kikumbusho kimefika',
-        'Reminder Tickets' => 'Tiketi za kumbukumbu',
+        'Reminder Tickets' => 'Tiketi za kikumbuhso',
         'Escalated Tickets' => 'Tiketi zilizopanda',
-        'New Tickets' => 'Tiketi Mpya',
+        'New Tickets' => 'Tiketi mpya',
         'Open Tickets / Need to be answered' => 'Tiketi zilizowazi/ Zinazohitaji kujibiwa',
         'All open tickets, these tickets have already been worked on, but need a response' =>
             'Tiketi zote zilizowazi, hizi tiketi zimeshafanyiwa kazi, lakini zinahitaji majibu.',
@@ -963,7 +963,7 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
         'No changes can be made to these groups.' => 'Hakuna mabadiliko yanayoweza kufanywa katika makundi haya.',
         'ro' => 'ro',
         'Read only access to the ticket in this group/queue.' => 'Ufikivu wa kusoma tu kwenda kwenye tiketi katika kikundi hiki/foleni.',
-        'rw' => 'soma andikka',
+        'rw' => 'rw',
         'Full read and write access to the tickets in this group/queue.' =>
             'Ufikivu wote wa kusoma na kuandika kwenda kwenye tiketi katika kikundi hiki/foleni.',
 
@@ -994,7 +994,7 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
         'Deleting the field and its data. This may take a while...' => '',
 
         # Template: AdminDynamicFieldCheckbox
-        'Dynamic Fields' => 'Sehemu zinazobadilika',
+        'Dynamic Fields' => 'Uga wenye nguvu',
         'Field' => 'Uga',
         'Go back to overview' => 'Rudi nyuma kwenye mapitio',
         'General' => 'Ujumla',
@@ -1041,7 +1041,7 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
 
         # Template: AdminDynamicFieldDropdown
         'Possible values' => 'Thamani ziwezekanazo',
-        'Key' => 'Ufunguo',
+        'Key' => 'funguo',
         'Value' => 'Thamani',
         'Remove value' => 'Ondoa thamani',
         'Add value' => 'Ongeza thamani',
@@ -1213,7 +1213,7 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
         'GenericInterface Debugger for Web Service %s' => 'Kiolesura cha ujumla cha mweuaji kwa ajili ya huduma za wavuti %s',
         'You are here' => '',
         'Web Services' => 'Huduma za tovuti',
-        'Debugger' => 'Anaye eua',
+        'Debugger' => 'Mweauju',
         'Go back to web service' => 'Rudi nyuma kwenye huduma za tovuti',
         'Clear' => 'safisha',
         'Do you really want to clear the debug log of this web service?' =>
@@ -2615,7 +2615,7 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
 
         # Template: AgentDashboardTicketGeneric
         'My locked tickets' => 'Tiketi zangu zilizofungwa',
-        'My watched tickets' => 'Tiketi zangu zinazoangaliwa',
+        'My watched tickets' => 'Tiketi zangu zilizoangaliwa',
         'My responsibilities' => 'Majukumu yangu',
         'Tickets in My Queues' => 'Tiketi katika foleni yangu',
         'Tickets in My Services' => 'Tiketi zilizopo kwenye huduma',
@@ -4997,6 +4997,7 @@ Thanks for your help!
         'Default ACL values for ticket actions.' => 'Thamani za ACL chaguo msingi  kwa ajili ya vitendo vya tiketi.',
         'Default ProcessManagement entity prefixes for entity IDs that are automatically generated.' =>
             'Viambishi awali vya vipengeee halisi vya Usimamizi wa mchakato chaguo msingi kwa ajili ya kitambulisho cha kipengee halisi ambavyo vinatengenezwa otomatiki.',
+        'Default agent name' => '',
         'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimePointFormat=year;TicketCreateTimePointStart=Last;TicketCreateTimePoint=2;".' =>
             'Data chaguo misngi kutumika katika sifa kwa ajili ya skrini ya kutafuta ya tiketi.
 Mfano:
@@ -5172,7 +5173,7 @@ Mfano:
         'Defines the body text for notification mails sent to customers, with token about new requested password (after using this link the new password will be sent).' =>
             'Inafafanua kiini cha matini cha barua pepe za taarifa zilizotumwa kwenda kwa wateja, na alama kuhusu neno jipya la siri lililoombwa (Baada ya kutumia kiunganishi hiki neno jipya la siri lilatumwa).',
         'Defines the body text for rejected emails.' => 'Inafafanua kiini cha matini ya barua pepe zilizokataliwa',
-        'Defines the calendar width in percent. Default is 95%.' => 'Inafafanua upana wa kalenda kwa asilimia. Chaguo-msingi ni 95%.',
+        'Defines the calendar width in percent. Default is 95%.' => 'Inafafanua upana wa kalenda katika silimia. Chaguo msingi ni 95%.',
         'Defines the cluster node identifier. This is only used in cluster configurations where there is more than one OTRS frontend system. Note: only values from 1 to 99 are allowed.' =>
             '',
         'Defines the column to store the keys for the preferences table.' =>
@@ -5190,6 +5191,8 @@ Mfano:
         'Defines the date input format used in forms (option or input fields).' =>
             'Inafafanua umbizo umbizo ingizo la tarehe linalotumika katika fomu (hiari au uga ingizo).',
         'Defines the default CSS used in rich text editors.' => 'Inafafanua CSS chaguo-msingi inayotumika katika wahariri wa matini tondoti.',
+        'Defines the default agent name in the ticket zoom view of the customer interface.' =>
+            '',
         'Defines the default auto response type of the article for this operation.' =>
             'Inafafanua aina ya majibu ya otomatiki chaguo msingi ya makala kwa operesheni hii.',
         'Defines the default body of a note in the ticket free text screen of the agent interface.' =>
@@ -5372,6 +5375,8 @@ Mfano:
             'Fafanua aina ya chaguo-msingi kwa kigezo cha kitendo kwa ajili ya Mbelenyuma y aumma. Kigezo cha kitendo kinatumika katika hati ya mfumo.',
         'Defines the default viewable sender types of a ticket (default: customer).' =>
             'Fafanua aina ya chaguo-msingi inayoonekana ya mtumaji ta tiketi (chaguo-msingi: mteja).',
+        'Defines the displayed style of the From field in notes that are visible for customers. A default agent name can be defined in Ticket::Frontend::CustomerTicketZoom###DefaultAgentName setting.' =>
+            '',
         'Defines the dynamic fields that are used for displaying on calendar events.' =>
             'Fafanua uga zenye nguvu ambazo zinatumika kuonyesha matukio katika kalenda.',
         'Defines the fall-back path to open fetchmail binary. Note: The name of the binary needs to be \'fetchmail\', if it is different please use a symbolic link.' =>
@@ -5866,7 +5871,7 @@ Mfano:
             'Moduli ya tukio inayosasisha tiketi baada ya usasishaji wa mteja mtumiaji.',
         'Event module that updates tickets after an update of the Customer.' =>
             'Moduli ya tukio inayosasisha tiketi baada ya usasishaji wa mteja.',
-        'Events Ticket Calendar' => 'Matukio Tiketi Kalenda',
+        'Events Ticket Calendar' => 'Kalenda ya tiketi ya matukio',
         'Execute SQL statements.' => 'Tekeleza kauli za SQL.',
         'Executes a custom command or module. Note: if module is used, function is required.' =>
             '',
@@ -6162,6 +6167,7 @@ Mfano:
         'Loop-Protection! No auto-response sent to "%s".' => 'Ulinzi wa kitanzi! hakuna majibu ya otomatiki yatakayotumwa kwenda "%s".',
         'Mail Accounts' => 'Akaunti za barua pepe',
         'Main menu registration.' => 'Usajili wa menyu kuu.',
+        'Makes the application block external content loading.' => '',
         'Makes the application check the MX record of email addresses before sending an email or submitting a telephone or email ticket.' =>
             'Inafanya programu tumizi kuangalia kumbukumbu ya MX ya anwani za barua pepe kabla ya kutuma barua pepe au kukusanya kielezo au tiketi ya barua pepe.',
         'Makes the application check the syntax of email addresses.' => 'Inafanya programu tumizi kuangalia sintaksi ya anwani ya barua pepe.',
@@ -6976,6 +6982,7 @@ Mfano:
         'Strips empty lines on the ticket preview in the queue view.' => 'Toa mistari iliyowazi katika mapitio ya tiketi katika mandhari ya foleni.',
         'Strips empty lines on the ticket preview in the service view.' =>
             'Toa mistari iliyowazi katika mapitio ya tiketi katika mandhari ya huduma.',
+        'Support Agent' => '',
         'Swahili' => '',
         'Swedish' => '',
         'System Address Display Name' => '',
@@ -7029,6 +7036,7 @@ Mfano:
             'Matini mwanzoni mwa somo katika majibu ya barua pepe, mfano RE,AW au AS.',
         'The text at the beginning of the subject when an email is forwarded, e.g. FW, Fwd, or WG.' =>
             'Matini mwanzoni mwa somo wakati barua pepe inatumwa mbele, mfano FW, Fwd, au WG.',
+        'The value of the From field' => '',
         'This event module stores attributes from CustomerUser as DynamicFields tickets. Please see the setting above for how to configure the mapping.' =>
             'Moduli hii ya tukio inahifadhi sifa kutoka kwa mtumiaji wa mteja kama uga wenye nguvu wa tiketi. Tafadhali angalia mipangilio juu jinsi ya kusanidi kwa ajili ya kuweka ramani.',
         'This is a description for TimeZone on Customer side.' => '',

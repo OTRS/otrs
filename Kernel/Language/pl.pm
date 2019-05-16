@@ -27,7 +27,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.767967967967968;
+    $Self->{Completeness}        = 0.767046590681864;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -167,7 +167,7 @@ sub Data {
         'Sorry' => 'Przykro mi',
         'update!' => 'zapisz!',
         'update' => 'zapisz',
-        'Update' => 'Zaktualizuj',
+        'Update' => 'Zapisz',
         'Updated!' => 'Uaktualniono!',
         'submit!' => 'akceptuj!',
         'submit' => 'akceptuj',
@@ -287,7 +287,7 @@ sub Data {
         '(Click here to add)' => '(Kliknij tutaj aby dodać)',
         'Preview' => 'Podgląd',
         'Package not correctly deployed! Please reinstall the package.' =>
-            'Pakiet wdrożony nieprawidłowo! Zainstaluj pakiet ponownie.',
+            'Pakiet zainstalowany nieprawidłowo! Zainstaluj pakiet ponownie.',
         '%s is not writable!' => '%s nie ma uprawnień do zapsiu!',
         'Cannot create %s!' => 'Nie można utworzyć %s!',
         'Check to activate this date' => 'Zaznacz aby aktywować tę datę',
@@ -765,7 +765,7 @@ sub Data {
         'All tickets with a reminder set where the reminder date has been reached' =>
             'Wszystkie zgłoszenia z ustawionym przypomnieniem, dla których minął czas przypomnienia',
         'Archived tickets' => 'Zarchiwizowane zgłoszenia',
-        'Unarchived tickets' => 'Zgłoszenia nie zachiwizowane',
+        'Unarchived tickets' => 'Zgłoszenia przywrócone z archiwum',
         'Ticket Information' => 'Informacje o zgłoszeniu',
         'including subqueues' => 'włączając podkolejki',
         'excluding subqueues' => 'wyłączając podkolejki',
@@ -786,7 +786,7 @@ sub Data {
         'ACL Name' => 'Nazwa ACL',
         'Actions' => 'Akcje',
         'Create New ACL' => 'Utwórz nowy ACL',
-        'Deploy ACLs' => 'Wdróż ACL',
+        'Deploy ACLs' => 'Zatwierdź ACL',
         'Export ACLs' => 'Eksportuj ACL',
         'Configuration import' => 'Import konfiguracji',
         'Here you can upload a configuration file to import ACLs to your system. The file needs to be in .yml format as exported by the ACL editor module.' =>
@@ -921,7 +921,7 @@ sub Data {
         'Customer user are needed to have a customer history and to login via customer panel.' =>
             'Aby posiadać historię klienta i umożliwić mu logowanie się do panelu klienta konieczne jest założenie konta użytkownika klienta.',
         'Last Login' => 'Ostatnie logowanie',
-        'Login as' => 'Nazwa użytkownika',
+        'Login as' => 'Zaloguj jako',
         'Switch to customer' => 'Zmień klienta',
         'Add Customer User' => 'Dodaj użytkownika klienta',
         'Edit Customer User' => 'Edytuj użytkownika klienta',
@@ -984,7 +984,7 @@ sub Data {
         'Dynamic Fields List' => 'Lista pól dynamicznych',
         'Dynamic fields per page' => 'Pola dynamiczne na stronę',
         'Label' => 'Etykieta',
-        'Order' => 'Zamówienie',
+        'Order' => 'Porządek',
         'Object' => 'Obiekt',
         'Delete this field' => 'Usuń to pole',
         'Do you really want to delete this dynamic field? ALL associated data will be LOST!' =>
@@ -1096,7 +1096,7 @@ sub Data {
         'Job Settings' => 'Ustawienia zadania',
         'Job name' => 'Nazwa zadania',
         'The name you entered already exists.' => 'Podana nazwa już istnieje.',
-        'Toggle this widget' => 'Przełącz ten widget',
+        'Toggle this widget' => 'Przełącz ten gadżet',
         'Automatic execution (multiple tickets)' => 'Wykonanie automatyczne (Wiele zgłoszeń)',
         'Execution Schedule' => 'Harmonogram wykonania',
         'Schedule minutes' => 'Ustal minuty',
@@ -1211,7 +1211,7 @@ sub Data {
         # Template: AdminGenericInterfaceDebugger
         'GenericInterface Debugger for Web Service %s' => 'GenericInterface Debugger dla serwisu sieciowego %s',
         'You are here' => 'Jesteś tu',
-        'Web Services' => 'Serwisy Sieciowe (WS)',
+        'Web Services' => 'Usługi Sieciowe',
         'Debugger' => 'Debugger',
         'Go back to web service' => 'Powróć do usług sieciowych',
         'Clear' => 'Wyczyść',
@@ -1834,8 +1834,8 @@ sub Data {
             'Jeśli użyjesz wyrażeń regularnych, możesz również użyć dopasowanej wartości w () jako [***] w akcji \'Set\'.',
         'Delete this filter' => 'Usuń ten filtr',
         'Do you really want to delete this filter?' => 'Czy na pewno chcesz usunąć ten filtr?',
-        'Add PostMaster Filter' => 'Dodaj filtr pocztowy',
-        'Edit PostMaster Filter' => 'Edytuj filtr pocztowy',
+        'Add PostMaster Filter' => 'Dodaj filtr PostMaster',
+        'Edit PostMaster Filter' => 'Edytuj filtr PostMaster',
         'A postmaster filter with this name already exists!' => 'Filtr poczty o takiej nazwie już istnieje!',
         'Filter Condition' => 'Warunek filtra',
         'AND Condition' => 'Warunek ORAZ',
@@ -1953,7 +1953,7 @@ sub Data {
 
         # Template: AdminProcessManagementProcessEdit
         'Edit Process' => 'Edytuj proces',
-        'Print process information' => 'Drukuj informację o procesie',
+        'Print process information' => 'Drujuj informację o procesie',
         'Delete Process' => 'Usuń proces',
         'Delete Inactive Process' => 'Usuń nieaktywny proces',
         'Available Process Elements' => 'Dostępne elementy procesów',
@@ -2063,7 +2063,7 @@ sub Data {
         'Notify by' => 'Powiadom wcześniej',
         '0 = no escalation' => '0 = brak eskalacji',
         'If there is not added a customer contact, either email-external or phone, to a new ticket before the time defined here expires, the ticket is escalated.' =>
-            'Jeśli nie będzie kontaktu z klientem, ani wiadomości e-mail, ani telefonu dodanego do zgłoszenia przed upływem określonego tutaj czasu, zgłoszenie to będzie eskalowane.',
+            'Jeśli w określonym tutaj czasie nie pojawi się kontakt z klientem, zewnętrzny e-mail lub telefon związany z nowym zgłoszeniem, zgłoszenie takie będzie eskalowane.',
         'If there is an article added, such as a follow-up via email or the customer portal, the escalation update time is reset. If there is no customer contact, either email-external or phone, added to a ticket before the time defined here expires, the ticket is escalated.' =>
             'Jeśli dodana zostanie wiadomość, przez e-mail lub przez panel klienta, czas aktualizacji eskalacji będzie zresetowany. Jeśli nie będzie kontaktu z klientem, ani wiadomości e-mail, ani telefonu dodanego do zgłoszenia przed upływem określonego tutaj czasu, zgłoszenie to będzie eskalowane.',
         'If the ticket is not set to closed before the time defined here expires, the ticket is escalated.' =>
@@ -2306,7 +2306,7 @@ sub Data {
         'Edit Service' => 'Edytuj usługę',
         'Service name maximum length is 200 characters (with Sub-service).' =>
             'Długość nazwy usługi to maksymalnie 200 znaków (razem z podusługą)',
-        'Sub-service of' => 'Usługa podrzędna dla',
+        'Sub-service of' => 'Usługa podrzędna',
 
         # Template: AdminSession
         'Session Management' => 'Zarządzanie sesjami',
@@ -2566,7 +2566,7 @@ sub Data {
 
         # Template: AgentDashboardCommon
         'Save settings' => 'Zapisz ustawienia',
-        'Close this widget' => 'Zamknij ten widget',
+        'Close this widget' => 'Zamknij ten gadżet',
         'Available Columns' => 'Dostępne kolumny',
         'Visible Columns (order by drag & drop)' => 'Widoczne kolumny (sortuj poprzez przeciągnij i upuść)',
 
@@ -2673,7 +2673,7 @@ sub Data {
         'Complex statistics that cannot be configured and may return non-tabular data.' =>
             '',
         'General Specification' => '',
-        'Create Statistic' => 'Utwórz statystykę',
+        'Create Statistic' => 'Stwórz statystykę',
 
         # Template: AgentStatisticsEdit
         'Statistics » Edit %s%s — %s' => 'Statystyki » Edytuj %s%s — %s',
@@ -2755,7 +2755,7 @@ sub Data {
         'Execute Bulk Action' => 'Wykonaj działanie zbiorcze',
 
         # Template: AgentTicketCompose
-        'Compose Answer for %s%s%s' => 'Utwórz Odpowiedź dla %s%s%s',
+        'Compose Answer for %s%s%s' => 'Stwórz Odpowiedź dla %s%s%s',
         'This address is registered as system address and cannot be used: %s' =>
             'Ten adres został zarejestrowany jako adres systemowy i nie może zostać użyty: %s',
         'Please include at least one recipient' => 'Wprowadź przynajmniej jednego odbiorcę',
@@ -2856,8 +2856,8 @@ sub Data {
 
         # Template: AgentTicketSearch
         'Search template' => 'Szablon wyszukiwania',
-        'Create Template' => 'Utwórz szablon',
-        'Create New' => 'Utwórz nowy',
+        'Create Template' => 'Stwórz szablon',
+        'Create New' => 'Stwórz nowy',
         'Profile link' => 'Link do profilu',
         'Save changes in template' => 'Zapisz zmiany w szablonie',
         'Filters in use' => 'Filtry w użyciu',
@@ -3013,7 +3013,7 @@ sub Data {
             'Aby korzystać z OTRS, musisz włączyć obsługę JavaScript w twojej przeglądarce.',
         'Browser Warning' => 'Ostrzeżenie dotyczące przeglądarki',
         'One moment please, you are being redirected...' => 'Poczekaj chwilę, trwa przekierowywanie...',
-        'Login' => 'Login',
+        'Login' => 'Zaloguj się',
         'User name' => 'Nazwa użytkownika',
         'Your user name' => 'Twoja nazwa użytkownika',
         'Your password' => 'Twoje hasło',
@@ -3052,7 +3052,7 @@ sub Data {
         # Template: CustomerTicketSearch
         'Profile' => 'Profil',
         'e. g. 10*5155 or 105658*' => 'np. 10*5155 lub 105658*',
-        'Customer ID' => 'Identyfikator Klienta',
+        'Customer ID' => 'Identyfikator klienta',
         'Fulltext search in tickets (e. g. "John*n" or "Will*")' => 'Wyszukiwanie pełnotekstowe w zgłoszeniach (np. "*odyfikacj* lub druk*")',
         'Recipient' => 'Odbiorca',
         'Carbon Copy' => 'Kopia (CC)',
@@ -3201,7 +3201,7 @@ sub Data {
 
         # Template: InstallerDBStart
         'Install Type' => 'Zainstaluj typ',
-        'Create a new database for OTRS' => 'Utwórz nową baze danych dla OTRS',
+        'Create a new database for OTRS' => 'Stwórz nową baze danych dla OTRS',
         'Use an existing database for OTRS' => 'Użyj istniejącej bazy danych dla OTRS',
 
         # Template: InstallerDBmssql
@@ -3317,7 +3317,7 @@ sub Data {
         'Inform Agent' => 'Poinformuj agenta',
 
         # Template: PublicDefault
-        'Welcome' => 'Witaj',
+        'Welcome' => 'Wiataj',
         'This is the default public interface of OTRS! There was no action parameter given.' =>
             '',
         'You could install a custom public module (via the package manager), for example the FAQ module, which has a public interface.' =>
@@ -3929,16 +3929,16 @@ sub Data {
         'Escalation Update Time In Effect' => '',
         'Escalation Update Time Stopped' => '',
         'Escalation First Response Time Stopped' => '',
-        'Customer Updated' => 'Klient zaktualizowany',
+        'Customer Updated' => 'Klient Zaktualizowany',
         'Internal Chat' => 'Czat wewnętrzny',
         'Automatic Follow-Up Sent' => '',
         'Note Added' => 'Uwaga Dodana',
-        'Note Added (Customer)' => 'Notatka doana (klient)',
+        'Note Added (Customer)' => 'Uwaga Dodana (Klient)',
         'State Updated' => 'Stan Zaktualizowany',
         'Outgoing Answer' => 'Odpowiedź Wychodząca',
         'Service Updated' => 'Usługa Zaktualizowana',
         'Link Added' => '',
-        'Incoming Customer Email' => ' Wiadomość od klienta',
+        'Incoming Customer Email' => 'Wiadomość Od Klienta',
         'Incoming Web Request' => '',
         'Priority Updated' => '',
         'Ticket Unlocked' => '',
@@ -4000,7 +4000,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/CustomerTicketZoom.pm
         'Can\'t reopen ticket, not possible in this queue!' => '',
-        'Create a new ticket!' => 'Utwórz nowe zgłoszenie!',
+        'Create a new ticket!' => 'Stwórz nowe zgłoszenie!',
 
         # Perl Module: Kernel/Modules/Installer.pm
         'SecureMode active!' => '',
@@ -4742,7 +4742,7 @@ Thanks for your help!
         'AgentUserSearch.' => '',
         'Agents <-> Groups' => 'Agenci <-> Grupy',
         'Agents <-> Roles' => 'Agenci <-> Role',
-        'All customer users of a CustomerID' => 'Wszyscy użytkownicy  z identyfikatorem klienta',
+        'All customer users of a CustomerID' => 'Wszyscy użytkownicy  z identyyfikatorem klienta',
         'Allows adding notes in the close ticket screen of the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
             'Pozwala na dodawanie notatek w oknie zamknięcia zgłoszenia interfejsu agenta. Może być nadpisane przez Ticket::Frontend::NeedAccountedTime.',
         'Allows adding notes in the ticket free text screen of the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
@@ -4930,15 +4930,15 @@ Thanks for your help!
         'Create and manage Service Level Agreements (SLAs).' => 'Twórz i zarządzaj poziomami SLA.',
         'Create and manage agents.' => 'Zarządzanie listą agentów.',
         'Create and manage attachments.' => 'Ustawienia standardowych załączników.',
-        'Create and manage customer users.' => 'Tworzenie i modyfikacja użytkowników klienta.',
-        'Create and manage customers.' => 'Tworzenie i modyfikacja klientów',
+        'Create and manage customer users.' => 'Tworzenie i modyfikacja użytkowników.',
+        'Create and manage customers.' => 'Zarządzanie listą klientów.',
         'Create and manage dynamic fields.' => 'Zarządzanie polami dynamicznymi.',
         'Create and manage groups.' => 'Ustawienia grup agentów.',
         'Create and manage queues.' => 'Ustawienia kolejek zgłoszeń.',
         'Create and manage responses that are automatically sent.' => 'Ustawienia szablonów odpowiedzi automatycznych.',
         'Create and manage roles.' => 'Zarządzanie rolami systemowymi.',
         'Create and manage salutations.' => 'Ustawienia szablonów powitań.',
-        'Create and manage services.' => 'Tworzenie i zarządzanie usługami.',
+        'Create and manage services.' => 'Zarządzanie usługami serwisowymi.',
         'Create and manage signatures.' => 'Ustawienia szablonów podpisów.',
         'Create and manage templates.' => 'Zarządzanie szablonami.',
         'Create and manage ticket notifications.' => 'Dodaj i modyfikuj powiadomienia o zgłoszeniach',
@@ -4946,13 +4946,13 @@ Thanks for your help!
         'Create and manage ticket states.' => 'Twórz i zarządzaj stanami zgłoszeń.',
         'Create and manage ticket types.' => 'Ustawienia typów zgłoszeń.',
         'Create and manage web services.' => 'Zarządzanie serwisami sieciowymi.',
-        'Create new Ticket.' => 'Utwórz nowe zgłoszenie',
-        'Create new email ticket and send this out (outbound).' => 'Utwórz nowe zgłoszenie email i wyślij je (na zewnątrz)',
-        'Create new email ticket.' => 'Utwórz nowy zgłoszenie Email.',
-        'Create new phone ticket (inbound).' => 'Utwórz nowe zgłoszenie telefoniczne (wewnętrzne).',
-        'Create new phone ticket.' => 'Utwórz nowe zgłoszenie telefoniczne.',
+        'Create new Ticket.' => 'Stwórz nowy Ticket',
+        'Create new email ticket and send this out (outbound).' => 'Stwórz nowe zgłoszenie email i wyślij je (na zewnątrz)',
+        'Create new email ticket.' => 'Stwórz nowy zgłoszenie Email.',
+        'Create new phone ticket (inbound).' => 'Stwórz nowe zgłoszenie telefoniczne (wewnętrzne)',
+        'Create new phone ticket.' => 'Stwórz nowe zgłoszenie telefoniczne.',
         'Create new process ticket.' => '',
-        'Create tickets.' => 'Utwórz zgłoszenia.',
+        'Create tickets.' => 'Stwórz zgłoszenia.',
         'Croatian' => 'Chorwacki',
         'Custom RSS Feed' => '',
         'Custom text for the page shown to customers that have no tickets yet (if you need those text translated add them to a custom translation module).' =>
@@ -4964,7 +4964,7 @@ Thanks for your help!
         'Customer User <-> Groups' => 'Użytkownik <-> Grupy',
         'Customer User <-> Services' => 'Użytkownicy <-> Serwisy',
         'Customer User Administration' => 'Zarządzanie użytkownikami klientów',
-        'Customer Users' => 'Użytkownicy klienta',
+        'Customer Users' => 'Użytkownicy klientów',
         'Customer called us.' => 'Klient zadzwonił do nas.',
         'Customer item (icon) which shows the closed tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
             '',
@@ -4996,6 +4996,7 @@ Thanks for your help!
         'Default ACL values for ticket actions.' => 'Domyślne wartości ACL dla zgłoszeń.',
         'Default ProcessManagement entity prefixes for entity IDs that are automatically generated.' =>
             '',
+        'Default agent name' => '',
         'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimePointFormat=year;TicketCreateTimePointStart=Last;TicketCreateTimePoint=2;".' =>
             '',
         'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimeStartYear=2010;TicketCreateTimeStartMonth=10;TicketCreateTimeStartDay=4;TicketCreateTimeStopYear=2010;TicketCreateTimeStopMonth=11;TicketCreateTimeStopDay=3;".' =>
@@ -5186,6 +5187,8 @@ Thanks for your help!
         'Defines the date input format used in forms (option or input fields).' =>
             'Definiuje format daty używanej w formularzach (opcja lub pole wstawienia).',
         'Defines the default CSS used in rich text editors.' => 'Definiuje domyślny CSS używany w edytorach tekstu.',
+        'Defines the default agent name in the ticket zoom view of the customer interface.' =>
+            '',
         'Defines the default auto response type of the article for this operation.' =>
             'Definiuje rodzaj odpowiedzi automatycznej artykułu dla tej operacji.',
         'Defines the default body of a note in the ticket free text screen of the agent interface.' =>
@@ -5368,6 +5371,8 @@ Thanks for your help!
             '',
         'Defines the default viewable sender types of a ticket (default: customer).' =>
             'Definiuje domyślne widoczne typy wysyłających zgłoszenie (domyślny: klient).',
+        'Defines the displayed style of the From field in notes that are visible for customers. A default agent name can be defined in Ticket::Frontend::CustomerTicketZoom###DefaultAgentName setting.' =>
+            '',
         'Defines the dynamic fields that are used for displaying on calendar events.' =>
             'Definiuje domyślne pola dynamiczne, które są użyte do wyświetlenia zdarzeń kalendarzowych.',
         'Defines the fall-back path to open fetchmail binary. Note: The name of the binary needs to be \'fetchmail\', if it is different please use a symbolic link.' =>
@@ -5455,7 +5460,7 @@ Thanks for your help!
             '',
         'Defines the list of types for templates.' => 'Definiuje listę rodzajów szablonów.',
         'Defines the location to get online repository list for additional packages. The first available result will be used.' =>
-            'Definiuje lokalizację listy repozytoriów pakietów dodatkowy. Użyty zostanie pierwszy dostępny wynik.',
+            'Definiuje likalizację repozytorium dla kolejnych pakietów. Użyty zostanie pierwszy dostępny wynik.',
         'Defines the log module for the system. "File" writes all messages in a given logfile, "SysLog" uses the syslog daemon of the system, e.g. syslogd.' =>
             '',
         'Defines the maximal size (in bytes) for file uploads via the browser. Warning: Setting this option to a value which is too low could cause many masks in your OTRS instance to stop working (probably any mask which takes input from the user).' =>
@@ -6053,7 +6058,7 @@ Thanks for your help!
         'If enabled, OTRS will deliver all JavaScript files in minified form.' =>
             '',
         'If enabled, TicketPhone and TicketEmail will be open in new windows.' =>
-            'Jeśli włączone to zgłoszenia telefoniczne i e-mail będą otwierane w nowych oknach.',
+            'Jeśli włączone to zgłoszneia telefoniczne i e-mail będą otwierane w nowych oknach.',
         'If enabled, the OTRS version tag will be removed from the Webinterface, the HTTP headers and the X-Headers of outgoing mails. NOTE: If you change this option, please make sure to delete the cache.' =>
             '',
         'If enabled, the customer can search for tickets in all services (regardless what services are assigned to the customer).' =>
@@ -6158,6 +6163,7 @@ Thanks for your help!
         'Loop-Protection! No auto-response sent to "%s".' => 'Loop-Protection! Nie wyslano autoodpowiedzi do "%s".',
         'Mail Accounts' => 'Konta Pocztowe',
         'Main menu registration.' => 'Rejstracja okna głównego.',
+        'Makes the application block external content loading.' => '',
         'Makes the application check the MX record of email addresses before sending an email or submitting a telephone or email ticket.' =>
             'Powoduje by aplikacja sprawdzała zapisy MX adresów e-mail przed wysłaniem e-mail lub zapisaniem zgłoszenia telefonicznego lub e-mail.',
         'Makes the application check the syntax of email addresses.' => 'Powoduje by aplikacja sprawdzała poprawność adresu e-mail.',
@@ -6505,7 +6511,7 @@ Thanks for your help!
         'Sets the PendingTime of a ticket to 0 if the state is changed to a non-pending state.' =>
             '',
         'Sets the age in minutes (first level) for highlighting queues that contain untouched tickets.' =>
-            'Ustawia czas w minutach (pierwszy poziom) dla wyróżnienia kolejek z nierozpoczętymi zgłoszeniami.',
+            'Ustawia czas w minutach (pierwzy poziom) dla wyróżnienia kolejek z nierozpoczętymi zgłoszeniami.',
         'Sets the age in minutes (second level) for highlighting queues that contain untouched tickets.' =>
             'Ustawia czas w minutach (drugi poziom) dla wyróżnienia kolejek z nierozpoczętymi zgłoszeniami.',
         'Sets the configuration level of the administrator. Depending on the config level, some sysconfig options will be not shown. The config levels are in in ascending order: Expert, Advanced, Beginner. The higher the config level is (e.g. Beginner is the highest), the less likely is it that the user can accidentally configure the system in a way that it is not usable any more.' =>
@@ -6834,7 +6840,7 @@ Thanks for your help!
         'Shows either the last customer article\'s subject or the ticket title in the small format overview.' =>
             'Pokazuje ostatni temat artykułu klienta lub tytuł zgłoszenia w podglądzie o małym formacie.',
         'Shows existing parent/child queue lists in the system in the form of a tree or a list.' =>
-            'Pokazuje bieżące listy kolejek nadrzędna/podrzędna w systemie w formie drzewa lub listy.',
+            'Pokazuje bierzące listy kolejek nadrzędna/podrzędna w systemie w formie drzewa lub listy.',
         'Shows information on how to start OTRS Daemon' => '',
         'Shows the activated ticket attributes in the customer interface (0 = Disabled and 1 = Enabled).' =>
             'Pokazuje aktywowane atrybuty zgłoszenia w interfejsie klienta (0 = Wyłączony i 1 = Włączony).',
@@ -6971,6 +6977,7 @@ Thanks for your help!
         'Strips empty lines on the ticket preview in the queue view.' => 'Usuwa puste linie z podglądu zgłoszenia w widoku kolejki.',
         'Strips empty lines on the ticket preview in the service view.' =>
             '',
+        'Support Agent' => '',
         'Swahili' => '',
         'Swedish' => 'Szwedzki',
         'System Address Display Name' => '',
@@ -7024,6 +7031,7 @@ Thanks for your help!
             'Tekst na początku tematu w odpowiedziach e-mail np. RE lub Odp.',
         'The text at the beginning of the subject when an email is forwarded, e.g. FW, Fwd, or WG.' =>
             'Tekst na początku tematu w e-mailach przesłanch dalej np. FW lub Fwd.',
+        'The value of the From field' => '',
         'This event module stores attributes from CustomerUser as DynamicFields tickets. Please see the setting above for how to configure the mapping.' =>
             '',
         'This is a description for TimeZone on Customer side.' => '',

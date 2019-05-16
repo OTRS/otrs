@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D-%M-%Y';
     $Self->{DateInputFormat}     = '%D-%M-%Y';
     $Self->{DateInputFormatLong} = '%D-%M-%Y - %T';
-    $Self->{Completeness}        = 0.652052052052052;
+    $Self->{Completeness}        = 0.65126974605079;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -246,7 +246,7 @@ sub Data {
             'Inloggen is geslaagd, maar er is geen klantenrecord gevonden in het klantenbeheer. Gelieve uw beheerder te contacteren.',
         'This e-mail address already exists. Please log in or reset your password.' =>
             'Dit e-mail adres bestaat reeds. Gelieve in te loggen of uw wachtwoord te resetten.',
-        'Logout' => 'Afmelden',
+        'Logout' => 'Uitloggen',
         'Logout successful. Thank you for using %s!' => 'U bent afgemeld. Bedankt voor het gebruiken van %s.',
         'Feature not active!' => 'Deze functie is niet actief.',
         'Agent updated!' => 'Behandelaar aangepast.',
@@ -313,8 +313,8 @@ sub Data {
         'Type added!' => 'Type toegevoegd.',
         'Type updated!' => 'Type bijgewerkt',
         'Customer updated!' => 'Klant aangepast.',
-        'Customer company added!' => 'Bedrijf toegevoegd!',
-        'Customer company updated!' => 'Bedrijf bijgewerkt!',
+        'Customer company added!' => 'Bedrijf toegevoegd.',
+        'Customer company updated!' => 'Bedrijf bijgewerkt.',
         'Note: Company is invalid!' => 'Let op: bedrijf is ongeldig!',
         'Mail account added!' => 'E-mailaccount toegevoegd.',
         'Mail account updated!' => 'E-mailaccount bijgewerkt.',
@@ -541,7 +541,7 @@ sub Data {
         'Service' => 'Service',
         'Services' => 'Services',
         'State' => 'Status',
-        'States' => 'Status',
+        'States' => 'Statussen',
         'Status' => 'Status',
         'Statuses' => 'Statussen',
         'Ticket Type' => 'Ticket type',
@@ -908,7 +908,7 @@ sub Data {
         'Upgrade to %s' => 'Upgrade naar %s',
 
         # Template: AdminCustomerCompany
-        'Customer Management' => 'Beheer bedrijven',
+        'Customer Management' => 'Beheer klanten',
         'Wildcards like \'*\' are allowed.' => 'Wildcards zijn toegestaan.',
         'Add customer' => 'Nieuwe klant',
         'Select' => 'Selecteer',
@@ -938,7 +938,7 @@ sub Data {
         'The syntax of this email address is incorrect.' => 'De syntax van dit e-mailadres klopt niet.',
 
         # Template: AdminCustomerUserGroup
-        'Manage Customer-Group Relations' => 'Beheer Bedrijf - Groep koppelingen',
+        'Manage Customer-Group Relations' => 'Beheer Klant - Groep koppelingen',
         'Notice' => 'Notitie',
         'This feature is disabled!' => 'Deze functie is niet geactiveerd.',
         'Just use this feature if you want to define group permissions for customers.' =>
@@ -950,15 +950,15 @@ sub Data {
             'U kunt deze groepen beheren via de optie "CustomerGroupAlwaysGroups".',
         'Filter for Groups' => 'Filter op groepen',
         'Just start typing to filter...' => 'Start met typen om te filteren',
-        'Select the customer:group permissions.' => 'Selecteer de permissies voor bedrijf:groep.',
+        'Select the customer:group permissions.' => 'Selecteer de permissies voor klant:groep.',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer).' =>
             'Als niets geselecteerd is, zijn er geen permissies in deze groep (de klant zal geen tickets kunnen zien).',
         'Search Results' => 'Zoekresultaat',
-        'Customers' => 'Bedrijven',
+        'Customers' => 'Klanten',
         'No matches found.' => 'Niets gevonden.',
         'Groups' => 'Groepen',
-        'Change Group Relations for Customer' => 'Bewerk gekoppelde groepen voor deze klant',
-        'Change Customer Relations for Group' => 'Bewerk gekoppelde klanten voor deze groep',
+        'Change Group Relations for Customer' => 'Bewerk gekoppelde groepen voor klant',
+        'Change Customer Relations for Group' => 'Bewerk gekoppelde klanten voor groep',
         'Toggle %s Permission for all' => '%s permissies aan/uit',
         'Toggle %s permission for %s' => '%s permissies aan/uit voor %s',
         'Customer Default Groups:' => 'Standaard groepen',
@@ -1544,12 +1544,12 @@ sub Data {
         'Online Admin Manual' => 'Online Admin Handleiding',
 
         # Template: AdminNotificationEvent
-        'Ticket Notification Management' => 'Ticket meldingen beheer',
+        'Ticket Notification Management' => 'Ticket Melding Management',
         'Add notification' => 'Melding toevoegen',
         'Export Notifications' => 'Meldingen exporteren',
         'Configuration Import' => 'Configuratie importeren',
         'Here you can upload a configuration file to import Ticket Notifications to your system. The file needs to be in .yml format as exported by the Ticket Notification module.' =>
-            'Hier kunt u configuratie bestanden uploaden om Ticket meldingen te importeren. Het bestand moet in .yml format zijn zoals geëxporteerd door de Ticket meldingen module.',
+            'Hier kun je configuratie bestanden uploaden om Ticket Notifications te importeren. Het bestand moet in .yml format zijn zoals geëxporteerd door de Ticket Notificatie module.',
         'Overwrite existing notifications?' => 'Bestaande meldingen overschrijven?',
         'Upload Notification configuration' => 'Upload meldingconfiguratie',
         'Import Notification configuration' => 'Melding configuratie importeren',
@@ -1583,27 +1583,27 @@ sub Data {
         'Once per day' => 'Eén keer per dag',
         'Notify user just once per day about a single ticket using a selected transport.' =>
             'Verstuur slechts éénmaal per dag over één ticket via de geselecteerde methode',
-        'Notification Methods' => 'Meldingsmethoden',
+        'Notification Methods' => 'Notificatie methoden',
         'These are the possible methods that can be used to send this notification to each of the recipients. Please select at least one method below.' =>
-            'Dit zijn de mogelijke manieren die kunnen worden gebruikt om meldingen te versturen naar elke ontvanger. Selecteer minimaal één methode.',
-        'Enable this notification method' => 'Zet deze meldingen methode aan',
+            'Dit zijn de mogelijke manieren die kunnen worden gebruikt om notificaties te versturen naar elke ontvanger. Selecteer minimaal één methode.',
+        'Enable this notification method' => 'Zet deze notificatie methode aan',
         'Transport' => 'Transport',
-        'At least one method is needed per notification.' => 'Op zijn minst één methode is vereist per melding.',
+        'At least one method is needed per notification.' => 'Op zijn minst één methode is vereist per notificatie',
         'Active by default in agent preferences' => 'Standaard actief in agent voorkeuren',
         'This is the default value for assigned recipient agents who didn\'t make a choice for this notification in their preferences yet. If the box is enabled, the notification will be sent to such agents.' =>
-            'Dit is de standaard waarde voor toegewezen ontvangers die geen keuze hebben gemaakt voor deze melding in hun voorkeuren. Als deze waarde is aangevinkt, wordt het bericht naar deze behandelaars gestuurd.',
+            'Dit is de standaard waarde voor toegewezen ontvangers die geen keuze hebben gemaakt voor deze notificatie in hun voorkeuren. Als deze waarde is aangevinkt, wordt het bericht naar deze agents gestuurd.',
         'This feature is currently not available.' => 'Deze feature is niet beschikbaar op het moment.',
         'No data found' => 'Geen data gevonden',
-        'No notification method found.' => 'Geen meldingen methoden gevonden',
-        'Notification Text' => 'Meldingstekst',
+        'No notification method found.' => 'Geen notificatie methoden gevonden',
+        'Notification Text' => 'Notificatie Tekst',
         'This language is not present or enabled on the system. This notification text could be deleted if it is not needed anymore.' =>
-            'Deze taal is niet aanwezig of ingeschakeld in het systeem. Deze meldingstekst kan verwijderd worden wanneer deze niet meer nodig is.',
-        'Remove Notification Language' => 'Verwijder de taal voor de meldingen',
+            'Deze taal is niet aanwezig of ingeschakeld in het systeem. Deze notificatie tekst kan verwijderd worden wanneer deze niet meer nodig is.',
+        'Remove Notification Language' => 'Verwijder Notificatie Taal',
         'Message body' => 'Berichttekst',
         'This field is required and must have less than 4000 characters.' =>
             '',
-        'Add new notification language' => 'Voeg nieuwe taal voor meldingen toe',
-        'Do you really want to delete this notification language?' => 'Weet u zeker dat u de taal van deze melding wilt verwijderen?',
+        'Add new notification language' => 'Voeg nieuwe notificatie taal toe',
+        'Do you really want to delete this notification language?' => 'Weet uzeker dat udeze notificatietaal wilt verwijderen?',
         'Tag Reference' => 'Tag verwijzing',
         'Notifications are sent to an agent or a customer.' => 'Meldingen worden verstuurd naar een behandelaar.',
         'To get the first 20 character of the subject (of the latest agent article).' =>
@@ -1619,12 +1619,12 @@ sub Data {
         'Attributes of the current ticket responsible user data' => 'Eigenschappen van de huidige ticket responsible',
         'Attributes of the current agent user who requested this action' =>
             'Eigenschappen van de agent die deze actie uitvoert',
-        'Attributes of the recipient user for the notification' => 'Eigenschappen van de ontvanger voor deze melding',
+        'Attributes of the recipient user for the notification' => 'Eigenschappen van de ontvanger van de notificatie',
         'Attributes of the ticket data' => 'Eigenschappen van de ticket gegevens',
         'Ticket dynamic fields internal key values' => 'Ticket dynamisch veld voor interne sleutelwaarden',
         'Ticket dynamic fields display values, useful for Dropdown and Multiselect fields' =>
             'Ticket dynamisch veld weergave waarden, handig voor dropdown en multiselect velden',
-        'Example notification' => 'Voorbeeld van de melding',
+        'Example notification' => 'Voorbeeld notificatie',
 
         # Template: AdminNotificationEventTransportEmailSettings
         'Additional recipient email addresses' => 'Aanvullende ontvanger e-mailadres',
@@ -1632,7 +1632,7 @@ sub Data {
             '',
         'Notification article type' => 'Interactiesoort voor melding',
         'An article will be created if the notification is sent to the customer or an additional email address.' =>
-            'Wanneer de melding wordt verstuurd naar de klant of een extra e-mail adres, wordt een artikel aangemaakt.',
+            'Wanneer de notificatie wordt verstuurd naar de klant of een extra email adres, wordt een artikel aangemaakt.',
         'Email template' => 'Email sjabloon',
         'Use this template to generate the complete email (only for HTML emails).' =>
             'Gebruik deze template om de complete mail te genereren (alleen voor HTML email).',
@@ -2446,7 +2446,7 @@ sub Data {
 
         # Template: AdminSystemMaintenance
         'System Maintenance Management' => 'Systeem onderhoudsbeheer.',
-        'Schedule New System Maintenance' => 'Plan een nieuw systeem onderhoud.',
+        'Schedule New System Maintenance' => 'Plan een nieuw systeem onderhouds tijdsvak.',
         'Schedule a system maintenance period for announcing the Agents and Customers the system is down for a time period.' =>
             'Plan een systeem onderhoudsperiode om aan Agents en Klanten aan te kondigen dat het systeem voor een bepaalde periode down is.',
         'Some time before this system maintenance starts the users will receive a notification on each screen announcing about this fact.' =>
@@ -2455,7 +2455,7 @@ sub Data {
         'Stop date' => 'Einddatum',
         'Delete System Maintenance' => 'Verwijder Systeemonderhoudstijdsvak.',
         'Do you really want to delete this scheduled system maintenance?' =>
-            'Weet je zeker dat u dit systeemonderhoud wilt verwijderen?',
+            'Weet je zeker dat u dit onderhoudstijdsvak wilt verwijderen?',
 
         # Template: AdminSystemMaintenanceEdit
         'Edit System Maintenance %s' => 'Bewerk onderhoudsvenster %s',
@@ -2620,7 +2620,7 @@ sub Data {
         'My watched tickets' => 'Mijn gevolgde tickets',
         'My responsibilities' => 'Tickets waarvoor ik verantwoordelijk ben',
         'Tickets in My Queues' => 'Tickets in mijn wachtrijen',
-        'Tickets in My Services' => 'Tickets in mijn services',
+        'Tickets in My Services' => 'Tickets in Mijn Services',
         'Service Time' => 'Service tijd',
         'Remove active filters for this widget.' => 'Verwijder actieve filters voor dit widget.',
 
@@ -2690,7 +2690,7 @@ sub Data {
 
         # Template: AgentStatisticsOverview
         'Statistics » Overview' => 'Rapportages » Overzicht',
-        'Statistics' => 'Statistiek',
+        'Statistics' => 'Rapportages',
         'Run' => 'Voer uit',
         'Edit statistic "%s".' => 'Bewerk rapportage "%s".',
         'Export statistic "%s"' => 'Exporteer rapportage "%s"',
@@ -2877,7 +2877,7 @@ sub Data {
         'Customer User Login (complex search)' => '',
         '(e. g. U51*)' => '',
         'Customer User Login (exact match)' => '',
-        'Attachment Name' => 'Bijlage naam',
+        'Attachment Name' => 'Bijlage Naam',
         '(e. g. m*file or myfi*)' => '(b.v. m*bestand of mijnbe*)',
         'Created in Queue' => 'Aangemaakt in wachtrij',
         'Lock state' => 'Vergrendeling',
@@ -3021,8 +3021,8 @@ sub Data {
         'Your user name' => 'Uw gebruikersnaam',
         'Your password' => 'Uw wachtwoord',
         'Forgot password?' => 'Wachtwoord vergeten?',
-        '2 Factor Token' => '2 stappen code',
-        'Your 2 Factor Token' => 'Uw 2 stappen code',
+        '2 Factor Token' => '2 factor eken',
+        'Your 2 Factor Token' => 'Jouw 2 factor teken',
         'Log In' => 'Inloggen',
         'Not yet registered?' => 'Nog niet geregistreerd?',
         'Request new password' => 'Vraag een nieuw wachtwoord aan',
@@ -3037,7 +3037,7 @@ sub Data {
 
         # Template: CustomerNavigationBar
         'Incoming Chat Requests' => 'Binnenkomende Chat Verzoeken',
-        'Edit personal preferences' => 'Eigen voorkeuren bewerken',
+        'Edit personal preferences' => 'Voorkeuren bewerken',
         'Logout %s %s' => 'Uitloggen %s %s',
 
         # Template: CustomerRichTextEditor
@@ -3055,7 +3055,7 @@ sub Data {
         # Template: CustomerTicketSearch
         'Profile' => 'Sjabloon',
         'e. g. 10*5155 or 105658*' => 'bijv. 2010*5155 of 20100802*',
-        'Customer ID' => 'Klantcode',
+        'Customer ID' => 'Klant ID',
         'Fulltext search in tickets (e. g. "John*n" or "Will*")' => 'Zoeken in tekst in tickets (bijv. "Jans*en" of "Print*")',
         'Recipient' => 'Geadresseerde',
         'Carbon Copy' => 'CC',
@@ -3116,7 +3116,7 @@ sub Data {
         # Template: Error
         'An error occurred.' => 'Er is een fout opgetreden',
         'Really a bug? 5 out of 10 bug reports result from a wrong or incomplete installation of OTRS.' =>
-            'Is dit echt een fout? 5 van de 10 bugrapporten zijn het gevolg van een verkeerde of onvolledige installatie van OTRS.',
+            'Is dit echt een fout? 5 van de 10 error reports zijn vanwege een kappotte installatie van OTRS',
         'With %s, our experts take care of correct installation and cover your back with support and periodic security updates.' =>
             '',
         'Contact our service team now.' => '',
@@ -3302,9 +3302,9 @@ sub Data {
 
         # Template: PreferencesNotificationEvent
         'Notification' => 'Melding',
-        'No user configurable notifications found.' => 'Door de eindgebruiker instelbare meldingen gevonden.',
+        'No user configurable notifications found.' => 'Door de eindgebruiker instelbare notificaties gevonden.',
         'Receive messages for notification \'%s\' by transport method \'%s\'.' =>
-            'Ontvang berichten voor meldingen \'%s\' via transport methode \'%s\'.',
+            'Ontvang berichten voor notificatie \'%s\' via transport methode \'%s\'.',
         'Please note that you can\'t completely disable notifications marked as mandatory.' =>
             'Let op dat je verplichte notificaties niet volledig uit kun zetten.',
         'Sorry, but you can\'t disable all methods for notifications marked as mandatory.' =>
@@ -3435,7 +3435,7 @@ sub Data {
         'Negated regular expression (ignore case)' => '',
 
         # Perl Module: Kernel/Modules/AdminCustomerCompany.pm
-        'Customer Company %s already exists!' => 'Bedrijf %s bestaat al!',
+        'Customer Company %s already exists!' => 'Klant Bedrijf %s bestaat al!',
 
         # Perl Module: Kernel/Modules/AdminCustomerUser.pm
         'New phone ticket' => 'Nieuw telefoon-ticket',
@@ -4386,7 +4386,7 @@ sub Data {
         'Process Tickets' => '',
         'Months Between First And Last Ticket' => 'Maanden tussen het eerste en laatste ticket',
         'Tickets Per Month (avg)' => 'Tickets per maand (gemiddeld)',
-        'Open Tickets' => 'Open tickets',
+        'Open Tickets' => 'Open Tickets',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DefaultSOAPUser.pm
         'Default SOAP Username And Password' => 'Standaard SOAP gebruikersnaam en wachtwoord',
@@ -4449,7 +4449,7 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/OpenTickets.pm
         'You should not have more than 8,000 open tickets in your system.' =>
-            'Je zou niet meer dan 8.000 openstaande tickets in uw systeem moeten hebben.',
+            'Je zou niet meer dan 8.000 openstaande tickets in je systeem moeten hebben.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/SearchIndexModule.pm
         'Ticket Search Index Module' => 'Ticket Zoek Indexering Module',
@@ -4636,9 +4636,9 @@ sub Data {
             'U ontvangt een melding als een ticket wordt verplaatst naar een van uw "Mijn wachtrijen".',
         'Ticket pending reminder notification (locked)' => 'Melding wanneer een reminder afloopt (vergrendeld)',
         'Ticket pending reminder notification (unlocked)' => 'Melding wanneer een reminder afloopt (niet vergrendeld)',
-        'Ticket escalation notification' => 'Ticket escalatie melding',
+        'Ticket escalation notification' => 'Ticket escalatie notificatie',
         'Ticket escalation warning notification' => 'Ticket escalatie waarschuwing notificatie',
-        'Ticket service update notification' => 'Ticket service update melding',
+        'Ticket service update notification' => 'Ticket service update notificatie',
         'You will receive a notification if a ticket\'s service is changed to one of your "My Services".' =>
             'U ontvangt een melding als de service van een ticket is gewijzigd in een van uw \'Mijn services\'.',
 
@@ -4658,11 +4658,11 @@ Thanks for your help!
 Beste Klant,
 
 Helaas konden we geen geldig ticket nummer vinden
-in uw onderwerp, dus deze e-mail kan niet worden verwerkt.
+in jouw onderwerp, dus deze e-mail kan niet worden verwerkt.
 
 Maak een nieuw ticket aan via het klant portaal.
 
-Bedankt voor uw belangstelling.
+Bedankt voor je hulp
 
 Het Helpdesk Team
 ',
@@ -4971,13 +4971,13 @@ Het Helpdesk Team
         'Custom RSS Feed' => '',
         'Custom text for the page shown to customers that have no tickets yet (if you need those text translated add them to a custom translation module).' =>
             '',
-        'Customer Administration' => 'Beheer klanten',
+        'Customer Administration' => 'Klantbeheer.',
         'Customer Information Center Search.' => '',
         'Customer Information Center.' => '',
         'Customer Ticket Print Module.' => '',
         'Customer User <-> Groups' => 'Klanten <-> Groepen',
         'Customer User <-> Services' => 'Klanten <-> Services',
-        'Customer User Administration' => 'Beheer klant gebruikers',
+        'Customer User Administration' => 'Beheren van klanten',
         'Customer Users' => 'Klanten',
         'Customer called us.' => 'Klant heeft gebeld.',
         'Customer item (icon) which shows the closed tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
@@ -5010,6 +5010,7 @@ Het Helpdesk Team
         'Default ACL values for ticket actions.' => '',
         'Default ProcessManagement entity prefixes for entity IDs that are automatically generated.' =>
             '',
+        'Default agent name' => '',
         'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimePointFormat=year;TicketCreateTimePointStart=Last;TicketCreateTimePoint=2;".' =>
             '',
         'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimeStartYear=2010;TicketCreateTimeStartMonth=10;TicketCreateTimeStartDay=4;TicketCreateTimeStopYear=2010;TicketCreateTimeStopMonth=11;TicketCreateTimeStopDay=3;".' =>
@@ -5200,6 +5201,8 @@ Het Helpdesk Team
         'Defines the date input format used in forms (option or input fields).' =>
             '',
         'Defines the default CSS used in rich text editors.' => '',
+        'Defines the default agent name in the ticket zoom view of the customer interface.' =>
+            '',
         'Defines the default auto response type of the article for this operation.' =>
             '',
         'Defines the default body of a note in the ticket free text screen of the agent interface.' =>
@@ -5381,6 +5384,8 @@ Het Helpdesk Team
         'Defines the default value for the action parameter for the public frontend. The action parameter is used in the scripts of the system.' =>
             '',
         'Defines the default viewable sender types of a ticket (default: customer).' =>
+            '',
+        'Defines the displayed style of the From field in notes that are visible for customers. A default agent name can be defined in Ticket::Frontend::CustomerTicketZoom###DefaultAgentName setting.' =>
             '',
         'Defines the dynamic fields that are used for displaying on calendar events.' =>
             '',
@@ -6106,7 +6111,7 @@ Het Helpdesk Team
         'Input' => '',
         'Install ispell or aspell on the system, if you want to use a spell checker. Please specify the path to the aspell or ispell binary on your operating system.' =>
             '',
-        'Interface language' => 'Interface taal',
+        'Interface language' => 'Taal',
         'It is possible to configure different skins, for example to distinguish between diferent agents, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in "Key" should match the domain, and the value in "Content" should be a valid skin on your system. Please see the example entries for the proper form of the regex.' =>
             '',
         'It is possible to configure different skins, for example to distinguish between diferent customers, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in "Key" should match the domain, and the value in "Content" should be a valid skin on your system. Please see the example entries for the proper form of the regex.' =>
@@ -6129,8 +6134,8 @@ Het Helpdesk Team
         'Left' => '',
         'Link Object' => 'Koppel object',
         'Link Object.' => '',
-        'Link agents to groups.' => 'Koppel behandelaars aan groepen.',
-        'Link agents to roles.' => 'Koppel behandelaars aan rollen.',
+        'Link agents to groups.' => 'Koppel gebruikers aan groepen.',
+        'Link agents to roles.' => 'Koppel gebruikers aan rollen.',
         'Link attachments to templates.' => 'Koppel bijlagen aan sjablonen.',
         'Link customer user to groups.' => 'Koppel klanten aan groepen.',
         'Link customer user to services.' => 'Koppel klanten aan services.',
@@ -6172,6 +6177,7 @@ Het Helpdesk Team
         'Loop-Protection! No auto-response sent to "%s".' => 'Lus beveiliging! Geen automatisch antwoord verstuurd aan "%s".',
         'Mail Accounts' => '',
         'Main menu registration.' => '',
+        'Makes the application block external content loading.' => '',
         'Makes the application check the MX record of email addresses before sending an email or submitting a telephone or email ticket.' =>
             '',
         'Makes the application check the syntax of email addresses.' => '',
@@ -6180,7 +6186,7 @@ Het Helpdesk Team
         'Malay' => '',
         'Manage OTRS Group cloud services.' => '',
         'Manage PGP keys for email encryption.' => 'Beheer PGP-sleutels voor encryptie van e-mail.',
-        'Manage POP3 or IMAP accounts to fetch email from.' => 'Beheer POP3 of IMAP accounts om e-mail op te halen en om te zetten naar tickets.',
+        'Manage POP3 or IMAP accounts to fetch email from.' => 'Beheer POP3 of IMAP accounts om e-mail van op te halen en om te zetten in tickets.',
         'Manage S/MIME certificates for email encryption.' => 'Beheer S/MIME certificaten voor encryptie van e-mail.',
         'Manage existing sessions.' => 'Beheer sessies van klanten en gebruikers.',
         'Manage support data.' => 'Beheer support gegevens.',
@@ -6985,6 +6991,7 @@ Het Helpdesk Team
         'Strips empty lines on the ticket preview in the queue view.' => '',
         'Strips empty lines on the ticket preview in the service view.' =>
             '',
+        'Support Agent' => '',
         'Swahili' => '',
         'Swedish' => '',
         'System Address Display Name' => '',
@@ -7038,6 +7045,7 @@ Het Helpdesk Team
             '',
         'The text at the beginning of the subject when an email is forwarded, e.g. FW, Fwd, or WG.' =>
             '',
+        'The value of the From field' => '',
         'This event module stores attributes from CustomerUser as DynamicFields tickets. Please see the setting above for how to configure the mapping.' =>
             '',
         'This is a description for TimeZone on Customer side.' => '',
@@ -7146,7 +7154,7 @@ Het Helpdesk Team
         'View performance benchmark results.' => 'Bekijk resultaten van de performance log.',
         'Watch this ticket' => 'Volg dit ticket',
         'Watched Tickets.' => '',
-        'We are performing scheduled maintenance.' => 'Er vindt op dit moment gepland onderhoud plaats.',
+        'We are performing scheduled maintenance.' => 'We hebben op dit moment gelpand onderhoud.',
         'We are performing scheduled maintenance. Login is temporarily not available.' =>
             'Er vindt op dit moment gepland onderhoud plaats. Inloggen is momenteel niet mogelijk.',
         'We are performing scheduled maintenance. We should be back online shortly.' =>
