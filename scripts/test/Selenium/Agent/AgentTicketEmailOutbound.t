@@ -197,10 +197,8 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Subject",        'css' )->send_keys("TestSubject");
         $Selenium->find_element( "#submitRichText", 'css' )->VerifiedClick();
 
-        $Selenium->WaitFor(
-            JavaScript =>
-                'return typeof($) === "function" && $("#ArticleTree td.Direction i").hasClass("fa-long-arrow-right")'
-        );
+        $Selenium->WaitFor( JavaScript =>
+                'return typeof($) === "function" && $("#ArticleTree td.Direction i").hasClass("fa-long-arrow-right")' );
 
         # See the bug #13752
         $Self->True(
