@@ -12,13 +12,14 @@
 # M Š <Transifex@sikuda.eu>, 2018
 # Jan Papež <honyczek@centrum.cz>, 2019
 # David Krotil <david.krotil@krotilovi.cz>, 2019
+# Peter Sveter, 2019
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-04-05 00:59+0000\n"
+"POT-Creation-Date: 2019-05-14 06:48+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
-"Last-Translator: David Krotil <david.krotil@krotilovi.cz>, 2019\n"
+"Last-Translator: Peter Sveter, 2019\n"
 "Language-Team: Czech (https://www.transifex.com/otrs/teams/23435/cs/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -52,11 +53,11 @@ msgstr "Filtr pro ACL"
 
 #. Template: AdminACL
 msgid "Just start typing to filter..."
-msgstr ""
+msgstr "Začněte psát pro filtraci..."
 
 #. Template: AdminACL
 msgid "Configuration Import"
-msgstr ""
+msgstr "Import konfigurace"
 
 #. Template: AdminACL
 msgid ""
@@ -183,7 +184,7 @@ msgstr ""
 
 #. Template: AdminACLEdit
 msgid "Change settings"
-msgstr ""
+msgstr "Změna nastavení"
 
 #. Template: AdminACLEdit
 msgid ""
@@ -201,7 +202,7 @@ msgstr "dokumentace"
 
 #. Template: AdminACLEdit
 msgid "Show or hide the content"
-msgstr ""
+msgstr "Zobrazit nebo skrýt obsah"
 
 #. Template: AdminACLEdit
 msgid "Edit ACL Information"
@@ -253,31 +254,31 @@ msgstr ""
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Calendar Management"
-msgstr ""
+msgstr "Správa kalendáře"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Add Calendar"
-msgstr ""
+msgstr "Přidat kalendář"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Edit Calendar"
-msgstr ""
+msgstr "Upravit kalendář"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Calendar Overview"
-msgstr ""
+msgstr "Přehled kalendáře"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Add new Calendar"
-msgstr ""
+msgstr "Přidat nový kalendář"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Import Appointments"
-msgstr ""
+msgstr "Import událostí"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Calendar Import"
-msgstr ""
+msgstr "Importovat kalendář"
 
 #. Template: AdminAppointmentCalendarManage
 msgid ""
@@ -292,19 +293,19 @@ msgstr ""
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Upload calendar configuration"
-msgstr ""
+msgstr "Nahrát konfiguraci kalendáře"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Import Calendar"
-msgstr ""
+msgstr "Importovat kalendář"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Filter for Calendars"
-msgstr ""
+msgstr "Filtr pro kalendáře"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Filter for calendars"
-msgstr ""
+msgstr "Filtr pro kalendáře"
 
 #. Template: AdminAppointmentCalendarManage
 msgid ""
@@ -356,7 +357,7 @@ msgstr "Exportovat kalendář"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Download calendar"
-msgstr ""
+msgstr "Stáhnout kalendář"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Copy public calendar URL"
@@ -368,7 +369,7 @@ msgstr "Kalendář"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Calendar name"
-msgstr ""
+msgstr "Jméno kalendáře"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Calendar with same name already exists."
@@ -380,11 +381,11 @@ msgstr "Barva"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Permission group"
-msgstr ""
+msgstr "Skupina oprávnění"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Ticket Appointments"
-msgstr ""
+msgstr "Události tiketu"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Rule"
@@ -400,11 +401,11 @@ msgstr "Odstranit"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Start date"
-msgstr ""
+msgstr "Počáteční datum"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "End date"
-msgstr ""
+msgstr "Datum ukončení"
 
 #. Template: AdminAppointmentCalendarManage
 msgid ""
@@ -418,11 +419,11 @@ msgstr "Řady"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Please select a valid queue."
-msgstr ""
+msgstr "Vyberte prosím platnou frontu."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Search attributes"
-msgstr ""
+msgstr "Vyhledání atributů"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Add entry"
@@ -440,7 +441,7 @@ msgstr ""
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Add Rule"
-msgstr ""
+msgstr "Přidat pravidlo"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Submit"
@@ -448,11 +449,11 @@ msgstr "Odeslat"
 
 #. Template: AdminAppointmentImport
 msgid "Appointment Import"
-msgstr ""
+msgstr "Import události"
 
 #. Template: AdminAppointmentImport
 msgid "Go back"
-msgstr ""
+msgstr "Návrat zpět"
 
 #. Template: AdminAppointmentImport
 msgid "Uploaded file must be in valid iCal format (.ics)."
@@ -470,7 +471,7 @@ msgstr "Nahrát na server"
 
 #. Template: AdminAppointmentImport
 msgid "Update existing appointments?"
-msgstr ""
+msgstr "Aktualizovat stávající události?"
 
 #. Template: AdminAppointmentImport
 msgid ""
@@ -480,11 +481,11 @@ msgstr ""
 
 #. Template: AdminAppointmentImport
 msgid "Upload calendar"
-msgstr ""
+msgstr "Nahrát kalendář"
 
 #. Template: AdminAppointmentImport
 msgid "Import appointments"
-msgstr ""
+msgstr "Import událostí"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Appointment Notification Management"
@@ -500,15 +501,15 @@ msgstr "Upravit oznámení"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Export Notifications"
-msgstr ""
+msgstr "Exportovat oznámení"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Filter for Notifications"
-msgstr ""
+msgstr "Filtr pro oznámení"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Filter for notifications"
-msgstr ""
+msgstr "Filtr pro oznámení"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid ""
@@ -519,7 +520,7 @@ msgstr ""
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Overwrite existing notifications?"
-msgstr "Přepsat existující notifikace?"
+msgstr "Přepsat existující oznámení?"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Upload Notification configuration"
@@ -557,7 +558,7 @@ msgstr ""
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Toggle this widget"
-msgstr ""
+msgstr "Přepnout tento widget"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Events"
@@ -576,7 +577,7 @@ msgstr ""
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Appointment Filter"
-msgstr ""
+msgstr "Filtr událostí"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Type"
@@ -592,11 +593,11 @@ msgstr "Lokalita"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Team"
-msgstr ""
+msgstr "Tým"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Resource"
-msgstr ""
+msgstr "Zdroj"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Recipients"
@@ -604,7 +605,7 @@ msgstr "Příjemce"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Send to"
-msgstr ""
+msgstr "Odeslat"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Send to these agents"
@@ -628,7 +629,7 @@ msgstr ""
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Once per day"
-msgstr ""
+msgstr "Jedenkrát denně"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid ""
@@ -638,7 +639,7 @@ msgstr ""
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Notification Methods"
-msgstr ""
+msgstr "Metody oznamování"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid ""
@@ -648,11 +649,11 @@ msgstr ""
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Enable this notification method"
-msgstr ""
+msgstr "Povolit tuto metodu oznámení"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Transport"
-msgstr ""
+msgstr "Transportovat"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "At least one method is needed per notification."
@@ -675,7 +676,7 @@ msgstr ""
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Upgrade to %s"
-msgstr ""
+msgstr "Aktualizovat na %s"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Please activate this transport in order to use it."
@@ -683,7 +684,7 @@ msgstr ""
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "No data found"
-msgstr ""
+msgstr "Data nenalezena"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "No notification method found."
@@ -691,7 +692,7 @@ msgstr ""
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Notification Text"
-msgstr ""
+msgstr "Text oznámení"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid ""
@@ -721,7 +722,7 @@ msgstr ""
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Save Changes"
-msgstr ""
+msgstr "Uložit změny"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Tag Reference"
@@ -783,7 +784,7 @@ msgstr ""
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "Email template"
-msgstr ""
+msgstr "Šablona e-mailu"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid ""
@@ -956,7 +957,7 @@ msgstr ""
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Configuration"
-msgstr ""
+msgstr "Konfigurace"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Send support data"
@@ -1025,7 +1026,7 @@ msgstr ""
 
 #. Template: AdminCommunicationLog
 msgid "Time Range"
-msgstr ""
+msgstr "Časový rozsah"
 
 #. Template: AdminCommunicationLog
 msgid "Show only communication logs created in specific time range."
@@ -1033,11 +1034,11 @@ msgstr ""
 
 #. Template: AdminCommunicationLog
 msgid "Filter for Communications"
-msgstr ""
+msgstr "Filtr pro komunikaci"
 
 #. Template: AdminCommunicationLog
 msgid "Filter for communications"
-msgstr ""
+msgstr "Filtr pro komunikaci"
 
 #. Template: AdminCommunicationLog
 msgid ""
@@ -1059,7 +1060,7 @@ msgstr ""
 
 #. Template: AdminCommunicationLog
 msgid "Status for: %s"
-msgstr ""
+msgstr "Stav pro: %s"
 
 #. Template: AdminCommunicationLog
 msgid "Failing accounts"
@@ -1099,19 +1100,19 @@ msgstr ""
 
 #. Template: AdminCommunicationLog
 msgid "Number of reported problems: %s"
-msgstr ""
+msgstr "Počet nahlášených problémů: %s"
 
 #. Template: AdminCommunicationLog
 msgid "Open communications"
-msgstr ""
+msgstr "Otevřené komunikace"
 
 #. Template: AdminCommunicationLog
 msgid "No active communications"
-msgstr ""
+msgstr "Žádné aktivní komunikace"
 
 #. Template: AdminCommunicationLog
 msgid "Number of open communications: %s"
-msgstr ""
+msgstr "Počet otevřených komunikací: %s"
 
 #. Template: AdminCommunicationLog
 msgid "Average processing time"
@@ -1127,11 +1128,11 @@ msgstr "Nastavení"
 
 #. Template: AdminCommunicationLog
 msgid "Entries per page"
-msgstr ""
+msgstr "Záznamy na stránku"
 
 #. Template: AdminCommunicationLog
 msgid "No communications found."
-msgstr ""
+msgstr "Nenalazeny žádné komunikace."
 
 #. Template: AdminCommunicationLog
 msgid "%s s"
@@ -1139,19 +1140,19 @@ msgstr ""
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Account Status"
-msgstr ""
+msgstr "Stav účtu"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Back to overview"
-msgstr ""
+msgstr "Zpět na přehled"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Filter for Accounts"
-msgstr ""
+msgstr "Filtr pro účty"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Filter for accounts"
-msgstr ""
+msgstr "Filtr pro účty"
 
 #. Template: AdminCommunicationLogAccounts
 msgid ""
@@ -1169,7 +1170,7 @@ msgstr "Stav"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Account"
-msgstr ""
+msgstr "Účet"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Edit"
@@ -1177,7 +1178,7 @@ msgstr "Upravit"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "No accounts found."
-msgstr ""
+msgstr "Nenalezeny žádné účty."
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Communication Log Details (%s)"
@@ -1201,7 +1202,7 @@ msgstr ""
 
 #. Template: AdminCommunicationLogCommunications
 msgid "Duration"
-msgstr ""
+msgstr "Trvání"
 
 #. Template: AdminCommunicationLogObjectLog
 msgid "#"
@@ -1281,11 +1282,11 @@ msgstr "Vybrat"
 
 #. Template: AdminCustomerCompany
 msgid "List (only %s shown - more available)"
-msgstr ""
+msgstr "Seznam (zobrazeno pouze %s položek - více k dispozici)"
 
 #. Template: AdminCustomerCompany
 msgid "total"
-msgstr ""
+msgstr "Celkem"
 
 #. Template: AdminCustomerCompany
 msgid "Please enter a search term to look for customers."
@@ -1293,7 +1294,7 @@ msgstr "Prosím vložte hledaný výraz pro hledání zákazníků."
 
 #. Template: AdminCustomerCompany
 msgid "Customer ID"
-msgstr ""
+msgstr "ID zákazníka"
 
 #. Template: AdminCustomerCompany
 msgid "Please note"
@@ -1478,7 +1479,7 @@ msgstr ""
 
 #. Template: AdminCustomerUser
 msgid "This CustomerID is invalid."
-msgstr ""
+msgstr "ID zákazníka je neplatné."
 
 #. Template: AdminCustomerUser
 msgid "Effective Permissions for Customer User"
@@ -1486,11 +1487,11 @@ msgstr ""
 
 #. Template: AdminCustomerUser
 msgid "Group Permissions"
-msgstr ""
+msgstr "Skupinová oprávnění"
 
 #. Template: AdminCustomerUser
 msgid "This customer user has no group permissions."
-msgstr ""
+msgstr "Tento uživatel zákazníka nemá žádná oprávnění skupiny."
 
 #. Template: AdminCustomerUser
 msgid ""
@@ -1502,7 +1503,7 @@ msgstr ""
 
 #. Template: AdminCustomerUser
 msgid "Customer Access"
-msgstr ""
+msgstr "Zákaznický přístup"
 
 #. Template: AdminCustomerUser
 msgid "Customer"
@@ -1578,7 +1579,7 @@ msgstr ""
 
 #. Template: AdminCustomerUserGroup
 msgid "Filter for groups"
-msgstr ""
+msgstr "Filtr pro skupiny"
 
 #. Template: AdminCustomerUserGroup
 msgid "Select the customer user - group permissions."
@@ -1604,11 +1605,11 @@ msgstr ""
 
 #. Template: AdminCustomerUserService
 msgid "Filter for Services"
-msgstr ""
+msgstr "Filtr pro služby"
 
 #. Template: AdminCustomerUserService
 msgid "Filter for services"
-msgstr ""
+msgstr "Filtr pro služby"
 
 #. Template: AdminCustomerUserService
 msgid "Services"
@@ -1651,7 +1652,7 @@ msgstr ""
 
 #. Template: AdminDynamicField
 msgid "Web service"
-msgstr ""
+msgstr "Webové služby"
 
 #. Template: AdminDynamicField
 msgid ""
@@ -1684,7 +1685,7 @@ msgstr ""
 
 #. Template: AdminDynamicField
 msgid "Label"
-msgstr ""
+msgstr "Štítek"
 
 #. Template: AdminDynamicField
 msgid "Order"
@@ -1696,15 +1697,15 @@ msgstr "Objekt"
 
 #. Template: AdminDynamicField
 msgid "Delete this field"
-msgstr ""
+msgstr "Smazat toto pole"
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Dynamic Fields"
-msgstr ""
+msgstr "Dynamická pole"
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Go back to overview"
-msgstr ""
+msgstr "Přejít zpět na přehled"
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "General"
@@ -1730,7 +1731,7 @@ msgstr ""
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Field order"
-msgstr ""
+msgstr "Pořadí polí"
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "This field is required and must be numeric."
@@ -1750,11 +1751,11 @@ msgstr ""
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Field type"
-msgstr ""
+msgstr "Typ pole"
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Object type"
-msgstr ""
+msgstr "Typ objektu"
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Internal field"
@@ -1855,7 +1856,7 @@ msgstr ""
 
 #. Template: AdminDynamicFieldDropdown
 msgid "Possible values"
-msgstr ""
+msgstr "Možné hodnoty"
 
 #. Template: AdminDynamicFieldDropdown
 msgid "Key"
@@ -1867,19 +1868,19 @@ msgstr "Hodnota"
 
 #. Template: AdminDynamicFieldDropdown
 msgid "Remove value"
-msgstr ""
+msgstr "Odstranit hodnotu"
 
 #. Template: AdminDynamicFieldDropdown
 msgid "Add value"
-msgstr ""
+msgstr "Přidat hodnotu"
 
 #. Template: AdminDynamicFieldDropdown
 msgid "Add Value"
-msgstr ""
+msgstr "Přidat hodnotu"
 
 #. Template: AdminDynamicFieldDropdown
 msgid "Add empty value"
-msgstr ""
+msgstr "Přidat prázdnou hodnotu"
 
 #. Template: AdminDynamicFieldDropdown
 msgid "Activate this option to create an empty selectable value."
@@ -1915,7 +1916,7 @@ msgstr ""
 
 #. Template: AdminDynamicFieldText
 msgid "Number of rows"
-msgstr ""
+msgstr "Počet řádků"
 
 #. Template: AdminDynamicFieldText
 msgid "Specify the height (in lines) for this field in the edit mode."
@@ -1923,7 +1924,7 @@ msgstr ""
 
 #. Template: AdminDynamicFieldText
 msgid "Number of cols"
-msgstr ""
+msgstr "Počet sloupců"
 
 #. Template: AdminDynamicFieldText
 msgid "Specify the width (in characters) for this field in the edit mode."
@@ -1931,7 +1932,7 @@ msgstr ""
 
 #. Template: AdminDynamicFieldText
 msgid "Check RegEx"
-msgstr ""
+msgstr "Zkontrolovat regulární výraz"
 
 #. Template: AdminDynamicFieldText
 msgid ""
@@ -1941,19 +1942,19 @@ msgstr ""
 
 #. Template: AdminDynamicFieldText
 msgid "RegEx"
-msgstr ""
+msgstr "Regulární výraz"
 
 #. Template: AdminDynamicFieldText
 msgid "Invalid RegEx"
-msgstr ""
+msgstr "Neplatný regulární výraz"
 
 #. Template: AdminDynamicFieldText
 msgid "Error Message"
-msgstr ""
+msgstr "Chybová zpráva"
 
 #. Template: AdminDynamicFieldText
 msgid "Add RegEx"
-msgstr ""
+msgstr "Přidat regulární výraz    "
 
 #. Template: AdminEmail
 msgid "Admin Message"
@@ -1987,7 +1988,7 @@ msgstr "Odeslat zprávu členům skupiny"
 
 #. Template: AdminEmail
 msgid "Group members need to have permission"
-msgstr ""
+msgstr "Členové skupiny musí mít povolení"
 
 #. Template: AdminEmail
 msgid "Send message to role members"
@@ -2039,11 +2040,11 @@ msgstr "Spustit Teď"
 
 #. Template: AdminGenericAgent
 msgid "Delete this task"
-msgstr ""
+msgstr "Odstranit tuto úlohu"
 
 #. Template: AdminGenericAgent
 msgid "Run this task"
-msgstr ""
+msgstr "Spustit tuto úlohu"
 
 #. Template: AdminGenericAgent
 msgid "Job Settings"
@@ -2107,7 +2108,7 @@ msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Delete this event"
-msgstr ""
+msgstr "Odstranit tuto událost"
 
 #. Template: AdminGenericAgent
 msgid ""
@@ -2135,7 +2136,7 @@ msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Select Tickets"
-msgstr ""
+msgstr "Vybrat tikety"
 
 #. Template: AdminGenericAgent
 msgid "(e. g. 10*5155 or 105658*)"
@@ -2147,7 +2148,7 @@ msgstr "(např. 234321)"
 
 #. Template: AdminGenericAgent
 msgid "Customer user ID"
-msgstr ""
+msgstr "ID uživatele zákazníka"
 
 #. Template: AdminGenericAgent
 msgid "(e. g. U5150)"
@@ -2227,7 +2228,7 @@ msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Ticket last changed"
-msgstr ""
+msgstr "Tiket naposledy změněn"
 
 #. Template: AdminGenericAgent
 msgid "Ticket last changed between"
@@ -2375,7 +2376,7 @@ msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "new responsible"
-msgstr ""
+msgstr "Nový odpovědný"
 
 #. Template: AdminGenericAgent
 msgid "Set new ticket lock"
@@ -2383,7 +2384,7 @@ msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "New customer user ID"
-msgstr ""
+msgstr "Nové ID uživatele zákazníka"
 
 #. Template: AdminGenericAgent
 msgid "New customer ID"
@@ -2411,7 +2412,7 @@ msgstr "Přidat poznámku"
 
 #. Template: AdminGenericAgent
 msgid "Visible for customer"
-msgstr ""
+msgstr "Viditelné pro zákazníka"
 
 #. Template: AdminGenericAgent
 msgid "Time units"
@@ -2477,7 +2478,7 @@ msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Affected Tickets"
-msgstr ""
+msgstr "Ovlivněné tikety"
 
 #. Template: AdminGenericAgent
 msgid "Age"
@@ -2489,7 +2490,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Web Service Management"
-msgstr ""
+msgstr "Správa webových služeb"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Debugger"
@@ -2497,11 +2498,11 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Go back to web service"
-msgstr ""
+msgstr "Zpět na webové služby"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Clear"
-msgstr ""
+msgstr "Vyčistit"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Do you really want to clear the debug log of this web service?"
@@ -2533,19 +2534,19 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Filter by type"
-msgstr ""
+msgstr "Filtrovat podle typu"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Filter from"
-msgstr ""
+msgstr "Filtrovat od"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Filter to"
-msgstr ""
+msgstr "Filtrovat do"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Filter by remote IP"
-msgstr ""
+msgstr "Filtrovat podle vzdálené IP"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Limit"
@@ -2573,7 +2574,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "General options"
-msgstr ""
+msgstr "Obecné možnosti"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid ""
@@ -2596,7 +2597,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Processing options"
-msgstr ""
+msgstr "Možnosti zpracování"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Configure filters to control error handling module execution."
@@ -2685,7 +2686,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Error message"
-msgstr ""
+msgstr "Chybová zpráva"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "An error explanation for this error handling module."
@@ -2893,7 +2894,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Configure"
-msgstr ""
+msgstr "Konfigurovat"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid ""
@@ -2921,7 +2922,7 @@ msgstr "Podmínka"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Edit this event"
-msgstr ""
+msgstr "Upravit tuto událost"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "This invoker will be triggered by the configured events."
@@ -2951,7 +2952,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "Go back to"
-msgstr ""
+msgstr "Zpět na"
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "Delete all conditions"
@@ -2963,11 +2964,11 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "General Settings"
-msgstr ""
+msgstr "Obecné nastavení"
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "Event type"
-msgstr ""
+msgstr "Typ události"
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "Conditions"
@@ -2983,7 +2984,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "Remove this Condition"
-msgstr ""
+msgstr "Odstranit tuto podmínku"
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "Type of Linking"
@@ -2995,11 +2996,11 @@ msgstr "Pole"
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "Add a new Field"
-msgstr ""
+msgstr "Přidat nové pole"
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "Remove this Field"
-msgstr ""
+msgstr "Odstranit toto pole"
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "And can't be repeated on the same condition."
@@ -3007,7 +3008,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "Add New Condition"
-msgstr ""
+msgstr "Přidat novou podmínku"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Mapping Simple"
@@ -3063,11 +3064,11 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Value mapping"
-msgstr ""
+msgstr "Mapování hodnot"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Map value"
-msgstr ""
+msgstr "Mapovat hodnotu"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "to new value"
@@ -3075,15 +3076,15 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Remove value mapping"
-msgstr ""
+msgstr "Odstranit mapování hodnot"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "New value map"
-msgstr ""
+msgstr "Nová mapa hodnot"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Add value mapping"
-msgstr ""
+msgstr "Přidat mapování hodnot"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Do you really want to delete this key mapping?"
@@ -3091,7 +3092,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "General Shortcuts"
-msgstr ""
+msgstr "Obecné zkratky"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "MacOS Shortcuts"
@@ -3115,23 +3116,23 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Find"
-msgstr ""
+msgstr "Najít"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Find next"
-msgstr ""
+msgstr "Najít další"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Find previous"
-msgstr ""
+msgstr "Najít předchozí"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Find and replace"
-msgstr ""
+msgstr "Najít a nahradit"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Find and replace all"
-msgstr ""
+msgstr "Najít a nahradit vše"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "XSLT Mapping"
@@ -3157,7 +3158,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Data includes"
-msgstr ""
+msgstr "Data zahrnují"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid ""
@@ -3181,19 +3182,19 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Regular expressions"
-msgstr ""
+msgstr "Regulární výrazy"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Replace"
-msgstr ""
+msgstr "Nahradit"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Remove regex"
-msgstr ""
+msgstr "Odstranit regulární výraz"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Add regex"
-msgstr ""
+msgstr "Přidat regulární výraz"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "These filters can be used to transform keys using regular expressions."
@@ -3254,11 +3255,11 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Add Operation"
-msgstr ""
+msgstr "Přidat operaci"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Edit Operation"
-msgstr ""
+msgstr "Upravit operaci"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Do you really want to delete this operation?"
@@ -3266,7 +3267,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Operation Details"
-msgstr ""
+msgstr "Detaily operace"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid ""
@@ -3318,7 +3319,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Properties"
-msgstr ""
+msgstr "Vlastnosti"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Route mapping for Operation"
@@ -3343,7 +3344,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Maximum message length"
-msgstr ""
+msgstr "Maximální délka zprávy"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "This field should be an integer number."
@@ -3387,7 +3388,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Timeout"
-msgstr ""
+msgstr "Časový limit"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Timeout value for requests."
@@ -3395,7 +3396,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Authentication"
-msgstr ""
+msgstr "Autentizace"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "An optional authentication mechanism to access the remote system."
@@ -3427,7 +3428,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Proxy Server"
-msgstr ""
+msgstr "Proxy server"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "URI of a proxy server to be used (if needed)."
@@ -3439,7 +3440,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Proxy User"
-msgstr ""
+msgstr "Proxy uživatel"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "The user name to be used to access the proxy server."
@@ -3447,7 +3448,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Proxy Password"
-msgstr ""
+msgstr "Proxy heslo"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "The password for the proxy user."
@@ -3471,7 +3472,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Client Certificate"
-msgstr ""
+msgstr "Zákaznický certifikát"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid ""
@@ -3556,7 +3557,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Default command"
-msgstr ""
+msgstr "Výchozí příkaz"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "The default HTTP command to use for the requests."
@@ -3688,7 +3689,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Encoding"
-msgstr ""
+msgstr "Kódování"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "The character encoding for the SOAP message contents."
@@ -3700,7 +3701,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Sort options"
-msgstr ""
+msgstr "Možnosti řazení"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Add new first level element"
@@ -3718,15 +3719,15 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Add Web Service"
-msgstr ""
+msgstr "Přidat webovou službu"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Edit Web Service"
-msgstr ""
+msgstr "Upravit webovou službu"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Clone Web Service"
-msgstr ""
+msgstr "Klonovat webovou službu"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "The name must be unique."
@@ -3734,19 +3735,19 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Clone"
-msgstr ""
+msgstr "Klon"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Export Web Service"
-msgstr ""
+msgstr "Exportovat webovou službu"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Import web service"
-msgstr ""
+msgstr "Importovat webovou službu"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Configuration File"
-msgstr ""
+msgstr "Konfigurační soubor"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "The file must be a valid web service configuration YAML file."
@@ -3764,11 +3765,11 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Configuration History"
-msgstr ""
+msgstr "Historie konfigurace"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Delete web service"
-msgstr ""
+msgstr "Odstranit webovou službu"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Do you really want to delete this web service?"
@@ -3815,7 +3816,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Remote system"
-msgstr ""
+msgstr "Vzdálený systém"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Provider transport"
@@ -3886,7 +3887,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Delete this action"
-msgstr ""
+msgstr "Smazat tuto akci"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
@@ -3900,7 +3901,7 @@ msgstr "Historie"
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "Go back to Web Service"
-msgstr ""
+msgstr "Zpět na webovou službu"
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid ""
@@ -3918,7 +3919,7 @@ msgstr "Verze"
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "Create time"
-msgstr ""
+msgstr "Čas vytvoření"
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "Select a single configuration version to see its details."
@@ -4008,7 +4009,7 @@ msgstr ""
 
 #. Template: AdminMailAccount
 msgid "and user account"
-msgstr ""
+msgstr "a uživatelský účet"
 
 #. Template: AdminMailAccount
 msgid "Filter for Mail Accounts"
@@ -4093,7 +4094,7 @@ msgstr ""
 
 #. Template: AdminNavigationBar
 msgid "Filter for Items"
-msgstr ""
+msgstr "Filtr pro položky"
 
 #. Template: AdminNavigationBar
 msgid "Filter"
@@ -4101,7 +4102,7 @@ msgstr "Filtr"
 
 #. Template: AdminNavigationBar
 msgid "Favorites"
-msgstr ""
+msgstr "Oblíbené"
 
 #. Template: AdminNavigationBar
 msgid ""
@@ -4111,7 +4112,7 @@ msgstr ""
 
 #. Template: AdminNavigationBar
 msgid "Links"
-msgstr ""
+msgstr "Odkazy"
 
 #. Template: AdminNavigationBar
 msgid "View the admin manual on Github"
@@ -4119,7 +4120,7 @@ msgstr ""
 
 #. Template: AdminNavigationBar
 msgid "No Matches"
-msgstr ""
+msgstr "Žádná shoda"
 
 #. Template: AdminNavigationBar
 msgid "Sorry, your search didn't match any items."
@@ -4127,7 +4128,7 @@ msgstr ""
 
 #. Template: AdminNavigationBar
 msgid "Set as favorite"
-msgstr ""
+msgstr "Nastavit jako oblíbený"
 
 #. Template: AdminNotificationEvent
 msgid "Ticket Notification Management"
@@ -4161,7 +4162,7 @@ msgstr "SLA"
 
 #. Template: AdminNotificationEvent
 msgid "Customer User ID"
-msgstr ""
+msgstr "ID uživatele zákazníka"
 
 #. Template: AdminNotificationEvent
 msgid "Article Filter"
@@ -4184,7 +4185,7 @@ msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "Customer visibility"
-msgstr ""
+msgstr "Viditelnost zákazníka"
 
 #. Template: AdminNotificationEvent
 msgid "Communication channel"
@@ -4268,7 +4269,7 @@ msgstr ""
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Manage %s"
-msgstr ""
+msgstr "Spravovat %s"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Downgrade to ((OTRS)) Community Edition"
@@ -4306,7 +4307,7 @@ msgstr ""
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Reinstall %s"
-msgstr ""
+msgstr "Reinstalovat %s"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid ""
@@ -4321,15 +4322,15 @@ msgstr ""
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Update %s"
-msgstr ""
+msgstr "Aktualizovat %s"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "%s Not Yet Available"
-msgstr ""
+msgstr "%s ještě není k dispozici"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "%s will be available soon."
-msgstr ""
+msgstr "%s bude brzy k dispozici."
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "%s Update Available"
@@ -4519,7 +4520,7 @@ msgstr ""
 
 #. Template: AdminPGP
 msgid "Configure it here!"
-msgstr ""
+msgstr "Nakonfigurovat zde!"
 
 #. Template: AdminPGP
 msgid "Check PGP configuration"
@@ -4564,7 +4565,7 @@ msgstr "Správa Balíčků"
 
 #. Template: AdminPackageManager
 msgid "Uninstall Package"
-msgstr ""
+msgstr "Odinstalovat balíček"
 
 #. Template: AdminPackageManager
 msgid "Uninstall package"
@@ -4647,7 +4648,7 @@ msgstr "Instaluj balíček"
 
 #. Template: AdminPackageManager
 msgid "Update Package"
-msgstr ""
+msgstr "Aktualizovat balíček"
 
 #. Template: AdminPackageManager
 msgid "Continue"
@@ -4952,7 +4953,7 @@ msgstr ""
 
 #. Template: AdminPostMasterFilter
 msgid "Negate"
-msgstr ""
+msgstr "Vyloučit"
 
 #. Template: AdminPostMasterFilter
 msgid "Set Email Headers"
@@ -4964,7 +4965,7 @@ msgstr "Nastav hlavičku emailu"
 
 #. Template: AdminPostMasterFilter
 msgid "with value"
-msgstr ""
+msgstr "s hodnotou"
 
 #. Template: AdminPostMasterFilter
 msgid "The field needs to be a literal word."
@@ -4984,7 +4985,7 @@ msgstr "Přidat Prioritou"
 
 #. Template: AdminPriority
 msgid "Edit Priority"
-msgstr ""
+msgstr "Upravit prioritu"
 
 #. Template: AdminPriority
 msgid "Filter for Priorities"
@@ -5094,11 +5095,11 @@ msgstr ""
 
 #. Template: AdminProcessManagementActivity
 msgid "Cancel & close"
-msgstr ""
+msgstr "Zrušit a zavřít"
 
 #. Template: AdminProcessManagementActivity
 msgid "Go Back"
-msgstr ""
+msgstr "Zpět"
 
 #. Template: AdminProcessManagementActivity
 msgid ""
@@ -5107,7 +5108,7 @@ msgstr ""
 
 #. Template: AdminProcessManagementActivity
 msgid "Activity"
-msgstr ""
+msgstr "Aktivita"
 
 #. Template: AdminProcessManagementActivity
 msgid "Activity Name"
@@ -5175,7 +5176,7 @@ msgstr ""
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Available in"
-msgstr ""
+msgstr "Dostupné v"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Description (short)"
@@ -5233,15 +5234,15 @@ msgstr ""
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Is visible for customer"
-msgstr ""
+msgstr "Je viditelné pro zákazníka"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Display"
-msgstr ""
+msgstr "Zobrazit"
 
 #. Template: AdminProcessManagementPath
 msgid "Path"
-msgstr ""
+msgstr "Cesta"
 
 #. Template: AdminProcessManagementPath
 msgid "Edit this transition"
@@ -5291,15 +5292,15 @@ msgstr "Dialog filtr Aktivit"
 
 #. Template: AdminProcessManagementProcessAccordion
 msgid "Transitions"
-msgstr ""
+msgstr "Přechody"
 
 #. Template: AdminProcessManagementProcessAccordion
 msgid "Filter Transitions..."
-msgstr ""
+msgstr "Filtrovat přechody"
 
 #. Template: AdminProcessManagementProcessAccordion
 msgid "Create New Transition"
-msgstr ""
+msgstr "Vytvořit nový přechod"
 
 #. Template: AdminProcessManagementProcessAccordion
 msgid "Filter Transition Actions..."
@@ -5307,7 +5308,7 @@ msgstr ""
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Edit Process"
-msgstr ""
+msgstr "Upravit proces"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Print process information"
@@ -5315,7 +5316,7 @@ msgstr ""
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Delete Process"
-msgstr ""
+msgstr "Smazat proces"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Delete Inactive Process"
@@ -5437,11 +5438,11 @@ msgstr ""
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "cancel & close"
-msgstr ""
+msgstr "Zrušit a zavřít"
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "Start Activity"
-msgstr ""
+msgstr "Začít aktivitu"
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "Contains %s dialog(s)"
@@ -5487,7 +5488,7 @@ msgstr ""
 
 #. Template: AdminProcessManagementTransition
 msgid "Transition"
-msgstr ""
+msgstr "Přechod"
 
 #. Template: AdminProcessManagementTransition
 msgid "Transition Name"
@@ -5525,23 +5526,23 @@ msgstr "Odstra%n tenhle Parametr"
 
 #. Template: AdminQueue
 msgid "Queue Management"
-msgstr ""
+msgstr "Správa fronty"
 
 #. Template: AdminQueue
 msgid "Add Queue"
-msgstr ""
+msgstr "Přidat frontu"
 
 #. Template: AdminQueue
 msgid "Edit Queue"
-msgstr ""
+msgstr "Upravit frontu"
 
 #. Template: AdminQueue
 msgid "Filter for Queues"
-msgstr ""
+msgstr "Filtr pro fronty"
 
 #. Template: AdminQueue
 msgid "Filter for queues"
-msgstr ""
+msgstr "Filtr pro fronty"
 
 #. Template: AdminQueue
 msgid "A queue with this name already exists!"
@@ -5688,7 +5689,7 @@ msgstr ""
 
 #. Template: AdminQueueAutoResponse
 msgid "Show All Queues"
-msgstr ""
+msgstr "Zobrazit všechny fronty"
 
 #. Template: AdminQueueAutoResponse
 msgid "Auto Responses"
@@ -5700,11 +5701,11 @@ msgstr ""
 
 #. Template: AdminQueueTemplates
 msgid "Filter for Templates"
-msgstr ""
+msgstr "Filtr pro šablony"
 
 #. Template: AdminQueueTemplates
 msgid "Filter for templates"
-msgstr ""
+msgstr "Filtr pro šablony"
 
 #. Template: AdminQueueTemplates
 msgid "Templates"
@@ -5724,7 +5725,7 @@ msgstr ""
 
 #. Template: AdminRegistration
 msgid "Register System"
-msgstr ""
+msgstr "Registrovat systém"
 
 #. Template: AdminRegistration
 msgid "Validate OTRS-ID"
@@ -5736,7 +5737,7 @@ msgstr ""
 
 #. Template: AdminRegistration
 msgid "Edit details"
-msgstr ""
+msgstr "Upravit detaily"
 
 #. Template: AdminRegistration
 msgid "Show transmitted data"
@@ -5756,11 +5757,11 @@ msgstr ""
 
 #. Template: AdminRegistration
 msgid "System type"
-msgstr ""
+msgstr "Typ systému"
 
 #. Template: AdminRegistration
 msgid "Unique ID"
-msgstr ""
+msgstr "Unikátní ID"
 
 #. Template: AdminRegistration
 msgid "Last communication with registration server"
@@ -5778,7 +5779,7 @@ msgstr ""
 
 #. Template: AdminRegistration
 msgid "Instructions"
-msgstr ""
+msgstr "Instrukce"
 
 #. Template: AdminRegistration
 msgid "System Deregistration not Possible"
@@ -5796,7 +5797,7 @@ msgstr ""
 
 #. Template: AdminRegistration
 msgid "Read more"
-msgstr ""
+msgstr "Číst více"
 
 #. Template: AdminRegistration
 msgid "You need to log in with your OTRS-ID to register your system."
@@ -5914,15 +5915,15 @@ msgstr ""
 
 #. Template: AdminRegistration
 msgid "Sign up now"
-msgstr ""
+msgstr "Přihlásit se nyní"
 
 #. Template: AdminRegistration
 msgid "Forgot your password?"
-msgstr ""
+msgstr "Zapomenuté heslo?"
 
 #. Template: AdminRegistration
 msgid "Retrieve a new one"
-msgstr ""
+msgstr "obnovit nové"
 
 #. Template: AdminRegistration
 msgid "Next"
@@ -5936,7 +5937,7 @@ msgstr ""
 
 #. Template: AdminRegistration
 msgid "Attribute"
-msgstr ""
+msgstr "Atribut"
 
 #. Template: AdminRegistration
 msgid "FQDN"
@@ -5960,7 +5961,7 @@ msgstr ""
 
 #. Template: AdminRegistration
 msgid "Register"
-msgstr ""
+msgstr "Registrovat"
 
 #. Template: AdminRegistration
 msgid "Continuing with this step will deregister the system from OTRS Group."
@@ -5968,7 +5969,7 @@ msgstr ""
 
 #. Template: AdminRegistration
 msgid "Deregister"
-msgstr ""
+msgstr "Odregistrovat"
 
 #. Template: AdminRegistration
 msgid "You can modify registration settings here."
@@ -6177,7 +6178,7 @@ msgstr ""
 
 #. Template: AdminSMIME
 msgid "Filter for Certificates"
-msgstr ""
+msgstr "Filtr pro certifikáty"
 
 #. Template: AdminSMIME
 msgid "Filter for certificates"
@@ -6321,11 +6322,11 @@ msgstr ""
 
 #. Template: AdminSelectBox
 msgid "Filter for Results"
-msgstr ""
+msgstr "Filtr pro výsledky"
 
 #. Template: AdminSelectBox
 msgid "Filter for results"
-msgstr ""
+msgstr "Filtr pro výsledky"
 
 #. Template: AdminSelectBox
 msgid ""
@@ -6366,7 +6367,7 @@ msgstr "Spustit Dotaz"
 
 #. Template: AdminSelectBox
 msgid "%s Results"
-msgstr ""
+msgstr "%s Výsledky"
 
 #. Template: AdminSelectBox
 msgid "Query is executed."
@@ -6462,7 +6463,7 @@ msgstr "Přidat Podpis"
 
 #. Template: AdminSignature
 msgid "Edit Signature"
-msgstr ""
+msgstr "Upravit podpis"
 
 #. Template: AdminSignature
 msgid "Filter for Signatures"
@@ -6545,7 +6546,7 @@ msgstr ""
 
 #. Template: AdminSupportDataCollector
 msgid "Send Update"
-msgstr ""
+msgstr "Poslat aktualizaci"
 
 #. Template: AdminSupportDataCollector
 msgid "Currently this data is only shown in this system."
@@ -6572,7 +6573,7 @@ msgstr ""
 
 #. Template: AdminSupportDataCollector
 msgid "Send by Email"
-msgstr ""
+msgstr "Poslat e-mailem"
 
 #. Template: AdminSupportDataCollector
 msgid ""
@@ -6595,7 +6596,7 @@ msgstr ""
 
 #. Template: AdminSupportDataCollector
 msgid "Download File"
-msgstr ""
+msgstr "Stáhnout soubor"
 
 #. Template: AdminSupportDataCollector
 msgid ""
@@ -6610,7 +6611,7 @@ msgstr ""
 
 #. Template: AdminSupportDataCollector
 msgid "Details"
-msgstr ""
+msgstr "Detaily"
 
 #. Template: AdminSystemAddress
 msgid "System Email Addresses Management"
@@ -6644,11 +6645,11 @@ msgstr ""
 
 #. Template: AdminSystemAddress
 msgid "Email address"
-msgstr ""
+msgstr "E-mailová adresa"
 
 #. Template: AdminSystemAddress
 msgid "Display name"
-msgstr ""
+msgstr "Zobrazit jméno"
 
 #. Template: AdminSystemAddress
 msgid "This email address is already used as system email address."
@@ -6708,7 +6709,7 @@ msgstr ""
 
 #. Template: AdminSystemConfigurationDeployment
 msgid "Help"
-msgstr ""
+msgstr "Nápověda"
 
 #. Template: AdminSystemConfigurationDeployment
 msgid ""
@@ -6818,7 +6819,7 @@ msgstr ""
 
 #. Template: AdminSystemConfigurationSearch
 msgid "Search for"
-msgstr ""
+msgstr "Vyhledat"
 
 #. Template: AdminSystemConfigurationSearch
 msgid "Search for category"
@@ -6958,11 +6959,11 @@ msgstr ""
 
 #. Template: AdminTemplate
 msgid "Add Template"
-msgstr ""
+msgstr "Přidat šablonu"
 
 #. Template: AdminTemplate
 msgid "Edit Template"
-msgstr ""
+msgstr "Upravit šablonu"
 
 #. Template: AdminTemplate
 msgid ""
@@ -6992,7 +6993,7 @@ msgstr ""
 
 #. Template: AdminTemplate
 msgid "Template"
-msgstr ""
+msgstr "Šablona"
 
 #. Template: AdminTemplate
 msgid "Create type templates only supports this smart tags"
@@ -7008,7 +7009,7 @@ msgstr "Aktuální stav tiketu je"
 
 #. Template: AdminTemplate
 msgid "Your email address is"
-msgstr ""
+msgstr "Vaše e-mailová adresa je"
 
 #. Template: AdminTemplateAttachment
 msgid "Manage Template-Attachment Relations"
@@ -7032,7 +7033,7 @@ msgstr "Přidat Typ Tiketu"
 
 #. Template: AdminType
 msgid "Edit Type"
-msgstr ""
+msgstr "Upravit typ"
 
 #. Template: AdminType
 msgid "Filter for Types"
@@ -7132,15 +7133,15 @@ msgstr "Spravovat vztahy mezi skupinami a řešiteli"
 
 #. Template: AgentAppointmentAgendaOverview
 msgid "Agenda Overview"
-msgstr ""
+msgstr "Přehled programu"
 
 #. Template: AgentAppointmentAgendaOverview
 msgid "Manage Calendars"
-msgstr ""
+msgstr "Správa kalendářů"
 
 #. Template: AgentAppointmentAgendaOverview
 msgid "Add Appointment"
-msgstr ""
+msgstr "Přidat schůzku"
 
 #. Template: AgentAppointmentAgendaOverview
 msgid "Today"
@@ -7148,11 +7149,11 @@ msgstr "Dnes"
 
 #. Template: AgentAppointmentAgendaOverview
 msgid "All-day"
-msgstr ""
+msgstr "Celodenní"
 
 #. Template: AgentAppointmentAgendaOverview
 msgid "Repeat"
-msgstr ""
+msgstr "Opakovat"
 
 #. Template: AgentAppointmentAgendaOverview
 msgid "Notification"
@@ -7174,19 +7175,19 @@ msgstr ""
 
 #. Template: AgentAppointmentCalendarOverview
 msgid "Add new Appointment"
-msgstr ""
+msgstr "Přidat novou událost"
 
 #. Template: AgentAppointmentCalendarOverview
 msgid "Calendars"
-msgstr ""
+msgstr "Kalendáře"
 
 #. Template: AgentAppointmentEdit
 msgid "Basic information"
-msgstr ""
+msgstr "Základní informace"
 
 #. Template: AgentAppointmentEdit
 msgid "Date/Time"
-msgstr ""
+msgstr "Datum/čas"
 
 #. Template: AgentAppointmentEdit
 msgid "Invalid date!"
@@ -7214,7 +7215,7 @@ msgstr ""
 
 #. Template: AgentAppointmentEdit
 msgid "Frequency"
-msgstr ""
+msgstr "Četnost"
 
 #. Template: AgentAppointmentEdit
 msgid "Every"
@@ -7410,7 +7411,7 @@ msgstr "Informace o zákaznících"
 
 #. Template: AgentCustomerInformationCenterSearch
 msgid "Customer User"
-msgstr "Zákaznický uživatel"
+msgstr "Uživatel zákazníka"
 
 #. Template: AgentCustomerTableView
 msgid "Note: Customer is invalid!"
@@ -7422,11 +7423,11 @@ msgstr ""
 
 #. Template: AgentCustomerTableView
 msgid "Video call"
-msgstr ""
+msgstr "Videohovor"
 
 #. Template: AgentCustomerTableView
 msgid "Audio call"
-msgstr ""
+msgstr "Audiohovor"
 
 #. Template: AgentCustomerUserAddressBook
 msgid "Customer User Address Book"
@@ -7484,11 +7485,11 @@ msgstr ""
 
 #. Template: AgentCustomerUserAddressBookOverview
 msgid "Select this customer user"
-msgstr ""
+msgstr "Vybrat tohoto uživatele zákazníka"
 
 #. Template: AgentCustomerUserAddressBookOverview
 msgid "Add selected customer user to"
-msgstr ""
+msgstr "Přidat vybraného uživatele zákazníka do"
 
 #. Template: AgentCustomerUserAddressBookOverviewNavBar
 msgid "Change search options"
@@ -7496,7 +7497,7 @@ msgstr "Změnit možnosti vyhledávání"
 
 #. Template: AgentCustomerUserInformationCenter
 msgid "Customer User Information Center"
-msgstr ""
+msgstr "Informace o uživatelích"
 
 #. Template: AgentDaemonInfo
 msgid ""
@@ -7536,7 +7537,7 @@ msgstr "Nástěnka"
 
 #. Template: AgentDashboardAppointmentCalendar
 msgid "New Appointment"
-msgstr ""
+msgstr "Nová událost"
 
 #. Template: AgentDashboardAppointmentCalendar
 msgid "Tomorrow"
@@ -7544,15 +7545,15 @@ msgstr "Zítra"
 
 #. Template: AgentDashboardAppointmentCalendar
 msgid "Soon"
-msgstr ""
+msgstr "Brzy"
 
 #. Template: AgentDashboardAppointmentCalendar
 msgid "5 days"
-msgstr ""
+msgstr "5 dní"
 
 #. Template: AgentDashboardAppointmentCalendar
 msgid "Start"
-msgstr ""
+msgstr "Začátek"
 
 #. Template: AgentDashboardAppointmentCalendar
 msgid "none"
@@ -7632,7 +7633,7 @@ msgstr ""
 
 #. Template: AgentDashboardCustomerUserList
 msgid "Customer user information"
-msgstr ""
+msgstr "Informace o uživateli"
 
 #. Template: AgentDashboardCustomerUserList
 msgid "Phone ticket"
@@ -7715,7 +7716,7 @@ msgstr ""
 
 #. Template: AgentDashboardTicketGeneric
 msgid "Assigned to customer user"
-msgstr ""
+msgstr "Přiřazen uživateli zákazníka"
 
 #. Template: AgentDashboardTicketGeneric
 msgid "Accessible for customer user"
@@ -7731,7 +7732,7 @@ msgstr "Moje sledované tikety"
 
 #. Template: AgentDashboardTicketGeneric
 msgid "My responsibilities"
-msgstr ""
+msgstr "Moje odpovědné tikety"
 
 #. Template: AgentDashboardTicketGeneric
 msgid "Tickets in My Queues"
@@ -7747,7 +7748,7 @@ msgstr "Servisní čas"
 
 #. Template: AgentDashboardTicketQueueOverview
 msgid "Total"
-msgstr ""
+msgstr "Celkově"
 
 #. Template: AgentDashboardUserOnline
 msgid "out of office"
@@ -7783,7 +7784,7 @@ msgstr ""
 
 #. Template: AgentLinkObject
 msgid "Start search"
-msgstr ""
+msgstr "Začít vyhledávání"
 
 #. Template: AgentLinkObject
 msgid ""
@@ -7807,7 +7808,7 @@ msgstr "Upravit moje preference"
 
 #. Template: AgentPreferences
 msgid "Personal Preferences"
-msgstr ""
+msgstr "Nastavení účtu"
 
 #. Template: AgentPreferences
 msgid "Preferences"
@@ -7847,7 +7848,7 @@ msgstr ""
 
 #. Template: AgentPreferences
 msgid "Save all settings"
-msgstr ""
+msgstr "Uložit všechna nastavení"
 
 #. Template: AgentPreferences
 msgid ""
@@ -7880,7 +7881,7 @@ msgstr ""
 
 #. Template: AgentPreferences
 msgid "Save this setting"
-msgstr ""
+msgstr "Uložit toto nastavení"
 
 #. Template: AgentPreferences
 msgid "Did you know? You can help translating OTRS at %s."
@@ -7907,7 +7908,7 @@ msgstr ""
 
 #. Template: AgentSplitSelection
 msgid "Target"
-msgstr ""
+msgstr "Cíl"
 
 #. Template: AgentSplitSelection
 msgid "Process"
@@ -8060,15 +8061,15 @@ msgstr ""
 
 #. Template: AgentTicketActionCommon
 msgid "Change Owner of %s%s%s"
-msgstr ""
+msgstr "Změnit vlastníka %s%s%s"
 
 #. Template: AgentTicketActionCommon
 msgid "Close %s%s%s"
-msgstr ""
+msgstr "Zavřít %s%s%s"
 
 #. Template: AgentTicketActionCommon
 msgid "Add Note to %s%s%s"
-msgstr ""
+msgstr "Přidat poznámku do %s%s%s"
 
 #. Template: AgentTicketActionCommon
 msgid "Set Pending Time for %s%s%s"
@@ -8092,7 +8093,7 @@ msgstr "Tiket byl uzamčen"
 
 #. Template: AgentTicketActionCommon
 msgid "Undo & close"
-msgstr ""
+msgstr "Krok zpět a zavřít"
 
 #. Template: AgentTicketActionCommon
 msgid "Ticket Settings"
@@ -8100,7 +8101,7 @@ msgstr "Nastavení tiketů"
 
 #. Template: AgentTicketActionCommon
 msgid "Queue invalid."
-msgstr ""
+msgstr "Fronta neplatná."
 
 #. Template: AgentTicketActionCommon
 msgid "Service invalid."
@@ -8124,11 +8125,11 @@ msgstr ""
 
 #. Template: AgentTicketActionCommon
 msgid "New Responsible"
-msgstr ""
+msgstr "Nový odpovědný"
 
 #. Template: AgentTicketActionCommon
 msgid "Please set a new responsible!"
-msgstr ""
+msgstr "Nastavte prosím nového odpovědného!"
 
 #. Template: AgentTicketActionCommon
 msgid "Responsible invalid."
@@ -8148,7 +8149,7 @@ msgstr "Pro všechny stavy čekající na vyřízení*"
 
 #. Template: AgentTicketActionCommon
 msgid "Add Article"
-msgstr ""
+msgstr "Přidat položku"
 
 #. Template: AgentTicketActionCommon
 msgid "Create an Article"
@@ -8346,7 +8347,7 @@ msgstr ""
 
 #. Template: AgentTicketEmailOutbound
 msgid "Outbound Email for %s%s%s"
-msgstr ""
+msgstr "Odchozí e-mail pro %s%s%s"
 
 #. Template: AgentTicketEmailResend
 msgid "Resend Email for %s%s%s"
@@ -8531,7 +8532,7 @@ msgstr ""
 
 #. Template: AgentTicketPhoneCommon
 msgid "Phone Call for %s%s%s"
-msgstr ""
+msgstr "Odchozí hovor pro %s%s%s"
 
 #. Template: AgentTicketPlain
 msgid "View Email Plain Text for %s%s%s"
@@ -8563,7 +8564,7 @@ msgstr "Formát výsledku"
 
 #. Template: AgentTicketSearch
 msgid "Fulltext"
-msgstr ""
+msgstr "Fulltext"
 
 #. Template: AgentTicketSearch
 msgid "Customer ID (complex search)"
@@ -8575,7 +8576,7 @@ msgstr ""
 
 #. Template: AgentTicketSearch
 msgid "Customer ID (exact match)"
-msgstr ""
+msgstr "ID zákazníka (přesná shoda)"
 
 #. Template: AgentTicketSearch
 msgid "Assigned to Customer User Login (complex search)"
@@ -8715,11 +8716,11 @@ msgstr ""
 
 #. Template: AgentTicketZoom
 msgid "Article Overview - %s Article(s)"
-msgstr ""
+msgstr "Přehled položek - %s položka(-ky)"
 
 #. Template: AgentTicketZoom
 msgid "Page %s"
-msgstr ""
+msgstr "Strana %s"
 
 #. Template: AgentTicketZoom
 msgid "Add Filter"
@@ -8743,7 +8744,7 @@ msgstr "Nepřečtené články"
 
 #. Template: AgentTicketZoom
 msgid "Via"
-msgstr ""
+msgstr "Přes"
 
 #. Template: AgentTicketZoom
 msgid "Important"
@@ -8800,7 +8801,7 @@ msgstr ""
 
 #. Template: Chat
 msgid "via %s"
-msgstr ""
+msgstr "přes %s"
 
 #. Template: Chat
 msgid "by %s"
@@ -8902,7 +8903,7 @@ msgstr "Načíst blokovaný obsah."
 
 #. Template: Breadcrumb
 msgid "Home"
-msgstr ""
+msgstr "Domů"
 
 #. Template: Breadcrumb
 msgid "Back to admin overview"
@@ -9288,7 +9289,7 @@ msgstr ""
 
 #. Template: DraftButtons
 msgid "Save as new draft"
-msgstr ""
+msgstr "Uložit jako nový návrh"
 
 #. Template: DraftNotifications
 msgid "You have loaded the draft \"%s\"."
@@ -9322,7 +9323,7 @@ msgstr ""
 
 #. Template: Header
 msgid "Personal preferences"
-msgstr ""
+msgstr "Nastavení účtu"
 
 #. Template: Header
 msgid "Logout"
@@ -9494,7 +9495,7 @@ msgstr ""
 
 #. Template: InstallerConfigureMail
 msgid "Skip this step"
-msgstr ""
+msgstr "Přeskočit tento krok"
 
 #. Template: InstallerDBResult
 msgid "Done"
@@ -9814,7 +9815,7 @@ msgstr "Informovat řešitele"
 
 #. Template: PublicDefault
 msgid "Welcome"
-msgstr ""
+msgstr "Vítejte"
 
 #. Template: PublicDefault
 msgid ""
@@ -10276,7 +10277,7 @@ msgstr ""
 
 #. JS Template: UploadContainer
 msgid "Click to select files or just drop them here."
-msgstr ""
+msgstr "Kliknutím vyberete soubory nebo je zde pouze přetáhnete."
 
 #. JS Template: UploadContainer
 msgid "Click to select a file or just drop it here."
@@ -10832,7 +10833,7 @@ msgstr "Zákazník %s přidán"
 
 #. Perl Module: Kernel/Modules/AdminCustomerUser.pm
 msgid "Customer user updated!"
-msgstr ""
+msgstr "Uživatel zákazníka aktualizován!"
 
 #. Perl Module: Kernel/Modules/AdminCustomerUser.pm
 msgid "Same Customer"
@@ -12296,7 +12297,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentAppointmentEdit.pm
 msgid "No notification"
-msgstr "Žádná notifikace"
+msgstr "Žádné oznámení"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentEdit.pm
 msgid "%s minute(s) before"
@@ -13067,11 +13068,11 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Note Added"
-msgstr ""
+msgstr "Poznámka přidána"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Note Added (Customer)"
-msgstr ""
+msgstr "Poznámka přidána (Zákazník)"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "SMS Added"
@@ -13127,7 +13128,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Outgoing Phone Call"
-msgstr ""
+msgstr "Odchozí telefonní hovor"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Forwarded Message"
@@ -13143,7 +13144,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Incoming Phone Call"
-msgstr ""
+msgstr "Příchozí telefonní hovor"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "System Request."
@@ -14290,7 +14291,7 @@ msgstr "Zamčené Tikety - Všechny"
 
 #. Perl Module: Kernel/Output/HTML/ToolBar/TicketResponsible.pm
 msgid "Responsible Tickets New"
-msgstr ""
+msgstr "Odpovědné tikety - Nové"
 
 #. Perl Module: Kernel/Output/HTML/ToolBar/TicketResponsible.pm
 msgid "Responsible Tickets Reminder Reached"
@@ -14713,7 +14714,7 @@ msgstr "Číslo"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
 msgid "Last Changed"
-msgstr ""
+msgstr "Posledně změněno"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "Solution Average"
@@ -15812,7 +15813,7 @@ msgstr ""
 
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid "Customer user can't be added!"
-msgstr ""
+msgstr "Uživatel zákazníka nemůže být přidán!"
 
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid "Can't send account info!"
@@ -17387,7 +17388,7 @@ msgstr "Spárováno s Tiketem \"%s\"."
 
 #. SysConfig
 msgid "Added note (%s)."
-msgstr ""
+msgstr "Přidaná poznámka (%s)."
 
 #. SysConfig
 msgid "Added phone call from customer."
@@ -18046,7 +18047,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Change password"
-msgstr ""
+msgstr "Změna hesla"
 
 #. SysConfig
 msgid "Change queue!"
@@ -18222,7 +18223,7 @@ msgstr "Uzavřít Tiket"
 
 #. SysConfig
 msgid "Closed tickets (customer user)"
-msgstr ""
+msgstr "Uzavřené tikety (uživatel zákazníka)"
 
 #. SysConfig
 msgid "Closed tickets (customer)"
@@ -18336,7 +18337,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Company Status"
-msgstr ""
+msgstr "Stav zákazníka"
 
 #. SysConfig
 msgid "Company Tickets."
@@ -18454,7 +18455,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Create a new calendar appointment linked to this ticket"
-msgstr ""
+msgstr "Vytvořit novou událost kalendáře propojenou s tiketem"
 
 #. SysConfig
 msgid "Create and manage Service Level Agreements (SLAs)."
@@ -18546,7 +18547,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Create new appointment."
-msgstr ""
+msgstr "Vytvořit novou událost."
 
 #. SysConfig
 msgid "Create new email ticket and send this out (outbound)."
@@ -18624,11 +18625,11 @@ msgstr ""
 
 #. SysConfig
 msgid "Customer User Administration"
-msgstr "Správa uživatelů zákazníka"
+msgstr "Správa uživatelů"
 
 #. SysConfig
 msgid "Customer User Information"
-msgstr ""
+msgstr "Informace o uživateli"
 
 #. SysConfig
 msgid "Customer User Information Center Search."
@@ -18742,6 +18743,10 @@ msgstr "Výchozi hodnoty ACL pro akce tiketů."
 msgid ""
 "Default ProcessManagement entity prefixes for entity IDs that are "
 "automatically generated."
+msgstr ""
+
+#. SysConfig
+msgid "Default agent name"
 msgstr ""
 
 #. SysConfig
@@ -19588,6 +19593,12 @@ msgstr ""
 
 #. SysConfig
 msgid ""
+"Defines the default agent name in the ticket zoom view of the customer "
+"interface."
+msgstr ""
+
+#. SysConfig
+msgid ""
 "Defines the default auto response type of the article for this operation."
 msgstr ""
 
@@ -20075,6 +20086,13 @@ msgstr ""
 msgid ""
 "Defines the default visibility of the article to customer for this "
 "operation."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Defines the displayed style of the From field in notes that are visible for "
+"customers. A default agent name can be defined in "
+"Ticket::Frontend::CustomerTicketZoom###DefaultAgentName setting."
 msgstr ""
 
 #. SysConfig
@@ -21609,7 +21627,7 @@ msgstr "Emailové Adresy"
 
 #. SysConfig
 msgid "Email Outbound"
-msgstr ""
+msgstr "Odchozí email"
 
 #. SysConfig
 msgid "Email Resend"
@@ -22626,7 +22644,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Incoming Phone Call."
-msgstr ""
+msgstr "Příchozí telefonní hovor."
 
 #. SysConfig
 msgid ""
@@ -22954,7 +22972,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Logged-In Users"
-msgstr ""
+msgstr "Přihlášení uživatelé"
 
 #. SysConfig
 msgid "Logout of customer panel."
@@ -22982,6 +23000,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Main menu registration."
+msgstr ""
+
+#. SysConfig
+msgid "Makes the application block external content loading."
 msgstr ""
 
 #. SysConfig
@@ -23382,7 +23404,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Notification Settings"
-msgstr "Nastavení notifikací"
+msgstr "Nastavení upozornění"
 
 #. SysConfig
 msgid "Notified about response time escalation."
@@ -23974,7 +23996,7 @@ msgstr "Odchozí telefonní hovor"
 
 #. SysConfig
 msgid "Phone Call."
-msgstr ""
+msgstr "Telefoní hovor"
 
 #. SysConfig
 msgid "Phone call"
@@ -24139,6 +24161,12 @@ msgid "Removed subscription for user \"%s\"."
 msgstr "Poznámka pro uživatele odebrána \"%s\"."
 
 #. SysConfig
+msgid ""
+"Removes old generic interface debug log entries created before the specified"
+" amount of days."
+msgstr ""
+
+#. SysConfig
 msgid "Removes old system configuration deployments (Sunday mornings)."
 msgstr ""
 
@@ -24165,7 +24193,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Reports"
-msgstr ""
+msgstr "Reporty"
 
 #. SysConfig
 msgid "Reports (OTRS Business Solution™)"
@@ -24532,7 +24560,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Sent \"%s\" notification to \"%s\" via \"%s\"."
-msgstr ""
+msgstr "Odesláno \"%s\" upozornění na \"%s\" přes \"%s\"."
 
 #. SysConfig
 msgid "Sent auto follow-up to \"%s\"."
@@ -26229,6 +26257,10 @@ msgid "Strips empty lines on the ticket preview in the service view."
 msgstr ""
 
 #. SysConfig
+msgid "Support Agent"
+msgstr ""
+
+#. SysConfig
 msgid "Swahili"
 msgstr ""
 
@@ -26414,6 +26446,10 @@ msgstr ""
 msgid ""
 "The text at the beginning of the subject when an email is forwarded, e.g. "
 "FW, Fwd, or WG."
+msgstr ""
+
+#. SysConfig
+msgid "The value of the From field"
 msgstr ""
 
 #. SysConfig
@@ -26848,7 +26884,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Vietnam"
-msgstr ""
+msgstr "Vietnam"
 
 #. SysConfig
 msgid "View all attachments of the current ticket"
@@ -26860,7 +26896,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Watch this ticket"
-msgstr ""
+msgstr "Sledovat tiket"
 
 #. SysConfig
 msgid "Watched Tickets"
@@ -26868,7 +26904,7 @@ msgstr "Zobrazené tikety"
 
 #. SysConfig
 msgid "Watched Tickets."
-msgstr ""
+msgstr "Sledované tikety"
 
 #. SysConfig
 msgid "We are performing scheduled maintenance."
@@ -26886,7 +26922,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Web Services"
-msgstr ""
+msgstr "Webové služby"
 
 #. SysConfig
 msgid "Web View"
@@ -26984,7 +27020,7 @@ msgstr ""
 
 #. SysConfig
 msgid "error"
-msgstr ""
+msgstr "chyba"
 
 #. SysConfig
 msgid "forward"
@@ -26992,7 +27028,7 @@ msgstr ""
 
 #. SysConfig
 msgid "info"
-msgstr ""
+msgstr "informace"
 
 #. SysConfig
 msgid "inline"

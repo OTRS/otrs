@@ -12,16 +12,16 @@
 # 陈德文 <sggggy@gmail.com>, 2018
 # 张梦 <adoeh@sina.com>, 2018
 # Martin Gruner <martin.gruner@otrs.com>, 2018
-# 汇民 王 <whuim@163.com>, 2018
 # Bob Tao <bob.tao@otrs.com>, 2018
 # 汇民 王 <whuim@qq.com>, 2019
+# 汇民 王 <whuim@163.com>, 2019
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-04-05 00:59+0000\n"
+"POT-Creation-Date: 2019-05-14 06:48+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
-"Last-Translator: 汇民 王 <whuim@qq.com>, 2019\n"
+"Last-Translator: 汇民 王 <whuim@163.com>, 2019\n"
 "Language-Team: Chinese (China) (https://www.transifex.com/otrs/teams/23435/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -6655,13 +6655,13 @@ msgstr "邮件地址和显示名称将在发送的邮件中显示。"
 
 #. Template: AdminSystemAddress
 msgid "This system address cannot be set to invalid."
-msgstr ""
+msgstr "该系统地址不能设置为无效。"
 
 #. Template: AdminSystemAddress
 msgid ""
 "This system address cannot be set to invalid, because it is used in one or "
 "more queue(s) or auto response(s)."
-msgstr ""
+msgstr "此系统地址不能设置为无效，因为它用于一个或多个队列或自动响应。"
 
 #. Template: AdminSystemConfiguration
 msgid "online administrator documentation"
@@ -7914,7 +7914,7 @@ msgstr "拆分"
 
 #. Template: AgentStatisticsAdd
 msgid "Statistics Management"
-msgstr ""
+msgstr "统计管理"
 
 #. Template: AgentStatisticsAdd
 msgid "Add Statistics"
@@ -7958,7 +7958,7 @@ msgstr "创建统计"
 
 #. Template: AgentStatisticsEdit
 msgid "Edit Statistics"
-msgstr ""
+msgstr "编辑统计"
 
 #. Template: AgentStatisticsEdit
 msgid "Run now"
@@ -7974,7 +7974,7 @@ msgstr "保存统计"
 
 #. Template: AgentStatisticsImport
 msgid "Import Statistics"
-msgstr ""
+msgstr "导入统计"
 
 #. Template: AgentStatisticsImport
 msgid "Import Statistics Configuration"
@@ -8014,7 +8014,7 @@ msgstr "统计概览"
 
 #. Template: AgentStatisticsView
 msgid "View Statistics"
-msgstr ""
+msgstr "查看统计"
 
 #. Template: AgentStatisticsView
 msgid "Statistics Information"
@@ -10470,7 +10470,7 @@ msgstr "获得ID为%s 的ACL的数据时出现了一个错误"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "%s (copy) %s"
-msgstr ""
+msgstr "%s (副本) %s"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid ""
@@ -10596,7 +10596,7 @@ msgstr "未知通知 %s！"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentNotificationEvent.pm
 msgid "%s (copy)"
-msgstr ""
+msgstr "%s (副本)"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentNotificationEvent.pm
 msgid "There was an error creating the Notification"
@@ -12554,13 +12554,13 @@ msgstr "工单（%s）没有解锁！"
 msgid ""
 "The following tickets were ignored because they are locked by another agent "
 "or you don't have write access to tickets: %s."
-msgstr ""
+msgstr "由于被其它服务人员锁定或者你没有其写入权限，下列工单将被忽略：%s。"
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid ""
 "The following ticket was ignored because it is locked by another agent or "
 "you don't have write access to ticket: %s."
-msgstr ""
+msgstr "由于被其它服务人员锁定或者你没有其写入权限，此工单将被忽略：%s。"
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid "You need to select at least one ticket."
@@ -13809,7 +13809,7 @@ msgstr "标准"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "The following tickets are not updated: %s."
-msgstr ""
+msgstr "下列工单没有更新：%s。"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "h"
@@ -15016,7 +15016,7 @@ msgstr "内核版本"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/KernelVersion.pm
 msgid "Could not determine kernel version."
-msgstr ""
+msgstr "不能确定内核版本。"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Load.pm
 msgid "System Load"
@@ -15287,14 +15287,14 @@ msgstr "找不到遗留的配置备份文件。"
 msgid ""
 "Legacy configuration backup files found in Kernel/Config/Backups folder, but"
 " they might still be required by some packages."
-msgstr ""
+msgstr "在 Kernel/Config/Backups 文件夹中找到的旧版配置备份文件，但某些软件包可能仍然需要它们。"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/LegacyConfigBackups.pm
 msgid ""
 "Legacy configuration backup files are no longer needed for the installed "
 "packages, please remove them from Kernel/Config/Backups folder."
-msgstr ""
+msgstr "已安装的软件包不再需要旧的配置备份文件，请从 Kernel/Config/Backups 文件夹中删除它们。"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/PackageDeployment.pm
@@ -17720,11 +17720,11 @@ msgstr "允许在自动任务界面搜索工单时扩展搜索条件，通过这
 
 #. SysConfig
 msgid "Allows generic agent to execute custom command line scripts."
-msgstr ""
+msgstr "允许自动任务执行定制的命令行脚本。"
 
 #. SysConfig
 msgid "Allows generic agent to execute custom modules."
-msgstr ""
+msgstr "允许自动任务执行定制的模块。"
 
 #. SysConfig
 msgid ""
@@ -17956,6 +17956,8 @@ msgid ""
 "Basic fulltext index settings. Execute \"bin/otrs.Console.pl "
 "Maint::Ticket::FulltextIndex --rebuild\" in order to generate a new index."
 msgstr ""
+"基本的全文索引设置。执行 \"bin/otrs.Console.pl Maint::Ticket::FulltextIndex --rebuild\" "
+"以生成一个新索引。"
 
 #. SysConfig
 msgid ""
@@ -18741,6 +18743,10 @@ msgid ""
 "Default ProcessManagement entity prefixes for entity IDs that are "
 "automatically generated."
 msgstr "自动生成的流程实体ID的默认前缀。"
+
+#. SysConfig
+msgid "Default agent name"
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -19622,6 +19628,12 @@ msgstr "定义用于富文本编辑器的默认CSS。"
 
 #. SysConfig
 msgid ""
+"Defines the default agent name in the ticket zoom view of the customer "
+"interface."
+msgstr ""
+
+#. SysConfig
+msgid ""
 "Defines the default auto response type of the article for this operation."
 msgstr "定义这个信件操作的默认自动响应类型。"
 
@@ -20119,6 +20131,13 @@ msgid ""
 "Defines the default visibility of the article to customer for this "
 "operation."
 msgstr "定义这个信件操作对客户的默认可见性。"
+
+#. SysConfig
+msgid ""
+"Defines the displayed style of the From field in notes that are visible for "
+"customers. A default agent name can be defined in "
+"Ticket::Frontend::CustomerTicketZoom###DefaultAgentName setting."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -22299,6 +22318,8 @@ msgid ""
 "initial index use \"bin/otrs.Console.pl Maint::Ticket::FulltextIndex "
 "--rebuild\"."
 msgstr ""
+"帮助扩展信件全文搜索（发件人、收件人、抄送、主题和正文搜索）。它将在信件创建后条带化所有信件并建立索引，提升全文搜索50%的效率。可使用命令 "
+"\"bin/otrs.Console.pl Maint::Ticket::FulltextIndex --rebuild\" 来创建初始索引。"
 
 #. SysConfig
 msgid "High Contrast"
@@ -23100,6 +23121,10 @@ msgstr "注册主菜单条目。"
 #. SysConfig
 msgid "Main menu registration."
 msgstr "主菜单注册。"
+
+#. SysConfig
+msgid "Makes the application block external content loading."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -24350,6 +24375,12 @@ msgstr "提醒的工单"
 #. SysConfig
 msgid "Removed subscription for user \"%s\"."
 msgstr "用户“%s”已移除的关注。"
+
+#. SysConfig
+msgid ""
+"Removes old generic interface debug log entries created before the specified"
+" amount of days."
+msgstr ""
 
 #. SysConfig
 msgid "Removes old system configuration deployments (Sunday mornings)."
@@ -26069,7 +26100,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Shows the article head information in the agent zoom view."
-msgstr ""
+msgstr "在服务人员工单详情视图显示信件的头部信息。"
 
 #. SysConfig
 msgid ""
@@ -26535,6 +26566,10 @@ msgid "Strips empty lines on the ticket preview in the service view."
 msgstr "在工单服务视图工单预览时去掉空白行。"
 
 #. SysConfig
+msgid "Support Agent"
+msgstr "维护人员"
+
+#. SysConfig
 msgid "Swahili"
 msgstr "斯瓦希里语"
 
@@ -26724,6 +26759,10 @@ msgid ""
 "The text at the beginning of the subject when an email is forwarded, e.g. "
 "FW, Fwd, or WG."
 msgstr "转发邮件中加在主题前的文字，如FW、Fwd或WG。"
+
+#. SysConfig
+msgid "The value of the From field"
+msgstr ""
 
 #. SysConfig
 msgid "Theme"

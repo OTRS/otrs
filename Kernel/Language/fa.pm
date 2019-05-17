@@ -26,7 +26,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.698801369863014;
+    $Self->{Completeness}        = 0.697726107026842;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -6296,6 +6296,7 @@ Thanks for your help!
         'Default ACL values for ticket actions.' => 'مقادیر ACL پیش‌فرض برای عملیات‌های درخواست',
         'Default ProcessManagement entity prefixes for entity IDs that are automatically generated.' =>
             'به طور پیش فرض پیشوند نهاد مدیریت پردازش برای شناسه های نهاد است که به طور خودکار تولید می شود.',
+        'Default agent name' => '',
         'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimePointFormat=year;TicketCreateTimePointStart=Last;TicketCreateTimePoint=2;".' =>
             'داده های پیش فرض برای استفاده بر روی ویژگی برای صفحه نمایش جستجو بلیط. به عنوان مثال: \ "TicketCreateTimePointFormat = سال؛ TicketCreateTimePointStart = آخرین. TicketCreateTimePoint = 2؛ ".',
         'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimeStartYear=2010;TicketCreateTimeStartMonth=10;TicketCreateTimeStartDay=4;TicketCreateTimeStopYear=2010;TicketCreateTimeStopMonth=11;TicketCreateTimeStopDay=3;".' =>
@@ -6541,6 +6542,8 @@ Thanks for your help!
         'Defines the date input format used in forms (option or input fields).' =>
             'تعریف فرمت تاریخ ورودی مورد استفاده در اشکال (گزینه و یا ورودی زمینه).',
         'Defines the default CSS used in rich text editors.' => 'تعریف می کند که CSS به طور پیش فرض مورد استفاده در ویرایشگرهای متن غنی است.',
+        'Defines the default agent name in the ticket zoom view of the customer interface.' =>
+            '',
         'Defines the default auto response type of the article for this operation.' =>
             'تعریف می کند که به طور پیش فرض نوع پاسخ خودکار مقاله برای این عملیات.',
         'Defines the default body of a note in the ticket free text screen of the agent interface.' =>
@@ -6698,6 +6701,8 @@ Thanks for your help!
         'Defines the default viewable sender types of a ticket (default: customer).' =>
             'تعریف می کند که به طور پیش فرض انواع فرستنده قابل مشاهده یک بلیط (به طور پیش فرض: مشتری).',
         'Defines the default visibility of the article to customer for this operation.' =>
+            '',
+        'Defines the displayed style of the From field in notes that are visible for customers. A default agent name can be defined in Ticket::Frontend::CustomerTicketZoom###DefaultAgentName setting.' =>
             '',
         'Defines the dynamic fields that are used for displaying on calendar events.' =>
             'تعریف می کند که زمینه های پویا هستند که برای نمایش بر روی رویدادهای تقویم استفاده می شود.',
@@ -7583,10 +7588,12 @@ Thanks for your help!
         'Logout of customer panel.' => 'خروج از پنل مشتری.',
         'Look into a ticket!' => 'مشاهده درخواست',
         'Loop protection: no auto-response sent to "%s".' => '',
+        'Macedonian' => '',
         'Mail Accounts' => 'حساب های پست الکترونیکی',
         'MailQueue configuration settings.' => '',
         'Main menu item registration.' => '',
         'Main menu registration.' => 'ثبت نام منوی اصلی.',
+        'Makes the application block external content loading.' => '',
         'Makes the application check the MX record of email addresses before sending an email or submitting a telephone or email ticket.' =>
             'باعث می شود نرم افزار چک رکورد MX از آدرس های ایمیل قبل از ارسال ایمیل و یا ارسال یک تلفن و یا ایمیل بلیط.',
         'Makes the application check the syntax of email addresses.' => 'باعث می شود نرم افزار چک نحو آدرس ایمیل.',
@@ -7881,6 +7888,8 @@ Thanks for your help!
             '',
         'Reminder Tickets' => 'درخواست‌های یادآوری شده',
         'Removed subscription for user "%s".' => 'عضویت حذف شده برای کاربر"%s".',
+        'Removes old generic interface debug log entries created before the specified amount of days.' =>
+            '',
         'Removes old system configuration deployments (Sunday mornings).' =>
             '',
         'Removes old ticket number counters (each 10 minutes).' => '',
@@ -7939,6 +7948,7 @@ Thanks for your help!
             'حفظ تمام خدمات در لیست حتی اگر آنها کودکان از عناصر نامعتبر است.',
         'Right' => 'راست',
         'Roles ↔ Groups' => '',
+        'Romanian' => '',
         'Run file based generic agent jobs (Note: module name needs to be specified in -configuration-module param e.g. "Kernel::System::GenericAgent").' =>
             '',
         'Running Process Tickets' => 'در حال اجرا فرآیند درخواست',
@@ -8507,6 +8517,7 @@ Thanks for your help!
         'Strips empty lines on the ticket preview in the queue view.' => 'نوار خطوط خالی بر روی پیش نمایش درخواست در نظر صف.',
         'Strips empty lines on the ticket preview in the service view.' =>
             'نوار خطوط خالی بر روی پیش نمایش درخواست در نظر خدمات.',
+        'Support Agent' => '',
         'Swahili' => 'سواحیلی',
         'Swedish' => 'سوئد',
         'System Address Display Name' => 'سیستم آدرس نام ها',
@@ -8567,6 +8578,7 @@ Thanks for your help!
             'متن در آغاز از این موضوع در یک پاسخ ایمیل، به عنوان مثال RE، AW، و یا به عنوان.',
         'The text at the beginning of the subject when an email is forwarded, e.g. FW, Fwd, or WG.' =>
             'متن در آغاز موضوع هنگامی که یک ایمیل فرستاده است، به عنوان مثال FW، FWD، یا WG.',
+        'The value of the From field' => '',
         'Theme' => 'طرح زمینه',
         'This event module stores attributes from CustomerUser as DynamicFields tickets. Please see DynamicFieldFromCustomerUser::Mapping setting for how to configure the mapping.' =>
             '',

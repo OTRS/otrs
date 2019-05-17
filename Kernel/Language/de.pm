@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 1;
+    $Self->{Completeness}        = 0.999658061207044;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -2162,7 +2162,7 @@ sub Data {
         'Your email address is' => 'Ihre E-Mail-Adresse ist',
 
         # Template: AdminTemplateAttachment
-        'Manage Template-Attachment Relations' => 'Zuordnungen von Vorlagen zu Anhängen verwalten',
+        'Manage Template-Attachment Relations' => 'Verwaltung der Zuordnung von Anhängen zu Vorlagen',
         'Toggle active for all' => 'Aktiv umschalten für alle',
         'Link %s to selected %s' => '%s zu %s (markiert) verknüpfen',
 
@@ -6215,7 +6215,7 @@ Ihr Helpdesk-Team
         'Create New process ticket.' => 'Neues Prozess-Ticket erstellen.',
         'Create Ticket' => 'Ticket erstellen',
         'Create a new calendar appointment linked to this ticket' => 'Erstellt einen neuen Termin in einem Kalender, welcher direkt mit diesem Ticket verknüpft ist',
-        'Create and manage Service Level Agreements (SLAs).' => 'Service-Level-Abkommen (SLAs) erstellen und verwalten.',
+        'Create and manage Service Level Agreements (SLAs).' => 'Service-Level-Vereinbarungen (SLAs) erstellen und verwalten.',
         'Create and manage agents.' => 'Agenten erstellen und verwalten.',
         'Create and manage appointment notifications.' => 'Terminbenachrichtigungen erstellen und verwalten.',
         'Create and manage attachments.' => 'Anhänge erstellen und verwalten.',
@@ -6290,6 +6290,7 @@ Ihr Helpdesk-Team
         'Default ACL values for ticket actions.' => 'Standard ACL-Werte für Ticketaktionen.',
         'Default ProcessManagement entity prefixes for entity IDs that are automatically generated.' =>
             'Standard Entitäts-Präfixe des Prozessmanagements für Entitäts-IDs, die automatisch generiert werden.',
+        'Default agent name' => 'Standard-Agentenname',
         'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimePointFormat=year;TicketCreateTimePointStart=Last;TicketCreateTimePoint=2;".' =>
             'Standarddaten, die als Attribute für die für die Ticket-Suchmaske verwendet werden. Beispiel: "TicketCreateTimePointFormat = Jahr; TicketCreateTimePointStart = Letzter; TicketCreateTimePoint = 2;".',
         'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimeStartYear=2010;TicketCreateTimeStartMonth=10;TicketCreateTimeStartDay=4;TicketCreateTimeStopYear=2010;TicketCreateTimeStopMonth=11;TicketCreateTimeStopDay=3;".' =>
@@ -6535,6 +6536,8 @@ Ihr Helpdesk-Team
         'Defines the date input format used in forms (option or input fields).' =>
             'Definiert das benutzte Datumseingabeformat in Formularen (Option für Eingabefelder).',
         'Defines the default CSS used in rich text editors.' => 'Definiert die genutzte Standard-CSS in RichText-Editoren.',
+        'Defines the default agent name in the ticket zoom view of the customer interface.' =>
+            'Definiert den Standard-Agentennamen in der Ticket-Detailansicht des Kunden-Interface.',
         'Defines the default auto response type of the article for this operation.' =>
             'Definiert den Standard-Auto-Antwort-Typ des Artikels für diese Operation.',
         'Defines the default body of a note in the ticket free text screen of the agent interface.' =>
@@ -6693,6 +6696,8 @@ Ihr Helpdesk-Team
             'Definiert die standardmäßigen sichtbaren Sendertypen eines Tickets (Standard: Kunde).',
         'Defines the default visibility of the article to customer for this operation.' =>
             'Legt die Standardsichtbarkeit des Artikels für Kunden für diese Operation fest.',
+        'Defines the displayed style of the From field in notes that are visible for customers. A default agent name can be defined in Ticket::Frontend::CustomerTicketZoom###DefaultAgentName setting.' =>
+            'Definiert den angezeigten Stil des Feldes "Von" in Notizen, die für Kunden sichtbar sind. Ein Standard-Agentenname kann in der Einstellung Ticket::Frontend::CustomerTicketZoom####DefaultAgentName definiert werden.',
         'Defines the dynamic fields that are used for displaying on calendar events.' =>
             'Definiert die dynamischen Felder, die benutzt werden um Kalender-Events anzuzeigen.',
         'Defines the event object types that will be handled via AdminAppointmentNotificationEvent.' =>
@@ -7577,10 +7582,12 @@ Ihr Helpdesk-Team
         'Logout of customer panel.' => 'Abmelden vom Kunden-Bereich',
         'Look into a ticket!' => 'Ticket genauer ansehen!',
         'Loop protection: no auto-response sent to "%s".' => 'Loop-Protection! Keine Auto-Antwort versandt an "%s".',
+        'Macedonian' => '',
         'Mail Accounts' => 'E-Mailkonten',
         'MailQueue configuration settings.' => 'MailQueue Konfigurationseinstellungen.',
         'Main menu item registration.' => 'Hauptmenü-Objektregistrierung.',
         'Main menu registration.' => 'Hauptmenü-Registrierung.',
+        'Makes the application block external content loading.' => 'Lässt die Anwendung das Laden externer Inhalte blockieren.',
         'Makes the application check the MX record of email addresses before sending an email or submitting a telephone or email ticket.' =>
             'Überprüft vor dem Senden einer E-Mail oder vor dem übermitteln eines Telefon-Tickets, den MX-Eintrag der E-Mailadresse.',
         'Makes the application check the syntax of email addresses.' => 'Überprüft die Syntax der E-Mailadressen.',
@@ -7875,6 +7882,8 @@ Ihr Helpdesk-Team
             'Registriert ein Protokoll-Modul, um Informationen zu Verbindungen zu protokollieren.',
         'Reminder Tickets' => 'Erinnerungs-Tickets',
         'Removed subscription for user "%s".' => 'Abo für Benutzer "%s" ausgetragen.',
+        'Removes old generic interface debug log entries created before the specified amount of days.' =>
+            'Entfernt alte Generic Interface Debug Log-Einträge, die vor der angegebenen Anzahl von Tagen erstellt wurden.',
         'Removes old system configuration deployments (Sunday mornings).' =>
             'Entfernt veraltete Inbetriebnahmen der Systemkonfiguration (Sonntagmorgens).',
         'Removes old ticket number counters (each 10 minutes).' => 'Entfernt veraltete Ticketnummern-Zähler (alle 10 Minuten).',
@@ -7933,6 +7942,7 @@ Ihr Helpdesk-Team
             'Behält alle Services in Auflistungen bei, auch, wenn sie Kind-Services von ungültigen Elementen sind.',
         'Right' => 'Rechts',
         'Roles ↔ Groups' => 'Rollen ↔ Gruppen',
+        'Romanian' => '',
         'Run file based generic agent jobs (Note: module name needs to be specified in -configuration-module param e.g. "Kernel::System::GenericAgent").' =>
             'Dateibasierte Generic-Agent-Jobs ausführen (Hinweis: Der Modulname muss im Parameter -configuration-module angegeben sein, z. B. "Kernel::System::GenericAgent").',
         'Running Process Tickets' => 'Aktive Prozess-Tickets',
@@ -8501,6 +8511,7 @@ Ihr Helpdesk-Team
         'Strips empty lines on the ticket preview in the queue view.' => 'Entfernt leere Zeilen in der Ticket-Vorschau in der Queue-Ansicht.',
         'Strips empty lines on the ticket preview in the service view.' =>
             'Entfernt leere Zeilen in der Ticket-Vorschau in der Service-Ansicht.',
+        'Support Agent' => 'Support-Agent',
         'Swahili' => 'Swahili',
         'Swedish' => 'Schwedisch',
         'System Address Display Name' => 'System-Adresse Anzeigename',
@@ -8561,6 +8572,7 @@ Ihr Helpdesk-Team
             'Der Text am Anfang des Betreffs einer E-Mail Antwort, z.B. RE, AW oder AS.',
         'The text at the beginning of the subject when an email is forwarded, e.g. FW, Fwd, or WG.' =>
             'Der Text am Anfang des Betreffs, wenn eine E-Mail weitergeleitet wird, z.B. FW, Fwd oder WG.',
+        'The value of the From field' => 'Der Wert des Von-Feldes',
         'Theme' => 'Schema',
         'This event module stores attributes from CustomerUser as DynamicFields tickets. Please see DynamicFieldFromCustomerUser::Mapping setting for how to configure the mapping.' =>
             'Dieses Eventmodul speichert Attribute des Kundenbenutzers als Werte von dynamischen Feldern. Bitte schauen sie sich die DynamicFieldFromCustomerUser::Mapping-Einstellung für die Konfiguration des Mappings an.',

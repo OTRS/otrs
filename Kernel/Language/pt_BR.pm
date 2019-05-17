@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.944520547945205;
+    $Self->{Completeness}        = 0.943238160369294;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -6296,6 +6296,7 @@ Obrigado pela ajuda!
         'Default ACL values for ticket actions.' => 'Valores padrão de ACL para as ações de chamado.',
         'Default ProcessManagement entity prefixes for entity IDs that are automatically generated.' =>
             'Prefixos de entidade de Gerenciamento de Processos padrão para IDs de entidade que são automaticamente gerados.',
+        'Default agent name' => '',
         'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimePointFormat=year;TicketCreateTimePointStart=Last;TicketCreateTimePoint=2;".' =>
             'Dados padrão para serem utilizados em atributo da tela de pesquisa de ticket. Por Exemplo: "TicketCreateTimePointFormat=year;TicketCreateTimePointStart=Last;TicketCreateTimePoint=2;".',
         'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimeStartYear=2010;TicketCreateTimeStartMonth=10;TicketCreateTimeStartDay=4;TicketCreateTimeStopYear=2010;TicketCreateTimeStopMonth=11;TicketCreateTimeStopDay=3;".' =>
@@ -6541,6 +6542,8 @@ Obrigado pela ajuda!
         'Defines the date input format used in forms (option or input fields).' =>
             'Define o formato de entrada de data utilizado em formulários (opção ou campos de entrada).',
         'Defines the default CSS used in rich text editors.' => 'Define o CSS padrão utilizados nos editores rich text.',
+        'Defines the default agent name in the ticket zoom view of the customer interface.' =>
+            '',
         'Defines the default auto response type of the article for this operation.' =>
             'Define o tipo padrão de autorresposta do artigo para esta operação.',
         'Defines the default body of a note in the ticket free text screen of the agent interface.' =>
@@ -6699,6 +6702,8 @@ Obrigado pela ajuda!
             'Define o tipo de remetente visível padrão de um ticker (padrão: cliente).',
         'Defines the default visibility of the article to customer for this operation.' =>
             'Define a visibilidade padrão do artigo para cliente para esta operação.',
+        'Defines the displayed style of the From field in notes that are visible for customers. A default agent name can be defined in Ticket::Frontend::CustomerTicketZoom###DefaultAgentName setting.' =>
+            '',
         'Defines the dynamic fields that are used for displaying on calendar events.' =>
             'Define os campos dinâmicos que são utilizados para mostrar em eventos de calendário.',
         'Defines the event object types that will be handled via AdminAppointmentNotificationEvent.' =>
@@ -7583,10 +7588,12 @@ Obrigado pela ajuda!
         'Logout of customer panel.' => 'Logout do painel de clientes.',
         'Look into a ticket!' => 'Examinar em detalhes o conteúdo de um chamado!',
         'Loop protection: no auto-response sent to "%s".' => 'Proteção anti-loop: nenhuma resposta automática enviada para "%s".',
+        'Macedonian' => '',
         'Mail Accounts' => 'Contas de E-mail',
         'MailQueue configuration settings.' => 'Definições de configuração de Fila de E-mail.',
         'Main menu item registration.' => 'Registro de item de menu principal.',
         'Main menu registration.' => 'Registro do menu principal.',
+        'Makes the application block external content loading.' => '',
         'Makes the application check the MX record of email addresses before sending an email or submitting a telephone or email ticket.' =>
             'Faz a aplicação verifica o registro MX de um endereço de e-mail antes de enviar um e-mail ou submeter um ticket de e-mail ou telefone.',
         'Makes the application check the syntax of email addresses.' => 'Faz a aplicação verificar a sintaxe de endereços de e-mail.',
@@ -7881,6 +7888,8 @@ Obrigado pela ajuda!
             'Registra um módulo de log que pode ser utilizado para registrar informações relacionadas com comunicação.',
         'Reminder Tickets' => 'Chamados com Lembrete',
         'Removed subscription for user "%s".' => 'Removida assinatura para o usuário "%s".',
+        'Removes old generic interface debug log entries created before the specified amount of days.' =>
+            '',
         'Removes old system configuration deployments (Sunday mornings).' =>
             'Remove implantações de configuração de sistema antigas (manhãs de Domingo).',
         'Removes old ticket number counters (each 10 minutes).' => 'Remove contadores de número de ticket antigos (a cada 10 minutos).',
@@ -7939,6 +7948,7 @@ Obrigado pela ajuda!
             'Mantém todos serviços nas listagens mesmo quando eles forem filhos de elementos inválidos.',
         'Right' => 'Direita',
         'Roles ↔ Groups' => 'Papéis ↔ Grupos',
+        'Romanian' => '',
         'Run file based generic agent jobs (Note: module name needs to be specified in -configuration-module param e.g. "Kernel::System::GenericAgent").' =>
             'Executa jobs de agente genérico baseados em arquivo (Observação: o nome do módulo deve estar especificado no parâmetro -configuration-module, como, por exemplo: "Kernel::System::GenericAgent").',
         'Running Process Tickets' => 'Chamados de Processo Executando',
@@ -8507,6 +8517,7 @@ Obrigado pela ajuda!
         'Strips empty lines on the ticket preview in the queue view.' => 'Elimina linhas vazias na visão prévia de ticket da visão de fila.',
         'Strips empty lines on the ticket preview in the service view.' =>
             'Elimina linhas vazias na visão prévia de ticket da visão de serviço.',
+        'Support Agent' => 'Agente de Suporte',
         'Swahili' => 'Swahili',
         'Swedish' => 'Sueco',
         'System Address Display Name' => 'Nome de Exibição do Endereço de Sistema',
@@ -8567,6 +8578,7 @@ Obrigado pela ajuda!
             'O texto no começo do assunto de uma resposta de e-mail, por exemplo, RE, AW, ou AS.',
         'The text at the beginning of the subject when an email is forwarded, e.g. FW, Fwd, or WG.' =>
             'O texto no começo de um assunto quando um e-mail é encaminhado. Exemplo: FW, Fwd, ou Enc.',
+        'The value of the From field' => '',
         'Theme' => 'Tema',
         'This event module stores attributes from CustomerUser as DynamicFields tickets. Please see DynamicFieldFromCustomerUser::Mapping setting for how to configure the mapping.' =>
             'Este módulo de evento armazena atributos de Usuário Cliente como Campos Dinâmicos de Tickets. Favor ver na definição DynamicFieldFromCustomerUser::Mapping como configurar este mapeamento.',

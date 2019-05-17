@@ -36,17 +36,17 @@
 # zottto <mail@marcnilius.de>, 2018
 # ru_otrs <robert.ullrich@otrs.com>, 2018
 # Marco Buchholz <mabu@debian-admin.de>, 2018
-# Marc A. Bonsels, 2018
 # nilsleideck <nils.leideck@leidex.net>, 2018
 # Christoph Keßler, 2019
 # Jens Bechtel <jens.bechtel@otrs.com>, 2019
 # Martin Gruner <martin.gruner@otrs.com>, 2019
+# Marc A. Bonsels, 2019
 # Michael Reuther <michael.reuther@otrs.com>, 2019
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-04-05 00:59+0000\n"
+"POT-Creation-Date: 2019-05-14 06:48+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: Michael Reuther <michael.reuther@otrs.com>, 2019\n"
 "Language-Team: German (https://www.transifex.com/otrs/teams/23435/de/)\n"
@@ -7725,7 +7725,7 @@ msgstr "Ihre E-Mail-Adresse ist"
 
 #. Template: AdminTemplateAttachment
 msgid "Manage Template-Attachment Relations"
-msgstr "Zuordnungen von Vorlagen zu Anhängen verwalten"
+msgstr "Verwaltung der Zuordnung von Anhängen zu Vorlagen"
 
 #. Template: AdminTemplateAttachment
 msgid "Toggle active for all"
@@ -20033,7 +20033,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Create and manage Service Level Agreements (SLAs)."
-msgstr "Service-Level-Abkommen (SLAs) erstellen und verwalten."
+msgstr "Service-Level-Vereinbarungen (SLAs) erstellen und verwalten."
 
 #. SysConfig
 msgid "Create and manage agents."
@@ -20333,6 +20333,10 @@ msgid ""
 msgstr ""
 "Standard Entitäts-Präfixe des Prozessmanagements für Entitäts-IDs, die "
 "automatisch generiert werden."
+
+#. SysConfig
+msgid "Default agent name"
+msgstr "Standard-Agentenname"
 
 #. SysConfig
 msgid ""
@@ -21493,6 +21497,14 @@ msgstr "Definiert die genutzte Standard-CSS in RichText-Editoren."
 
 #. SysConfig
 msgid ""
+"Defines the default agent name in the ticket zoom view of the customer "
+"interface."
+msgstr ""
+"Definiert den Standard-Agentennamen in der Ticket-Detailansicht des Kunden-"
+"Interface."
+
+#. SysConfig
+msgid ""
 "Defines the default auto response type of the article for this operation."
 msgstr ""
 "Definiert den Standard-Auto-Antwort-Typ des Artikels für diese Operation."
@@ -22154,6 +22166,16 @@ msgid ""
 msgstr ""
 "Legt die Standardsichtbarkeit des Artikels für Kunden für diese Operation "
 "fest."
+
+#. SysConfig
+msgid ""
+"Defines the displayed style of the From field in notes that are visible for "
+"customers. A default agent name can be defined in "
+"Ticket::Frontend::CustomerTicketZoom###DefaultAgentName setting."
+msgstr ""
+"Definiert den angezeigten Stil des Feldes \"Von\" in Notizen, die für Kunden"
+" sichtbar sind. Ein Standard-Agentenname kann in der Einstellung "
+"Ticket::Frontend::CustomerTicketZoom####DefaultAgentName definiert werden."
 
 #. SysConfig
 msgid ""
@@ -25915,6 +25937,10 @@ msgid "Main menu registration."
 msgstr "Hauptmenü-Registrierung."
 
 #. SysConfig
+msgid "Makes the application block external content loading."
+msgstr "Lässt die Anwendung das Laden externer Inhalte blockieren."
+
+#. SysConfig
 msgid ""
 "Makes the application check the MX record of email addresses before sending "
 "an email or submitting a telephone or email ticket."
@@ -27432,6 +27458,14 @@ msgstr "Erinnerungs-Tickets"
 #. SysConfig
 msgid "Removed subscription for user \"%s\"."
 msgstr "Abo für Benutzer \"%s\" ausgetragen."
+
+#. SysConfig
+msgid ""
+"Removes old generic interface debug log entries created before the specified"
+" amount of days."
+msgstr ""
+"Entfernt alte Generic Interface Debug Log-Einträge, die vor der angegebenen "
+"Anzahl von Tagen erstellt wurden."
 
 #. SysConfig
 msgid "Removes old system configuration deployments (Sunday mornings)."
@@ -30225,6 +30259,10 @@ msgid "Strips empty lines on the ticket preview in the service view."
 msgstr "Entfernt leere Zeilen in der Ticket-Vorschau in der Service-Ansicht."
 
 #. SysConfig
+msgid "Support Agent"
+msgstr "Support-Agent"
+
+#. SysConfig
 msgid "Swahili"
 msgstr "Swahili"
 
@@ -30459,6 +30497,10 @@ msgid ""
 msgstr ""
 "Der Text am Anfang des Betreffs, wenn eine E-Mail weitergeleitet wird, z.B. "
 "FW, Fwd oder WG."
+
+#. SysConfig
+msgid "The value of the From field"
+msgstr "Der Wert des Von-Feldes"
 
 #. SysConfig
 msgid "Theme"

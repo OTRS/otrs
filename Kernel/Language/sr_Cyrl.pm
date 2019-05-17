@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 1;
+    $Self->{Completeness}        = 0.999658061207044;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -6291,6 +6291,7 @@ Thanks for your help!
         'Default ACL values for ticket actions.' => 'Подразумеване ACL вредности за акције тикета.',
         'Default ProcessManagement entity prefixes for entity IDs that are automatically generated.' =>
             'Подразумевани префикси објекта за управљање процесом за ИЂеве објекта који су аутоматски генерисани.',
+        'Default agent name' => 'Подразумевано име оператера',
         'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimePointFormat=year;TicketCreateTimePointStart=Last;TicketCreateTimePoint=2;".' =>
             'Подразумевани подаци за коришћење на атрибутима за приказ претраге тикета. Пример: "TicketCreateTimePointFormat=year;TicketCreateTimePointStart=Last;TicketCreateTimePoint=2;".',
         'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimeStartYear=2010;TicketCreateTimeStartMonth=10;TicketCreateTimeStartDay=4;TicketCreateTimeStopYear=2010;TicketCreateTimeStopMonth=11;TicketCreateTimeStopDay=3;".' =>
@@ -6536,6 +6537,8 @@ Thanks for your help!
         'Defines the date input format used in forms (option or input fields).' =>
             'Дефинише форноса датума у формуларе (опционо или поља за унос).',
         'Defines the default CSS used in rich text editors.' => 'Дефинише подразумевани CSS употребљен у RTF уређивању.',
+        'Defines the default agent name in the ticket zoom view of the customer interface.' =>
+            'Одређује подразумевано име оператера у детаљном приказу тикета у интерфејсу клијента.',
         'Defines the default auto response type of the article for this operation.' =>
             'Дефинише подразумевани тип аутоматског одговора чланка за ову операцију.',
         'Defines the default body of a note in the ticket free text screen of the agent interface.' =>
@@ -6694,6 +6697,8 @@ Thanks for your help!
             'Одређује подразумевани тип видљивог пошиљаоца тикета (подразмевано: клијент).',
         'Defines the default visibility of the article to customer for this operation.' =>
             'Дефинише видљивост чланка клијенту за ову операцију.',
+        'Defines the displayed style of the From field in notes that are visible for customers. A default agent name can be defined in Ticket::Frontend::CustomerTicketZoom###DefaultAgentName setting.' =>
+            'Дефинише подразумеван формат From поља напомена који су видљиви клијентима. Подразумевано име оператера може бити дефинисано у путем Ticket::Frontend::CustomerTicketZoom###DefaultAgentName.',
         'Defines the dynamic fields that are used for displaying on calendar events.' =>
             'Дефинише динамичка поља која се користе за приказивање на календару догађаја.',
         'Defines the event object types that will be handled via AdminAppointmentNotificationEvent.' =>
@@ -7578,10 +7583,12 @@ Thanks for your help!
         'Logout of customer panel.' => 'Одјава са клијентског панела.',
         'Look into a ticket!' => 'Погледај садржај тикета!',
         'Loop protection: no auto-response sent to "%s".' => 'Заштита од петље: без аутоматског одговора на "%s".',
+        'Macedonian' => '',
         'Mail Accounts' => 'Имејл налози',
         'MailQueue configuration settings.' => 'Подешавање заказаних имејлова за слање.',
         'Main menu item registration.' => 'Регистрација ставке главног менија.',
         'Main menu registration.' => 'Регистрација главног менија.',
+        'Makes the application block external content loading.' => 'Приморава апликацију да блокира учитавање екстерног садржаја.',
         'Makes the application check the MX record of email addresses before sending an email or submitting a telephone or email ticket.' =>
             'Проверава „MX” запис имејл адресе пре слања поруке или телефонских или имејл тикета.',
         'Makes the application check the syntax of email addresses.' => 'Приморава апликацију да проверава синтаксу имејл адереса.',
@@ -7876,6 +7883,8 @@ Thanks for your help!
             'Региструје лог модул за чување информација у вези комуникација.',
         'Reminder Tickets' => 'Тикети подсетника',
         'Removed subscription for user "%s".' => 'Претплата за корисника "%s" je искључена.',
+        'Removes old generic interface debug log entries created before the specified amount of days.' =>
+            'Уклања старе логове отклањања грешака генеричког интерфејса који су креирани пре дефинисаног броја дана.',
         'Removes old system configuration deployments (Sunday mornings).' =>
             'Уклања старе распореде системске конфигурације (недељом ујутру).',
         'Removes old ticket number counters (each 10 minutes).' => 'Уклања старе бројаче тикета (сваких 10 минута).',
@@ -7934,6 +7943,7 @@ Thanks for your help!
             'Задржи све сервисе у листи чак иако су деца неважећих елемената.',
         'Right' => 'Десно',
         'Roles ↔ Groups' => 'Улоге ↔ групе',
+        'Romanian' => '',
         'Run file based generic agent jobs (Note: module name needs to be specified in -configuration-module param e.g. "Kernel::System::GenericAgent").' =>
             'Покреће послове генеричког оператера базиране на датотекама (Напомена: назив модула мора бити дефинисан у конфигурацији параметара модула, нпр. "Kernel::System::GenericAgent").',
         'Running Process Tickets' => 'Активни процес тикети',
@@ -8502,6 +8512,7 @@ Thanks for your help!
         'Strips empty lines on the ticket preview in the queue view.' => 'Уклања празне линије у приказу тикета на прегледу реда.',
         'Strips empty lines on the ticket preview in the service view.' =>
             'Уклања празне линије у приказу тикета на прегледу услуга.',
+        'Support Agent' => 'Оператер подршке',
         'Swahili' => 'Свахили',
         'Swedish' => 'Шведски',
         'System Address Display Name' => 'Назив за приказ системске адресе',
@@ -8562,6 +8573,7 @@ Thanks for your help!
             'Текст на почетку предмета у одговору на имејл, нпр. RE, AW или AS.',
         'The text at the beginning of the subject when an email is forwarded, e.g. FW, Fwd, or WG.' =>
             'Текст на почетку предмета када се имејл прослеђује, нпр. FW, Fwd, или WG.',
+        'The value of the From field' => 'Вредност From поља',
         'Theme' => 'Тема',
         'This event module stores attributes from CustomerUser as DynamicFields tickets. Please see DynamicFieldFromCustomerUser::Mapping setting for how to configure the mapping.' =>
             'Овај модул догађаја чува атрибуте корисника као динамичка поља тикета. Погледајте опцију DynamicFieldFromCustomerUser::Mapping за подешавање мапирања.',

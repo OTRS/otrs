@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.996746575342466;
+    $Self->{Completeness}        = 0.998632244828176;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -2044,9 +2044,9 @@ sub Data {
         'This email address is already used as system email address.' => '这个电子邮件地址已经用于系统电子邮件地址。',
         'The display name and email address will be shown on mail you send.' =>
             '邮件地址和显示名称将在发送的邮件中显示。',
-        'This system address cannot be set to invalid.' => '',
+        'This system address cannot be set to invalid.' => '该系统地址不能设置为无效。',
         'This system address cannot be set to invalid, because it is used in one or more queue(s) or auto response(s).' =>
-            '',
+            '此系统地址不能设置为无效，因为它用于一个或多个队列或自动响应。',
 
         # Template: AdminSystemConfiguration
         'online administrator documentation' => '在线管理员文档',
@@ -2481,7 +2481,7 @@ sub Data {
         'Split' => '拆分',
 
         # Template: AgentStatisticsAdd
-        'Statistics Management' => '',
+        'Statistics Management' => '统计管理',
         'Add Statistics' => '添加统计',
         'Read more about statistics in OTRS' => '详细了解OTR关于统计的信息',
         'Dynamic Matrix' => '动态矩阵',
@@ -2494,13 +2494,13 @@ sub Data {
         'Create Statistic' => '创建统计',
 
         # Template: AgentStatisticsEdit
-        'Edit Statistics' => '',
+        'Edit Statistics' => '编辑统计',
         'Run now' => '立即运行',
         'Statistics Preview' => '统计预览',
         'Save Statistic' => '保存统计',
 
         # Template: AgentStatisticsImport
-        'Import Statistics' => '',
+        'Import Statistics' => '导入统计',
         'Import Statistics Configuration' => '导入统计配置',
 
         # Template: AgentStatisticsOverview
@@ -2514,7 +2514,7 @@ sub Data {
 
         # Template: AgentStatisticsView
         'Statistics Overview' => '统计概览',
-        'View Statistics' => '',
+        'View Statistics' => '查看统计',
         'Statistics Information' => '统计信息',
         'Created by' => '创建人',
         'Changed by' => '修改人',
@@ -3376,7 +3376,7 @@ sub Data {
         'There was an error synchronizing the ACLs.' => '部署ACL时出现了一个错误。',
         'ACL %s could not be deleted' => '不能删除ACL %s',
         'There was an error getting data for ACL with ID %s' => '获得ID为%s 的ACL的数据时出现了一个错误',
-        '%s (copy) %s' => '',
+        '%s (copy) %s' => '%s (副本) %s',
         'Please note that ACL restrictions will be ignored for the Superuser account (UserID 1).' =>
             '请注意，超级用户帐户（UserID 1）将忽略ACL限制。',
         'Exact match' => '完全匹配',
@@ -3415,7 +3415,7 @@ sub Data {
         'There was an error getting data for Notification with ID:%s!' =>
             '获取ID为%s的通知数据时出现了一个错误！',
         'Unknown Notification %s!' => '未知通知 %s！',
-        '%s (copy)' => '',
+        '%s (copy)' => '%s (副本)',
         'There was an error creating the Notification' => '创建通知时出现了一个错误',
         'Notifications could not be Imported due to a unknown error, please check OTRS logs for more information' =>
             '由于一个未知错误不能导入通知，请检查OTRS日志以获取更多信息',
@@ -4077,9 +4077,9 @@ sub Data {
         'Can\'t lock Tickets, no TicketIDs are given!' => '不能锁定工单，没有指定工单编辑！',
         'Ticket (%s) is not unlocked!' => '工单（%s）没有解锁！',
         'The following tickets were ignored because they are locked by another agent or you don\'t have write access to tickets: %s.' =>
-            '',
+            '由于被其它服务人员锁定或者你没有其写入权限，下列工单将被忽略：%s。',
         'The following ticket was ignored because it is locked by another agent or you don\'t have write access to ticket: %s.' =>
-            '',
+            '由于被其它服务人员锁定或者你没有其写入权限，此工单将被忽略：%s。',
         'You need to select at least one ticket.' => '你需要选择至少一个工单。',
         'Bulk feature is not enabled!' => '批量操作功能还没有启用！',
         'No selectable TicketID is given!' => '没有指定可选择的工单编号！',
@@ -4538,7 +4538,7 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/Layout.pm
         'Standard' => '标准',
-        'The following tickets are not updated: %s.' => '',
+        'The following tickets are not updated: %s.' => '下列工单没有更新：%s。',
         'h' => '时',
         'm' => '分',
         'd' => '天',
@@ -5021,7 +5021,7 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/KernelVersion.pm
         'Kernel Version' => '内核版本',
-        'Could not determine kernel version.' => '',
+        'Could not determine kernel version.' => '不能确定内核版本。',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Load.pm
         'System Load' => '系统负载',
@@ -5113,9 +5113,9 @@ sub Data {
         'Legacy Configuration Backups' => '遗留的配置备份',
         'No legacy configuration backup files found.' => '找不到遗留的配置备份文件。',
         'Legacy configuration backup files found in Kernel/Config/Backups folder, but they might still be required by some packages.' =>
-            '',
+            '在 Kernel/Config/Backups 文件夹中找到的旧版配置备份文件，但某些软件包可能仍然需要它们。',
         'Legacy configuration backup files are no longer needed for the installed packages, please remove them from Kernel/Config/Backups folder.' =>
-            '',
+            '已安装的软件包不再需要旧的配置备份文件，请从 Kernel/Config/Backups 文件夹中删除它们。',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/PackageDeployment.pm
         'Package Installation Status' => '软件包安装状态',
@@ -6009,8 +6009,8 @@ Thanks for your help!
         'Allows extended search conditions in ticket search of the generic agent interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
             '允许在自动任务界面搜索工单时扩展搜索条件，通过这个功能您可以按如下条件搜索：“(key1&&key2)”或“(key1||key2)”。',
         'Allows generic agent to execute custom command line scripts.' =>
-            '',
-        'Allows generic agent to execute custom modules.' => '',
+            '允许自动任务执行定制的命令行脚本。',
+        'Allows generic agent to execute custom modules.' => '允许自动任务执行定制的模块。',
         'Allows having a medium format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
             '允许拥有一个基本版式的工单概览视图（如果CustomerInfo => 1还将显示客户信息）。',
         'Allows having a small format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
@@ -6081,7 +6081,7 @@ Thanks for your help!
         'Balanced white skin by Felix Niklas.' => 'Felix Niklas制作的平衡白皮肤。',
         'Based on global RichText setting' => '基于全局富文本设置',
         'Basic fulltext index settings. Execute "bin/otrs.Console.pl Maint::Ticket::FulltextIndex --rebuild" in order to generate a new index.' =>
-            '',
+            '基本的全文索引设置。执行 "bin/otrs.Console.pl Maint::Ticket::FulltextIndex --rebuild" 以生成一个新索引。',
         'Blocks all the incoming emails that do not have a valid ticket number in subject with From: @example.com address.' =>
             '阻止所有来自@example.com地址、主题中无有效工单号的进入邮件。',
         'Bounced to "%s".' => '退回给“%s”。',
@@ -6295,6 +6295,7 @@ Thanks for your help!
         'Default ACL values for ticket actions.' => '工单操作的默认ACL值。',
         'Default ProcessManagement entity prefixes for entity IDs that are automatically generated.' =>
             '自动生成的流程实体ID的默认前缀。',
+        'Default agent name' => '',
         'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimePointFormat=year;TicketCreateTimePointStart=Last;TicketCreateTimePoint=2;".' =>
             '工单搜索屏幕用于搜索属性的默认数据。示例：“TicketCreateTimePointFormat=year;TicketCreateTimePointStart=Last;TicketCreateTimePoint=2;”。',
         'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimeStartYear=2010;TicketCreateTimeStartMonth=10;TicketCreateTimeStartDay=4;TicketCreateTimeStopYear=2010;TicketCreateTimeStopMonth=11;TicketCreateTimeStopDay=3;".' =>
@@ -6540,6 +6541,8 @@ Thanks for your help!
         'Defines the date input format used in forms (option or input fields).' =>
             '定义表单中数据的输入格式（选项或输入字段）。',
         'Defines the default CSS used in rich text editors.' => '定义用于富文本编辑器的默认CSS。',
+        'Defines the default agent name in the ticket zoom view of the customer interface.' =>
+            '',
         'Defines the default auto response type of the article for this operation.' =>
             '定义这个信件操作的默认自动响应类型。',
         'Defines the default body of a note in the ticket free text screen of the agent interface.' =>
@@ -6698,6 +6701,8 @@ Thanks for your help!
             '定义工单默认可见的发送人类型（默认：客户）。',
         'Defines the default visibility of the article to customer for this operation.' =>
             '定义这个信件操作对客户的默认可见性。',
+        'Defines the displayed style of the From field in notes that are visible for customers. A default agent name can be defined in Ticket::Frontend::CustomerTicketZoom###DefaultAgentName setting.' =>
+            '',
         'Defines the dynamic fields that are used for displaying on calendar events.' =>
             '定义显示在日历事件中的动态字段。',
         'Defines the event object types that will be handled via AdminAppointmentNotificationEvent.' =>
@@ -7359,7 +7364,7 @@ Thanks for your help!
         'Greek' => '希腊语',
         'Hebrew' => '希伯来语',
         'Helps to extend your articles full-text search (From, To, Cc, Subject and Body search). It will strip all articles and will build an index after article creation, increasing fulltext searches about 50%. To create an initial index use "bin/otrs.Console.pl Maint::Ticket::FulltextIndex --rebuild".' =>
-            '',
+            '帮助扩展信件全文搜索（发件人、收件人、抄送、主题和正文搜索）。它将在信件创建后条带化所有信件并建立索引，提升全文搜索50%的效率。可使用命令 "bin/otrs.Console.pl Maint::Ticket::FulltextIndex --rebuild" 来创建初始索引。',
         'High Contrast' => '高对比度',
         'High contrast skin for visually impaired users.' => '用于视力受损用户的高对比度皮肤。',
         'Hindi' => '印度语',
@@ -7582,10 +7587,12 @@ Thanks for your help!
         'Logout of customer panel.' => '退出客户面板。',
         'Look into a ticket!' => '查看工单内容！',
         'Loop protection: no auto-response sent to "%s".' => '环路保护：没有自动响应发送到“%s”。',
+        'Macedonian' => '',
         'Mail Accounts' => '邮件帐户',
         'MailQueue configuration settings.' => '邮件队列配置设置。',
         'Main menu item registration.' => '注册主菜单条目。',
         'Main menu registration.' => '主菜单注册。',
+        'Makes the application block external content loading.' => '',
         'Makes the application check the MX record of email addresses before sending an email or submitting a telephone or email ticket.' =>
             '在发送邮件或提交电话工单/邮件工单前让系统检查邮件地址的MX记录。',
         'Makes the application check the syntax of email addresses.' => '让系统检查邮件地址的语法。',
@@ -7880,6 +7887,8 @@ Thanks for your help!
             '注册一个日志模块用于记录通信相关信息。',
         'Reminder Tickets' => '提醒的工单',
         'Removed subscription for user "%s".' => '用户“%s”已移除的关注。',
+        'Removes old generic interface debug log entries created before the specified amount of days.' =>
+            '',
         'Removes old system configuration deployments (Sunday mornings).' =>
             '删除旧的系统配置部署（星期日上午）。',
         'Removes old ticket number counters (each 10 minutes).' => '删除旧的工单编号计数器（每10分钟）。',
@@ -7938,6 +7947,7 @@ Thanks for your help!
             '在列表中保留所有的服务，即使他们是无效的子元素。',
         'Right' => '权限',
         'Roles ↔ Groups' => '角色 ↔ 组',
+        'Romanian' => '',
         'Run file based generic agent jobs (Note: module name needs to be specified in -configuration-module param e.g. "Kernel::System::GenericAgent").' =>
             '运行基于文件的自动任务(注意：需要在-configuration-module参数中指定模块名，如"Kernel::System::GenericAgent")。',
         'Running Process Tickets' => '运行中的流程工单',
@@ -8364,7 +8374,7 @@ Thanks for your help!
         'Shows information on how to start OTRS Daemon' => '显示如何启动OTRS守护进程的信息。',
         'Shows link to external page in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
             '在服务人员界面的工单详情视图中显示到外部页面的链接。 可以通过使用键“Group”和内容如“rw：group1; move_into：group2”来完成额外的访问控制，以显示或不显示此链接。',
-        'Shows the article head information in the agent zoom view.' => '',
+        'Shows the article head information in the agent zoom view.' => '在服务人员工单详情视图显示信件的头部信息。',
         'Shows the articles sorted normally or in reverse, under ticket zoom in the agent interface.' =>
             '在服务人员界面工单详情视图，按正常排序或反向排序显示信件。',
         'Shows the customer user information (phone and email) in the compose screen.' =>
@@ -8506,6 +8516,7 @@ Thanks for your help!
         'Strips empty lines on the ticket preview in the queue view.' => '在工单队列视图工单预览时去掉空白行。',
         'Strips empty lines on the ticket preview in the service view.' =>
             '在工单服务视图工单预览时去掉空白行。',
+        'Support Agent' => '维护人员',
         'Swahili' => '斯瓦希里语',
         'Swedish' => '瑞典语',
         'System Address Display Name' => '系统邮件地址显示姓名',
@@ -8566,6 +8577,7 @@ Thanks for your help!
             '回复邮件中加在主题前的文字，如RE、AW或AS。',
         'The text at the beginning of the subject when an email is forwarded, e.g. FW, Fwd, or WG.' =>
             '转发邮件中加在主题前的文字，如FW、Fwd或WG。',
+        'The value of the From field' => '',
         'Theme' => '主题',
         'This event module stores attributes from CustomerUser as DynamicFields tickets. Please see DynamicFieldFromCustomerUser::Mapping setting for how to configure the mapping.' =>
             '这个事件模块将客户用户的属性存储为工单动态字段，如何配置这个映射请查看DynamicFieldFromCustomerUser::Mapping设置。',

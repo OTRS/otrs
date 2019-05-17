@@ -15,13 +15,14 @@
 # Niels Dimmers <niels@nielsdimmers.nl>, 2018
 # Martin Gruner <martin.gruner@otrs.com>, 2018
 # Ton van Boven <info@tonvanboven.nl>, 2019
+# Erik Thijs <erik.thijs@thomasmore.be>, 2019
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-04-05 00:59+0000\n"
+"POT-Creation-Date: 2019-05-14 06:48+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
-"Last-Translator: Ton van Boven <info@tonvanboven.nl>, 2019\n"
+"Last-Translator: Erik Thijs <erik.thijs@thomasmore.be>, 2019\n"
 "Language-Team: Dutch (https://www.transifex.com/otrs/teams/23435/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -330,10 +331,11 @@ msgstr ""
 #. Template: AdminAppointmentCalendarManage
 msgid "Create: users can create and delete appointments in the calendar."
 msgstr ""
+"Maken: gebruikers kunnen afspraken maken en verwijderen in de kalender"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Read/write: users can manage the calendar itself."
-msgstr ""
+msgstr "Lezen/Schrijven: gebruikers kunnen de kalender beheren"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Group"
@@ -444,6 +446,8 @@ msgid ""
 "Define rules for creating automatic appointments in this calendar based on "
 "ticket data."
 msgstr ""
+"Definieer regels voor het automatisch aanmaken van afspraken in deze "
+"kalender, gebaseerd op gegevens van het ticket"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Add Rule"
@@ -455,7 +459,7 @@ msgstr "Versturen"
 
 #. Template: AdminAppointmentImport
 msgid "Appointment Import"
-msgstr ""
+msgstr "Afspraak importeren"
 
 #. Template: AdminAppointmentImport
 msgid "Go back"
@@ -463,13 +467,15 @@ msgstr "Ga terug"
 
 #. Template: AdminAppointmentImport
 msgid "Uploaded file must be in valid iCal format (.ics)."
-msgstr ""
+msgstr "Opgeladen bestanden moeten een geldige iCal indeling hebben (.ics)"
 
 #. Template: AdminAppointmentImport
 msgid ""
 "If desired Calendar is not listed here, please make sure that you have at "
 "least 'create' permissions."
 msgstr ""
+"Als de gewenste kalender hier niet zichtbaar is, controleer dan of je ten "
+"minste 'create' rechten hebt."
 
 #. Template: AdminAppointmentImport
 msgid "Upload"
@@ -477,13 +483,15 @@ msgstr "Upload"
 
 #. Template: AdminAppointmentImport
 msgid "Update existing appointments?"
-msgstr ""
+msgstr "Bestaande afspraken bijwerken?"
 
 #. Template: AdminAppointmentImport
 msgid ""
 "All existing appointments in the calendar with same UniqueID will be "
 "overwritten."
 msgstr ""
+"Alle bestaande afspraken in de kalender met dezelfde UniqueID zullen "
+"overschreven worden."
 
 #. Template: AdminAppointmentImport
 msgid "Upload calendar"
@@ -491,11 +499,11 @@ msgstr "Upload kalender"
 
 #. Template: AdminAppointmentImport
 msgid "Import appointments"
-msgstr ""
+msgstr "Afspraken importeren"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Appointment Notification Management"
-msgstr ""
+msgstr "Meldingen voor afspraken beheren"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Add Notification"
@@ -785,7 +793,7 @@ msgstr "Aanvullende ontvanger e-mailadres"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "This field must have less then 200 characters."
-msgstr ""
+msgstr "Dit veld mag maximaal 200 karakters bevatten"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "Article visible for customer"
@@ -812,11 +820,11 @@ msgstr ""
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "Enable email security"
-msgstr ""
+msgstr "Email beveiliging inschakelen"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "Email security level"
-msgstr ""
+msgstr "Niveau van email beveiliging"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "If signing key/certificate is missing"
@@ -1061,7 +1069,7 @@ msgstr "Communicatielogboek"
 
 #. Template: AdminCommunicationLog
 msgid "Time Range"
-msgstr ""
+msgstr "Bereik van tijd"
 
 #. Template: AdminCommunicationLog
 msgid "Show only communication logs created in specific time range."
@@ -1106,19 +1114,19 @@ msgstr "Status van: %s"
 
 #. Template: AdminCommunicationLog
 msgid "Failing accounts"
-msgstr ""
+msgstr "Probleemaccount"
 
 #. Template: AdminCommunicationLog
 msgid "Some account problems"
-msgstr ""
+msgstr "Bepaalde account problemen"
 
 #. Template: AdminCommunicationLog
 msgid "No account problems"
-msgstr ""
+msgstr "Geen account probleem"
 
 #. Template: AdminCommunicationLog
 msgid "No account activity"
-msgstr ""
+msgstr "Geen activiteit van account"
 
 #. Template: AdminCommunicationLog
 msgid "Number of accounts with problems: %s"
@@ -1158,7 +1166,7 @@ msgstr "Aantal actieve communicatie: %s"
 
 #. Template: AdminCommunicationLog
 msgid "Average processing time"
-msgstr ""
+msgstr "Gemiddelde verwerkingstijd"
 
 #. Template: AdminCommunicationLog
 msgid "List of communications (%s)"
@@ -1186,11 +1194,11 @@ msgstr "Accountstatus"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Back to overview"
-msgstr ""
+msgstr "Terug naar het overzicht"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Filter for Accounts"
-msgstr ""
+msgstr "Account filter"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Filter for accounts"
@@ -1246,7 +1254,7 @@ msgstr "Geen communicatielogboekitems gevonden"
 
 #. Template: AdminCommunicationLogCommunications
 msgid "Duration"
-msgstr ""
+msgstr "Tijdsduur"
 
 #. Template: AdminCommunicationLogObjectLog
 msgid "#"
@@ -1266,7 +1274,7 @@ msgstr "Informatie"
 
 #. Template: AdminCommunicationLogObjectLog
 msgid "No log entries found."
-msgstr ""
+msgstr "Geen logvermeldingen gevonden"
 
 #. Template: AdminCommunicationLogZoom
 msgid "Detail view for %s communication started at %s"
@@ -1282,7 +1290,7 @@ msgstr "Filter op logitems"
 
 #. Template: AdminCommunicationLogZoom
 msgid "Show only entries with specific priority and higher:"
-msgstr ""
+msgstr "Toon enkel items met deze prioriteit, of hoger"
 
 #. Template: AdminCommunicationLogZoom
 msgid "Communication Log Overview (%s)"
@@ -1542,7 +1550,7 @@ msgstr "Effectieve machtigingen voor klanten"
 
 #. Template: AdminCustomerUser
 msgid "Group Permissions"
-msgstr ""
+msgstr "Groepsrechten"
 
 #. Template: AdminCustomerUser
 msgid "This customer user has no group permissions."
@@ -1555,6 +1563,10 @@ msgid ""
 "groups). Note: The table does not consider changes made to this form without"
 " submitting it."
 msgstr ""
+"De bovenstaande tabel toont de effectieve rechten van de groep voor deze "
+"klant. De matrix houdt rekening met alle overgeërfde rechten (e.g. via "
+"klantgroepen). Merk op: de tabel houdt geen rekening met wijzigingen die in "
+"dit formulier werden aangebracht en nog niet opgeslagen zijn."
 
 #. Template: AdminCustomerUser
 msgid "Customer Access"
@@ -19344,6 +19356,10 @@ msgid ""
 msgstr ""
 
 #. SysConfig
+msgid "Default agent name"
+msgstr ""
+
+#. SysConfig
 msgid ""
 "Default data to use on attribute for ticket search screen. Example: "
 "\"TicketCreateTimePointFormat=year;TicketCreateTimePointStart=Last;TicketCreateTimePoint=2;\"."
@@ -20198,6 +20214,12 @@ msgstr ""
 
 #. SysConfig
 msgid ""
+"Defines the default agent name in the ticket zoom view of the customer "
+"interface."
+msgstr ""
+
+#. SysConfig
+msgid ""
 "Defines the default auto response type of the article for this operation."
 msgstr ""
 
@@ -20688,6 +20710,13 @@ msgstr ""
 msgid ""
 "Defines the default visibility of the article to customer for this "
 "operation."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Defines the displayed style of the From field in notes that are visible for "
+"customers. A default agent name can be defined in "
+"Ticket::Frontend::CustomerTicketZoom###DefaultAgentName setting."
 msgstr ""
 
 #. SysConfig
@@ -23637,6 +23666,10 @@ msgid "Main menu registration."
 msgstr ""
 
 #. SysConfig
+msgid "Makes the application block external content loading."
+msgstr ""
+
+#. SysConfig
 msgid ""
 "Makes the application check the MX record of email addresses before sending "
 "an email or submitting a telephone or email ticket."
@@ -24791,6 +24824,12 @@ msgstr "Tickets met herinnering"
 #. SysConfig
 msgid "Removed subscription for user \"%s\"."
 msgstr "Removed subscription for user \"%s\"."
+
+#. SysConfig
+msgid ""
+"Removes old generic interface debug log entries created before the specified"
+" amount of days."
+msgstr ""
 
 #. SysConfig
 msgid "Removes old system configuration deployments (Sunday mornings)."
@@ -26894,6 +26933,10 @@ msgid "Strips empty lines on the ticket preview in the service view."
 msgstr ""
 
 #. SysConfig
+msgid "Support Agent"
+msgstr ""
+
+#. SysConfig
 msgid "Swahili"
 msgstr ""
 
@@ -27081,6 +27124,10 @@ msgstr ""
 msgid ""
 "The text at the beginning of the subject when an email is forwarded, e.g. "
 "FW, Fwd, or WG."
+msgstr ""
+
+#. SysConfig
+msgid "The value of the From field"
 msgstr ""
 
 #. SysConfig
