@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.998998998998999;
+    $Self->{Completeness}        = 0.997800439912018;
 
     # csv separator
     $Self->{Separator} = '';
@@ -5008,6 +5008,7 @@ Thanks for your help!
         'Default ACL values for ticket actions.' => '工单操作的默认ACL值。',
         'Default ProcessManagement entity prefixes for entity IDs that are automatically generated.' =>
             '自动生成的流程实体ID的默认前缀。',
+        'Default agent name' => '',
         'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimePointFormat=year;TicketCreateTimePointStart=Last;TicketCreateTimePoint=2;".' =>
             '工单搜索屏幕用于搜索属性的默认数据。示例：“TicketCreateTimePointFormat=year;TicketCreateTimePointStart=Last;TicketCreateTimePoint=2;”。',
         'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimeStartYear=2010;TicketCreateTimeStartMonth=10;TicketCreateTimeStartDay=4;TicketCreateTimeStopYear=2010;TicketCreateTimeStopMonth=11;TicketCreateTimeStopDay=3;".' =>
@@ -5198,6 +5199,8 @@ Thanks for your help!
         'Defines the date input format used in forms (option or input fields).' =>
             '定义表单中数据的输入格式（选项或输入字段）。',
         'Defines the default CSS used in rich text editors.' => '定义用于富文本编辑器的默认CSS。',
+        'Defines the default agent name in the ticket zoom view of the customer interface.' =>
+            '',
         'Defines the default auto response type of the article for this operation.' =>
             '定义这个信件操作的默认自动响应类型。',
         'Defines the default body of a note in the ticket free text screen of the agent interface.' =>
@@ -5380,6 +5383,8 @@ Thanks for your help!
             '定义公共界面操作参数的默认值。操作参数用于系统中的脚本。',
         'Defines the default viewable sender types of a ticket (default: customer).' =>
             '定义工单默认可见的发送人类型（默认：客户）。',
+        'Defines the displayed style of the From field in notes that are visible for customers. A default agent name can be defined in Ticket::Frontend::CustomerTicketZoom###DefaultAgentName setting.' =>
+            '',
         'Defines the dynamic fields that are used for displaying on calendar events.' =>
             '定义显示在日历事件中的动态字段。',
         'Defines the fall-back path to open fetchmail binary. Note: The name of the binary needs to be \'fetchmail\', if it is different please use a symbolic link.' =>
@@ -6170,6 +6175,7 @@ Thanks for your help!
         'Loop-Protection! No auto-response sent to "%s".' => '邮件循环保护! 没有自动响应发送给“%s”.',
         'Mail Accounts' => '邮件帐户',
         'Main menu registration.' => '主菜单注册。',
+        'Makes the application block external content loading.' => '',
         'Makes the application check the MX record of email addresses before sending an email or submitting a telephone or email ticket.' =>
             '在发送邮件或提交电话工单/邮件工单前让系统检查邮件地址的MX记录。',
         'Makes the application check the syntax of email addresses.' => '让系统检查邮件地址的语法。',
@@ -6983,6 +6989,7 @@ Thanks for your help!
         'Strips empty lines on the ticket preview in the queue view.' => '在工单队列视图工单预览时去掉空白行。',
         'Strips empty lines on the ticket preview in the service view.' =>
             '在工单服务视图工单预览时去掉空白行。',
+        'Support Agent' => '',
         'Swahili' => '斯瓦希里语',
         'Swedish' => '瑞典语',
         'System Address Display Name' => '系统邮件地址显示姓名',
@@ -7036,6 +7043,7 @@ Thanks for your help!
             '回复邮件中加在主题前的文字，如RE、AW或AS。',
         'The text at the beginning of the subject when an email is forwarded, e.g. FW, Fwd, or WG.' =>
             '转发邮件中加在主题前的文字，如FW、Fwd或WG。',
+        'The value of the From field' => '',
         'This event module stores attributes from CustomerUser as DynamicFields tickets. Please see the setting above for how to configure the mapping.' =>
             '这个事件模块存储客户联系人的属性为工单动态字段，如何配置这个映射请查看上面的设置。',
         'This is a description for TimeZone on Customer side.' => '这是在客户界面上对时区的描述信息。',

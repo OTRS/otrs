@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.819419419419419;
+    $Self->{Completeness}        = 0.818436312737453;
 
     # csv separator
     $Self->{Separator} = ',';
@@ -5008,6 +5008,7 @@ Thanks for your help!
         'Default ACL values for ticket actions.' => 'ค่า ACL เริ่มต้นสำหรับการกระทำของตั๋ว',
         'Default ProcessManagement entity prefixes for entity IDs that are automatically generated.' =>
             'เอนทิตีเริ่มต้นของ ProcessManagement จะนำหน้า ID ของเอนทิตีที่สร้างขึ้นโดยอัตโนมัติ',
+        'Default agent name' => '',
         'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimePointFormat=year;TicketCreateTimePointStart=Last;TicketCreateTimePoint=2;".' =>
             'ข้อมูลเริ่มต้นที่จะใช้ในแอตทริบิวต์สำหรับหน้าจอการค้นหาตั๋ว ตัวอย่าง: "TicketCreateTimePointFormat=year;TicketCreateTimePointStart=Last;TicketCreateTimePoint=2;"',
         'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimeStartYear=2010;TicketCreateTimeStartMonth=10;TicketCreateTimeStartDay=4;TicketCreateTimeStopYear=2010;TicketCreateTimeStopMonth=11;TicketCreateTimeStopDay=3;".' =>
@@ -5201,6 +5202,8 @@ Thanks for your help!
         'Defines the date input format used in forms (option or input fields).' =>
             'กำหนดรูปแบบการป้อนวันที่ ที่ใช้ในแบบฟอร์ม (ตัวเลือกหรือช่องใส่)',
         'Defines the default CSS used in rich text editors.' => 'กำหนด CSS เริ่มต้นที่ใช้ในการแก้ไขข้อความ',
+        'Defines the default agent name in the ticket zoom view of the customer interface.' =>
+            '',
         'Defines the default auto response type of the article for this operation.' =>
             'กำหนดประเภทการตอบสนองอัตโนมัติเริ่มต้นของบทความนี้สำหรับการดำเนินงาน',
         'Defines the default body of a note in the ticket free text screen of the agent interface.' =>
@@ -5384,6 +5387,8 @@ Thanks for your help!
             'กำหนดค่าเริ่มต้นสำหรับพารามิเตอร์การดำเนินการในหน้าสาธารณะ พารามิเตอร์การดำเนินการถูกนำมาใช้ในสคริปต์ของระบบ',
         'Defines the default viewable sender types of a ticket (default: customer).' =>
             'กำหนดประเภทผู้ส่งเริ่มต้นที่สามารถดูได้ของตั๋ว (เริ่มต้น: ลูกค้า)',
+        'Defines the displayed style of the From field in notes that are visible for customers. A default agent name can be defined in Ticket::Frontend::CustomerTicketZoom###DefaultAgentName setting.' =>
+            '',
         'Defines the dynamic fields that are used for displaying on calendar events.' =>
             'กำหนดฟิลด์แบบไดนามิกที่ถูกนำมาใช้สำหรับแสดงเป็นกิจกรรมในปฏิทิน',
         'Defines the fall-back path to open fetchmail binary. Note: The name of the binary needs to be \'fetchmail\', if it is different please use a symbolic link.' =>
@@ -6175,6 +6180,7 @@ Thanks for your help!
         'Loop-Protection! No auto-response sent to "%s".' => '',
         'Mail Accounts' => 'บัญชีอีเมล',
         'Main menu registration.' => 'การลงทะเบียนเมนูหลัก',
+        'Makes the application block external content loading.' => '',
         'Makes the application check the MX record of email addresses before sending an email or submitting a telephone or email ticket.' =>
             '',
         'Makes the application check the syntax of email addresses.' => '',
@@ -6988,6 +6994,7 @@ Thanks for your help!
         'Strips empty lines on the ticket preview in the queue view.' => '',
         'Strips empty lines on the ticket preview in the service view.' =>
             '',
+        'Support Agent' => '',
         'Swahili' => 'ภาษาสวาฮิลี',
         'Swedish' => 'ภาษาสวีเดน',
         'System Address Display Name' => '',
@@ -7041,6 +7048,7 @@ Thanks for your help!
             '',
         'The text at the beginning of the subject when an email is forwarded, e.g. FW, Fwd, or WG.' =>
             '',
+        'The value of the From field' => '',
         'This event module stores attributes from CustomerUser as DynamicFields tickets. Please see the setting above for how to configure the mapping.' =>
             '',
         'This is a description for TimeZone on Customer side.' => '',

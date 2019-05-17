@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.916916916916917;
+    $Self->{Completeness}        = 0.915816836632673;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -5009,6 +5009,7 @@ Obrigado pela ajuda!
         'Default ACL values for ticket actions.' => 'Valores padrão de ACL para as ações de chamado.',
         'Default ProcessManagement entity prefixes for entity IDs that are automatically generated.' =>
             'Prefixos de entidade de Gerenciamento de Processos padrão para IDs de entidade que são automaticamente gerados.',
+        'Default agent name' => '',
         'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimePointFormat=year;TicketCreateTimePointStart=Last;TicketCreateTimePoint=2;".' =>
             'Dados padrão para serem utilizados em atributo da tela de pesquisa de ticket. Por Exemplo: "TicketCreateTimePointFormat=year;TicketCreateTimePointStart=Last;TicketCreateTimePoint=2;".',
         'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimeStartYear=2010;TicketCreateTimeStartMonth=10;TicketCreateTimeStartDay=4;TicketCreateTimeStopYear=2010;TicketCreateTimeStopMonth=11;TicketCreateTimeStopDay=3;".' =>
@@ -5199,6 +5200,8 @@ Obrigado pela ajuda!
         'Defines the date input format used in forms (option or input fields).' =>
             'Define o formato de entrada de data utilizado em formulários (opção ou campos de entrada).',
         'Defines the default CSS used in rich text editors.' => 'Define o CSS padrão utilizados nos editores rich text.',
+        'Defines the default agent name in the ticket zoom view of the customer interface.' =>
+            '',
         'Defines the default auto response type of the article for this operation.' =>
             'Define o tipo padrão de autorresposta do artigo para esta operação.',
         'Defines the default body of a note in the ticket free text screen of the agent interface.' =>
@@ -5381,6 +5384,8 @@ Obrigado pela ajuda!
             '',
         'Defines the default viewable sender types of a ticket (default: customer).' =>
             'Define o tipo de remetente visível padrão de um ticker (padrão: cliente).',
+        'Defines the displayed style of the From field in notes that are visible for customers. A default agent name can be defined in Ticket::Frontend::CustomerTicketZoom###DefaultAgentName setting.' =>
+            '',
         'Defines the dynamic fields that are used for displaying on calendar events.' =>
             'Define os campos dinâmicos que são utilizados para mostrar em eventos de calendário.',
         'Defines the fall-back path to open fetchmail binary. Note: The name of the binary needs to be \'fetchmail\', if it is different please use a symbolic link.' =>
@@ -6171,6 +6176,7 @@ Obrigado pela ajuda!
         'Loop-Protection! No auto-response sent to "%s".' => 'Proteção de loop! Autorresposta enviada para "%s".',
         'Mail Accounts' => 'Contas de E-mail',
         'Main menu registration.' => 'Registro do menu principal.',
+        'Makes the application block external content loading.' => '',
         'Makes the application check the MX record of email addresses before sending an email or submitting a telephone or email ticket.' =>
             'Faz a aplicação verifica o registro MX de um endereço de e-mail antes de enviar um e-mail ou submeter um ticket de e-mail ou telefone.',
         'Makes the application check the syntax of email addresses.' => 'Faz a aplicação verificar a sintaxe de endereços de e-mail.',
@@ -6984,6 +6990,7 @@ Obrigado pela ajuda!
         'Strips empty lines on the ticket preview in the queue view.' => 'Elimina linhas vazias na visão prévia de ticket da visão de fila.',
         'Strips empty lines on the ticket preview in the service view.' =>
             'Elimina linhas vazias na visão prévia de ticket da visão de serviço.',
+        'Support Agent' => '',
         'Swahili' => 'Swahili',
         'Swedish' => 'Sueco',
         'System Address Display Name' => 'Nome de Exibição do Endereço de Sistema',
@@ -7037,6 +7044,7 @@ Obrigado pela ajuda!
             'O texto no começo do assunto de uma resposta de e-mail, por exemplo, RE, AW, ou AS.',
         'The text at the beginning of the subject when an email is forwarded, e.g. FW, Fwd, or WG.' =>
             'O texto no começo de um assunto quando um e-mail é encaminhado. Exemplo: FW, Fwd, ou Enc.',
+        'The value of the From field' => '',
         'This event module stores attributes from CustomerUser as DynamicFields tickets. Please see the setting above for how to configure the mapping.' =>
             '',
         'This is a description for TimeZone on Customer side.' => '',

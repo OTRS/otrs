@@ -27,7 +27,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y/%M/%D';
     $Self->{DateInputFormat}     = '%Y/%M/%D';
     $Self->{DateInputFormatLong} = '%Y/%M/%D - %T';
-    $Self->{Completeness}        = 0.82002002002002;
+    $Self->{Completeness}        = 0.819036192761448;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -5016,6 +5016,7 @@ Thanks for your help!
         'Default ACL values for ticket actions.' => 'チケット・アクションに関するデフォルトのACLの値です。',
         'Default ProcessManagement entity prefixes for entity IDs that are automatically generated.' =>
             '',
+        'Default agent name' => '',
         'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimePointFormat=year;TicketCreateTimePointStart=Last;TicketCreateTimePoint=2;".' =>
             '',
         'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimeStartYear=2010;TicketCreateTimeStartMonth=10;TicketCreateTimeStartDay=4;TicketCreateTimeStopYear=2010;TicketCreateTimeStopMonth=11;TicketCreateTimeStopDay=3;".' =>
@@ -5206,6 +5207,8 @@ Thanks for your help!
         'Defines the date input format used in forms (option or input fields).' =>
             'フォームで使用されるデータ・インプット・フォーマットを定義します（オプションまたはインプット・フィールド）。',
         'Defines the default CSS used in rich text editors.' => 'リッチテキスト・エディターで使用されるデフォルトCSSを定義します。',
+        'Defines the default agent name in the ticket zoom view of the customer interface.' =>
+            '',
         'Defines the default auto response type of the article for this operation.' =>
             '',
         'Defines the default body of a note in the ticket free text screen of the agent interface.' =>
@@ -5397,6 +5400,8 @@ Contentはダイナミック・フィールドの形式によって設定内容�
             '',
         'Defines the default viewable sender types of a ticket (default: customer).' =>
             'チケットについて視認できる、デフォルトの送信者タイプを定義します（デフォルト：customer）。',
+        'Defines the displayed style of the From field in notes that are visible for customers. A default agent name can be defined in Ticket::Frontend::CustomerTicketZoom###DefaultAgentName setting.' =>
+            '',
         'Defines the dynamic fields that are used for displaying on calendar events.' =>
             'カレンダ・イベントで表示するダイナミック・フィールドを定義します。',
         'Defines the fall-back path to open fetchmail binary. Note: The name of the binary needs to be \'fetchmail\', if it is different please use a symbolic link.' =>
@@ -6190,6 +6195,7 @@ Contentはダイナミック・フィールドの形式によって設定内容�
         'Loop-Protection! No auto-response sent to "%s".' => 'Loop-Protection! No auto-response sent to "%s".',
         'Mail Accounts' => 'メールアカウント',
         'Main menu registration.' => '',
+        'Makes the application block external content loading.' => '',
         'Makes the application check the MX record of email addresses before sending an email or submitting a telephone or email ticket.' =>
             'Eメールの送信または電話/Eメール・チケットの提出の前に、アプリケーションにEメール・アドレスのMXレコードをチェックさせるようにします。',
         'Makes the application check the syntax of email addresses.' => 'アプリケーションにEメール・アドレスのシンタクスをチェックさせます。',
@@ -7004,6 +7010,7 @@ Contentはダイナミック・フィールドの形式によって設定内容�
         'Strips empty lines on the ticket preview in the queue view.' => 'キュー画面で、チケット・プレビューの空の行を削除します。',
         'Strips empty lines on the ticket preview in the service view.' =>
             '',
+        'Support Agent' => '',
         'Swahili' => 'スワヒリ語',
         'Swedish' => 'スウェーデン語',
         'System Address Display Name' => 'システムアドレスの表示名',
@@ -7057,6 +7064,7 @@ Contentはダイナミック・フィールドの形式によって設定内容�
             'Eメール・リプライにおける件名の最初のテキストです。例：RE, AW, AS。',
         'The text at the beginning of the subject when an email is forwarded, e.g. FW, Fwd, or WG.' =>
             'Eメールが転送された際の、件名の最初のテキストです。例：FW, Fwd, WG。',
+        'The value of the From field' => '',
         'This event module stores attributes from CustomerUser as DynamicFields tickets. Please see the setting above for how to configure the mapping.' =>
             '',
         'This is a description for TimeZone on Customer side.' => '',

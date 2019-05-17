@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.946746746746747;
+    $Self->{Completeness}        = 0.945610877824435;
 
     # csv separator
     $Self->{Separator} = ',';
@@ -5006,6 +5006,7 @@ Helpdesk Team Anda
         'Default ACL values for ticket actions.' => 'Nilai default ACL untuk tindakan tiket.',
         'Default ProcessManagement entity prefixes for entity IDs that are automatically generated.' =>
             'Proses Manajemen awalan entitas default untuk ID entitas yang secara otomatis dihasilkan.',
+        'Default agent name' => '',
         'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimePointFormat=year;TicketCreateTimePointStart=Last;TicketCreateTimePoint=2;".' =>
             'default data digunakan pada atribut untuk layar pencarian tiket. Contoh: "TicketCreateTimePointFormat=year;TicketCreateTimePointStart=Last;TicketCreateTimePoint=2;".',
         'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimeStartYear=2010;TicketCreateTimeStartMonth=10;TicketCreateTimeStartDay=4;TicketCreateTimeStopYear=2010;TicketCreateTimeStopMonth=11;TicketCreateTimeStopDay=3;".' =>
@@ -5196,6 +5197,8 @@ Helpdesk Team Anda
         'Defines the date input format used in forms (option or input fields).' =>
             'Mendefinisikan format tanggal input yang digunakan dalam bentuk (pilihan atau masukan bidang).',
         'Defines the default CSS used in rich text editors.' => 'Mendefinisikan CSS default yang digunakan dalam editor teks kaya.',
+        'Defines the default agent name in the ticket zoom view of the customer interface.' =>
+            '',
         'Defines the default auto response type of the article for this operation.' =>
             'Mendefinisikan default jenis respon otomatis dari artikel untuk operasi ini.',
         'Defines the default body of a note in the ticket free text screen of the agent interface.' =>
@@ -5379,6 +5382,8 @@ Helpdesk Team Anda
             'Mendefinisikan nilai default untuk tindakan parameter frontend publik. Parameter tindakan digunakan dalam skrip dari sistem.',
         'Defines the default viewable sender types of a ticket (default: customer).' =>
             'Mendefinisikan default jenis pengirim dapat dilihat dari tiket (default: pelanggan).',
+        'Defines the displayed style of the From field in notes that are visible for customers. A default agent name can be defined in Ticket::Frontend::CustomerTicketZoom###DefaultAgentName setting.' =>
+            '',
         'Defines the dynamic fields that are used for displaying on calendar events.' =>
             'Mendefinisikan bidang dinamis yang digunakan untuk menampilkan pada acara kalender.',
         'Defines the fall-back path to open fetchmail binary. Note: The name of the binary needs to be \'fetchmail\', if it is different please use a symbolic link.' =>
@@ -6169,6 +6174,7 @@ Helpdesk Team Anda
         'Loop-Protection! No auto-response sent to "%s".' => 'Loop-Protection! Tidak ada auto-respon dikirim ke "%s".',
         'Mail Accounts' => 'Akun email',
         'Main menu registration.' => 'Menu utama untuk pendaftaran ',
+        'Makes the application block external content loading.' => '',
         'Makes the application check the MX record of email addresses before sending an email or submitting a telephone or email ticket.' =>
             'Membuat aplikasi untuk memeriksa catatan MX alamat email sebelum mengirim email   telepon atau email tiket.',
         'Makes the application check the syntax of email addresses.' => 'Membuat aplikasi memeriksa catatan MX alamat email sebelum mengirim email untuk mengirimkan telepon atau email tiket.',
@@ -6982,6 +6988,7 @@ Helpdesk Team Anda
         'Strips empty lines on the ticket preview in the queue view.' => 'Strip garis kosong di preview tiket dalam tampilan antrian.',
         'Strips empty lines on the ticket preview in the service view.' =>
             'Strip garis kosong di preview tiket di tampilan layanan.',
+        'Support Agent' => '',
         'Swahili' => 'Swahili',
         'Swedish' => 'Swedia',
         'System Address Display Name' => 'Sistem Alamat Nama Tampilan',
@@ -7035,6 +7042,7 @@ Helpdesk Team Anda
             'Teks pada awal subjek di balasan email, e.g.g. RAW, atau AS.',
         'The text at the beginning of the subject when an email is forwarded, e.g. FW, Fwd, or WG.' =>
             'Teks pada awal subjek ketika email diteruskan, misalnya FW, Fwd, atau WG.',
+        'The value of the From field' => '',
         'This event module stores attributes from CustomerUser as DynamicFields tickets. Please see the setting above for how to configure the mapping.' =>
             'Ini toko modul acara atribut dari Pengguna Khusus sebagai tiket Dinamis Fields. Silakan lihat pengaturan di atas untuk cara mengkonfigurasi pemetaan.',
         'This is a description for TimeZone on Customer side.' => '',

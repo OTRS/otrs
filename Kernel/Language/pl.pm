@@ -27,7 +27,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.767967967967968;
+    $Self->{Completeness}        = 0.767046590681864;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -4996,6 +4996,7 @@ Thanks for your help!
         'Default ACL values for ticket actions.' => 'Domyślne wartości ACL dla zgłoszeń.',
         'Default ProcessManagement entity prefixes for entity IDs that are automatically generated.' =>
             '',
+        'Default agent name' => '',
         'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimePointFormat=year;TicketCreateTimePointStart=Last;TicketCreateTimePoint=2;".' =>
             '',
         'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimeStartYear=2010;TicketCreateTimeStartMonth=10;TicketCreateTimeStartDay=4;TicketCreateTimeStopYear=2010;TicketCreateTimeStopMonth=11;TicketCreateTimeStopDay=3;".' =>
@@ -5186,6 +5187,8 @@ Thanks for your help!
         'Defines the date input format used in forms (option or input fields).' =>
             'Definiuje format daty używanej w formularzach (opcja lub pole wstawienia).',
         'Defines the default CSS used in rich text editors.' => 'Definiuje domyślny CSS używany w edytorach tekstu.',
+        'Defines the default agent name in the ticket zoom view of the customer interface.' =>
+            '',
         'Defines the default auto response type of the article for this operation.' =>
             'Definiuje rodzaj odpowiedzi automatycznej artykułu dla tej operacji.',
         'Defines the default body of a note in the ticket free text screen of the agent interface.' =>
@@ -5368,6 +5371,8 @@ Thanks for your help!
             '',
         'Defines the default viewable sender types of a ticket (default: customer).' =>
             'Definiuje domyślne widoczne typy wysyłających zgłoszenie (domyślny: klient).',
+        'Defines the displayed style of the From field in notes that are visible for customers. A default agent name can be defined in Ticket::Frontend::CustomerTicketZoom###DefaultAgentName setting.' =>
+            '',
         'Defines the dynamic fields that are used for displaying on calendar events.' =>
             'Definiuje domyślne pola dynamiczne, które są użyte do wyświetlenia zdarzeń kalendarzowych.',
         'Defines the fall-back path to open fetchmail binary. Note: The name of the binary needs to be \'fetchmail\', if it is different please use a symbolic link.' =>
@@ -6158,6 +6163,7 @@ Thanks for your help!
         'Loop-Protection! No auto-response sent to "%s".' => 'Loop-Protection! Nie wyslano autoodpowiedzi do "%s".',
         'Mail Accounts' => 'Konta Pocztowe',
         'Main menu registration.' => 'Rejstracja okna głównego.',
+        'Makes the application block external content loading.' => '',
         'Makes the application check the MX record of email addresses before sending an email or submitting a telephone or email ticket.' =>
             'Powoduje by aplikacja sprawdzała zapisy MX adresów e-mail przed wysłaniem e-mail lub zapisaniem zgłoszenia telefonicznego lub e-mail.',
         'Makes the application check the syntax of email addresses.' => 'Powoduje by aplikacja sprawdzała poprawność adresu e-mail.',
@@ -6971,6 +6977,7 @@ Thanks for your help!
         'Strips empty lines on the ticket preview in the queue view.' => 'Usuwa puste linie z podglądu zgłoszenia w widoku kolejki.',
         'Strips empty lines on the ticket preview in the service view.' =>
             '',
+        'Support Agent' => '',
         'Swahili' => '',
         'Swedish' => 'Szwedzki',
         'System Address Display Name' => '',
@@ -7024,6 +7031,7 @@ Thanks for your help!
             'Tekst na początku tematu w odpowiedziach e-mail np. RE lub Odp.',
         'The text at the beginning of the subject when an email is forwarded, e.g. FW, Fwd, or WG.' =>
             'Tekst na początku tematu w e-mailach przesłanch dalej np. FW lub Fwd.',
+        'The value of the From field' => '',
         'This event module stores attributes from CustomerUser as DynamicFields tickets. Please see the setting above for how to configure the mapping.' =>
             '',
         'This is a description for TimeZone on Customer side.' => '',

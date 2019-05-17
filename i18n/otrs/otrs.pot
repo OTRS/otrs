@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-01-08 11:11+0000\n"
+"POT-Creation-Date: 2019-05-16 18:36+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -14118,6 +14118,14 @@ msgid "Allows extended search conditions in ticket search of the generic agent i
 msgstr ""
 
 #. SysConfig
+msgid "Allows generic agent to execute custom command line scripts."
+msgstr ""
+
+#. SysConfig
+msgid "Allows generic agent to execute custom modules."
+msgstr ""
+
+#. SysConfig
 msgid "Allows having a medium format ticket overview (CustomerInfo => 1 - shows also the customer information)."
 msgstr ""
 
@@ -14738,6 +14746,10 @@ msgid "Default ProcessManagement entity prefixes for entity IDs that are automat
 msgstr ""
 
 #. SysConfig
+msgid "Default agent name"
+msgstr ""
+
+#. SysConfig
 msgid "Default data to use on attribute for ticket search screen. Example: \"TicketCreateTimePointFormat=year;TicketCreateTimePointStart=Last;TicketCreateTimePoint=2;\"."
 msgstr ""
 
@@ -15174,6 +15186,10 @@ msgid "Defines the default CSS used in rich text editors."
 msgstr ""
 
 #. SysConfig
+msgid "Defines the default agent name in the ticket zoom view of the customer interface."
+msgstr ""
+
+#. SysConfig
 msgid "Defines the default auto response type of the article for this operation."
 msgstr ""
 
@@ -15547,6 +15563,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Defines the default viewable sender types of a ticket (default: customer)."
+msgstr ""
+
+#. SysConfig
+msgid "Defines the displayed style of the From field in notes that are visible for customers. A default agent name can be defined in Ticket::Frontend::CustomerTicketZoom###DefaultAgentName setting."
 msgstr ""
 
 #. SysConfig
@@ -17479,6 +17499,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Main menu registration."
+msgstr ""
+
+#. SysConfig
+msgid "Makes the application block external content loading."
 msgstr ""
 
 #. SysConfig
@@ -19426,6 +19450,10 @@ msgid "Strips empty lines on the ticket preview in the service view."
 msgstr ""
 
 #. SysConfig
+msgid "Support Agent"
+msgstr ""
+
+#. SysConfig
 msgid "Swahili"
 msgstr ""
 
@@ -19551,6 +19579,10 @@ msgstr ""
 
 #. SysConfig
 msgid "The text at the beginning of the subject when an email is forwarded, e.g. FW, Fwd, or WG."
+msgstr ""
+
+#. SysConfig
+msgid "The value of the From field"
 msgstr ""
 
 #. SysConfig

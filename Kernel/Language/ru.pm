@@ -35,7 +35,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.97957957957958;
+    $Self->{Completeness}        = 0.978404319136173;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -5015,6 +5015,7 @@ Thanks for your help!
         'Default ACL values for ticket actions.' => 'Стандартные значения ACL для действий по заявке.',
         'Default ProcessManagement entity prefixes for entity IDs that are automatically generated.' =>
             'Стандартные префиксы идентификаторов элементов процессов в Управлении Процессами, генерируемые автоматически (напр. A, T, AD, TA).',
+        'Default agent name' => '',
         'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimePointFormat=year;TicketCreateTimePointStart=Last;TicketCreateTimePoint=2;".' =>
             'Стандартные данные, используемые для атрибутов поиска. Например: "TicketCreateTimePointFormat=year;TicketCreateTimePointStart=Last;TicketCreateTimePoint=2;".',
         'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimeStartYear=2010;TicketCreateTimeStartMonth=10;TicketCreateTimeStartDay=4;TicketCreateTimeStopYear=2010;TicketCreateTimeStopMonth=11;TicketCreateTimeStopDay=3;".' =>
@@ -5205,6 +5206,8 @@ Thanks for your help!
         'Defines the date input format used in forms (option or input fields).' =>
             'Задает способ ввода даты (выбором (option) или прямым вводом в поле (input).',
         'Defines the default CSS used in rich text editors.' => 'Задает стандартные CSS, используемые в текстовом редакторе (rich text editor).',
+        'Defines the default agent name in the ticket zoom view of the customer interface.' =>
+            '',
         'Defines the default auto response type of the article for this operation.' =>
             'Задает стандартный тип автоответа для этой операции.',
         'Defines the default body of a note in the ticket free text screen of the agent interface.' =>
@@ -5387,6 +5390,8 @@ Thanks for your help!
             'Задает значение параметра Action по умолчанию для общедоступного (public) интерфейса. Параметр Action используется в скриптах системы.',
         'Defines the default viewable sender types of a ticket (default: customer).' =>
             'Задает отображаемый тип отправителя заявки по умолчанию (по умолчанию: customer).',
+        'Defines the displayed style of the From field in notes that are visible for customers. A default agent name can be defined in Ticket::Frontend::CustomerTicketZoom###DefaultAgentName setting.' =>
+            '',
         'Defines the dynamic fields that are used for displaying on calendar events.' =>
             'Задает динамическое поле, отображаемое при событиях календаря.',
         'Defines the fall-back path to open fetchmail binary. Note: The name of the binary needs to be \'fetchmail\', if it is different please use a symbolic link.' =>
@@ -6177,6 +6182,7 @@ Thanks for your help!
         'Loop-Protection! No auto-response sent to "%s".' => 'Защита от зацикливания! Авто-ответ на «%s» не отправлен.',
         'Mail Accounts' => 'Почтовые аккаунты',
         'Main menu registration.' => 'ModuleRegistration для главного меню.',
+        'Makes the application block external content loading.' => '',
         'Makes the application check the MX record of email addresses before sending an email or submitting a telephone or email ticket.' =>
             'Включает проверку MX record почтовых адресов клиента до отправки почты или приема почтовой или телефонной заявки.',
         'Makes the application check the syntax of email addresses.' => 'Включает проверку синтаксиса адреса электронной почты.',
@@ -6990,6 +6996,7 @@ Thanks for your help!
         'Strips empty lines on the ticket preview in the queue view.' => 'Убирает пустые строки при предпросмотре заявки в обзоре очередей.',
         'Strips empty lines on the ticket preview in the service view.' =>
             'Убирает пустые строки при предпросмотре заявки в обзоре сервисов.',
+        'Support Agent' => '',
         'Swahili' => 'Суахили',
         'Swedish' => 'Шведский',
         'System Address Display Name' => 'Отображаемое имя для System Address',
@@ -7043,6 +7050,7 @@ Thanks for your help!
             'Текст, предшествующий теме в ответе на письмо, например, RE, AW, или AS.',
         'The text at the beginning of the subject when an email is forwarded, e.g. FW, Fwd, or WG.' =>
             'Текст, предшествующий теме при пересылке письма, например, FW, Fwd, или WG.',
+        'The value of the From field' => '',
         'This event module stores attributes from CustomerUser as DynamicFields tickets. Please see the setting above for how to configure the mapping.' =>
             'Модуль, который сохраняет атрибуты клиента в динамических полях заявки. Смотрите в параметрах выше как настроить соответствие.',
         'This is a description for TimeZone on Customer side.' => '',

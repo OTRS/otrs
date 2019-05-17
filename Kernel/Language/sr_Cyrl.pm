@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.992389345083116;
+    $Self->{Completeness}        = 0.990801839632074;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -3420,8 +3420,7 @@ sub Data {
         'There was an error setting the entity sync status.' => 'Дошло је до грешке приликом подешавања статуса синхронизације ентитета.',
         'There was an error synchronizing the ACLs.' => 'Дошло је до грешке при синхронизацији „ACLs”',
         'ACL %s could not be deleted' => '„ACL” листу %s није могуће обрисати',
-        'There was an error getting data for ACL with ID %s' => 'Дошло је до грешке приликом прибављања података за
-„ACL” листу са ИД %s',
+        'There was an error getting data for ACL with ID %s' => 'Дошло је до грешке приликом прибављања података за „ACL” листу са ИД %s',
         'Exact match' => 'Тачно поклапање',
         'Negated exact match' => 'Негирано тачно поклапање',
         'Regular expression' => 'Регуларни израз',
@@ -4797,6 +4796,9 @@ Thanks for your help!
             'Омогућава напредне услове претраге тикета у интерфејсу корисника. Са овом опцијом моћете претраживати нпр. наслов тикета са условима као "(*key1*&&*key2*)" или "(*key1*||*key2*)".',
         'Allows extended search conditions in ticket search of the generic agent interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
             'Дозвољава проширене услове претраге у претрази тикета на интерфејсу општег оператера. Помоћу ове функције можете вршити претраге нпр. са врстом услова као што су: „(key1&&key2)” или „(key1||key2)”.',
+        'Allows generic agent to execute custom command line scripts.' =>
+            '',
+        'Allows generic agent to execute custom modules.' => '',
         'Allows having a medium format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
             'Дозвољава поседовање средњег формата прегледа тикета ( CustomerInfo => 1 - такође приказује информације о клијенту).',
         'Allows having a small format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
@@ -5002,6 +5004,7 @@ Thanks for your help!
         'Default ACL values for ticket actions.' => 'Подразумеване ACL вредности за акције тикета.',
         'Default ProcessManagement entity prefixes for entity IDs that are automatically generated.' =>
             'Подразумевани префикси објекта за управљање процесом за ИЂеве објекта који су аутоматски генерисани.',
+        'Default agent name' => '',
         'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimePointFormat=year;TicketCreateTimePointStart=Last;TicketCreateTimePoint=2;".' =>
             'Подразумевани подаци за коришћење на атрибутима за приказ претраге тикета. Пример: „TicketCreateTimePointFormat=year;TicketCreateTimePointStart=Last;TicketCreateTimePoint=2;”.',
         'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimeStartYear=2010;TicketCreateTimeStartMonth=10;TicketCreateTimeStartDay=4;TicketCreateTimeStopYear=2010;TicketCreateTimeStopMonth=11;TicketCreateTimeStopDay=3;".' =>
@@ -5192,6 +5195,8 @@ Thanks for your help!
         'Defines the date input format used in forms (option or input fields).' =>
             'Дефинише форноса датума у формуларе (опционо или поља за унос).',
         'Defines the default CSS used in rich text editors.' => 'Дефинише подразумевани CSS употребљен у RTF уређивању.',
+        'Defines the default agent name in the ticket zoom view of the customer interface.' =>
+            '',
         'Defines the default auto response type of the article for this operation.' =>
             'Дефинише подразумевани тип аутоматског одговора чланка за ову операцију.',
         'Defines the default body of a note in the ticket free text screen of the agent interface.' =>
@@ -5374,6 +5379,8 @@ Thanks for your help!
             'Дефинише подрезумевану вредност за акциони параметар за јавни кориснички део. Акциони параметар је коришћен у скриптама система.',
         'Defines the default viewable sender types of a ticket (default: customer).' =>
             'Одређује подразумевани тип видљивог пошиљаоца тикета (подразмевано: клијент).',
+        'Defines the displayed style of the From field in notes that are visible for customers. A default agent name can be defined in Ticket::Frontend::CustomerTicketZoom###DefaultAgentName setting.' =>
+            '',
         'Defines the dynamic fields that are used for displaying on calendar events.' =>
             'Дефинише динамичка поља која се користе за приказивање на календару догађаја.',
         'Defines the fall-back path to open fetchmail binary. Note: The name of the binary needs to be \'fetchmail\', if it is different please use a symbolic link.' =>
@@ -6164,6 +6171,7 @@ Thanks for your help!
         'Loop-Protection! No auto-response sent to "%s".' => 'Заштита од петље! Аутоматски одговор није послат на „%s”.',
         'Mail Accounts' => 'Имејл налози',
         'Main menu registration.' => 'Регистрација главног менија.',
+        'Makes the application block external content loading.' => '',
         'Makes the application check the MX record of email addresses before sending an email or submitting a telephone or email ticket.' =>
             'Проверава MX запис имејл адресе пре слања поруке или телефонских или имејл тикета.',
         'Makes the application check the syntax of email addresses.' => 'Приморава апликацију да проверава синтаксу имејл адереса.',
@@ -6977,6 +6985,7 @@ Thanks for your help!
         'Strips empty lines on the ticket preview in the queue view.' => 'Уклања празне линије у приказу тикета на прегледу реда.',
         'Strips empty lines on the ticket preview in the service view.' =>
             'Уклања празне линије у приказу тикета на прегледу услуга.',
+        'Support Agent' => '',
         'Swahili' => 'Свахили',
         'Swedish' => 'Шведски',
         'System Address Display Name' => 'Назив за приказ системске адресе',
@@ -7030,6 +7039,7 @@ Thanks for your help!
             'Текст на почетку предмета у одговору на имејл, нпр „RE”, „AW”, или „ОД”.',
         'The text at the beginning of the subject when an email is forwarded, e.g. FW, Fwd, or WG.' =>
             'Текст на почетку предмета када се имејл прослеђује, нпр „FW”, „Fwd”, или „Про”.',
+        'The value of the From field' => '',
         'This event module stores attributes from CustomerUser as DynamicFields tickets. Please see the setting above for how to configure the mapping.' =>
             'Овај модул догађаја чува атрибуте корисника као динамичка поља тикета. Погледајте опцију изнад за подешавање мапирања.',
         'This is a description for TimeZone on Customer side.' => 'Ово је опис за TimeZone у интефејску клијента.',
