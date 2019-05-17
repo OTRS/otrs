@@ -131,8 +131,9 @@ $Selenium->RunTest(
         }
 
         # Create test ACL with possible not selection of test queues.
-        my $ACLID = $ACLObject->ACLAdd(
-            Name           => 'AACL' . $Helper->GetRandomID(),
+        my $ACLName = 'AACL' . $Helper->GetRandomID();
+        my $ACLID   = $ACLObject->ACLAdd(
+            Name           => $ACLName,
             Comment        => 'Selenium ACL',
             Description    => 'Description',
             StopAfterMatch => 1,
@@ -191,11 +192,20 @@ $Selenium->RunTest(
         # Click 'Deploy ACLs'.
         $Selenium->find_element("//a[contains(\@href, 'Action=AdminACL;Subaction=ACLDeploy')]")->VerifiedClick();
 
+        $Self->True(
+            $Selenium->find_element("//a[text()=\"$ACLName\"]")->is_displayed(),
+            "ACLName '$ACLName' found on page",
+        );
+
         # Navigate to zoom view of created test ticket.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
 
+        $Selenium->WaitForjQueryEventBound(
+            CSSSelector => "a[title='Change Queue']",
+        );
+
         # Click on 'Move' and switch window.
-        $Selenium->find_element("//a[contains(\@title, \'Change Queue' )]")->click();
+        $Selenium->find_element("//a[\@title='Change Queue']")->click();
 
         $Selenium->WaitFor( WindowCount => 2 );
         my $Handles = $Selenium->get_window_handles();
@@ -222,10 +232,14 @@ $Selenium->RunTest(
         $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
 
-        # Wait for reload to kick in.
         $Selenium->WaitFor(
             JavaScript =>
                 'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete;'
+        );
+
+        $Self->True(
+            $Selenium->find_element("//a[\@title='Close this ticket']")->is_displayed(),
+            "Close menu found on page",
         );
 
         # Navigate to AgentTicketHistory of created test ticket.
@@ -256,6 +270,10 @@ $Selenium->RunTest(
 
         # Click to return back to AgentTicketZoom screen.
         $Selenium->find_element( ".ReturnToPreviousPage", 'css' )->VerifiedClick();
+
+        $Selenium->WaitFor(
+            JavaScript => "return typeof(\$) === 'function' && \$('a[title*=\"Mark this ticket as junk!\"]').length;"
+        );
 
         # Click on 'Spam' and check for ACL error message.
         $Selenium->find_element("//a[contains(\@title, 'Mark this ticket as junk!')]")->VerifiedClick();
