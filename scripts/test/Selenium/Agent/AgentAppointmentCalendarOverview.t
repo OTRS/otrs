@@ -306,7 +306,9 @@ $Selenium->RunTest(
         );
 
         # Wait until all AJAX calls finished.
-        $Selenium->WaitFor( JavaScript => "return \$.active == 0;" );
+        $Selenium->WaitFor(
+            JavaScript => "return \$.active == 0 && \$('.fc-timeline-event .fc-title').text() == 'Appointment 1';"
+        );
 
         # Verify first appointment is visible.
         $Self->Is(
@@ -395,6 +397,10 @@ $Selenium->RunTest(
             JavaScript =>
                 'return typeof($) === "function" && !$(".Dialog:visible").length && !$(".CalendarWidget.Loading").length;'
         );
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return $("#Calendar' . $Calendar1{CalendarID} . ':checked").length;'
+        );
 
         # Hide the first calendar from view.
         $Selenium->find_element( 'Calendar' . $Calendar1{CalendarID}, 'id' )->click();
@@ -462,6 +468,11 @@ $Selenium->RunTest(
 
         # Wait until all AJAX calls finished.
         $Selenium->WaitFor( JavaScript => "return \$.active == 0;" );
+
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return $("#Calendar' . $Calendar2{CalendarID} . ':checked").length;'
+        );
 
         # Hide the second calendar from view.
         $Selenium->find_element( 'Calendar' . $Calendar2{CalendarID}, 'id' )->click();
@@ -608,23 +619,50 @@ $Selenium->RunTest(
                 . $Calendar4{CalendarID}
                 . '").prop("checked") === true;'
         );
+        $Self->True(
+            $Selenium->execute_script(
+                'return $("#Calendar' . $Calendar4{CalendarID} . '").prop("checked") === true;'
+            ),
+            "CalendarID $Calendar4{CalendarID} - checked",
+        );
+
         $Selenium->find_element( 'Calendar' . $Calendar1{CalendarID}, 'id' )->click();
         $Selenium->WaitFor(
             JavaScript => 'return typeof($) === "function" && $("#Calendar'
                 . $Calendar1{CalendarID}
                 . '").prop("checked") === false;'
         );
+        $Self->True(
+            $Selenium->execute_script(
+                'return $("#Calendar' . $Calendar1{CalendarID} . '").prop("checked") === false;'
+            ),
+            "CalendarID $Calendar1{CalendarID} - unchecked",
+        );
+
         $Selenium->find_element( 'Calendar' . $Calendar2{CalendarID}, 'id' )->click();
         $Selenium->WaitFor(
             JavaScript => 'return typeof($) === "function" && $("#Calendar'
                 . $Calendar2{CalendarID}
                 . '").prop("checked") === false;'
         );
+        $Self->True(
+            $Selenium->execute_script(
+                'return $("#Calendar' . $Calendar2{CalendarID} . '").prop("checked") === false;'
+            ),
+            "CalendarID $Calendar2{CalendarID} - unchecked",
+        );
+
         $Selenium->find_element( 'Calendar' . $Calendar3{CalendarID}, 'id' )->click();
         $Selenium->WaitFor(
             JavaScript => 'return typeof($) === "function" && $("#Calendar'
                 . $Calendar3{CalendarID}
                 . '").prop("checked") === false;'
+        );
+        $Self->True(
+            $Selenium->execute_script(
+                'return $("#Calendar' . $Calendar3{CalendarID} . '").prop("checked") === false;'
+            ),
+            "CalendarID $Calendar3{CalendarID} - unchecked",
         );
 
         $Selenium->WaitFor( JavaScript => 'return $(".fc-toolbar .fc-prev-button").length;' );
