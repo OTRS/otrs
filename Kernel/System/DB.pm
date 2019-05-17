@@ -1290,29 +1290,9 @@ sub QueryCondition {
 
         # find word
         if ($Backslash) {
-            if (
-                $Position < $#Array
-                && ( $Position > $#Array - 1 || $Array[$Position] ne ')' )
-                && (
-                    $Position > $#Array - 1
-                    || $Array[$Position] ne '&'
-                    || $Array[ $Position + 1 ] ne '&'
-                )
-                && (
-                    $Position > $#Array - 1
-                    || $Array[$Position] ne '|'
-                    || $Array[ $Position + 1 ] ne '|'
-                )
-                )
-            {
-                $Word .= $Array[$Position];
-            }
-
-            if ( $Position != $#Array ) {
-                $Backslash = 0;
-                next POSITION;
-            }
-
+            $Word .= $Array[$Position];
+            $Backslash = 0;
+            next POSITION;
         }
 
         # remember if next token is a part of word
@@ -1501,12 +1481,7 @@ sub QueryCondition {
                     );
                     return "1=0";
                 }
-                elsif (
-                       $SQL !~ m/ AND $/
-                    && $Position + 3 < $#Array
-                    || ( $Position + 3 == $#Array && $Array[$Position] eq '&' && $Array[ $Position - 1 ] eq ')' )
-                    )
-                {
+                elsif ( $SQL !~ m/ AND $/ ) {
                     $SQL .= ' AND ';
                 }
             }
@@ -1521,12 +1496,7 @@ sub QueryCondition {
                     );
                     return "1=0";
                 }
-                elsif (
-                       $SQL !~ m/ OR $/
-                    && $Position + 3 < $#Array
-                    || ( $Position + 3 == $#Array && $Array[$Position] eq '&' && $Array[ $Position - 1 ] eq ')' )
-                    )
-                {
+                elsif ( $SQL !~ m/ OR $/ ) {
                     $SQL .= ' OR ';
                 }
             }

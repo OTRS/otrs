@@ -720,59 +720,6 @@ for my $Condition (
     );
 }
 
-# Check if fulltext search returns results when serched term has backslash . See bug#14427.
-$ArticleID = $ArticleBackendObject->ArticleCreate(
-    TicketID             => $TicketID,
-    SenderType           => 'agent',
-    IsVisibleForCustomer => 0,
-    From =>
-        '<email@example.com>',
-    To =>
-        '<customer-a@example.com>',
-    Subject =>
-        'Welcome to OTRS!',
-    Body => (
-        'Welcome to OTRS!'
-    ),
-
-    ContentType    => 'text/plain; charset=ISO-8859-15',
-    HistoryType    => 'OwnerUpdate',
-    HistoryComment => 'Some free text!',
-    UserID         => 1,
-    NoAgentNotify  => 1,
-);
-
-for my $Condition (
-    'welcome \ otrs',
-    '\welcome',
-    '\ welcome',
-    '\\\\\\\\welcome',
-    '\\\\\\\\ welcome',
-    '\w\e\l\c\o\m\e',
-    'welcome \\',
-    'welcome\\',
-    )
-{
-    %TicketIDs = $TicketObject->TicketSearch(
-
-        # result (required)
-        Result => 'HASH',
-
-        # result limit
-        Limit               => 1000,
-        Fulltext            => $Condition,
-        ConditionInline     => 1,
-        ContentSearchPrefix => '*',
-        ContentSearchSuffix => '*',
-        UserID              => 1,
-        Permission          => 'rw',
-    );
-    $Self->True(
-        ( $TicketIDs{$TicketID} ),
-        "TicketSearch() (HASH:Fulltext,ConditionInline,Fulltext='$Condition')",
-    );
-}
-
 my $TicketPriority = $TicketObject->PrioritySet(
     Priority => '2 low',
     TicketID => $TicketID,

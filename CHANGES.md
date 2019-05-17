@@ -18,7 +18,6 @@
  - 2019-04-18 Fixed bug#[14482](https://bugs.otrs.org/show_bug.cgi?id=14482) - File upload help text is wrapped and overflows on small resolutions.
  - 2019-04-17 Fixed bug#[14511](https://bugs.otrs.org/show_bug.cgi?id=14511) - Statistic does not work during daylight saving time.
    Fatal error was fixed during generation of statistics based on an unexisting hour, which is lost during the time switch.
- - 2019-04-17 Fixed bug#[14427](https://bugs.otrs.org/show_bug.cgi?id=14427) - Fulltext search has no result if search term contains backslash followed by white space.
  - 2019-04-16 Fixed bug#[14412](https://bugs.otrs.org/show_bug.cgi?id=14412) - CustomerID cannot be changed in ticket action for changing customer.
    Config option `Ticket::Frontend::AgentTicketCustomer::CustomerIDReadOnly` was not honored.
  - 2019-04-16 Fixed bug#[14494](https://bugs.otrs.org/show_bug.cgi?id=14494) - Wrong service selection in ticket search dialog.
