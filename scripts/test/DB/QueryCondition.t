@@ -1125,62 +1125,6 @@ for my $Key ( sort keys %Fill ) {
             Some1 => 1,
         },
     },
-    {
-        Query  => '\1 otrs',
-        Result => {
-            Some0 => 0,
-            Some1 => 1,
-        },
-    },
-    {
-        Query  => '\ 1 otrs',
-        Result => {
-            Some0 => 0,
-            Some1 => 1,
-        },
-    },
-    {
-        Query  => '1 otrs \\',
-        Result => {
-            Some0 => 0,
-            Some1 => 1,
-        },
-    },
-    {
-        Query  => '1 otrs\ ',
-        Result => {
-            Some0 => 0,
-            Some1 => 1,
-        },
-    },
-    {
-        Query  => '1 ot\rs',
-        Result => {
-            Some0 => 0,
-            Some1 => 1,
-        },
-    },
-    {
-        Query  => '1 \ otrs',
-        Result => {
-            Some0 => 0,
-            Some1 => 1,
-        },
-    },
-    {
-        Query  => '1 \otrs',
-        Result => {
-            Some0 => 0,
-            Some1 => 1,
-        },
-    },
-    {
-        Query  => '\1 \o\t\r\s',
-        Result => {
-            Some0 => 0,
-            Some1 => 1,
-        },
-    },
 );
 for my $Query (@Queries) {
     my $Condition = $DBObject->QueryCondition(
