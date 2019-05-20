@@ -155,8 +155,7 @@ $Selenium->RunTest(
         # Get script alias.
         my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
 
-        # Navigate to AdminPackageManager screen.
-        $NavigateToAdminPackageManager->();
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminPackageManager");
 
         # Check if needed frontend module is registered in sysconfig.
         if ( !$ConfigObject->Get('Frontend::Module')->{AdminPackageManager} ) {
