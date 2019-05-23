@@ -11,7 +11,7 @@
  - 2019-05-09 Fixed bug#[14398](https://bugs.otrs.org/show_bug.cgi?id=14398) - External images are automatically loaded in forward screen.
    New config named `Ticket::Frontend::BlockLoadingRemoteContent` has been added. It controls if loading of external resources will be blocked, by default it is disabled.
  - 2019-05-09 Fixed bug#[14500](https://bugs.otrs.org/show_bug.cgi?id=14500) - The behaviour of the webservices are not compliant to RFC 4648. After 76 characters we built in a linefeed (/n) which is not RFC compliant.
- - 2019-05-08 Fixed bug#[14532](https://bugs.otrs.org/show_bug.cgi?id=14532) - Wrong comment / documentation for Daemon::SchedulerCronTaskManager::Task###GeneticInterfaceDebugLogCleanup in Docs and SystemConfiguration.
+ - 2019-05-08 Fixed bug#[14532](https://bugs.otrs.org/show_bug.cgi?id=14532) - Wrong comment / documentation for Daemon::SchedulerCronTaskManager::Task###GenericInterfaceDebugLogCleanup in Docs and SystemConfiguration.
  - 2019-05-08 Fixed bug#[14455](https://bugs.otrs.org/show_bug.cgi?id=14455) - OTRS tags '<OTRS_CUSTOMER_DATA_*>' don't work in templates of the type 'Create'.
  - 2019-05-08 Fixed bug#[14514](https://bugs.otrs.org/show_bug.cgi?id=14514) - In the appointment calendar long entries in the team and agent list can be hidden behind the appointment overview window.
  - 2019-05-08 Fixed bug#[14400](https://bugs.otrs.org/show_bug.cgi?id=14400) - Reply adds the same email address for every connected customer user backend.
