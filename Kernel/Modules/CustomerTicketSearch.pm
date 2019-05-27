@@ -1470,7 +1470,7 @@ sub Run {
         );
 
         # show footer filter - show only if more the one page is available
-        if ( $PageNav{TotalHits} && ( $PageNav{TotalHits} > $SearchPageShown ) ) {
+        if ( $SearchLimit && ( $SearchLimit > $SearchPageShown ) ) {
             $LayoutObject->Block(
                 Name => 'Pagination',
                 Data => {

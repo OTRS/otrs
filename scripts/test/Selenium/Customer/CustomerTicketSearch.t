@@ -12,29 +12,27 @@ use utf8;
 
 use vars (qw($Self));
 
-# get selenium object
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
 
-        # get helper object
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-        # do not check email addresses
+        # Do not check email addresses.
         $Helper->ConfigSettingChange(
             Key   => 'CheckEmailAddresses',
             Value => 0,
         );
 
-        # do not check Service
+        # Do not check Service.
         $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Ticket::Service',
             Value => 1,
         );
 
-        # do not check Type
+        # Do not check Type.
         $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Ticket::Type',
@@ -74,8 +72,10 @@ $Selenium->RunTest(
             },
         );
 
+        my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
+
         # Create test customer user.
-        my $TestCustomerUserLogin = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserAdd(
+        my $TestCustomerUserLogin = $CustomerUserObject->CustomerUserAdd(
             Source         => 'CustomerUser',
             UserFirstname  => $RandomID,
             UserLastname   => $RandomID,
@@ -92,7 +92,7 @@ $Selenium->RunTest(
         );
 
         my $Language = 'de';
-        $Kernel::OM->Get('Kernel::System::CustomerUser')->SetPreferences(
+        $CustomerUserObject->SetPreferences(
             UserID => $TestCustomerUserLogin,
             Key    => 'UserLanguage',
             Value  => $Language,
@@ -104,13 +104,12 @@ $Selenium->RunTest(
             Password => $RandomID,
         );
 
-        # get script alias
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
-        # navigate to CustomerTicketSearch screen
+        # Navigate to CustomerTicketSearch screen.
         $Selenium->VerifiedGet("${ScriptAlias}customer.pl?Action=CustomerTicketSearch");
 
-        # check overview screen
+        # Check overview screen.
         for my $ID (
             qw(Profile TicketNumber CustomerID MIMEBase_From MIMEBase_To MIMEBase_Cc MIMEBase_Subject MIMEBase_Body
             ServiceIDs TypeIDs PriorityIDs StateIDs
@@ -125,10 +124,9 @@ $Selenium->RunTest(
             $Element->is_displayed();
         }
 
-        # get ticket object
         my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
-        # create ticket for test scenario
+        # Create ticket for test scenario.
         my $TitleRandom = 'Title' . $RandomID;
         my $TicketID    = $TicketObject->TicketCreate(
             Title        => $TitleRandom,
@@ -144,6 +142,8 @@ $Selenium->RunTest(
             $TicketID,
             "Ticket ID $TicketID - created",
         );
+
+        my @TicketIDs = ($TicketID);
 
         my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForChannel(
             ChannelName => 'Email',
@@ -169,7 +169,7 @@ $Selenium->RunTest(
             "Article is created - ID $ArticleID"
         );
 
-        # get test ticket number
+        # Get test ticket number.
         my %Ticket = $TicketObject->TicketGet(
             TicketID => $TicketID,
         );
@@ -192,11 +192,11 @@ $Selenium->RunTest(
             "Value for DynamicFieldID $DynamicFieldID is set to TicketID $TicketID '$ValueText' successfully",
         );
 
-        # input ticket number as search parameter
+        # Input ticket number as search parameter.
         $Selenium->find_element( "#TicketNumber", 'css' )->send_keys( $Ticket{TicketNumber} );
         $Selenium->find_element( "#Submit",       'css' )->VerifiedClick();
 
-        # check for expected result
+        # Check for expected result.
         $Self->True(
             index( $Selenium->get_page_source(), $TitleRandom ) > -1,
             "Ticket $TitleRandom found on page",
@@ -230,10 +230,10 @@ $Selenium->RunTest(
             "DynamicField value is found - $DynamicFieldName:$ValueText",
         );
 
-        # click on '← Change search options'
+        # Click on '← Change search options'.
         $Selenium->find_element( $SearchText, 'link_text' )->VerifiedClick();
 
-        # input more search filters, result should be 'No data found'
+        # Input more search filters, result should be 'No data found'.
         $Selenium->find_element( "#TicketNumber", 'css' )->clear();
         $Selenium->find_element( "#TicketNumber", 'css' )->send_keys("123456789012345");
         $Selenium->InputFieldValueSet(
@@ -246,14 +246,14 @@ $Selenium->RunTest(
         );
         $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
-        # check for expected result
+        # Check for expected result.
         $Self->Is(
             $Selenium->execute_script("return \$('#EmptyMessage td').text().trim();"),
             $LanguageObject->Translate('No data found.'),
             "Ticket is not found on page",
         );
 
-        # check search filter data
+        # Check search filter data.
         $Self->Is(
             $Selenium->execute_script("return \$('.SearchTerms h2').text().trim();"),
             $LanguageObject->Translate('Search Results for') . ':',
@@ -291,34 +291,104 @@ $Selenium->RunTest(
 
         $Selenium->VerifiedGet("${ScriptAlias}customer.pl?Action=CustomerTicketSearch");
 
-        # input ticket number as search parameter
+        # Input ticket number as search parameter.
         $Selenium->find_element( "#TicketNumber", 'css' )->send_keys( $Ticket{TicketNumber} );
         $Selenium->find_element( "#Submit",       'css' )->VerifiedClick();
 
-        # check for expected result
+        # Check for expected result.
         $Self->True(
             index( $Selenium->get_page_source(), $TitleRandom ) > -1,
             "Ticket $TitleRandom found on page",
         );
 
-        # clean up test data from the DB
-        $Success = $TicketObject->TicketDelete(
-            TicketID => $TicketID,
-            UserID   => 1,
+        # Check if pagination is shown correctly when search limit is used. See bug#14556.
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'Ticket::CustomerTicketSearch::SearchLimit',
+            Value => 5,
         );
 
-        # Ticket deletion could fail if apache still writes to ticket history. Try again in this case.
-        if ( !$Success ) {
-            sleep 3;
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'Ticket::CustomerTicketSearch::SearchPageShown',
+            Value => 2,
+        );
+
+        for my $Item ( 1 .. 4 ) {
+            my $TicketID = $TicketObject->TicketCreate(
+                Title        => "Title$Item$RandomID",
+                Queue        => 'Raw',
+                Lock         => 'unlock',
+                Priority     => '3 normal',
+                State        => 'open',
+                CustomerUser => $TestCustomerUserLogin,
+                OwnerID      => 1,
+                UserID       => 1,
+            );
+            $Self->True(
+                $TicketID,
+                "Ticket ID $TicketID - created",
+            );
+            push @TicketIDs, $TicketID;
+        }
+
+        # Navigate to CustomerTicketSearch screen.
+        $Selenium->VerifiedGet("${ScriptAlias}customer.pl?Action=CustomerTicketSearch");
+
+        # Search all tickets.
+        $Selenium->find_element( "#TicketNumber", 'css' )->clear();
+        $Selenium->find_element( "#TicketNumber", 'css' )->send_keys('*');
+        $Selenium->find_element( "#Submit",       'css' )->VerifiedClick();
+
+        # Check if pagination shows correct number of displayed tickets.
+        $Self->Is(
+            $Selenium->execute_script("return \$('.ActionRow .Tabs.Pagination strong').first().text().trim();"),
+            "1-2",
+            "Pagination displayed correct number of tickets.",
+        );
+        $Self->Is(
+            $Selenium->execute_script("return \$('.ActionRow .Tabs.Pagination .PaginationLimit').text().trim();"),
+            "5",
+            "Pagination shows correct limit number of tickets.",
+        );
+
+        # Check next result page.
+        $Selenium->find_element( ".ActionRow .Tabs.Pagination #CustomerTicketSearchPage2", 'css' )->VerifiedClick();
+        $Self->Is(
+            $Selenium->execute_script("return \$('.ActionRow .Tabs.Pagination strong').first().text().trim();"),
+            "3-4",
+            "Second result page, pagination shows correct number of tickets.",
+        );
+
+        # Check last result page.
+        $Selenium->find_element( ".ActionRow .Tabs.Pagination #CustomerTicketSearchPage3", 'css' )->VerifiedClick();
+        $Self->Is(
+            $Selenium->execute_script("return \$('.ActionRow .Tabs.Pagination strong').first().text().trim();"),
+            "5-5",
+            "Last result page, pagination shows correct number of tickets.",
+        );
+
+        for my $TicketID (@TicketIDs) {
+
+            # Clean up test data from the DB.
             $Success = $TicketObject->TicketDelete(
                 TicketID => $TicketID,
                 UserID   => 1,
             );
+
+            # Ticket deletion could fail if apache still writes to ticket history. Try again in this case.
+            if ( !$Success ) {
+                sleep 3;
+                $Success = $TicketObject->TicketDelete(
+                    TicketID => $TicketID,
+                    UserID   => 1,
+                );
+            }
+            $Self->True(
+                $Success,
+                "TicketID $TicketID is deleted"
+            );
         }
-        $Self->True(
-            $Success,
-            "TicketID $TicketID is deleted"
-        );
 
         # Delete test created DynamicField.
         $Success = $DynamicFieldObject->DynamicFieldDelete(
@@ -340,8 +410,11 @@ $Selenium->RunTest(
             "CustomerUser $TestCustomerUserLogin is deleted",
         );
 
+        my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+
+        # Make sure the cache is correct.
         for my $Cache (qw (Ticket CustomerUser)) {
-            $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
+            $CacheObject->CleanUp(
                 Type => $Cache,
             );
         }
