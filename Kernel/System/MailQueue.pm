@@ -759,7 +759,7 @@ sub _SendSuccess {
         ObjectLogType => 'Message',
         Priority      => 'Info',
         Key           => 'Kernel::System::MailQueue',
-        Value         => 'Message successfuly sent!',
+        Value         => 'Message successfully sent!',
     );
 
     $Item->{CommunicationLogObject}->ObjectLogStop(
@@ -786,7 +786,7 @@ sub _SendSuccess {
         $Self->_SendEventNotification(
             ArticleID => $Item->{ArticleID},
             Status    => 'Sent',
-            Message   => 'Mail Successfully sent.',
+            Message   => 'Mail successfully sent.',
             UserID    => $Item->{UserID},
         );
     }
