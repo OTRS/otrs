@@ -187,7 +187,7 @@ sub Run {
     }
 
     # Notify if there are tickets which are not updated.
-    $Output .= $LayoutObject->NotifyNonUpdatedTickets();
+    $Output .= $LayoutObject->NotifyNonUpdatedTickets() // '';
 
     # viewable locks
     my @ViewableLockIDs = $Kernel::OM->Get('Kernel::System::Lock')->LockViewableLock( Type => 'ID' );

@@ -1,4 +1,5 @@
 #6.0.20 ????-??-??
+ - 2019-05-27 Fixed bug#[14555](https://bugs.otrs.org/show_bug.cgi?id=14555) - Error with using of uninitialized value in concatenation in ticket view screens.
  - 2019-05-27 Fixed bug#[14478](https://bugs.otrs.org/show_bug.cgi?id=14478) - Improve console command 'Maint::Ticket::FulltextIndex' description.
  - 2019-05-14 Fixed bug#[14488](https://bugs.otrs.org/show_bug.cgi?id=14488) - New note notification is only sent if agent has ro AND note permission on the queue.
 

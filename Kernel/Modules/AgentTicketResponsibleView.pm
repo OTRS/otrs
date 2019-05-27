@@ -160,7 +160,7 @@ sub Run {
     }
 
     # Notify if there are tickets which are not updated.
-    $Output .= $LayoutObject->NotifyNonUpdatedTickets();
+    $Output .= $LayoutObject->NotifyNonUpdatedTickets() // '';
 
     # get locked  viewable tickets...
     my $SortByS = $SortBy;

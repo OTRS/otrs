@@ -1303,7 +1303,7 @@ sub Run {
             $Output .= $LayoutObject->NavigationBar();
 
             # Notify if there are tickets which are not updated.
-            $Output .= $LayoutObject->NotifyNonUpdatedTickets();
+            $Output .= $LayoutObject->NotifyNonUpdatedTickets() // '';
 
             $Self->{Filter} = $ParamObject->GetParam( Param => 'Filter' ) || '';
             $Self->{View}   = $ParamObject->GetParam( Param => 'View' )   || '';
@@ -2581,7 +2581,7 @@ sub Run {
     $Output .= $LayoutObject->NavigationBar();
 
     # Notify if there are tickets which are not updated.
-    $Output .= $LayoutObject->NotifyNonUpdatedTickets();
+    $Output .= $LayoutObject->NotifyNonUpdatedTickets() // '';
 
     $LayoutObject->AddJSData(
         Key   => 'NonAJAXSearch',
