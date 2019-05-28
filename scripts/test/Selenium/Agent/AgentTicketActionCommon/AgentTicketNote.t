@@ -222,23 +222,13 @@ $Selenium->RunTest(
         $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
 
-        $Selenium->VerifiedRefresh();
-
-        # Force sub menus to be visible in order to be able to click one of the links.
-        $Selenium->execute_script(
-            '$("#nav-Miscellaneous ul").css({ "height": "auto", "opacity": "100" });'
-        );
         $Selenium->WaitFor(
             JavaScript =>
-                'return $("#nav-Miscellaneous ul").css("opacity") == 1;'
+                'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete;'
         );
 
-        # Click on 'History' and switch window.
-        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketHistory;TicketID=$TicketID' )]")->click();
-
-        $Selenium->WaitFor( WindowCount => 2 );
-        $Handles = $Selenium->get_window_handles();
-        $Selenium->switch_to_window( $Handles->[1] );
+        # Navigate to history of created test ticket.
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketHistory;TicketID=$TicketID");
 
         # Wait until page has loaded, if necessary.
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".WidgetSimple").length;' );
@@ -250,15 +240,8 @@ $Selenium->RunTest(
             "Ticket note action completed",
         );
 
-        # Close history window.
-        $Selenium->WaitForjQueryEventBound(
-            CSSSelector => '.CancelClosePopup',
-        );
-        $Selenium->find_element( ".CancelClosePopup", 'css' )->click();
-
-        # Switch window back to agent ticket zoom view of created test ticket.
-        $Selenium->WaitFor( WindowCount => 1 );
-        $Selenium->switch_to_window( $Handles->[0] );
+        # Navigate to zoom view of created test ticket.
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
 
         # Click 'Reply to note' in order to check for pre-loaded reply-to note subject, see bug #10931.
         $Selenium->find_element("//a[contains(\@href, \'ReplyToArticle' )]")->click();
