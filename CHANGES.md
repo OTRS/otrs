@@ -1,4 +1,5 @@
 #6.0.20 ????-??-??
+ - 2019-05-29 Fixed bug#[14419](https://bugs.otrs.org/show_bug.cgi?id=14419) - Resize issue with dashboard stats sidebar widget.
  - 2019-05-27 Fixed bug#[14556](https://bugs.otrs.org/show_bug.cgi?id=14556) - Error during comparison for pagination in CustomerTicketSearch screen.
  - 2019-05-27 Fixed bug#[14555](https://bugs.otrs.org/show_bug.cgi?id=14555) - Error with using of uninitialized value in concatenation in ticket view screens.
  - 2019-05-27 Fixed bug#[14478](https://bugs.otrs.org/show_bug.cgi?id=14478) - Improve console command 'Maint::Ticket::FulltextIndex' description.

@@ -125,7 +125,14 @@ nv.models.OTRSstackedAreaChart = function() {
                     - margin.left - margin.right,
                 availableHeight = (height || parseInt(container.style('height')) || 400)
                     - margin.top - margin.bottom;
-
+// ---
+// OTRS
+// ---
+            // Create exception when switching from mobile to desktop view to have appropriate width. See bug#14419.
+            if ( container.style('width') === '100%' ) {
+                availableWidth = 212;
+            }
+// ---
             chart.update = function() { container.transition().duration(duration).call(chart); };
             chart.container = this;
 
