@@ -315,6 +315,7 @@ my @NeededModules = (
     },
     {
         Module    => 'IO::Socket::SSL',
+        Version   => '2.066',
         Required  => 0,
         Comment   => 'Required for SSL connections to web and mail servers.',
         InstTypes => {
@@ -371,8 +372,9 @@ my @NeededModules = (
         Depends => [
             {
                 Module    => 'IO::Socket::SSL',
+                Version   => '2.066',
                 Required  => 0,
-                Comment   => 'Required for IMAP TLS connections.',
+                Comment   => 'Required for SSL connections to web and mail servers.',
                 InstTypes => {
                     aptget => 'libio-socket-ssl-perl',
                     emerge => 'dev-perl/IO-Socket-SSL',
@@ -439,6 +441,18 @@ my @NeededModules = (
             emerge => 'dev-perl/perl-ldap',
             zypper => 'perl-ldap',
             ports  => 'net/p5-perl-ldap',
+        },
+    },
+    {
+        Module    => 'Net::SMTP',
+        Version   => '3.11',
+        Required  => 0,
+        Comment   => 'Simple Mail Transfer Protocol Client.',
+        InstTypes => {
+            aptget => undef,
+            emerge => undef,
+            zypper => undef,
+            ports  => undef,
         },
     },
     {
