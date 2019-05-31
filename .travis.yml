@@ -56,6 +56,8 @@ install:
   - cp -rf /tmp/OTRSCodePolicy/* .
   # install OTRS cpan dependencies
   - cpanm --quiet --notest Code::TidyAll Perl::Tidy Perl::Critic Plack Date::Format Net::DNS Net::LDAP IO::Socket::SSL SOAP::Lite Text::CSV_XS JSON::XS XML::LibXML XML::LibXSLT YAML YAML::XS Archive::Zip Crypt::Eksblowfish Encode::HanExtra Mail::IMAPClient Template DBI DateTime
+  # CPAN::Audit: update some packages with known vulnerabilities to their latest versions.
+  - cpanm --quiet --notest Archive::Tar Archive::Zip Compress::Raw::Zlib DBI Data::Dumper Encode ExtUtils::MakeMaker File::Path File::Spec HTTP::Tiny Storable XML::LibXML Cpanel::JSON::XS
   - cpanm --quiet --notest DBD::mysql || echo "Suppressing exit code $?"
   - cpanm --quiet --notest DBD::Pg    || echo "Suppressing exit code $?"
   # configure OTRS
