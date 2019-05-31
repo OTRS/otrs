@@ -210,6 +210,10 @@ sub _TasksGet {
             Module  => 'PerlModulesCheck',
         },
         {
+            Message => 'Check installed CPAN modules for known vulnerabilities',
+            Module  => 'CPANAuditCheck',
+        },
+        {
             Message => 'Check if database has been backed up',
             Module  => 'DatabaseBackupCheck',
         },

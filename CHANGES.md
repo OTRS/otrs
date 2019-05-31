@@ -1,4 +1,5 @@
 #6.0.20 ????-??-??
+ - 2019-05-31 Added new console command Dev::Code::CPANAudit. It scans the system for installed CPAN modules with known vulnerabilities. This will also be done as part of the update script and in the support data collector. In both cases, possible findings will be shown as warnings, not errors.
  - 2019-05-29 Fixed bug#[14554](https://bugs.otrs.org/show_bug.cgi?id=14554) - Link preview for dynamic fields does not work for date fields in the agent interface.
  - 2019-05-29 Fixed bug#[14419](https://bugs.otrs.org/show_bug.cgi?id=14419) - Resize issue with dashboard stats sidebar widget.
  - 2019-05-27 Fixed bug#[14556](https://bugs.otrs.org/show_bug.cgi?id=14556) - Error during comparison for pagination in CustomerTicketSearch screen.
