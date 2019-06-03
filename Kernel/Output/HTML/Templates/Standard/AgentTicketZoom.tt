@@ -916,7 +916,7 @@ var TicketID    = [% Data.TicketID | JSON %],
             'text'   : [% IF Item.IsChatArticle %][% Item.ArticleData.BodyChat | JSON %][% ELSE %][% Item.ArticleData.Body | truncate(650) | JSON %][% END %],
             'text_long' : [% IF Item.IsChatArticle %][% JSON(Item.ArticleData.ChatMessages) %][% ELSE %][% IF !Item.ArticleData.AttachmentIDOfHTMLBody %][% Item.ArticleData.Body | JSON %][% ELSE %]""[% END %][% END %],
             'attachment_id' : [% Item.ArticleData.AttachmentIDOfHTMLBody | JSON %],
-            'iframe_html' : '<iframe sandbox="allow-same-origin allow-popups ms-allow-popups allow-popups-to-escape-sandbox" data-url="[% Env("Baselink") %]Action=AgentTicketAttachment;Subaction=HTMLView;ArticleID=[% Item.ArticleID | html %];FileID=[% Item.ArticleData.AttachmentIDOfHTMLBody | html %];[% Env("SessionName") | html %]=[% Env("SessionID") | html %]" width="100%" frameborder="0" id="Iframe[% Item.ArticleID | html %]" class="TimelineArticleiFrame" src=""></iframe>'
+            'iframe_html' : '<iframe sandbox="allow-same-origin allow-popups ms-allow-popups allow-popups-to-escape-sandbox" data-url="[% Env("Baselink") %]Action=AgentTicketAttachment;Subaction=HTMLView;ArticleID=[% Item.ArticleID | html %];FileID=[% Item.ArticleData.AttachmentIDOfHTMLBody | html %];[% IF !Config("SessionUseCookie") %][% Env("SessionName") | html %]=[% Env("SessionID") | html %][% END %]" width="100%" frameborder="0" id="Iframe[% Item.ArticleID | html %]" class="TimelineArticleiFrame" src=""></iframe>'
         [% END %]
         }
     }[% IF !loop.last %],[% END %]
@@ -1082,7 +1082,7 @@ function CheckIFrameHeight(IFrameID) {
 # Use the HTML5 sandbox attribute to prevent plugins and scripts from being executed in the browser.
 # Use IE's (non-standard) security attribute to achieve something similar in older IE browsers. Append session info to URL because IE will not send cookies.
 # Set 'allow-popups' to allow IE10+ to open links. ref: http://www.w3.org/html/wg/wiki/ChangeProposals/sandbox_allow_popups
-                    <iframe sandbox="allow-same-origin allow-popups ms-allow-popups allow-popups-to-escape-sandbox" width="100%" frameborder="0" id="Iframe[% Data.ArticleID | html %]" onload="window.setTimeout( function (){ CheckIFrameHeight('Iframe[% Data.ArticleID | html %]'); }, 500);" src="[% Env("Baselink") %]Action=AgentTicketAttachment;Subaction=HTMLView;ArticleID=[% Data.ArticleID | html %];FileID=[% Data.AttachmentIDOfHTMLBody | html %];[% Env("SessionName") | html %]=[% Env("SessionID") | html %]"></iframe>
+                    <iframe sandbox="allow-same-origin allow-popups ms-allow-popups allow-popups-to-escape-sandbox" width="100%" frameborder="0" id="Iframe[% Data.ArticleID | html %]" onload="window.setTimeout( function (){ CheckIFrameHeight('Iframe[% Data.ArticleID | html %]'); }, 500);" src="[% Env("Baselink") %]Action=AgentTicketAttachment;Subaction=HTMLView;ArticleID=[% Data.ArticleID | html %];FileID=[% Data.AttachmentIDOfHTMLBody | html %];[% IF !Config("SessionUseCookie") %][% Env("SessionName") | html %]=[% Env("SessionID") | html %][% END %]"></iframe>
                     <script type="text/javascript">
                     // workaround for firefox, which seems to cache the src attribute of iframes sometimes which leads to
                     // the wrong iframe content being displayed (see https://bugzilla.mozilla.org/show_bug.cgi?id=356558)
