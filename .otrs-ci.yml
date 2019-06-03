@@ -5,20 +5,30 @@ PlatformSets:
 
 DeployOTRSPackages:
  - OTRSCodePolicy@master
- - FAQ@rel-5_0
- - TimeAccounting@rel-5_0
- - Survey@rel-5_0
- - SystemMonitoring@rel-5_0
- - OTRSMasterSlave@rel-5_0
- - GeneralCatalog@rel-5_0
- - ITSMCore@rel-5_0
- - ITSMIncidentProblemManagement@rel-5_0
- - ITSMConfigurationManagement@rel-5_0
- - ITSMChangeManagement@rel-5_0
- - ITSMServiceLevelManagement@rel-5_0
- - ImportExport@rel-5_0
- - OTRSAppointmentCalendar@rel-5_0
- - OTRSBusiness@rel-5_0
- - OTRSBusinessSeleniumTesting@rel-5_0
- - OTRSMultipleRecipientEncryption@master
- - OTRSTicketNumberCounterDatabase@master
+
+TestModes:
+ Merge:
+  PlatformSets:
+   - ondemand-merge-otrs5
+  DeployOTRSPackages:
+   - OTRSCodePolicy@master
+   - FAQ@rel-5_0
+   - TimeAccounting@rel-5_0
+   - Survey@rel-5_0
+   - SystemMonitoring@rel-5_0
+   - OTRSMasterSlave@rel-5_0
+   - GeneralCatalog@rel-5_0
+   - ITSMCore@rel-5_0
+   - ITSMIncidentProblemManagement@rel-5_0
+   - ITSMConfigurationManagement@rel-5_0
+   - ITSMChangeManagement@rel-5_0
+   - ITSMServiceLevelManagement@rel-5_0
+   - ImportExport@rel-5_0
+   - OTRSAppointmentCalendar@rel-5_0
+   - OTRSBusiness@rel-5_0
+   - OTRSBusinessSeleniumTesting@rel-5_0
+   - OTRSMultipleRecipientEncryption@master
+   - OTRSTicketNumberCounterDatabase@master
+
+ Silent:
+  Active: 0
