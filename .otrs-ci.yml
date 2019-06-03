@@ -5,17 +5,27 @@ PlatformSets:
 
 DeployOTRSPackages:
  - OTRSCodePolicy@master
- - FAQ@rel-6_0
- - TimeAccounting@rel-6_0
- - Survey@rel-6_0
- - SystemMonitoring@rel-6_0
- - OTRSMasterSlave@rel-6_0
- - GeneralCatalog@rel-6_0
- - ITSMCore@rel-6_0
- - ITSMIncidentProblemManagement@rel-6_0
- - ITSMConfigurationManagement@rel-6_0
- - ITSMChangeManagement@rel-6_0
- - ITSMServiceLevelManagement@rel-6_0
- - ImportExport@rel-6_0
- - OTRSBusiness@rel-6_0
- - OTRSBusinessSeleniumTesting@master
+
+TestModes:
+ Merge:
+  PlatformSets:
+   - ondemand-merge-otrs6
+  DeployOTRSPackages:
+   - OTRSCodePolicy@master
+   - FAQ@rel-6_0
+   - TimeAccounting@rel-6_0
+   - Survey@rel-6_0
+   - SystemMonitoring@rel-6_0
+   - OTRSMasterSlave@rel-6_0
+   - GeneralCatalog@rel-6_0
+   - ITSMCore@rel-6_0
+   - ITSMIncidentProblemManagement@rel-6_0
+   - ITSMConfigurationManagement@rel-6_0
+   - ITSMChangeManagement@rel-6_0
+   - ITSMServiceLevelManagement@rel-6_0
+   - ImportExport@rel-6_0
+   - OTRSBusiness@rel-6_0
+   - OTRSBusinessSeleniumTesting@master
+
+ Silent:
+  Active: 0
