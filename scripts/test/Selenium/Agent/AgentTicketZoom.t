@@ -46,12 +46,11 @@ my $Hex2RGB = sub {
 
 $Selenium->RunTest(
     sub {
-
-        # get helper object
-        my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+        my $Helper       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
         # Overload CustomerUser => Map setting defined in the Defaults.pm.
-        my $DefaultCustomerUser = $Kernel::OM->Get('Kernel::Config')->Get("CustomerUser");
+        my $DefaultCustomerUser = $ConfigObject->Get("CustomerUser");
         $DefaultCustomerUser->{Map}->[5] = [
             'UserEmail',
             'Email',
@@ -86,6 +85,14 @@ $Selenium->RunTest(
             Valid => 1,
             Key   => 'Ticket::NewArticleIgnoreSystemSender',
             Value => 1,
+        );
+
+        my $RandomID    = $Helper->GetRandomID();
+        my $SessionName = "OTRS$RandomID";
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'SessionName',
+            Value => $SessionName,
         );
 
         # Create and login test user.
@@ -136,7 +143,7 @@ $Selenium->RunTest(
         my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
         # Create test ticket.
-        my $TitleRandom  = "Title" . $Helper->GetRandomID();
+        my $TitleRandom  = "Title$RandomID";
         my $TicketNumber = $TicketObject->TicketCreateNumber();
         my $TicketID     = $TicketObject->TicketCreate(
             TN           => $TicketNumber,
@@ -159,6 +166,17 @@ $Selenium->RunTest(
             ChannelName => 'Phone',
         );
 
+        # Get image attachment.
+        my $AttachmentName = "StdAttachment-Test1.png";
+        my $Location       = $ConfigObject->Get('Home')
+            . "/scripts/test/sample/StdAttachment/$AttachmentName";
+        my $ContentRef = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
+            Location => $Location,
+            Mode     => 'binmode',
+        );
+        my $Content   = ${$ContentRef};
+        my $ContentID = 'inline173020.131906379.1472199795.695365.264540139@localhost';
+
         # Create two ticket articles.
         my @ArticleIDs;
         for my $ArticleCreate ( 1 .. 2 ) {
@@ -171,12 +189,26 @@ $Selenium->RunTest(
                 IsVisibleForCustomer => 1,
                 SenderType           => $SenderType,
                 Subject              => 'Selenium subject test',
-                Body                 => "Article $ArticleCreate",
-                ContentType          => 'text/plain; charset=ISO-8859-15',
-                HistoryType          => 'OwnerUpdate',
-                HistoryComment       => 'Some free text!',
-                UserID               => 1,
-                NoAgentNotify        => 1,
+                Body                 => $ArticleCreate == 1
+                ? "<!DOCTYPE html><html><body>Article $ArticleCreate<br><img src=\"cid:$ContentID\" /></body></html>"
+                : "Article $ArticleCreate",
+                ContentType => $ArticleCreate == 1
+                ? 'text/html; charset="utf8"'
+                : 'text/plain; charset=ISO-8859-15',
+                HistoryType    => 'OwnerUpdate',
+                HistoryComment => 'Some free text!',
+                UserID         => 1,
+                Attachment     => [
+                    {
+                        Content     => $Content,
+                        ContentID   => $ContentID,
+                        ContentType => 'image/png; name="' . $AttachmentName . '"',
+                        Disposition => 'inline',
+                        FileID      => 1,
+                        Filename    => $AttachmentName,
+                    },
+                ],
+                NoAgentNotify => 1,
             );
             $Self->True(
                 $ArticleID,
@@ -330,6 +362,38 @@ $Selenium->RunTest(
 
         # close note pop-up window
         $Selenium->close();
+
+        $Selenium->switch_to_window( $Handles->[0] );
+
+        # Check if the IFRAME element DOES NOT contain the session ID parameter.
+        my $IframeElement = $Selenium->find_element('//iframe[not(contains(@id, "AttachmentWindow"))]');
+        $Self->False(
+            ( $IframeElement->get_attribute('src') =~ m{$SessionName=} ) // 0,
+            'Session ID not present in the IFRAME source URL'
+        );
+
+        # Switch off usage of session cookies.
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'SessionUseCookie',
+            Value => 0,
+        );
+
+        # Get current session ID.
+        my $SessionID = $Selenium->execute_script('return Core.Config.Get("SessionID");');
+
+        # Reload the ticket zoom screen, but make sure to append the session ID parameter, as now the cookies will not
+        #   be used.
+        $Selenium->VerifiedGet(
+            "${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID;$SessionName=$SessionID"
+        );
+
+        # Check if the IFRAME element now DOES contain the session ID parameter.
+        $IframeElement = $Selenium->find_element('//iframe[not(contains(@id, "AttachmentWindow"))]');
+        $Self->True(
+            ( $IframeElement->get_attribute('src') =~ m{$SessionName=} ) // 0,
+            'Session ID present in the IFRAME source URL'
+        );
 
         # Clean up test data from the DB.
         $Success = $TicketObject->TicketDelete(
