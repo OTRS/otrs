@@ -385,7 +385,7 @@ $Selenium->RunTest(
         # Reload the ticket zoom screen, but make sure to append the session ID parameter, as now the cookies will not
         #   be used.
         $Selenium->VerifiedGet(
-            "${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID;$SessionName=$SessionID"
+            "${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID;ArticleID=$ArticleIDs[0];$SessionName=$SessionID"
         );
 
         # Check if the IFRAME element now DOES contain the session ID parameter.
