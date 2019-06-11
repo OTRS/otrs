@@ -186,6 +186,19 @@ my @Tests = (
         },
     },
     {
+        Name => 'Email with CustomerID and Reply-To tag',
+        Email =>
+            "From: $CustomerUser\@home.com\nTo: TestTo\@home.com\nReply-To: TestReplyTo\@home.com\nSubject: Email with valid CustomerID\nTest Body Email.\n",
+        ResultAutoResponse => {
+            To   => 'TestReplyTo@home.com',
+            Body => "OTRS_CUSTOMER_REALNAME tag: $CustomerUser $CustomerUser",
+        },
+        ResultNotification => {
+            To   => 'TestReplyTo@home.com',
+            Body => "OTRS_CUSTOMER_REALNAME tag: $CustomerUser $CustomerUser",
+        },
+    },
+    {
         Name => 'Email with Customer as Recipient',
         Email =>
             "From: TestRecipient\@home.com\nTo: $CustomerUser\@home.com\nSubject: Email with Recipient\nTest Body Email.\n",

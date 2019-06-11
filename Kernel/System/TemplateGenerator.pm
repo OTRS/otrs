@@ -1793,7 +1793,8 @@ sub _Replace {
                 $From //= $Recipient{Realname};
 
                 # get real name based on reply-to
-                if ( $Data{ReplyTo} ) {
+                if ( !$From && $Data{ReplyTo} ) {
+
                     $From = $Data{ReplyTo};
 
                     # remove email addresses
