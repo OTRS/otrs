@@ -1428,6 +1428,42 @@ my @Tests = (
         Operation => 'TicketGet',
     },
     {
+        Name           => 'Test Ticket 4 - check ArticleLimit parameter when greater then number of articles',
+        SuccessRequest => '1',
+        RequestData    => {
+            TicketID     => $TicketID4,
+            AllArticles  => 1,
+            ArticleLimit => 10,
+        },
+        ExpectedReturnRemoteData => {
+            Success => 1,
+            Data    => {
+                Ticket => {
+                    %TicketEntryFour,
+                    Article =>
+                        [ $ArticleWithoutAttachments[0], $ArticleWithoutAttachments[1], $ArticleWithoutAttachments[2] ],
+                },
+            },
+        },
+        ExpectedReturnLocalData => {
+            Success => 1,
+            Data    => {
+                Ticket => [
+                    {
+                        (
+                            %TicketEntryFour,
+                            Article => [
+                                $ArticleWithoutAttachments[0], $ArticleWithoutAttachments[1],
+                                $ArticleWithoutAttachments[2]
+                            ],
+                        )
+                    },
+                ],
+            },
+        },
+        Operation => 'TicketGet',
+    },
+    {
         Name           => 'Test Ticket 4 With All Articles and Attachments',
         SuccessRequest => '1',
         RequestData    => {

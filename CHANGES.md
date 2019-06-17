@@ -1,4 +1,5 @@
 #6.0.20 ????-??-??
+ - 2019-06-17 Fixed bug#[14585](https://bugs.otrs.org/show_bug.cgi?id=14585) - ArticleLimit parameter causes wrong response of TicketGet web service operation.
  - 2019-06-17 Fixed bug#[14586](https://bugs.otrs.org/show_bug.cgi?id=14586) - Wrong number of tickets in TicketQueueOverview screen.
  - 2019-06-17 Fixed bug#[14583](https://bugs.otrs.org/show_bug.cgi?id=14583) - The statistics can not be downloaded from the agent dashboard.
  - 2019-06-17 Fixed bug#[14557](https://bugs.otrs.org/show_bug.cgi?id=14557) - Webservice debug log does not honour selected agent timezone.

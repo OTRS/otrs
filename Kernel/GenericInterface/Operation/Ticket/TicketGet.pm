@@ -424,6 +424,11 @@ sub Run {
             );
         }
 
+        # Modify ArticleLimit if it is greater then number of articles (see bug#14585).
+        if ( $ArticleLimit > scalar @Articles ) {
+            $ArticleLimit = scalar @Articles;
+        }
+
         # Set number of articles by ArticleLimit and ArticleOrder parameters.
         if ( IsArrayRefWithData( \@Articles ) && $ArticleLimit ) {
             if ( $ArticleOrder eq 'DESC' ) {
