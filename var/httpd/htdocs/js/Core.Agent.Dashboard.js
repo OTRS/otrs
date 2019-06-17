@@ -747,12 +747,7 @@ Core.Agent.Dashboard = (function (TargetNS) {
 
         }());
 
-        $('#DownloadSVG' + Core.App.EscapeSelector(StatsData.Name)).off('click').on('click', function() {
-            this.href = Core.UI.AdvancedChart.ConvertSVGtoBase64($('#GraphWidgetContainer' + Core.App.EscapeSelector(StatsData.Name)));
-        });
-        $('#DownloadPNG' + Core.App.EscapeSelector(StatsData.Name)).off('click').on('click', function() {
-            this.href = Core.UI.AdvancedChart.ConvertSVGtoPNG($('#GraphWidgetContainer' + Core.App.EscapeSelector(StatsData.Name)));
-        });
+
 
         $('#GraphWidgetLink' + Core.App.EscapeSelector(StatsData.Name)).prependTo($('#GraphWidget' + Core.App.EscapeSelector(StatsData.Name)).closest('.WidgetSimple').find('.ActionMenu'));
         $('#GraphWidgetLink' + Core.App.EscapeSelector(StatsData.Name)).find('a.TriggerTooltip').off('click').on('click', function(){
@@ -764,6 +759,13 @@ Core.Agent.Dashboard = (function (TargetNS) {
         });
         $('#GraphWidgetLink' + Core.App.EscapeSelector(StatsData.Name)).closest('.Header').on('mouseleave.WidgetTooltip', function(){
             $('#GraphWidgetLink' + Core.App.EscapeSelector(StatsData.Name)).find('.WidgetTooltip').addClass('Hidden');
+        });
+
+        $('#DownloadSVG' + Core.App.EscapeSelector(StatsData.Name)).off('click').on('click', function() {
+            this.href = Core.UI.AdvancedChart.ConvertSVGtoBase64($('#GraphWidgetContainer' + Core.App.EscapeSelector(StatsData.Name)));
+        });
+        $('#DownloadPNG' + Core.App.EscapeSelector(StatsData.Name)).off('click').on('click', function() {
+            this.href = Core.UI.AdvancedChart.ConvertSVGtoPNG($('#GraphWidgetContainer' + Core.App.EscapeSelector(StatsData.Name)));
         });
 
         Core.Config.Set('StatsMaxXaxisAttributes', parseInt(StatsData.MaxXaxisAttributes, 10));
