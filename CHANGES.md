@@ -1,4 +1,5 @@
 #6.0.20 ????-??-??
+ - 2019-06-17 Fixed bug#[14554](https://bugs.otrs.org/show_bug.cgi?id=14557) - Webservice debug log does not honour selected agent timezone.
  - 2019-06-11 Reply-To overwrites name from customer backend, thanks to Georgeto (PR#[1974](https://github.com/OTRS/otrs/pull/1974)).
  - 2019-06-03 Fixed bug#[14542](https://bugs.otrs.org/show_bug.cgi?id=14542) - Date values for escalation times are not localized in ticket small overview.
  - 2019-05-31 Added new console command Dev::Code::CPANAudit. It scans the system for installed CPAN modules with known vulnerabilities. This will also be done as part of the update script and in the support data collector. In both cases, possible findings will be shown as warnings, not errors.

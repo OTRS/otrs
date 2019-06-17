@@ -85,9 +85,17 @@ $Selenium->RunTest(
         }
 
         # Create test user and login.
-        my $TestUserLogin = $Helper->TestUserCreate(
+        my ( $TestUserLogin, $TestUserID ) = $Helper->TestUserCreate(
             Groups => ['admin'],
-        ) || die "Did not get test user";
+        );
+
+        # Set user's time zone.
+        my $UserTimeZone = 'Europe/Berlin';
+        $Kernel::OM->Get('Kernel::System::User')->SetPreferences(
+            Key    => 'UserTimeZone',
+            Value  => $UserTimeZone,
+            UserID => $TestUserID,
+        );
 
         $Selenium->Login(
             Type     => 'Agent',
@@ -189,6 +197,19 @@ $Selenium->RunTest(
                 "'$RequestSummary' is found"
             );
         }
+
+        # Verify debug time log informations are in user preference time zone. See bug#14557.
+        $Self->True(
+            $Selenium->execute_script("return \$('#RequestList tbody tr:contains(\"Europe/Berlin\")').length;"),
+            "Request list debug log time stamp is in user preference time zone ($UserTimeZone) format."
+        );
+
+        $Self->True(
+            $Selenium->execute_script(
+                "return \$('#CommunicationDetails .WidgetSimple:eq(0) h3:contains(\"Europe/Berlin\")').length;"
+            ),
+            "Request details debug log time stamp is in user preference time zone ($UserTimeZone) format."
+        );
 
         # Change filter type to Requester.
         $Selenium->InputFieldValueSet(

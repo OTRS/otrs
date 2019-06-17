@@ -168,7 +168,8 @@ sub _GetRequestList {
         WebserviceID => $Param{WebserviceID},
     );
 
-    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     my $FilterType = $ParamObject->GetParam( Param => 'FilterType' );
     $LogSearchParam{CommunicationType} = $FilterType if ($FilterType);
@@ -186,10 +187,30 @@ sub _GetRequestList {
 
     my $LogData = $Kernel::OM->Get('Kernel::System::GenericInterface::DebugLog')->LogSearch(%LogSearchParam);
 
+    # Get current user time zone.
+    my $TimeZone = $Self->{UserTimeZone} || $Kernel::OM->Create('Kernel::System::DateTime')->UserDefaultTimeZoneGet();
+
+    # Set date time format and values for 'Time' column.
+    for my $Log ( @{$LogData} ) {
+        my $DateTimeObject = $Kernel::OM->Create(
+            'Kernel::System::DateTime',
+            ObjectParams => {
+                String => $Log->{Created},
+            },
+        );
+
+        $DateTimeObject->ToTimeZone(
+            TimeZone => $TimeZone,
+        );
+
+        $Log->{Created} = $LayoutObject->{LanguageObject}->FormatTimeString(
+            $Log->{Created},
+            'DateFormat',
+        );
+    }
+
     # Fail gracefully.
     $LogData ||= [];
-
-    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     # Build JSON output.
     my $JSON = $LayoutObject->JSONEncode(
@@ -225,6 +246,11 @@ sub _GetCommunicationDetails {
         CommunicationID => $CommunicationID,
     );
 
+    # Get current user time zone.
+    my $TimeZone = $Self->{UserTimeZone} || $Kernel::OM->Create('Kernel::System::DateTime')->UserDefaultTimeZoneGet();
+
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
     # Duplicate widgets containing xml data and format the new version for better readability.
     if ( IsArrayRefWithData( $LogData->{Data} ) ) {
         $Kernel::OM->Get('Kernel::System::Main')->Require('XML::LibXML');
@@ -239,6 +265,25 @@ sub _GetCommunicationDetails {
             if ( !IsHashRefWithData( $LogData->{Data}->[$Index] ) ) {
                 delete $LogData->{Data}->[$Index];
                 next INDEX;
+            }
+
+            # Set date time format and values for created log time.
+            if ( $LogData->{Data}->[$Index]->{Created} ) {
+                my $DateTimeObject = $Kernel::OM->Create(
+                    'Kernel::System::DateTime',
+                    ObjectParams => {
+                        String => $LogData->{Data}->[$Index]->{Created},
+                    },
+                );
+
+                $DateTimeObject->ToTimeZone(
+                    TimeZone => $TimeZone,
+                );
+
+                $LogData->{Data}->[$Index]->{Created} = $LayoutObject->{LanguageObject}->FormatTimeString(
+                    $LogData->{Data}->[$Index]->{Created},
+                    'DateFormat',
+                );
             }
 
             next INDEX if !IsStringWithData($Data);
@@ -267,8 +312,6 @@ sub _GetCommunicationDetails {
             };
         }
     }
-
-    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     # Build JSON output.
     my $JSON = $LayoutObject->JSONEncode(
