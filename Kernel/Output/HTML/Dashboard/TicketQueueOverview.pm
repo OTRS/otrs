@@ -149,6 +149,7 @@ sub Run {
             Result   => 'ARRAY',
             QueueIDs => \@QueueIDs,
             States   => [ $ConfiguredStates{$StateOrderID} ],
+            Limit    => 100_000,
         );
 
         # Count of tickets per QueueID.
