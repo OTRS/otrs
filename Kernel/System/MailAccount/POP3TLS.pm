@@ -19,7 +19,7 @@ our @ObjectDependencies = (
     'Kernel::System::Log',
 );
 
-# Use Net::SSLGlue::POP3 on systems with older Net::POP3 modules that cannot handle POP3S.
+# Use Net::SSLGlue::POP3 on systems with older Net::POP3 modules that cannot handle POP3TLS.
 BEGIN {
     if ( !defined &Net::POP3::starttls ) {
         ## nofilter(TidyAll::Plugin::OTRS::Perl::Require)
