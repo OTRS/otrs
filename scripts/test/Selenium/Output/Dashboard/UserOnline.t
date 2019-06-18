@@ -75,6 +75,14 @@ $Selenium->RunTest(
             'Only one agent user accounted for'
         );
 
+        if ( $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Agent::UnavailableForExternalChatsOnLogin') ) {
+            $Self->True(
+                1,
+                "UnavailableForExternalChatsOnLogin config is set, skipping test..."
+            );
+            return 1;
+        }
+
         # Test UserOnline plugin for agent.
         my $ExpectedAgent = "$TestUserLogin";
         $Self->True(

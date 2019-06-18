@@ -101,10 +101,12 @@ $Selenium->RunTest(
             },
         };
 
-        # Click on Queue and switch window.
-        $Selenium->find_element(
-            "//a[contains(\@href, \'Action=AgentTicket$FormDraftCase->{Module};TicketID=$TicketID' )]"
-        )->click();
+        $Selenium->WaitForjQueryEventBound(
+            CSSSelector => "a[title='Change Queue']",
+        );
+
+        # Click on 'Move' and switch window.
+        $Selenium->find_element("//a[\@title='Change Queue']")->click();
 
         $Selenium->WaitFor( WindowCount => 2 );
         my $Handles = $Selenium->get_window_handles();
