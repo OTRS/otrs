@@ -311,6 +311,7 @@ $Selenium->RunTest(
                             "SelectionCustomerIDAssigned is not visible",
                         );
                     }
+                    $Selenium->WaitFor( ElementExists => [ '#SelectionCustomerIDAll', 'css' ] );
 
                     $Selenium->find_element( "#SelectionCustomerIDAll", 'css' )->clear();
                     $Selenium->find_element( "#SelectionCustomerIDAll", 'css' )
@@ -318,7 +319,6 @@ $Selenium->RunTest(
 
                     # Wait for autocomplete to load.
                     $Selenium->WaitFor( JavaScript => 'return !$(".AJAXLoader:visible").length;' );
-                    sleep 1;
 
                     # Select customer id.
                     $Selenium->execute_script(
