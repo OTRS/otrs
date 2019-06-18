@@ -47,6 +47,19 @@ sub Configure {
         ValueRegex  => qr/.*/smx,
     );
     $Self->AddOption(
+        Name        => 'valid',
+        Description => "Specify validity of the setting ( 0 or 1 ).",
+        Required    => 0,
+        HasValue    => 1,
+        ValueRegex  => qr/0|1/smx,
+    );
+    $Self->AddOption(
+        Name        => 'reset',
+        Description => "Reset setting to default value.",
+        Required    => 0,
+        HasValue    => 0,
+    );
+    $Self->AddOption(
         Name        => 'no-deploy',
         Description => "Specify that the update of this setting should not be deployed.",
         Required    => 0,
@@ -71,6 +84,9 @@ sub PreRun {
         die "setting-name is invalid!";
     }
 
+    return if $Self->GetOption('reset');
+    return if defined $Self->GetOption('valid');
+
     my $SourcePath = $Self->GetOption('source-path');
 
     my $Value = $Self->GetOption('value');
@@ -93,7 +109,18 @@ sub PreRun {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    $Self->Print("<yellow>Updating setting value...</yellow>\n\n");
+    my $SettingReset = $Self->GetOption('reset');
+    my $SettingValid = $Self->GetOption('valid');
+
+    if ($SettingReset) {
+        $Self->Print("<yellow>Resetting setting value...</yellow>\n\n");
+    }
+    elsif ( defined $SettingValid ) {
+        $Self->Print("<yellow>Updating setting valid state...</yellow>\n\n");
+    }
+    else {
+        $Self->Print("<yellow>Updating setting value...</yellow>\n\n");
+    }
 
     my $SourcePath = $Self->GetOption('source-path');
 
@@ -128,8 +155,8 @@ sub Run {
 
     my $SettingName = $Self->GetOption('setting-name');
 
-    # Get default setting
-    my %Setting = $Kernel::OM->Get('Kernel::System::SysConfig')->SettingGet(
+    # Get default setting.
+    my %Setting = $SysConfigObject->SettingGet(
         Name    => $SettingName,
         Default => 1,
     );
@@ -145,16 +172,52 @@ sub Run {
         DefaultID => $Setting{DefaultID},
     );
 
-    my $Success = $SysConfigObject->SettingUpdate(
-        Name              => $SettingName,
-        EffectiveValue    => $EffectiveValue,
-        ExclusiveLockGUID => $ExclusiveLockGUID,
-        UserID            => 1,
-    );
+    my $Success;
+    if ($SettingReset) {
+        $Success = $SysConfigObject->SettingReset(
+            Name              => $SettingName,
+            TargetUserID      => 1,
+            ExclusiveLockGUID => $ExclusiveLockGUID,
+            UserID            => 1,
+        );
 
-    if ( !$Success ) {
-        $Self->PrintError("Setting could not be updated!");
-        return $Self->ExitCodeError();
+        if ( !$Success ) {
+            $Self->PrintError("Setting could not be resetted!");
+            return $Self->ExitCodeError();
+        }
+    }
+    elsif ( defined $SettingValid ) {
+
+        # Get current setting value.
+        my %Setting = $SysConfigObject->SettingGet(
+            Name => $SettingName,
+        );
+
+        # Update setting with modified 'IsValid' param.
+        $Success = $SysConfigObject->SettingUpdate(
+            Name              => $SettingName,
+            IsValid           => $SettingValid,
+            EffectiveValue    => $Setting{EffectiveValue},
+            ExclusiveLockGUID => $ExclusiveLockGUID,
+            UserID            => 1,
+        );
+        if ( !$Success ) {
+            $Self->PrintError("Setting valid state could not be updated!");
+            return $Self->ExitCodeError();
+        }
+    }
+    else {
+        $Success = $SysConfigObject->SettingUpdate(
+            Name              => $SettingName,
+            EffectiveValue    => $EffectiveValue,
+            ExclusiveLockGUID => $ExclusiveLockGUID,
+            UserID            => 1,
+        );
+
+        if ( !$Success ) {
+            $Self->PrintError("Setting could not be updated!");
+            return $Self->ExitCodeError();
+        }
     }
 
     $Success = $SysConfigObject->SettingUnlock(

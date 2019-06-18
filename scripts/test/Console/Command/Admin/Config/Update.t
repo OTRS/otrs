@@ -25,7 +25,7 @@ my %DefaultSettingAddTemplate = (
     Navigation     => "Core::Test",
     IsInvisible    => 0,
     IsReadonly     => 0,
-    IsRequired     => 1,
+    IsRequired     => 0,
     IsValid        => 1,
     HasConfigLevel => 0,
     XMLFilename    => 'UnitTest.xml',
@@ -195,6 +195,30 @@ my @Tests = (
         ExpectedResuts => '',
         ExitCode       => 0,
     },
+    {
+        Name     => 'Missing valid value',
+        Options  => [ '--setting-name', "Test0$RandomID", '--valid', '--no-deploy' ],
+        ExitCode => 1,
+    },
+    {
+        Name     => 'Correct valid value - invalid',
+        Options  => [ '--setting-name', "Test0$RandomID", '--valid', '0', '--no-deploy' ],
+        ExitCode => 0,
+        IsValid  => 0,
+    },
+    {
+        Name     => 'Correct valid value - valid',
+        Options  => [ '--setting-name', "Test0$RandomID", '--valid', '1', '--no-deploy' ],
+        ExitCode => 0,
+        IsValid  => 1,
+    },
+    {
+        Name           => 'Reset config to default value',
+        Options        => [ '--setting-name', "Test0$RandomID", '--reset', '--no-deploy' ],
+        ExitCode       => 0,
+        ExpectedResuts => 'Test',
+        Test           => 1,
+    },
 );
 
 # get needed objects
@@ -232,6 +256,16 @@ for my $Test (@Tests) {
     my %Setting = $SysConfigObject->SettingGet(
         Name => $Test->{Options}->[1],
     );
+
+    if ( defined $Test->{IsValid} ) {
+        $Self->IsDeeply(
+            $Setting{IsValid},
+            $Test->{IsValid},
+            "$Test->{Name} - IsValid check"
+        );
+
+        next TEST;
+    }
 
     $Self->IsDeeply(
         $Setting{EffectiveValue},
