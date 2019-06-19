@@ -318,7 +318,11 @@ $Selenium->RunTest(
                         ->send_keys( $AutoCompleteExpected{$AutocompleteInput}->{SelectAllCustomerID} );
 
                     # Wait for autocomplete to load.
-                    $Selenium->WaitFor( JavaScript => 'return !$(".AJAXLoader:visible").length;' );
+                    $Selenium->WaitFor(
+                        JavaScript =>
+                            "return !\$('.AJAXLoader:visible').length && \$('li.ui-menu-item:contains($AutoCompleteExpected{$AutocompleteInput}->{SelectAllCustomerID})').length;"
+                    );
+                    sleep 1;
 
                     # Select customer id.
                     $Selenium->execute_script(
