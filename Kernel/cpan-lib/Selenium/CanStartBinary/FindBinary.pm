@@ -1,5 +1,5 @@
 package Selenium::CanStartBinary::FindBinary;
-$Selenium::CanStartBinary::FindBinary::VERSION = '1.30';
+$Selenium::CanStartBinary::FindBinary::VERSION = '1.33';
 use strict;
 use warnings;
 
@@ -10,7 +10,7 @@ use IO::Socket::INET;
 use Selenium::Firefox::Binary qw/firefox_path/;
 
 require Exporter;
-our @ISA = qw/Exporter/;
+our @ISA       = qw/Exporter/;
 our @EXPORT_OK = qw/coerce_simple_binary coerce_firefox_binary/;
 
 use constant IS_WIN => $^O eq 'MSWin32';
@@ -46,15 +46,17 @@ sub _validate_manual_binary {
     my $abs_executable = eval {
         my $path = abs_path($executable);
         die unless -e $path;
-        $path
+        $path;
     };
 
-    if ( $abs_executable ) {
+    if ($abs_executable) {
         if ( -x $abs_executable || IS_WIN ) {
             return $abs_executable;
         }
         else {
-            die 'The binary at ' . $executable . ' is not executable. Choose the correct file or chmod +x it as needed.';
+            die 'The binary at '
+              . $executable
+              . ' is not executable. Choose the correct file or chmod +x it as needed.';
         }
     }
 }
@@ -63,7 +65,7 @@ sub _naive_find_binary {
     my ($executable) = @_;
 
     my $naive_binary = which($executable);
-    if (defined $naive_binary) {
+    if ( defined $naive_binary ) {
         return $naive_binary;
     }
     else {
@@ -84,7 +86,7 @@ Selenium::CanStartBinary::FindBinary - Coercions for finding webdriver binaries 
 
 =head1 VERSION
 
-version 1.30
+version 1.33
 
 =for Pod::Coverage *EVERYTHING*
 
@@ -103,7 +105,7 @@ L<Selenium::Remote::Driver|Selenium::Remote::Driver>
 =head1 BUGS
 
 Please report any bugs or feature requests on the bugtracker website
-https://github.com/teodesian/Selenium-Remote-Driver/issues
+L<https://github.com/teodesian/Selenium-Remote-Driver/issues>
 
 When submitting a bug or request, please include a test-file or a
 patch to an existing test-file that illustrates the bug or desired
