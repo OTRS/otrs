@@ -1,5 +1,5 @@
 package Selenium::ActionChains;
-$Selenium::ActionChains::VERSION = '1.30';
+$Selenium::ActionChains::VERSION = '1.33';
 use strict;
 use warnings;
 
@@ -7,79 +7,78 @@ use warnings;
 use Moo;
 
 
-has 'driver' => (
-    is => 'ro',
-);
+has 'driver' => ( is => 'ro', );
 
 has 'actions' => (
-    is => 'lazy',
+    is      => 'lazy',
     builder => sub { [] },
     clearer => 1,
 );
 
 sub perform {
     my $self = shift;
-    foreach my $action (@{$self->actions}) {
+    foreach my $action ( @{ $self->actions } ) {
         $action->();
     }
 }
 
 sub click {
-    my $self = shift;
+    my $self    = shift;
     my $element = shift;
     if ($element) {
-       $self->move_to_element($element);
+        $self->move_to_element($element);
     }
+
     # left click
-    push @{$self->actions}, sub { $self->driver->click('LEFT') };
+    push @{ $self->actions }, sub { $self->driver->click('LEFT') };
     $self;
 }
 
 sub click_and_hold {
-    my $self = shift;
+    my $self    = shift;
     my $element = shift;
     if ($element) {
-       $self->move_to_element($element);
+        $self->move_to_element($element);
     }
-    push @{$self->actions}, sub { $self->driver->button_down };
+    push @{ $self->actions }, sub { $self->driver->button_down };
     $self;
 }
 
 sub context_click {
-    my $self = shift;
+    my $self    = shift;
     my $element = shift;
     if ($element) {
-       $self->move_to_element($element);
+        $self->move_to_element($element);
     }
+
     # right click
-    push @{$self->actions}, sub { $self->driver->click('RIGHT') };
+    push @{ $self->actions }, sub { $self->driver->click('RIGHT') };
     $self;
 }
 
-
 sub double_click {
-    my $self = shift;
+    my $self    = shift;
     my $element = shift;
     if ($element) {
-       $self->move_to_element($element);
+        $self->move_to_element($element);
     }
-    push @{$self->actions}, sub { $self->driver->double_click };
+    push @{ $self->actions }, sub { $self->driver->double_click };
     $self;
 }
 
 sub release {
-    my $self = shift;
+    my $self    = shift;
     my $element = shift;
     if ($element) {
-       $self->move_to_element($element);
+        $self->move_to_element($element);
     }
-    push @{$self->actions}, sub { $self->driver->button_up };
+    push @{ $self->actions }, sub { $self->driver->button_up };
     $self;
 }
 
 sub drag_and_drop {
     my $self = shift;
-    my ($source,$target) = @_;
+    my ( $source, $target ) = @_;
     $self->click_and_hold($source);
     $self->release($target);
     $self;
@@ -87,9 +86,9 @@ sub drag_and_drop {
 
 sub drag_and_drop_by_offset {
     my $self = shift;
-    my ($source,$xoffset,$yoffset) = @_;
+    my ( $source, $xoffset, $yoffset ) = @_;
     $self->click_and_hold($source);
-    $self->move_by_offset($xoffset,$yoffset);
+    $self->move_by_offset( $xoffset, $yoffset );
     $self->release($source);
     $self;
 }
@@ -115,42 +114,48 @@ sub move_to_element_with_offset {
     my $self = shift;
     my ( $element, $xoffset, $yoffset ) = @_;
     push @{ $self->actions }, sub {
-        $self->driver->move_to( element => $element, xoffset => $xoffset,
-            yoffset => $yoffset );
+        $self->driver->move_to(
+            element => $element,
+            xoffset => $xoffset,
+            yoffset => $yoffset
+        );
     };
     $self;
 }
 
 sub key_down {
     my $self = shift;
-    my ($value ,$element) = @_;
-    if (defined($element)) {
+    my ( $value, $element ) = @_;
+    if ( defined($element) ) {
         $self->click($element);
     }
-    push @{ $self->actions }, sub { $self->driver->send_keys_to_active_element(@$value) };
+    push @{ $self->actions },
+      sub { $self->driver->send_keys_to_active_element(@$value) };
     $self;
 }
 
 sub key_up {
     my $self = shift;
-    my ($value ,$element) = @_;
-    if (defined($element)) {
+    my ( $value, $element ) = @_;
+    if ( defined($element) ) {
         $self->click($element);
     }
-    push @{ $self->actions }, sub { $self->driver->send_keys_to_active_element(@$value) };
+    push @{ $self->actions },
+      sub { $self->driver->send_keys_to_active_element(@$value) };
     $self;
 }
 
 sub send_keys {
     my $self = shift;
     my $keys = shift;
-    push @{ $self->actions} , sub { $self->driver->get_active_element->send_keys($keys) };
+    push @{ $self->actions },
+      sub { $self->driver->get_active_element->send_keys($keys) };
     $self;
 }
 
 sub send_keys_to_element {
     my $self = shift;
-    my ($element,$keys) = @_;
+    my ( $element, $keys ) = @_;
     push @{ $self->actions }, sub { $element->send_keys($keys) };
     $self;
 }
@@ -169,7 +174,7 @@ Selenium::ActionChains - Action chains for Selenium::Remote::Driver
 
 =head1 VERSION
 
-version 1.30
+version 1.33
 
 =head1 SYNOPSIS
 
@@ -411,7 +416,7 @@ L<Selenium::Remote::Driver|Selenium::Remote::Driver>
 =head1 BUGS
 
 Please report any bugs or feature requests on the bugtracker website
-https://github.com/teodesian/Selenium-Remote-Driver/issues
+L<https://github.com/teodesian/Selenium-Remote-Driver/issues>
 
 When submitting a bug or request, please include a test-file or a
 patch to an existing test-file that illustrates the bug or desired

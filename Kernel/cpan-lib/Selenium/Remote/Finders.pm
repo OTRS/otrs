@@ -1,5 +1,5 @@
 package Selenium::Remote::Finders;
-$Selenium::Remote::Finders::VERSION = '1.30';
+$Selenium::Remote::Finders::VERSION = '1.33';
 use strict;
 use warnings;
 
@@ -11,20 +11,20 @@ use namespace::clean;
 
 
 sub _build_find_by {
-    my ($self, $by) = @_;
+    my ( $self, $by ) = @_;
 
     return sub {
-        my ($driver, $locator) = @_;
+        my ( $driver, $locator ) = @_;
         my $strategy = $by;
 
         return try {
-            return $driver->find_element($locator, $strategy);
+            return $driver->find_element( $locator, $strategy );
         }
         catch {
             carp $_;
             return 0;
         };
-    }
+      }
 }
 
 1;
@@ -41,7 +41,7 @@ Selenium::Remote::Finders - Handle construction of generic parameter finders
 
 =head1 VERSION
 
-version 1.30
+version 1.33
 
 =head1 DESCRIPTION
 
@@ -66,7 +66,7 @@ L<Selenium::Remote::Driver|Selenium::Remote::Driver>
 =head1 BUGS
 
 Please report any bugs or feature requests on the bugtracker website
-https://github.com/teodesian/Selenium-Remote-Driver/issues
+L<https://github.com/teodesian/Selenium-Remote-Driver/issues>
 
 When submitting a bug or request, please include a test-file or a
 patch to an existing test-file that illustrates the bug or desired

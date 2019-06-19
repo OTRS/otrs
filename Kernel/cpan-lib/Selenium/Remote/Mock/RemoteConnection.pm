@@ -1,5 +1,5 @@
 package Selenium::Remote::Mock::RemoteConnection;
-$Selenium::Remote::Mock::RemoteConnection::VERSION = '1.30';
+$Selenium::Remote::Mock::RemoteConnection::VERSION = '1.33';
 # ABSTRACT: utility class to mock the responses from Selenium server
 
 use strict;
@@ -15,60 +15,58 @@ use Data::Dumper;
 extends 'Selenium::Remote::RemoteConnection';
 
 has 'spec' => (
-    is       => 'ro',
-    default => sub {{}},
+    is      => 'ro',
+    default => sub { {} },
 );
 
-has 'mock_cmds' => (
-    is => 'ro',
-);
+has 'mock_cmds' => ( is => 'ro', );
 
 has 'fake_session_id' => (
-    is => 'lazy',
+    is      => 'lazy',
     builder => sub {
         my $id = join '',
-        map +( 0 .. 9, 'a' .. 'z', 'A' .. 'Z' )[ rand( 10 + 26 * 2 ) ], 1 .. 50;
+          map +( 0 .. 9, 'a' .. 'z', 'A' .. 'Z' )[ rand( 10 + 26 * 2 ) ],
+          1 .. 50;
         return $id;
     },
 );
 
 has 'record' => (
-    is => 'ro',
+    is      => 'ro',
     default => sub { 0 }
 );
 
-has 'replay' => (
-    is => 'ro',
-);
+has 'replay' => ( is => 'ro', );
 
-has 'replay_file' => (
-    is => 'ro',
-);
+has 'replay_file' => ( is => 'ro', );
 
 has 'session_store' => (
-    is => 'rw',
+    is      => 'rw',
     default => sub { {} }
 );
 
 has 'session_id' => (
-    is => 'rw',
+    is      => 'rw',
     default => sub { undef },
 );
 
 has 'remote_server_addr' => (
-    is => 'lazy',
+    is      => 'lazy',
     default => sub { 'localhost' }
 );
 
 
 sub BUILD {
     my $self = shift;
-    croak 'Cannot define replay and record attributes at the same time' if (($self->replay) && ($self->record));
-    croak 'replay_file attribute needs to be defined' if (($self->replay) && !($self->replay_file));
-    croak 'replay attribute needs to be defined' if (!($self->replay) && ($self->replay_file));
+    croak 'Cannot define replay and record attributes at the same time'
+      if ( ( $self->replay ) && ( $self->record ) );
+    croak 'replay_file attribute needs to be defined'
+      if ( ( $self->replay ) && !( $self->replay_file ) );
+    croak 'replay attribute needs to be defined'
+      if ( !( $self->replay ) && ( $self->replay_file ) );
     $self->port('4444');
-    if ($self->replay) {
-        $self->load_session_store($self->replay_file);
+    if ( $self->replay ) {
+        $self->load_session_store( $self->replay_file );
     }
 }
 
@@ -79,8 +77,9 @@ sub check_status {
 sub load_session_store {
     my $self = shift;
     my $file = shift;
-    croak "'$file' is not a valid file" unless (-f $file);
-    open (my $fh, '<', $file) or croak  "Opening '$file' failed";
+    croak "'$file' is not a valid file" unless ( -f $file );
+    open( my $fh, '<', $file ) or croak "Opening '$file' failed";
+
     # here we use a fake session id since we have no way of figuring out
     # which session is good or not
     local $/ = undef;
@@ -88,24 +87,24 @@ sub load_session_store {
     my $json = JSON->new;
     $json->allow_blessed;
     my $decoded_json = $json->allow_nonref(1)->utf8(1)->decode(<$fh>);
-    close ($fh);
+    close($fh);
     $self->session_store($decoded_json);
 }
 
 sub dump_session_store {
     my $self = shift;
     my ($file) = @_;
-    open (my $fh, '>', $file) or croak "Opening '$file' failed";
+    open( my $fh, '>', $file ) or croak "Opening '$file' failed";
     my $session_store = $self->session_store;
-    my $dump = {};
-    foreach my $path (keys %{$session_store}) {
+    my $dump          = {};
+    foreach my $path ( keys %{$session_store} ) {
         $dump->{$path} = $session_store->{$path};
     }
     my $json = JSON->new;
     $json->allow_blessed;
     my $json_session = $json->allow_nonref->utf8->pretty->encode($dump);
     print $fh $json_session;
-    close ($fh);
+    close($fh);
 }
 
 sub request {
@@ -117,6 +116,7 @@ sub request {
     my $content            = '';
     my $json               = JSON->new;
     $json->allow_blessed;
+
     if ($params) {
         $content = $json->allow_nonref->utf8->canonical(1)->encode($params);
     }
@@ -126,21 +126,20 @@ sub request {
 
     if ( $self->record ) {
         my $response = $self->SUPER::request( $resource, $params, 1 );
-        push @{$self->session_store->{"$method $url $content"}},$response->as_string;
+        push @{ $self->session_store->{"$method $url $content"} },
+          $response->as_string;
         return $self->_process_response( $response, $no_content_success );
     }
     if ( $self->replay ) {
         my $resp;
-        my $arr_of_resps = $self->session_store->{"$method $url $content"} // [];
+        my $arr_of_resps = $self->session_store->{"$method $url $content"}
+          // [];
         if ( scalar(@$arr_of_resps) ) {
             $resp = shift @$arr_of_resps;
             $resp = HTTP::Response->parse($resp);
         }
         else {
-            $resp = HTTP::Response->new(
-                '501',
-                "Failed to find a response"
-            );
+            $resp = HTTP::Response->new( '501', "Failed to find a response" );
         }
         return $self->_process_response( $resp, $no_content_success );
     }
@@ -151,15 +150,15 @@ sub request {
     my $ret = { cmd_status => 'OK', cmd_return => 1 };
     if ( defined( $spec->{$cmd} ) ) {
         my $return_sub = $spec->{$cmd};
-            my $mock_return = $return_sub->( $url_params, $params );
-            if ( ref($mock_return) eq 'HASH' ) {
-                $ret->{cmd_status} = $mock_return->{status};
-                $ret->{cmd_return} = $mock_return->{return};
-                $ret->{cmd_error}  = $mock_return->{error} // '';
-            }
-            else {
-                $ret = $mock_return;
-            }
+        my $mock_return = $return_sub->( $url_params, $params );
+        if ( ref($mock_return) eq 'HASH' ) {
+            $ret->{cmd_status} = $mock_return->{status};
+            $ret->{cmd_return} = $mock_return->{return};
+            $ret->{cmd_error}  = $mock_return->{error} // '';
+        }
+        else {
+            $ret = $mock_return;
+        }
         $ret->{session_id} = $self->fake_session_id if ( ref($ret) eq 'HASH' );
     }
     else {
@@ -182,7 +181,7 @@ Selenium::Remote::Mock::RemoteConnection - utility class to mock the responses f
 
 =head1 VERSION
 
-version 1.30
+version 1.33
 
 =head1 SYNOPSIS
 
@@ -351,7 +350,7 @@ L<Selenium::Remote::Driver|Selenium::Remote::Driver>
 =head1 BUGS
 
 Please report any bugs or feature requests on the bugtracker website
-https://github.com/teodesian/Selenium-Remote-Driver/issues
+L<https://github.com/teodesian/Selenium-Remote-Driver/issues>
 
 When submitting a bug or request, please include a test-file or a
 patch to an existing test-file that illustrates the bug or desired
