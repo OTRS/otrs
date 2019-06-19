@@ -802,6 +802,7 @@ sub FetchFromCustomer {
             my $Cert = $Self->ConvertCertFormat(
                 String => $CustomerUser{UserSMIMECertificate},
             );
+
             my %Result = $Self->CertificateAdd(
                 Certificate => $Cert,
             );
@@ -1101,6 +1102,17 @@ sub CertificateRemove {
     }
 
     my %Result;
+
+    my %CertificateAttributes = $Self->CertificateAttributes(
+        Certificate => $Self->CertificateGet( Filename => $Param{Filename} ),
+        Filename    => $Param{Filename},
+    );
+
+    if (%CertificateAttributes) {
+        $Self->SignerCertRelationDelete(
+            CAFingerprint => $CertificateAttributes{Fingerprint},
+        );
+    }
 
     # private certificate shouldn't exists if certificate is deleted
     # therefor if exists, first remove private certificate
@@ -2113,16 +2125,21 @@ returns 1 if success
         CAFingerprint   => $CAFingerprint,
     );
 
+    # delete one relation by CAFingerprint
+    $Success = $CryptObject->SignerCertRelationDelete (
+        CAFingerprint   => $CAFingerprint,
+    );
+
 =cut
 
 sub SignerCertRelationDelete {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    if ( !$Param{CertFingerprint} && !$Param{ID} ) {
+    if ( !$Param{CertFingerprint} && !$Param{ID} && !$Param{CAFingerprint} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => 'Need ID or CertFingerprint!'
+            Message  => 'Need ID or CertFingerprint or CAFingerprint!'
         );
         return;
     }
@@ -2161,6 +2178,25 @@ sub SignerCertRelationDelete {
                 Message =>
                     "DB Error, Not possible to delete relation for "
                     . "CertFingerprint:$Param{CertFingerprint} and CAFingerprint:$Param{CAFingerprint}!",
+                Priority => 'error',
+            );
+        }
+        return $Success;
+    }
+    elsif ( $Param{CAFingerprint} ) {
+
+        # delete one row
+        my $Success = $DBObject->Do(
+            SQL => 'DELETE FROM smime_signer_cert_relations '
+                . 'WHERE ca_fingerprint = ?',
+            Bind => [ \$Param{CAFingerprint} ],
+        );
+
+        if ( !$Success ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Message =>
+                    "DB Error, Not possible to delete relation for "
+                    . "CAFingerprint:$Param{CAFingerprint}!",
                 Priority => 'error',
             );
         }
