@@ -250,9 +250,9 @@ my @NeededModules = (
         },
     },
     {
-        Module       => 'DBD::ODBC',
-        Required     => 0,
-        NotSupported => [
+        Module               => 'DBD::ODBC',
+        Required             => 0,
+        VersionsNotSupported => [
             {
                 Version => '1.23',
                 Comment =>
@@ -302,11 +302,11 @@ my @NeededModules = (
         },
     },
     {
-        Module    => 'Encode::HanExtra',
-        Version   => '0.23',
-        Required  => 0,
-        Comment   => 'Required to handle mails with several Chinese character sets.',
-        InstTypes => {
+        Module          => 'Encode::HanExtra',
+        VersionRequired => '0.23',
+        Required        => 0,
+        Comment         => 'Required to handle mails with several Chinese character sets.',
+        InstTypes       => {
             aptget => 'libencode-hanextra-perl',
             emerge => 'dev-perl/Encode-HanExtra',
             zypper => 'perl-Encode-HanExtra',
@@ -358,11 +358,11 @@ my @NeededModules = (
         },
     },
     {
-        Module    => 'Mail::IMAPClient',
-        Version   => '3.22',
-        Comment   => 'Required for IMAP TLS connections.',
-        Required  => 0,
-        InstTypes => {
+        Module          => 'Mail::IMAPClient',
+        VersionRequired => '3.22',
+        Comment         => 'Required for IMAP TLS connections.',
+        Required        => 0,
+        InstTypes       => {
             aptget => 'libmail-imapclient-perl',
             emerge => 'dev-perl/Mail-IMAPClient',
             zypper => 'perl-Mail-IMAPClient',
@@ -414,9 +414,9 @@ my @NeededModules = (
         },
     },
     {
-        Module       => 'Net::DNS',
-        Required     => 1,
-        NotSupported => [
+        Module               => 'Net::DNS',
+        Required             => 1,
+        VersionsNotSupported => [
             {
                 Version => '0.60',
                 Comment =>
@@ -517,9 +517,21 @@ my @NeededModules = (
         },
     },
     {
-        Module    => 'YAML::XS',
-        Required  => 1,
-        Comment   => 'Required for fast YAML processing.',
+        Module   => 'YAML::XS',
+        Required => 1,
+        Comment  => 'Required for fast YAML processing.',
+
+        # Example of how to use VersionsRecommended option.
+        # VersionsRecommended => [
+        #     {
+        #         Version => '5.0.1',
+        #         Comment => 'This version fixes a bug.',
+        #     },
+        #     {
+        #         Version => '6.0.1',
+        #         Comment => 'This version fixes a critical issue.',
+        #     },
+        # ],
         InstTypes => {
             aptget => 'libyaml-libyaml-perl',
             emerge => 'dev-perl/YAML-LibYAML',
@@ -606,11 +618,11 @@ sub _Check {
         }
         ## use critic
 
-        if ( $Module->{NotSupported} ) {
+        if ( $Module->{VersionsNotSupported} ) {
 
-            my $NotSupported = 0;
+            my $VersionsNotSupported = 0;
             ITEM:
-            for my $Item ( @{ $Module->{NotSupported} } ) {
+            for my $Item ( @{ $Module->{VersionsNotSupported} } ) {
 
                 # cleanup item version number
                 my $ItemVersion = _VersionClean(
@@ -618,26 +630,45 @@ sub _Check {
                 );
 
                 if ( $CleanedVersion == $ItemVersion ) {
-                    $NotSupported = $Item->{Comment};
+                    $VersionsNotSupported = $Item->{Comment};
                     last ITEM;
                 }
             }
 
-            if ($NotSupported) {
-                $ErrorMessage .= "Version $Version not supported! $NotSupported ";
+            if ($VersionsNotSupported) {
+                $ErrorMessage .= "Version $Version not supported! $VersionsNotSupported ";
             }
         }
 
-        if ( $Module->{Version} ) {
+        my $AdditionalText = '';
+
+        if ( $Module->{VersionsRecommended} ) {
+
+            my $VersionsRecommended = 0;
+            ITEM:
+            for my $Item ( @{ $Module->{VersionsRecommended} } ) {
+
+                my $ItemVersion = _VersionClean(
+                    Version => $Item->{Version},
+                );
+
+                if ( $CleanedVersion < $ItemVersion ) {
+                    $AdditionalText
+                        .= "    Please consider updating to version $Item->{Version} or higher: $Item->{Comment}\n";
+                }
+            }
+        }
+
+        if ( $Module->{VersionRequired} ) {
 
             # cleanup item version number
             my $RequiredModuleVersion = _VersionClean(
-                Version => $Module->{Version},
+                Version => $Module->{VersionRequired},
             );
 
             if ( $CleanedVersion < $RequiredModuleVersion ) {
                 $ErrorMessage
-                    .= "Version $Version installed but $Module->{Version} or higher is required! ";
+                    .= "Version $Version installed but $Module->{VersionRequired} or higher is required! ";
             }
         }
 
@@ -658,10 +689,15 @@ sub _Check {
             }
 
             if ($NoColors) {
-                print "ok ($OutputVersion)\n";
+                print "ok ($OutputVersion)\n" . color('yellow') . "$AdditionalText" . color('reset');
             }
             else {
-                print color('green') . 'ok' . color('reset') . " ($OutputVersion)\n";
+                print color('green') . 'ok'
+                    . color('reset')
+                    . " ($OutputVersion)\n"
+                    . color('yellow')
+                    . "$AdditionalText"
+                    . color('reset');
             }
         }
     }
@@ -681,7 +717,7 @@ sub _Check {
                 $CMD = sprintf $InstallCommand{CMD}, $InstallCommand{SubCMD};
             }
 
-            $InstallText = " Use: '" . sprintf( $CMD, $InstallCommand{Package} ) . "'";
+            $InstallText = " To install, you can use: '" . sprintf( $CMD, $InstallCommand{Package} ) . "'.";
         }
 
         if ($Required) {
