@@ -31,6 +31,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
      *      This function initializes the module functionality.
      */
     TargetNS.Init = function () {
+        var Subaction = Core.Config.Get('Subaction');
 
         // Initialize Popup response (Redirect and close Popup)
         InitProcessPopupsResponse();
@@ -39,26 +40,35 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
         Core.UI.Table.InitTableFilter($('#Filter'), $('#Processes'), 0);
 
         // Depending on Subaction initialize specific functions
-        if (Core.Config.Get('Subaction') === 'ActivityNew' ||
-          Core.Config.Get('Subaction') === 'ActivityEdit') {
+        if (Subaction === 'ActivityNew' ||
+            Subaction === 'ActivityNewAction' ||
+            Subaction === 'ActivityEdit' ||
+            Subaction === 'ActivityEditAction') {
             TargetNS.InitActivityEdit();
         }
-        else if (Core.Config.Get('Subaction') === 'ActivityDialogNew' ||
-          Core.Config.Get('Subaction') === 'ActivityDialogEdit') {
+        else if (Subaction === 'ActivityDialogNew' ||
+            Subaction === 'ActivityDialogNewAction' ||
+            Subaction === 'ActivityDialogEdit' ||
+            Subaction === 'ActivityDialogEditAction') {
             TargetNS.InitActivityDialogEdit();
         }
-        else if (Core.Config.Get('Subaction') === 'TransitionNew' ||
-          Core.Config.Get('Subaction') === 'TransitionEdit') {
+        else if (Subaction === 'TransitionNew' ||
+            Subaction === 'TransitionNewAction' ||
+            Subaction === 'TransitionEdit' ||
+            Subaction === 'TransitionEditAction') {
             TargetNS.InitTransitionEdit();
         }
-        else if (Core.Config.Get('Subaction') === 'TransitionActionNew' ||
-          Core.Config.Get('Subaction') === 'TransitionActionEdit') {
+        else if (Subaction === 'TransitionActionNew' ||
+            Subaction === 'TransitionActionNewAction' ||
+            Subaction === 'TransitionActionEdit' ||
+            Subaction === 'TransitionActionEditAction') {
             TargetNS.InitTransitionActionEdit();
         }
-        else if (Core.Config.Get('Subaction') === 'ProcessEdit') {
+        else if (Subaction === 'ProcessEdit' ||
+            Subaction === 'ProcessEditAction') {
             TargetNS.InitProcessEdit();
         }
-        else if (Core.Config.Get('Subaction') === 'ProcessPrint') {
+        else if (Subaction === 'ProcessPrint') {
             $('.ProcessPrint').on('click', function() {
                 window.print();
                 return false;
@@ -66,7 +76,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
         }
 
         // Depending on Action initialize specific functions
-        if (Core.Config.Get('Action') === 'AdminProcessManagementPath' && Core.Config.Get('Subaction') !== 'ClosePopup') {
+        if (Core.Config.Get('Action') === 'AdminProcessManagementPath' && Subaction !== 'ClosePopup') {
            TargetNS.InitPathEdit();
         }
     };

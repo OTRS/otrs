@@ -1,4 +1,5 @@
 #6.0.20 ????-??-??
+ - 2019-06-19 Fixed bug#[14588](https://bugs.otrs.org/show_bug.cgi?id=14588) - Server side validation breaks process management administration screens.
  - 2019-06-18 Fixed bug#[12334](https://bugs.otrs.org/show_bug.cgi?id=12334) - Net::SSLGlue issues warnings on modern systems.
  - 2019-06-18 Fixed bug#[13727](https://bugs.otrs.org/show_bug.cgi?id=13727) - Admin::Config::Update lacks possibilities to reset / invalidate settings.
  - 2019-06-17 Fixed bug#[14585](https://bugs.otrs.org/show_bug.cgi?id=14585) - ArticleLimit parameter causes wrong response of TicketGet web service operation.
