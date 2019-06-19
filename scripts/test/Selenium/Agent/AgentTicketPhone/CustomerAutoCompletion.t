@@ -320,7 +320,7 @@ $Selenium->RunTest(
                     # Wait for autocomplete to load.
                     $Selenium->WaitFor(
                         JavaScript =>
-                            "return !\$('.AJAXLoader:visible').length && \$('li.ui-menu-item:contains($AutoCompleteExpected{$AutocompleteInput}->{SelectAllCustomerID})').length;"
+                            "return !\$('.AJAXLoader:visible').length;"
                     );
                     sleep 1;
 
