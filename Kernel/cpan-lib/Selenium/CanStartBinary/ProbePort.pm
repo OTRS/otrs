@@ -1,5 +1,5 @@
 package Selenium::CanStartBinary::ProbePort;
-$Selenium::CanStartBinary::ProbePort::VERSION = '1.30';
+$Selenium::CanStartBinary::ProbePort::VERSION = '1.33';
 use strict;
 use warnings;
 
@@ -9,7 +9,7 @@ use IO::Socket::INET;
 use Selenium::Waiter qw/wait_until/;
 
 require Exporter;
-our @ISA = qw/Exporter/;
+our @ISA       = qw/Exporter/;
 our @EXPORT_OK = qw/find_open_port_above find_open_port probe_port/;
 
 
@@ -41,7 +41,7 @@ sub probe_port {
     return IO::Socket::INET->new(
         PeerAddr => '127.0.0.1',
         PeerPort => $port,
-        Timeout => 3
+        Timeout  => 3
     );
 }
 
@@ -57,7 +57,7 @@ Selenium::CanStartBinary::ProbePort - Utility functions for finding open ports t
 
 =head1 VERSION
 
-version 1.30
+version 1.33
 
 =for Pod::Coverage *EVERYTHING*
 
@@ -76,7 +76,7 @@ L<Selenium::Remote::Driver|Selenium::Remote::Driver>
 =head1 BUGS
 
 Please report any bugs or feature requests on the bugtracker website
-https://github.com/teodesian/Selenium-Remote-Driver/issues
+L<https://github.com/teodesian/Selenium-Remote-Driver/issues>
 
 When submitting a bug or request, please include a test-file or a
 patch to an existing test-file that illustrates the bug or desired

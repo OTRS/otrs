@@ -1,5 +1,5 @@
 package Selenium::Remote::Driver::CanSetWebdriverContext;
-$Selenium::Remote::Driver::CanSetWebdriverContext::VERSION = '1.30';
+$Selenium::Remote::Driver::CanSetWebdriverContext::VERSION = '1.33';
 # ABSTRACT: Customize the webdriver context prefix for various drivers
 
 use strict;
@@ -9,7 +9,7 @@ use Moo::Role;
 
 
 has 'wd_context_prefix' => (
-    is => 'lazy',
+    is      => 'lazy',
     default => sub { '/wd/hub' }
 );
 
@@ -27,7 +27,7 @@ Selenium::Remote::Driver::CanSetWebdriverContext - Customize the webdriver conte
 
 =head1 VERSION
 
-version 1.30
+version 1.33
 
 =head1 DESCRIPTION
 
@@ -57,7 +57,7 @@ L<Selenium::Remote::Driver|Selenium::Remote::Driver>
 =head1 BUGS
 
 Please report any bugs or feature requests on the bugtracker website
-https://github.com/teodesian/Selenium-Remote-Driver/issues
+L<https://github.com/teodesian/Selenium-Remote-Driver/issues>
 
 When submitting a bug or request, please include a test-file or a
 patch to an existing test-file that illustrates the bug or desired

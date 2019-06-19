@@ -1,14 +1,17 @@
 package Selenium::CanStartBinary;
-$Selenium::CanStartBinary::VERSION = '1.30';
+$Selenium::CanStartBinary::VERSION = '1.33';
 use strict;
 use warnings;
 
 # ABSTRACT: Teach a WebDriver how to start its own binary aka no JRE!
 use File::Spec;
-use Selenium::CanStartBinary::ProbePort qw/find_open_port_above find_open_port probe_port/;
+use Selenium::CanStartBinary::ProbePort
+  qw/find_open_port_above find_open_port probe_port/;
 use Selenium::Firefox::Binary qw/setup_firefox_binary_env/;
 use Selenium::Waiter qw/wait_until/;
 use Moo::Role;
+
+use constant IS_WIN => $^O eq 'MSWin32';
 
 
 requires 'binary';
@@ -21,11 +24,11 @@ requires '_binary_args';
 
 
 has '_real_binary' => (
-    is => 'lazy',
+    is      => 'lazy',
     builder => sub {
         my ($self) = @_;
 
-        if ($self->_is_old_ff) {
+        if ( $self->_is_old_ff ) {
             return $self->firefox_binary;
         }
         else {
@@ -35,7 +38,7 @@ has '_real_binary' => (
 );
 
 has '_is_old_ff' => (
-    is => 'lazy',
+    is      => 'lazy',
     builder => sub {
         my ($self) = @_;
 
@@ -44,51 +47,51 @@ has '_is_old_ff' => (
 );
 
 has '+port' => (
-    is => 'lazy',
+    is      => 'lazy',
     builder => sub {
         my ($self) = @_;
 
-        if ($self->_real_binary) {
-            if ($self->fixed_ports) {
-                return find_open_port($self->binary_port);
+        if ( $self->_real_binary ) {
+            if ( $self->fixed_ports ) {
+                return find_open_port( $self->binary_port );
             }
             else {
-                return find_open_port_above($self->binary_port);
+                return find_open_port_above( $self->binary_port );
             }
         }
         else {
-            return 4444
+            return 4444;
         }
     }
 );
 
 
 has 'fixed_ports' => (
-    is => 'lazy',
+    is      => 'lazy',
     default => sub { 0 }
 );
 
 
 has custom_args => (
-    is => 'lazy',
+    is        => 'lazy',
     predicate => 1,
-    default => sub { '' }
+    default   => sub { '' }
 );
 
 has 'marionette_port' => (
-    is => 'lazy',
+    is      => 'lazy',
     builder => sub {
         my ($self) = @_;
 
-        if ($self->_is_old_ff) {
+        if ( $self->_is_old_ff ) {
             return 0;
         }
         else {
-            if ($self->fixed_ports) {
-                return find_open_port($self->marionette_binary_port);
+            if ( $self->fixed_ports ) {
+                return find_open_port( $self->marionette_binary_port );
             }
             else {
-                return find_open_port_above($self->marionette_binary_port);
+                return find_open_port_above( $self->marionette_binary_port );
             }
         }
     }
@@ -96,20 +99,20 @@ has 'marionette_port' => (
 
 
 has startup_timeout => (
-    is => 'lazy',
+    is      => 'lazy',
     default => sub { 10 }
 );
 
 
 has 'binary_mode' => (
-    is => 'lazy',
-    init_arg => undef,
-    builder => 1,
+    is        => 'lazy',
+    init_arg  => undef,
+    builder   => 1,
     predicate => 1
 );
 
 has 'try_binary' => (
-    is => 'lazy',
+    is      => 'lazy',
     default => sub { 0 },
     trigger => sub {
         my ($self) = @_;
@@ -119,11 +122,12 @@ has 'try_binary' => (
 
 
 has 'window_title' => (
-    is => 'lazy',
+    is       => 'lazy',
     init_arg => undef,
-    builder => sub {
+    builder  => sub {
         my ($self) = @_;
-        my (undef, undef, $file) = File::Spec->splitpath( $self->_real_binary );
+        my ( undef, undef, $file ) =
+          File::Spec->splitpath( $self->_real_binary );
         my $port = $self->port;
 
         return $file . ':' . $port;
@@ -132,17 +136,25 @@ has 'window_title' => (
 
 
 has '_command' => (
-    is => 'lazy',
+    is       => 'lazy',
     init_arg => undef,
-    builder => sub {
+    builder  => sub {
         my ($self) = @_;
         return $self->_construct_command;
     }
 );
 
-use constant IS_WIN => $^O eq 'MSWin32';
+
+has 'logfile' => (
+    is      => 'lazy',
+    default => sub {
+        return '/nul' if IS_WIN;
+        return '/dev/null';
+    }
+);
 
 sub BUILDARGS {
+
     # There's a bit of finagling to do to since we can't ensure the
     # attribute instantiation order. To decide whether we're going into
     # binary mode, we need the remote_server_addr and port. But, they're
@@ -159,7 +171,7 @@ sub BUILDARGS {
     # binary mode or not.
     my ( undef, %args ) = @_;
 
-    if ( ! exists $args{remote_server_addr} && ! exists $args{port} ) {
+    if ( !exists $args{remote_server_addr} && !exists $args{port} ) {
         $args{try_binary} = 1;
 
         # Windows may throw a fit about invalid pointers if we try to
@@ -167,11 +179,11 @@ sub BUILDARGS {
         $args{remote_server_addr} = '127.0.0.1';
     }
     else {
-        $args{try_binary} = 0;
+        $args{try_binary}  = 0;
         $args{binary_mode} = 0;
     }
 
-    return { %args };
+    return {%args};
 }
 
 sub _build_binary_mode {
@@ -183,49 +195,54 @@ sub _build_binary_mode {
     # Either the user asked for 4444, or we couldn't find an open port
     my $port = $self->port + 0;
     return if $port == 4444;
-    if( $self->fixed_ports && $port == 0 ){
-        die 'port ' . $self->binary_port . ' is not free and have requested fixed ports';
+    if ( $self->fixed_ports && $port == 0 ) {
+        die 'port '
+          . $self->binary_port
+          . ' is not free and have requested fixed ports';
     }
 
     $self->_handle_firefox_setup($port);
 
-    system($self->_command);
+    system( $self->_command );
 
-    my $success = wait_until { probe_port($port) } timeout => $self->startup_timeout;
+    my $success =
+      wait_until { probe_port($port) } timeout => $self->startup_timeout;
     if ($success) {
         return 1;
     }
     else {
-        die 'Unable to connect to the ' . $self->_real_binary . ' binary on port ' . $port;
+        die 'Unable to connect to the '
+          . $self->_real_binary
+          . ' binary on port '
+          . $port;
     }
 }
 
 sub _handle_firefox_setup {
-    my ($self, $port) = @_;
+    my ( $self, $port ) = @_;
 
     # This is a no-op for other browsers
     return unless $self->isa('Selenium::Firefox');
 
-    my $user_profile = $self->has_firefox_profile
+    my $user_profile =
+        $self->has_firefox_profile
       ? $self->firefox_profile
       : 0;
 
-    my $profile = setup_firefox_binary_env(
-        $port,
-        $self->marionette_port,
-        $user_profile
-    );
+    my $profile =
+      setup_firefox_binary_env( $port, $self->marionette_port, $user_profile );
 
-    if ($self->_is_old_ff) {
+    if ( $self->_is_old_ff ) {
+
         # For non-geckodriver/non-marionette, we want to get rid of
         # the profile so that we don't accidentally zip it and encode
         # it down the line while Firefox is trying to read from it.
         $self->clear_firefox_profile if $self->has_firefox_profile;
     }
     else {
-        # For geckodriver/marionette, we keep the enhanced profile around because
-        # we need to send it to geckodriver as a zipped b64-encoded
-        # directory.
+       # For geckodriver/marionette, we keep the enhanced profile around because
+       # we need to send it to geckodriver as a zipped b64-encoded
+       # directory.
         $self->firefox_profile($profile);
     }
 }
@@ -237,14 +254,33 @@ sub shutdown_binary {
         $self->quit();
     }
 
-    if ($self->has_binary_mode && $self->binary_mode) {
+    if ( $self->has_binary_mode && $self->binary_mode ) {
+
         # Tell the binary itself to shutdown
         my $port = $self->port;
-        my $ua = $self->ua;
-        $ua->get('http://127.0.0.1:' . $port . '/wd/hub/shutdown');
+        my $ua   = $self->ua;
+        $ua->get( 'http://127.0.0.1:' . $port . '/wd/hub/shutdown' );
 
         # Close the orphaned command windows on windows
         $self->shutdown_windows_binary;
+        $self->shutdown_unix_binary;
+    }
+
+}
+
+sub shutdown_unix_binary {
+    my ($self) = @_;
+    if (!IS_WIN) {
+        my $cmd = "lsof -t -i :".$self->port();
+        my ( $pid ) = grep { $_ && $_ ne $$ } split( /\s+/, scalar `$cmd` );
+        if ($pid) {
+            print "Killing Driver PID $pid listening on port "
+              . $self->port . "...\n";
+            eval { kill 'KILL', $pid };
+            warn
+"Could not kill driver process! you may have to clean up manually."
+              if $@;
+        }
     }
 }
 
@@ -252,7 +288,8 @@ sub shutdown_windows_binary {
     my ($self) = @_;
 
     if (IS_WIN) {
-        if ($self->_is_old_ff) {
+        if ( $self->_is_old_ff ) {
+
             # FIXME: Blech, handle a race condition that kills the
             # driver before it's finished cleaning up its sessions. In
             # particular, when the perl process ends, it wants to
@@ -261,17 +298,20 @@ sub shutdown_windows_binary {
             # it will have a lock on the temp profile directory, and
             # perl will get upset. This "solution" is _very_ bad.
             sleep(2);
+
             # Firefox doesn't have a Driver/Session architecture - the
             # only thing running is Firefox itself, so there's no
             # other task to kill.
             return;
         }
-        system('taskkill /FI "WINDOWTITLE eq ' . $self->window_title . '" > nul 2>&1');
+        system( 'taskkill /FI "WINDOWTITLE eq '
+              . $self->window_title
+              . '" > nul 2>&1' );
     }
 }
 
 sub DEMOLISH {
-    my ($self, $in_gd) = @_;
+    my ( $self, $in_gd ) = @_;
 
     # if we're in global destruction, all bets are off.
     return if $in_gd;
@@ -287,13 +327,13 @@ sub _construct_command {
 
     # The different binaries take different arguments for proper setup
     $executable .= $self->_binary_args;
-    if ($self->has_custom_args) {
+    if ( $self->has_custom_args ) {
         $executable .= ' ' . $self->custom_args;
     }
 
     # Handle Windows vs Unix discrepancies for invoking shell commands
-    my ($prefix, $suffix) = ($self->_cmd_prefix, $self->_cmd_suffix);
-    return join(' ', ($prefix, $executable, $suffix) );
+    my ( $prefix, $suffix ) = ( $self->_cmd_prefix, $self->_cmd_suffix );
+    return join( ' ', ( $prefix, $executable, $suffix ) );
 }
 
 sub _cmd_prefix {
@@ -303,7 +343,8 @@ sub _cmd_prefix {
     if (IS_WIN) {
         $prefix = 'start "' . $self->window_title . '"';
 
-        if ($self->_is_old_ff) {
+        if ( $self->_is_old_ff ) {
+
             # For older versions of Firefox that run without
             # marionette, the command we're running actually starts up
             # the browser itself, so we don't want to minimize it.
@@ -320,15 +361,9 @@ sub _cmd_prefix {
 }
 
 sub _cmd_suffix {
-    # TODO: allow users to specify whether & where they want driver
-    # output to go
-
-    if (IS_WIN) {
-        return ' > /nul 2>&1 ';
-    }
-    else {
-        return ' > /dev/null 2>&1 &';
-    }
+    my ($self) = @_;
+    return " > " . $self->logfile . " 2>&1 " if IS_WIN;
+    return " > " . $self->logfile . " 2>&1 &";
 }
 
 
@@ -346,7 +381,7 @@ Selenium::CanStartBinary - Teach a WebDriver how to start its own binary aka no 
 
 =head1 VERSION
 
-version 1.30
+version 1.33
 
 =head1 DESCRIPTION
 
@@ -492,6 +527,11 @@ was run to start the webdriver server.
     my $f = Selenium::Firefox->new;
     say $f->_command;
 
+=head2 logfile
+
+Normally we log what occurs in the driver to /dev/null (or /nul on windows).
+Setting this will redirect it to the provided file.
+
 =for Pod::Coverage *EVERYTHING*
 
 =head1 SEE ALSO
@@ -521,7 +561,7 @@ L<Selenium::PhantomJS|Selenium::PhantomJS>
 =head1 BUGS
 
 Please report any bugs or feature requests on the bugtracker website
-https://github.com/teodesian/Selenium-Remote-Driver/issues
+L<https://github.com/teodesian/Selenium-Remote-Driver/issues>
 
 When submitting a bug or request, please include a test-file or a
 patch to an existing test-file that illustrates the bug or desired

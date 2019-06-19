@@ -1,5 +1,5 @@
 package Selenium::Firefox::Profile;
-$Selenium::Firefox::Profile::VERSION = '1.30';
+$Selenium::Firefox::Profile::VERSION = '1.33';
 # ABSTRACT: Use custom profiles with Selenium::Remote::Driver
 # TODO: convert this to Moo!
 
@@ -36,9 +36,9 @@ sub new {
     # constructor
     my $self = {
         profile_dir => $profile_dir,
-        user_prefs => {},
-        extensions => []
-      };
+        user_prefs  => {},
+        extensions  => []
+    };
     bless $self, $class or die "Can't bless $class: $!";
 
     return $self;
@@ -46,17 +46,18 @@ sub new {
 
 
 sub set_preference {
-    my ($self, %prefs) = @_;
+    my ( $self, %prefs ) = @_;
 
-    foreach (keys %prefs) {
-        my $value = $prefs{$_};
+    foreach ( keys %prefs ) {
+        my $value       = $prefs{$_};
         my $clean_value = '';
 
         if ( JSON::is_bool($value) ) {
-            $self->set_boolean_preference($_, $value );
+            $self->set_boolean_preference( $_, $value );
             next;
         }
-        elsif ($value =~ /^(['"]).*\1$/ or looks_like_number($value)) {
+        elsif ( $value =~ /^(['"]).*\1$/ or looks_like_number($value) ) {
+
             # plain integers: 0, 1, 32768, or integers wrapped in strings:
             # "0", "1", "20140204". in either case, there's nothing for us
             # to do.
@@ -74,9 +75,9 @@ sub set_preference {
 
 
 sub set_boolean_preference {
-    my ($self, %prefs) = @_;
+    my ( $self, %prefs ) = @_;
 
-    foreach (keys %prefs) {
+    foreach ( keys %prefs ) {
         my $value = $prefs{$_};
 
         $self->{user_prefs}->{$_} = $value ? 'true' : 'false';
@@ -85,40 +86,43 @@ sub set_boolean_preference {
 
 
 sub get_preference {
-    my ($self, $pref) = @_;
+    my ( $self, $pref ) = @_;
 
     return $self->{user_prefs}->{$pref};
 }
 
 
 sub add_extension {
-    my ($self, $xpi) = @_;
+    my ( $self, $xpi ) = @_;
 
     croak 'File not found: ' . $xpi unless -e $xpi;
     my $xpi_abs_path = abs_path($xpi);
-    croak '$xpi_abs_path: extensions must be in .xpi format' unless $xpi_abs_path =~ /\.xpi$/;
+    croak '$xpi_abs_path: extensions must be in .xpi format'
+      unless $xpi_abs_path =~ /\.xpi$/;
 
-    push (@{$self->{extensions}}, $xpi_abs_path);
+    push( @{ $self->{extensions} }, $xpi_abs_path );
 }
 
 
 sub add_webdriver {
-    my ($self, $port, $is_marionette) = @_;
+    my ( $self, $port, $is_marionette ) = @_;
 
-    my $prefs = $self->_load_prefs;
+    my $prefs              = $self->_load_prefs;
     my $current_user_prefs = $self->{user_prefs};
 
     $self->set_preference(
         %{ $prefs->{mutable} },
+
         # having the user prefs here allows them to overwrite the
         # mutable loaded prefs
-        %{ $current_user_prefs },
+        %{$current_user_prefs},
+
         # but the frozen ones cannot be overwritten
         %{ $prefs->{frozen} },
         'webdriver_firefox_port' => $port
     );
 
-    if (! $is_marionette) {
+    if ( !$is_marionette ) {
         $self->_add_webdriver_xpi;
     }
 
@@ -126,21 +130,22 @@ sub add_webdriver {
 }
 
 sub _load_prefs {
+
     # The appropriate webdriver preferences are stored in an adjacent
     # JSON file; it's useful things like disabling default browser
     # checks and setting an empty single page as the start up tab
     # configuration. Unfortunately, these change with each version of
     # webdriver.
 
-    my $this_dir = dirname(abs_path(__FILE__));
+    my $this_dir               = dirname( abs_path(__FILE__) );
     my $default_prefs_filename = $this_dir . '/webdriver_prefs.json';
 
     my $json;
     {
         local $/;
-        open (my $fh, '<', $default_prefs_filename);
+        open( my $fh, '<', $default_prefs_filename );
         $json = <$fh>;
-        close ($fh);
+        close($fh);
     }
 
     my $prefs = decode_json($json);
@@ -152,7 +157,7 @@ sub _load_prefs {
 sub _add_webdriver_xpi {
     my ($self) = @_;
 
-    my $this_dir = dirname(abs_path(__FILE__));
+    my $this_dir            = dirname( abs_path(__FILE__) );
     my $webdriver_extension = $this_dir . '/webdriver.xpi';
 
     $self->add_extension($webdriver_extension);
@@ -160,9 +165,9 @@ sub _add_webdriver_xpi {
 
 
 sub add_marionette {
-    my ($self, $port) = @_;
+    my ( $self, $port ) = @_;
     return if !$port;
-    $self->set_preference('marionette.defaultPrefs.port', $port);
+    $self->set_preference( 'marionette.defaultPrefs.port', $port );
 }
 
 sub _encode {
@@ -176,13 +181,13 @@ sub _encode {
     $zip->addTree( $self->{profile_dir} );
 
     my $string = "";
-    open (my $fh, ">", \$string);
+    open( my $fh, ">", \$string );
     binmode($fh);
     unless ( $zip->writeToFileHandle($fh) == AZ_OK ) {
         die 'write error';
     }
 
-    return encode_base64($string, '');
+    return encode_base64( $string, '' );
 }
 
 sub _layout_on_disk {
@@ -198,56 +203,61 @@ sub _write_preferences {
     my $self = shift;
 
     my $userjs = $self->{profile_dir} . "/user.js";
-    open (my $fh, ">>", $userjs)
-        or die "Cannot open $userjs for writing preferences: $!";
+    open( my $fh, ">>", $userjs )
+      or die "Cannot open $userjs for writing preferences: $!";
 
-    foreach (keys %{$self->{user_prefs}}) {
-        print $fh 'user_pref("' . $_ . '", ' . $self->get_preference($_) . ');' . "\n";
+    foreach ( keys %{ $self->{user_prefs} } ) {
+        print $fh 'user_pref("'
+          . $_ . '", '
+          . $self->get_preference($_) . ');' . "\n";
     }
-    close ($fh);
+    close($fh);
 }
 
 sub _install_extensions {
-    my $self = shift;
+    my $self          = shift;
     my $extension_dir = $self->{profile_dir} . "/extensions/";
     mkdir $extension_dir unless -d $extension_dir;
 
     # TODO: handle extensions that need to be unpacked
-    foreach my $xpi (@{$self->{extensions}}) {
+    foreach my $xpi ( @{ $self->{extensions} } ) {
+
         # For Firefox to recognize the extension, we have to put the
         # .xpi in the /extensions/ folder and change the filename to
         # its id, which is found in the install.rdf in the root of the
         # zip.
 
         my $rdf_string = $self->_extract_install_rdf($xpi);
-        my $rdf = XMLin($rdf_string);
-        my $name = $rdf->{Description}->{'em:id'};
+        my $rdf        = XMLin($rdf_string);
+        my $name       = $rdf->{Description}->{'em:id'};
 
         my $xpi_dest = $extension_dir . $name . ".xpi";
-        copy($xpi, $xpi_dest)
-            or croak "Error copying $_ to $xpi_dest : $!";
+        copy( $xpi, $xpi_dest )
+          or croak "Error copying $_ to $xpi_dest : $!";
     }
 }
 
 sub _extract_install_rdf {
-    my ($self, $xpi) = @_;
+    my ( $self, $xpi ) = @_;
 
     my $unzipped = IO::Uncompress::Unzip->new($xpi)
       or die "Cannot unzip $xpi: $UnzipError";
 
     my $install_rdf = '';
-    while ($unzipped->nextStream) {
+    while ( $unzipped->nextStream ) {
         my $filename = $unzipped->getHeaderInfo->{Name};
-        if ($filename eq 'install.rdf') {
+        if ( $filename eq 'install.rdf' ) {
             my $buffer;
-            while ((my $status = $unzipped->read($buffer)) > 0) {
+            while ( ( my $status = $unzipped->read($buffer) ) > 0 ) {
                 $install_rdf .= $buffer;
             }
             return $install_rdf;
         }
     }
 
-    croak 'Invalid Firefox extension: could not find install.rdf in the .XPI at: ' . $xpi
+    croak
+      'Invalid Firefox extension: could not find install.rdf in the .XPI at: '
+      . $xpi;
 }
 
 1;
@@ -264,7 +274,7 @@ Selenium::Firefox::Profile - Use custom profiles with Selenium::Remote::Driver
 
 =head1 VERSION
 
-version 1.30
+version 1.33
 
 =head1 DESCRIPTION
 
@@ -393,7 +403,7 @@ L<https://developer.mozilla.org/en-US/docs/Mozilla/Preferences/A_brief_guide_to_
 =head1 BUGS
 
 Please report any bugs or feature requests on the bugtracker website
-https://github.com/teodesian/Selenium-Remote-Driver/issues
+L<https://github.com/teodesian/Selenium-Remote-Driver/issues>
 
 When submitting a bug or request, please include a test-file or a
 patch to an existing test-file that illustrates the bug or desired
