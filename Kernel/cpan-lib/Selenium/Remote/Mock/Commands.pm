@@ -1,5 +1,5 @@
 package Selenium::Remote::Mock::Commands;
-$Selenium::Remote::Mock::Commands::VERSION = '1.30';
+$Selenium::Remote::Mock::Commands::VERSION = '1.33';
 # ABSTRACT: utility class to mock Selenium::Remote::Commands
 
 use strict;
@@ -12,24 +12,26 @@ extends 'Selenium::Remote::Commands';
 # override get_params so we do not rewrite the parameters
 
 sub get_params {
-    my $self = shift;
-    my $args = shift;
-    my $data = {};
+    my $self    = shift;
+    my $args    = shift;
+    my $data    = {};
     my $command = delete $args->{command};
-    $data->{'url'} = $self->get_url($command);
-    $data->{'method'} = $self->get_method($command);
+    $data->{'url'}                = $self->get_url($command);
+    $data->{'method'}             = $self->get_method($command);
     $data->{'no_content_success'} = $self->get_no_content_success($command);
-    $data->{'url_params'}  = $args;
+    $data->{'url_params'}         = $args;
     return $data;
 }
 
 sub get_method_name_from_parameters {
-    my $self = shift;
-    my $params = shift;
+    my $self        = shift;
+    my $params      = shift;
     my $method_name = '';
-    my $cmds = $self->get_cmds();
-    foreach my $cmd (keys %{$cmds}) {
-        if (($cmds->{$cmd}->{method} eq $params->{method}) && ($cmds->{$cmd}->{url} eq $params->{url})) {
+    my $cmds        = $self->get_cmds();
+    foreach my $cmd ( keys %{$cmds} ) {
+        if (   ( $cmds->{$cmd}->{method} eq $params->{method} )
+            && ( $cmds->{$cmd}->{url} eq $params->{url} ) )
+        {
             $method_name = $cmd;
             last;
         }
@@ -51,7 +53,7 @@ Selenium::Remote::Mock::Commands - utility class to mock Selenium::Remote::Comma
 
 =head1 VERSION
 
-version 1.30
+version 1.33
 
 =head1 DESCRIPTION
 
@@ -74,7 +76,7 @@ L<Selenium::Remote::Driver|Selenium::Remote::Driver>
 =head1 BUGS
 
 Please report any bugs or feature requests on the bugtracker website
-https://github.com/teodesian/Selenium-Remote-Driver/issues
+L<https://github.com/teodesian/Selenium-Remote-Driver/issues>
 
 When submitting a bug or request, please include a test-file or a
 patch to an existing test-file that illustrates the bug or desired

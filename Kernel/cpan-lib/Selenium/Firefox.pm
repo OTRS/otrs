@@ -1,5 +1,5 @@
 package Selenium::Firefox;
-$Selenium::Firefox::VERSION = '1.30';
+$Selenium::Firefox::VERSION = '1.33';
 use strict;
 use warnings;
 
@@ -7,39 +7,44 @@ use warnings;
 use Moo;
 use Carp;
 use Selenium::Firefox::Binary qw/firefox_path/;
-use Selenium::CanStartBinary::FindBinary qw/coerce_simple_binary coerce_firefox_binary/;
+use Selenium::CanStartBinary::FindBinary
+  qw/coerce_simple_binary coerce_firefox_binary/;
 extends 'Selenium::Remote::Driver';
 
 
 has '+browser_name' => (
-    is => 'ro',
+    is      => 'ro',
     default => sub { 'firefox' }
 );
 
 
 has 'binary' => (
-    is => 'lazy',
-    coerce => \&coerce_simple_binary,
-    default => sub { 'geckodriver' },
+    is        => 'lazy',
+    coerce    => \&coerce_simple_binary,
+    default   => sub { 'geckodriver' },
     predicate => 1
 );
 
 
 has 'binary_port' => (
-    is => 'lazy',
+    is      => 'lazy',
     default => sub { 9090 }
 );
 
 
 has '_binary_args' => (
-    is => 'lazy',
+    is      => 'lazy',
     builder => sub {
         my ($self) = @_;
 
         if ( $self->marionette_enabled ) {
-            my $args = ' --port ' . $self->port
-              . ' --marionette-port ' . $self->marionette_binary_port
-              . ' --binary "' . $self->firefox_binary . '"';
+            my $args =
+                ' --port '
+              . $self->port
+              . ' --marionette-port '
+              . $self->marionette_binary_port
+              . ' --binary "'
+              . $self->firefox_binary . '"';
 
             return $args;
         }
@@ -50,11 +55,11 @@ has '_binary_args' => (
 );
 
 has '+wd_context_prefix' => (
-    is => 'ro',
+    is      => 'ro',
     default => sub {
         my ($self) = @_;
 
-        if ($self->marionette_enabled) {
+        if ( $self->marionette_enabled ) {
             return '';
         }
         else {
@@ -66,26 +71,26 @@ has '+wd_context_prefix' => (
 
 
 has 'marionette_binary_port' => (
-    is => 'lazy',
+    is      => 'lazy',
     default => sub { 2828 }
 );
 
 
 has 'marionette_enabled' => (
-    is => 'lazy',
+    is      => 'lazy',
     default => 1
 );
 
 
 has 'firefox_binary' => (
-    is => 'lazy',
-    coerce => \&coerce_firefox_binary,
+    is        => 'lazy',
+    coerce    => \&coerce_firefox_binary,
     predicate => 1,
-    builder => 'firefox_path'
+    builder   => 'firefox_path'
 );
 
 has '_execute_script_suffix' => (
-    is => 'lazy',
+    is      => 'lazy',
     default => 'Gecko'
 );
 
@@ -134,7 +139,7 @@ Selenium::Firefox - Use FirefoxDriver without a Selenium server
 
 =head1 VERSION
 
-version 1.30
+version 1.33
 
 =head1 SYNOPSIS
 
@@ -392,7 +397,7 @@ L<Selenium::Remote::Driver|Selenium::Remote::Driver>
 =head1 BUGS
 
 Please report any bugs or feature requests on the bugtracker website
-https://github.com/teodesian/Selenium-Remote-Driver/issues
+L<https://github.com/teodesian/Selenium-Remote-Driver/issues>
 
 When submitting a bug or request, please include a test-file or a
 patch to an existing test-file that illustrates the bug or desired

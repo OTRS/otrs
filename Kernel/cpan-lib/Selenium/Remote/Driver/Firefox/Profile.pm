@@ -1,5 +1,5 @@
 package Selenium::Remote::Driver::Firefox::Profile;
-$Selenium::Remote::Driver::Firefox::Profile::VERSION = '1.30';
+$Selenium::Remote::Driver::Firefox::Profile::VERSION = '1.33';
 # ABSTRACT: Use custom profiles with Selenium::Remote::Driver
 use strict;
 use warnings;
@@ -25,7 +25,7 @@ Selenium::Remote::Driver::Firefox::Profile - Use custom profiles with Selenium::
 
 =head1 VERSION
 
-version 1.30
+version 1.33
 
 =head1 DESCRIPTION
 
@@ -60,7 +60,7 @@ L<https://developer.mozilla.org/en-US/docs/Mozilla/Preferences/A_brief_guide_to_
 =head1 BUGS
 
 Please report any bugs or feature requests on the bugtracker website
-https://github.com/teodesian/Selenium-Remote-Driver/issues
+L<https://github.com/teodesian/Selenium-Remote-Driver/issues>
 
 When submitting a bug or request, please include a test-file or a
 patch to an existing test-file that illustrates the bug or desired
