@@ -374,7 +374,6 @@ sub Run {
     if ( $Param{Data}->{TicketNumber} ) {
         $TicketID = $TicketObject->TicketIDLookup(
             TicketNumber => $Param{Data}->{TicketNumber},
-            UserID       => $UserID,
         );
 
     }

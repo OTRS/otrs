@@ -257,7 +257,6 @@ $Selenium->RunTest(
 
         my $TicketNumber = $TicketObject->TicketNumberLookup(
             TicketID => $TicketID,
-            UserID   => 1,
         );
 
         $Self->True(

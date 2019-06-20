@@ -143,7 +143,6 @@ if ($PluginKeyTicket) {
     );
     my $TicketNumber = $TicketObject->TicketNumberLookup(
         TicketID => $TicketID,
-        UserID   => $UserID,
     );
     $Self->True(
         $TicketNumber,

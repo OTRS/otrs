@@ -150,7 +150,6 @@ sub new {
     if ( !$Self->{TicketID} && $ParamObject->GetParam( Param => 'TicketNumber' ) ) {
         $Self->{TicketID} = $TicketObject->TicketIDLookup(
             TicketNumber => $ParamObject->GetParam( Param => 'TicketNumber' ),
-            UserID       => $Self->{UserID},
         );
     }
 

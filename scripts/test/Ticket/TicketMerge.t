@@ -123,7 +123,6 @@ for my $TicketID (@TicketIDs) {
     # deep merge
     my $TN = $TicketObject->TicketNumberLookup(
         TicketID => $TicketID,
-        UserID   => 1,
     );
     my $MergedTicketID = $TicketObject->TicketCheckNumber(
         Tn => $TN,

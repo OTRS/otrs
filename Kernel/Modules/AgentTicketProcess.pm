@@ -228,7 +228,6 @@ sub Run {
 
                     my $TicketNumber = $TicketObject->TicketNumberLookup(
                         TicketID => $TicketID,
-                        UserID   => $Self->{UserID},
                     );
 
                     # notify the agent that the ticket was locked

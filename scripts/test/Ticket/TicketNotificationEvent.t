@@ -88,7 +88,6 @@ $Self->True(
 # get ticket number
 my $TicketNumber = $TicketObject->TicketNumberLookup(
     TicketID => $TicketID,
-    UserID   => $UserID,
 );
 
 $Self->True(
