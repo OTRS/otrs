@@ -104,10 +104,16 @@ Core.UI.Autocomplete = (function (TargetNS) {
     $.ui.autocomplete.prototype._renderItem = function(ul, item) {
 
         var Regex = new RegExp("(" + this.term.replace(/[-[\]/{}()*+?.\\^$|]/g, "\\$&") + ")", "i"),
-            Label = Core.App.EscapeHTML(item.label);
+            Label = item.label;
 
-        // Mark matches with strong tag.
-        Label = Label.replace(Regex, "<strong>$1</strong>");
+        // Use not HTML for now, due next action will escape special HTML characters.
+        Label = Label.replace(Regex, "OPENSTRONGTAG$1CLOSESTRONGTAG");
+
+        Label = Core.App.EscapeHTML(Label);
+
+        // Replace dummy tags with corresponding HTML.
+        Label = Label.replace("OPENSTRONGTAG", '<strong>');
+        Label = Label.replace("CLOSESTRONGTAG", '</strong>');
 
         return $('<li></li>')
             .data('item.autocomplete', item)

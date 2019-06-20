@@ -347,6 +347,44 @@ $Selenium->RunTest(
             $Selenium->VerifiedRefresh();
         }
 
+        # Check autocomplete searching (see bug#14592).
+        my $TestCustomerUser4 = $Helper->TestCustomerUserCreate()
+            || die "Did not get test customer user";
+
+        $Success = $CustomerUserObject->CustomerUserUpdate(
+            Source         => 'CustomerUser',
+            ID             => $TestCustomerUser4,
+            UserCustomerID => $TestCustomerUser4,
+            UserLogin      => $TestCustomerUser4,
+            UserFirstname  => "$CustomerUser-quot",
+            UserLastname   => "$CustomerUser-quot",
+            UserPassword   => "$CustomerUser-quot",
+            UserEmail      => "$CustomerUser-quot" . '@localunittest.com',
+            ValidID        => 1,
+            UserID         => 1,
+        );
+
+        $Self->True(
+            $Success,
+            "Updated test user quot"
+        );
+
+        $Selenium->VerifiedRefresh();
+
+        # Check autocomplete field.
+        $Selenium->find_element( "input.CustomerAutoComplete", 'css' )->clear();
+        $Selenium->find_element( "input.CustomerAutoComplete", 'css' )->send_keys('ot');
+
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return typeof(\$) === 'function' && \$('li.ui-menu-item:visible').length;"
+        );
+
+        $Self->True(
+            $Selenium->execute_script("return !\$('li.ui-menu-item:contains(\"&quot;\")').length;"),
+            "The code is properly converted.",
+        );
+
         my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
         for my $CustomerID (@CustomerIDs) {
