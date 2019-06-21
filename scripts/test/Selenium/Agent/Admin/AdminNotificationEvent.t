@@ -572,8 +572,6 @@ $Selenium->RunTest(
             "English notification text has remove button"
         );
 
-        sleep 30;
-
         # Set only one language as default.
         $Helper->ConfigSettingChange(
             Key   => 'DefaultUsedLanguages',
