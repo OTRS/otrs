@@ -512,6 +512,115 @@ $Selenium->RunTest(
         $Selenium->find_element("//button[\@value=\'Upload Notification configuration']")->VerifiedClick();
 
         $Selenium->find_element("//p[contains(text(), \'The following Notifications have been updated successfully')]");
+
+       # For English notification text remove button is added.
+       # Notification text it is not shown on add screen if DefaultUsedLanguages has no English included. See bug#14594.
+        my $NotificationEventObject = $Kernel::OM->Get('Kernel::System::NotificationEvent');
+        my $NotificationID          = $NotificationEventObject->NotificationAdd(
+            Name => "Notification$Helper->GetRandomID()",
+            Data => {
+                Events => ['TicketQueueUpdate'],
+            },
+            Message => {
+                en => {
+                    Subject     => 'Hello',
+                    Body        => 'Hello World',
+                    ContentType => 'text/plain',
+                },
+                de => {
+                    Subject     => 'Hallo',
+                    Body        => 'Hallo Welt',
+                    ContentType => 'text/plain',
+                },
+            },
+            Comment => 'An optional comment',
+            ValidID => 1,
+            UserID  => 1,
+        );
+
+        # Set only one language as default.
+        $Helper->ConfigSettingChange(
+            Key   => 'DefaultUsedLanguages',
+            Valid => 1,
+            Value => {
+                de => 'German'
+            },
+        );
+
+        # Navigate to AdminNotificationEvent add screen.
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminNotificationEvent;Subaction=Add");
+
+        # Check if only Germen notification is shown.
+        $Self->Is(
+            $Selenium->execute_script(
+                "return \$('.NotificationLanguage h2:contains(\"Deutsch - German\")').text().trim();"
+            ),
+            'Deutsch - German',
+            "Language box is Deutsch - German"
+        );
+
+        # Go to notification witch is created with English notification text.
+        $Selenium->VerifiedGet(
+            "${ScriptAlias}index.pl?Action=AdminNotificationEvent;Subaction=Change;ID=$NotificationID"
+        );
+
+        $Self->Is(
+            $Selenium->execute_script(
+                "return \$('.AdditionalInformation #en_Language_Remove').hasClass('RemoveButton LanguageRemove');"
+            ),
+            '1',
+            "English notification text has remove button"
+        );
+
+        sleep 30;
+
+        # Set only one language as default.
+        $Helper->ConfigSettingChange(
+            Key   => 'DefaultUsedLanguages',
+            Valid => 1,
+            Value => {
+                de => 'German',
+                en => 'English (United States)'
+            },
+        );
+
+        # Navigate to AdminNotificationEvent add screen.
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminNotificationEvent;Subaction=Add");
+
+        # Check if default English language is shown.
+        $Self->Is(
+            $Selenium->execute_script(
+                "return \$('.NotificationLanguage h2:contains(\"English (United States)\")').text().trim();"
+            ),
+            'English (United States)',
+            "Language box is English (United States)"
+        );
+
+        $Selenium->InputFieldValueSet(
+            Element => '#Language',
+            Value   => 'de',
+        );
+
+        # Remove English text notification.
+        $Selenium->find_element( ".AdditionalInformation #en_Language_Remove", 'css' )->click();
+
+        $Selenium->WaitFor( AlertPresent => 1 );
+        $Selenium->accept_alert();
+
+        # Check if default English language is not shown.
+        $Self->Is(
+            $Selenium->execute_script(
+                "return \$('.NotificationLanguage h2:contains(\"English (United States)\")').length;"
+            ),
+            0,
+            "Language box is English (United States) is removed"
+        );
+
+        # Delete notification.
+        $NotificationEventObject->NotificationDelete(
+            ID     => $NotificationID,
+            UserID => 1,
+        );
     }
 
 );
