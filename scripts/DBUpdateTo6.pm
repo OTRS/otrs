@@ -258,6 +258,10 @@ sub _TasksGet {
             Module  => 'MigrateTimeZoneConfiguration',
         },
         {
+            Message => 'Migrating modified settings',
+            Module  => 'MigrateModifiedSettings',
+        },
+        {
             Message => 'Create appointment calendar tables',
             Module  => 'CreateAppointmentCalendarTables',
         },
