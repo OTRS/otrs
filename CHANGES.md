@@ -1,5 +1,6 @@
 #6.0.20 ????-??-??
  - 2019-06-21 Fixed bug#[14540](https://bugs.otrs.org/show_bug.cgi?id=14540) - Agent interface is broken after update from OTRS 6.0.17 and OTRS 7.0.7.
+   In the OTRS 6.0.18 and OTRS 7.0.7 we updated third-party library jquery.jstree.js to 3.3.7. Therefore, we changed default value of the setting Loader::Agent::CommonJS###000-Framework. If adminstrator made changes for this setting, system will use that value instead of the new default. Since this value refers to the wrong path (most likely to the 3.3.4), JavaScript is not loaded properly in the Agent (and Admin) interface.
  - 2019-06-21 Fixed bug#[14578](https://bugs.otrs.org/show_bug.cgi?id=14578) - Login area is out of screen in responsive mode.
  - 2019-06-21 Fixed bug#[14594](https://bugs.otrs.org/show_bug.cgi?id=14594) - New notification has English text block although EN is not active and it cannot be removed.
  - 2019-06-20 Fixed bug#[14592](https://bugs.otrs.org/show_bug.cgi?id=14592) - Wrong HTML handling of agent names in autocomplete field.
