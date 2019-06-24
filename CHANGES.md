@@ -1,26 +1,35 @@
-#6.0.20 ????-??-??
+#6.0.20 2019-12-07
  - 2019-06-21 Fixed bug#[14540](https://bugs.otrs.org/show_bug.cgi?id=14540) - Agent interface is broken after update from OTRS 6.0.17 and OTRS 7.0.7.
-   In the OTRS 6.0.18 and OTRS 7.0.7 we updated third-party library jquery.jstree.js to 3.3.7. Therefore, we changed default value of the setting Loader::Agent::CommonJS###000-Framework. If adminstrator made changes for this setting, system will use that value instead of the new default. Since this value refers to the wrong path (most likely to the 3.3.4), JavaScript is not loaded properly in the Agent (and Admin) interface.
+   In the OTRS 6.0.18 and OTRS 7.0.7, third-party library jquery.jstree.js was updated to 3.3.7. Therefore, default value of the setting Loader::Agent::CommonJS###000-Framework was changed. If adminstrator changed this setting manually, system uses that value instead of the new default. Since this value refers to the wrong path (most likely to the 3.3.4), JavaScript is not loaded properly in the Agent (and Admin) interface.
  - 2019-06-21 Fixed bug#[14578](https://bugs.otrs.org/show_bug.cgi?id=14578) - Login area is out of screen in responsive mode.
- - 2019-06-21 Fixed bug#[14594](https://bugs.otrs.org/show_bug.cgi?id=14594) - New notification has English text block although EN is not active and it cannot be removed.
+ - 2019-06-21 Fixed bug#[14594](https://bugs.otrs.org/show_bug.cgi?id=14594) - New notification screen has English text block although EN is not active and it can not be removed.
  - 2019-06-20 Fixed bug#[14592](https://bugs.otrs.org/show_bug.cgi?id=14592) - Wrong HTML handling of agent names in autocomplete field.
- - 2019-06-19 Fixed bug#[14534](https://bugs.otrs.org/show_bug.cgi?id=14534) - Certificate relations don't get removed in both directions.
+   When some special characters are used (like quotes), autocomplete results might be wrong.
+ - 2019-06-19 Fixed bug#[14534](https://bugs.otrs.org/show_bug.cgi?id=14534) - S/MIME certificate relations don't get removed in both directions.
+   If we have relation between private key and certificate and then we delete private key, relation is deleted as well. If we delete certificate, relation is not deleted (but this is not visible in the GUI). Afterwards, errors occur when signing emails.
  - 2019-06-19 Fixed bug#[14588](https://bugs.otrs.org/show_bug.cgi?id=14588) - Server side validation breaks process management administration screens.
+  There was a problem with JavaScript reinitialisation on screens after server error.
  - 2019-06-18 Fixed bug#[12334](https://bugs.otrs.org/show_bug.cgi?id=12334) - Net::SSLGlue issues warnings on modern systems.
+  System will use Net::SSLGlue::SMTP only on systems with older Net::SMTP modules that cannot handle SMTPS.
  - 2019-06-18 Fixed bug#[13727](https://bugs.otrs.org/show_bug.cgi?id=13727) - Admin::Config::Update lacks possibilities to reset / invalidate settings.
+   Extended console command Admin::Config::Update, it accepts additional parameters (--reset and --valid).
  - 2019-06-17 Fixed bug#[14585](https://bugs.otrs.org/show_bug.cgi?id=14585) - ArticleLimit parameter causes wrong response of TicketGet web service operation.
+   If ArticleLimit is set to 10 for example and we have ticket with 3 articles, web service returns 10 articles (3 regular and 7 empty).
  - 2019-06-17 Fixed bug#[14586](https://bugs.otrs.org/show_bug.cgi?id=14586) - Wrong number of tickets in TicketQueueOverview screen.
  - 2019-06-17 Fixed bug#[14583](https://bugs.otrs.org/show_bug.cgi?id=14583) - The statistics can not be downloaded from the agent dashboard.
- - 2019-06-17 Fixed bug#[14557](https://bugs.otrs.org/show_bug.cgi?id=14557) - Webservice debug log does not honour selected agent timezone.
+ - 2019-06-17 Fixed bug#[14557](https://bugs.otrs.org/show_bug.cgi?id=14557) - Webservice debug log does not honor selected agent timezone.
  - 2019-06-11 Reply-To overwrites name from customer backend, thanks to Georgeto (PR#[1974](https://github.com/OTRS/otrs/pull/1974)).
  - 2019-06-03 Fixed bug#[14542](https://bugs.otrs.org/show_bug.cgi?id=14542) - Date values for escalation times are not localized in ticket small overview.
  - 2019-05-31 Added new console command Dev::Code::CPANAudit. It scans the system for installed CPAN modules with known vulnerabilities. This will also be done as part of the update script and in the support data collector. In both cases, possible findings will be shown as warnings, not errors.
  - 2019-05-29 Fixed bug#[14554](https://bugs.otrs.org/show_bug.cgi?id=14554) - Link preview for dynamic fields does not work for date fields in the agent interface.
  - 2019-05-29 Fixed bug#[14419](https://bugs.otrs.org/show_bug.cgi?id=14419) - Resize issue with dashboard stats sidebar widget.
- - 2019-05-27 Fixed bug#[14556](https://bugs.otrs.org/show_bug.cgi?id=14556) - Error during comparison for pagination in CustomerTicketSearch screen.
- - 2019-05-27 Fixed bug#[14555](https://bugs.otrs.org/show_bug.cgi?id=14555) - Error with using of uninitialized value in concatenation in ticket view screens.
- - 2019-05-27 Fixed bug#[14478](https://bugs.otrs.org/show_bug.cgi?id=14478) - Improve console command 'Maint::Ticket::FulltextIndex' description.
- - 2019-05-14 Fixed bug#[14488](https://bugs.otrs.org/show_bug.cgi?id=14488) - New note notification is only sent if agent has ro AND note permission on the queue.
+   When dashboard widget is shrinked, graphs are scaling as intended. After extending the widget, graph doesn't extend, it remains shrinked.
+ - 2019-05-27 Fixed bug#[14556](https://bugs.otrs.org/show_bug.cgi?id=14556) - CustomerTicketSearch screen adds error log entry when calculating pagination parameters.
+ - 2019-05-27 Fixed bug#[14555](https://bugs.otrs.org/show_bug.cgi?id=14555) - Ticket view screens add error log entry (uninitialized value in concatenation).
+ - 2019-05-27 Fixed bug#[14478](https://bugs.otrs.org/show_bug.cgi?id=14478) - Wrong console command 'Maint::Ticket::FulltextIndex' description.
+   It's not possible to use both parameters at the same time (--status --rebuild) - description was updated.
+ - 2019-05-14 Fixed bug#[14488](https://bugs.otrs.org/show_bug.cgi?id=14488) - New note notification is not sent if agent does not have both ro AND note permission on the queue.
+   With this fix in place, inform agent selection contains only agents with ro permission.
 
 #6.0.19 2019-05-31
  - 2019-05-16 Updated translations, thanks to all translators.
