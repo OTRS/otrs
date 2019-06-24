@@ -1238,8 +1238,8 @@ sub _Edit {
 
     $Param{ArticleCustomerVisibilityStrg} = $LayoutObject->BuildSelection(
         Data => {
-            0 => 'Invisible to customer',
-            1 => 'Visible to customer',
+            0 => Translatable('Invisible to customer'),
+            1 => Translatable('Visible to customer'),
         },
         Name         => 'ArticleIsVisibleForCustomer',
         SelectedID   => $Param{Data}->{ArticleIsVisibleForCustomer},
@@ -1263,8 +1263,8 @@ sub _Edit {
 
     $Param{ArticleAttachmentIncludeStrg} = $LayoutObject->BuildSelection(
         Data => {
-            0 => 'No',
-            1 => 'Yes',
+            0 => Translatable('No'),
+            1 => Translatable('Yes'),
         },
         Name        => 'ArticleAttachmentInclude',
         SelectedID  => $Param{Data}->{ArticleAttachmentInclude} || 0,
