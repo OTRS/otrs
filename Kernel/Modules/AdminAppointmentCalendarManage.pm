@@ -764,10 +764,11 @@ sub _GroupSelectionGet {
     );
 
     my $GroupSelection = $Kernel::OM->Get('Kernel::Output::HTML::Layout')->BuildSelection(
-        Data       => \%GroupList,
-        Name       => 'GroupID',
-        SelectedID => $Param{GroupID} || '',
-        Class      => 'Modernize Validate_Required',
+        Data        => \%GroupList,
+        Name        => 'GroupID',
+        SelectedID  => $Param{GroupID} || '',
+        Translation => 0,
+        Class       => 'Modernize Validate_Required',
     );
 
     return $GroupSelection;
