@@ -144,6 +144,7 @@ $Selenium->RunTest(
 
             my $TicketNumber = $TicketObject->TicketNumberLookup(
                 TicketID => $TicketID,
+                UserID   => 1,
             );
 
             push @TicketNumbers, $TicketNumber;

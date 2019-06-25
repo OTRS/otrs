@@ -192,6 +192,7 @@ sub Run {
         # get ticket number
         my $TicketNumber = $TicketObject->TicketNumberLookup(
             TicketID => $TicketID,
+            UserID   => 1,
         );
 
         $Self->{CommunicationLogObject}->ObjectLog(

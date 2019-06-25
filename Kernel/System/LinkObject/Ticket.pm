@@ -420,6 +420,7 @@ sub LinkAddPost {
         # lookup ticket number
         my $TicketNumber = $TicketObject->TicketNumberLookup(
             TicketID => $Param{SourceKey},
+            UserID   => $Param{UserID},
         );
 
         # add ticket history entry
@@ -438,6 +439,7 @@ sub LinkAddPost {
         # lookup ticket number
         my $TicketNumber = $TicketObject->TicketNumberLookup(
             TicketID => $Param{TargetKey},
+            UserID   => $Param{UserID},
         );
 
         # add ticket history entry
@@ -549,6 +551,7 @@ sub LinkDeletePost {
         # lookup ticket number
         my $TicketNumber = $TicketObject->TicketNumberLookup(
             TicketID => $Param{SourceKey},
+            UserID   => $Param{UserID},
         );
 
         # add ticket history entry
@@ -567,6 +570,7 @@ sub LinkDeletePost {
         # lookup ticket number
         my $TicketNumber = $TicketObject->TicketNumberLookup(
             TicketID => $Param{TargetKey},
+            UserID   => $Param{UserID},
         );
 
         # add ticket history entry
