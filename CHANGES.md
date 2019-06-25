@@ -1,4 +1,5 @@
 #5.0.37 2019-07-12
+ - 2019-06-03 Improved session ID handling in templates.
 
 #5.0.36 2019-05-31
  - 2019-05-16 Synchronized translations.
