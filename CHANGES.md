@@ -1,3 +1,7 @@
+#5.0.38 ????-??-??
+
+#5.0.37 2019-07-12
+
 #5.0.36 2019-05-31
  - 2019-05-16 Synchronized translations.
  - 2019-05-11 Fixed bug#[14491](https://bugs.otrs.org/show_bug.cgi?id=14491) - Ticket::DefineEmailFrom not used for external notes.
