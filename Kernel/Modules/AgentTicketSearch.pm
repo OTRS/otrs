@@ -656,6 +656,7 @@ sub Run {
         {
             my $TicketID = $TicketObject->TicketIDLookup(
                 TicketNumber => $GetParam{Fulltext},
+                UserID       => $Self->{UserID},
             );
             if ($TicketID) {
                 return $LayoutObject->Redirect(

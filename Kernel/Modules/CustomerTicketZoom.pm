@@ -46,6 +46,7 @@ sub Run {
     if ( !$Self->{TicketID} && $TicketNumber ) {
         $Self->{TicketID} = $TicketObject->TicketIDLookup(
             TicketNumber => $ParamObject->GetParam( Param => 'TicketNumber' ),
+            UserID       => $Self->{UserID},
         );
     }
 

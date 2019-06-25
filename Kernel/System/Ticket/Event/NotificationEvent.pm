@@ -85,6 +85,7 @@ sub Run {
     # return if no ticket exists (e. g. it got deleted)
     my $TicketExists = $TicketObject->TicketNumberLookup(
         TicketID => $Param{Data}->{TicketID},
+        UserID   => $Param{UserID},
     );
 
     return 1 if !$TicketExists;
