@@ -32,6 +32,7 @@
  - 2019-05-14 Fixed bug#[14488](https://bugs.otrs.org/show_bug.cgi?id=14488) - New note notification is not sent if agent does not have both ro AND note permission on the queue.
    With this fix in place, inform agent selection contains only agents with ro permission.
 
+
 #6.0.19 2019-05-31
  - 2019-05-16 Updated translations, thanks to all translators.
  - 2019-05-14 Added Macedonian and Romanian translations.
