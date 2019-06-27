@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.99880023995201;
+    $Self->{Completeness}        = 0.9986;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -821,8 +821,7 @@ sub Data {
         'Change settings' => 'Változtatási beállítások',
         'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is a white list, \'PossibleNot\' a black list.' =>
             'Állítsa be, amit módosítani szeretne a feltétel egyezésekor. Ne feledkezzen meg arról, hogy a „Possible” a fehérlista, a „PossibleNot” a feketelista.',
-        'Check the official' => 'Nézze meg a hivatalos',
-        'documentation' => 'dokumentációt',
+        'Check the official %sdocumentation%s.' => '',
         'Show or hide the content' => 'A tartalom megjelenítése vagy elrejtése',
         'Edit ACL information' => 'ACL információk szerkesztése',
         'Stop after match' => 'Leállítás találat után',

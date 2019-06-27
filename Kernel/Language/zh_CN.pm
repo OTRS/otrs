@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.997800439912018;
+    $Self->{Completeness}        = 0.9976;
 
     # csv separator
     $Self->{Separator} = '';
@@ -821,8 +821,7 @@ sub Data {
         'Change settings' => '操作动作',
         'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is a white list, \'PossibleNot\' a black list.' =>
             '当匹配条件满足时执行规定的操作动作。记住：\'Possible\'表示允许(白名单)，\'PossibleNot\'表示禁止(黑名单)。',
-        'Check the official' => '查看官方',
-        'documentation' => '文档',
+        'Check the official %sdocumentation%s.' => '',
         'Show or hide the content' => '显示或隐藏内容',
         'Edit ACL information' => '编辑ACL信息',
         'Stop after match' => '匹配后停止',

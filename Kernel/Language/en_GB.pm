@@ -27,7 +27,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.943211357728454;
+    $Self->{Completeness}        = 0.943;
 
     # csv separator
     $Self->{Separator} = ',';
@@ -818,8 +818,7 @@ sub Data {
         'Change settings' => 'Change settings',
         'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is a white list, \'PossibleNot\' a black list.' =>
             'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is a white list, \'PossibleNot\' a black list.',
-        'Check the official' => 'Check the official',
-        'documentation' => 'documentation',
+        'Check the official %sdocumentation%s.' => '',
         'Show or hide the content' => 'Show or hide the content',
         'Edit ACL information' => 'Edit ACL information',
         'Stop after match' => 'Stop after match',

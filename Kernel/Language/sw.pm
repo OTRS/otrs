@@ -27,7 +27,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%M/%D/%Y';
     $Self->{DateInputFormat}     = '%M/%D/%Y';
     $Self->{DateInputFormatLong} = '%M/%D/%Y - %T';
-    $Self->{Completeness}        = 0.692661467706459;
+    $Self->{Completeness}        = 0.6924;
 
     # csv separator
     $Self->{Separator} = ',';
@@ -819,8 +819,7 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
         'Change settings' => 'Badili Mipangilio',
         'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is a white list, \'PossibleNot\' a black list.' =>
             'Weka unachotaka kubadillisha kama vigezo vinafanana. Weka akilini kwamba \'Wezekana\' ni orodha nyeupe, \'Haiwezekani\' ni orodha nyeusi.',
-        'Check the official' => 'Angalia rasmi',
-        'documentation' => 'Weka nyaraka',
+        'Check the official %sdocumentation%s.' => '',
         'Show or hide the content' => 'Onyesha maudhui',
         'Edit ACL information' => 'Hariri taarifa za ACL',
         'Stop after match' => 'Simama baada ya kufanana',

@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.287342531493701;
+    $Self->{Completeness}        = 0.2874;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -815,8 +815,7 @@ sub Data {
         'Change settings' => '',
         'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is a white list, \'PossibleNot\' a black list.' =>
             '',
-        'Check the official' => '',
-        'documentation' => '',
+        'Check the official %sdocumentation%s.' => '',
         'Show or hide the content' => 'Slėpti arba rodyti turinį',
         'Edit ACL information' => '',
         'Stop after match' => 'Radus atitikmenį sustoti',
