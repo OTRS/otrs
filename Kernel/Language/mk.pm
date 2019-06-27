@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.286202769704223;
+    $Self->{Completeness}        = 0.315852408609498;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -76,8 +76,7 @@ sub Data {
         'Change settings' => 'Измени прилагодување',
         'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is a white list, \'PossibleNot\' a black list.' =>
             'Поставете ги промените за совшаѓањата со овој критериум. Имајте на ум дека \'Possible\' е белата листа, \'PossibleNot\' е црната листа.',
-        'Check the official' => 'Проверете на официјалниот',
-        'documentation' => 'документација',
+        'Check the official %sdocumentation%s.' => '',
         'Show or hide the content' => 'Прикаже или скрие содржината',
         'Edit ACL Information' => '',
         'Name' => 'Име',
@@ -212,7 +211,7 @@ sub Data {
         'This is the default value for assigned recipient agents who didn\'t make a choice for this notification in their preferences yet. If the box is enabled, the notification will be sent to such agents.' =>
             '',
         'This feature is currently not available.' => '',
-        'Upgrade to %s' => '',
+        'Upgrade to %s' => 'Надградба на %s',
         'Please activate this transport in order to use it.' => '',
         'No data found' => '',
         'No notification method found.' => '',
@@ -292,18 +291,18 @@ sub Data {
         'Hint' => 'Навестување',
         'Currently support data is only shown in this system.' => '',
         'It is highly recommended to send this data to OTRS Group in order to get better support.' =>
-            '',
+            'Препорачано е да се испратат овие податоци до OTRS Групацијата за да добиете подобра поддршка.',
         'Configuration' => 'Конфигурација',
-        'Send support data' => '',
+        'Send support data' => 'Испрати податоци за поддршка',
         'This will allow the system to send additional support data information to OTRS Group.' =>
-            '',
+            'Ова ќе овозможи на вашиот систем да праќа дополнителни податоци за поддршка до OTRS Групацијата.',
         'Update' => 'Ажурирање',
         'System Registration' => 'Регистрација на Систем',
         'To enable data sending, please register your system with OTRS Group or update your system registration information (make sure to activate the \'send support data\' option.)' =>
-            '',
-        'Register this System' => '',
+            'За да овозможите праќање на податоци, ве молиме регистрирајте го вашиот систем на OTRS Групацијата или ажурирајте го вешиот систем (не заборавајте да го активирате \'Прати податоци за поддршка\' полето.)',
+        'Register this System' => 'Регистрирај го овој Систем',
         'System Registration is disabled for your system. Please check your configuration.' =>
-            '',
+            'Систем Регистрацијата е оневозможена за вашиот систем. Ве молиме проверете ја вашата конфигурација.',
 
         # Template: AdminCloudServices
         'System registration is a service of OTRS Group, which provides a lot of advantages!' =>
@@ -421,7 +420,7 @@ sub Data {
         'Groups' => 'Групи',
         'Change Group Relations for Customer' => 'Промени група за односи со клиенти',
         'Change Customer Relations for Group' => 'Промени Потрошувачки Релации за Група',
-        'Toggle %s Permission for all' => '',
+        'Toggle %s Permission for all' => 'Промени % s Дозвола за сите',
         'Toggle %s permission for %s' => 'Префрли %s дозволи за %s',
         'Customer Default Groups:' => 'За Кориснки Стандардна Група:',
         'No changes can be made to these groups.' => 'Неможат да се направат промени на овие групи.',
@@ -1298,43 +1297,43 @@ sub Data {
             '',
 
         # Template: AdminOTRSBusinessInstalled
-        'Manage %s' => '',
+        'Manage %s' => 'Manage %s',
         'Downgrade to ((OTRS)) Community Edition' => '',
         'Read documentation' => '',
         '%s makes contact regularly with cloud.otrs.com to check on available updates and the validity of the underlying contract.' =>
-            '',
+            '%s прави контакт редовно со cloud.otrs.com за да проверите дали има достапни надградби и валидност на основниот договор.',
         'Unauthorized Usage Detected' => 'Детектирана Неавторизирана Искористенот',
         'This system uses the %s without a proper license! Please make contact with %s to renew or activate your contract!' =>
-            '',
-        '%s not Correctly Installed' => '',
+            'Овој систем користи %s без соодветна лиценца! Ве молиме направете договор со %s за да го обновите или да го активирате вашиот договор!',
+        '%s not Correctly Installed' => '%s е Некоректно Инсталиран',
         'Your %s is not correctly installed. Please reinstall it with the button below.' =>
-            '',
-        'Reinstall %s' => '',
+            'Вашиот % s не е правилно инсталиран. Ве молиме да го инсталирате со копчето подолу.',
+        'Reinstall %s' => 'Реинсталирај %s',
         'Your %s is not correctly installed, and there is also an update available.' =>
-            '',
+            'Вашиот % s не е правилно инсталиран, и таму е исто така достапно ажурирањето.',
         'You can either reinstall your current version or perform an update with the buttons below (update recommended).' =>
-            '',
-        'Update %s' => '',
-        '%s Not Yet Available' => '',
-        '%s will be available soon.' => '',
-        '%s Update Available' => '',
+            'Може да ја реинсталирате сегашната верзија или да направите надградба со типките подолу (препорачана е надградба).',
+        'Update %s' => 'Ажурирање %s',
+        '%s Not Yet Available' => '%s Сеуште Недостапно',
+        '%s will be available soon.' => '%s ќе бидат достапни наскоро.',
+        '%s Update Available' => '%s Достапна Надградба',
         'An update for your %s is available! Please update at your earliest!' =>
-            '',
-        '%s Correctly Deployed' => '',
+            'Ажурирање за %s е на располагање! Ве молиме обновете ја вашата прва верзија!',
+        '%s Correctly Deployed' => '%s Коректно Распоредени',
         'Congratulations, your %s is correctly installed and up to date!' =>
-            '',
+            'Честитки, вашиот %s е правилно инсталиран и до датумот!',
 
         # Template: AdminOTRSBusinessNotInstalled
         'Go to the OTRS customer portal' => '',
         '%s will be available soon. Please check again in a few days.' =>
-            '',
-        'Please have a look at %s for more information.' => '',
+            '%s ќе бидат достапни наскоро. Ве молиме проверете повторно за неколку дена.',
+        'Please have a look at %s for more information.' => 'Ве молиме погледнете во %s за повеќе информации.',
         'Your ((OTRS)) Community Edition is the base for all future actions. Please register first before you continue with the upgrade process of %s!' =>
             '',
         'Before you can benefit from %s, please contact %s to get your %s contract.' =>
-            '',
+            'Пред да имате придонеси од %s, ве молме контактирајте со %s за да го земете вашиот %s договор.',
         'Connection to cloud.otrs.com via HTTPS couldn\'t be established. Please make sure that your OTRS can connect to cloud.otrs.com via port 443.' =>
-            '',
+            'Конекцијата со cloud.otrs.com преку HTTPS неможе да се воспостави. Ве молиме осигурајте се дека вашиот OTRS може да се поврзе со cloud.otrs.com преку порт 443.',
         'Package installation requires patch level update of OTRS.' => '',
         'Please visit our customer portal and file a request.' => '',
         'Everything else will be done as part of your contract.' => '',
@@ -1348,28 +1347,28 @@ sub Data {
         'You will receive updates about relevant security issues.' => '',
         'You will receive updates for all other relevant OTRS issues' => '',
         'With your existing contract you can only use a small part of the %s.' =>
-            '',
+            'Со вашиот постојачки договор можете да користите само мал дел од %s.',
         'If you would like to take full advantage of the %s get your contract upgraded now! Contact %s.' =>
-            '',
+            'Ако сакате да имате целоска корист од %s веднаш земете  надграден договор! Контактирајте %s.',
 
         # Template: AdminOTRSBusinessUninstall
-        'Cancel downgrade and go back' => '',
-        'Go to OTRS Package Manager' => '',
+        'Cancel downgrade and go back' => 'Прекинете деградирање и вратете се назад',
+        'Go to OTRS Package Manager' => 'Оди до OTRS Менаџерот за Пакети',
         'Sorry, but currently you can\'t downgrade due to the following packages which depend on %s:' =>
-            '',
+            'Извинете, но моментално вие неможете да деградирате поради следниве пакети кои зависат од %s:',
         'Vendor' => 'Продавач',
         'Please uninstall the packages first using the package manager and try again.' =>
-            '',
+            'Ве молиме прво избришете ги пакетите кои го користат пакет менаџерот и обидете се повторно.',
         'You are about to downgrade to ((OTRS)) Community Edition and will lose the following features and all data related to these:' =>
             '',
         'Chat' => 'Онлајн разговор',
         'Report Generator' => '',
-        'Timeline view in ticket zoom' => '',
-        'DynamicField ContactWithData' => '',
-        'DynamicField Database' => '',
-        'SLA Selection Dialog' => '',
-        'Ticket Attachment View' => '',
-        'The %s skin' => '',
+        'Timeline view in ticket zoom' => 'видите Хронолошки во билет зум',
+        'DynamicField ContactWithData' => 'ДинамичкоПоле КонтактирајеСоПодатоци',
+        'DynamicField Database' => 'ДинамичкоПоле Податочнабаза',
+        'SLA Selection Dialog' => 'SLA Одбирачки Дијалог',
+        'Ticket Attachment View' => 'Тикет Прикачувачки Преглед',
+        'The %s skin' => '%s изглед ',
 
         # Template: AdminPGP
         'PGP Management' => 'Управување со PGP',
@@ -1441,9 +1440,9 @@ sub Data {
         'Package not correctly deployed! Please reinstall the package.' =>
             'Пакетот не е правилно распореден! Ве молиме реинсталирајте го пакетот.',
         'Reinstall' => 'Реинсталиралација',
-        'Features for %s customers only' => '',
+        'Features for %s customers only' => 'Карактеристики за %s само за потрошувачи',
         'With %s, you can benefit from the following optional features. Please make contact with %s if you need more information.' =>
-            '',
+            'Со %s, можете да имате корист од следниве опционални карактеристики. Ве молиме направете договор со %s ако ви требаат повеќе информации.',
         'Package Information' => '',
         'Download package' => 'Преземи пакет',
         'Rebuild package' => 'Ре издради пакет',
@@ -1557,27 +1556,27 @@ sub Data {
         'Please note, that changing this activity will affect the following processes' =>
             'Ве молиме имајте предвид дека менувањето на оваа активност ќе влијаат на следните процеси',
         'Activity' => 'Активност',
-        'Activity Name' => '',
-        'Activity Dialogs' => '',
+        'Activity Name' => 'Име Активности',
+        'Activity Dialogs' => 'Активност Дијалог',
         'You can assign Activity Dialogs to this Activity by dragging the elements with the mouse from the left list to the right list.' =>
-            '',
+            'Дијалози на активност  можете да ги доделите во оваа активност со влечење на елементите со помош на глувчето од левата листа кон десната листа.',
         'Ordering the elements within the list is also possible by drag \'n\' drop.' =>
             'Распоредување на елементите во листата е исто така овозможено со кликни повлечи и пушти.',
-        'Filter available Activity Dialogs' => '',
-        'Available Activity Dialogs' => '',
+        'Filter available Activity Dialogs' => 'Филтерите се достапни за Дијалози на активности',
+        'Available Activity Dialogs' => 'Достапни Активност Дијалози',
         'Name: %s, EntityID: %s' => '',
-        'Create New Activity Dialog' => '',
-        'Assigned Activity Dialogs' => '',
+        'Create New Activity Dialog' => 'Креирај нова Дијалог на Активност ',
+        'Assigned Activity Dialogs' => 'Доделени Активност Дијалози',
 
         # Template: AdminProcessManagementActivityDialog
         'Please note that changing this activity dialog will affect the following activities' =>
-            '',
+            'Ве молиме имајте во предвид со промени на оваа дијалог активност ќе влијаете на следниве активности',
         'Please note that customer users will not be able to see or use the following fields: Owner, Responsible, Lock, PendingTime and CustomerID.' =>
             'Ве молиме имајте предвид дека клиент корисници нема да бидат во можност да ја види или користи следните области: Сопственик, Одговорен, Заклучучено, Време на чекање и Корисничко ID.',
         'The Queue field can only be used by customers when creating a new ticket.' =>
             'Оваа Редица поле може да биде само искористено од потрошувачите кога креираат ков тикет.',
-        'Activity Dialog' => '',
-        'Activity dialog Name' => '',
+        'Activity Dialog' => ' Дијалог активности',
+        'Activity dialog Name' => 'Активности дијалог Име',
         'Available in' => 'Достапен во',
         'Description (short)' => 'Опис (краток)',
         'Description (long)' => 'Опис (опширен)',
@@ -1587,7 +1586,7 @@ sub Data {
         'Submit Advice Text' => 'Потврди Текст за Совет',
         'Submit Button Text' => 'Потврди Текст на Копче',
         'You can assign Fields to this Activity Dialog by dragging the elements with the mouse from the left list to the right list.' =>
-            '',
+            'Можете да додавате Полиња во овој Дијалог на Активности со помош на влечењена елементите со глувчето од левата листа до десната листа.',
         'Filter available fields' => 'Филтрирај достапни полиња',
         'Available Fields' => 'Достапни Полиња',
         'Name: %s' => '',
@@ -1598,24 +1597,24 @@ sub Data {
 
         # Template: AdminProcessManagementPath
         'Path' => 'Патека',
-        'Edit this transition' => '',
-        'Transition Actions' => '',
+        'Edit this transition' => 'Измени ја оваа транзиција',
+        'Transition Actions' => 'Транзициски Акции',
         'You can assign Transition Actions to this Transition by dragging the elements with the mouse from the left list to the right list.' =>
-            '',
-        'Filter available Transition Actions' => '',
-        'Available Transition Actions' => '',
-        'Create New Transition Action' => '',
-        'Assigned Transition Actions' => '',
+            'Можете да додавате Транзициски Акции на оваа Транзиција со помош на влечењена елементите со глувчето од левата листа до десната листа.',
+        'Filter available Transition Actions' => 'Филтрирај достапни Транзициски Акции',
+        'Available Transition Actions' => 'Достапни Транзициски Акции',
+        'Create New Transition Action' => 'Креирај Нови Транзициски Акции',
+        'Assigned Transition Actions' => 'Додадени Транзициски Акции',
 
         # Template: AdminProcessManagementProcessAccordion
         'Activities' => 'Активности',
         'Filter Activities...' => 'Филтрирај Активности...',
         'Create New Activity' => 'Креирај Нова Активност',
-        'Filter Activity Dialogs...' => '',
-        'Transitions' => '',
-        'Filter Transitions...' => '',
-        'Create New Transition' => '',
-        'Filter Transition Actions...' => '',
+        'Filter Activity Dialogs...' => 'Филтрирај го Дијалогот на Активности...',
+        'Transitions' => 'Транзиции',
+        'Filter Transitions...' => 'Филтрирај Транзиции...',
+        'Create New Transition' => 'Креирај Нови Транзиции',
+        'Filter Transition Actions...' => 'Филтрирај ги Транзициските Акции...',
 
         # Template: AdminProcessManagementProcessEdit
         'Edit Process' => 'Измени Процес',
@@ -1628,30 +1627,30 @@ sub Data {
         'You can place Activities on the canvas area to assign this Activity to the Process.' =>
             'Тука може да се постават Активности на канвасот за да се додаде оваа Активност на Процесот.',
         'To assign an Activity Dialog to an Activity drop the Activity Dialog element from this sidebar over the Activity placed in the canvas area.' =>
-            '',
+            'За да додадете Дијалог со Активности во постоечка Активност довлечете го Дијалогот со Активности од оваа лента до Активноста во канвасот.',
         'You can start a connection between two Activities by dropping the Transition element over the Start Activity of the connection. After that you can move the loose end of the arrow to the End Activity.' =>
             '',
         'Actions can be assigned to a Transition by dropping the Action Element onto the label of a Transition.' =>
-            '',
+            'Акциите можат да бидат додавани на Транзиција со влечење на Акцискиот Елемент врз името на Транзицијата.',
         'Edit Process Information' => 'Измени Информации на Процес',
         'Process Name' => 'Име на Процес',
         'The selected state does not exist.' => 'Избраната состојба не постои.',
-        'Add and Edit Activities, Activity Dialogs and Transitions' => '',
+        'Add and Edit Activities, Activity Dialogs and Transitions' => 'Додај и Измени Активност, Дијалог на Активности и Транзиции',
         'Show EntityIDs' => 'Прикажи ID на Ентитети',
         'Extend the width of the Canvas' => 'Прошири го конвасот',
         'Extend the height of the Canvas' => 'Зголеми ја висината на Канвасот',
         'Remove the Activity from this Process' => 'Избриши ја Активноста од овој Процес',
         'Edit this Activity' => 'Измени ја оваа Активност',
-        'Save Activities, Activity Dialogs and Transitions' => '',
+        'Save Activities, Activity Dialogs and Transitions' => 'Зачувај Активности, Дијалог на Активности и Транзиции',
         'Do you really want to delete this Process?' => 'Дали сте сигурни дека сакате да го избришете овој Процес?',
         'Do you really want to delete this Activity?' => 'Дали сте сигурни дека сакате да ја избришете оваа Активност?',
-        'Do you really want to delete this Activity Dialog?' => '',
-        'Do you really want to delete this Transition?' => '',
-        'Do you really want to delete this Transition Action?' => '',
+        'Do you really want to delete this Activity Dialog?' => 'Дали сте сигурни дека сакате да го избришете овој Дијалог на Активности?',
+        'Do you really want to delete this Transition?' => 'Дали сте сигурни дека сакате да ја избришете оваа Транзиција?',
+        'Do you really want to delete this Transition Action?' => 'Дали сте сигурни дека сакате да ја избришете оваа Акција на Транзиција?',
         'Do you really want to remove this activity from the canvas? This can only be undone by leaving this screen without saving.' =>
             'Дали сигурно сакате да ја избришете оваа активност од канвасот? Овој процес може да биде прекинат со напуштање на прозорецот без зачувување.',
         'Do you really want to remove this transition from the canvas? This can only be undone by leaving this screen without saving.' =>
-            '',
+            'Дали сте сигурни дека сакате да ја избришете транзицијата од канвасот? Овој процес може да се поврати само со напуштање на моменталната страница без да ја сочувате.',
 
         # Template: AdminProcessManagementProcessNew
         'In this screen, you can create a new process. In order to make the new process available to users, please make sure to set its state to \'Active\' and synchronize after completing your work.' =>
@@ -1664,25 +1663,25 @@ sub Data {
         'Assigned dialogs' => 'Додадени дијалози',
         'Activities are not being used in this process.' => 'Не се искористени Активности во овој процес.',
         'Assigned fields' => 'Додадени полиња',
-        'Activity dialogs are not being used in this process.' => '',
+        'Activity dialogs are not being used in this process.' => 'Не се искористени дијалози на Активности во овој процес.',
         'Condition linking' => 'Условно поврзување',
-        'Transitions are not being used in this process.' => '',
+        'Transitions are not being used in this process.' => 'Не се искористени Транзиции во овој процес.',
         'Module name' => 'Име на Модул',
-        'Transition actions are not being used in this process.' => '',
+        'Transition actions are not being used in this process.' => 'Транзициските акции не се користат во овој процес.',
 
         # Template: AdminProcessManagementTransition
         'Please note that changing this transition will affect the following processes' =>
-            '',
-        'Transition' => '',
-        'Transition Name' => '',
+            'Ве молиме имајте во обзир дека со менувањето на оваа транзиција ќе влијае на постоечките процеси.',
+        'Transition' => 'Транзиција',
+        'Transition Name' => 'Име на Транзиција',
 
         # Template: AdminProcessManagementTransitionAction
         'Please note that changing this transition action will affect the following processes' =>
-            '',
-        'Transition Action' => '',
-        'Transition Action Name' => '',
-        'Transition Action Module' => '',
-        'Config Parameters' => '',
+            'Ве молиме имајте во предвид дека промената на оваа транзициска акција ќе влијае на процесот.',
+        'Transition Action' => 'Транзициска Акција',
+        'Transition Action Name' => 'Име на Транзициска Акција',
+        'Transition Action Module' => 'Модул на Транзициска Акција',
+        'Config Parameters' => 'Конфигурирај Параметри',
         'Add a new Parameter' => 'Додади нов Параметар',
         'Remove this Parameter' => 'Избриши го овој Параметар',
 
@@ -1763,38 +1762,38 @@ sub Data {
         'Instructions' => 'Инструкции',
         'System Deregistration not Possible' => '',
         'Please note that you can\'t deregister your system if you\'re using the %s or having a valid service contract.' =>
-            '',
+            'Ве молиме имајте во предвид дека неможете да го де-регистрирате системот доколку го користите %s или имате валиден контакт со сервис.',
         'OTRS-ID Login' => 'OTRS-ID Најава',
-        'Read more' => '',
+        'Read more' => 'Прочитај повеќе',
         'You need to log in with your OTRS-ID to register your system.' =>
             'Морате да бидете логирани со вашиот OTRS-ID за да го регистрирате вашиот систем.',
         'Your OTRS-ID is the email address you used to sign up on the OTRS.com webpage.' =>
             'Твојот OTRS-ID е адресата на е-пошта со која сте се регистрирале на OTRS.com страната.',
         'Data Protection' => 'Заштита на личните податоци',
-        'What are the advantages of system registration?' => '',
+        'What are the advantages of system registration?' => 'Кои се привилегиите од регистрација на системот?',
         'You will receive updates about relevant security releases.' => 'Ќе добивате надградби за релевантни безбедносни изданија.',
         'With your system registration we can improve our services for you, because we have all relevant information available.' =>
             'Со твојата регистрација на системот можеме да ги подобриме нашите сервиси за вас, бидејќи ги имаме достапни сите информации.',
-        'This is only the beginning!' => '',
+        'This is only the beginning!' => 'Ова е само почетокот!',
         'We will inform you about our new services and offerings soon.' =>
-            '',
-        'Can I use OTRS without being registered?' => '',
-        'System registration is optional.' => '',
-        'You can download and use OTRS without being registered.' => '',
-        'Is it possible to deregister?' => '',
-        'You can deregister at any time.' => '',
-        'Which data is transfered when registering?' => '',
-        'A registered system sends the following data to OTRS Group:' => '',
+            'Ќе ве информираме за нашите нови сервиси и понуди наскоро.',
+        'Can I use OTRS without being registered?' => 'Дали може да користам не-регистриран OTRS?',
+        'System registration is optional.' => 'Регистрација на системот е опционална.',
+        'You can download and use OTRS without being registered.' => 'Можете да го превземете и користите OTRS без притоа тој да е регистриран.',
+        'Is it possible to deregister?' => 'Дали е возможно да се де-регистрирате?',
+        'You can deregister at any time.' => 'Можете да го де-регистрирате во било кое време.',
+        'Which data is transfered when registering?' => 'Кои податоци се трансферирани при регистрација?',
+        'A registered system sends the following data to OTRS Group:' => 'Регистрираниот систем ги праќа следните податоци до OTRS Групацијата:',
         'Fully Qualified Domain Name (FQDN), OTRS version, Database, Operating System and Perl version.' =>
-            '',
-        'Why do I have to provide a description for my system?' => '',
-        'The description of the system is optional.' => '',
+            'Комплетно Квалификувано Име на Домеин (FQDN), OTRS верзија, Датабаза, Оперативен Систем и Perl верзија.',
+        'Why do I have to provide a description for my system?' => 'Зошто морам да наведам опис за мојот систем?',
+        'The description of the system is optional.' => 'Описот на системот е опционален.',
         'The description and system type you specify help you to identify and manage the details of your registered systems.' =>
-            '',
-        'How often does my OTRS system send updates?' => '',
+            'Описот и типот на системот го специфирате за да ви помогне да го идентификуваате и менаџирате деталите на вашите регистрирани системи.',
+        'How often does my OTRS system send updates?' => 'Колку често OTRS системот испраќа надградба?',
         'Your system will send updates to the registration server at regular intervals.' =>
-            '',
-        'Typically this would be around once every three days.' => '',
+            'Вашиот систем ќе праќа надградби до регистрацискиот сервер во регуларни интервали.',
+        'Typically this would be around once every three days.' => 'Обично ова ќе биде наоколу на секои три дена.',
         'If you deregister your system, you will lose these benefits:' =>
             'Доколку го дерегистрирате вашиот систем, ќе ги изгубите овие бенефиции:',
         'You need to log in with your OTRS-ID to deregister your system.' =>
@@ -1925,9 +1924,9 @@ sub Data {
         # Template: AdminSecureMode
         'Secure Mode Needs to be Enabled!' => '',
         'Secure mode will (normally) be set after the initial installation is completed.' =>
-            '',
+            'Безбедносниот режим ќе биде (нормално) подесен по завршување на почетната инсталација.',
         'If secure mode is not activated, activate it via SysConfig because your application is already running.' =>
-            '',
+            'Доколку безбедносниот режим не е активиран, активирајте го преку SysConfig бидејќи вашата апликација е веќе активна.',
 
         # Template: AdminSelectBox
         'SQL Box' => 'SQL Кутија',
@@ -2826,7 +2825,7 @@ sub Data {
         # Template: CustomerError
         'An Error Occurred' => '',
         'Error Details' => '',
-        'Traceback' => '',
+        'Traceback' => 'Следи',
 
         # Template: CustomerFooter
         '%s powered by %s™' => '',
@@ -2842,7 +2841,7 @@ sub Data {
         'JavaScript Not Available' => 'JavaScript не е достапно',
         'In order to experience this software, you\'ll need to enable JavaScript in your browser.' =>
             '',
-        'Browser Warning' => '',
+        'Browser Warning' => 'Проблем со Прелистувач',
         'The browser you are using is too old.' => 'Пребарувачот што го користите е многу стар.',
         'This software runs with a huge lists of browsers, please upgrade to one of these.' =>
             '',
@@ -2851,23 +2850,23 @@ sub Data {
         'One moment please, you are being redirected...' => 'Ве молиме почекајте, ќе бидете пренасочени...',
         'Login' => 'Најава',
         'User name' => 'Корисничко име',
-        'Your user name' => '',
-        'Your password' => '',
-        'Forgot password?' => '',
+        'Your user name' => 'Вашето корисничко име',
+        'Your password' => 'Вашата лозинка',
+        'Forgot password?' => 'Ја заборавивте вашата лозинка?',
         '2 Factor Token' => '',
         'Your 2 Factor Token' => '',
-        'Log In' => '',
-        'Not yet registered?' => '',
+        'Log In' => 'Најави се',
+        'Not yet registered?' => 'Се уште не сте регистрирани?',
         'Back' => 'Назад',
         'Request New Password' => '',
-        'Your User Name' => '',
+        'Your User Name' => 'Вашето Корисничко Име',
         'A new password will be sent to your email address.' => '',
         'Create Account' => '',
         'Please fill out this form to receive login credentials.' => '',
         'How we should address you' => '',
         'Your First Name' => 'Ваше Име',
         'Your Last Name' => 'Ваше Презиме',
-        'Your email address (this will become your username)' => '',
+        'Your email address (this will become your username)' => 'Вашиот e-mail (ќе стане корисничко име)',
 
         # Template: CustomerNavigationBar
         'Incoming Chat Requests' => '',
@@ -2875,15 +2874,15 @@ sub Data {
         'Logout %s' => '',
 
         # Template: CustomerTicketMessage
-        'Service level agreement' => '',
+        'Service level agreement' => 'SLA',
 
         # Template: CustomerTicketOverview
-        'Welcome!' => '',
+        'Welcome!' => 'Добредојдовте!',
         'Please click the button below to create your first ticket.' => '',
         'Create your first ticket' => '',
 
         # Template: CustomerTicketSearch
-        'Profile' => '',
+        'Profile' => 'Профил',
         'e. g. 10*5155 or 105658*' => '',
         'CustomerID' => 'Корисничко ИД',
         'Fulltext Search in Tickets (e. g. "John*n" or "Will*")' => '',
@@ -2901,7 +2900,7 @@ sub Data {
         'Save as Template' => '',
         'Template Name' => '',
         'Pick a profile name' => '',
-        'Output to' => '',
+        'Output to' => 'Излез',
 
         # Template: CustomerTicketSearchResultShort
         'of' => 'од',
@@ -2959,11 +2958,11 @@ sub Data {
 
         # Template: Installer
         'JavaScript not available' => '',
-        'Step %s' => '',
-        'License' => '',
+        'Step %s' => 'Чекор %s',
+        'License' => 'Лиценца',
         'Database Settings' => '',
         'General Specifications and Mail Settings' => '',
-        'Finish' => '',
+        'Finish' => 'Крај',
         'Welcome to %s' => '',
         'Germany' => '',
         'Phone' => 'Телефон',
@@ -2977,7 +2976,7 @@ sub Data {
 
         # Template: InstallerConfigureMail
         'Configure Outbound Mail' => '',
-        'Outbound mail type' => '',
+        'Outbound mail type' => 'Тип',
         'Select outbound mail type.' => '',
         'Outbound mail port' => '',
         'Select outbound mail port.' => '',
@@ -2990,20 +2989,20 @@ sub Data {
         'SMTP auth password' => '',
         'Password for SMTP auth.' => '',
         'Configure Inbound Mail' => '',
-        'Inbound mail type' => '',
+        'Inbound mail type' => 'Тип',
         'Select inbound mail type.' => '',
         'Inbound mail host' => '',
         'Inbound mail host.' => '',
-        'Inbound mail user' => '',
+        'Inbound mail user' => 'Корисник',
         'User for inbound mail.' => '',
-        'Inbound mail password' => '',
+        'Inbound mail password' => 'Лозинка',
         'Password for inbound mail.' => '',
         'Result of mail configuration check' => '',
         'Check mail configuration' => '',
         'Skip this step' => '',
 
         # Template: InstallerDBResult
-        'Done' => '',
+        'Done' => 'Завршено',
         'Error' => 'Грешка',
         'Database setup successful!' => '',
 
@@ -3014,12 +3013,12 @@ sub Data {
 
         # Template: InstallerDBmssql
         'If you have set a root password for your database, it must be entered here. If not, leave this field empty.' =>
-            '',
-        'Database name' => '',
+            'Ако сте поставиле лозинка за рут за вашата база на податоци, тоа мора да бидат внесени тука. Ако не, оставете го ова поле празно.',
+        'Database name' => 'Податочнабаза име',
         'Check database settings' => '',
         'Result of database check' => '',
         'Database check successful.' => '',
-        'Database User' => '',
+        'Database User' => 'Податочнабаза Корисник',
         'New' => 'Нов',
         'A new database user with limited permissions will be created for this OTRS system.' =>
             '',
@@ -3675,14 +3674,14 @@ sub Data {
         'All recipients of the last article' => '',
 
         # Perl Module: Kernel/Modules/AdminOTRSBusiness.pm
-        'Your system was successfully upgraded to %s.' => '',
-        'There was a problem during the upgrade to %s.' => '',
-        '%s was correctly reinstalled.' => '',
-        'There was a problem reinstalling %s.' => '',
-        'Your %s was successfully updated.' => '',
-        'There was a problem during the upgrade of %s.' => '',
-        '%s was correctly uninstalled.' => '',
-        'There was a problem uninstalling %s.' => '',
+        'Your system was successfully upgraded to %s.' => 'Вашиот систем е успешно надградена до %s.',
+        'There was a problem during the upgrade to %s.' => 'Имало проблем при надградбата на %s.',
+        '%s was correctly reinstalled.' => '%s е правилно реинсталиран.',
+        'There was a problem reinstalling %s.' => 'Проблем со реинсталација %s.',
+        'Your %s was successfully updated.' => 'Вашата %s беше успешно ажурирана ..',
+        'There was a problem during the upgrade of %s.' => 'Проблем при на надградба %s.',
+        '%s was correctly uninstalled.' => '%s е правилно деинсталиран.',
+        'There was a problem uninstalling %s.' => 'Проблем при деинсталирање %s.',
 
         # Perl Module: Kernel/Modules/AdminPGP.pm
         'PGP environment is not working. Please check log for more info!' =>
@@ -4088,7 +4087,7 @@ sub Data {
         'Customer user automatically added in Cc.' => 'Клиент корисници автоматски се додаваат во  Cc',
 
         # Perl Module: Kernel/Modules/AgentTicketEmail.pm
-        'Ticket "%s" created!' => '',
+        'Ticket "%s" created!' => 'Тикет "% s" создадени!',
         'No Subaction!' => '',
 
         # Perl Module: Kernel/Modules/AgentTicketEmailOutbound.pm
@@ -4334,8 +4333,8 @@ sub Data {
 
         # Perl Module: Kernel/Modules/CustomerTicketSearch.pm
         'Customer Realname' => '',
-        'Created within the last' => '',
-        'Created more than ... ago' => '',
+        'Created within the last' => 'Направено во последните',
+        'Created more than ... ago' => 'Креирано пред ... ',
         'Please remove the following words because they cannot be used for the search:' =>
             '',
 
@@ -4351,36 +4350,36 @@ sub Data {
         'Configure "Home" in Kernel/Config.pm first!' => '',
         'File "%s/Kernel/Config.pm" not found!' => '',
         'Directory "%s" not found!' => '',
-        'Install OTRS' => '',
-        'Intro' => '',
+        'Install OTRS' => 'Инсталирај OTRS',
+        'Intro' => 'Вовед',
         'Kernel/Config.pm isn\'t writable!' => '',
         'If you want to use the installer, set the Kernel/Config.pm writable for the webserver user!' =>
             '',
-        'Database Selection' => '',
+        'Database Selection' => 'Селекција по база на податоци',
         'Unknown Check!' => '',
         'The check "%s" doesn\'t exist!' => '',
-        'Enter the password for the database user.' => '',
+        'Enter the password for the database user.' => 'Внесете ја лозинката за корисникот во базата на податоци. ',
         'Database %s' => '',
         'Configure MySQL' => '',
-        'Enter the password for the administrative database user.' => '',
+        'Enter the password for the administrative database user.' => 'Внесете ја лозинката на корисникот за административната база на податоци.',
         'Configure PostgreSQL' => '',
         'Configure Oracle' => '',
         'Unknown database type "%s".' => '',
         'Please go back.' => '',
-        'Create Database' => '',
+        'Create Database' => 'Креирај база на податоци',
         'Install OTRS - Error' => '',
         'File "%s/%s.xml" not found!' => '',
         'Contact your Admin!' => '',
-        'System Settings' => '',
+        'System Settings' => 'Систем подесување ',
         'Syslog' => '',
-        'Configure Mail' => '',
-        'Mail Configuration' => '',
+        'Configure Mail' => 'Конфигуриранње на пошта',
+        'Mail Configuration' => 'Конфигурирање на пошта',
         'Can\'t write Config file!' => '',
         'Unknown Subaction %s!' => '',
         'Can\'t connect to database, Perl module DBD::%s not installed!' =>
             '',
         'Can\'t connect to database, read comment!' => '',
-        'Database already contains data - it should be empty!' => '',
+        'Database already contains data - it should be empty!' => 'База на податоци веќе содржи податоци-таа треба да биде празна!',
         'Error: Please make sure your database accepts packages over %s MB in size (it currently only accepts packages up to %s MB). Please adapt the max_allowed_packet setting of your database in order to avoid errors.' =>
             '',
         'Error: Please set the value for innodb_log_file_size on your database to at least %s MB (current: %s MB, recommended: %s MB). For more information, please have a look at %s.' =>
@@ -4438,7 +4437,7 @@ sub Data {
         # Perl Module: Kernel/Output/HTML/ArticleAction/ReinstallPackageLink.pm
         'Upgrade to OTRS Business Solution™' => '',
         'Re-install Package' => '',
-        'Upgrade' => '',
+        'Upgrade' => 'Надградба',
         'Re-install' => '',
 
         # Perl Module: Kernel/Output/HTML/ArticleCheck/PGP.pm
@@ -4551,7 +4550,7 @@ sub Data {
         '%s MB' => '',
         '%s KB' => '',
         '%s B' => '',
-        'No Permission!' => '',
+        'No Permission!' => 'Немате Дозвола!',
         'No Permission' => '',
         'Show Tree Selection' => 'Прикажи селекција на дрво',
         'Split Quote' => '',
@@ -4582,7 +4581,7 @@ sub Data {
         'The license for your %s is about to expire. Please make contact with %s to renew your contract!' =>
             'Дозволата за вашиот  %s ќе истече. Ве молиме да стапите во контакт со %s за продолжување на договор!',
         'An update for your %s is available, but there is a conflict with your framework version! Please update your framework first!' =>
-            '',
+            'Ажурирање за %s е на располагање, но постои конфликт со вашата верзија на систем! Ве молиме обновете го вашиот систем на прво место!',
 
         # Perl Module: Kernel/Output/HTML/Notification/AgentOnline.pm
         'Online Agent: %s' => 'Присутен Агент: %s',
@@ -4918,7 +4917,7 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/TablePresence.pm
         'Table Presence' => 'Присуство на табела',
-        'Internal Error: Could not open file.' => '',
+        'Internal Error: Could not open file.' => 'Внатрешна грешка: Не може да ја отвори датотеката.',
         'Table Check' => 'Проверка за табела',
         'Internal Error: Could not read file.' => 'Внатрешна грешка: Не може да ја прочита датотеката.',
         'Tables found which are not present in the database.' => 'Пронајдени табели кои не се присутни во нашата база.',
@@ -4955,9 +4954,9 @@ sub Data {
             '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Performance.pm
-        'Query Cache Size' => '',
+        'Query Cache Size' => 'Пребарување по Кеш Големина ',
         'The setting \'query_cache_size\' should be used (higher than 10 MB but not more than 512 MB).' =>
-            '',
+            'Подесувањето  \'query_cache_size\' треба да се користи (повисока од 10 MB, но не повеќе од 512 МБ).',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/StorageEngine.pm
         'Default Storage Engine' => 'Стандардно Складирање на Мотор ',
@@ -5023,8 +5022,15 @@ sub Data {
             'Системското оптеретување мора да биде на максимум број на Процесори кои системот ги има(пр. оптеретување со 8 на систем со 8 процесори е во ред).',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/PerlModules.pm
-        'Perl Modules' => '',
-        'Not all required Perl modules are correctly installed.' => '',
+        'Perl Modules' => 'Perl модули',
+        'Not all required Perl modules are correctly installed.' => 'Не сите потребни Perl модули се правилно инсталирани.',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
+        'Perl Modules Audit' => '',
+        'CPAN::Audit reported that one or more installed Perl modules have known vulnerabilities. Please note that there might be false positives for distributions patching Perl modules without changing their version number.' =>
+            '',
+        'CPAN::Audit did not report any known vulnerabilities in the installed Perl modules.' =>
+            '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Swap.pm
         'Free Swap Space (%)' => 'Слободен swap простор (%)',
@@ -5082,7 +5088,7 @@ sub Data {
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DefaultSOAPUser.pm
         'Default SOAP Username And Password' => '',
         'Security risk: you use the default setting for SOAP::User and SOAP::Password. Please change it.' =>
-            '',
+            'Безбедносен ризик: го користите стандардното поставување за SOAP :: Корисник и SOAP :: лозинка. Ве молиме да ги промените.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DefaultUser.pm
         'Default Admin Password' => 'Стандардна Админ Лозинка ',
@@ -5188,8 +5194,8 @@ sub Data {
         'Agents using favourites for the admin overview' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/LoadedModules.pm
-        'Webserver' => '',
-        'Loaded Apache Modules' => '',
+        'Webserver' => 'Сервер',
+        'Loaded Apache Modules' => 'Натоварено Apache модули',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/MPMModel.pm
         'MPM model' => '',
@@ -5197,32 +5203,32 @@ sub Data {
             '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/Performance.pm
-        'CGI Accelerator Usage' => '',
+        'CGI Accelerator Usage' => 'CGI Користење на Акселаторот ',
         'You should use FastCGI or mod_perl to increase your performance.' =>
-            '',
-        'mod_deflate Usage' => '',
-        'Please install mod_deflate to improve GUI speed.' => '',
+            'Треба да го користите FastCGI или mod_perl да се зголеми ефикасноста на вашите перформанси.',
+        'mod_deflate Usage' => 'Користење mod_deflate',
+        'Please install mod_deflate to improve GUI speed.' => 'Ве молиме инсталирајте mod_deflate да се подобри GUI брзина.',
         'mod_filter Usage' => '',
         'Please install mod_filter if mod_deflate is used.' => '',
-        'mod_headers Usage' => '',
-        'Please install mod_headers to improve GUI speed.' => '',
-        'Apache::Reload Usage' => '',
+        'mod_headers Usage' => 'Користење mod_headers',
+        'Please install mod_headers to improve GUI speed.' => 'Ве молиме инсталирајте mod_headers да се подобри GUI брзина.',
+        'Apache::Reload Usage' => ' Користи Apache :: за  Освежи',
         'Apache::Reload or Apache2::Reload should be used as PerlModule and PerlInitHandler to prevent web server restarts when installing and upgrading modules.' =>
-            '',
+            'Apache :: превчитување или Apache2 :: Освежи треба да се користи како PerlModule и PerlInitHandler да се спречи рестартирање на веб серверот кога ќе инсталирате и надградувате  модули.',
         'Apache2::DBI Usage' => '',
         'Apache2::DBI should be used to get a better performance  with pre-established database connections.' =>
             '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/EnvironmentVariables.pm
-        'Environment Variables' => '',
+        'Environment Variables' => 'Локални Променливи',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/InternalWebRequest.pm
         'Support Data Collection' => '',
         'Support data could not be collected from the web server.' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Version.pm
-        'Webserver Version' => '',
-        'Could not determine webserver version.' => '',
+        'Webserver Version' => 'Веб сервер верзија',
+        'Could not determine webserver version.' => 'Неможе да се одреди сервер верзија.',
 
         # Perl Module: Kernel/System/SupportDataCollector/PluginAsynchronous/OTRS/ConcurrentUsers.pm
         'Concurrent Users Details' => '',
@@ -5510,15 +5516,18 @@ sub Data {
             '',
         'A package upgrade was recently finished. Click here to see the results.' =>
             '',
+        'No response from get package upgrade result.' => '',
         'Update all packages' => '',
         'Dismiss' => '',
         'Update All Packages' => '',
+        'No response from package upgrade all.' => '',
         'Currently not possible' => '',
         'This is currently disabled because of an ongoing package upgrade.' =>
             '',
         'This option is currently disabled because the OTRS Daemon is not running.' =>
             '',
         'Are you sure you want to update all installed packages?' => '',
+        'No response from get package upgrade run status.' => '',
 
         # JS File: Core.Agent.Admin.PostMasterFilter
         'Delete this PostMasterFilter' => '',
@@ -5527,12 +5536,12 @@ sub Data {
 
         # JS File: Core.Agent.Admin.ProcessManagement.Canvas
         'Remove Entity from canvas' => 'Избриши Ентитет од канвас',
-        'No TransitionActions assigned.' => '',
+        'No TransitionActions assigned.' => 'Нема доделени Транзициски Акции.',
         'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.' =>
-            '',
+            'Сеуште немате изберено дијалози. Изберете дијалог на активност од листата лево и повлечете го тука.',
         'This Activity cannot be deleted because it is the Start Activity.' =>
             'Оваа Активност неможе да се избрише бидејќи е Почетна Активност.',
-        'Remove the Transition from this Process' => '',
+        'Remove the Transition from this Process' => 'Избриши ја Транзицијата од овој Процес',
 
         # JS File: Core.Agent.Admin.ProcessManagement
         'As soon as you use this button or link, you will leave this screen and its current state will be saved automatically. Do you want to continue?' =>
@@ -5542,11 +5551,11 @@ sub Data {
             'Оваа Активност е веќе искористена во некој Процес. Не можете да ја додадете двапати! ',
         'Error during AJAX communication' => '',
         'An unconnected transition is already placed on the canvas. Please connect this transition first before placing another transition.' =>
-            '',
+            'Постои неповрзана транзиција во овој канвас. Ве молиме да ја поврзете оваа транзиција пред да додадете нова.',
         'This Transition is already used for this Activity. You cannot use it twice!' =>
-            '',
+            'Оваа Транзиција се веќе корисни за оваа Активност. Не можете да ја додадете двапати!',
         'This TransitionAction is already used in this Path. You cannot use it twice!' =>
-            '',
+            'Оваа Транзициска Акција е веќе искористена во оваа Патека. Не можете да ја додадете двапати!',
         'Hide EntityIDs' => 'Сокриј ID на ентитети',
         'Edit Field Details' => 'Измени Детали на Поле',
         'Customer interface does not support articles not visible for customers.' =>
@@ -8490,7 +8499,7 @@ Thanks for your help!
         'Starts a wildcard search of the active object after the link object mask is started.' =>
             '',
         'Stat#' => '',
-        'States' => 'Состојби',
+        'States' => 'Статус',
         'Statistic Reports overview.' => '',
         'Statistics overview.' => '',
         'Status view' => '',
@@ -8927,6 +8936,9 @@ Thanks for your help!
         'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.',
         'No matches found.',
         'No package information available.',
+        'No response from get package upgrade result.',
+        'No response from get package upgrade run status.',
+        'No response from package upgrade all.',
         'No sort applied, ',
         'No space left for the following files: %s',
         'Not available',

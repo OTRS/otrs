@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D-%M-%Y';
     $Self->{DateInputFormat}     = '%D-%M-%Y';
     $Self->{DateInputFormatLong} = '%D-%M-%Y - %T';
-    $Self->{Completeness}        = 0.500427423491195;
+    $Self->{Completeness}        = 0.523402801503246;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -82,8 +82,7 @@ sub Data {
         'Change settings' => 'Verander instellingen',
         'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is a white list, \'PossibleNot\' a black list.' =>
             'Geef aan wat u wilt dat gebeurt als de activatie-criteria kloppen.',
-        'Check the official' => 'Bekijk de',
-        'documentation' => 'documentatie',
+        'Check the official %sdocumentation%s.' => '',
         'Show or hide the content' => 'Toon of verberg de inhoud',
         'Edit ACL Information' => 'Bewerk ACL-informatie',
         'Name' => 'Naam',
@@ -113,14 +112,14 @@ sub Data {
         'Overwrite existing entities' => 'Overschrijf bestaande records',
         'Upload calendar configuration' => 'Upload kalender configuratie',
         'Import Calendar' => 'Importeer kalender',
-        'Filter for Calendars' => '',
+        'Filter for Calendars' => 'Filter voor kalenders',
         'Filter for calendars' => 'Filter voor kalenders',
         'Depending on the group field, the system will allow users the access to the calendar according to their permission level.' =>
-            '',
+            'Afhankelijk van het groepsveld geeft het systeem gebruikers toegang tot de kalender op basis van hun machtigingsniveau.',
         'Read only: users can see and export all appointments in the calendar.' =>
-            'Alleen lezen: gebruikers kunnen alle activiteiten in deze kalender raadplegen en exporteren.',
+            'Alleen lezen: gebruikers kunnen alle afspraken in deze kalender raadplegen en exporteren.',
         'Move into: users can modify appointments in the calendar, but without changing the calendar selection.' =>
-            '',
+            'Verplaats naar: Gebruikers kunnen afspraken in de agenda wijzigen, maar zonder de kalender te wijzigen.',
         'Create: users can create and delete appointments in the calendar.' =>
             'Maken: gebruikers kunnen afspraken maken en verwijderen in de kalender',
         'Read/write: users can manage the calendar itself.' => 'Lezen/Schrijven: gebruikers kunnen de kalender beheren',
@@ -389,8 +388,8 @@ sub Data {
         'Filter for log entries' => 'Filter op logitems',
         'Show only entries with specific priority and higher:' => 'Toon enkel items met deze prioriteit, of hoger',
         'Communication Log Overview (%s)' => 'Communicatielogboek overzicht (%s)',
-        'No communication objects found.' => '',
-        'Communication Log Details' => '',
+        'No communication objects found.' => 'Geen communicatie objecten gevonden.',
+        'Communication Log Details' => 'Communicatielogboek details',
         'Please select an entry from the list.' => 'Selecteer een item uit de lijst.',
 
         # Template: AdminCustomerCompany
@@ -465,7 +464,7 @@ sub Data {
         'Group Permissions' => 'Groepsrechten',
         'This customer user has no group permissions.' => 'Deze klant heeft geen groepsrechten.',
         'Table above shows effective group permissions for the customer user. The matrix takes into account all inherited permissions (e.g. via customer groups). Note: The table does not consider changes made to this form without submitting it.' =>
-            'De bovenstaande tabel toont de effectieve rechten van de groep voor deze klant. De matrix houdt rekening met alle overgeërfde rechten (e.g. via klantgroepen). Merk op: de tabel houdt geen rekening met wijzigingen die in dit formulier werden aangebracht en nog niet opgeslagen zijn.',
+            'De bovenstaande tabel toont de effectieve rechten van de groep voor deze klant. De matrix houdt rekening met alle overgeërfde rechten (bv. via klantgroepen). Merk op: de tabel houdt geen rekening met wijzigingen die in dit formulier werden aangebracht en nog niet opgeslagen zijn.',
         'Customer Access' => 'Bedrijf toegang',
         'Customer' => 'Klant',
         'This customer user has no customer access.' => 'Deze klant heeft geen toegang.',
@@ -473,17 +472,17 @@ sub Data {
             '',
 
         # Template: AdminCustomerUserCustomer
-        'Manage Customer User-Customer Relations' => '',
-        'Select the customer user:customer relations.' => '',
+        'Manage Customer User-Customer Relations' => 'Beheer Klant Gebruiker-Klant koppelingen',
+        'Select the customer user:customer relations.' => 'Selecteer de klant gebruiker:klant relaties.',
         'Customer Users' => 'Klanten',
-        'Change Customer Relations for Customer User' => '',
-        'Change Customer User Relations for Customer' => '',
+        'Change Customer Relations for Customer User' => 'Bewerk Klan Relaties voor Klant gebruiker',
+        'Change Customer User Relations for Customer' => 'Wijzig Klant Gebruiker koppelingen voor Klant',
         'Toggle active state for all' => 'Alles actief aan/uit',
         'Active' => 'Actief',
         'Toggle active state for %s' => 'Actief aan/uit voor %s',
 
         # Template: AdminCustomerUserGroup
-        'Manage Customer User-Group Relations' => '',
+        'Manage Customer User-Group Relations' => 'Beheer Klant gebruiker - Groep koppelingen',
         'Just use this feature if you want to define group permissions for customer users.' =>
             '',
         'Edit Customer User Default Groups' => 'Bewerk de klant - groep koppeling',
@@ -492,16 +491,16 @@ sub Data {
         'You can manage these groups via the configuration setting "CustomerGroupAlwaysGroups".' =>
             'U kunt deze groepen beheren via de optie "CustomerGroupAlwaysGroups".',
         'Filter for groups' => '',
-        'Select the customer user - group permissions.' => '',
+        'Select the customer user - group permissions.' => 'Selecteer de Klant gebruiker - groep permissies',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer user).' =>
-            '',
-        'Customer User Default Groups:' => '',
+            'Als niets geselecteerd is, zijn er geen permissies in deze groep (tickets zijn niet toegankelijk voor de klant gebruiker).',
+        'Customer User Default Groups:' => 'Klant Gebruiker Standaard Groepen:',
 
         # Template: AdminCustomerUserService
         'Manage Customer User-Service Relations' => '',
         'Edit default services' => 'Beheer standaard services',
         'Filter for Services' => 'Filter op services',
-        'Filter for services' => '',
+        'Filter for services' => 'Filter voor Services',
         'Services' => 'Services',
 
         # Template: AdminDynamicField
@@ -515,9 +514,9 @@ sub Data {
         'Database' => 'Database',
         'Use external databases as configurable data sources for this dynamic field.' =>
             '',
-        'Web service' => '',
+        'Web service' => 'Webservice',
         'External web services can be configured as data sources for this dynamic field.' =>
-            '',
+            'Externe webservices kunnen als databronnen geconfigureerd worden voor dynamische velden',
         'Contact with data' => '',
         'This feature allows to add (multiple) contacts with data to tickets.' =>
             '',
@@ -666,7 +665,7 @@ sub Data {
         'Select Tickets' => 'Selecteer Tickets',
         '(e. g. 10*5155 or 105658*)' => '(bijvoorbeeld 10*5155 or 105658*)',
         '(e. g. 234321)' => '(bijvoorbeeld 234321)',
-        'Customer user ID' => '',
+        'Customer user ID' => 'Klantgebruiker ID',
         '(e. g. U5150)' => '(bijvoorbeeld U5150)',
         'Fulltext-search in article (e. g. "Mar*in" or "Baue*").' => 'Zoek in tekst van een interactie. Gebruik wildcards (bijvoorbeeld "Mar*in" of "Jans*").',
         'To' => 'Aan',
@@ -725,14 +724,14 @@ sub Data {
         'new owner' => 'nieuwe eigenaar',
         'new responsible' => 'nieuwe verantwoordelijke',
         'Set new ticket lock' => 'Nieuwe vergrendeling',
-        'New customer user ID' => '',
+        'New customer user ID' => 'Nieuwe klantgebruiker ID',
         'New customer ID' => 'Nieuwe klantcode',
         'New title' => 'Nieuwe titel',
         'New type' => 'Nieuw type',
         'New Dynamic Field Values' => 'Nieuwe dynamische velden',
         'Archive selected tickets' => 'Archiveer geselecteerde tickets',
         'Add Note' => 'Notitie toevoegen',
-        'Visible for customer' => '',
+        'Visible for customer' => 'Zichtbaar voor klant',
         'Time units' => 'Bestede tijd',
         'Execute Ticket Commands' => 'Ticketcommando\'s uitvoeren',
         'Send agent/customer notifications on changes' => 'Stuur behandelaars / klanten een melding bij wijzigingen',
@@ -756,7 +755,7 @@ sub Data {
 
         # Template: AdminGenericInterfaceDebugger
         'GenericInterface Web Service Management' => 'GenericInterface Web Service Beheer',
-        'Web Service Management' => '',
+        'Web Service Management' => 'Webservice Beheer',
         'Debugger' => 'Debugger',
         'Go back to web service' => 'Ga terug naar webservice',
         'Clear' => 'Leegmaken',
@@ -764,7 +763,7 @@ sub Data {
             'Wilt u de debug-log van deze webservice leegmaken?',
         'Request List' => 'Lijst van verzoeken',
         'Time' => 'Tijd',
-        'Communication ID' => '',
+        'Communication ID' => 'Communicatie ID',
         'Remote IP' => 'IP-adres afzender',
         'Loading' => 'Laden',
         'Select a single request to see its details.' => 'Kies een verzoek om de details te zien.',
@@ -810,11 +809,11 @@ sub Data {
             '',
         'Example: Handle only errors where mapping for outgoing data could not be applied.' =>
             '',
-        'Error code' => '',
+        'Error code' => 'Foutcode',
         'An error identifier for this error handling module.' => '',
         'This identifier will be available in XSLT-Mapping and shown in debugger output.' =>
             '',
-        'Error message' => '',
+        'Error message' => 'Foutmelding',
         'An error explanation for this error handling module.' => '',
         'This message will be available in XSLT-Mapping and shown in debugger output.' =>
             '',
@@ -900,10 +899,10 @@ sub Data {
         # Template: AdminGenericInterfaceInvokerEvent
         'GenericInterface Invoker Event Settings for Web Service %s' => '',
         'Go back to' => 'Ga terug naar',
-        'Delete all conditions' => '',
+        'Delete all conditions' => 'Verwijder alle condities',
         'Do you really want to delete all the conditions for this event?' =>
             '',
-        'General Settings' => '',
+        'General Settings' => 'Algemene Instellingen',
         'Event type' => '',
         'Conditions' => 'Condities',
         'Conditions can only operate on non-empty fields.' => '',
@@ -950,20 +949,20 @@ sub Data {
         'Find previous' => 'Zoek vorige',
         'Find and replace' => 'Zoek en vervang',
         'Find and replace all' => 'Zoek en vervang alle',
-        'XSLT Mapping' => '',
+        'XSLT Mapping' => 'XSLT-toewijzing',
         'XSLT stylesheet' => '',
-        'The entered data is not a valid XSLT style sheet.' => '',
+        'The entered data is not a valid XSLT style sheet.' => 'De ingevoerde data is geen geldig XSLT stylesheet.',
         'Here you can add or modify your XSLT mapping code.' => '',
         'The editing field allows you to use different functions like automatic formatting, window resize as well as tag- and bracket-completion.' =>
             '',
-        'Data includes' => '',
+        'Data includes' => 'Data bevat',
         'Select one or more sets of data that were created at earlier request/response stages to be included in mappable data.' =>
             '',
         'These sets will appear in the data structure at \'/DataInclude/<DataSetName>\' (see debugger output of actual requests for details).' =>
             '',
         'Data key regex filters (before mapping)' => '',
         'Data key regex filters (after mapping)' => '',
-        'Regular expressions' => '',
+        'Regular expressions' => 'Reguliere expressie',
         'Replace' => 'Vervang',
         'Remove regex' => 'Regex verwijderen',
         'Add regex' => 'Regex toevoegen',
@@ -1013,7 +1012,7 @@ sub Data {
         'Properties' => 'Eigenschappen',
         'Route mapping for Operation' => 'Route maken voor actie',
         'Define the route that should get mapped to this operation. Variables marked by a \':\' will get mapped to the entered name and passed along with the others to the mapping. (e.g. /Ticket/:TicketID).' =>
-            'Bepaal de route die gemapt moet worden op deze operatie. Variabelen gemarkeerd met een \':\' woden gemapt op de ingevoerde naam en doorgegeven met de maping (bijvoorbeeld /Ticket/:TicketID).',
+            'Bepaal de route die gemapt moet worden op deze operatie. Variabelen gemarkeerd met een \':\' woden gemapt op de ingevoerde naam en doorgegeven met de maping (bv. /Ticket/:TicketID).',
         'Valid request methods for Operation' => 'Geldige verzoek methoden voor Operatie',
         'Limit this Operation to specific request methods. If no method is selected all requests will be accepted.' =>
             'Beperk deze operatie tot verschillende verzoek methoden. Als er geen methode is geselecteerd wordt alles geaccepteerd.',
@@ -1031,7 +1030,7 @@ sub Data {
             '',
         'e.g https://www.otrs.com:10745/api/v1.0 (without trailing backslash)' =>
             'e.g https://www.otrs.com:10745/api/v1.0 (zonder trailing backslash)',
-        'Timeout' => '',
+        'Timeout' => 'time-out',
         'Timeout value for requests.' => '',
         'Authentication' => 'Authenticatie',
         'An optional authentication mechanism to access the remote system.' =>
@@ -1060,7 +1059,7 @@ sub Data {
         'Client Certificate Key' => '',
         'The full path and name of the SSL client certificate key file (if not already included in certificate file).' =>
             '',
-        'e.g. /opt/otrs/var/certificates/SOAP/key.pem' => '',
+        'e.g. /opt/otrs/var/certificates/SOAP/key.pem' => 'bv. /opt/otrs/var/certificates/SOAP/key.pem',
         'Client Certificate Key Password' => '',
         'The password to open the SSL certificate if the key is encrypted.' =>
             '',
@@ -1132,12 +1131,12 @@ sub Data {
             'Uitgaande sorteer volgorde voor xml velden (structuur begint onder functie naam warpper) - zie SOAP transport documentatie.',
 
         # Template: AdminGenericInterfaceWebservice
-        'Add Web Service' => '',
-        'Edit Web Service' => '',
-        'Clone Web Service' => '',
+        'Add Web Service' => 'Webservice toevoegen',
+        'Edit Web Service' => 'Bewerk webservice',
+        'Clone Web Service' => 'Kloon Webservice',
         'The name must be unique.' => 'De naam moet uniek zijn',
         'Clone' => 'Kloon',
-        'Export Web Service' => '',
+        'Export Web Service' => 'Exporteer Webservice',
         'Import web service' => 'Importeer webservice',
         'Configuration File' => 'Configuratiebestand',
         'The file must be a valid web service configuration YAML file.' =>
@@ -1145,15 +1144,15 @@ sub Data {
         'Here you can specify a name for the webservice. If this field is empty, the name of the configuration file is used as name.' =>
             '',
         'Import' => 'Importeer',
-        'Configuration History' => '',
+        'Configuration History' => 'Configuratiegeschiedenis',
         'Delete web service' => 'Verwijder webservice',
         'Do you really want to delete this web service?' => 'Wilt u deze webservice verwijderen?',
-        'Ready2Adopt Web Services' => '',
+        'Ready2Adopt Web Services' => 'Ready2Adopt Webservices',
         'Here you can activate Ready2Adopt web services showcasing our best practices that are a part of %s.' =>
             '',
         'Please note that these web services may depend on other modules only available with certain %s contract levels (there will be a notification with further details when importing).' =>
             '',
-        'Import Ready2Adopt web service' => '',
+        'Import Ready2Adopt web service' => 'Importeer Ready2Adopt webservice',
         'Would you like to benefit from web services created by experts? Upgrade to %s to import some sophisticated Ready2Adopt web services.' =>
             '',
         'After you save the configuration you will be redirected again to the edit screen.' =>
@@ -1252,7 +1251,7 @@ sub Data {
         'Favorites' => 'Favorieten',
         'You can add favorites by moving your cursor over items on the right side and clicking the star icon.' =>
             '',
-        'Links' => '',
+        'Links' => 'Koppelingen',
         'View the admin manual on Github' => '',
         'No Matches' => '',
         'Sorry, your search didn\'t match any items.' => '',
@@ -1267,7 +1266,7 @@ sub Data {
         'Ticket Filter' => 'Ticket filter',
         'Lock' => 'Vergrendel',
         'SLA' => 'SLA',
-        'Customer User ID' => '',
+        'Customer User ID' => 'Klantgebruiker ID',
         'Article Filter' => 'Filter interacties',
         'Only for ArticleCreate and ArticleSend event' => 'Alleen voor ArticleCreate en ArticleSend event',
         'Article sender type' => 'Soort verzender',
@@ -1279,7 +1278,7 @@ sub Data {
         'Notify user just once per day about a single ticket using a selected transport.' =>
             'Verstuur slechts éénmaal per dag over één ticket via de geselecteerde methode',
         'This field is required and must have less than 4000 characters.' =>
-            '',
+            'Dit veld is vereist en mag maximaal 4000 tekens bevatten.',
         'Notifications are sent to an agent or a customer.' => 'Meldingen worden verstuurd naar een behandelaar.',
         'To get the first 20 character of the subject (of the latest agent article).' =>
             'Om de eerste 20 karakters van het onderwerp van de nieuwste behandelaars-interactie te tonen.',
@@ -1400,14 +1399,14 @@ sub Data {
 
         # Template: AdminPackageManager
         'Package Manager' => 'Pakketbeheer',
-        'Uninstall Package' => '',
+        'Uninstall Package' => 'Verwijder pakket',
         'Uninstall package' => 'Verwijder pakket',
         'Do you really want to uninstall this package?' => 'Wilt u dit pakket echt verwijderen?',
         'Reinstall package' => 'Herinstalleer pakket',
         'Do you really want to reinstall this package? Any manual changes will be lost.' =>
             'Wilt u dit pakket echt herinstalleren? Eventuele handmatige aanpassingen gaan verloren.',
-        'Go to updating instructions' => '',
-        'package information' => '',
+        'Go to updating instructions' => 'Ga naar update instructies',
+        'package information' => 'pakketinformatie',
         'Package installation requires a patch level update of OTRS.' => '',
         'Package update requires a patch level update of OTRS.' => '',
         'If you are a OTRS Business Solution™ customer, please visit our customer portal and file a request.' =>
@@ -1428,7 +1427,7 @@ sub Data {
         'In case you would have further questions we would be glad to answer them.' =>
             'Als u meer vragen heeft beantwoorden we deze graag.',
         'Install Package' => 'Installeer pakket',
-        'Update Package' => '',
+        'Update Package' => 'Update pakket',
         'Continue' => 'Doorgaan',
         'Please make sure your database accepts packages over %s MB in size (it currently only accepts packages up to %s MB). Please adapt the max_allowed_packet setting of your database in order to avoid errors.' =>
             'Zorg dat uw database pakketten van groter dan %s MB accepteert. Op dit moment is de maximale grootte %s MB. Pas de waarde voor max_allowed_packet in het mysql configuratiebestand aan om problemen te voorkomen.',
@@ -1450,7 +1449,7 @@ sub Data {
         'Features for %s customers only' => 'Functionaliteit voor alleen %s klanten',
         'With %s, you can benefit from the following optional features. Please make contact with %s if you need more information.' =>
             'Met %s kun je profiteren van de volgende optionele functionaliteit. Neem contact op met %s voor meer informatie.',
-        'Package Information' => '',
+        'Package Information' => 'Pakketinformatie',
         'Download package' => 'Download pakket',
         'Rebuild package' => 'Genereer pakket opnieuw',
         'Metadata' => 'Metadata',
@@ -1461,7 +1460,7 @@ sub Data {
         'Download file from package!' => 'Download bestand van pakket.',
         'Required' => 'Verplicht',
         'Size' => 'Grootte',
-        'Primary Key' => '',
+        'Primary Key' => 'Primaire Sleutel',
         'Auto Increment' => '',
         'SQL' => 'SQL statement',
         'File Differences for File %s' => '',
@@ -1541,7 +1540,7 @@ sub Data {
             'Hier kunt u een proces importeren vanuit een configuratiebestand. Het bestand moet in .yml formaat zijn, zoals geëxporteerd door de procesbeheer-module.',
         'Upload process configuration' => 'Upload procesconfiguratie',
         'Import process configuration' => 'Importeer procesconfiguratie',
-        'Ready2Adopt Processes' => '',
+        'Ready2Adopt Processes' => 'Ready2Adopt processen',
         'Here you can activate Ready2Adopt processes showcasing our best practices. Please note that some additional configuration may be required.' =>
             '',
         'Would you like to benefit from processes created by experts? Upgrade to %s to import some sophisticated Ready2Adopt processes.' =>
@@ -1598,8 +1597,8 @@ sub Data {
         'Available Fields' => 'Beschikbare velden',
         'Name: %s' => 'Naam: %s',
         'Assigned Fields' => 'Toegewezen velden',
-        'Communication Channel' => '',
-        'Is visible for customer' => '',
+        'Communication Channel' => 'Communicatiekanaal',
+        'Is visible for customer' => 'Is zichtbaar voor de klant',
         'Display' => 'Weergave',
 
         # Template: AdminProcessManagementPath
@@ -1664,7 +1663,7 @@ sub Data {
             'In dit scherm kunt u een nieuw proces aanmaken. Om het nieuwe proces beschikbaar te maken voor uw gebruikers moet u de status op \'Actief\' zetten en vervolgens een synchronisatie uitvoeren.',
 
         # Template: AdminProcessManagementProcessPrint
-        'cancel & close' => '',
+        'cancel & close' => 'Annuleren & sluiten',
         'Start Activity' => 'Start activiteit',
         'Contains %s dialog(s)' => 'Bevat %s dialoog(en)',
         'Assigned dialogs' => 'Toegewezen dialogen',
@@ -1693,11 +1692,11 @@ sub Data {
         'Remove this Parameter' => 'Verwijder deze parameter',
 
         # Template: AdminQueue
-        'Queue Management' => '',
+        'Queue Management' => 'Wachtrij Beheer',
         'Add Queue' => 'Nieuwe wachtrij',
         'Edit Queue' => 'Bewerk wachtrij',
         'Filter for Queues' => 'Filter op wachtrijen',
-        'Filter for queues' => '',
+        'Filter for queues' => 'Filter op wachtrijen',
         'A queue with this name already exists!' => 'Er bestaat al een wachtrij met deze naam',
         'This queue is present in a SysConfig setting, confirmation for updating settings to point to the new queue is needed!' =>
             '',
@@ -1737,23 +1736,23 @@ sub Data {
         'Manage Queue-Auto Response Relations' => 'Beheer Wachtrij - Automatische antwoorden koppelingen',
         'Change Auto Response Relations for Queue' => 'Bewerk automatische antwoorden voor wachtrij',
         'This filter allow you to show queues without auto responses' => 'Dit filter staat je toe om wachtrijen te zien die geen automatisch antwoord hebben.',
-        'Queues without Auto Responses' => '',
+        'Queues without Auto Responses' => 'Wachtrijen zonder automatisch antwoord',
         'This filter allow you to show all queues' => 'Dit filter staat je toe om alle wachtrijen weer te geven',
-        'Show All Queues' => '',
+        'Show All Queues' => 'Toon alle wachtrijen',
         'Auto Responses' => 'Automatische antwoorden',
 
         # Template: AdminQueueTemplates
         'Manage Template-Queue Relations' => 'Beheer Sjabloon - Wachtrij koppelingen',
         'Filter for Templates' => 'Filter op sjablonen',
-        'Filter for templates' => '',
+        'Filter for templates' => 'Filter op sjablonen',
         'Templates' => 'Sjablonen',
 
         # Template: AdminRegistration
         'System Registration Management' => 'Beheer systeemregistratie',
-        'Edit System Registration' => '',
+        'Edit System Registration' => 'Bewerk Systeemregistratie',
         'System Registration Overview' => '',
         'Register System' => '',
-        'Validate OTRS-ID' => '',
+        'Validate OTRS-ID' => 'Valideer OTRS-ID',
         'Deregister System' => 'Deregistreer systeem',
         'Edit details' => 'Bewerk gegevens',
         'Show transmitted data' => 'Toon verstuurde gegevens',
@@ -1763,11 +1762,11 @@ sub Data {
         'System type' => 'Systeemtype',
         'Unique ID' => 'Uniek ID',
         'Last communication with registration server' => 'Laatste communicatie met registratieserver',
-        'System Registration not Possible' => '',
+        'System Registration not Possible' => 'Systeemregistratie niet mogelijk',
         'Please note that you can\'t register your system if OTRS Daemon is not running correctly!' =>
             'Het is niet mogelijk om je systeem te registreren als OTRS Daemon niet correct is opgestart!',
         'Instructions' => 'Instructies',
-        'System Deregistration not Possible' => '',
+        'System Deregistration not Possible' => 'Systeemuitschrijving niet mogelijk',
         'Please note that you can\'t deregister your system if you\'re using the %s or having a valid service contract.' =>
             'Je kunt je systeem niet deregistreren als je het %s gebruikt of wanneer je een geldig service contract hebt.',
         'OTRS-ID Login' => 'OTRS-ID',
@@ -1824,7 +1823,7 @@ sub Data {
             'Doorgaan met deze stap zal uw systeem deregistreren bij de OTRS Groep.',
         'Deregister' => 'Deregistreer',
         'You can modify registration settings here.' => 'Je kunt je registratie instellingen hier aanpassen',
-        'Overview of Transmitted Data' => '',
+        'Overview of Transmitted Data' => 'Overzicht van verstuurde gegevens',
         'There is no data regularly sent from your system to %s.' => 'Er zijn geen gegevens die regelmatig worden verzonden van jouw systeem naar %s',
         'The following data is sent at minimum every 3 days from your system to %s.' =>
             'De volgende gegevens over jouw systeem worden maximaal elke 3 dagen verzonden naar %s',
@@ -1887,10 +1886,10 @@ sub Data {
         'To be able to use SMIME in OTRS, you have to enable it first.' =>
             '',
         'Enable SMIME support' => '',
-        'Faulty SMIME configuration' => '',
+        'Faulty SMIME configuration' => 'Onjuiste SMIME configuratie',
         'SMIME support is enabled, but the relevant configuration contains errors. Please check the configuration using the button below.' =>
             '',
-        'Check SMIME configuration' => '',
+        'Check SMIME configuration' => 'Controleer SMIME configuratie',
         'Filter for Certificates' => '',
         'Filter for certificates' => 'Filter op certificaten',
         'To show certificate details click on a certificate icon.' => 'Klik op een certificaat icoon om de details van een certificaat weer te geven.',
@@ -2050,14 +2049,14 @@ sub Data {
 
         # Template: AdminSystemConfiguration
         'online administrator documentation' => '',
-        'System configuration' => '',
+        'System configuration' => 'Systeemconfiguratie',
         'Navigate through the available settings by using the tree in the navigation box on the left side.' =>
             '',
         'Find certain settings by using the search field below or from search icon from the top navigation.' =>
             '',
         'Find out how to use the system configuration by reading the %s.' =>
             '',
-        'Search in all settings...' => '',
+        'Search in all settings...' => 'Zoek in alle instellingen...',
         'There are currently no settings available. Please make sure to run \'otrs.Console.pl Maint::Config::Rebuild\' before using the software.' =>
             '',
 
@@ -2075,7 +2074,7 @@ sub Data {
         'Please review the changed settings and deploy afterwards.' => '',
         'An empty list of changes means that there are no differences between the restored and the current state of the affected settings.' =>
             '',
-        'Changes Overview' => '',
+        'Changes Overview' => 'Gemaakte Wijzigingen',
         'There are %s changed settings which will be deployed in this run.' =>
             '',
         'Switch to basic mode to deploy settings only changed by you.' =>
@@ -2097,22 +2096,22 @@ sub Data {
         'Import & Export' => '',
         'Upload a file to be imported to your system (.yml format as exported from the System Configuration module).' =>
             '',
-        'Upload system configuration' => '',
-        'Import system configuration' => '',
+        'Upload system configuration' => 'Upload systeemconfiguratie',
+        'Import system configuration' => 'Importeer systeemconfiguratie',
         'Download current configuration settings of your system in a .yml file.' =>
             '',
         'Include user settings' => '',
         'Export current configuration' => '',
 
         # Template: AdminSystemConfigurationSearch
-        'Search for' => '',
+        'Search for' => 'Zoek naar',
         'Search for category' => '',
-        'Settings I\'m currently editing' => '',
+        'Settings I\'m currently editing' => 'Instellingen die ik momenteel bewerk',
         'Your search for "%s" in category "%s" did not return any results.' =>
             '',
         'Your search for "%s" in category "%s" returned one result.' => '',
         'Your search for "%s" in category "%s" returned %s results.' => '',
-        'You\'re currently not editing any settings.' => '',
+        'You\'re currently not editing any settings.' => 'U bewerkt momenteel geen instellingen.',
         'You\'re currently editing %s setting(s).' => '',
 
         # Template: AdminSystemConfigurationSearchDialog
@@ -2212,7 +2211,7 @@ sub Data {
         'Add Appointment' => '',
         'Today' => 'Vandaag',
         'All-day' => 'de gehele dag',
-        'Repeat' => '',
+        'Repeat' => 'Herhaal',
         'Notification' => 'Melding',
         'Yes' => 'Ja',
         'No' => 'Nee',
@@ -2221,11 +2220,11 @@ sub Data {
 
         # Template: AgentAppointmentCalendarOverview
         'Add new Appointment' => '',
-        'Calendars' => '',
+        'Calendars' => 'Kalenders',
 
         # Template: AgentAppointmentEdit
         'Basic information' => '',
-        'Date/Time' => '',
+        'Date/Time' => 'Datum/Tijd',
         'Invalid date!' => 'Geen geldige datum.',
         'Please set this to value before End date.' => '',
         'Please set this to value after Start date.' => '',
@@ -2233,7 +2232,7 @@ sub Data {
         'Click here to see the parent appointment.' => '',
         'Click here to edit the parent appointment.' => '',
         'Frequency' => '',
-        'Every' => '',
+        'Every' => 'Elke',
         'day(s)' => 'dag(en)',
         'week(s)' => 'weken',
         'month(s)' => 'maand(en)',
@@ -2294,7 +2293,7 @@ sub Data {
         'Audio call' => '',
 
         # Template: AgentCustomerUserAddressBook
-        'Customer User Address Book' => '',
+        'Customer User Address Book' => 'Klantgebruiker adresboek',
         'Search for recipients and add the results as \'%s\'.' => '',
         'Search template' => 'Sjabloon',
         'Create Template' => 'Maak sjabloon',
@@ -2305,13 +2304,13 @@ sub Data {
         'Add another attribute' => 'Voeg attribuut toe',
         'The attributes with the identifier \'(Customer)\' are from the customer company.' =>
             '',
-        '(e. g. Term* or *Term*)' => '',
+        '(e. g. Term* or *Term*)' => '(bv. Term* of *Term*)',
 
         # Template: AgentCustomerUserAddressBookOverview
         'Select all' => 'Selecteer alles',
         'The customer user is already selected in the ticket mask.' => '',
-        'Select this customer user' => '',
-        'Add selected customer user to' => '',
+        'Select this customer user' => 'Selecteer deze klantgebruiker',
+        'Add selected customer user to' => 'Voeg geselecteerde klantgebruiker toe aan',
 
         # Template: AgentCustomerUserAddressBookOverviewNavBar
         'Change search options' => 'Verander zoekopties',
@@ -2336,10 +2335,10 @@ sub Data {
         'Dashboard' => 'Dashboard',
 
         # Template: AgentDashboardAppointmentCalendar
-        'New Appointment' => '',
+        'New Appointment' => 'Nieuwe Afspraak',
         'Tomorrow' => 'Morgen',
-        'Soon' => '',
-        '5 days' => '',
+        'Soon' => 'Binnenkort',
+        '5 days' => '5 dagen',
         'Start' => 'Begin',
         'none' => 'geen',
 
@@ -2348,13 +2347,13 @@ sub Data {
 
         # Template: AgentDashboardCommon
         'Save settings' => 'Instellingen opslaan',
-        'Close this widget' => '',
+        'Close this widget' => 'Sluit deze widget',
         'more' => 'meer',
         'Available Columns' => 'Beschikbare kolommen',
         'Visible Columns (order by drag & drop)' => 'Beschikbare kolommen (sorteer door middel van drag & drop)',
 
         # Template: AgentDashboardCustomerIDList
-        'Change Customer Relations' => '',
+        'Change Customer Relations' => 'Bewerk klant koppelingen',
         'Open' => 'Open',
         'Closed' => 'Gesloten',
         '%s open ticket(s) of %s' => '%s open ticket(s) van %s',
@@ -2372,7 +2371,7 @@ sub Data {
         'Note: Customer User is invalid!' => '',
 
         # Template: AgentDashboardCustomerUserList
-        'Customer user information' => '',
+        'Customer user information' => 'Klantgebruiker informatie',
         'Phone ticket' => 'Telefoon-ticket',
         'Email ticket' => 'E-mail-ticket',
         'New phone ticket from %s' => 'Nieuw telefoonticket van %s',
@@ -2429,7 +2428,7 @@ sub Data {
         'Manage links for %s' => '',
         'Create new links' => '',
         'Manage existing links' => '',
-        'Link with' => '',
+        'Link with' => 'Koppel met',
         'Start search' => '',
         'There are currently no links. Please click \'Create new Links\' on the top to link this item to other objects.' =>
             '',
@@ -2450,10 +2449,10 @@ sub Data {
             'Hier stelt u uw eigen voorkeuren in. Bewaar uw wijzigingen door op het vinkje dat rechts staat te klikken',
         'You can use the navigation tree below to only show settings from certain groups.' =>
             '',
-        'Dynamic Actions' => '',
+        'Dynamic Actions' => 'Dynamische Acties',
         'Filter settings...' => '',
         'Filter for settings' => '',
-        'Save all settings' => '',
+        'Save all settings' => 'Alle instellingen opslaan',
         'Avatars have been disabled by the system administrator. You\'ll see your initials instead.' =>
             '',
         'You can change your avatar image by registering with your email address %s at %s. Please note that it can take some time until your new avatar becomes available because of caching.' =>
@@ -2471,7 +2470,7 @@ sub Data {
         # Template: AgentPreferencesOverview
         'Choose from the groups on the right to find the settings you\'d wish to change.' =>
             '',
-        'Did you know?' => '',
+        'Did you know?' => 'Wist je dat?',
         'You can change your avatar by registering with your email address %s on %s' =>
             '',
 
@@ -2482,7 +2481,7 @@ sub Data {
 
         # Template: AgentStatisticsAdd
         'Statistics Management' => '',
-        'Add Statistics' => '',
+        'Add Statistics' => 'Statistieken toevoegen',
         'Read more about statistics in OTRS' => '',
         'Dynamic Matrix' => 'Dynamische matrix',
         'Each cell contains a singular data point.' => '',
@@ -2494,13 +2493,13 @@ sub Data {
         'Create Statistic' => 'Maak statistiek',
 
         # Template: AgentStatisticsEdit
-        'Edit Statistics' => '',
+        'Edit Statistics' => 'Statistieken bewerken',
         'Run now' => 'Voer nu uit',
         'Statistics Preview' => 'Voorbeeld van rapportages',
-        'Save Statistic' => '',
+        'Save Statistic' => 'Statistieken opslaan',
 
         # Template: AgentStatisticsImport
-        'Import Statistics' => '',
+        'Import Statistics' => 'Statistieken importeren',
         'Import Statistics Configuration' => '',
 
         # Template: AgentStatisticsOverview
@@ -2778,7 +2777,7 @@ sub Data {
             'Om links te openen in het volgende artikel, kan het nodig zijn om de toetsen Ctrl of Cmd of Shift in te druken terwijl je op de link klikt (afhankelijk van jouw browser en besturingssysteem)',
         'Close this message' => 'Sluit dit bericht',
         'Image' => '',
-        'PDF' => '',
+        'PDF' => 'PDF',
         'Unknown' => 'Onbekend',
         'View' => 'Weergave',
 
@@ -2791,7 +2790,7 @@ sub Data {
         'Note: Type is invalid!' => 'Let op: Type is ongeldig!',
         'Pending till' => 'In de wacht tot',
         'Locked' => 'Vergrendeling',
-        '%s Ticket(s)' => '',
+        '%s Ticket(s)' => '%s Ticket(s)',
         'Accounted time' => 'Bestede tijd',
 
         # Template: Invalid
@@ -5032,6 +5031,13 @@ sub Data {
         'Perl Modules' => 'Perl Modules',
         'Not all required Perl modules are correctly installed.' => 'Niet alle vereiste Perl modules zijn correct geïnstalleerd',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
+        'Perl Modules Audit' => '',
+        'CPAN::Audit reported that one or more installed Perl modules have known vulnerabilities. Please note that there might be false positives for distributions patching Perl modules without changing their version number.' =>
+            '',
+        'CPAN::Audit did not report any known vulnerabilities in the installed Perl modules.' =>
+            '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Swap.pm
         'Free Swap Space (%)' => 'Vrije Swap ruimte (%)',
         'No swap enabled.' => 'Geen swap ingeschakeld.',
@@ -5516,15 +5522,18 @@ sub Data {
             '',
         'A package upgrade was recently finished. Click here to see the results.' =>
             '',
+        'No response from get package upgrade result.' => '',
         'Update all packages' => '',
         'Dismiss' => '',
         'Update All Packages' => '',
+        'No response from package upgrade all.' => '',
         'Currently not possible' => '',
         'This is currently disabled because of an ongoing package upgrade.' =>
             '',
         'This option is currently disabled because the OTRS Daemon is not running.' =>
             '',
         'Are you sure you want to update all installed packages?' => '',
+        'No response from get package upgrade run status.' => '',
 
         # JS File: Core.Agent.Admin.PostMasterFilter
         'Delete this PostMasterFilter' => '',
@@ -7286,7 +7295,7 @@ Het Helpdesk Team
         'Finnish' => 'Fins',
         'First Christmas Day' => 'Eerste Kerstdag',
         'First Queue' => 'Eerste Wachtrij',
-        'First response time' => '',
+        'First response time' => 'Eerste responstijd',
         'FirstLock' => 'EersteLock',
         'FirstResponse' => 'EersteAntwoord',
         'FirstResponseDiffInMin' => 'EersteAntwoordVerschilInMin',
@@ -7298,7 +7307,7 @@ Het Helpdesk Team
         'Force the storage of the original article text in the article search index, without executing filters or applying stop word lists. This will increase the size of the search index and thus may slow down fulltext searches.' =>
             '',
         'Forces encoding of outgoing emails (7bit|8bit|quoted-printable|base64).' =>
-            '',
+            'dwingt codering af van uitgaande e-mails (7bit|8bit|quoted-printable|base64).',
         'Forces to choose a different ticket state (from current) after lock action. Define the current state as key, and the next state after lock action as content.' =>
             '',
         'Forces to unlock tickets after being moved to another queue.' =>
@@ -7329,7 +7338,7 @@ Het Helpdesk Team
         'Galician' => 'Galicische',
         'General ticket data shown in the ticket overviews (fall-back). Note that TicketNumber can not be disabled, because it is necessary.' =>
             '',
-        'Generate dashboard statistics.' => '',
+        'Generate dashboard statistics.' => 'Genereer dashboard statistieken.',
         'Generic Info module.' => '',
         'GenericAgent' => 'Automatische taken',
         'GenericInterface Debugger GUI' => '',
@@ -7367,8 +7376,8 @@ Het Helpdesk Team
         'Hebrew' => 'Hebreeuws',
         'Helps to extend your articles full-text search (From, To, Cc, Subject and Body search). It will strip all articles and will build an index after article creation, increasing fulltext searches about 50%. To create an initial index use "bin/otrs.Console.pl Maint::Ticket::FulltextIndex --rebuild".' =>
             '',
-        'High Contrast' => '',
-        'High contrast skin for visually impaired users.' => '',
+        'High Contrast' => 'Hoog Contrast',
+        'High contrast skin for visually impaired users.' => 'Hoog contrast thema voor gebruikers met een visuele beperking.',
         'Hindi' => 'Hindi',
         'Hungarian' => 'Hongaars',
         'If "DB" was selected for Customer::AuthModule, a database driver (normally autodetection is used) can be specified.' =>
@@ -7497,7 +7506,7 @@ Het Helpdesk Team
         'Include unknown customers in ticket filter.' => '',
         'Includes article create times in the ticket search of the agent interface.' =>
             '',
-        'Incoming Phone Call.' => '',
+        'Incoming Phone Call.' => 'Inkomend telefoongesprek',
         'IndexAccelerator: to choose your backend TicketViewAccelerator module. "RuntimeDB" generates each queue view on the fly from ticket table (no performance problems up to approx. 60.000 tickets in total and 6.000 open tickets in the system). "StaticDB" is the most powerful module, it uses an extra ticket-index table that works like a view (recommended if more than 80.000 and 6.000 open tickets are stored in the system). Use the command "bin/otrs.Console.pl Maint::Ticket::QueueIndexRebuild" for initial index creation.' =>
             '',
         'Indicates if a bounce e-mail should always be treated as normal follow-up.' =>
@@ -7519,7 +7528,7 @@ Het Helpdesk Team
             '',
         'Ivory' => '',
         'Ivory (Slim)' => '',
-        'Japanese' => '',
+        'Japanese' => 'Japans',
         'JavaScript function for the search frontend.' => '',
         'Korean' => '',
         'Language' => 'Taal',
@@ -7527,14 +7536,14 @@ Het Helpdesk Team
         'Last Screen Overview' => '',
         'Last customer subject' => '',
         'Lastname Firstname' => '',
-        'Lastname Firstname (UserLogin)' => '',
-        'Lastname, Firstname' => '',
-        'Lastname, Firstname (UserLogin)' => '',
-        'LastnameFirstname' => '',
+        'Lastname Firstname (UserLogin)' => 'Achternaam Voornaam (Loginnaam)',
+        'Lastname, Firstname' => 'Achternaam, Voornaam',
+        'Lastname, Firstname (UserLogin)' => 'Achternaam, Voornaam (Loginnaam)',
+        'LastnameFirstname' => 'AchternaamVoornaam',
         'Latvian' => '',
         'Left' => '',
         'Link Object' => 'Koppel object',
-        'Link Object.' => '',
+        'Link Object.' => 'Koppel Object',
         'Link agents to groups.' => 'Koppel behandelaars aan groepen.',
         'Link agents to roles.' => 'Koppel behandelaars aan rollen.',
         'Link customer users to customers.' => 'Koppel klanten aan bedrijven.',
@@ -7548,7 +7557,7 @@ Het Helpdesk Team
         'Link this ticket to other objects' => 'Koppel dit ticket aan andere objecten',
         'Links 2 tickets with a "Normal" type link.' => 'Koppelt twee tickets met een "Normaal"-type koppeling.',
         'Links 2 tickets with a "ParentChild" type link.' => 'Koppelt twee tickets met een "vader - zoon"-type koppeling.',
-        'Links appointments and tickets with a "Normal" type link.' => '',
+        'Links appointments and tickets with a "Normal" type link.' => 'Koppelt afspraken en tickets met een "Normaal"-type koppeling.',
         'List of CSS files to always be loaded for the agent interface.' =>
             '',
         'List of CSS files to always be loaded for the customer interface.' =>
@@ -7582,11 +7591,11 @@ Het Helpdesk Team
         'Loader module registration for the customer interface.' => '',
         'Lock / unlock this ticket' => '',
         'Locked Tickets' => 'Vergrendelde tickets',
-        'Locked Tickets.' => '',
+        'Locked Tickets.' => 'Vergrendelde Tickets.',
         'Locked ticket.' => 'Ticket vergrendeld.',
-        'Logged in users.' => '',
-        'Logged-In Users' => '',
-        'Logout of customer panel.' => '',
+        'Logged in users.' => 'Ingelogde gebruikers.',
+        'Logged-In Users' => 'Ingelogde gebruikers.',
+        'Logout of customer panel.' => 'Uitloggen van het klantpaneel.',
         'Look into a ticket!' => 'Bekijk dit ticket.',
         'Loop protection: no auto-response sent to "%s".' => '',
         'Macedonian' => '',
@@ -7601,7 +7610,7 @@ Het Helpdesk Team
         'Makes the session management use html cookies. If html cookies are disabled or if the client browser disabled html cookies, then the system will work as usual and append the session id to the links.' =>
             '',
         'Malay' => '',
-        'Manage OTRS Group cloud services.' => '',
+        'Manage OTRS Group cloud services.' => 'Beheer OTRS Group cloud diensten.',
         'Manage PGP keys for email encryption.' => 'Beheer PGP-sleutels voor encryptie van e-mail.',
         'Manage POP3 or IMAP accounts to fetch email from.' => 'Beheer POP3 of IMAP accounts om e-mail op te halen en om te zetten naar tickets.',
         'Manage S/MIME certificates for email encryption.' => 'Beheer S/MIME certificaten voor encryptie van e-mail.',
@@ -7612,7 +7621,7 @@ Het Helpdesk Team
         'Manage system registration.' => 'Beheer systeemregistratie.',
         'Manage tasks triggered by event or time based execution.' => 'Beheer van taken op basis van events of tijdschema\'s',
         'Mark as Spam!' => 'Markeer als spam',
-        'Mark this ticket as junk!' => '',
+        'Mark this ticket as junk!' => 'Markeer het ticket als junk!',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' =>
             '',
         'Max size (in rows) of the informed agents box in the agent interface.' =>
@@ -7646,7 +7655,7 @@ Het Helpdesk Team
         'Merge this ticket and all articles into another ticket' => '',
         'Merged Ticket (%s/%s) to (%s/%s).' => '',
         'Merged Ticket <OTRS_TICKET> to <OTRS_MERGE_TO_TICKET>.' => '',
-        'Minute' => '',
+        'Minute' => 'Minuut',
         'Miscellaneous' => 'Diversen',
         'Module for To-selection in new ticket screen in the customer interface.' =>
             '',
@@ -7675,7 +7684,7 @@ Het Helpdesk Team
             '',
         'Module to generate ticket solution and response time statistics.' =>
             '',
-        'Module to generate ticket statistics.' => '',
+        'Module to generate ticket statistics.' => 'Module om ticket statistieken te genereren.',
         'Module to grant access if the CustomerID of the customer has necessary group permissions.' =>
             '',
         'Module to grant access if the CustomerID of the ticket matches the CustomerID of the customer.' =>
@@ -7709,12 +7718,12 @@ Het Helpdesk Team
         'New Year\'s Eve' => 'Oudjaarsdag',
         'New process ticket' => 'Nieuw proces-ticket',
         'News about OTRS releases!' => 'Nieuws over OTRS versies!',
-        'News about OTRS.' => '',
+        'News about OTRS.' => 'Nieuws over OTRS.',
         'Next possible ticket states after adding a phone note in the ticket phone inbound screen of the agent interface.' =>
             '',
         'Next possible ticket states after adding a phone note in the ticket phone outbound screen of the agent interface.' =>
             '',
-        'None' => '',
+        'None' => 'Geen',
         'Norwegian' => '',
         'Notification Settings' => 'Notificatievoorkeuren',
         'Notified about response time escalation.' => '',
@@ -7728,7 +7737,7 @@ Het Helpdesk Team
         'Number of tickets to be displayed in each page of a search result in the customer interface.' =>
             '',
         'Number of tickets to be displayed in each page.' => '',
-        'OTRS Group Services' => '',
+        'OTRS Group Services' => 'OTRS Group diensten',
         'OTRS News' => 'OTRS Nieuws',
         'OTRS can use one or more readonly mirror databases for expensive operations like fulltext search or statistics generation. Here you can specify the DSN for the first mirror database.' =>
             '',
@@ -7737,7 +7746,7 @@ Het Helpdesk Team
         'Open an external link!' => '',
         'Open tickets (customer user)' => 'Open tickets (klant gebruiker)',
         'Open tickets (customer)' => 'Open tickets (klant)',
-        'Option' => '',
+        'Option' => 'Optie',
         'Optional queue limitation for the CreatorCheck permission module. If set, permission is only granted for tickets in the specified queues.' =>
             '',
         'Optional queue limitation for the InvolvedCheck permission module. If set, permission is only granted for tickets in the specified queues.' =>
@@ -7746,22 +7755,22 @@ Het Helpdesk Team
             '',
         'Optional queue limitation for the ResponsibleCheck permission module. If set, permission is only granted for tickets in the specified queues.' =>
             '',
-        'Other Customers' => '',
+        'Other Customers' => 'Andere Klanten',
         'Out Of Office' => 'Afwezig',
         'Out Of Office Time' => 'Afwezigheid',
         'Out of Office users.' => '',
         'Overloads (redefines) existing functions in Kernel::System::Ticket. Used to easily add customizations.' =>
             '',
-        'Overview Escalated Tickets.' => '',
+        'Overview Escalated Tickets.' => 'Overzicht geëscaleerde tickets.',
         'Overview Refresh Time' => 'Verversingsinterval overzichten',
         'Overview of all Tickets per assigned Queue.' => '',
-        'Overview of all appointments.' => '',
-        'Overview of all escalated tickets.' => '',
+        'Overview of all appointments.' => 'Overzicht van alle afspraken.',
+        'Overview of all escalated tickets.' => 'Overzicht van alle geëscaleerde tickets.',
         'Overview of all open Tickets.' => 'Overzicht van alle openstaande tickets',
         'Overview of all open tickets.' => 'Overzicht van alle openstaande tickets.',
-        'Overview of customer tickets.' => '',
+        'Overview of customer tickets.' => 'Overzicht van alle klanttickets.',
         'PGP Key' => 'PGP Sleutel',
-        'PGP Key Management' => '',
+        'PGP Key Management' => 'PGP sleutel beheer',
         'PGP Keys' => 'PGP Sleutels',
         'Package event module file a scheduler task for update registration.' =>
             '',
@@ -7833,7 +7842,7 @@ Het Helpdesk Team
         'Parameters of the example queue attribute Comment2.' => '',
         'Parameters of the example service attribute Comment2.' => '',
         'Parent' => 'vader',
-        'ParentChild' => '',
+        'ParentChild' => 'OuderKind',
         'Path for the log file (it only applies if "FS" was selected for LoopProtectionModule and it is mandatory).' =>
             '',
         'Pending time' => '',
@@ -7845,13 +7854,13 @@ Het Helpdesk Team
         'Persian' => '',
         'Phone Call Inbound' => 'Inkomend telefoongesprek',
         'Phone Call Outbound' => 'Uitgaand telefoongesprek',
-        'Phone Call.' => '',
+        'Phone Call.' => 'Telefoongesprek.',
         'Phone call' => 'Telefoongesprek',
         'Phone communication channel.' => '',
         'Phone-Ticket' => 'Telefoon ticket',
-        'Picture Upload' => '',
-        'Picture upload module.' => '',
-        'Picture-Upload' => '',
+        'Picture Upload' => 'Afbeelding upload',
+        'Picture upload module.' => 'Afbeelding upload module.',
+        'Picture-Upload' => 'Afbeelding-upload',
         'Plugin search' => '',
         'Plugin search module for autocomplete.' => '',
         'Polish' => '',
@@ -7869,7 +7878,7 @@ Het Helpdesk Team
         'Process Ticket.' => '',
         'Process pending tickets.' => '',
         'ProcessID' => '',
-        'Processes & Automation' => '',
+        'Processes & Automation' => 'Processen & Automatisering',
         'Product News' => 'Productnieuws',
         'Protection against CSRF (Cross Site Request Forgery) exploits (for more info see http://en.wikipedia.org/wiki/Cross-site_request_forgery).' =>
             '',
@@ -7877,8 +7886,8 @@ Het Helpdesk Team
             '',
         'Provides customer users access to tickets even if the tickets are not assigned to a customer user of the same customer ID(s), based on permission groups.' =>
             '',
-        'Public Calendar' => '',
-        'Public calendar.' => '',
+        'Public Calendar' => 'Publieke Kalender',
+        'Public calendar.' => 'Publieke kalender.',
         'Queue view' => 'Wachtrijoverzicht',
         'Queues ↔ Auto Responses' => 'Wachtrijen ↔ Automatische antwoorden',
         'Rebuild the ticket index for AgentTicketQueue.' => '',
@@ -7893,7 +7902,7 @@ Het Helpdesk Team
             '',
         'Removes old system configuration deployments (Sunday mornings).' =>
             '',
-        'Removes old ticket number counters (each 10 minutes).' => '',
+        'Removes old ticket number counters (each 10 minutes).' => 'Verwijderd oude ticket nummer tellers (iedere 10 minuten).',
         'Removes the ticket watcher information when a ticket is archived.' =>
             '',
         'Renew existing SMIME certificates from customer backend. Note: SMIME and SMIME::FetchFromCustomer needs to be enabled in SysConfig and customer backend needs to be configured to fetch UserSMIMECertificate attribute.' =>
@@ -7936,19 +7945,19 @@ Het Helpdesk Team
             '',
         'Required permissions to use the ticket responsible screen in the agent interface.' =>
             '',
-        'Resend Ticket Email.' => '',
+        'Resend Ticket Email.' => 'Ticket e-mail opnieuw versturen.',
         'Resent email to "%s".' => '',
         'Resets and unlocks the owner of a ticket if it was moved to another queue.' =>
             '',
         'Resource Overview (OTRS Business Solution™)' => '',
-        'Responsible Tickets' => '',
-        'Responsible Tickets.' => '',
+        'Responsible Tickets' => 'Verantwoordelijke tickets',
+        'Responsible Tickets.' => 'Verantwoordelijke tickets.',
         'Restores a ticket from the archive (only if the event is a state change to any open available state).' =>
             '',
         'Retains all services in listings even if they are children of invalid elements.' =>
             '',
         'Right' => '',
-        'Roles ↔ Groups' => '',
+        'Roles ↔ Groups' => 'Rollen ↔ Groepen',
         'Romanian' => '',
         'Run file based generic agent jobs (Note: module name needs to be specified in -configuration-module param e.g. "Kernel::System::GenericAgent").' =>
             '',
@@ -8944,6 +8953,9 @@ Het Helpdesk Team
         'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.',
         'No matches found.',
         'No package information available.',
+        'No response from get package upgrade result.',
+        'No response from get package upgrade run status.',
+        'No response from package upgrade all.',
         'No sort applied, ',
         'No space left for the following files: %s',
         'Not available',

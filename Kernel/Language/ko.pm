@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '';
     $Self->{DateInputFormat}     = '';
     $Self->{DateInputFormatLong} = '';
-    $Self->{Completeness}        = 0.981193366387417;
+    $Self->{Completeness}        = 0.980013665869491;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -76,8 +76,7 @@ sub Data {
         'Change settings' => '설정 변경',
         'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is a white list, \'PossibleNot\' a black list.' =>
             '기준이 일치하면 변경하려는 항목을 설정하십시오. Possible \'은 흰색 목록이고\'PossibleNot \'은 검은 색 목록입니다.',
-        'Check the official' => '오피셜로 체크',
-        'documentation' => '문서',
+        'Check the official %sdocumentation%s.' => '',
         'Show or hide the content' => '내용 보여주기/가리기',
         'Edit ACL Information' => 'ACL 정보 수정',
         'Name' => '이름',
@@ -5026,6 +5025,13 @@ sub Data {
         'Perl Modules' => '펄 모듈',
         'Not all required Perl modules are correctly installed.' => '필요한 Perl 모듈이 모두 올바르게 설치되지는 않았습니다.',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
+        'Perl Modules Audit' => '',
+        'CPAN::Audit reported that one or more installed Perl modules have known vulnerabilities. Please note that there might be false positives for distributions patching Perl modules without changing their version number.' =>
+            '',
+        'CPAN::Audit did not report any known vulnerabilities in the installed Perl modules.' =>
+            '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Swap.pm
         'Free Swap Space (%)' => '무료 스왑 공간 (%)',
         'No swap enabled.' => '스왑을 사용할 수 없습니다.',
@@ -5510,15 +5516,18 @@ sub Data {
             '패키지 업그레이드 프로세스가 실행 중입니다. 여기를 클릭하면 업그레이드 진행 상태에 대한 상태 정보를 볼 수 있습니다.',
         'A package upgrade was recently finished. Click here to see the results.' =>
             '패키지 업그레이드가 최근 완료 되었습니다. 결과를 보려면 여기를 클릭하십시오.',
+        'No response from get package upgrade result.' => '',
         'Update all packages' => '모든 패키지 업데이트',
         'Dismiss' => '버리다',
         'Update All Packages' => '모든 패키지 업데이트',
+        'No response from package upgrade all.' => '',
         'Currently not possible' => '현재 불가능',
         'This is currently disabled because of an ongoing package upgrade.' =>
             '진행중인 패키지 업그레이드로 인해 현재 이 기능을 사용할 수 없습니다.',
         'This option is currently disabled because the OTRS Daemon is not running.' =>
             'OTRS 데몬이 실행 중이 아니기 때문에이 옵션은 현재 비활성화되어 있습니다.',
         'Are you sure you want to update all installed packages?' => '설치된 패키지를 모두 업데이트 하시겠습니까?',
+        'No response from get package upgrade run status.' => '',
 
         # JS File: Core.Agent.Admin.PostMasterFilter
         'Delete this PostMasterFilter' => '이 PostMasterFilter 삭제',
@@ -8938,6 +8947,9 @@ Thanks for your help!
         'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.',
         'No matches found.',
         'No package information available.',
+        'No response from get package upgrade result.',
+        'No response from get package upgrade run status.',
+        'No response from package upgrade all.',
         'No sort applied, ',
         'No space left for the following files: %s',
         'Not available',

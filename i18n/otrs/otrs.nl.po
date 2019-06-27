@@ -16,13 +16,14 @@
 # Martin Gruner <martin.gruner@otrs.com>, 2018
 # Ton van Boven <info@tonvanboven.nl>, 2019
 # Erik Thijs <erik.thijs@thomasmore.be>, 2019
+# Nick van der Burg <nickvdburg.nvdb@gmail.com>, 2019
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-05-14 06:48+0000\n"
+"POT-Creation-Date: 2019-06-27 22:01+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
-"Last-Translator: Erik Thijs <erik.thijs@thomasmore.be>, 2019\n"
+"Last-Translator: Nick van der Burg <nickvdburg.nvdb@gmail.com>, 2019\n"
 "Language-Team: Dutch (https://www.transifex.com/otrs/teams/23435/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -193,12 +194,8 @@ msgid ""
 msgstr "Geef aan wat u wilt dat gebeurt als de activatie-criteria kloppen."
 
 #. Template: AdminACLEdit
-msgid "Check the official"
-msgstr "Bekijk de"
-
-#. Template: AdminACLEdit
-msgid "documentation"
-msgstr "documentatie"
+msgid "Check the official %sdocumentation%s."
+msgstr ""
 
 #. Template: AdminACLEdit
 msgid "Show or hide the content"
@@ -304,7 +301,7 @@ msgstr "Importeer kalender"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Filter for Calendars"
-msgstr ""
+msgstr "Filter voor kalenders"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Filter for calendars"
@@ -315,18 +312,22 @@ msgid ""
 "Depending on the group field, the system will allow users the access to the "
 "calendar according to their permission level."
 msgstr ""
+"Afhankelijk van het groepsveld geeft het systeem gebruikers toegang tot de "
+"kalender op basis van hun machtigingsniveau."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Read only: users can see and export all appointments in the calendar."
 msgstr ""
-"Alleen lezen: gebruikers kunnen alle activiteiten in deze kalender "
-"raadplegen en exporteren."
+"Alleen lezen: gebruikers kunnen alle afspraken in deze kalender raadplegen "
+"en exporteren."
 
 #. Template: AdminAppointmentCalendarManage
 msgid ""
 "Move into: users can modify appointments in the calendar, but without "
 "changing the calendar selection."
 msgstr ""
+"Verplaats naar: Gebruikers kunnen afspraken in de agenda wijzigen, maar "
+"zonder de kalender te wijzigen."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Create: users can create and delete appointments in the calendar."
@@ -1298,11 +1299,11 @@ msgstr "Communicatielogboek overzicht (%s)"
 
 #. Template: AdminCommunicationLogZoom
 msgid "No communication objects found."
-msgstr ""
+msgstr "Geen communicatie objecten gevonden."
 
 #. Template: AdminCommunicationLogZoom
 msgid "Communication Log Details"
-msgstr ""
+msgstr "Communicatielogboek details"
 
 #. Template: AdminCommunicationLogZoom
 msgid "Please select an entry from the list."
@@ -1564,7 +1565,7 @@ msgid ""
 " submitting it."
 msgstr ""
 "De bovenstaande tabel toont de effectieve rechten van de groep voor deze "
-"klant. De matrix houdt rekening met alle overgeërfde rechten (e.g. via "
+"klant. De matrix houdt rekening met alle overgeërfde rechten (bv. via "
 "klantgroepen). Merk op: de tabel houdt geen rekening met wijzigingen die in "
 "dit formulier werden aangebracht en nog niet opgeslagen zijn."
 
@@ -1590,11 +1591,11 @@ msgstr ""
 
 #. Template: AdminCustomerUserCustomer
 msgid "Manage Customer User-Customer Relations"
-msgstr ""
+msgstr "Beheer Klant Gebruiker-Klant koppelingen"
 
 #. Template: AdminCustomerUserCustomer
 msgid "Select the customer user:customer relations."
-msgstr ""
+msgstr "Selecteer de klant gebruiker:klant relaties."
 
 #. Template: AdminCustomerUserCustomer
 msgid "Customer Users"
@@ -1602,11 +1603,11 @@ msgstr "Klanten"
 
 #. Template: AdminCustomerUserCustomer
 msgid "Change Customer Relations for Customer User"
-msgstr ""
+msgstr "Bewerk Klan Relaties voor Klant gebruiker"
 
 #. Template: AdminCustomerUserCustomer
 msgid "Change Customer User Relations for Customer"
-msgstr ""
+msgstr "Wijzig Klant Gebruiker koppelingen voor Klant"
 
 #. Template: AdminCustomerUserCustomer
 msgid "Toggle active state for all"
@@ -1622,7 +1623,7 @@ msgstr "Actief aan/uit voor %s"
 
 #. Template: AdminCustomerUserGroup
 msgid "Manage Customer User-Group Relations"
-msgstr ""
+msgstr "Beheer Klant gebruiker - Groep koppelingen"
 
 #. Template: AdminCustomerUserGroup
 msgid ""
@@ -1650,17 +1651,19 @@ msgstr ""
 
 #. Template: AdminCustomerUserGroup
 msgid "Select the customer user - group permissions."
-msgstr ""
+msgstr "Selecteer de Klant gebruiker - groep permissies"
 
 #. Template: AdminCustomerUserGroup
 msgid ""
 "If nothing is selected, then there are no permissions in this group (tickets"
 " will not be available for the customer user)."
 msgstr ""
+"Als niets geselecteerd is, zijn er geen permissies in deze groep (tickets "
+"zijn niet toegankelijk voor de klant gebruiker)."
 
 #. Template: AdminCustomerUserGroup
 msgid "Customer User Default Groups:"
-msgstr ""
+msgstr "Klant Gebruiker Standaard Groepen:"
 
 #. Template: AdminCustomerUserService
 msgid "Manage Customer User-Service Relations"
@@ -1676,7 +1679,7 @@ msgstr "Filter op services"
 
 #. Template: AdminCustomerUserService
 msgid "Filter for services"
-msgstr ""
+msgstr "Filter voor Services"
 
 #. Template: AdminCustomerUserService
 msgid "Services"
@@ -1719,13 +1722,15 @@ msgstr ""
 
 #. Template: AdminDynamicField
 msgid "Web service"
-msgstr ""
+msgstr "Webservice"
 
 #. Template: AdminDynamicField
 msgid ""
 "External web services can be configured as data sources for this dynamic "
 "field."
 msgstr ""
+"Externe webservices kunnen als databronnen geconfigureerd worden voor "
+"dynamische velden"
 
 #. Template: AdminDynamicField
 msgid "Contact with data"
@@ -2237,7 +2242,7 @@ msgstr "(bijvoorbeeld 234321)"
 
 #. Template: AdminGenericAgent
 msgid "Customer user ID"
-msgstr ""
+msgstr "Klantgebruiker ID"
 
 #. Template: AdminGenericAgent
 msgid "(e. g. U5150)"
@@ -2475,7 +2480,7 @@ msgstr "Nieuwe vergrendeling"
 
 #. Template: AdminGenericAgent
 msgid "New customer user ID"
-msgstr ""
+msgstr "Nieuwe klantgebruiker ID"
 
 #. Template: AdminGenericAgent
 msgid "New customer ID"
@@ -2503,7 +2508,7 @@ msgstr "Notitie toevoegen"
 
 #. Template: AdminGenericAgent
 msgid "Visible for customer"
-msgstr ""
+msgstr "Zichtbaar voor klant"
 
 #. Template: AdminGenericAgent
 msgid "Time units"
@@ -2587,7 +2592,7 @@ msgstr "GenericInterface Web Service Beheer"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Web Service Management"
-msgstr ""
+msgstr "Webservice Beheer"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Debugger"
@@ -2615,7 +2620,7 @@ msgstr "Tijd"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Communication ID"
-msgstr ""
+msgstr "Communicatie ID"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Remote IP"
@@ -2769,7 +2774,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Error code"
-msgstr ""
+msgstr "Foutcode"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "An error identifier for this error handling module."
@@ -2783,7 +2788,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Error message"
-msgstr ""
+msgstr "Foutmelding"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "An error explanation for this error handling module."
@@ -3066,7 +3071,7 @@ msgstr "Ga terug naar"
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "Delete all conditions"
-msgstr ""
+msgstr "Verwijder alle condities"
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "Do you really want to delete all the conditions for this event?"
@@ -3074,7 +3079,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "General Settings"
-msgstr ""
+msgstr "Algemene Instellingen"
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "Event type"
@@ -3246,7 +3251,7 @@ msgstr "Zoek en vervang alle"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "XSLT Mapping"
-msgstr ""
+msgstr "XSLT-toewijzing"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "XSLT stylesheet"
@@ -3254,7 +3259,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "The entered data is not a valid XSLT style sheet."
-msgstr ""
+msgstr "De ingevoerde data is geen geldig XSLT stylesheet."
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Here you can add or modify your XSLT mapping code."
@@ -3268,7 +3273,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Data includes"
-msgstr ""
+msgstr "Data bevat"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid ""
@@ -3292,7 +3297,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Regular expressions"
-msgstr ""
+msgstr "Reguliere expressie"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Replace"
@@ -3451,7 +3456,7 @@ msgid ""
 msgstr ""
 "Bepaal de route die gemapt moet worden op deze operatie. Variabelen "
 "gemarkeerd met een ':' woden gemapt op de ingevoerde naam en doorgegeven met"
-" de maping (bijvoorbeeld /Ticket/:TicketID)."
+" de maping (bv. /Ticket/:TicketID)."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Valid request methods for Operation"
@@ -3515,7 +3520,7 @@ msgstr "e.g https://www.otrs.com:10745/api/v1.0 (zonder trailing backslash)"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Timeout"
-msgstr ""
+msgstr "time-out"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Timeout value for requests."
@@ -3623,7 +3628,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "e.g. /opt/otrs/var/certificates/SOAP/key.pem"
-msgstr ""
+msgstr "bv. /opt/otrs/var/certificates/SOAP/key.pem"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Client Certificate Key Password"
@@ -3865,15 +3870,15 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Add Web Service"
-msgstr ""
+msgstr "Webservice toevoegen"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Edit Web Service"
-msgstr ""
+msgstr "Bewerk webservice"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Clone Web Service"
-msgstr ""
+msgstr "Kloon Webservice"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "The name must be unique."
@@ -3885,7 +3890,7 @@ msgstr "Kloon"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Export Web Service"
-msgstr ""
+msgstr "Exporteer Webservice"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Import web service"
@@ -3911,7 +3916,7 @@ msgstr "Importeer"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Configuration History"
-msgstr ""
+msgstr "Configuratiegeschiedenis"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Delete web service"
@@ -3923,7 +3928,7 @@ msgstr "Wilt u deze webservice verwijderen?"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Ready2Adopt Web Services"
-msgstr ""
+msgstr "Ready2Adopt Webservices"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
@@ -3940,7 +3945,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Import Ready2Adopt web service"
-msgstr ""
+msgstr "Importeer Ready2Adopt webservice"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
@@ -4272,7 +4277,7 @@ msgstr ""
 
 #. Template: AdminNavigationBar
 msgid "Links"
-msgstr ""
+msgstr "Koppelingen"
 
 #. Template: AdminNavigationBar
 msgid "View the admin manual on Github"
@@ -4328,7 +4333,7 @@ msgstr "SLA"
 
 #. Template: AdminNotificationEvent
 msgid "Customer User ID"
-msgstr ""
+msgstr "Klantgebruiker ID"
 
 #. Template: AdminNotificationEvent
 msgid "Article Filter"
@@ -4374,7 +4379,7 @@ msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "This field is required and must have less than 4000 characters."
-msgstr ""
+msgstr "Dit veld is vereist en mag maximaal 4000 tekens bevatten."
 
 #. Template: AdminNotificationEvent
 msgid "Notifications are sent to an agent or a customer."
@@ -4761,7 +4766,7 @@ msgstr "Pakketbeheer"
 
 #. Template: AdminPackageManager
 msgid "Uninstall Package"
-msgstr ""
+msgstr "Verwijder pakket"
 
 #. Template: AdminPackageManager
 msgid "Uninstall package"
@@ -4785,11 +4790,11 @@ msgstr ""
 
 #. Template: AdminPackageManager
 msgid "Go to updating instructions"
-msgstr ""
+msgstr "Ga naar update instructies"
 
 #. Template: AdminPackageManager
 msgid "package information"
-msgstr ""
+msgstr "pakketinformatie"
 
 #. Template: AdminPackageManager
 msgid "Package installation requires a patch level update of OTRS."
@@ -4846,7 +4851,7 @@ msgstr "Installeer pakket"
 
 #. Template: AdminPackageManager
 msgid "Update Package"
-msgstr ""
+msgstr "Update pakket"
 
 #. Template: AdminPackageManager
 msgid "Continue"
@@ -4932,7 +4937,7 @@ msgstr ""
 
 #. Template: AdminPackageManager
 msgid "Package Information"
-msgstr ""
+msgstr "Pakketinformatie"
 
 #. Template: AdminPackageManager
 msgid "Download package"
@@ -4976,7 +4981,7 @@ msgstr "Grootte"
 
 #. Template: AdminPackageManager
 msgid "Primary Key"
-msgstr ""
+msgstr "Primaire Sleutel"
 
 #. Template: AdminPackageManager
 msgid "Auto Increment"
@@ -5254,7 +5259,7 @@ msgstr "Importeer procesconfiguratie"
 
 #. Template: AdminProcessManagement
 msgid "Ready2Adopt Processes"
-msgstr ""
+msgstr "Ready2Adopt processen"
 
 #. Template: AdminProcessManagement
 msgid ""
@@ -5461,11 +5466,11 @@ msgstr "Toegewezen velden"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Communication Channel"
-msgstr ""
+msgstr "Communicatiekanaal"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Is visible for customer"
-msgstr ""
+msgstr "Is zichtbaar voor de klant"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Display"
@@ -5686,7 +5691,7 @@ msgstr ""
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "cancel & close"
-msgstr ""
+msgstr "Annuleren & sluiten"
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "Start Activity"
@@ -5778,7 +5783,7 @@ msgstr "Verwijder deze parameter"
 
 #. Template: AdminQueue
 msgid "Queue Management"
-msgstr ""
+msgstr "Wachtrij Beheer"
 
 #. Template: AdminQueue
 msgid "Add Queue"
@@ -5794,7 +5799,7 @@ msgstr "Filter op wachtrijen"
 
 #. Template: AdminQueue
 msgid "Filter for queues"
-msgstr ""
+msgstr "Filter op wachtrijen"
 
 #. Template: AdminQueue
 msgid "A queue with this name already exists!"
@@ -5951,7 +5956,7 @@ msgstr ""
 
 #. Template: AdminQueueAutoResponse
 msgid "Queues without Auto Responses"
-msgstr ""
+msgstr "Wachtrijen zonder automatisch antwoord"
 
 #. Template: AdminQueueAutoResponse
 msgid "This filter allow you to show all queues"
@@ -5959,7 +5964,7 @@ msgstr "Dit filter staat je toe om alle wachtrijen weer te geven"
 
 #. Template: AdminQueueAutoResponse
 msgid "Show All Queues"
-msgstr ""
+msgstr "Toon alle wachtrijen"
 
 #. Template: AdminQueueAutoResponse
 msgid "Auto Responses"
@@ -5975,7 +5980,7 @@ msgstr "Filter op sjablonen"
 
 #. Template: AdminQueueTemplates
 msgid "Filter for templates"
-msgstr ""
+msgstr "Filter op sjablonen"
 
 #. Template: AdminQueueTemplates
 msgid "Templates"
@@ -5987,7 +5992,7 @@ msgstr "Beheer systeemregistratie"
 
 #. Template: AdminRegistration
 msgid "Edit System Registration"
-msgstr ""
+msgstr "Bewerk Systeemregistratie"
 
 #. Template: AdminRegistration
 msgid "System Registration Overview"
@@ -5999,7 +6004,7 @@ msgstr ""
 
 #. Template: AdminRegistration
 msgid "Validate OTRS-ID"
-msgstr ""
+msgstr "Valideer OTRS-ID"
 
 #. Template: AdminRegistration
 msgid "Deregister System"
@@ -6039,7 +6044,7 @@ msgstr "Laatste communicatie met registratieserver"
 
 #. Template: AdminRegistration
 msgid "System Registration not Possible"
-msgstr ""
+msgstr "Systeemregistratie niet mogelijk"
 
 #. Template: AdminRegistration
 msgid ""
@@ -6055,7 +6060,7 @@ msgstr "Instructies"
 
 #. Template: AdminRegistration
 msgid "System Deregistration not Possible"
-msgstr ""
+msgstr "Systeemuitschrijving niet mogelijk"
 
 #. Template: AdminRegistration
 msgid ""
@@ -6263,7 +6268,7 @@ msgstr "Je kunt je registratie instellingen hier aanpassen"
 
 #. Template: AdminRegistration
 msgid "Overview of Transmitted Data"
-msgstr ""
+msgstr "Overzicht van verstuurde gegevens"
 
 #. Template: AdminRegistration
 msgid "There is no data regularly sent from your system to %s."
@@ -6464,7 +6469,7 @@ msgstr ""
 
 #. Template: AdminSMIME
 msgid "Faulty SMIME configuration"
-msgstr ""
+msgstr "Onjuiste SMIME configuratie"
 
 #. Template: AdminSMIME
 msgid ""
@@ -6474,7 +6479,7 @@ msgstr ""
 
 #. Template: AdminSMIME
 msgid "Check SMIME configuration"
-msgstr ""
+msgstr "Controleer SMIME configuratie"
 
 #. Template: AdminSMIME
 msgid "Filter for Certificates"
@@ -7006,7 +7011,7 @@ msgstr ""
 
 #. Template: AdminSystemConfiguration
 msgid "System configuration"
-msgstr ""
+msgstr "Systeemconfiguratie"
 
 #. Template: AdminSystemConfiguration
 msgid ""
@@ -7026,7 +7031,7 @@ msgstr ""
 
 #. Template: AdminSystemConfiguration
 msgid "Search in all settings..."
-msgstr ""
+msgstr "Zoek in alle instellingen..."
 
 #. Template: AdminSystemConfiguration
 msgid ""
@@ -7080,7 +7085,7 @@ msgstr ""
 
 #. Template: AdminSystemConfigurationDeployment
 msgid "Changes Overview"
-msgstr ""
+msgstr "Gemaakte Wijzigingen"
 
 #. Template: AdminSystemConfigurationDeployment
 msgid "There are %s changed settings which will be deployed in this run."
@@ -7130,11 +7135,11 @@ msgstr ""
 
 #. Template: AdminSystemConfigurationImportExport
 msgid "Upload system configuration"
-msgstr ""
+msgstr "Upload systeemconfiguratie"
 
 #. Template: AdminSystemConfigurationImportExport
 msgid "Import system configuration"
-msgstr ""
+msgstr "Importeer systeemconfiguratie"
 
 #. Template: AdminSystemConfigurationImportExport
 msgid "Download current configuration settings of your system in a .yml file."
@@ -7150,7 +7155,7 @@ msgstr ""
 
 #. Template: AdminSystemConfigurationSearch
 msgid "Search for"
-msgstr ""
+msgstr "Zoek naar"
 
 #. Template: AdminSystemConfigurationSearch
 msgid "Search for category"
@@ -7158,7 +7163,7 @@ msgstr ""
 
 #. Template: AdminSystemConfigurationSearch
 msgid "Settings I'm currently editing"
-msgstr ""
+msgstr "Instellingen die ik momenteel bewerk"
 
 #. Template: AdminSystemConfigurationSearch
 msgid "Your search for \"%s\" in category \"%s\" did not return any results."
@@ -7174,7 +7179,7 @@ msgstr ""
 
 #. Template: AdminSystemConfigurationSearch
 msgid "You're currently not editing any settings."
-msgstr ""
+msgstr "U bewerkt momenteel geen instellingen."
 
 #. Template: AdminSystemConfigurationSearch
 msgid "You're currently editing %s setting(s)."
@@ -7490,7 +7495,7 @@ msgstr "de gehele dag"
 
 #. Template: AgentAppointmentAgendaOverview
 msgid "Repeat"
-msgstr ""
+msgstr "Herhaal"
 
 #. Template: AgentAppointmentAgendaOverview
 msgid "Notification"
@@ -7516,7 +7521,7 @@ msgstr ""
 
 #. Template: AgentAppointmentCalendarOverview
 msgid "Calendars"
-msgstr ""
+msgstr "Kalenders"
 
 #. Template: AgentAppointmentEdit
 msgid "Basic information"
@@ -7524,7 +7529,7 @@ msgstr ""
 
 #. Template: AgentAppointmentEdit
 msgid "Date/Time"
-msgstr ""
+msgstr "Datum/Tijd"
 
 #. Template: AgentAppointmentEdit
 msgid "Invalid date!"
@@ -7556,7 +7561,7 @@ msgstr ""
 
 #. Template: AgentAppointmentEdit
 msgid "Every"
-msgstr ""
+msgstr "Elke"
 
 #. Template: AgentAppointmentEdit
 msgid "day(s)"
@@ -7768,7 +7773,7 @@ msgstr ""
 
 #. Template: AgentCustomerUserAddressBook
 msgid "Customer User Address Book"
-msgstr ""
+msgstr "Klantgebruiker adresboek"
 
 #. Template: AgentCustomerUserAddressBook
 msgid "Search for recipients and add the results as '%s'."
@@ -7810,7 +7815,7 @@ msgstr ""
 
 #. Template: AgentCustomerUserAddressBook
 msgid "(e. g. Term* or *Term*)"
-msgstr ""
+msgstr "(bv. Term* of *Term*)"
 
 #. Template: AgentCustomerUserAddressBookOverview
 msgid "Select all"
@@ -7822,11 +7827,11 @@ msgstr ""
 
 #. Template: AgentCustomerUserAddressBookOverview
 msgid "Select this customer user"
-msgstr ""
+msgstr "Selecteer deze klantgebruiker"
 
 #. Template: AgentCustomerUserAddressBookOverview
 msgid "Add selected customer user to"
-msgstr ""
+msgstr "Voeg geselecteerde klantgebruiker toe aan"
 
 #. Template: AgentCustomerUserAddressBookOverviewNavBar
 msgid "Change search options"
@@ -7885,7 +7890,7 @@ msgstr "Dashboard"
 
 #. Template: AgentDashboardAppointmentCalendar
 msgid "New Appointment"
-msgstr ""
+msgstr "Nieuwe Afspraak"
 
 #. Template: AgentDashboardAppointmentCalendar
 msgid "Tomorrow"
@@ -7893,11 +7898,11 @@ msgstr "Morgen"
 
 #. Template: AgentDashboardAppointmentCalendar
 msgid "Soon"
-msgstr ""
+msgstr "Binnenkort"
 
 #. Template: AgentDashboardAppointmentCalendar
 msgid "5 days"
-msgstr ""
+msgstr "5 dagen"
 
 #. Template: AgentDashboardAppointmentCalendar
 msgid "Start"
@@ -7917,7 +7922,7 @@ msgstr "Instellingen opslaan"
 
 #. Template: AgentDashboardCommon
 msgid "Close this widget"
-msgstr ""
+msgstr "Sluit deze widget"
 
 #. Template: AgentDashboardCommon
 msgid "more"
@@ -7933,7 +7938,7 @@ msgstr "Beschikbare kolommen (sorteer door middel van drag & drop)"
 
 #. Template: AgentDashboardCustomerIDList
 msgid "Change Customer Relations"
-msgstr ""
+msgstr "Bewerk klant koppelingen"
 
 #. Template: AgentDashboardCustomerIDList
 msgid "Open"
@@ -7981,7 +7986,7 @@ msgstr ""
 
 #. Template: AgentDashboardCustomerUserList
 msgid "Customer user information"
-msgstr ""
+msgstr "Klantgebruiker informatie"
 
 #. Template: AgentDashboardCustomerUserList
 msgid "Phone ticket"
@@ -8136,7 +8141,7 @@ msgstr ""
 
 #. Template: AgentLinkObject
 msgid "Link with"
-msgstr ""
+msgstr "Koppel met"
 
 #. Template: AgentLinkObject
 msgid "Start search"
@@ -8194,7 +8199,7 @@ msgstr ""
 
 #. Template: AgentPreferences
 msgid "Dynamic Actions"
-msgstr ""
+msgstr "Dynamische Acties"
 
 #. Template: AgentPreferences
 msgid "Filter settings..."
@@ -8206,7 +8211,7 @@ msgstr ""
 
 #. Template: AgentPreferences
 msgid "Save all settings"
-msgstr ""
+msgstr "Alle instellingen opslaan"
 
 #. Template: AgentPreferences
 msgid ""
@@ -8260,7 +8265,7 @@ msgstr ""
 
 #. Template: AgentPreferencesOverview
 msgid "Did you know?"
-msgstr ""
+msgstr "Wist je dat?"
 
 #. Template: AgentPreferencesOverview
 msgid ""
@@ -8285,7 +8290,7 @@ msgstr ""
 
 #. Template: AgentStatisticsAdd
 msgid "Add Statistics"
-msgstr ""
+msgstr "Statistieken toevoegen"
 
 #. Template: AgentStatisticsAdd
 msgid "Read more about statistics in OTRS"
@@ -8325,7 +8330,7 @@ msgstr "Maak statistiek"
 
 #. Template: AgentStatisticsEdit
 msgid "Edit Statistics"
-msgstr ""
+msgstr "Statistieken bewerken"
 
 #. Template: AgentStatisticsEdit
 msgid "Run now"
@@ -8337,11 +8342,11 @@ msgstr "Voorbeeld van rapportages"
 
 #. Template: AgentStatisticsEdit
 msgid "Save Statistic"
-msgstr ""
+msgstr "Statistieken opslaan"
 
 #. Template: AgentStatisticsImport
 msgid "Import Statistics"
-msgstr ""
+msgstr "Statistieken importeren"
 
 #. Template: AgentStatisticsImport
 msgid "Import Statistics Configuration"
@@ -9200,7 +9205,7 @@ msgstr ""
 
 #. Template: MIMEBase
 msgid "PDF"
-msgstr ""
+msgstr "PDF"
 
 #. Template: MIMEBase
 msgid "Unknown"
@@ -9236,7 +9241,7 @@ msgstr "Vergrendeling"
 
 #. Template: TicketInformation
 msgid "%s Ticket(s)"
-msgstr ""
+msgstr "%s Ticket(s)"
 
 #. Template: TicketInformation
 msgid "Accounted time"
@@ -15539,6 +15544,26 @@ msgstr "Perl Modules"
 msgid "Not all required Perl modules are correctly installed."
 msgstr "Niet alle vereiste Perl modules zijn correct geïnstalleerd"
 
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
+msgid "Perl Modules Audit"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
+msgid ""
+"CPAN::Audit reported that one or more installed Perl modules have known "
+"vulnerabilities. Please note that there might be false positives for "
+"distributions patching Perl modules without changing their version number."
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
+msgid ""
+"CPAN::Audit did not report any known vulnerabilities in the installed Perl "
+"modules."
+msgstr ""
+
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Swap.pm
 msgid "Free Swap Space (%)"
 msgstr "Vrije Swap ruimte (%)"
@@ -16943,6 +16968,10 @@ msgid ""
 msgstr ""
 
 #. JS File: Core.Agent.Admin.PackageManager
+msgid "No response from get package upgrade result."
+msgstr ""
+
+#. JS File: Core.Agent.Admin.PackageManager
 msgid "Update all packages"
 msgstr ""
 
@@ -16952,6 +16981,10 @@ msgstr ""
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "Update All Packages"
+msgstr ""
+
+#. JS File: Core.Agent.Admin.PackageManager
+msgid "No response from package upgrade all."
 msgstr ""
 
 #. JS File: Core.Agent.Admin.PackageManager
@@ -16969,6 +17002,10 @@ msgstr ""
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "Are you sure you want to update all installed packages?"
+msgstr ""
+
+#. JS File: Core.Agent.Admin.PackageManager
+msgid "No response from get package upgrade run status."
 msgstr ""
 
 #. JS File: Core.Agent.Admin.PostMasterFilter
@@ -22573,7 +22610,7 @@ msgstr "Eerste Wachtrij"
 
 #. SysConfig
 msgid "First response time"
-msgstr ""
+msgstr "Eerste responstijd"
 
 #. SysConfig
 msgid "FirstLock"
@@ -22616,6 +22653,8 @@ msgstr ""
 msgid ""
 "Forces encoding of outgoing emails (7bit|8bit|quoted-printable|base64)."
 msgstr ""
+"dwingt codering af van uitgaande e-mails (7bit|8bit|quoted-"
+"printable|base64)."
 
 #. SysConfig
 msgid ""
@@ -22724,7 +22763,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Generate dashboard statistics."
-msgstr ""
+msgstr "Genereer dashboard statistieken."
 
 #. SysConfig
 msgid "Generic Info module."
@@ -22863,11 +22902,11 @@ msgstr ""
 
 #. SysConfig
 msgid "High Contrast"
-msgstr ""
+msgstr "Hoog Contrast"
 
 #. SysConfig
 msgid "High contrast skin for visually impaired users."
-msgstr ""
+msgstr "Hoog contrast thema voor gebruikers met een visuele beperking."
 
 #. SysConfig
 msgid "Hindi"
@@ -23305,7 +23344,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Incoming Phone Call."
-msgstr ""
+msgstr "Inkomend telefoongesprek"
 
 #. SysConfig
 msgid ""
@@ -23398,7 +23437,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Japanese"
-msgstr ""
+msgstr "Japans"
 
 #. SysConfig
 msgid "JavaScript function for the search frontend."
@@ -23430,19 +23469,19 @@ msgstr ""
 
 #. SysConfig
 msgid "Lastname Firstname (UserLogin)"
-msgstr ""
+msgstr "Achternaam Voornaam (Loginnaam)"
 
 #. SysConfig
 msgid "Lastname, Firstname"
-msgstr ""
+msgstr "Achternaam, Voornaam"
 
 #. SysConfig
 msgid "Lastname, Firstname (UserLogin)"
-msgstr ""
+msgstr "Achternaam, Voornaam (Loginnaam)"
 
 #. SysConfig
 msgid "LastnameFirstname"
-msgstr ""
+msgstr "AchternaamVoornaam"
 
 #. SysConfig
 msgid "Latvian"
@@ -23458,7 +23497,7 @@ msgstr "Koppel object"
 
 #. SysConfig
 msgid "Link Object."
-msgstr ""
+msgstr "Koppel Object"
 
 #. SysConfig
 msgid "Link agents to groups."
@@ -23514,7 +23553,7 @@ msgstr "Koppelt twee tickets met een \"vader - zoon\"-type koppeling."
 
 #. SysConfig
 msgid "Links appointments and tickets with a \"Normal\" type link."
-msgstr ""
+msgstr "Koppelt afspraken en tickets met een \"Normaal\"-type koppeling."
 
 #. SysConfig
 msgid "List of CSS files to always be loaded for the agent interface."
@@ -23623,7 +23662,7 @@ msgstr "Vergrendelde tickets"
 
 #. SysConfig
 msgid "Locked Tickets."
-msgstr ""
+msgstr "Vergrendelde Tickets."
 
 #. SysConfig
 msgid "Locked ticket."
@@ -23631,15 +23670,15 @@ msgstr "Ticket vergrendeld."
 
 #. SysConfig
 msgid "Logged in users."
-msgstr ""
+msgstr "Ingelogde gebruikers."
 
 #. SysConfig
 msgid "Logged-In Users"
-msgstr ""
+msgstr "Ingelogde gebruikers."
 
 #. SysConfig
 msgid "Logout of customer panel."
-msgstr ""
+msgstr "Uitloggen van het klantpaneel."
 
 #. SysConfig
 msgid "Look into a ticket!"
@@ -23647,6 +23686,10 @@ msgstr "Bekijk dit ticket."
 
 #. SysConfig
 msgid "Loop protection: no auto-response sent to \"%s\"."
+msgstr ""
+
+#. SysConfig
+msgid "Macedonian"
 msgstr ""
 
 #. SysConfig
@@ -23692,7 +23735,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Manage OTRS Group cloud services."
-msgstr ""
+msgstr "Beheer OTRS Group cloud diensten."
 
 #. SysConfig
 msgid "Manage PGP keys for email encryption."
@@ -23738,7 +23781,7 @@ msgstr "Markeer als spam"
 
 #. SysConfig
 msgid "Mark this ticket as junk!"
-msgstr ""
+msgstr "Markeer het ticket als junk!"
 
 #. SysConfig
 msgid ""
@@ -23840,7 +23883,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Minute"
-msgstr ""
+msgstr "Minuut"
 
 #. SysConfig
 msgid "Miscellaneous"
@@ -23926,7 +23969,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Module to generate ticket statistics."
-msgstr ""
+msgstr "Module om ticket statistieken te genereren."
 
 #. SysConfig
 msgid ""
@@ -24045,7 +24088,7 @@ msgstr "Nieuws over OTRS versies!"
 
 #. SysConfig
 msgid "News about OTRS."
-msgstr ""
+msgstr "Nieuws over OTRS."
 
 #. SysConfig
 msgid ""
@@ -24061,7 +24104,7 @@ msgstr ""
 
 #. SysConfig
 msgid "None"
-msgstr ""
+msgstr "Geen"
 
 #. SysConfig
 msgid "Norwegian"
@@ -24111,7 +24154,7 @@ msgstr ""
 
 #. SysConfig
 msgid "OTRS Group Services"
-msgstr ""
+msgstr "OTRS Group diensten"
 
 #. SysConfig
 msgid "OTRS News"
@@ -24146,7 +24189,7 @@ msgstr "Open tickets (klant)"
 
 #. SysConfig
 msgid "Option"
-msgstr ""
+msgstr "Optie"
 
 #. SysConfig
 msgid ""
@@ -24174,7 +24217,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Other Customers"
-msgstr ""
+msgstr "Andere Klanten"
 
 #. SysConfig
 msgid "Out Of Office"
@@ -24196,7 +24239,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Overview Escalated Tickets."
-msgstr ""
+msgstr "Overzicht geëscaleerde tickets."
 
 #. SysConfig
 msgid "Overview Refresh Time"
@@ -24208,11 +24251,11 @@ msgstr ""
 
 #. SysConfig
 msgid "Overview of all appointments."
-msgstr ""
+msgstr "Overzicht van alle afspraken."
 
 #. SysConfig
 msgid "Overview of all escalated tickets."
-msgstr ""
+msgstr "Overzicht van alle geëscaleerde tickets."
 
 #. SysConfig
 msgid "Overview of all open Tickets."
@@ -24224,7 +24267,7 @@ msgstr "Overzicht van alle openstaande tickets."
 
 #. SysConfig
 msgid "Overview of customer tickets."
-msgstr ""
+msgstr "Overzicht van alle klanttickets."
 
 #. SysConfig
 msgid "PGP Key"
@@ -24232,7 +24275,7 @@ msgstr "PGP Sleutel"
 
 #. SysConfig
 msgid "PGP Key Management"
-msgstr ""
+msgstr "PGP sleutel beheer"
 
 #. SysConfig
 msgid "PGP Keys"
@@ -24617,7 +24660,7 @@ msgstr "vader"
 
 #. SysConfig
 msgid "ParentChild"
-msgstr ""
+msgstr "OuderKind"
 
 #. SysConfig
 msgid ""
@@ -24661,7 +24704,7 @@ msgstr "Uitgaand telefoongesprek"
 
 #. SysConfig
 msgid "Phone Call."
-msgstr ""
+msgstr "Telefoongesprek."
 
 #. SysConfig
 msgid "Phone call"
@@ -24677,15 +24720,15 @@ msgstr "Telefoon ticket"
 
 #. SysConfig
 msgid "Picture Upload"
-msgstr ""
+msgstr "Afbeelding upload"
 
 #. SysConfig
 msgid "Picture upload module."
-msgstr ""
+msgstr "Afbeelding upload module."
 
 #. SysConfig
 msgid "Picture-Upload"
-msgstr ""
+msgstr "Afbeelding-upload"
 
 #. SysConfig
 msgid "Plugin search"
@@ -24757,7 +24800,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Processes & Automation"
-msgstr ""
+msgstr "Processen & Automatisering"
 
 #. SysConfig
 msgid "Product News"
@@ -24782,11 +24825,11 @@ msgstr ""
 
 #. SysConfig
 msgid "Public Calendar"
-msgstr ""
+msgstr "Publieke Kalender"
 
 #. SysConfig
 msgid "Public calendar."
-msgstr ""
+msgstr "Publieke kalender."
 
 #. SysConfig
 msgid "Queue view"
@@ -24837,7 +24880,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Removes old ticket number counters (each 10 minutes)."
-msgstr ""
+msgstr "Verwijderd oude ticket nummer tellers (iedere 10 minuten)."
 
 #. SysConfig
 msgid "Removes the ticket watcher information when a ticket is archived."
@@ -24964,7 +25007,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Resend Ticket Email."
-msgstr ""
+msgstr "Ticket e-mail opnieuw versturen."
 
 #. SysConfig
 msgid "Resent email to \"%s\"."
@@ -24981,11 +25024,11 @@ msgstr ""
 
 #. SysConfig
 msgid "Responsible Tickets"
-msgstr ""
+msgstr "Verantwoordelijke tickets"
 
 #. SysConfig
 msgid "Responsible Tickets."
-msgstr ""
+msgstr "Verantwoordelijke tickets."
 
 #. SysConfig
 msgid ""
@@ -25005,6 +25048,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Roles ↔ Groups"
+msgstr "Rollen ↔ Groepen"
+
+#. SysConfig
+msgid "Romanian"
 msgstr ""
 
 #. SysConfig

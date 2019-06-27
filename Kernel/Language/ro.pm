@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.250128227047359;
+    $Self->{Completeness}        = 0.266655278442091;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -76,8 +76,7 @@ sub Data {
         'Change settings' => 'Schimbă configurarea',
         'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is a white list, \'PossibleNot\' a black list.' =>
             '',
-        'Check the official' => 'Verifică varianta oficială',
-        'documentation' => 'documentație',
+        'Check the official %sdocumentation%s.' => '',
         'Show or hide the content' => 'Prezintă sau ascunde conținutul',
         'Edit ACL Information' => 'Editează informații despre ACL',
         'Name' => 'Nume',
@@ -212,7 +211,7 @@ sub Data {
         'This is the default value for assigned recipient agents who didn\'t make a choice for this notification in their preferences yet. If the box is enabled, the notification will be sent to such agents.' =>
             '',
         'This feature is currently not available.' => 'Această opțiune nu este disponibilă.',
-        'Upgrade to %s' => '',
+        'Upgrade to %s' => 'Actualizează la %s',
         'Please activate this transport in order to use it.' => '',
         'No data found' => 'Nu au fost găsite date.',
         'No notification method found.' => 'Nu a fost găsită o metodă de notificare.',
@@ -288,22 +287,22 @@ sub Data {
         # Template: AdminCloudServiceSupportDataCollector
         'Cloud Service Management' => '',
         'Support Data Collector' => 'Colectare date suport',
-        'Support data collector' => '',
+        'Support data collector' => 'Colectare date suport',
         'Hint' => 'Indiciu',
         'Currently support data is only shown in this system.' => '',
         'It is highly recommended to send this data to OTRS Group in order to get better support.' =>
-            '',
+            'Este recomandat să trimiteți aceste date către OTRS Group pentru a avea un ajutor mai bun.',
         'Configuration' => 'Configurare',
-        'Send support data' => '',
+        'Send support data' => 'Trimite datele către suport',
         'This will allow the system to send additional support data information to OTRS Group.' =>
             '',
         'Update' => 'Instalează ultima versiune',
         'System Registration' => 'Înregistrare sistem',
         'To enable data sending, please register your system with OTRS Group or update your system registration information (make sure to activate the \'send support data\' option.)' =>
             '',
-        'Register this System' => '',
+        'Register this System' => 'Înregistrează acest Sistem',
         'System Registration is disabled for your system. Please check your configuration.' =>
-            '',
+            'Înregistrarea sistemului a fost dezactivată. Vă rugăm verificați configurația.',
 
         # Template: AdminCloudServices
         'System registration is a service of OTRS Group, which provides a lot of advantages!' =>
@@ -1298,36 +1297,36 @@ sub Data {
             '',
 
         # Template: AdminOTRSBusinessInstalled
-        'Manage %s' => '',
+        'Manage %s' => 'Administrează %s',
         'Downgrade to ((OTRS)) Community Edition' => '',
-        'Read documentation' => '',
+        'Read documentation' => 'Citește documentația',
         '%s makes contact regularly with cloud.otrs.com to check on available updates and the validity of the underlying contract.' =>
             '',
         'Unauthorized Usage Detected' => 'A fost detectată o utilizare neautorizată',
         'This system uses the %s without a proper license! Please make contact with %s to renew or activate your contract!' =>
-            '',
-        '%s not Correctly Installed' => '',
+            'Sistemul folosit de %s nu are licență! Vă rugam luați legătura cu %s pentru a vă reînoi licența sau activarea contractului!',
+        '%s not Correctly Installed' => '%s nu a fost Corect Instalat',
         'Your %s is not correctly installed. Please reinstall it with the button below.' =>
-            '',
-        'Reinstall %s' => '',
+            '%s nu a fost instalat corect. Vă rugăm sa îl instalați din nou folosind butonul de mai jos.',
+        'Reinstall %s' => 'Reinstalează %s',
         'Your %s is not correctly installed, and there is also an update available.' =>
-            '',
+            '%s nu a fost instalat corect și există și o versiune mai nouă.',
         'You can either reinstall your current version or perform an update with the buttons below (update recommended).' =>
-            '',
-        'Update %s' => '',
-        '%s Not Yet Available' => '',
-        '%s will be available soon.' => '',
-        '%s Update Available' => '',
+            'Puteți reinstala versiunea curentă sau noua versiune folosind butoanele de mai jos (e recomandat să instalați noua versiune).',
+        'Update %s' => 'Actualizează %s',
+        '%s Not Yet Available' => '%s nu este încă disponibilă',
+        '%s will be available soon.' => '%s va fi disponibilă în curând.',
+        '%s Update Available' => 'Actualizarea %s este disponibilă',
         'An update for your %s is available! Please update at your earliest!' =>
-            '',
-        '%s Correctly Deployed' => '',
+            'Este disponibilă o actualizare pentru %s! Vă rog actualizeați cât de repede!',
+        '%s Correctly Deployed' => '% a fost instalat cu succes',
         'Congratulations, your %s is correctly installed and up to date!' =>
-            '',
+            'Felicitări %s a fost instalată corect și sistemul are ultima versiune!',
 
         # Template: AdminOTRSBusinessNotInstalled
         'Go to the OTRS customer portal' => '',
         '%s will be available soon. Please check again in a few days.' =>
-            '',
+            '% va fi disponibilă în curând. Vă rugăm reveniți peste câteva zile.',
         'Please have a look at %s for more information.' => '',
         'Your ((OTRS)) Community Edition is the base for all future actions. Please register first before you continue with the upgrade process of %s!' =>
             '',
@@ -1363,12 +1362,12 @@ sub Data {
         'You are about to downgrade to ((OTRS)) Community Edition and will lose the following features and all data related to these:' =>
             '',
         'Chat' => '',
-        'Report Generator' => '',
-        'Timeline view in ticket zoom' => '',
+        'Report Generator' => 'Generator de rapoarte',
+        'Timeline view in ticket zoom' => 'Vedere desfășurată timp pentru detalii tichet',
         'DynamicField ContactWithData' => '',
         'DynamicField Database' => '',
         'SLA Selection Dialog' => '',
-        'Ticket Attachment View' => '',
+        'Ticket Attachment View' => 'Vizualizare atașamente tichet',
         'The %s skin' => '',
 
         # Template: AdminPGP
@@ -2851,39 +2850,39 @@ sub Data {
         'One moment please, you are being redirected...' => 'Un moment vă rog sunteți transferat...',
         'Login' => '',
         'User name' => 'Nume utilizator',
-        'Your user name' => '',
-        'Your password' => '',
-        'Forgot password?' => '',
+        'Your user name' => 'Numele dvs. de utilizator',
+        'Your password' => 'Parola dumneavoastră',
+        'Forgot password?' => 'Ați uitat parola?',
         '2 Factor Token' => '',
         'Your 2 Factor Token' => '',
         'Log In' => '',
-        'Not yet registered?' => '',
+        'Not yet registered?' => 'Nu sunteți încă înregistrat?',
         'Back' => 'Înapoi',
         'Request New Password' => '',
-        'Your User Name' => '',
-        'A new password will be sent to your email address.' => '',
+        'Your User Name' => 'Numele Dvs. de Utilizator',
+        'A new password will be sent to your email address.' => 'O nouă parolă va fi trimisă pe adresa dvs. de email.',
         'Create Account' => 'Crează Cont',
         'Please fill out this form to receive login credentials.' => '',
-        'How we should address you' => '',
+        'How we should address you' => 'Modul de adresare dorit',
         'Your First Name' => 'Prenume',
         'Your Last Name' => 'Nume',
-        'Your email address (this will become your username)' => '',
+        'Your email address (this will become your username)' => 'Adresa de e-mail (va deveni numele de utilizator)',
 
         # Template: CustomerNavigationBar
-        'Incoming Chat Requests' => '',
+        'Incoming Chat Requests' => 'Mesaj venit prin chat',
         'Edit personal preferences' => 'Editează preferințele personale',
         'Logout %s' => '',
 
         # Template: CustomerTicketMessage
-        'Service level agreement' => '',
+        'Service level agreement' => 'SLA',
 
         # Template: CustomerTicketOverview
-        'Welcome!' => '',
+        'Welcome!' => 'Bine ați venit!',
         'Please click the button below to create your first ticket.' => '',
         'Create your first ticket' => '',
 
         # Template: CustomerTicketSearch
-        'Profile' => '',
+        'Profile' => 'Profil',
         'e. g. 10*5155 or 105658*' => '',
         'CustomerID' => 'IDClient',
         'Fulltext Search in Tickets (e. g. "John*n" or "Will*")' => '',
@@ -2892,30 +2891,30 @@ sub Data {
         'No time settings' => 'Nu există setări de timp',
         'All' => 'Toate',
         'Specific date' => 'Data exacta',
-        'Only tickets created' => '',
+        'Only tickets created' => 'Doar tichetele create',
         'Date range' => 'Interval dată',
-        'Only tickets created between' => '',
+        'Only tickets created between' => 'Doar tichete create intre',
         'Ticket Archive System' => '',
         'Save Search as Template?' => '',
         'Save as Template?' => 'Salvez ca șablon?',
-        'Save as Template' => '',
+        'Save as Template' => 'Salvează ca șablon',
         'Template Name' => 'Nume șablon',
-        'Pick a profile name' => '',
-        'Output to' => '',
+        'Pick a profile name' => 'Alege un nume al profilului',
+        'Output to' => 'Ieșire către',
 
         # Template: CustomerTicketSearchResultShort
         'of' => 'a',
         'Page' => 'Pagină',
-        'Search Results for' => '',
-        'Remove this Search Term.' => '',
+        'Search Results for' => 'Caută rezultate pentru',
+        'Remove this Search Term.' => 'Elimină acest termen de căutare.',
 
         # Template: CustomerTicketZoom
-        'Start a chat from this ticket' => '',
+        'Start a chat from this ticket' => 'Inițiază un chat pornind de la acest tichet',
         'Next Steps' => 'Următorii pași',
         'Reply' => 'Răspunde',
 
         # Template: Chat
-        'Expand article' => '',
+        'Expand article' => 'Extinde afișare articol',
 
         # Template: CustomerWarning
         'Warning' => 'Avertizare',
@@ -2960,7 +2959,7 @@ sub Data {
         # Template: Installer
         'JavaScript not available' => '',
         'Step %s' => '',
-        'License' => '',
+        'License' => 'Licență',
         'Database Settings' => '',
         'General Specifications and Mail Settings' => '',
         'Finish' => '',
@@ -2977,7 +2976,7 @@ sub Data {
 
         # Template: InstallerConfigureMail
         'Configure Outbound Mail' => '',
-        'Outbound mail type' => '',
+        'Outbound mail type' => 'Tip',
         'Select outbound mail type.' => '',
         'Outbound mail port' => '',
         'Select outbound mail port.' => '',
@@ -2990,20 +2989,20 @@ sub Data {
         'SMTP auth password' => '',
         'Password for SMTP auth.' => '',
         'Configure Inbound Mail' => '',
-        'Inbound mail type' => '',
+        'Inbound mail type' => 'Tip',
         'Select inbound mail type.' => '',
         'Inbound mail host' => '',
         'Inbound mail host.' => '',
-        'Inbound mail user' => '',
+        'Inbound mail user' => 'Utilizator',
         'User for inbound mail.' => '',
-        'Inbound mail password' => '',
+        'Inbound mail password' => 'Parolă',
         'Password for inbound mail.' => '',
         'Result of mail configuration check' => '',
         'Check mail configuration' => '',
         'Skip this step' => '',
 
         # Template: InstallerDBResult
-        'Done' => '',
+        'Done' => 'Terminat',
         'Error' => 'Eroare',
         'Database setup successful!' => '',
 
@@ -3014,7 +3013,7 @@ sub Data {
 
         # Template: InstallerDBmssql
         'If you have set a root password for your database, it must be entered here. If not, leave this field empty.' =>
-            '',
+            'În cazul în care aveți o parolă pentru utilizatorul principal (root) al bazei de date atunci trebuie sa introduceți una acum. Altfel lăsați acest câmp gol.',
         'Database name' => '',
         'Check database settings' => '',
         'Result of database check' => '',
@@ -3675,14 +3674,14 @@ sub Data {
         'All recipients of the last article' => '',
 
         # Perl Module: Kernel/Modules/AdminOTRSBusiness.pm
-        'Your system was successfully upgraded to %s.' => '',
-        'There was a problem during the upgrade to %s.' => '',
-        '%s was correctly reinstalled.' => '',
-        'There was a problem reinstalling %s.' => '',
-        'Your %s was successfully updated.' => '',
-        'There was a problem during the upgrade of %s.' => '',
-        '%s was correctly uninstalled.' => '',
-        'There was a problem uninstalling %s.' => '',
+        'Your system was successfully upgraded to %s.' => 'Noua versiune %s a sistemului dumneavoastră a fost instalată cu succes.',
+        'There was a problem during the upgrade to %s.' => 'A apărut o problemă în timpul instalării versiunii %s.',
+        '%s was correctly reinstalled.' => '%s a fost reinstalat cu succes.',
+        'There was a problem reinstalling %s.' => 'A apărut o problemă la reinstalarea %s.',
+        'Your %s was successfully updated.' => 'A fost realizata cu succes instalarea noii versiuni pentru %s.',
+        'There was a problem during the upgrade of %s.' => 'A apărut o problemă la instalarea noii versiuni a %s.',
+        '%s was correctly uninstalled.' => '%s a fost instalat incorect.',
+        'There was a problem uninstalling %s.' => 'A apărut o problema la dezinstalarea %s.',
 
         # Perl Module: Kernel/Modules/AdminPGP.pm
         'PGP environment is not working. Please check log for more info!' =>
@@ -3787,7 +3786,7 @@ sub Data {
         'There was an error updating the ActivityDialog' => '',
         'Edit Activity Dialog "%s"' => '',
         'Agent Interface' => 'Interfață agent',
-        'Customer Interface' => '',
+        'Customer Interface' => 'Interfață client',
         'Agent and Customer Interface' => '',
         'Do not show Field' => 'Nu arăta câmp',
         'Show Field' => 'Arată câmp',
@@ -4333,9 +4332,9 @@ sub Data {
         'Untitled!' => '',
 
         # Perl Module: Kernel/Modules/CustomerTicketSearch.pm
-        'Customer Realname' => '',
-        'Created within the last' => '',
-        'Created more than ... ago' => '',
+        'Customer Realname' => 'Numele clientului',
+        'Created within the last' => 'Create în ultimele',
+        'Created more than ... ago' => 'Create în urmă cu ...',
         'Please remove the following words because they cannot be used for the search:' =>
             '',
 
@@ -4351,36 +4350,36 @@ sub Data {
         'Configure "Home" in Kernel/Config.pm first!' => '',
         'File "%s/Kernel/Config.pm" not found!' => '',
         'Directory "%s" not found!' => '',
-        'Install OTRS' => '',
-        'Intro' => '',
+        'Install OTRS' => 'Instalează OTRS',
+        'Intro' => 'Introducere',
         'Kernel/Config.pm isn\'t writable!' => '',
         'If you want to use the installer, set the Kernel/Config.pm writable for the webserver user!' =>
             '',
-        'Database Selection' => '',
+        'Database Selection' => 'Selecția bazei de date',
         'Unknown Check!' => '',
         'The check "%s" doesn\'t exist!' => '',
-        'Enter the password for the database user.' => '',
+        'Enter the password for the database user.' => 'Introduceți parola pentru utilizatorul cu acces la baza de date.',
         'Database %s' => '',
         'Configure MySQL' => '',
-        'Enter the password for the administrative database user.' => '',
+        'Enter the password for the administrative database user.' => 'Introduceți parola utilizatorului cu drepturi de administrare.',
         'Configure PostgreSQL' => '',
         'Configure Oracle' => '',
         'Unknown database type "%s".' => '',
         'Please go back.' => '',
-        'Create Database' => '',
+        'Create Database' => 'Crează baza de date',
         'Install OTRS - Error' => '',
         'File "%s/%s.xml" not found!' => '',
         'Contact your Admin!' => '',
-        'System Settings' => '',
+        'System Settings' => 'Setările Sistemului',
         'Syslog' => '',
-        'Configure Mail' => '',
-        'Mail Configuration' => '',
+        'Configure Mail' => 'Configurare email',
+        'Mail Configuration' => 'Configurare email',
         'Can\'t write Config file!' => '',
         'Unknown Subaction %s!' => '',
         'Can\'t connect to database, Perl module DBD::%s not installed!' =>
             '',
         'Can\'t connect to database, read comment!' => '',
-        'Database already contains data - it should be empty!' => '',
+        'Database already contains data - it should be empty!' => 'Baza de date conține informații - ar trebui sa fie goală!',
         'Error: Please make sure your database accepts packages over %s MB in size (it currently only accepts packages up to %s MB). Please adapt the max_allowed_packet setting of your database in order to avoid errors.' =>
             '',
         'Error: Please set the value for innodb_log_file_size on your database to at least %s MB (current: %s MB, recommended: %s MB). For more information, please have a look at %s.' =>
@@ -4438,7 +4437,7 @@ sub Data {
         # Perl Module: Kernel/Output/HTML/ArticleAction/ReinstallPackageLink.pm
         'Upgrade to OTRS Business Solution™' => '',
         'Re-install Package' => '',
-        'Upgrade' => '',
+        'Upgrade' => 'Actualizeaza',
         'Re-install' => '',
 
         # Perl Module: Kernel/Output/HTML/ArticleCheck/PGP.pm
@@ -4551,7 +4550,7 @@ sub Data {
         '%s MB' => '',
         '%s KB' => '',
         '%s B' => '',
-        'No Permission!' => '',
+        'No Permission!' => 'Nu sunteți autorizat!',
         'No Permission' => '',
         'Show Tree Selection' => 'Selecție sub formă arborescentă',
         'Split Quote' => '',
@@ -4582,7 +4581,7 @@ sub Data {
         'The license for your %s is about to expire. Please make contact with %s to renew your contract!' =>
             'Urmează să vă expire licența pentru %s. Vă rog să luați legătura cu %s pentru prelungirea contractului!',
         'An update for your %s is available, but there is a conflict with your framework version! Please update your framework first!' =>
-            '',
+            'Este disponibilă o versiune nouă pentru %s dar există un conflict cu versiunea sistemului pe care o folosiți! Vă rog să instalați noua versiune pentru sistem întâi!',
 
         # Perl Module: Kernel/Output/HTML/Notification/AgentOnline.pm
         'Online Agent: %s' => 'Agent activ: %s',
@@ -4918,7 +4917,7 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/TablePresence.pm
         'Table Presence' => 'Tabel de prezență',
-        'Internal Error: Could not open file.' => '',
+        'Internal Error: Could not open file.' => 'Eroare internă: fișierul nu a putut fi deschis.',
         'Table Check' => 'Tabel de verificare',
         'Internal Error: Could not read file.' => 'Eroare internă: fișierul nu a putut fi citit.',
         'Tables found which are not present in the database.' => 'Au fost găsite tabele care nu se regăsesc in baza de date.',
@@ -4957,7 +4956,7 @@ sub Data {
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Performance.pm
         'Query Cache Size' => '',
         'The setting \'query_cache_size\' should be used (higher than 10 MB but not more than 512 MB).' =>
-            '',
+            'Setarea \'query_cache_size\' trebuie să fie folosită (mai mare de 10 MB dar nu mai mult de 512 MB).',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/StorageEngine.pm
         'Default Storage Engine' => 'Tipul implicit de baze de date',
@@ -5023,8 +5022,15 @@ sub Data {
             'Încărcarea maximă a sistemului trebuie să fie egală cu numărul de procesoare instalate (de ex. incărcarea unui server cu 8 CPU trebuie să fie maxim 8).',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/PerlModules.pm
-        'Perl Modules' => '',
-        'Not all required Perl modules are correctly installed.' => '',
+        'Perl Modules' => 'Module Perl',
+        'Not all required Perl modules are correctly installed.' => 'Nu sunt instalate corect toate modulele Perl.',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
+        'Perl Modules Audit' => '',
+        'CPAN::Audit reported that one or more installed Perl modules have known vulnerabilities. Please note that there might be false positives for distributions patching Perl modules without changing their version number.' =>
+            '',
+        'CPAN::Audit did not report any known vulnerabilities in the installed Perl modules.' =>
+            '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Swap.pm
         'Free Swap Space (%)' => 'Spațiu disponibil pe partiția de swap (%)',
@@ -5082,7 +5088,7 @@ sub Data {
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DefaultSOAPUser.pm
         'Default SOAP Username And Password' => '',
         'Security risk: you use the default setting for SOAP::User and SOAP::Password. Please change it.' =>
-            '',
+            'Folosind setările implicite pentru SOAP::User și SOAP::Password aveți riscuri de securitate. Vă rugăm să le schimbați.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DefaultUser.pm
         'Default Admin Password' => 'Parola implicită a administratorului',
@@ -5188,8 +5194,8 @@ sub Data {
         'Agents using favourites for the admin overview' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/LoadedModules.pm
-        'Webserver' => '',
-        'Loaded Apache Modules' => '',
+        'Webserver' => 'Server web',
+        'Loaded Apache Modules' => 'Module Apache incărcate',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/MPMModel.pm
         'MPM model' => '',
@@ -5197,16 +5203,16 @@ sub Data {
             '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/Performance.pm
-        'CGI Accelerator Usage' => '',
+        'CGI Accelerator Usage' => 'Utilizarea acceleratorului CGI',
         'You should use FastCGI or mod_perl to increase your performance.' =>
-            '',
-        'mod_deflate Usage' => '',
-        'Please install mod_deflate to improve GUI speed.' => '',
-        'mod_filter Usage' => '',
-        'Please install mod_filter if mod_deflate is used.' => '',
-        'mod_headers Usage' => '',
-        'Please install mod_headers to improve GUI speed.' => '',
-        'Apache::Reload Usage' => '',
+            'Ar trebui sa folosiți FastCGI sau mod_perl pentru creșterea performanței.',
+        'mod_deflate Usage' => 'Utilizarea mod_deflate',
+        'Please install mod_deflate to improve GUI speed.' => 'Vă rog instalați mod_deflate pentru îmbunătățirea vitezei interfeței.',
+        'mod_filter Usage' => 'Utilizarea mod_filter',
+        'Please install mod_filter if mod_deflate is used.' => 'Vă rog instalați mod_filter dacă folosiți mod_deflate.',
+        'mod_headers Usage' => 'Utilizarea mod_headers',
+        'Please install mod_headers to improve GUI speed.' => 'Vă rog instalați mod_headers pentru îmbunătățirea vitezei interfeței.',
+        'Apache::Reload Usage' => 'Utilizarea Apache::Reload',
         'Apache::Reload or Apache2::Reload should be used as PerlModule and PerlInitHandler to prevent web server restarts when installing and upgrading modules.' =>
             '',
         'Apache2::DBI Usage' => '',
@@ -5214,15 +5220,15 @@ sub Data {
             '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/EnvironmentVariables.pm
-        'Environment Variables' => '',
+        'Environment Variables' => 'Variabile de mediu',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/InternalWebRequest.pm
         'Support Data Collection' => '',
         'Support data could not be collected from the web server.' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Version.pm
-        'Webserver Version' => '',
-        'Could not determine webserver version.' => '',
+        'Webserver Version' => 'Versiunea serverului web',
+        'Could not determine webserver version.' => 'Nu a putut fi determinată versiunea serverului web.',
 
         # Perl Module: Kernel/System/SupportDataCollector/PluginAsynchronous/OTRS/ConcurrentUsers.pm
         'Concurrent Users Details' => '',
@@ -5510,15 +5516,18 @@ sub Data {
             '',
         'A package upgrade was recently finished. Click here to see the results.' =>
             '',
+        'No response from get package upgrade result.' => '',
         'Update all packages' => '',
         'Dismiss' => '',
         'Update All Packages' => '',
+        'No response from package upgrade all.' => '',
         'Currently not possible' => '',
         'This is currently disabled because of an ongoing package upgrade.' =>
             '',
         'This option is currently disabled because the OTRS Daemon is not running.' =>
             '',
         'Are you sure you want to update all installed packages?' => '',
+        'No response from get package upgrade run status.' => '',
 
         # JS File: Core.Agent.Admin.PostMasterFilter
         'Delete this PostMasterFilter' => '',
@@ -6247,7 +6256,7 @@ Thanks for your help!
         'Customer Information Center Search.' => '',
         'Customer Information Center search.' => '',
         'Customer Information Center.' => '',
-        'Customer Ticket Print Module.' => '',
+        'Customer Ticket Print Module.' => 'Modulul de imprimare a tichetelor clientului',
         'Customer User Administration' => '',
         'Customer User Information' => '',
         'Customer User Information Center Search.' => '',
@@ -8490,7 +8499,7 @@ Thanks for your help!
         'Starts a wildcard search of the active object after the link object mask is started.' =>
             '',
         'Stat#' => '',
-        'States' => 'Stări',
+        'States' => 'Starea',
         'Statistic Reports overview.' => '',
         'Statistics overview.' => '',
         'Status view' => '',
@@ -8628,7 +8637,7 @@ Thanks for your help!
         'Ticket title' => 'Titlu tichet',
         'Ticket zoom view.' => '',
         'TicketNumber' => 'NumarTicket',
-        'Tickets.' => '',
+        'Tickets.' => 'Tichete.',
         'Time in seconds that gets added to the actual time if setting a pending-state (default: 86400 = 1 day).' =>
             '',
         'To accept login information, such as an EULA or license.' => '',
@@ -8683,7 +8692,7 @@ Thanks for your help!
         'Uses richtext for viewing and editing: articles, salutations, signatures, standard templates, auto responses and notifications.' =>
             '',
         'Vietnam' => 'Vietnam',
-        'View all attachments of the current ticket' => '',
+        'View all attachments of the current ticket' => 'Vizualizează toate atașamentele tichetului curent',
         'View performance benchmark results.' => 'Vezi rezultatele testelor de performanta.',
         'Watch this ticket' => 'Urmărește acest tichet',
         'Watched Tickets' => 'Tichete urmărite',
@@ -8927,6 +8936,9 @@ Thanks for your help!
         'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.',
         'No matches found.',
         'No package information available.',
+        'No response from get package upgrade result.',
+        'No response from get package upgrade run status.',
+        'No response from package upgrade all.',
         'No sort applied, ',
         'No space left for the following files: %s',
         'Not available',

@@ -15,7 +15,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-05-14 06:48+0000\n"
+"POT-Creation-Date: 2019-06-27 22:01+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: Kentaro Matsuzaki <kentaro0919@gmail.com>, 2019\n"
 "Language-Team: Japanese (https://www.transifex.com/otrs/teams/23435/ja/)\n"
@@ -179,12 +179,8 @@ msgid ""
 msgstr "マッチした対象をどのように絞り込むかを指定します。'Possible'はホワイトリスト、'PossibleNot'はブラックリストです。"
 
 #. Template: AdminACLEdit
-msgid "Check the official"
-msgstr "公式サイトをチェック"
-
-#. Template: AdminACLEdit
-msgid "documentation"
-msgstr "ドキュメント"
+msgid "Check the official %sdocumentation%s."
+msgstr ""
 
 #. Template: AdminACLEdit
 msgid "Show or hide the content"
@@ -15047,6 +15043,26 @@ msgstr "Perl モジュール"
 msgid "Not all required Perl modules are correctly installed."
 msgstr "必要な Perl モジュールが一部インストールされていません "
 
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
+msgid "Perl Modules Audit"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
+msgid ""
+"CPAN::Audit reported that one or more installed Perl modules have known "
+"vulnerabilities. Please note that there might be false positives for "
+"distributions patching Perl modules without changing their version number."
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
+msgid ""
+"CPAN::Audit did not report any known vulnerabilities in the installed Perl "
+"modules."
+msgstr ""
+
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Swap.pm
 msgid "Free Swap Space (%)"
 msgstr "未使用の Swap 領域 (%)"
@@ -16409,6 +16425,10 @@ msgid ""
 msgstr "パッケージのアップグレードが最近終了しました。 結果を見るにはここをクリックして下さい。"
 
 #. JS File: Core.Agent.Admin.PackageManager
+msgid "No response from get package upgrade result."
+msgstr ""
+
+#. JS File: Core.Agent.Admin.PackageManager
 msgid "Update all packages"
 msgstr "パッケージを全て更新する"
 
@@ -16419,6 +16439,10 @@ msgstr "非表示"
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "Update All Packages"
 msgstr "パッケージを全て更新する"
+
+#. JS File: Core.Agent.Admin.PackageManager
+msgid "No response from package upgrade all."
+msgstr ""
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "Currently not possible"
@@ -16436,6 +16460,10 @@ msgstr "こちらは現在 OTRS デーモンが停止中のため無効化され
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "Are you sure you want to update all installed packages?"
 msgstr "全てのパッケージを更新します。よろしいですか？"
+
+#. JS File: Core.Agent.Admin.PackageManager
+msgid "No response from get package upgrade run status."
+msgstr ""
 
 #. JS File: Core.Agent.Admin.PostMasterFilter
 msgid "Delete this PostMasterFilter"
@@ -23098,6 +23126,10 @@ msgid "Loop protection: no auto-response sent to \"%s\"."
 msgstr "ループ防止機能: 自動返信を\"%s\"宛に送信しません。"
 
 #. SysConfig
+msgid "Macedonian"
+msgstr ""
+
+#. SysConfig
 msgid "Mail Accounts"
 msgstr "メールアカウント"
 
@@ -24466,6 +24498,10 @@ msgstr "権限"
 #. SysConfig
 msgid "Roles ↔ Groups"
 msgstr "ロールーグループ"
+
+#. SysConfig
+msgid "Romanian"
+msgstr ""
 
 #. SysConfig
 msgid ""

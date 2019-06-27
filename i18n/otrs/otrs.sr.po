@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-05-14 06:48+0000\n"
+"POT-Creation-Date: 2019-06-27 22:01+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: Dusan Vuckovic, 2019\n"
 "Language-Team: Serbian (https://www.transifex.com/otrs/teams/23435/sr/)\n"
@@ -184,12 +184,8 @@ msgstr ""
 " је 'Possible' бела листа, 'PossibleNot' црна листа."
 
 #. Template: AdminACLEdit
-msgid "Check the official"
-msgstr "Проверите званично"
-
-#. Template: AdminACLEdit
-msgid "documentation"
-msgstr "документација"
+msgid "Check the official %sdocumentation%s."
+msgstr ""
 
 #. Template: AdminACLEdit
 msgid "Show or hide the content"
@@ -15848,6 +15844,26 @@ msgstr "Perl модули"
 msgid "Not all required Perl modules are correctly installed."
 msgstr "Сви захтевани Perl модули нису коректно инсталирани."
 
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
+msgid "Perl Modules Audit"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
+msgid ""
+"CPAN::Audit reported that one or more installed Perl modules have known "
+"vulnerabilities. Please note that there might be false positives for "
+"distributions patching Perl modules without changing their version number."
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
+msgid ""
+"CPAN::Audit did not report any known vulnerabilities in the installed Perl "
+"modules."
+msgstr ""
+
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Swap.pm
 msgid "Free Swap Space (%)"
 msgstr "Слободни Swap простор (%)"
@@ -17272,6 +17288,10 @@ msgid ""
 msgstr "Ажурирање пакета је завршено. Кликните овде за резултате."
 
 #. JS File: Core.Agent.Admin.PackageManager
+msgid "No response from get package upgrade result."
+msgstr ""
+
+#. JS File: Core.Agent.Admin.PackageManager
 msgid "Update all packages"
 msgstr "Ажурирај све пакете"
 
@@ -17282,6 +17302,10 @@ msgstr "Поништи"
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "Update All Packages"
 msgstr "Ажурирај све пакете"
+
+#. JS File: Core.Agent.Admin.PackageManager
+msgid "No response from package upgrade all."
+msgstr ""
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "Currently not possible"
@@ -17299,6 +17323,10 @@ msgstr "Ова функција је тренутно искључена зат�
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "Are you sure you want to update all installed packages?"
 msgstr "Да ли сте сигурни да желите да унапредите све инсталиране пакете?"
+
+#. JS File: Core.Agent.Admin.PackageManager
+msgid "No response from get package upgrade run status."
+msgstr ""
 
 #. JS File: Core.Agent.Admin.PostMasterFilter
 msgid "Delete this PostMasterFilter"
@@ -25287,6 +25315,10 @@ msgid "Loop protection: no auto-response sent to \"%s\"."
 msgstr "Заштита од петље: без аутоматског одговора на \"%s\"."
 
 #. SysConfig
+msgid "Macedonian"
+msgstr "Македонски"
+
+#. SysConfig
 msgid "Mail Accounts"
 msgstr "Имејл налози"
 
@@ -27015,6 +27047,10 @@ msgstr "Десно"
 #. SysConfig
 msgid "Roles ↔ Groups"
 msgstr "Улоге ↔ групе"
+
+#. SysConfig
+msgid "Romanian"
+msgstr "Румунски"
 
 #. SysConfig
 msgid ""

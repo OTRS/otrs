@@ -9,7 +9,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-05-14 06:48+0000\n"
+"POT-Creation-Date: 2019-06-27 22:01+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: Balázs Úr, 2019\n"
 "Language-Team: Hungarian (https://www.transifex.com/otrs/teams/23435/hu/)\n"
@@ -188,12 +188,8 @@ msgstr ""
 "meg arról, hogy a „Possible” a fehérlista, a „PossibleNot” a feketelista."
 
 #. Template: AdminACLEdit
-msgid "Check the official"
-msgstr "Nézze meg a hivatalos"
-
-#. Template: AdminACLEdit
-msgid "documentation"
-msgstr "dokumentációt"
+msgid "Check the official %sdocumentation%s."
+msgstr "Nézze meg a hivatalos %sdokumentációt%s."
 
 #. Template: AdminACLEdit
 msgid "Show or hide the content"
@@ -4348,7 +4344,7 @@ msgstr "Legutóbbi naplóbejegyzések"
 
 #. Template: AdminLog
 msgid "Facility"
-msgstr "Képesség"
+msgstr "Összetevő"
 
 #. Template: AdminLog
 msgid "Message"
@@ -5359,7 +5355,7 @@ msgid ""
 msgstr ""
 "Használhat nevesített elfogásokat is %s, és használhatja a neveket a "
 "„Beállítás” műveletben %s (például reguláris kifejezés: %s, Beállítás "
-"művelet: %s). Az illesztett EMAILCÍM a következő nevet kapja: „%s”."
+"művelet: %s). Az illesztett EMAILADDRESS a következő nevet kapja: „%s”."
 
 #. Template: AdminPostMasterFilter
 msgid "Delete this filter"
@@ -7548,8 +7544,8 @@ msgid ""
 "Some time before this system maintenance starts the users will receive a "
 "notification on each screen announcing about this fact."
 msgstr ""
-"Egy kis idő a rendszerkarbantartás indulása előtt. A felhasználók értesítést"
-" fognak kapni minden képernyőn ennek a ténynek a bejelentéséről."
+"Nem sokkal a rendszerkarbantartás indulása előtt a felhasználók értesítést "
+"fognak kapni minden képernyőn ennek a ténynek a bejelentéséről."
 
 #. Template: AdminSystemMaintenance
 msgid "Stop date"
@@ -11469,7 +11465,7 @@ msgid ""
 "All agents with (at least) read permission for the appointment (calendar)"
 msgstr ""
 "Az összes ügyintéző, akiknek (legalább) olvasási jogosultságuk van az "
-"időpontokhoz (naptárhoz)"
+"időponthoz (naptárhoz)"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentNotificationEvent.pm
 msgid "All agents with write permission for the appointment (calendar)"
@@ -16113,6 +16109,32 @@ msgstr "Perl modulok"
 msgid "Not all required Perl modules are correctly installed."
 msgstr "Nincs minden szükséges Perm modul megfelelően telepítve."
 
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
+msgid "Perl Modules Audit"
+msgstr "Perl modulok vizsgálata"
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
+msgid ""
+"CPAN::Audit reported that one or more installed Perl modules have known "
+"vulnerabilities. Please note that there might be false positives for "
+"distributions patching Perl modules without changing their version number."
+msgstr ""
+"A CPAN::Audit azt jelentette, hogy egy vagy több telepített Perl modul "
+"ismert sebezhetőséggel rendelkezik. Ne feledje, hogy lehetnek tévesen "
+"jelzett jelentések is azoknál a disztribúcióknál, amelyek úgy foltozzák a "
+"Perl modulokat, hogy nem változtatják meg a verziószámokat."
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
+msgid ""
+"CPAN::Audit did not report any known vulnerabilities in the installed Perl "
+"modules."
+msgstr ""
+"A CPAN::Audit nem jelentett semmilyen ismert sebezhetőséget a telepített "
+"Perl modulokban."
+
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Swap.pm
 msgid "Free Swap Space (%)"
 msgstr "Szabad lapozófájl méret (%)"
@@ -17581,6 +17603,10 @@ msgstr ""
 "megtekintéséhez."
 
 #. JS File: Core.Agent.Admin.PackageManager
+msgid "No response from get package upgrade result."
+msgstr "Nincs válasz a csomaglekérés frissítések eredményéről."
+
+#. JS File: Core.Agent.Admin.PackageManager
 msgid "Update all packages"
 msgstr "Összes csomag frissítése"
 
@@ -17591,6 +17617,10 @@ msgstr "Eltüntetés"
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "Update All Packages"
 msgstr "Összes csomag frissítése"
+
+#. JS File: Core.Agent.Admin.PackageManager
+msgid "No response from package upgrade all."
+msgstr "Nincs válasz az összes csomag frissítéséről."
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "Currently not possible"
@@ -17608,6 +17638,10 @@ msgstr "Ez a beállítás jelenleg le van tiltva, mert az OTRS démon nem fut."
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "Are you sure you want to update all installed packages?"
 msgstr "Biztosan frissíteni szeretné az összes telepített csomagot?"
+
+#. JS File: Core.Agent.Admin.PackageManager
+msgid "No response from get package upgrade run status."
+msgstr "Nincs válasz a csomaglekérés frissítések futási állapotáról."
 
 #. JS File: Core.Agent.Admin.PostMasterFilter
 msgid "Delete this PostMasterFilter"
@@ -19923,7 +19957,7 @@ msgid ""
 "AdminSelectBox."
 msgstr ""
 "Azt szabályozza, hogy az adminisztrátornak megengedett-e az adatbázison "
-"módosításokat végrehajtania az adminisztrátori lekérdeződobon keresztül."
+"módosításokat végrehajtani az adminisztrátori lekérdeződobozon keresztül."
 
 #. SysConfig
 msgid ""
@@ -21197,7 +21231,7 @@ msgstr ""
 "Meghatározza, hogy az időelszámolás kötelező-e az ügyintézői felületen. Ha "
 "engedélyezve van, akkor egy jegyzetet kell megadni minden jegyműveletnél "
 "(nem számít, hogy maga a jegyzet aktívként van-e beállítva, vagy eredetileg "
-"is kötelező az egyedüli jegyművelet képernyőnél)."
+"is kötelező az egyéni jegyművelet képernyőnél)."
 
 #. SysConfig
 msgid "Defines if time accounting must be set to all tickets in bulk action."
@@ -21244,7 +21278,7 @@ msgid ""
 msgstr ""
 "Az IP reguláris kifejezést határozza meg a helyi tárolóhoz való "
 "hozzáféréshez. Engedélyeznie kell ezt a helyi tárolóhoz való hozzáféréshez, "
-"továbbá a package::RepositoryList szükséges a távoli kiszolgálón."
+"továbbá a Package::RepositoryList szükséges a távoli kiszolgálón."
 
 #. SysConfig
 msgid ""
@@ -22973,7 +23007,7 @@ msgstr ""
 #. SysConfig
 msgid "Defines the number of hours a successful communication will be stored."
 msgstr ""
-"Meghatározza azon órák számát, amíg egy sikeres kommunikációt el lesz "
+"Meghatározza azon órák számát, amíg egy sikeres kommunikáció el lesz "
 "tárolva."
 
 #. SysConfig
@@ -23604,7 +23638,7 @@ msgstr "Lejárt munkamenetek törlése."
 
 #. SysConfig
 msgid "Delete expired ticket draft entries."
-msgstr "Lejárt jegy piszkozatbejegyzések törlése."
+msgstr "Jegyek lejárt piszkozatbejegyzéseinek törlése."
 
 #. SysConfig
 msgid "Delete expired upload cache hourly."
@@ -25018,9 +25052,9 @@ msgid ""
 "trailing domains). RegExp-Note, $1 will be the new Login."
 msgstr ""
 "Ha „HTTPBasicAuth” lett kiválasztva a Customer::AuthModule modulnál, akkor "
-"megadhatja (reguláris kifejezés használatával) a TÁVOLI_FELHASZNÁLÓ "
-"részeinek felvágását (például a záró tartományok eltávolításához). Reguláris"
-" kifejezés megjegyzés, a $1 lesz az új bejelentkezés."
+"megadhatja (reguláris kifejezés használatával) a REMOTE_USER részeinek "
+"felvágását (például a záró tartományok eltávolításához). Reguláris kifejezés"
+" megjegyzés, a $1 lesz az új bejelentkezés."
 
 #. SysConfig
 msgid ""
@@ -25194,7 +25228,7 @@ msgid ""
 "specified."
 msgstr ""
 "Ha „SysLog” lett kiválasztva a LogModule modulnál, akkor megadható egy "
-"speciális naplózó képesség."
+"speciális naplózó összetevő."
 
 #. SysConfig
 msgid ""
@@ -25902,6 +25936,10 @@ msgid "Loop protection: no auto-response sent to \"%s\"."
 msgstr "Hurokvédelem: nem lett automatikus válasz elküldve ide: „%s”."
 
 #. SysConfig
+msgid "Macedonian"
+msgstr "Macedón"
+
+#. SysConfig
 msgid "Mail Accounts"
 msgstr "Levelezőfiókok"
 
@@ -26218,7 +26256,7 @@ msgid ""
 "Module to generate html OpenSearch profile for short ticket search in the "
 "agent interface."
 msgstr ""
-"Egy modul a HTML OpenSearch profil előállításához a rövid jegykeresésnél az "
+"Egy modul a gyors jegykeresés HTML OpenSearch profiljának előállításához az "
 "ügyintézői felületen."
 
 #. SysConfig
@@ -26226,7 +26264,7 @@ msgid ""
 "Module to generate html OpenSearch profile for short ticket search in the "
 "customer interface."
 msgstr ""
-"Egy modul a HTML OpenSearch profil előállításához a rövid jegykeresésnél az "
+"Egy modul a gyors jegykeresés HTML OpenSearch profiljának előállításához az "
 "ügyfélfelületen."
 
 #. SysConfig
@@ -26499,8 +26537,8 @@ msgid ""
 "permission is only granted for tickets in the specified queues."
 msgstr ""
 "Opcionális várólista korlátozás a CreatorCheck jogosultsági modulnál. Ha be "
-"van állítva, akkor a jogosultságok csak a jegyeknél vannak engedélyezve a "
-"megadott várólistákban."
+"van állítva, akkor a jogosultságok csak a megadott várólistákban lévő "
+"jegyeknél vannak engedélyezve."
 
 #. SysConfig
 msgid ""
@@ -26508,8 +26546,8 @@ msgid ""
 "permission is only granted for tickets in the specified queues."
 msgstr ""
 "Opcionális várólista korlátozás az InvolvedCheck jogosultsági modulnál. Ha "
-"be van állítva, akkor a jogosultságok csak a jegyeknél vannak engedélyezve a"
-" megadott várólistákban."
+"be van állítva, akkor a jogosultságok csak a megadott várólistákban lévő "
+"jegyeknél vannak engedélyezve."
 
 #. SysConfig
 msgid ""
@@ -26517,8 +26555,8 @@ msgid ""
 "permission is only granted for tickets in the specified queues."
 msgstr ""
 "Opcionális várólista korlátozás az OwnerCheck jogosultsági modulnál. Ha be "
-"van állítva, akkor a jogosultságok csak a jegyeknél vannak engedélyezve a "
-"megadott várólistákban."
+"van állítva, akkor a jogosultságok csak a megadott várólistákban lévő "
+"jegyeknél vannak engedélyezve."
 
 #. SysConfig
 msgid ""
@@ -26526,8 +26564,8 @@ msgid ""
 "set, permission is only granted for tickets in the specified queues."
 msgstr ""
 "Opcionális várólista korlátozás a ResponsibleCheck jogosultsági modulnál. Ha"
-" be van állítva, akkor a jogosultságok csak a jegyeknél vannak engedélyezve "
-"a megadott várólistákban."
+" be van állítva, akkor a jogosultságok csak a megadott várólistákban lévő "
+"jegyeknél vannak engedélyezve."
 
 #. SysConfig
 msgid "Other Customers"
@@ -27699,6 +27737,10 @@ msgid "Roles ↔ Groups"
 msgstr "Szerepek ↔ Csoportok"
 
 #. SysConfig
+msgid "Romanian"
+msgstr "Román"
+
+#. SysConfig
 msgid ""
 "Run file based generic agent jobs (Note: module name needs to be specified "
 "in -configuration-module param e.g. \"Kernel::System::GenericAgent\")."
@@ -27934,8 +27976,8 @@ msgid ""
 "Sends all outgoing email via bcc to the specified address. Please use this "
 "only for backup reasons."
 msgstr ""
-"Elküld minden kimenő e-mailt titkos másolatként egy megadott címre. Ez csak "
-"biztonsági mentés céljából használja."
+"Elküld minden kimenő e-mailt titkos másolatként egy megadott címre. Ezt csak"
+" biztonsági mentés céljából használja."
 
 #. SysConfig
 msgid "Sends customer notifications just to the mapped customer."
@@ -28030,7 +28072,7 @@ msgid ""
 "Set the limit of tickets that will be executed on a single genericagent job "
 "execution."
 msgstr ""
-"Azon jegyek korlátjának beállítása, amelyek egy egyedüli genericagent "
+"Azon jegyek korlátjának beállítása, amelyek egy önálló általános ügyintéző "
 "feladat végrehajtásakor lesznek végrehajtva."
 
 #. SysConfig
@@ -30043,8 +30085,8 @@ msgid ""
 msgstr ""
 "Azt az e-mail címet adja meg, amelyet az alkalmazás az értesítések "
 "elküldésekor használjon. Az e-mail cím a teljes megjelenítési név "
-"összeállításához lesz használva az értesítési mesternél (azaz „OTRS "
-"értesítések” otrs@your.example.com). Használhatja az OTRS_CONFIG_FQDN "
+"összeállításához lesz használva az értesítési mesternél (azaz \"OTRS "
+"értesítések\" <otrs@your.example.com>). Használhatja az OTRS_CONFIG_FQDN "
 "változót, ahogy a konfigurációban be van állítva, vagy válasszon egy másik "
 "e-mail címet."
 
@@ -30082,8 +30124,8 @@ msgid ""
 msgstr ""
 "Azt a nevet adja meg, amelyet az alkalmazás az értesítések elküldésekor "
 "használjon. A küldő neve a teljes megjelenítési név összeállításához lesz "
-"használva az értesítési mesternél (azaz „OTRS értesítésiek” "
-"otrs@your.example.com)."
+"használva az értesítési mesternél (azaz \"OTRS értesítésiek\" "
+"<otrs@your.example.com>)."
 
 #. SysConfig
 msgid ""
