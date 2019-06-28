@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-05-16 16:14+0000\n"
+"POT-Creation-Date: 2019-06-27 22:09+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -147,11 +147,7 @@ msgid "Set up what you want to change if the criteria match. Keep in mind that '
 msgstr ""
 
 #. Template: AdminACLEdit
-msgid "Check the official"
-msgstr ""
-
-#. Template: AdminACLEdit
-msgid "documentation"
+msgid "Check the official %sdocumentation%s."
 msgstr ""
 
 #. Template: AdminACLEdit
@@ -14090,6 +14086,18 @@ msgstr ""
 msgid "Not all required Perl modules are correctly installed."
 msgstr ""
 
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
+msgid "Perl Modules Audit"
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
+msgid "CPAN::Audit reported that one or more installed Perl modules have known vulnerabilities. Please note that there might be false positives for distributions patching Perl modules without changing their version number."
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
+msgid "CPAN::Audit did not report any known vulnerabilities in the installed Perl modules."
+msgstr ""
+
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Swap.pm
 msgid "Free Swap Space (%)"
 msgstr ""
@@ -15275,6 +15283,10 @@ msgid "A package upgrade was recently finished. Click here to see the results."
 msgstr ""
 
 #. JS File: Core.Agent.Admin.PackageManager
+msgid "No response from get package upgrade result."
+msgstr ""
+
+#. JS File: Core.Agent.Admin.PackageManager
 msgid "Update all packages"
 msgstr ""
 
@@ -15284,6 +15296,10 @@ msgstr ""
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "Update All Packages"
+msgstr ""
+
+#. JS File: Core.Agent.Admin.PackageManager
+msgid "No response from package upgrade all."
 msgstr ""
 
 #. JS File: Core.Agent.Admin.PackageManager
@@ -15300,6 +15316,10 @@ msgstr ""
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "Are you sure you want to update all installed packages?"
+msgstr ""
+
+#. JS File: Core.Agent.Admin.PackageManager
+msgid "No response from get package upgrade run status."
 msgstr ""
 
 #. JS File: Core.Agent.Admin.PostMasterFilter

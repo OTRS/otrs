@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.943238160369294;
+    $Self->{Completeness}        = 0.942090878032115;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -81,8 +81,7 @@ sub Data {
         'Change settings' => 'Alterar configurações',
         'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is a white list, \'PossibleNot\' a black list.' =>
             'Configure o que você quer alterar se o critério coincidir. Mantenha em mente que \'Possible\' é uma adição à lista e \'PossibleNot\', uma exclusão da lista.',
-        'Check the official' => 'Verifique a oficial',
-        'documentation' => 'documentação',
+        'Check the official %sdocumentation%s.' => '',
         'Show or hide the content' => 'Mostrar ou esconder o conteúdo',
         'Edit ACL Information' => 'Editar informações da ACL',
         'Name' => 'Nome',
@@ -5031,6 +5030,13 @@ sub Data {
         'Perl Modules' => 'Módulos Perl',
         'Not all required Perl modules are correctly installed.' => 'Nem todos os módulos Perl não foram correctamente instalados.',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
+        'Perl Modules Audit' => '',
+        'CPAN::Audit reported that one or more installed Perl modules have known vulnerabilities. Please note that there might be false positives for distributions patching Perl modules without changing their version number.' =>
+            '',
+        'CPAN::Audit did not report any known vulnerabilities in the installed Perl modules.' =>
+            '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Swap.pm
         'Free Swap Space (%)' => 'Espaço de Swap livre (%)',
         'No swap enabled.' => 'Nenhum swap ativado.',
@@ -5515,15 +5521,18 @@ sub Data {
             'Existe um processo de atualização de pacote em andamento, clique aqui para ver o estado em que se encontra o progresso.',
         'A package upgrade was recently finished. Click here to see the results.' =>
             'A atualização de um pacote finalizou recentemente. Clique aqui para ver o resultado.',
+        'No response from get package upgrade result.' => '',
         'Update all packages' => 'Atualizar todos pacotes',
         'Dismiss' => 'Recusar',
         'Update All Packages' => 'Atualizar Todos Pacotes',
+        'No response from package upgrade all.' => '',
         'Currently not possible' => 'Não é possível no momento',
         'This is currently disabled because of an ongoing package upgrade.' =>
             'Isso está desabilitado atualmente devido a uma atualização de pacote em andamento.',
         'This option is currently disabled because the OTRS Daemon is not running.' =>
             'Esta opção não está disponível no momento porque o Daemon OTRS não está ativo.',
         'Are you sure you want to update all installed packages?' => 'Você tem certeza de que quer atualizar todos os pacotes instalados?',
+        'No response from get package upgrade run status.' => '',
 
         # JS File: Core.Agent.Admin.PostMasterFilter
         'Delete this PostMasterFilter' => 'Deletar Filtro PostMaster',
@@ -8943,6 +8952,9 @@ Obrigado pela ajuda!
         'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.',
         'No matches found.',
         'No package information available.',
+        'No response from get package upgrade result.',
+        'No response from get package upgrade run status.',
+        'No response from package upgrade all.',
         'No sort applied, ',
         'No space left for the following files: %s',
         'Not available',

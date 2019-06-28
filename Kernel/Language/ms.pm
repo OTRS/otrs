@@ -23,7 +23,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.609163959651222;
+    $Self->{Completeness}        = 0.60830201571575;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -75,8 +75,7 @@ sub Data {
         'Change settings' => 'Menukar tetapan',
         'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is a white list, \'PossibleNot\' a black list.' =>
             'Tetapkan apa yang ingin anda ubah jika ciri-ciri sesuai. Ingat bahawa \'Mungkin\' ialah senarai putih, \'Tidak mungkin\' ialah senarai hitam.',
-        'Check the official' => 'Menyemak rasmi',
-        'documentation' => 'dokumentasi',
+        'Check the official %sdocumentation%s.' => '',
         'Show or hide the content' => 'Menunjukkan atau menyembunyikan kandungan',
         'Edit ACL Information' => '',
         'Name' => 'Nama',
@@ -5025,6 +5024,13 @@ sub Data {
         'Perl Modules' => 'Modul Perl',
         'Not all required Perl modules are correctly installed.' => 'Tidak semua modul Perl yang diperlukan dipasang dengan betul.',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
+        'Perl Modules Audit' => '',
+        'CPAN::Audit reported that one or more installed Perl modules have known vulnerabilities. Please note that there might be false positives for distributions patching Perl modules without changing their version number.' =>
+            '',
+        'CPAN::Audit did not report any known vulnerabilities in the installed Perl modules.' =>
+            '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Swap.pm
         'Free Swap Space (%)' => 'Ruang Tukaran Kosong (%)',
         'No swap enabled.' => 'Tiada penukaran dibenarkan.',
@@ -5509,15 +5515,18 @@ sub Data {
             '',
         'A package upgrade was recently finished. Click here to see the results.' =>
             '',
+        'No response from get package upgrade result.' => '',
         'Update all packages' => '',
         'Dismiss' => 'Abaikan',
         'Update All Packages' => '',
+        'No response from package upgrade all.' => '',
         'Currently not possible' => '',
         'This is currently disabled because of an ongoing package upgrade.' =>
             '',
         'This option is currently disabled because the OTRS Daemon is not running.' =>
             '',
         'Are you sure you want to update all installed packages?' => '',
+        'No response from get package upgrade run status.' => '',
 
         # JS File: Core.Agent.Admin.PostMasterFilter
         'Delete this PostMasterFilter' => '',
@@ -8940,6 +8949,9 @@ Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDa
         'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.',
         'No matches found.',
         'No package information available.',
+        'No response from get package upgrade result.',
+        'No response from get package upgrade run status.',
+        'No response from package upgrade all.',
         'No sort applied, ',
         'No space left for the following files: %s',
         'Not available',

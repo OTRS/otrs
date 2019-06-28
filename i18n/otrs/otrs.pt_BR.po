@@ -53,7 +53,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-05-14 06:48+0000\n"
+"POT-Creation-Date: 2019-06-27 22:01+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: Ricardo von Staa <ricardo.von.staa@otrs.com>, 2019\n"
 "Language-Team: Portuguese (Brazil) (https://www.transifex.com/otrs/teams/23435/pt_BR/)\n"
@@ -231,12 +231,8 @@ msgstr ""
 " que 'Possible' é uma adição à lista e 'PossibleNot', uma exclusão da lista."
 
 #. Template: AdminACLEdit
-msgid "Check the official"
-msgstr "Verifique a oficial"
-
-#. Template: AdminACLEdit
-msgid "documentation"
-msgstr "documentação"
+msgid "Check the official %sdocumentation%s."
+msgstr ""
 
 #. Template: AdminACLEdit
 msgid "Show or hide the content"
@@ -16056,6 +16052,26 @@ msgstr "Módulos Perl"
 msgid "Not all required Perl modules are correctly installed."
 msgstr "Nem todos os módulos Perl não foram correctamente instalados."
 
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
+msgid "Perl Modules Audit"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
+msgid ""
+"CPAN::Audit reported that one or more installed Perl modules have known "
+"vulnerabilities. Please note that there might be false positives for "
+"distributions patching Perl modules without changing their version number."
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
+msgid ""
+"CPAN::Audit did not report any known vulnerabilities in the installed Perl "
+"modules."
+msgstr ""
+
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Swap.pm
 msgid "Free Swap Space (%)"
 msgstr "Espaço de Swap livre (%)"
@@ -17477,6 +17493,10 @@ msgstr ""
 "resultado."
 
 #. JS File: Core.Agent.Admin.PackageManager
+msgid "No response from get package upgrade result."
+msgstr ""
+
+#. JS File: Core.Agent.Admin.PackageManager
 msgid "Update all packages"
 msgstr "Atualizar todos pacotes"
 
@@ -17487,6 +17507,10 @@ msgstr "Recusar"
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "Update All Packages"
 msgstr "Atualizar Todos Pacotes"
+
+#. JS File: Core.Agent.Admin.PackageManager
+msgid "No response from package upgrade all."
+msgstr ""
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "Currently not possible"
@@ -17508,6 +17532,10 @@ msgstr ""
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "Are you sure you want to update all installed packages?"
 msgstr "Você tem certeza de que quer atualizar todos os pacotes instalados?"
+
+#. JS File: Core.Agent.Admin.PackageManager
+msgid "No response from get package upgrade run status."
+msgstr ""
 
 #. JS File: Core.Agent.Admin.PostMasterFilter
 msgid "Delete this PostMasterFilter"
@@ -25361,6 +25389,10 @@ msgid "Loop protection: no auto-response sent to \"%s\"."
 msgstr "Proteção anti-loop: nenhuma resposta automática enviada para \"%s\"."
 
 #. SysConfig
+msgid "Macedonian"
+msgstr ""
+
+#. SysConfig
 msgid "Mail Accounts"
 msgstr "Contas de E-mail"
 
@@ -27074,6 +27106,10 @@ msgstr "Direita"
 #. SysConfig
 msgid "Roles ↔ Groups"
 msgstr "Papéis ↔ Grupos"
+
+#. SysConfig
+msgid "Romanian"
+msgstr ""
 
 #. SysConfig
 msgid ""

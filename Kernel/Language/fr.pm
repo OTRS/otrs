@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.433065481278851;
+    $Self->{Completeness}        = 0.432353946019816;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -84,8 +84,7 @@ sub Data {
         'Change settings' => 'Changer les paramètres',
         'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is a white list, \'PossibleNot\' a black list.' =>
             'Établir le changement souhaité si le critère correspond. Garder en tête que "Possible" est une liste blanche, "PossibleNot" est une liste noire.',
-        'Check the official' => 'Vérifier l\'officiel',
-        'documentation' => 'documentation',
+        'Check the official %sdocumentation%s.' => '',
         'Show or hide the content' => 'Montrer ou cacher le contenu',
         'Edit ACL Information' => 'Éditer les informations de l\'ACL',
         'Name' => 'Nom',
@@ -1538,7 +1537,7 @@ sub Data {
         'Filter for Processes' => '',
         'Filter for processes' => '',
         'Create New Process' => 'Créer un nouveau processus.',
-        'Deploy All Processes' => 'Supprimer tous les processus',
+        'Deploy All Processes' => 'Déployer tous les processus',
         'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.' =>
             'Ici vous pouvez envoyer un fichier de configuration pour importer le processus vers votre système. Le fichier a besoin d\'être en format "yml" comme exporté par le module de gestion de processus.',
         'Upload process configuration' => '',
@@ -5034,6 +5033,13 @@ sub Data {
         'Perl Modules' => 'Modules Perl',
         'Not all required Perl modules are correctly installed.' => '',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
+        'Perl Modules Audit' => '',
+        'CPAN::Audit reported that one or more installed Perl modules have known vulnerabilities. Please note that there might be false positives for distributions patching Perl modules without changing their version number.' =>
+            '',
+        'CPAN::Audit did not report any known vulnerabilities in the installed Perl modules.' =>
+            '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Swap.pm
         'Free Swap Space (%)' => '',
         'No swap enabled.' => '',
@@ -5518,15 +5524,18 @@ sub Data {
             '',
         'A package upgrade was recently finished. Click here to see the results.' =>
             '',
+        'No response from get package upgrade result.' => '',
         'Update all packages' => '',
         'Dismiss' => '',
         'Update All Packages' => '',
+        'No response from package upgrade all.' => '',
         'Currently not possible' => '',
         'This is currently disabled because of an ongoing package upgrade.' =>
             '',
         'This option is currently disabled because the OTRS Daemon is not running.' =>
             '',
         'Are you sure you want to update all installed packages?' => '',
+        'No response from get package upgrade run status.' => '',
 
         # JS File: Core.Agent.Admin.PostMasterFilter
         'Delete this PostMasterFilter' => '',
@@ -8935,6 +8944,9 @@ Thanks for your help!
         'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.',
         'No matches found.',
         'No package information available.',
+        'No response from get package upgrade result.',
+        'No response from get package upgrade run status.',
+        'No response from package upgrade all.',
         'No sort applied, ',
         'No space left for the following files: %s',
         'Not available',

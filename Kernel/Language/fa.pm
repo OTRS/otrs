@@ -26,7 +26,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.697726107026842;
+    $Self->{Completeness}        = 0.697642637512812;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -81,8 +81,7 @@ sub Data {
         'Change settings' => 'تغییر تنظیمات',
         'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is a white list, \'PossibleNot\' a black list.' =>
             'تنظیم آنچه که می خواهید تغییر دهید اگر بازی معیارهای. به خاطر داشته باشید که ممکن است یک لیست سفید، \'PossibleNot، یک لیست سیاه است.',
-        'Check the official' => 'بررسی رسمی',
-        'documentation' => 'اسناد',
+        'Check the official %sdocumentation%s.' => '',
         'Show or hide the content' => 'نمایش یا عدم نمایش محتوا',
         'Edit ACL Information' => '',
         'Name' => 'نام',
@@ -100,11 +99,11 @@ sub Data {
             'درست ACL جدید با ارسال داده های فرم را. پس از ایجاد ACL، شما قادر به اضافه کردن آیتم های پیکربندی در حالت ویرایش خواهد بود.',
 
         # Template: AdminAppointmentCalendarManage
-        'Calendar Management' => '',
-        'Add Calendar' => '',
-        'Edit Calendar' => '',
+        'Calendar Management' => 'مدیریت تقویم',
+        'Add Calendar' => 'اضافه‌کردن تقویم',
+        'Edit Calendar' => 'ویرایش تقویم',
         'Calendar Overview' => '',
-        'Add new Calendar' => '',
+        'Add new Calendar' => 'اضافه کردن تقویم جدید',
         'Import Appointments' => '',
         'Calendar Import' => '',
         'Here you can upload a configuration file to import a calendar to your system. The file needs to be in .yml format as exported by calendar management module.' =>
@@ -141,7 +140,7 @@ sub Data {
         'Remove this entry' => 'پاک کردن این ورودی',
         'Remove' => 'حذف کردن',
         'Start date' => 'تاریخ شروع',
-        'End date' => '',
+        'End date' => 'ویرایش تاریخ',
         'Use options below to narrow down for which tickets appointments will be automatically created.' =>
             '',
         'Queues' => 'لیست‌های درخواست',
@@ -5031,6 +5030,13 @@ sub Data {
         'Perl Modules' => 'ماژول پرل',
         'Not all required Perl modules are correctly installed.' => 'همه ماژول های مورد نیاز پرل به درستی نصب نشده است.',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
+        'Perl Modules Audit' => '',
+        'CPAN::Audit reported that one or more installed Perl modules have known vulnerabilities. Please note that there might be false positives for distributions patching Perl modules without changing their version number.' =>
+            '',
+        'CPAN::Audit did not report any known vulnerabilities in the installed Perl modules.' =>
+            '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Swap.pm
         'Free Swap Space (%)' => 'فضای swap خالی (٪)',
         'No swap enabled.' => ' مبادله را فعال نکنید.',
@@ -5515,15 +5521,18 @@ sub Data {
             '',
         'A package upgrade was recently finished. Click here to see the results.' =>
             '',
+        'No response from get package upgrade result.' => '',
         'Update all packages' => '',
         'Dismiss' => '',
         'Update All Packages' => '',
+        'No response from package upgrade all.' => '',
         'Currently not possible' => '',
         'This is currently disabled because of an ongoing package upgrade.' =>
             '',
         'This option is currently disabled because the OTRS Daemon is not running.' =>
             '',
         'Are you sure you want to update all installed packages?' => '',
+        'No response from get package upgrade run status.' => '',
 
         # JS File: Core.Agent.Admin.PostMasterFilter
         'Delete this PostMasterFilter' => '',
@@ -8943,6 +8952,9 @@ Thanks for your help!
         'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.',
         'No matches found.',
         'No package information available.',
+        'No response from get package upgrade result.',
+        'No response from get package upgrade run status.',
+        'No response from package upgrade all.',
         'No sort applied, ',
         'No space left for the following files: %s',
         'Not available',

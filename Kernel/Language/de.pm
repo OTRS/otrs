@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.999658061207044;
+    $Self->{Completeness}        = 1;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -76,8 +76,7 @@ sub Data {
         'Change settings' => 'Werte ändern',
         'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is a white list, \'PossibleNot\' a black list.' =>
             'Stellt die Wertänderungen ein für den Fall, dass die Filterbedingungen zutreffen. Hierbei ist \'Possible\' eine Positivliste und \'PossibleNot\' eine Negativliste.',
-        'Check the official' => 'Prüfen Sie die offizielle',
-        'documentation' => 'Dokumentation',
+        'Check the official %sdocumentation%s.' => 'Überprüfen Sie die offizielle %sdocumentation%s.',
         'Show or hide the content' => 'Inhalt einblenden oder ausblenden',
         'Edit ACL Information' => 'ACL-Information bearbeiten',
         'Name' => 'Name',
@@ -5026,6 +5025,13 @@ sub Data {
         'Perl Modules' => 'Perlmodule',
         'Not all required Perl modules are correctly installed.' => 'Nicht alle benötigten Perlmodle sind installiert',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
+        'Perl Modules Audit' => 'Perl Module Audit',
+        'CPAN::Audit reported that one or more installed Perl modules have known vulnerabilities. Please note that there might be false positives for distributions patching Perl modules without changing their version number.' =>
+            'CPAN::Audit hat berichtet, dass ein oder mehrere installierte Perl-Module bekannte Schwachstellen aufweisen. Bitte beachten Sie, dass es möglicherweise falsche Positivmeldungen für Distributionen gibt, die Perl-Module patchen, ohne ihre Versionsnummer zu ändern.',
+        'CPAN::Audit did not report any known vulnerabilities in the installed Perl modules.' =>
+            'CPAN::Audit hat keine bekannten Schwachstellen in den installierten Perl-Modulen gemeldet.',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Swap.pm
         'Free Swap Space (%)' => 'Freier Auslagerungsspeicher (%)',
         'No swap enabled.' => 'Kein Auslagerungsspeicher aktiviert.',
@@ -5510,15 +5516,18 @@ sub Data {
             'Derzeit läuft ein Prozess zur Paketaktualisierung. Klicken Sie hier, um Statusinformationen zu erhalten.',
         'A package upgrade was recently finished. Click here to see the results.' =>
             'Eine Paketaktualisierung wurde kürzlich beendet. Klicken Sie hier, um die Ergebnisse zu betrachten.',
+        'No response from get package upgrade result.' => 'Keine Antwort von get package upgrade result.',
         'Update all packages' => 'Alle Pakete aktualisieren',
         'Dismiss' => 'Verwerfen',
         'Update All Packages' => 'Alle Pakete aktualisieren',
+        'No response from package upgrade all.' => 'Keine Antwort von upgrade all.',
         'Currently not possible' => 'Derzeit nicht möglich',
         'This is currently disabled because of an ongoing package upgrade.' =>
             'Dies ist derzeit nicht möglich, da eine Paketaktualisierung läuft.',
         'This option is currently disabled because the OTRS Daemon is not running.' =>
             'Diese Option ist derzeit deaktiviert, weil der OTRS Daemon nicht läuft.',
         'Are you sure you want to update all installed packages?' => 'Sind Sie sicher, dass Sie alle installierten Pakete aktualisieren möchten?',
+        'No response from get package upgrade run status.' => 'Keine Antwort von package upgrade run status.',
 
         # JS File: Core.Agent.Admin.PostMasterFilter
         'Delete this PostMasterFilter' => 'Diesen Postmaster-Filter löschen',
@@ -7582,7 +7591,7 @@ Ihr Helpdesk-Team
         'Logout of customer panel.' => 'Abmelden vom Kunden-Bereich',
         'Look into a ticket!' => 'Ticket genauer ansehen!',
         'Loop protection: no auto-response sent to "%s".' => 'Loop-Protection! Keine Auto-Antwort versandt an "%s".',
-        'Macedonian' => '',
+        'Macedonian' => 'Mazedonisch',
         'Mail Accounts' => 'E-Mailkonten',
         'MailQueue configuration settings.' => 'MailQueue Konfigurationseinstellungen.',
         'Main menu item registration.' => 'Hauptmenü-Objektregistrierung.',
@@ -7942,7 +7951,7 @@ Ihr Helpdesk-Team
             'Behält alle Services in Auflistungen bei, auch, wenn sie Kind-Services von ungültigen Elementen sind.',
         'Right' => 'Rechts',
         'Roles ↔ Groups' => 'Rollen ↔ Gruppen',
-        'Romanian' => '',
+        'Romanian' => 'Rumänisch',
         'Run file based generic agent jobs (Note: module name needs to be specified in -configuration-module param e.g. "Kernel::System::GenericAgent").' =>
             'Dateibasierte Generic-Agent-Jobs ausführen (Hinweis: Der Modulname muss im Parameter -configuration-module angegeben sein, z. B. "Kernel::System::GenericAgent").',
         'Running Process Tickets' => 'Aktive Prozess-Tickets',
@@ -8937,6 +8946,9 @@ Ihr Helpdesk-Team
         'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.',
         'No matches found.',
         'No package information available.',
+        'No response from get package upgrade result.',
+        'No response from get package upgrade run status.',
+        'No response from package upgrade all.',
         'No sort applied, ',
         'No space left for the following files: %s',
         'Not available',

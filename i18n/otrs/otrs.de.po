@@ -46,7 +46,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-05-14 06:48+0000\n"
+"POT-Creation-Date: 2019-06-27 22:01+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: Michael Reuther <michael.reuther@otrs.com>, 2019\n"
 "Language-Team: German (https://www.transifex.com/otrs/teams/23435/de/)\n"
@@ -224,12 +224,8 @@ msgstr ""
 "Negativliste."
 
 #. Template: AdminACLEdit
-msgid "Check the official"
-msgstr "Prüfen Sie die offizielle"
-
-#. Template: AdminACLEdit
-msgid "documentation"
-msgstr "Dokumentation"
+msgid "Check the official %sdocumentation%s."
+msgstr "Überprüfen Sie die offizielle %sdocumentation%s."
 
 #. Template: AdminACLEdit
 msgid "Show or hide the content"
@@ -16184,6 +16180,32 @@ msgstr "Perlmodule"
 msgid "Not all required Perl modules are correctly installed."
 msgstr "Nicht alle benötigten Perlmodle sind installiert"
 
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
+msgid "Perl Modules Audit"
+msgstr "Perl Module Audit"
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
+msgid ""
+"CPAN::Audit reported that one or more installed Perl modules have known "
+"vulnerabilities. Please note that there might be false positives for "
+"distributions patching Perl modules without changing their version number."
+msgstr ""
+"CPAN::Audit hat berichtet, dass ein oder mehrere installierte Perl-Module "
+"bekannte Schwachstellen aufweisen. Bitte beachten Sie, dass es "
+"möglicherweise falsche Positivmeldungen für Distributionen gibt, die Perl-"
+"Module patchen, ohne ihre Versionsnummer zu ändern."
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
+msgid ""
+"CPAN::Audit did not report any known vulnerabilities in the installed Perl "
+"modules."
+msgstr ""
+"CPAN::Audit hat keine bekannten Schwachstellen in den installierten Perl-"
+"Modulen gemeldet."
+
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Swap.pm
 msgid "Free Swap Space (%)"
 msgstr "Freier Auslagerungsspeicher (%)"
@@ -17652,6 +17674,10 @@ msgstr ""
 "Ergebnisse zu betrachten."
 
 #. JS File: Core.Agent.Admin.PackageManager
+msgid "No response from get package upgrade result."
+msgstr "Keine Antwort von get package upgrade result."
+
+#. JS File: Core.Agent.Admin.PackageManager
 msgid "Update all packages"
 msgstr "Alle Pakete aktualisieren"
 
@@ -17662,6 +17688,10 @@ msgstr "Verwerfen"
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "Update All Packages"
 msgstr "Alle Pakete aktualisieren"
+
+#. JS File: Core.Agent.Admin.PackageManager
+msgid "No response from package upgrade all."
+msgstr "Keine Antwort von upgrade all."
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "Currently not possible"
@@ -17681,6 +17711,10 @@ msgstr ""
 msgid "Are you sure you want to update all installed packages?"
 msgstr ""
 "Sind Sie sicher, dass Sie alle installierten Pakete aktualisieren möchten?"
+
+#. JS File: Core.Agent.Admin.PackageManager
+msgid "No response from get package upgrade run status."
+msgstr "Keine Antwort von package upgrade run status."
 
 #. JS File: Core.Agent.Admin.PostMasterFilter
 msgid "Delete this PostMasterFilter"
@@ -25921,6 +25955,10 @@ msgid "Loop protection: no auto-response sent to \"%s\"."
 msgstr "Loop-Protection! Keine Auto-Antwort versandt an \"%s\"."
 
 #. SysConfig
+msgid "Macedonian"
+msgstr "Mazedonisch"
+
+#. SysConfig
 msgid "Mail Accounts"
 msgstr "E-Mailkonten"
 
@@ -27689,6 +27727,10 @@ msgstr "Rechts"
 #. SysConfig
 msgid "Roles ↔ Groups"
 msgstr "Rollen ↔ Gruppen"
+
+#. SysConfig
+msgid "Romanian"
+msgstr "Rumänisch"
 
 #. SysConfig
 msgid ""

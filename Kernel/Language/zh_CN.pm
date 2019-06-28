@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.998632244828176;
+    $Self->{Completeness}        = 0.998804236419542;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -82,8 +82,7 @@ sub Data {
         'Change settings' => '操作动作',
         'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is a white list, \'PossibleNot\' a black list.' =>
             '当匹配条件满足时执行规定的操作动作。记住：\'Possible\'表示允许(白名单)，\'PossibleNot\'表示禁止(黑名单)。',
-        'Check the official' => '查看官方',
-        'documentation' => '文档',
+        'Check the official %sdocumentation%s.' => '',
         'Show or hide the content' => '显示或隐藏内容',
         'Edit ACL Information' => '编辑ACL信息',
         'Name' => '名称',
@@ -5032,6 +5031,13 @@ sub Data {
         'Perl Modules' => 'Perl 模块',
         'Not all required Perl modules are correctly installed.' => '部分Perl模块没有正确安装。',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
+        'Perl Modules Audit' => '',
+        'CPAN::Audit reported that one or more installed Perl modules have known vulnerabilities. Please note that there might be false positives for distributions patching Perl modules without changing their version number.' =>
+            '',
+        'CPAN::Audit did not report any known vulnerabilities in the installed Perl modules.' =>
+            '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Swap.pm
         'Free Swap Space (%)' => '可用的交换空间(%)',
         'No swap enabled.' => '没有启用交换空间。',
@@ -5516,15 +5522,18 @@ sub Data {
             '有一个程序包升级过程正在运行，点击这里查看有关升级进度的状态信息。',
         'A package upgrade was recently finished. Click here to see the results.' =>
             '最近完成了一个软件包的升级，点击这里查看结果。',
+        'No response from get package upgrade result.' => '',
         'Update all packages' => '更新所有软件包',
         'Dismiss' => '取消',
         'Update All Packages' => '更新所有软件包',
+        'No response from package upgrade all.' => '',
         'Currently not possible' => '目前不可能',
         'This is currently disabled because of an ongoing package upgrade.' =>
             '由于正在进行软件包升级，因此目前已被禁用。',
         'This option is currently disabled because the OTRS Daemon is not running.' =>
             '由于OTRS守护进程没有运行，这个选项当前被禁用。',
         'Are you sure you want to update all installed packages?' => '您确定要更新所有已安装的软件包吗？',
+        'No response from get package upgrade run status.' => '',
 
         # JS File: Core.Agent.Admin.PostMasterFilter
         'Delete this PostMasterFilter' => '删除此PostMasterFilter（邮箱管理员过滤器）',
@@ -6295,7 +6304,7 @@ Thanks for your help!
         'Default ACL values for ticket actions.' => '工单操作的默认ACL值。',
         'Default ProcessManagement entity prefixes for entity IDs that are automatically generated.' =>
             '自动生成的流程实体ID的默认前缀。',
-        'Default agent name' => '',
+        'Default agent name' => '默认的服务人员姓名',
         'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimePointFormat=year;TicketCreateTimePointStart=Last;TicketCreateTimePoint=2;".' =>
             '工单搜索屏幕用于搜索属性的默认数据。示例：“TicketCreateTimePointFormat=year;TicketCreateTimePointStart=Last;TicketCreateTimePoint=2;”。',
         'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimeStartYear=2010;TicketCreateTimeStartMonth=10;TicketCreateTimeStartDay=4;TicketCreateTimeStopYear=2010;TicketCreateTimeStopMonth=11;TicketCreateTimeStopDay=3;".' =>
@@ -6542,7 +6551,7 @@ Thanks for your help!
             '定义表单中数据的输入格式（选项或输入字段）。',
         'Defines the default CSS used in rich text editors.' => '定义用于富文本编辑器的默认CSS。',
         'Defines the default agent name in the ticket zoom view of the customer interface.' =>
-            '',
+            '定义客户界面工单详情视图中默认的服务人员姓名。',
         'Defines the default auto response type of the article for this operation.' =>
             '定义这个信件操作的默认自动响应类型。',
         'Defines the default body of a note in the ticket free text screen of the agent interface.' =>
@@ -6702,7 +6711,7 @@ Thanks for your help!
         'Defines the default visibility of the article to customer for this operation.' =>
             '定义这个信件操作对客户的默认可见性。',
         'Defines the displayed style of the From field in notes that are visible for customers. A default agent name can be defined in Ticket::Frontend::CustomerTicketZoom###DefaultAgentName setting.' =>
-            '',
+            '定义客户可见的注释中“发件人”字段的显示样式。 可以在 Ticket::Frontend::CustomerTicketZoom###DefaultAgentName 设置中定义默认的服务人员姓名。',
         'Defines the dynamic fields that are used for displaying on calendar events.' =>
             '定义显示在日历事件中的动态字段。',
         'Defines the event object types that will be handled via AdminAppointmentNotificationEvent.' =>
@@ -7587,12 +7596,12 @@ Thanks for your help!
         'Logout of customer panel.' => '退出客户面板。',
         'Look into a ticket!' => '查看工单内容！',
         'Loop protection: no auto-response sent to "%s".' => '环路保护：没有自动响应发送到“%s”。',
-        'Macedonian' => '',
+        'Macedonian' => '马其顿',
         'Mail Accounts' => '邮件帐户',
         'MailQueue configuration settings.' => '邮件队列配置设置。',
         'Main menu item registration.' => '注册主菜单条目。',
         'Main menu registration.' => '主菜单注册。',
-        'Makes the application block external content loading.' => '',
+        'Makes the application block external content loading.' => '使应用程序阻止外部内容加载。',
         'Makes the application check the MX record of email addresses before sending an email or submitting a telephone or email ticket.' =>
             '在发送邮件或提交电话工单/邮件工单前让系统检查邮件地址的MX记录。',
         'Makes the application check the syntax of email addresses.' => '让系统检查邮件地址的语法。',
@@ -7888,7 +7897,7 @@ Thanks for your help!
         'Reminder Tickets' => '提醒的工单',
         'Removed subscription for user "%s".' => '用户“%s”已移除的关注。',
         'Removes old generic interface debug log entries created before the specified amount of days.' =>
-            '',
+            '删除在指定天数之前创建的旧的通用接口调试日志条目。',
         'Removes old system configuration deployments (Sunday mornings).' =>
             '删除旧的系统配置部署（星期日上午）。',
         'Removes old ticket number counters (each 10 minutes).' => '删除旧的工单编号计数器（每10分钟）。',
@@ -7947,7 +7956,7 @@ Thanks for your help!
             '在列表中保留所有的服务，即使他们是无效的子元素。',
         'Right' => '权限',
         'Roles ↔ Groups' => '角色 ↔ 组',
-        'Romanian' => '',
+        'Romanian' => '罗马尼亚',
         'Run file based generic agent jobs (Note: module name needs to be specified in -configuration-module param e.g. "Kernel::System::GenericAgent").' =>
             '运行基于文件的自动任务(注意：需要在-configuration-module参数中指定模块名，如"Kernel::System::GenericAgent")。',
         'Running Process Tickets' => '运行中的流程工单',
@@ -8577,7 +8586,7 @@ Thanks for your help!
             '回复邮件中加在主题前的文字，如RE、AW或AS。',
         'The text at the beginning of the subject when an email is forwarded, e.g. FW, Fwd, or WG.' =>
             '转发邮件中加在主题前的文字，如FW、Fwd或WG。',
-        'The value of the From field' => '',
+        'The value of the From field' => '“发件人”字段的值',
         'Theme' => '主题',
         'This event module stores attributes from CustomerUser as DynamicFields tickets. Please see DynamicFieldFromCustomerUser::Mapping setting for how to configure the mapping.' =>
             '这个事件模块将客户用户的属性存储为工单动态字段，如何配置这个映射请查看DynamicFieldFromCustomerUser::Mapping设置。',
@@ -8942,6 +8951,9 @@ Thanks for your help!
         'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.',
         'No matches found.',
         'No package information available.',
+        'No response from get package upgrade result.',
+        'No response from get package upgrade run status.',
+        'No response from package upgrade all.',
         'No sort applied, ',
         'No space left for the following files: %s',
         'Not available',

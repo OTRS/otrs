@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.999658061207044;
+    $Self->{Completeness}        = 1;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -81,8 +81,7 @@ sub Data {
         'Change settings' => 'Változtatási beállítások',
         'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is a white list, \'PossibleNot\' a black list.' =>
             'Állítsa be, amit módosítani szeretne a feltétel egyezésekor. Ne feledkezzen meg arról, hogy a „Possible” a fehérlista, a „PossibleNot” a feketelista.',
-        'Check the official' => 'Nézze meg a hivatalos',
-        'documentation' => 'dokumentációt',
+        'Check the official %sdocumentation%s.' => 'Nézze meg a hivatalos %sdokumentációt%s.',
         'Show or hide the content' => 'A tartalom megjelenítése vagy elrejtése',
         'Edit ACL Information' => 'ACL információk szerkesztése',
         'Name' => 'Név',
@@ -1214,7 +1213,7 @@ sub Data {
         'Here you will find log information about your system.' => 'Itt napló információkat fog találni a rendszeréről.',
         'Hide this message' => 'Üzenet elrejtése',
         'Recent Log Entries' => 'Legutóbbi naplóbejegyzések',
-        'Facility' => 'Képesség',
+        'Facility' => 'Összetevő',
         'Message' => 'Üzenet',
 
         # Template: AdminMailAccount
@@ -1503,7 +1502,7 @@ sub Data {
         'If you use Regular Expressions, you also can use the matched value in () as [***] in the \'Set\' action.' =>
             'Ha reguláris kifejezéseket használ, akkor a () belsejében lévő egyező értéket is használhatja [***] formában a „Beállítás” műveletben.',
         'You can also use named captures %s and use the names in the \'Set\' action %s (e.g. Regexp: %s, Set action: %s). A matched EMAILADDRESS has the name \'%s\'.' =>
-            'Használhat nevesített elfogásokat is %s, és használhatja a neveket a „Beállítás” műveletben %s (például reguláris kifejezés: %s, Beállítás művelet: %s). Az illesztett EMAILCÍM a következő nevet kapja: „%s”.',
+            'Használhat nevesített elfogásokat is %s, és használhatja a neveket a „Beállítás” műveletben %s (például reguláris kifejezés: %s, Beállítás művelet: %s). Az illesztett EMAILADDRESS a következő nevet kapja: „%s”.',
         'Delete this filter' => 'Szűrő törlése',
         'Do you really want to delete this postmaster filter?' => 'Valóban törölni szeretné ezt a levelezési szűrőt?',
         'A postmaster filter with this name already exists!' => 'Már létezik ilyen nevű levelezési szűrő!',
@@ -2131,7 +2130,7 @@ sub Data {
         'Schedule a system maintenance period for announcing the Agents and Customers the system is down for a time period.' =>
             'Egy rendszerkarbantartás időszak ütemezése az ügyintézők és ügyfelek értesítéséhez, hogy a rendszer leáll egy időszakra.',
         'Some time before this system maintenance starts the users will receive a notification on each screen announcing about this fact.' =>
-            'Egy kis idő a rendszerkarbantartás indulása előtt. A felhasználók értesítést fognak kapni minden képernyőn ennek a ténynek a bejelentéséről.',
+            'Nem sokkal a rendszerkarbantartás indulása előtt a felhasználók értesítést fognak kapni minden képernyőn ennek a ténynek a bejelentéséről.',
         'Stop date' => 'Végdátum',
         'Delete System Maintenance' => 'Rendszerkarbantartás törlése',
 
@@ -3427,7 +3426,7 @@ sub Data {
         'Notification updated!' => 'Értesítés frissítve!',
         'Agent (resources), who are selected within the appointment' => 'Ügyintéző (erőforrások), aki az időponton belül ki lett jelölve',
         'All agents with (at least) read permission for the appointment (calendar)' =>
-            'Az összes ügyintéző, akiknek (legalább) olvasási jogosultságuk van az időpontokhoz (naptárhoz)',
+            'Az összes ügyintéző, akiknek (legalább) olvasási jogosultságuk van az időponthoz (naptárhoz)',
         'All agents with write permission for the appointment (calendar)' =>
             'Az összes ügyintéző, akiknek írási jogosultságuk van az időponthoz (naptárhoz)',
         'Yes, but require at least one active notification method.' => 'Igen, de legalább egy aktív értesítési módszert igényel.',
@@ -5031,6 +5030,13 @@ sub Data {
         'Perl Modules' => 'Perl modulok',
         'Not all required Perl modules are correctly installed.' => 'Nincs minden szükséges Perm modul megfelelően telepítve.',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
+        'Perl Modules Audit' => 'Perl modulok vizsgálata',
+        'CPAN::Audit reported that one or more installed Perl modules have known vulnerabilities. Please note that there might be false positives for distributions patching Perl modules without changing their version number.' =>
+            'A CPAN::Audit azt jelentette, hogy egy vagy több telepített Perl modul ismert sebezhetőséggel rendelkezik. Ne feledje, hogy lehetnek tévesen jelzett jelentések is azoknál a disztribúcióknál, amelyek úgy foltozzák a Perl modulokat, hogy nem változtatják meg a verziószámokat.',
+        'CPAN::Audit did not report any known vulnerabilities in the installed Perl modules.' =>
+            'A CPAN::Audit nem jelentett semmilyen ismert sebezhetőséget a telepített Perl modulokban.',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Swap.pm
         'Free Swap Space (%)' => 'Szabad lapozófájl méret (%)',
         'No swap enabled.' => 'Nincs lapozófájl engedélyezve.',
@@ -5515,15 +5521,18 @@ sub Data {
             'Egy csomagfrissítési folyamat jelenleg is fut, kattintson ide a frissítési folyamattal kapcsolatos állapotinformációk megtekintéséhez.',
         'A package upgrade was recently finished. Click here to see the results.' =>
             'Egy csomagfrissítés nemrég befejeződött. Kattintson ide az eredmények megtekintéséhez.',
+        'No response from get package upgrade result.' => 'Nincs válasz a csomaglekérés frissítések eredményéről.',
         'Update all packages' => 'Összes csomag frissítése',
         'Dismiss' => 'Eltüntetés',
         'Update All Packages' => 'Összes csomag frissítése',
+        'No response from package upgrade all.' => 'Nincs válasz az összes csomag frissítéséről.',
         'Currently not possible' => 'Jelenleg nem lehetséges',
         'This is currently disabled because of an ongoing package upgrade.' =>
             'Ez jelenleg le van tiltva egy folyamatban lévő csomagfrissítés miatt.',
         'This option is currently disabled because the OTRS Daemon is not running.' =>
             'Ez a beállítás jelenleg le van tiltva, mert az OTRS démon nem fut.',
         'Are you sure you want to update all installed packages?' => 'Biztosan frissíteni szeretné az összes telepített csomagot?',
+        'No response from get package upgrade run status.' => 'Nincs válasz a csomaglekérés frissítések futási állapotáról.',
 
         # JS File: Core.Agent.Admin.PostMasterFilter
         'Delete this PostMasterFilter' => 'Levelezési szűrő törlése',
@@ -6212,7 +6221,7 @@ Az Ön segélyszolgálat csapata
         'Controls if the admin is allowed to import a saved system configuration in SysConfig.' =>
             'Azt szabályozza, hogy az adminisztrátornak megengedett-e egy elmentett rendszerbeállítás importálása a rendszerbeállításokban.',
         'Controls if the admin is allowed to make changes to the database via AdminSelectBox.' =>
-            'Azt szabályozza, hogy az adminisztrátornak megengedett-e az adatbázison módosításokat végrehajtania az adminisztrátori lekérdeződobon keresztül.',
+            'Azt szabályozza, hogy az adminisztrátornak megengedett-e az adatbázison módosításokat végrehajtani az adminisztrátori lekérdeződobozon keresztül.',
         'Controls if the autocomplete field will be used for the customer ID selection in the AdminCustomerUser interface.' =>
             'Azt szabályozza, hogy az automatikus kiegészítés mező legyen-e használva az ügyfél-azonosító kijelöléséhez az adminisztrátori ügyfél-felhasználó felületen.',
         'Controls if the ticket and article seen flags are removed when a ticket is archived.' =>
@@ -6489,7 +6498,7 @@ Az Ön segélyszolgálat csapata
         'Defines if the values for filters should be retrieved from all available tickets. If enabled, only values which are actually used in any ticket will be available for filtering. Please note: The list of customers will always be retrieved like this.' =>
             'Meghatározza, hogy a szűrők értékeit le kell-e kérni az összes elérhető jegyből. Ha engedélyezve van, akkor csak azok az értékek lesznek elérhetők a szűréshez, amelyeket ténylegesen használnak valamelyik jegyben. Ne feledje: az ügyfelek listája mindig lekérése kerül ehhez hasonlóan.',
         'Defines if time accounting is mandatory in the agent interface. If enabled, a note must be entered for all ticket actions (no matter if the note itself is configured as active or is originally mandatory for the individual ticket action screen).' =>
-            'Meghatározza, hogy az időelszámolás kötelező-e az ügyintézői felületen. Ha engedélyezve van, akkor egy jegyzetet kell megadni minden jegyműveletnél (nem számít, hogy maga a jegyzet aktívként van-e beállítva, vagy eredetileg is kötelező az egyedüli jegyművelet képernyőnél).',
+            'Meghatározza, hogy az időelszámolás kötelező-e az ügyintézői felületen. Ha engedélyezve van, akkor egy jegyzetet kell megadni minden jegyműveletnél (nem számít, hogy maga a jegyzet aktívként van-e beállítva, vagy eredetileg is kötelező az egyéni jegyművelet képernyőnél).',
         'Defines if time accounting must be set to all tickets in bulk action.' =>
             'Meghatározza, hogy az időelszámolást be kell állítani minden jegyre a tömeges műveletben.',
         'Defines internal communication channel.' => 'Belső kommunikációs csatornát határoz meg.',
@@ -6501,7 +6510,7 @@ Az Ön segélyszolgálat csapata
         'Defines the HTTP hostname for the support data collection with the public module \'PublicSupportDataCollector\' (e.g. used from the OTRS Daemon).' =>
             'Meghatározza a HTTP gépnevet a támogatási adatok gyűjtéséhez a nyilvános „PublicSupportDataCollector” modullal (például az OTRS démonból használva).',
         'Defines the IP regular expression for accessing the local repository. You need to enable this to have access to your local repository and the package::RepositoryList is required on the remote host.' =>
-            'Az IP reguláris kifejezést határozza meg a helyi tárolóhoz való hozzáféréshez. Engedélyeznie kell ezt a helyi tárolóhoz való hozzáféréshez, továbbá a package::RepositoryList szükséges a távoli kiszolgálón.',
+            'Az IP reguláris kifejezést határozza meg a helyi tárolóhoz való hozzáféréshez. Engedélyeznie kell ezt a helyi tárolóhoz való hozzáféréshez, továbbá a Package::RepositoryList szükséges a távoli kiszolgálón.',
         'Defines the PostMaster header to be used on the filter for keeping the current state of the ticket.' =>
             'Meghatározza a szűrőn használandó levelezési fejlécet a jegy aktuális állapotának megtartásához.',
         'Defines the URL CSS path.' => 'Meghatározza az URL CSS útvonalát.',
@@ -6906,7 +6915,7 @@ Az Ön segélyszolgálat csapata
         'Defines the number of hours a communication will be stored, whichever its status.' =>
             'Meghatározza azon órák számát, amíg egy kommunikáció el lesz tárolva attól függően, hogy mi az állapota.',
         'Defines the number of hours a successful communication will be stored.' =>
-            'Meghatározza azon órák számát, amíg egy sikeres kommunikációt el lesz tárolva.',
+            'Meghatározza azon órák számát, amíg egy sikeres kommunikáció el lesz tárolva.',
         'Defines the parameters for the customer preferences table.' => 'Meghatározza az ügyfélbeállítások tábla paramétereit.',
         'Defines the parameters for the dashboard backend. "Cmd" is used to specify command with parameters. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTL" indicates the cache expiration period in minutes for the plugin. "Mandatory" determines if the plugin is always shown and can not be removed by agents.' =>
             'Meghatározza a vezérlőpult háttérprogram paramétereit. A „Cmd” egy paraméterekkel ellátott parancs megadásához használható. A „Group” használható a hozzáférés korlátozásához a bővítményre (például Group: admin;csoport1;csoport2;). A „Default” jelzi, hogy a bővítmény alapértelmezetten engedélyezve van, vagy hogy a felhasználónak kézzel kell engedélyeznie azt. A „CacheTTL” a bővítmény gyorsítótár lejárati időtartamát jelzi percben. A „Mandatory” határozza meg, hogy a bővítmény mindig megjelenjen, és az ügyintézők ne tudják eltávolítani.',
@@ -7042,7 +7051,7 @@ Az Ön segélyszolgálat csapata
         'Delete expired cache from core modules.' => 'Lejárt gyorsítótár törlése az alapvető modulokból.',
         'Delete expired loader cache weekly (Sunday mornings).' => 'Lejárt betöltő gyorsítótár törlése hetente (vasárnap reggelente).',
         'Delete expired sessions.' => 'Lejárt munkamenetek törlése.',
-        'Delete expired ticket draft entries.' => 'Lejárt jegy piszkozatbejegyzések törlése.',
+        'Delete expired ticket draft entries.' => 'Jegyek lejárt piszkozatbejegyzéseinek törlése.',
         'Delete expired upload cache hourly.' => 'Lejárt feltöltési gyorsítótár törlése óránként.',
         'Delete this ticket' => 'Jegy törlése',
         'Deleted link to ticket "%s".' => 'Hivatkozás törölve a következő jegyre: „%s”.',
@@ -7391,7 +7400,7 @@ Az Ön segélyszolgálat csapata
         'If "FS" was selected for SessionModule, a directory where the session data will be stored must be specified.' =>
             'Ha „FS” lett kiválasztva a SessionModule modulnál, akkor meg kell adni azt a könyvtárat, ahol a munkamenet adatok tárolva lesznek.',
         'If "HTTPBasicAuth" was selected for Customer::AuthModule, you can specify (by using a RegExp) to strip parts of REMOTE_USER (e. g. for to remove trailing domains). RegExp-Note, $1 will be the new Login.' =>
-            'Ha „HTTPBasicAuth” lett kiválasztva a Customer::AuthModule modulnál, akkor megadhatja (reguláris kifejezés használatával) a TÁVOLI_FELHASZNÁLÓ részeinek felvágását (például a záró tartományok eltávolításához). Reguláris kifejezés megjegyzés, a $1 lesz az új bejelentkezés.',
+            'Ha „HTTPBasicAuth” lett kiválasztva a Customer::AuthModule modulnál, akkor megadhatja (reguláris kifejezés használatával) a REMOTE_USER részeinek felvágását (például a záró tartományok eltávolításához). Reguláris kifejezés megjegyzés, a $1 lesz az új bejelentkezés.',
         'If "HTTPBasicAuth" was selected for Customer::AuthModule, you can specify to strip leading parts of user names (e. g. for domains like example_domain\user to user).' =>
             'Ha „HTTPBasicAuth” lett kiválasztva a Customer::AuthModule modulnál, akkor megadhatja a felhasználónevek vezető részeinek levágását (például tartományoknál, úgymint pelda_tartomany\felhasznalo a felhasználóhoz).',
         'If "LDAP" was selected for Customer::AuthModule and if you want to add a suffix to every customer login name, specifiy it here, e. g. you just want to write the username user but in your LDAP directory exists user@domain.' =>
@@ -7427,7 +7436,7 @@ Az Ön segélyszolgálat csapata
         'If "Sendmail" was selected as SendmailModule, the location of the sendmail binary and the needed options must be specified.' =>
             'Ha „Sendmail” lett kiválasztva a SendmailModule modulnál, akkor meg kell adni a sendmail bináris helyét és a szükséges beállításokat.',
         'If "SysLog" was selected for LogModule, a special log facility can be specified.' =>
-            'Ha „SysLog” lett kiválasztva a LogModule modulnál, akkor megadható egy speciális naplózó képesség.',
+            'Ha „SysLog” lett kiválasztva a LogModule modulnál, akkor megadható egy speciális naplózó összetevő.',
         'If "SysLog" was selected for LogModule, the charset that should be used for logging can be specified.' =>
             'Ha „SysLog” lett kiválasztva a LogModule modulnál, akkor megadható a naplózásnál használandó karakterkészlet.',
         'If "bcrypt" was selected for CryptType, use cost specified here for bcrypt hashing. Currently max. supported cost value is 31.' =>
@@ -7588,7 +7597,7 @@ Az Ön segélyszolgálat csapata
         'Logout of customer panel.' => 'Az ügyfélpanel kijelentkezése.',
         'Look into a ticket!' => 'Tekintsen bele egy jegybe!',
         'Loop protection: no auto-response sent to "%s".' => 'Hurokvédelem: nem lett automatikus válasz elküldve ide: „%s”.',
-        'Macedonian' => '',
+        'Macedonian' => 'Macedón',
         'Mail Accounts' => 'Levelezőfiókok',
         'MailQueue configuration settings.' => 'Levelezési sor konfigurációs beállítások.',
         'Main menu item registration.' => 'Főmenü elem regisztráció.',
@@ -7669,9 +7678,9 @@ Az Ön segélyszolgálat csapata
         'Module to filter encrypted bodies of incoming messages.' => 'Egy modul a bejövő üzenetek titkosított törzseinek szűréséhez.',
         'Module to generate accounted time ticket statistics.' => 'Egy modul az elszámolt idő jegy statisztikák előállításához.',
         'Module to generate html OpenSearch profile for short ticket search in the agent interface.' =>
-            'Egy modul a HTML OpenSearch profil előállításához a rövid jegykeresésnél az ügyintézői felületen.',
+            'Egy modul a gyors jegykeresés HTML OpenSearch profiljának előállításához az ügyintézői felületen.',
         'Module to generate html OpenSearch profile for short ticket search in the customer interface.' =>
-            'Egy modul a HTML OpenSearch profil előállításához a rövid jegykeresésnél az ügyfélfelületen.',
+            'Egy modul a gyors jegykeresés HTML OpenSearch profiljának előállításához az ügyfélfelületen.',
         'Module to generate ticket solution and response time statistics.' =>
             'Egy modul a jegy megoldás és válaszidő statisztikák előállításához.',
         'Module to generate ticket statistics.' => 'Egy modul a jegystatisztikák előállításához.',
@@ -7738,13 +7747,13 @@ Az Ön segélyszolgálat csapata
         'Open tickets (customer)' => 'Nyitott jegyek (ügyfél)',
         'Option' => 'Választás',
         'Optional queue limitation for the CreatorCheck permission module. If set, permission is only granted for tickets in the specified queues.' =>
-            'Opcionális várólista korlátozás a CreatorCheck jogosultsági modulnál. Ha be van állítva, akkor a jogosultságok csak a jegyeknél vannak engedélyezve a megadott várólistákban.',
+            'Opcionális várólista korlátozás a CreatorCheck jogosultsági modulnál. Ha be van állítva, akkor a jogosultságok csak a megadott várólistákban lévő jegyeknél vannak engedélyezve.',
         'Optional queue limitation for the InvolvedCheck permission module. If set, permission is only granted for tickets in the specified queues.' =>
-            'Opcionális várólista korlátozás az InvolvedCheck jogosultsági modulnál. Ha be van állítva, akkor a jogosultságok csak a jegyeknél vannak engedélyezve a megadott várólistákban.',
+            'Opcionális várólista korlátozás az InvolvedCheck jogosultsági modulnál. Ha be van állítva, akkor a jogosultságok csak a megadott várólistákban lévő jegyeknél vannak engedélyezve.',
         'Optional queue limitation for the OwnerCheck permission module. If set, permission is only granted for tickets in the specified queues.' =>
-            'Opcionális várólista korlátozás az OwnerCheck jogosultsági modulnál. Ha be van állítva, akkor a jogosultságok csak a jegyeknél vannak engedélyezve a megadott várólistákban.',
+            'Opcionális várólista korlátozás az OwnerCheck jogosultsági modulnál. Ha be van állítva, akkor a jogosultságok csak a megadott várólistákban lévő jegyeknél vannak engedélyezve.',
         'Optional queue limitation for the ResponsibleCheck permission module. If set, permission is only granted for tickets in the specified queues.' =>
-            'Opcionális várólista korlátozás a ResponsibleCheck jogosultsági modulnál. Ha be van állítva, akkor a jogosultságok csak a jegyeknél vannak engedélyezve a megadott várólistákban.',
+            'Opcionális várólista korlátozás a ResponsibleCheck jogosultsági modulnál. Ha be van állítva, akkor a jogosultságok csak a megadott várólistákban lévő jegyeknél vannak engedélyezve.',
         'Other Customers' => 'Egyéb ügyfelek',
         'Out Of Office' => 'Irodán kívül',
         'Out Of Office Time' => 'Irodán kívüli idő',
@@ -7948,7 +7957,7 @@ Az Ön segélyszolgálat csapata
             'Megtartja a listázásokban lévő összes szolgáltatást akkor is, ha azok érvénytelen elemek gyermekei.',
         'Right' => 'Jobb',
         'Roles ↔ Groups' => 'Szerepek ↔ Csoportok',
-        'Romanian' => '',
+        'Romanian' => 'Román',
         'Run file based generic agent jobs (Note: module name needs to be specified in -configuration-module param e.g. "Kernel::System::GenericAgent").' =>
             'Fájlalapú általános ügyintéző feladatok futtatása (Megjegyzés: a modul nevét meg kell adni a -configuration-module paraméterben, például „Kernel::System::GenericAgent”).',
         'Running Process Tickets' => 'Futó folyamatjegyek',
@@ -8000,7 +8009,7 @@ Az Ön segélyszolgálat csapata
         'Sends agent follow-up notification only to the owner, if a ticket is unlocked (the default is to send the notification to all agents).' =>
             'Csak a tulajdonosnak küld ügyintéző követő értesítést, ha a jegy fel van oldva (az alapértelmezett, hogy minden ügyintézőnek elküldi az értesítést).',
         'Sends all outgoing email via bcc to the specified address. Please use this only for backup reasons.' =>
-            'Elküld minden kimenő e-mailt titkos másolatként egy megadott címre. Ez csak biztonsági mentés céljából használja.',
+            'Elküld minden kimenő e-mailt titkos másolatként egy megadott címre. Ezt csak biztonsági mentés céljából használja.',
         'Sends customer notifications just to the mapped customer.' => 'Az ügyfél értesítéseket csak a leképezett ügyfélnek küldi el.',
         'Sends registration information to OTRS group.' => 'Regisztrációs információkat küld az OTRS csoportnak.',
         'Sends reminder notifications of unlocked ticket after reaching the reminder date (only sent to ticket owner).' =>
@@ -8025,7 +8034,7 @@ Az Ön segélyszolgálat csapata
         'Set the default height (in pixels) of inline HTML articles in AgentTicketZoom.' =>
             'A beágyazott HTML bejegyzések alapértelmezett magasságának beállítása (képpontban) az ügyintézői jegynagyítás képernyőn.',
         'Set the limit of tickets that will be executed on a single genericagent job execution.' =>
-            'Azon jegyek korlátjának beállítása, amelyek egy egyedüli genericagent feladat végrehajtásakor lesznek végrehajtva.',
+            'Azon jegyek korlátjának beállítása, amelyek egy önálló általános ügyintéző feladat végrehajtásakor lesznek végrehajtva.',
         'Set the maximum height (in pixels) of inline HTML articles in AgentTicketZoom.' =>
             'A beágyazott HTML bejegyzések legnagyobb magasságának beállítása (képpontban) az ügyintézői jegynagyítás képernyőn.',
         'Set the minimum log level. If you select \'error\', just errors are logged. With \'debug\' you get all logging messages. The order of log levels is: \'debug\', \'info\', \'notice\' and \'error\'.' =>
@@ -8458,7 +8467,7 @@ Az Ön segélyszolgálat csapata
         'Specifies the directory where private SSL certificates are stored.' =>
             'Azt a könyvtárat adja meg, ahol a személyes SSL tanúsítványok vannak tárolva.',
         'Specifies the email address that should be used by the application when sending notifications. The email address is used to build the complete display name for the notification master (i.e. "OTRS Notifications" otrs@your.example.com). You can use the OTRS_CONFIG_FQDN variable as set in your configuation, or choose another email address.' =>
-            'Azt az e-mail címet adja meg, amelyet az alkalmazás az értesítések elküldésekor használjon. Az e-mail cím a teljes megjelenítési név összeállításához lesz használva az értesítési mesternél (azaz „OTRS értesítések” otrs@your.example.com). Használhatja az OTRS_CONFIG_FQDN változót, ahogy a konfigurációban be van állítva, vagy válasszon egy másik e-mail címet.',
+            'Azt az e-mail címet adja meg, amelyet az alkalmazás az értesítések elküldésekor használjon. Az e-mail cím a teljes megjelenítési név összeállításához lesz használva az értesítési mesternél (azaz "OTRS értesítések" <otrs@your.example.com>). Használhatja az OTRS_CONFIG_FQDN változót, ahogy a konfigurációban be van állítva, vagy válasszon egy másik e-mail címet.',
         'Specifies the email addresses to get notification messages from scheduler tasks.' =>
             'Megadja az e-mail címet az ütemező feladataiból érkező értesítési üzenetek fogadásához.',
         'Specifies the group where the user needs rw permissions so that he can access the "SwitchToCustomer" feature.' =>
@@ -8466,7 +8475,7 @@ Az Ön segélyszolgálat csapata
         'Specifies the group where the user needs rw permissions so that they can edit other users preferences.' =>
             'Azt a csoportot adja meg, ahol a felhasználónak írási, olvasási jogosultságra van szüksége ahhoz, hogy szerkeszthesse más felhasználók beállításait.',
         'Specifies the name that should be used by the application when sending notifications. The sender name is used to build the complete display name for the notification master (i.e. "OTRS Notifications" otrs@your.example.com).' =>
-            'Azt a nevet adja meg, amelyet az alkalmazás az értesítések elküldésekor használjon. A küldő neve a teljes megjelenítési név összeállításához lesz használva az értesítési mesternél (azaz „OTRS értesítésiek” otrs@your.example.com).',
+            'Azt a nevet adja meg, amelyet az alkalmazás az értesítések elküldésekor használjon. A küldő neve a teljes megjelenítési név összeállításához lesz használva az értesítési mesternél (azaz "OTRS értesítésiek" <otrs@your.example.com>).',
         'Specifies the order in which the firstname and the lastname of agents will be displayed.' =>
             'Azt a sorrendet adja meg, amelyben az ügyintéző keresztneve és vezetékneve megjelenítve legyen.',
         'Specifies the path of the file for the logo in the page header (gif|jpg|png, 700 x 100 pixel).' =>
@@ -8943,6 +8952,9 @@ Az Ön segélyszolgálat csapata
         'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.',
         'No matches found.',
         'No package information available.',
+        'No response from get package upgrade result.',
+        'No response from get package upgrade run status.',
+        'No response from package upgrade all.',
         'No sort applied, ',
         'No space left for the following files: %s',
         'Not available',

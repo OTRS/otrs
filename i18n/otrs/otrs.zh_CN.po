@@ -13,15 +13,15 @@
 # 张梦 <adoeh@sina.com>, 2018
 # Martin Gruner <martin.gruner@otrs.com>, 2018
 # Bob Tao <bob.tao@otrs.com>, 2018
-# 汇民 王 <whuim@qq.com>, 2019
 # 汇民 王 <whuim@163.com>, 2019
+# 汇民 王 <whuim@qq.com>, 2019
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-05-14 06:48+0000\n"
+"POT-Creation-Date: 2019-06-27 22:01+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
-"Last-Translator: 汇民 王 <whuim@163.com>, 2019\n"
+"Last-Translator: 汇民 王 <whuim@qq.com>, 2019\n"
 "Language-Team: Chinese (China) (https://www.transifex.com/otrs/teams/23435/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -182,12 +182,8 @@ msgid ""
 msgstr "当匹配条件满足时执行规定的操作动作。记住：'Possible'表示允许(白名单)，'PossibleNot'表示禁止(黑名单)。"
 
 #. Template: AdminACLEdit
-msgid "Check the official"
-msgstr "查看官方"
-
-#. Template: AdminACLEdit
-msgid "documentation"
-msgstr "文档"
+msgid "Check the official %sdocumentation%s."
+msgstr ""
 
 #. Template: AdminACLEdit
 msgid "Show or hide the content"
@@ -15036,6 +15032,26 @@ msgstr "Perl 模块"
 msgid "Not all required Perl modules are correctly installed."
 msgstr "部分Perl模块没有正确安装。"
 
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
+msgid "Perl Modules Audit"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
+msgid ""
+"CPAN::Audit reported that one or more installed Perl modules have known "
+"vulnerabilities. Please note that there might be false positives for "
+"distributions patching Perl modules without changing their version number."
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
+msgid ""
+"CPAN::Audit did not report any known vulnerabilities in the installed Perl "
+"modules."
+msgstr ""
+
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Swap.pm
 msgid "Free Swap Space (%)"
 msgstr "可用的交换空间(%)"
@@ -16391,6 +16407,10 @@ msgid ""
 msgstr "最近完成了一个软件包的升级，点击这里查看结果。"
 
 #. JS File: Core.Agent.Admin.PackageManager
+msgid "No response from get package upgrade result."
+msgstr ""
+
+#. JS File: Core.Agent.Admin.PackageManager
 msgid "Update all packages"
 msgstr "更新所有软件包"
 
@@ -16401,6 +16421,10 @@ msgstr "取消"
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "Update All Packages"
 msgstr "更新所有软件包"
+
+#. JS File: Core.Agent.Admin.PackageManager
+msgid "No response from package upgrade all."
+msgstr ""
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "Currently not possible"
@@ -16418,6 +16442,10 @@ msgstr "由于OTRS守护进程没有运行，这个选项当前被禁用。"
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "Are you sure you want to update all installed packages?"
 msgstr "您确定要更新所有已安装的软件包吗？"
+
+#. JS File: Core.Agent.Admin.PackageManager
+msgid "No response from get package upgrade run status."
+msgstr ""
 
 #. JS File: Core.Agent.Admin.PostMasterFilter
 msgid "Delete this PostMasterFilter"
@@ -18746,7 +18774,7 @@ msgstr "自动生成的流程实体ID的默认前缀。"
 
 #. SysConfig
 msgid "Default agent name"
-msgstr ""
+msgstr "默认的服务人员姓名"
 
 #. SysConfig
 msgid ""
@@ -19630,7 +19658,7 @@ msgstr "定义用于富文本编辑器的默认CSS。"
 msgid ""
 "Defines the default agent name in the ticket zoom view of the customer "
 "interface."
-msgstr ""
+msgstr "定义客户界面工单详情视图中默认的服务人员姓名。"
 
 #. SysConfig
 msgid ""
@@ -20138,6 +20166,8 @@ msgid ""
 "customers. A default agent name can be defined in "
 "Ticket::Frontend::CustomerTicketZoom###DefaultAgentName setting."
 msgstr ""
+"定义客户可见的注释中“发件人”字段的显示样式。 可以在 "
+"Ticket::Frontend::CustomerTicketZoom###DefaultAgentName 设置中定义默认的服务人员姓名。"
 
 #. SysConfig
 msgid ""
@@ -23107,6 +23137,10 @@ msgid "Loop protection: no auto-response sent to \"%s\"."
 msgstr "环路保护：没有自动响应发送到“%s”。"
 
 #. SysConfig
+msgid "Macedonian"
+msgstr "马其顿"
+
+#. SysConfig
 msgid "Mail Accounts"
 msgstr "邮件帐户"
 
@@ -23124,7 +23158,7 @@ msgstr "主菜单注册。"
 
 #. SysConfig
 msgid "Makes the application block external content loading."
-msgstr ""
+msgstr "使应用程序阻止外部内容加载。"
 
 #. SysConfig
 msgid ""
@@ -24380,7 +24414,7 @@ msgstr "用户“%s”已移除的关注。"
 msgid ""
 "Removes old generic interface debug log entries created before the specified"
 " amount of days."
-msgstr ""
+msgstr "删除在指定天数之前创建的旧的通用接口调试日志条目。"
 
 #. SysConfig
 msgid "Removes old system configuration deployments (Sunday mornings)."
@@ -24559,6 +24593,10 @@ msgstr "权限"
 #. SysConfig
 msgid "Roles ↔ Groups"
 msgstr "角色 ↔ 组"
+
+#. SysConfig
+msgid "Romanian"
+msgstr "罗马尼亚"
 
 #. SysConfig
 msgid ""
@@ -26762,7 +26800,7 @@ msgstr "转发邮件中加在主题前的文字，如FW、Fwd或WG。"
 
 #. SysConfig
 msgid "The value of the From field"
-msgstr ""
+msgstr "“发件人”字段的值"
 
 #. SysConfig
 msgid "Theme"

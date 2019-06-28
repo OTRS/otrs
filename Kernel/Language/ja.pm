@@ -27,7 +27,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y/%M/%D';
     $Self->{DateInputFormat}     = '%Y/%M/%D';
     $Self->{DateInputFormatLong} = '%Y/%M/%D - %T';
-    $Self->{Completeness}        = 0.762694477688494;
+    $Self->{Completeness}        = 0.761701400751623;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -79,8 +79,7 @@ sub Data {
         'Change settings' => '変更設定',
         'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is a white list, \'PossibleNot\' a black list.' =>
             'マッチした対象をどのように絞り込むかを指定します。\'Possible\'はホワイトリスト、\'PossibleNot\'はブラックリストです。',
-        'Check the official' => '公式サイトをチェック',
-        'documentation' => 'ドキュメント',
+        'Check the official %sdocumentation%s.' => '',
         'Show or hide the content' => '内容の表示・非表示',
         'Edit ACL Information' => 'ACL情報を編集',
         'Name' => '名前',
@@ -5033,6 +5032,13 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Perl Modules' => 'Perl モジュール',
         'Not all required Perl modules are correctly installed.' => '必要な Perl モジュールが一部インストールされていません ',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
+        'Perl Modules Audit' => '',
+        'CPAN::Audit reported that one or more installed Perl modules have known vulnerabilities. Please note that there might be false positives for distributions patching Perl modules without changing their version number.' =>
+            '',
+        'CPAN::Audit did not report any known vulnerabilities in the installed Perl modules.' =>
+            '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Swap.pm
         'Free Swap Space (%)' => '未使用の Swap 領域 (%)',
         'No swap enabled.' => 'スワップが存在していません。',
@@ -5517,15 +5523,18 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
             '',
         'A package upgrade was recently finished. Click here to see the results.' =>
             'パッケージのアップグレードが最近終了しました。 結果を見るにはここをクリックして下さい。',
+        'No response from get package upgrade result.' => '',
         'Update all packages' => 'パッケージを全て更新する',
         'Dismiss' => '非表示',
         'Update All Packages' => 'パッケージを全て更新する',
+        'No response from package upgrade all.' => '',
         'Currently not possible' => '現在は未対応です',
         'This is currently disabled because of an ongoing package upgrade.' =>
             'こちらは現在パッケージの更新中のため無効化されています。',
         'This option is currently disabled because the OTRS Daemon is not running.' =>
             'こちらは現在 OTRS デーモンが停止中のため無効化されています。',
         'Are you sure you want to update all installed packages?' => '全てのパッケージを更新します。よろしいですか？',
+        'No response from get package upgrade run status.' => '',
 
         # JS File: Core.Agent.Admin.PostMasterFilter
         'Delete this PostMasterFilter' => 'このポストマスター・フィルターを削除',
@@ -8953,6 +8962,9 @@ Contentはダイナミック・フィールドの形式によって設定内容�
         'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.',
         'No matches found.',
         'No package information available.',
+        'No response from get package upgrade result.',
+        'No response from get package upgrade run status.',
+        'No response from package upgrade all.',
         'No sort applied, ',
         'No space left for the following files: %s',
         'Not available',

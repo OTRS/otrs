@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-05-14 06:48+0000\n"
+"POT-Creation-Date: 2019-06-27 22:01+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>, 2018\n"
 "Language-Team: Korean (https://www.transifex.com/otrs/teams/23435/ko/)\n"
@@ -174,12 +174,8 @@ msgstr ""
 "기준이 일치하면 변경하려는 항목을 설정하십시오. Possible '은 흰색 목록이고'PossibleNot '은 검은 색 목록입니다."
 
 #. Template: AdminACLEdit
-msgid "Check the official"
-msgstr "오피셜로 체크"
-
-#. Template: AdminACLEdit
-msgid "documentation"
-msgstr "문서"
+msgid "Check the official %sdocumentation%s."
+msgstr ""
 
 #. Template: AdminACLEdit
 msgid "Show or hide the content"
@@ -15126,6 +15122,26 @@ msgstr "펄 모듈"
 msgid "Not all required Perl modules are correctly installed."
 msgstr "필요한 Perl 모듈이 모두 올바르게 설치되지는 않았습니다."
 
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
+msgid "Perl Modules Audit"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
+msgid ""
+"CPAN::Audit reported that one or more installed Perl modules have known "
+"vulnerabilities. Please note that there might be false positives for "
+"distributions patching Perl modules without changing their version number."
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
+msgid ""
+"CPAN::Audit did not report any known vulnerabilities in the installed Perl "
+"modules."
+msgstr ""
+
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Swap.pm
 msgid "Free Swap Space (%)"
 msgstr "무료 스왑 공간 (%)"
@@ -16489,6 +16505,10 @@ msgid ""
 msgstr "패키지 업그레이드가 최근 완료 되었습니다. 결과를 보려면 여기를 클릭하십시오."
 
 #. JS File: Core.Agent.Admin.PackageManager
+msgid "No response from get package upgrade result."
+msgstr ""
+
+#. JS File: Core.Agent.Admin.PackageManager
 msgid "Update all packages"
 msgstr "모든 패키지 업데이트"
 
@@ -16499,6 +16519,10 @@ msgstr "버리다"
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "Update All Packages"
 msgstr "모든 패키지 업데이트"
+
+#. JS File: Core.Agent.Admin.PackageManager
+msgid "No response from package upgrade all."
+msgstr ""
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "Currently not possible"
@@ -16516,6 +16540,10 @@ msgstr "OTRS 데몬이 실행 중이 아니기 때문에이 옵션은 현재 비
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "Are you sure you want to update all installed packages?"
 msgstr "설치된 패키지를 모두 업데이트 하시겠습니까?"
+
+#. JS File: Core.Agent.Admin.PackageManager
+msgid "No response from get package upgrade run status."
+msgstr ""
 
 #. JS File: Core.Agent.Admin.PostMasterFilter
 msgid "Delete this PostMasterFilter"
@@ -23472,6 +23500,10 @@ msgid "Loop protection: no auto-response sent to \"%s\"."
 msgstr "루프 보호 : 자동 응답이 \"%s\"로 전송되지 않습니다."
 
 #. SysConfig
+msgid "Macedonian"
+msgstr ""
+
+#. SysConfig
 msgid "Mail Accounts"
 msgstr "메일 계정"
 
@@ -24990,6 +25022,10 @@ msgstr "권리"
 #. SysConfig
 msgid "Roles ↔ Groups"
 msgstr "역할 ↔ 그룹"
+
+#. SysConfig
+msgid "Romanian"
+msgstr ""
 
 #. SysConfig
 msgid ""

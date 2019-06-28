@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.998461275431698;
+    $Self->{Completeness}        = 0.998804236419542;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -82,8 +82,7 @@ sub Data {
         'Change settings' => 'Promeni podešavanja',
         'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is a white list, \'PossibleNot\' a black list.' =>
             'Podesite ono što želite da menjate ako se kriterijumi slažu. Imajte na umu da je \'Possible\' bela lista, \'PossibleNot\' crna lista.',
-        'Check the official' => 'Proverite zvanično',
-        'documentation' => 'dokumentacija',
+        'Check the official %sdocumentation%s.' => '',
         'Show or hide the content' => 'Pokaži ili sakrij sadržaj',
         'Edit ACL Information' => 'Uredi informacije o ACL',
         'Name' => 'Naziv',
@@ -5032,6 +5031,13 @@ sub Data {
         'Perl Modules' => 'Perl moduli',
         'Not all required Perl modules are correctly installed.' => 'Svi zahtevani Perl moduli nisu korektno instalirani.',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
+        'Perl Modules Audit' => '',
+        'CPAN::Audit reported that one or more installed Perl modules have known vulnerabilities. Please note that there might be false positives for distributions patching Perl modules without changing their version number.' =>
+            '',
+        'CPAN::Audit did not report any known vulnerabilities in the installed Perl modules.' =>
+            '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Swap.pm
         'Free Swap Space (%)' => 'Slobodni Swap prostor (%)',
         'No swap enabled.' => 'Razmenjivanje nije aktivirano.',
@@ -5516,15 +5522,18 @@ sub Data {
             'Ažuriranje paketa je u toku, kliknite ovde za status napredovanja.',
         'A package upgrade was recently finished. Click here to see the results.' =>
             'Ažuriranje paketa je završeno. Kliknite ovde za rezultate.',
+        'No response from get package upgrade result.' => '',
         'Update all packages' => 'Ažuriraj sve pakete',
         'Dismiss' => 'Poništi',
         'Update All Packages' => 'Ažuriraj sve pakete',
+        'No response from package upgrade all.' => '',
         'Currently not possible' => 'Trenutno nije moguće',
         'This is currently disabled because of an ongoing package upgrade.' =>
             'Ova funkcija je trenutno isključena zbog ažuriranja paketa u toku.',
         'This option is currently disabled because the OTRS Daemon is not running.' =>
             'Ova funkcija je trenutno isključena zato što OTRS servis ne radi.',
         'Are you sure you want to update all installed packages?' => 'Da li ste sigurni da želite da unapredite sve instalirane pakete?',
+        'No response from get package upgrade run status.' => '',
 
         # JS File: Core.Agent.Admin.PostMasterFilter
         'Delete this PostMasterFilter' => 'Obriši ovaj PostMaster filter',
@@ -6297,7 +6306,7 @@ Vaša tehnička podrška
         'Default ACL values for ticket actions.' => 'Podrazumevane ACL vrednosti za akcije tiketa.',
         'Default ProcessManagement entity prefixes for entity IDs that are automatically generated.' =>
             'Podrazumevani prefiksi objekta za upravljanje procesom za IĐeve objekta koji su automatski generisani.',
-        'Default agent name' => '',
+        'Default agent name' => 'Podrazumevano ime operatera',
         'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimePointFormat=year;TicketCreateTimePointStart=Last;TicketCreateTimePoint=2;".' =>
             'Podrazumevani podaci za korišćenje na atributima za prikaz pretrage tiketa. Primer: "TicketCreateTimePointFormat=year;TicketCreateTimePointStart=Last;TicketCreateTimePoint=2;".',
         'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimeStartYear=2010;TicketCreateTimeStartMonth=10;TicketCreateTimeStartDay=4;TicketCreateTimeStopYear=2010;TicketCreateTimeStopMonth=11;TicketCreateTimeStopDay=3;".' =>
@@ -6544,7 +6553,7 @@ Vaša tehnička podrška
             'Definiše fornosa datuma u formulare (opciono ili polja za unos).',
         'Defines the default CSS used in rich text editors.' => 'Definiše podrazumevani CSS upotrebljen u RTF uređivanju.',
         'Defines the default agent name in the ticket zoom view of the customer interface.' =>
-            '',
+            'Određuje podrazumevano ime operatera u detaljnom prikazu tiketa u interfejsu klijenta.',
         'Defines the default auto response type of the article for this operation.' =>
             'Definiše podrazumevani tip automatskog odgovora članka za ovu operaciju.',
         'Defines the default body of a note in the ticket free text screen of the agent interface.' =>
@@ -6704,7 +6713,7 @@ Vaša tehnička podrška
         'Defines the default visibility of the article to customer for this operation.' =>
             'Definiše vidljivost članka klijentu za ovu operaciju.',
         'Defines the displayed style of the From field in notes that are visible for customers. A default agent name can be defined in Ticket::Frontend::CustomerTicketZoom###DefaultAgentName setting.' =>
-            '',
+            'Definiše podrazumevan format From polja napomena koji su vidljivi klijentima. Podrazumevano ime operatera može biti definisano u putem Ticket::Frontend::CustomerTicketZoom###DefaultAgentName.',
         'Defines the dynamic fields that are used for displaying on calendar events.' =>
             'Definiše dinamička polja koja se koriste za prikazivanje na kalendaru događaja.',
         'Defines the event object types that will be handled via AdminAppointmentNotificationEvent.' =>
@@ -7589,12 +7598,12 @@ Vaša tehnička podrška
         'Logout of customer panel.' => 'Odjava sa klijentskog panela.',
         'Look into a ticket!' => 'Pogledaj sadržaj tiketa!',
         'Loop protection: no auto-response sent to "%s".' => 'Zaštita od petlje: bez automatskog odgovora na "%s".',
-        'Macedonian' => '',
+        'Macedonian' => 'Makedonski',
         'Mail Accounts' => 'Imejl nalozi',
         'MailQueue configuration settings.' => 'Podešavanje zakazanih imejlova za slanje.',
         'Main menu item registration.' => 'Registracija stavke glavnog menija.',
         'Main menu registration.' => 'Registracija glavnog menija.',
-        'Makes the application block external content loading.' => '',
+        'Makes the application block external content loading.' => 'Primorava aplikaciju da blokira učitavanje eksternog sadržaja.',
         'Makes the application check the MX record of email addresses before sending an email or submitting a telephone or email ticket.' =>
             'Proverava „MX” zapis imejl adrese pre slanja poruke ili telefonskih ili imejl tiketa.',
         'Makes the application check the syntax of email addresses.' => 'Primorava aplikaciju da proverava sintaksu imejl aderesa.',
@@ -7890,7 +7899,7 @@ Vaša tehnička podrška
         'Reminder Tickets' => 'Tiketi podsetnika',
         'Removed subscription for user "%s".' => 'Pretplata za korisnika "%s" je isključena.',
         'Removes old generic interface debug log entries created before the specified amount of days.' =>
-            '',
+            'Uklanja stare logove otklanjanja grešaka generičkog interfejsa koji su kreirani pre definisanog broja dana.',
         'Removes old system configuration deployments (Sunday mornings).' =>
             'Uklanja stare rasporede sistemske konfiguracije (nedeljom ujutru).',
         'Removes old ticket number counters (each 10 minutes).' => 'Uklanja stare brojače tiketa (svakih 10 minuta).',
@@ -7949,7 +7958,7 @@ Vaša tehnička podrška
             'Zadrži sve servise u listi čak iako su deca nevažećih elemenata.',
         'Right' => 'Desno',
         'Roles ↔ Groups' => 'Uloge ↔ grupe',
-        'Romanian' => '',
+        'Romanian' => 'Rumunski',
         'Run file based generic agent jobs (Note: module name needs to be specified in -configuration-module param e.g. "Kernel::System::GenericAgent").' =>
             'Pokreće poslove generičkog operatera bazirane na datotekama (Napomena: naziv modula mora biti definisan u konfiguraciji parametara modula, npr. "Kernel::System::GenericAgent").',
         'Running Process Tickets' => 'Aktivni proces tiketi',
@@ -8518,7 +8527,7 @@ Vaša tehnička podrška
         'Strips empty lines on the ticket preview in the queue view.' => 'Uklanja prazne linije u prikazu tiketa na pregledu reda.',
         'Strips empty lines on the ticket preview in the service view.' =>
             'Uklanja prazne linije u prikazu tiketa na pregledu usluga.',
-        'Support Agent' => '',
+        'Support Agent' => 'Operater podrške',
         'Swahili' => 'Svahili',
         'Swedish' => 'Švedski',
         'System Address Display Name' => 'Naziv za prikaz sistemske adrese',
@@ -8579,7 +8588,7 @@ Vaša tehnička podrška
             'Tekst na početku predmeta u odgovoru na imejl, npr. RE, AW ili AS.',
         'The text at the beginning of the subject when an email is forwarded, e.g. FW, Fwd, or WG.' =>
             'Tekst na početku predmeta kada se imejl prosleđuje, npr. FW, Fwd, ili WG.',
-        'The value of the From field' => '',
+        'The value of the From field' => 'Vrednost From polja',
         'Theme' => 'Tema',
         'This event module stores attributes from CustomerUser as DynamicFields tickets. Please see DynamicFieldFromCustomerUser::Mapping setting for how to configure the mapping.' =>
             'Ovaj modul događaja čuva atribute korisnika kao dinamička polja tiketa. Pogledajte opciju DynamicFieldFromCustomerUser::Mapping za podešavanje mapiranja.',
@@ -8944,6 +8953,9 @@ Vaša tehnička podrška
         'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.',
         'No matches found.',
         'No package information available.',
+        'No response from get package upgrade result.',
+        'No response from get package upgrade run status.',
+        'No response from package upgrade all.',
         'No sort applied, ',
         'No space left for the following files: %s',
         'Not available',
