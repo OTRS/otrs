@@ -27,7 +27,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y/%M/%D';
     $Self->{DateInputFormat}     = '%Y/%M/%D';
     $Self->{DateInputFormatLong} = '%Y/%M/%D - %T';
-    $Self->{Completeness}        = 0.819036192761448;
+    $Self->{Completeness}        = 0.8188;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -819,8 +819,7 @@ sub Data {
         'Change settings' => '変更設定',
         'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is a white list, \'PossibleNot\' a black list.' =>
             'マッチした対象をどのように絞り込むかを指定します。\'Possible\'はホワイトリスト、\'PossibleNot\'はブラックリストです。',
-        'Check the official' => '公式サイトをチェック',
-        'documentation' => 'ドキュメント',
+        'Check the official %sdocumentation%s.' => '',
         'Show or hide the content' => '内容の表示・非表示',
         'Edit ACL information' => 'ACLの情報を編集',
         'Stop after match' => '一致後に停止',

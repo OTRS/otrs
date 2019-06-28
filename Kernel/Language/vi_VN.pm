@@ -23,7 +23,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.238152369526095;
+    $Self->{Completeness}        = 0.2378;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -814,8 +814,7 @@ sub Data {
         'Change settings' => 'Thay đổi cài đặt',
         'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is a white list, \'PossibleNot\' a black list.' =>
             'Thiết lập những gì bạn muốn thay đổi nếu phù hợp tiêu chuẩn. Hãy nhớ rằng "có thể" là một danh sách trắng, \'PossibleNot\' danh sách đen.',
-        'Check the official' => 'Kiểm tra chính thức',
-        'documentation' => 'tài liệu',
+        'Check the official %sdocumentation%s.' => '',
         'Show or hide the content' => 'Hiển thị hoặc ẩn nội dung',
         'Edit ACL information' => 'Chỉnh sửa thông tin ACL Danh sách kiểm soát truy cập',
         'Stop after match' => 'Dừng sau khi khớp',

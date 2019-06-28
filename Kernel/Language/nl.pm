@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D-%M-%Y';
     $Self->{DateInputFormat}     = '%D-%M-%Y';
     $Self->{DateInputFormatLong} = '%D-%M-%Y - %T';
-    $Self->{Completeness}        = 0.65126974605079;
+    $Self->{Completeness}        = 0.651;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -821,8 +821,7 @@ sub Data {
         'Change settings' => 'Verander instellingen',
         'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is a white list, \'PossibleNot\' a black list.' =>
             'Geef aan wat u wilt dat gebeurt als de activatie-criteria kloppen.',
-        'Check the official' => 'Bekijk de',
-        'documentation' => 'documentatie',
+        'Check the official %sdocumentation%s.' => '',
         'Show or hide the content' => 'Toon of verberg de inhoud',
         'Edit ACL information' => 'Bewerk ACL-informatie',
         'Stop after match' => 'Stop met filters na match',

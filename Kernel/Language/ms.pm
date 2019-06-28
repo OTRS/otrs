@@ -23,7 +23,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.853629274145171;
+    $Self->{Completeness}        = 0.8534;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -814,8 +814,7 @@ sub Data {
         'Change settings' => 'Menukar tetapan',
         'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is a white list, \'PossibleNot\' a black list.' =>
             'Tetapkan apa yang ingin anda ubah jika ciri-ciri sesuai. Ingat bahawa \'Mungkin\' ialah senarai putih, \'Tidak mungkin\' ialah senarai hitam.',
-        'Check the official' => 'Menyemak rasmi',
-        'documentation' => 'dokumentasi',
+        'Check the official %sdocumentation%s.' => '',
         'Show or hide the content' => 'Menunjukkan atau menyembunyikan kandungan',
         'Edit ACL information' => 'Sunting maklumat Senarai Kawalan Akses',
         'Stop after match' => 'Berhenti selepas perlawanan',

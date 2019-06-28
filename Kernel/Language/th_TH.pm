@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.818436312737453;
+    $Self->{Completeness}        = 0.8182;
 
     # csv separator
     $Self->{Separator} = ',';
@@ -815,8 +815,7 @@ sub Data {
         'Change settings' => 'เปลี่ยนการตั้งค่า',
         'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is a white list, \'PossibleNot\' a black list.' =>
             'ตั้งค่าสิ่งที่คุณต้องการที่จะเปลี่ยนแปลงถ้าหากตรงตามเกณฑ์ โปรดจำไว้ว่า \'Possible\' เป็นรายการที่อนุญาต \'PossibleNo\' คือแบล็คลิสต์',
-        'Check the official' => 'ตรวจสอบที่เป็นทางการ',
-        'documentation' => 'เอกสาร',
+        'Check the official %sdocumentation%s.' => '',
         'Show or hide the content' => 'แสดงหรือซ่อนเนื้อหา',
         'Edit ACL information' => 'แก้ไขข้อมูล ACL',
         'Stop after match' => 'หยุดหลังจากจับคู่แล้ว',

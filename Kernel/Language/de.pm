@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.987402519496101;
+    $Self->{Completeness}        = 0.9872;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -815,8 +815,7 @@ sub Data {
         'Change settings' => 'Werte ändern',
         'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is a white list, \'PossibleNot\' a black list.' =>
             'Stellt die Wertänderungen ein für den Fall, dass die Filterbedingungen zutreffen. Hierbei ist \'Possible\' eine Positivliste und \'PossibleNot\' eine Negativliste.',
-        'Check the official' => 'Prüfen Sie die offizielle',
-        'documentation' => 'Dokumentation',
+        'Check the official %sdocumentation%s.' => '',
         'Show or hide the content' => 'Inhalt einblenden oder ausblenden',
         'Edit ACL information' => 'ACL-Information bearbeiten',
         'Stop after match' => 'Stoppen nach Treffer',

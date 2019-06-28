@@ -113,11 +113,11 @@ $Selenium->RunTest(
 
         # Add article.
         my $ArticleID = $TicketObject->ArticleCreate(
-            TicketID       => $TicketID,
-            ArticleType    => 'email-external',
-            SenderType     => 'customer',
-            Subject        => 'First article',
-            Body           =>
+            TicketID    => $TicketID,
+            ArticleType => 'email-external',
+            SenderType  => 'customer',
+            Subject     => 'First article',
+            Body =>
                 "<!DOCTYPE html><html><body>the message text<br><img src=\"cid:$ContentID\" /></body></html>",
             ContentType    => 'text/html; charset="utf8"',
             HistoryType    => 'EmailCustomer',
