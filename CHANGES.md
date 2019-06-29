@@ -1,4 +1,5 @@
 #6.0.21 ????-??-??
+ - 2019-06-28 Fixed bug#[14601](https://bugs.otrs.org/show_bug.cgi?id=14601) - Entitlement check message is different in GUI and log.
  - 2019-06-25 Fixed bug#[14606](https://bugs.otrs.org/show_bug.cgi?id=14606) - Values of Activity status and Customer visibility drop-downs are not translated in Ticket notification screen.
 
 #6.0.20 2019-07-12

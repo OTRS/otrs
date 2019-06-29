@@ -557,8 +557,10 @@ sub OTRSBusinessEntitlementStatus {
         return 'forbidden';
     }
 
+    # Cloud service is called and if cannot be connected, it must return 'forbidden'.
     if ( $Param{CallCloudService} ) {
-        $Self->OTRSBusinessEntitlementCheck();
+        my $Check = $Self->OTRSBusinessEntitlementCheck();
+        return 'forbidden' if $Check == 0;
     }
 
     # OK. Let's look at the system_data cache now and use it if appropriate
