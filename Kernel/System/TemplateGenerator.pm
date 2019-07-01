@@ -1068,14 +1068,16 @@ sub _Replace {
     # Replace config options.
     my $Tag = $Start . 'OTRS_CONFIG_';
     $Param{Text} =~ s{$Tag(.+?)$End}{
-        my $Replace = '';
-        # Mask secret config options.
-        if ($1 =~ m{(Password|Pw)\d*$}smxi) {
-            $Replace = 'xxx';
-        }
-        else {
-            $Replace = $ConfigObject->Get($1) // '';
-        }
+        my $Key   = $1;
+        my $Value = $ConfigObject->Get($Key) // '';
+
+        # Mask sensitive config options.
+        my $Replace = $Self->_MaskSensitiveValue(
+            Key      => $Key,
+            Value    => $Value,
+            IsConfig => 1,
+        );
+
         $Replace;
     }egx;
 
@@ -1101,11 +1103,15 @@ sub _Replace {
         # Generate one single matching string for all keys to save performance.
         my $Keys = join '|', map {quotemeta} grep { defined $H{$_} } keys %H;
 
-        # Add all keys also as lowercase to be able to match case insensitive,
+        # Set all keys as lowercase to be able to match case insensitive,
         #   e. g. <OTRS_CUSTOMER_From> and <OTRS_CUSTOMER_FROM>.
-        for my $Key ( sort keys %H ) {
-            $H{ lc $Key } = $H{$Key};
-        }
+        #   Also mask any values containing sensitive data.
+        %H = map {
+            lc $_ => $Self->_MaskSensitiveValue(
+                Key   => $_,
+                Value => $H{$_},
+            )
+        } sort keys %H;
 
         $Param{Text} =~ s/(?:$Tag)($Keys)$End/$H{ lc $1 }/ieg;
     };
@@ -1604,6 +1610,40 @@ sub _RemoveUnSupportedTag {
 
     return $Param{Text};
 
+}
+
+=head2 _MaskSensitiveValue()
+
+Mask sensitive value, i.e. a password, a security token, etc.
+
+    my $MaskedValue = $Self->_MaskSensitiveValue(
+        Key      => 'DatabasePassword', # (required) Name of the field/key.
+        Value    => 'secretvalue',      # (optional) Value to potentially mask.
+        IsConfig => 1,                  # (optional) Whether the value is a config option, default: 0.
+    );
+
+Returns masked value, in case the key is matched:
+
+   $MaskedValue = 'xxx';
+
+=cut
+
+sub _MaskSensitiveValue {
+    my ( $Self, %Param ) = @_;
+
+    return '' if !$Param{Key} || !defined $Param{Value};
+
+    # Match general key names, i.e. from the user preferences.
+    my $Match = qr{ config|secret|passw|userpw|auth|token }xi;
+
+    # Match forbidden config keys.
+    if ( $Param{IsConfig} ) {
+        $Match = qr{ (?:password|pw) \d* $ }smxi;
+    }
+
+    return $Param{Value} if $Param{Key} !~ $Match;
+
+    return 'xxx';
 }
 
 1;

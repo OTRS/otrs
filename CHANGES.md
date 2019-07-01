@@ -1,4 +1,5 @@
 #5.0.37 2019-07-12
+ - 2019-07-01 Improved value masking in tag replacement method.
  - 2019-06-27 Synchronized translations.
  - 2019-06-03 Improved session ID handling in templates.
 
