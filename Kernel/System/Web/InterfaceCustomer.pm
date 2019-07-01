@@ -132,8 +132,8 @@ sub Run {
     my %Param;
 
     # get session id
-    $Param{SessionName} = $ConfigObject->Get('CustomerPanelSessionName') || 'CSID';
-    $Param{SessionID} = $ParamObject->GetParam( Param => $Param{SessionName} ) || '';
+    $Param{SessionName} = $ConfigObject->Get('CustomerPanelSessionName')         || 'CSID';
+    $Param{SessionID}   = $ParamObject->GetParam( Param => $Param{SessionName} ) || '';
 
     # drop old session id (if exists)
     $QueryString =~ s/(\?|&|;|)$Param{SessionName}(=&|=;|=.+?&|=.+?$)/;/g;
@@ -414,7 +414,7 @@ sub Run {
             },
         );
         my $OTRSUserTimeZoneOffset = $DateTimeObject->Format( Format => '%{offset}' ) / 60;
-        my $BrowserTimeZoneOffset = ( $ParamObject->GetParam( Param => 'TimeZoneOffset' ) || 0 ) * -1;
+        my $BrowserTimeZoneOffset  = ( $ParamObject->GetParam( Param => 'TimeZoneOffset' ) || 0 ) * -1;
 
         # TimeZoneOffsetDifference contains the difference of the time zone offset between
         # the user's OTRS time zone setting and the one reported by the user's browser.

@@ -113,7 +113,7 @@ sub StatsParamsWidget {
     my $HasUserGetParam = ref $Param{UserGetParam} eq 'HASH';
 
     my %UserGetParam = %{ $Param{UserGetParam} // {} };
-    my $Format = $Param{Formats} || $ConfigObject->Get('Stats::Format');
+    my $Format       = $Param{Formats} || $ConfigObject->Get('Stats::Format');
 
     my $LocalGetParam = sub {
         my (%Param) = @_;
@@ -2061,6 +2061,7 @@ sub _TimeOutput {
             $TimeConfig{ $Element . 'StopHour' }    = 23;
             $TimeConfig{ $Element . 'StopMinute' }  = 59;
             $TimeConfig{ $Element . 'StopSecond' }  = 59;
+
             for (qw(Start Stop)) {
                 $TimeConfig{Prefix} = $Element . $_;
 

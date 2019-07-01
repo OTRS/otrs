@@ -69,10 +69,10 @@ sub Run {
 
     $GetParam{TimeRanges} = \%TimeRanges;
 
-    $GetParam{StartHit} //= int( $Param{StartHit} || 1 );
-    $GetParam{SortBy}   //= 'StartTime';
-    $GetParam{OrderBy}  //= 'Down';
-    $GetParam{Filter}   //= 'All';
+    $GetParam{StartHit}  //= int( $Param{StartHit} || 1 );
+    $GetParam{SortBy}    //= 'StartTime';
+    $GetParam{OrderBy}   //= 'Down';
+    $GetParam{Filter}    //= 'All';
     $GetParam{StartTime} //= 86400;
 
     if ( $GetParam{StartTime} && $GetParam{StartTime} !~ m{^\d+$} ) {

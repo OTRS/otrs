@@ -87,7 +87,7 @@ sub Run {
     # Search for settings using ajax
     elsif ( $Self->{Subaction} eq 'AJAXSearch' ) {
 
-        my $Search = $ParamObject->GetParam( Param => 'Term' ) || '';
+        my $Search     = $ParamObject->GetParam( Param => 'Term' ) || '';
         my $MaxResults = int( $ParamObject->GetParam( Param => 'MaxResults' ) || 20 );
         my @Data;
 

@@ -149,6 +149,7 @@ sub TableCreate {
     my %Uniq         = ();
     my $PrimaryKey   = '';
     my @Return       = ();
+
     for my $Tag (@Param) {
 
         if (

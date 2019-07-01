@@ -56,7 +56,7 @@ sub Run {
     # change
     # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'Change' ) {
-        my $ID = $ParamObject->GetParam( Param => 'ID' ) || '';
+        my $ID   = $ParamObject->GetParam( Param => 'ID' ) || '';
         my %Data = $TypeObject->TypeGet( ID => $ID );
         if ( !%Data ) {
             return $LayoutObject->ErrorScreen(

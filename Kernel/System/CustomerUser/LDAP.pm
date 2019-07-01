@@ -1147,7 +1147,7 @@ sub CustomerSearchDetail {
 sub CustomerIDList {
     my ( $Self, %Param ) = @_;
 
-    my $Valid = defined $Param{Valid} ? $Param{Valid} : 1;
+    my $Valid      = defined $Param{Valid} ? $Param{Valid} : 1;
     my $SearchTerm = $Param{SearchTerm} || '';
 
     my $CacheKey = "CustomerIDList::${Valid}::$SearchTerm";

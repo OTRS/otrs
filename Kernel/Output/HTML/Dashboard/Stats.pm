@@ -240,10 +240,10 @@ sub Run {
     $LayoutObject->AddJSData(
         Key   => 'StatsData' . $StatID,
         Value => {
-            Name           => $Self->{Name},
-            Format         => $StatsFormatJSON,
-            StatResultData => $StatsResultDataJSON,
-            Preferences => $Preferences{ 'GraphWidget' . $Self->{Name} } || '{}',
+            Name               => $Self->{Name},
+            Format             => $StatsFormatJSON,
+            StatResultData     => $StatsResultDataJSON,
+            Preferences        => $Preferences{ 'GraphWidget' . $Self->{Name} } || '{}',
             MaxXaxisAttributes => $Kernel::OM->Get('Kernel::Config')->Get('Stats::MaxXaxisAttributes'),
         },
     );
@@ -271,7 +271,7 @@ sub Run {
             Stat                              => $Stat,
             Format                            => $Format,
             AgentStatisticsFrontendPermission => $AgentStatisticsFrontendPermission,
-            Preferences => $Preferences{ 'GraphWidget' . $Self->{Name} } || '{}',
+            Preferences                       => $Preferences{ 'GraphWidget' . $Self->{Name} } || '{}',
         },
         AJAX => $Param{AJAX},
     );

@@ -130,7 +130,7 @@ sub Collect {
     }
 
     # Get the disabled plugins from the config to generate a lookup hash, which can be used to skip these plugins.
-    my $PluginDisabled = $Kernel::OM->Get('Kernel::Config')->Get('SupportDataCollector::DisablePlugins') || [];
+    my $PluginDisabled       = $Kernel::OM->Get('Kernel::Config')->Get('SupportDataCollector::DisablePlugins') || [];
     my %LookupPluginDisabled = map { $_ => 1 } @{$PluginDisabled};
 
     # Get the identifier filter blacklist from the config to generate a lookup hash, which can be used to

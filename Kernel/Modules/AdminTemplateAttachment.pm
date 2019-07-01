@@ -70,7 +70,7 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'Attachment' ) {
 
         # get group data
-        my $ID = $ParamObject->GetParam( Param => 'ID' );
+        my $ID                = $ParamObject->GetParam( Param => 'ID' );
         my %StdAttachmentData = $StdAttachmentObject->StdAttachmentGet( ID => $ID );
 
         # get user list

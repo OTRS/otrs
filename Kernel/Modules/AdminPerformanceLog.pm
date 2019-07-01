@@ -84,6 +84,7 @@ sub Run {
         $Param{Minute} = $MinuteSlot;
         my $Interface = $ParamObject->GetParam( Param => 'Interface' );
         my $Module    = $ParamObject->GetParam( Param => 'Module' );
+
         if ( $MinuteSlot < 31 ) {
             $Slot = 1;
         }

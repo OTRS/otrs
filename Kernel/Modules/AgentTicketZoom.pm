@@ -582,8 +582,8 @@ sub Run {
         my $TicketID     = $ParamObject->GetParam( Param => 'TicketID' );
         my $SaveDefaults = $ParamObject->GetParam( Param => 'SaveDefaults' );
         my @CommunicationChannelFilterIDs = $ParamObject->GetArray( Param => 'CommunicationChannelFilter' );
-        my $CustomerVisibility = $ParamObject->GetParam( Param => 'CustomerVisibilityFilter' );
-        my @ArticleSenderTypeFilterIDs = $ParamObject->GetArray( Param => 'ArticleSenderTypeFilter' );
+        my $CustomerVisibility            = $ParamObject->GetParam( Param => 'CustomerVisibilityFilter' );
+        my @ArticleSenderTypeFilterIDs    = $ParamObject->GetArray( Param => 'ArticleSenderTypeFilter' );
 
         # build session string
         my $SessionString = '';
@@ -2121,7 +2121,7 @@ sub _ArticleTree {
 
         # build article filter reset link only if filter is set
         if (
-            ( !$Self->{ZoomTimeline} && IsHashRefWithData( $Self->{ArticleFilter} ) )
+            ( !$Self->{ZoomTimeline}   && IsHashRefWithData( $Self->{ArticleFilter} ) )
             || ( $Self->{ZoomTimeline} && $Self->{EventTypeFilter} )
             )
         {

@@ -403,7 +403,7 @@ sub Fetch {
                         },
                     );
 
-                    my @Return = eval { return $PostMasterObject->Run( QueueID => $Param{QueueID} || 0 ); };
+                    my @Return    = eval { return $PostMasterObject->Run( QueueID => $Param{QueueID} || 0 ); };
                     my $Exception = $@ || undef;
 
                     if ( !$Return[0] ) {

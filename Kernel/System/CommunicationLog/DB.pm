@@ -328,7 +328,7 @@ sub CommunicationList {
         Duration        => $DurationSQL,
     );
 
-    my $SortBy = $OrderByMap{ $Param{SortBy} } || 'c.status';
+    my $SortBy  = $OrderByMap{ $Param{SortBy} } || 'c.status';
     my $OrderBy = lc $Param{OrderBy} eq 'up' ? 'ASC' : 'DESC';
 
     $SQL .= "ORDER BY $SortBy $OrderBy";
@@ -826,7 +826,7 @@ sub ObjectLogList {
         push @SQL, join( ' AND ', @FilterFields );
     }
 
-    my $SortBy = $OrderByMap{ $Param{SortBy} || 'ObjectLogID' };
+    my $SortBy  = $OrderByMap{ $Param{SortBy} || 'ObjectLogID' };
     my $OrderBy = $Param{OrderBy} && lc $Param{OrderBy} eq 'up' ? 'ASC' : 'DESC';
 
     push @SQL, "ORDER BY $SortBy $OrderBy";
@@ -1179,7 +1179,7 @@ sub ObjectLogEntryList {
         push @SQL, join( ' AND ', @FilterFields );
     }
 
-    my $SortBy = $OrderByMap{ $Param{SortBy} || 'LogID' };
+    my $SortBy  = $OrderByMap{ $Param{SortBy} || 'LogID' };
     my $OrderBy = $Param{OrderBy} && lc $Param{OrderBy} eq 'up' ? 'ASC' : 'DESC';
 
     push @SQL, "ORDER BY $SortBy $OrderBy";

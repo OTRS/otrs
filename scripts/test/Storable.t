@@ -87,8 +87,8 @@ my $StorableObject = $Kernel::OM->Get('Kernel::System::Storable');
 for my $Test (@Tests) {
 
     my $StorableString = $StorableObject->Serialize( Data => $Test->{Data} );
-    my $StorableData = $StorableObject->Deserialize( Data => $StorableString );
-    my $StorableClone = $StorableObject->Clone( Data => $Test->{Data} );
+    my $StorableData   = $StorableObject->Deserialize( Data => $StorableString );
+    my $StorableClone  = $StorableObject->Clone( Data => $Test->{Data} );
 
     if ( $Test->{Success} ) {
         $Self->IsDeeply(

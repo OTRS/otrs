@@ -449,7 +449,7 @@ sub _Fetch {
                         }
 
                         my $Lines = $IMAPOperation->( 'get', $Messageno, );
-                        my $File = $Self->_ProcessFailed( Email => $Lines );
+                        my $File  = $Self->_ProcessFailed( Email => $Lines );
 
                         $CommunicationLogObject->ObjectLog(
                             ObjectLogType => 'Message',

@@ -476,7 +476,7 @@ for my $CustomerUser ( sort keys %List ) {
     my $XML = "<TableDrop Name='$TableName'/>";
 
     my @XMLARRAY = $XMLObject->XMLParse( String => $XML );
-    my @SQL = $DBObject->SQLProcessor( Database => \@XMLARRAY );
+    my @SQL      = $DBObject->SQLProcessor( Database => \@XMLARRAY );
     $Self->True(
         $SQL[0],
         'SQLProcessor() DROP TABLE',

@@ -349,7 +349,7 @@ $XML = '
 </TableAlter>
 ';
 @XMLARRAY = $XMLObject->XMLParse( String => $XML );
-@SQL = $DBObject->SQLProcessor( Database => \@XMLARRAY );
+@SQL      = $DBObject->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
     'SQLProcessor() ALTER TABLE',
@@ -527,7 +527,7 @@ $XML = '
 </TableAlter>
 ';
 @XMLARRAY = $XMLObject->XMLParse( String => $XML );
-@SQL = $DBObject->SQLProcessor( Database => \@XMLARRAY );
+@SQL      = $DBObject->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
     'SQLProcessor() ALTER TABLE',

@@ -411,7 +411,7 @@ sub Run {
             },
         );
         my $OTRSUserTimeZoneOffset = $DateTimeObject->Format( Format => '%{offset}' ) / 60;
-        my $BrowserTimeZoneOffset = ( $ParamObject->GetParam( Param => 'TimeZoneOffset' ) || 0 ) * -1;
+        my $BrowserTimeZoneOffset  = ( $ParamObject->GetParam( Param => 'TimeZoneOffset' ) || 0 ) * -1;
 
         # TimeZoneOffsetDifference contains the difference of the time zone offset between
         # the user's OTRS time zone setting and the one reported by the user's browser.

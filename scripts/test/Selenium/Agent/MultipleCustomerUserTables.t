@@ -423,7 +423,7 @@ $Selenium->RunTest(
         my $XML = "<TableDrop Name='$CustomerUserTableName'/>";
 
         my @XMLARRAY = $XMLObject->XMLParse( String => $XML );
-        my @SQL = $DBObject->SQLProcessor( Database => \@XMLARRAY );
+        my @SQL      = $DBObject->SQLProcessor( Database => \@XMLARRAY );
         $Self->True(
             $SQL[0],
             'SQLProcessor() DROP TABLE',

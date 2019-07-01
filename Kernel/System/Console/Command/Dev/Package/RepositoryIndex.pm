@@ -66,7 +66,7 @@ sub Run {
             return $Self->ExitCodeError();
         }
         my %Structure = $Kernel::OM->Get('Kernel::System::Package')->PackageParse( String => ${$ContentRef} );
-        my $XML = $Kernel::OM->Get('Kernel::System::Package')->PackageBuild( %Structure, Type => 'Index' );
+        my $XML       = $Kernel::OM->Get('Kernel::System::Package')->PackageBuild( %Structure, Type => 'Index' );
         if ( !$XML ) {
             $Self->PrintError("Cannot generate index entry for $File.\n");
             return $Self->ExitCodeError();

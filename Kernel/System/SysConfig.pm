@@ -4301,7 +4301,7 @@ sub ConfigurationDirtySettingsList {
 
     # Combine Default and Modified dirty settings.
     my @ListNames = ( @DefaultSettingsList, @ModifiedSettingsList );
-    my %Names = map { $_ => 1 } @ListNames;
+    my %Names     = map { $_ => 1 } @ListNames;
     @ListNames = sort keys %Names;
 
     return @ListNames;
@@ -5415,7 +5415,7 @@ sub _ConfigurationEntitiesGet {
         }
     }
 
-    my %Result = %{ $Param{Result} || {} };
+    my %Result          = %{ $Param{Result} || {} };
     my $ValueEntityType = $Param{ValueEntityType} || '';
 
     if ( ref $Param{Value} eq 'ARRAY' ) {

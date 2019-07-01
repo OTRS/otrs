@@ -155,7 +155,7 @@ sub Run {
     return 1 if !$IsInternalForward;
 
     $Param{GetParam}->{'X-OTRS-FollowUp-IsVisibleForCustomer'} = $Param{JobConfig}->{IsVisibleForCustomer} // 0;
-    $Param{GetParam}->{'X-OTRS-FollowUp-SenderType'} = $Param{JobConfig}->{SenderType} || 'customer';
+    $Param{GetParam}->{'X-OTRS-FollowUp-SenderType'}           = $Param{JobConfig}->{SenderType} || 'customer';
 
     return 1;
 }

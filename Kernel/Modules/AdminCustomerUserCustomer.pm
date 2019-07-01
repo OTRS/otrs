@@ -45,8 +45,8 @@ sub Run {
         $Param{Subaction} = $ParamObject->GetParam( Param => 'Subaction' );
 
         # get user data
-        my $ID = $ParamObject->GetParam( Param => 'ID' );
-        my %UserData = $CustomerUserObject->CustomerUserDataGet( User => $ID );
+        my $ID           = $ParamObject->GetParam( Param => 'ID' );
+        my %UserData     = $CustomerUserObject->CustomerUserDataGet( User => $ID );
         my $CustomerName = $CustomerUserObject->CustomerName( UserLogin => $UserData{UserLogin} );
 
         # search customers
@@ -106,7 +106,7 @@ sub Run {
         $Param{Subaction} = $ParamObject->GetParam( Param => 'Subaction' );
 
         # get customer data
-        my $ID = $ParamObject->GetParam( Param => 'ID' );
+        my $ID                  = $ParamObject->GetParam( Param => 'ID' );
         my %CustomerCompany     = $CustomerCompanyObject->CustomerCompanyGet( CustomerID => $ID );
         my $CustomerCompanyName = $CustomerCompany{CustomerCompanyName};
 

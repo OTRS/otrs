@@ -123,7 +123,7 @@ sub ArticleCreate {
     );
 
     # Check if this is the first article (for notifications).
-    my @Articles = $ArticleObject->ArticleList( TicketID => $Param{TicketID} );
+    my @Articles     = $ArticleObject->ArticleList( TicketID => $Param{TicketID} );
     my $FirstArticle = scalar @Articles ? 0 : 1;
 
     # get database object

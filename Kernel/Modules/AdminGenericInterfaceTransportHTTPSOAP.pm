@@ -363,8 +363,8 @@ sub _ShowEdit {
     # Create options for request and response name schemes.
     for my $Type (qw(Request Response)) {
         my $TypeDefault = $Type eq 'Request' ? 'Plain' : 'Response';
-        my $SelectedID = $TransportConfig->{ $Type . 'NameScheme' } || $TypeDefault;
-        my %Data       = (
+        my $SelectedID  = $TransportConfig->{ $Type . 'NameScheme' } || $TypeDefault;
+        my %Data        = (
             'Plain'   => "<FunctionName>DATA</FunctionName>",
             $Type     => "<FunctionName${Type}>DATA</FunctionName${Type}>",
             'Append'  => "<FunctionNameFreeText>DATA</FunctionNameFreeText>",
@@ -408,7 +408,7 @@ sub _ShowEdit {
         $Param{SOAPActionSchemeHidden} = 'Hidden';
     }
     my $SelectedSOAPActionScheme = $TransportConfig->{SOAPActionScheme} || 'NameSpaceSeparatorOperation';
-    my $VisibleOperationName = $Param{CommunicationType} eq 'Request' ? 'Invoker' : 'Operation';
+    my $VisibleOperationName     = $Param{CommunicationType} eq 'Request' ? 'Invoker' : 'Operation';
     $Param{SOAPActionSchemeStrg} = $LayoutObject->BuildSelection(
         Data => [
             {

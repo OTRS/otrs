@@ -1089,7 +1089,7 @@ $Selenium->RunTest(
                 $Day9       = $Appointment9TimeSettings->{Day};
             }
             elsif (
-                ( $Appointment9TimeSettings->{Day} == $Day9 )    # Check if day is valid
+                ( $Appointment9TimeSettings->{Day} == $Day9 )                           # Check if day is valid
                 && ( ( $Appointment9TimeSettings->{Month} - $LastMonth9 ) % 2 == 0 )    # Check if Interval matches
                 )
             {

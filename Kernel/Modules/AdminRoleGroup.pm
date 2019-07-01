@@ -37,7 +37,7 @@ sub Run {
     if ( $Self->{Subaction} eq 'Role' ) {
 
         # get user data
-        my $ID = $ParamObject->GetParam( Param => 'ID' );
+        my $ID       = $ParamObject->GetParam( Param => 'ID' );
         my %RoleData = $GroupObject->RoleGet( ID => $ID );
 
         # get group data
@@ -70,7 +70,7 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'Group' ) {
 
         # get group data
-        my $ID = $ParamObject->GetParam( Param => 'ID' );
+        my $ID        = $ParamObject->GetParam( Param => 'ID' );
         my %GroupData = $GroupObject->GroupGet( ID => $ID );
 
         # get user list

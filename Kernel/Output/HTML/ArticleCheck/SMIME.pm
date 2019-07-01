@@ -52,7 +52,7 @@ sub Check {
     my $ConfigObject = $Param{ConfigObject} || $Kernel::OM->Get('Kernel::Config');
     my $LayoutObject = $Param{LayoutObject} || $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
-    my $UserType = $LayoutObject->{UserType} // '';
+    my $UserType     = $LayoutObject->{UserType} // '';
     my $ChangeUserID = $UserType eq 'Customer' ? $ConfigObject->Get('CustomerPanelUserID') : $Self->{UserID};
 
     # check if smime is enabled
@@ -272,7 +272,7 @@ sub Check {
                     Email => \@OrigEmail,
                 );
 
-                my $OrigFrom = $ParserObjectOrig->GetParam( WHAT => 'From' );
+                my $OrigFrom   = $ParserObjectOrig->GetParam( WHAT => 'From' );
                 my $OrigSender = $ParserObjectOrig->GetEmailAddress( Email => $OrigFrom );
 
                 # compare sender email to signer email
@@ -384,7 +384,7 @@ sub Check {
                     Email => \@OrigEmail,
                 );
 
-                my $OrigFrom = $ParserObjectOrig->GetParam( WHAT => 'From' );
+                my $OrigFrom   = $ParserObjectOrig->GetParam( WHAT => 'From' );
                 my $OrigSender = $ParserObjectOrig->GetEmailAddress( Email => $OrigFrom );
 
                 # compare sender email to signer email

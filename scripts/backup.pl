@@ -37,6 +37,7 @@ my $CompressEXT = '';
 my $DB          = '';
 my $DBDump      = '';
 getopt( 'hcrtd', \%Opts );
+
 if ( exists $Opts{h} ) {
     print <<EOF;
 

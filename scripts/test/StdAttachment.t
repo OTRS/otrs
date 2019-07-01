@@ -58,7 +58,7 @@ for my $File (qw(xls txt doc png pdf)) {
         "StdAttachmentAdd() - ." . $File,
     );
 
-    my %Data = $StdAttachmentObject->StdAttachmentGet( ID => $Add );
+    my %Data   = $StdAttachmentObject->StdAttachmentGet( ID => $Add );
     my $MD5Add = $MainObject->MD5sum( String => \$Data{Content} );
 
     $Self->Is(

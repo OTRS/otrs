@@ -1740,7 +1740,7 @@ sub DeployCheck {
         $Param{Log} = 1;
     }
 
-    my $Package = $Self->RepositoryGet( %Param, Result => 'SCALAR' );
+    my $Package   = $Self->RepositoryGet( %Param, Result => 'SCALAR' );
     my %Structure = $Self->PackageParse( String => $Package );
 
     $Self->{DeployCheckInfo} = undef;
@@ -5399,7 +5399,7 @@ sub _ConfigurationFilesDeployCheck {
         }
     }
 
-    my $Package = $Self->RepositoryGet( %Param, Result => 'SCALAR' );
+    my $Package   = $Self->RepositoryGet( %Param, Result => 'SCALAR' );
     my %Structure = $Self->PackageParse( String => $Package );
 
     return 1 if !$Structure{Filelist};

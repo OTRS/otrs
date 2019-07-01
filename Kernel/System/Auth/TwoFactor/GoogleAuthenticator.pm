@@ -145,8 +145,8 @@ sub _GenerateOTP {
 
     # encrypt timestamp with secret
     my $PackedTimeStamp = pack 'H*', $PaddedTimeStamp;
-    my $Base32Secret = $Self->_DecodeBase32( Secret => $Param{Secret} );
-    my $HMAC         = hmac_hex( $PackedTimeStamp, $Base32Secret, \&sha1 );
+    my $Base32Secret    = $Self->_DecodeBase32( Secret => $Param{Secret} );
+    my $HMAC            = hmac_hex( $PackedTimeStamp, $Base32Secret, \&sha1 );
 
     # now treat hmac to get 6 numerical digits
 

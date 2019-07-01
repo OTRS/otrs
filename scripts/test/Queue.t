@@ -168,7 +168,7 @@ $Self->True(
 
 # check follow-up value for test queue
 my %FollowUpOptionList = reverse $QueueObject->GetFollowUpOptionList( Valid => 1 );
-my $FollowUpOption = $QueueObject->GetFollowUpOption( QueueID => $QueueID );
+my $FollowUpOption     = $QueueObject->GetFollowUpOption( QueueID => $QueueID );
 
 for my $FollowUp ( 'possible', 'reject', 'new ticket' ) {
     $Self->True(

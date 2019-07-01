@@ -219,7 +219,7 @@ sub _CheckForTimeZones {
     }
 
     # If we already have a file for time zone configurations, check if it contains a setting for each needed time zone.
-    my $TaskConfig = $Self->GetTaskConfig( Module => 'MigrateTimeZoneConfiguration' );
+    my $TaskConfig  = $Self->GetTaskConfig( Module => 'MigrateTimeZoneConfiguration' );
     my $ConfigFound = $TaskConfig ? 1 : 0;
     my $ConfigValid;
     if ($ConfigFound) {

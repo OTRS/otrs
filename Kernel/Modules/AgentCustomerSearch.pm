@@ -44,7 +44,7 @@ sub Run {
         || $AutoCompleteConfig->{MaxResultsDisplayed}
         || 20;
     my $IncludeUnknownTicketCustomers = int( $ParamObject->GetParam( Param => 'IncludeUnknownTicketCustomers' ) || 0 );
-    my $SearchTerm = $ParamObject->GetParam( Param => 'Term' ) || '';
+    my $SearchTerm                    = $ParamObject->GetParam( Param => 'Term' ) || '';
 
     my $JSON = '';
 

@@ -91,7 +91,7 @@ sub Run {
     my $SearchLimit = $ConfigObject->Get('Ticket::CustomerTicketSearch::SearchLimit')
         || 200;
     my $SearchPageShown = $ConfigObject->Get('Ticket::CustomerTicketSearch::SearchPageShown') || 40;
-    my $SortBy = $ParamObject->GetParam( Param => 'SortBy' )
+    my $SortBy          = $ParamObject->GetParam( Param => 'SortBy' )
         || $ConfigObject->Get('Ticket::CustomerTicketSearch::SortBy::Default')
         || 'Age';
     my $CurrentOrder = $ParamObject->GetParam( Param => 'Order' )
@@ -609,7 +609,7 @@ sub Run {
 
                 # If no article was found, set some defaults.
                 if ( !%Article ) {
-                    %Data = %Ticket;
+                    %Data          = %Ticket;
                     $Data{Subject} = $Ticket{Title} || $LayoutObject->{LanguageObject}->Translate('Untitled');
                     $Data{Body}    = $LayoutObject->{LanguageObject}->Translate('This item has no articles yet.');
                     $Data{From}    = '--';
@@ -831,7 +831,7 @@ sub Run {
 
                 # If no article was found, set some defaults.
                 if ( !%Article ) {
-                    %Data = %Ticket;
+                    %Data          = %Ticket;
                     $Data{Subject} = $Ticket{Title} || $LayoutObject->{LanguageObject}->Translate('Untitled');
                     $Data{From}    = '--';
                 }
@@ -1197,7 +1197,7 @@ sub Run {
 
                     # If no article was found, set some defaults.
                     if ( !%Article ) {
-                        %Data = %Ticket;
+                        %Data          = %Ticket;
                         $Data{Subject} = $Ticket{Title} || $LayoutObject->{LanguageObject}->Translate('Untitled');
                         $Data{Body}    = $LayoutObject->{LanguageObject}->Translate(
                             'This item has no articles yet.'

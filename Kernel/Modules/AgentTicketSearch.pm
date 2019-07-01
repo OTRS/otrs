@@ -38,9 +38,9 @@ sub Run {
     my $Config = $ConfigObject->Get("Ticket::Frontend::$Self->{Action}");
 
     # get config data
-    $Self->{StartHit} = int( $ParamObject->GetParam( Param => 'StartHit' ) || 1 );
+    $Self->{StartHit}    = int( $ParamObject->GetParam( Param => 'StartHit' ) || 1 );
     $Self->{SearchLimit} = $Config->{SearchLimit} || 500;
-    $Self->{SortBy} = $ParamObject->GetParam( Param => 'SortBy' )
+    $Self->{SortBy}      = $ParamObject->GetParam( Param => 'SortBy' )
         || $Config->{'SortBy::Default'}
         || 'Age';
     $Self->{OrderBy} = $ParamObject->GetParam( Param => 'OrderBy' )

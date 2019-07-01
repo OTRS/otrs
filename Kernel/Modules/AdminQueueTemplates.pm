@@ -37,7 +37,7 @@ sub Run {
     if ( $Self->{Subaction} eq 'Template' ) {
 
         # get template data
-        my $ID = $ParamObject->GetParam( Param => 'ID' );
+        my $ID                   = $ParamObject->GetParam( Param => 'ID' );
         my %StandardTemplateData = $StandardTemplateObject->StandardTemplateGet( ID => $ID );
 
         # get queues
@@ -71,7 +71,7 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'Queue' ) {
 
         # get queue data
-        my $ID = $ParamObject->GetParam( Param => 'ID' );
+        my $ID        = $ParamObject->GetParam( Param => 'ID' );
         my %QueueData = $QueueObject->QueueGet( ID => $ID );
 
         # get templates
