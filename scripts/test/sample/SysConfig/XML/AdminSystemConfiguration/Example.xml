@@ -284,7 +284,7 @@
                         <Item Key="Description" Translatable="1">Description</Item>
                         <Item Key="Name" Translatable="1">Test</Item>
                         <Item Key="Link">Action=AgentTest;Subaction=Test</Item>
-                        <Item Key="LinkOption"></Item>
+                        <Item Key="LinkOption">onclick="OpenDialog('AgentTest')"</Item>
                         <Item Key="NavBar">Customers</Item>
                         <Item Key="Type"></Item>
                         <Item Key="Block"></Item>
