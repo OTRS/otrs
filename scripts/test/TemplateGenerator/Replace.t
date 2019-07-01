@@ -16,6 +16,7 @@ my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
 my $BackendObject      = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 my $TicketObject       = $Kernel::OM->Get('Kernel::System::Ticket');
 my $UserObject         = $Kernel::OM->Get('Kernel::System::User');
+my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
 
 # Get helper object.
 $Kernel::OM->ObjectParamAdd(
@@ -103,8 +104,20 @@ my $TestCustomerLogin = $Helper->TestCustomerUserCreate(
     Language => $UserLanguage,
 );
 
-my %TestCustomerData = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserDataGet(
+my %TestCustomerData = $CustomerUserObject->CustomerUserDataGet(
     User => $TestCustomerLogin,
+);
+
+# Add a random secret for the customer user.
+$CustomerUserObject->SetPreferences(
+    Key    => 'UserGoogleAuthenticatorSecretKey',
+    Value  => $Helper->GetRandomID(),
+    UserID => $TestCustomerLogin,
+);
+
+# Generate a token for the customer user.
+$CustomerUserObject->TokenGenerate(
+    UserID => $TestCustomerLogin,
 );
 
 my @TestUsers;
@@ -115,6 +128,19 @@ for ( 1 .. 4 ) {
     my %TestUser = $UserObject->GetUserData(
         User => $TestUserLogin,
     );
+
+    # Add a random secret for the user.
+    $UserObject->SetPreferences(
+        Key    => 'UserGoogleAuthenticatorSecretKey',
+        Value  => $Helper->GetRandomID(),
+        UserID => $TestUser{UserID},
+    );
+
+    # Generate a token for the user.
+    $UserObject->TokenGenerate(
+        UserID => $TestUser{UserID},
+    );
+
     push @TestUsers, \%TestUser;
 }
 
@@ -299,7 +325,25 @@ my @Tests = (
         Result   => "Test $TestUsers[1]->{UserFirstname} -",
     },
     {
-        Name => 'OTRS owner firstname',                           # <OTRS_OWNER_*>
+        Name => 'OTRS responsible password (masked)',
+        Data => {
+            From => 'test@home.com',
+        },
+        RichText => 0,
+        Template => 'Test <OTRS_RESPONSIBLE_UserPw> <OTRS_RESPONSIBLE_SomeOtherValue::Password>',
+        Result   => "Test xxx -",
+    },
+    {
+        Name => 'OTRS responsible secrets (masked)',
+        Data => {
+            From => 'test@home.com',
+        },
+        RichText => 0,
+        Template => 'Test <OTRS_RESPONSIBLE_UserGoogleAuthenticatorSecretKey> <OTRS_RESPONSIBLE_UserToken>',
+        Result   => 'Test xxx xxx',
+    },
+    {
+        Name => 'OTRS owner firstname',    # <OTRS_OWNER_*>
         Data => {
             From => 'test@home.com',
         },
@@ -308,7 +352,7 @@ my @Tests = (
         Result   => "Test $TestUsers[0]->{UserFirstname} -",
     },
     {
-        Name => 'OTRS_TICKET_OWNER firstname',                    # <OTRS_OWNER_*>
+        Name => 'OTRS_TICKET_OWNER firstname',    # <OTRS_OWNER_*>
         Data => {
             From => 'test@home.com',
         },
@@ -317,7 +361,25 @@ my @Tests = (
         Result   => "Test $TestUsers[0]->{UserFirstname} -",
     },
     {
-        Name => 'OTRS current firstname',                         # <OTRS_CURRENT_*>
+        Name => 'OTRS owner password (masked)',
+        Data => {
+            From => 'test@home.com',
+        },
+        RichText => 0,
+        Template => 'Test <OTRS_OWNER_UserPw> <OTRS_OWNER_SomeOtherValue::Password>',
+        Result   => "Test xxx -",
+    },
+    {
+        Name => 'OTRS owner secrets (masked)',
+        Data => {
+            From => 'test@home.com',
+        },
+        RichText => 0,
+        Template => 'Test <OTRS_OWNER_UserGoogleAuthenticatorSecretKey> <OTRS_OWNER_UserToken>',
+        Result   => 'Test xxx xxx',
+    },
+    {
+        Name => 'OTRS current firstname',    # <OTRS_CURRENT_*>
         Data => {
             From => 'test@home.com',
         },
@@ -326,7 +388,25 @@ my @Tests = (
         Result   => "Test $TestUsers[2]->{UserFirstname} -",
     },
     {
-        Name => 'OTRS ticket ticketid',                           # <OTRS_TICKET_*>
+        Name => 'OTRS current password (masked)',
+        Data => {
+            From => 'test@home.com',
+        },
+        RichText => 0,
+        Template => 'Test <OTRS_CURRENT_UserPw> <OTRS_CURRENT_SomeOtherValue::Password>',
+        Result   => 'Test xxx -',
+    },
+    {
+        Name => 'OTRS current secrets (masked)',
+        Data => {
+            From => 'test@home.com',
+        },
+        RichText => 0,
+        Template => 'Test <OTRS_CURRENT_UserGoogleAuthenticatorSecretKey> <OTRS_CURRENT_UserToken>',
+        Result   => 'Test xxx xxx',
+    },
+    {
+        Name => 'OTRS ticket ticketid',    # <OTRS_TICKET_*>
         Data => {
             From => 'test@home.com',
         },
@@ -335,7 +415,7 @@ my @Tests = (
         Result   => 'Test ' . $TicketID,
     },
     {
-        Name => 'OTRS dynamic field (text)',                      # <OTRS_TICKET_DynamicField_*>
+        Name => 'OTRS dynamic field (text)',    # <OTRS_TICKET_DynamicField_*>
         Data => {
             From => 'test@home.com',
         },
@@ -344,7 +424,7 @@ my @Tests = (
         Result   => 'Test otrs',
     },
     {
-        Name => 'OTRS dynamic field value (text)',                # <OTRS_TICKET_DynamicField_*_Value>
+        Name => 'OTRS dynamic field value (text)',    # <OTRS_TICKET_DynamicField_*_Value>
         Data => {
             From => 'test@home.com',
         },
@@ -353,7 +433,7 @@ my @Tests = (
         Result   => 'Test otrs',
     },
     {
-        Name => 'OTRS dynamic field (Dropdown)',                  # <OTRS_TICKET_DynamicField_*>
+        Name => 'OTRS dynamic field (Dropdown)',      # <OTRS_TICKET_DynamicField_*>
         Data => {
             From => 'test@home.com',
         },
@@ -362,7 +442,7 @@ my @Tests = (
         Result   => 'Test 1',
     },
     {
-        Name => 'OTRS dynamic field value (Dropdown)',            # <OTRS_TICKET_DynamicField_*_Value>
+        Name => 'OTRS dynamic field value (Dropdown)',    # <OTRS_TICKET_DynamicField_*_Value>
         Data => {
             From => 'test@home.com',
         },
@@ -371,7 +451,7 @@ my @Tests = (
         Result   => 'Test A',
     },
     {
-        Name     => 'OTRS config value',                          # <OTRS_CONFIG_*>
+        Name     => 'OTRS config value',                  # <OTRS_CONFIG_*>
         Data     => {},
         RichText => 0,
         Template => 'Test <OTRS_CONFIG_DefaultTheme>',
@@ -582,6 +662,20 @@ Line7</div>',
         RichText => 0,
         Template => 'Test <OTRS_CUSTOMER_DATA_UserFirstname>',
         Result   => "Test $TestCustomerLogin",
+    },
+    {
+        Name     => 'OTRS CUSTOMER DATA UserPassword (masked)',
+        Data     => {},
+        RichText => 0,
+        Template => 'Test <OTRS_CUSTOMER_DATA_UserPassword>',
+        Result   => 'Test xxx',
+    },
+    {
+        Name     => 'OTRS CUSTOMER DATA secret (masked)',
+        Data     => {},
+        RichText => 0,
+        Template => 'Test <OTRS_CUSTOMER_DATA_UserGoogleAuthenticatorSecretKey> <OTRS_CUSTOMER_DATA_UserToken>',
+        Result   => 'Test xxx xxx',
     },
     {
         Name     => 'OTRS <OTRS_NOTIFICATION_RECIPIENT_UserFullname>',
