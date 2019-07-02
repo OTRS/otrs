@@ -140,7 +140,7 @@ for my $Engine (qw(YAML::XS YAML)) {
         next TEST if defined $Test->{SkipEngine} && $Engine eq $Test->{SkipEngine};
 
         my $YAMLString = $Test->{YAMLString} || $YAMLObject->Dump( Data => $Test->{Data} );
-        my $YAMLData = $YAMLObject->Load( Data => $YAMLString );
+        my $YAMLData   = $YAMLObject->Load( Data => $YAMLString );
 
         if ( $Test->{SuccessDecode} ) {
             $Self->IsDeeply(

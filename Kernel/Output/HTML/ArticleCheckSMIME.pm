@@ -275,7 +275,7 @@ sub Check {
                     Email => \@OrigEmail,
                 );
 
-                my $OrigFrom = $ParserObjectOrig->GetParam( WHAT => 'From' );
+                my $OrigFrom   = $ParserObjectOrig->GetParam( WHAT => 'From' );
                 my $OrigSender = $ParserObjectOrig->GetEmailAddress( Email => $OrigFrom );
 
                 # compare sender email to signer email
@@ -392,7 +392,7 @@ sub Check {
                     Email => \@OrigEmail,
                 );
 
-                my $OrigFrom = $ParserObjectOrig->GetParam( WHAT => 'From' );
+                my $OrigFrom   = $ParserObjectOrig->GetParam( WHAT => 'From' );
                 my $OrigSender = $ParserObjectOrig->GetEmailAddress( Email => $OrigFrom );
 
                 # compare sender email to signer email

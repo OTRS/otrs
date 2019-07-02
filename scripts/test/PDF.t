@@ -1742,6 +1742,7 @@ for my $Test ( sort keys %TableCalculate ) {
     $TableCalculateParams{PaddingBottom}   = $TableCalculate{$Test}{PaddingBottom} || 0;
     $TableCalculateParams{Border}          = $TableCalculate{$Test}{Border} || 0;
     $TableCalculateParams{BorderColor}     = $TableCalculate{$Test}{BorderColor} || 'black';
+
     if ( defined( $TableCalculate{$Test}{FontColorOdd} ) ) {
         $TableCalculateParams{FontColorOdd} = $TableCalculate{$Test}{FontColorOdd};
     }

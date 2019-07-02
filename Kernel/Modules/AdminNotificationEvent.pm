@@ -84,7 +84,7 @@ sub Run {
     # change
     # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'Change' ) {
-        my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' ) || '';
+        my $ID     = $Self->{ParamObject}->GetParam( Param => 'ID' ) || '';
         my %Data   = $Self->{NotificationEventObject}->NotificationGet( ID => $ID );
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();

@@ -40,7 +40,7 @@ sub Run {
     # change
     # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'Change' ) {
-        my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' ) || '';
+        my $ID   = $Self->{ParamObject}->GetParam( Param => 'ID' ) || '';
         my %Data = $Self->{TypeObject}->TypeGet( ID => $ID );
         if ( !%Data ) {
             return $Self->{LayoutObject}->ErrorScreen(

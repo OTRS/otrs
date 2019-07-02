@@ -93,9 +93,9 @@ my $CheckProcess = sub {
     );
 
     # get all process parts
-    my $ActivityListGet = $ActivityObject->ActivityListGet( UserID => $UserID );
-    my $ActivityDialogListGet = $ActivityDialogObject->ActivityDialogListGet( UserID => $UserID );
-    my $TransitionListGet = $TransitionObject->TransitionListGet( UserID => $UserID );
+    my $ActivityListGet         = $ActivityObject->ActivityListGet( UserID => $UserID );
+    my $ActivityDialogListGet   = $ActivityDialogObject->ActivityDialogListGet( UserID => $UserID );
+    my $TransitionListGet       = $TransitionObject->TransitionListGet( UserID => $UserID );
     my $TransitionActionListGet = $TransitionActionObject->TransitionActionListGet( UserID => $UserID );
 
     # check process start activity and start activity dialog

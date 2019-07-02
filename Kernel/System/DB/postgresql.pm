@@ -154,6 +154,7 @@ sub TableCreate {
     my %Uniq         = ();
     my $PrimaryKey   = '';
     my @Return       = ();
+
     for my $Tag (@Param) {
 
         if (
@@ -343,6 +344,7 @@ sub TableAlter {
     my $ReferenceName = '';
     my @Reference     = ();
     my $Table         = '';
+
     for my $Tag (@Param) {
 
         if ( $Tag->{Tag} eq 'TableAlter' && $Tag->{TagType} eq 'Start' ) {

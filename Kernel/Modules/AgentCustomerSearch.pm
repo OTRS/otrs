@@ -46,7 +46,7 @@ sub Run {
     if ( !$Self->{Subaction} ) {
 
         # get needed params
-        my $Search = $Self->{ParamObject}->GetParam( Param => 'Term' ) || '';
+        my $Search     = $Self->{ParamObject}->GetParam( Param => 'Term' ) || '';
         my $MaxResults = int( $Self->{ParamObject}->GetParam( Param => 'MaxResults' ) || 20 );
         my $IncludeUnknownTicketCustomers
             = int( $Self->{ParamObject}->GetParam( Param => 'IncludeUnknownTicketCustomers' ) || 0 );

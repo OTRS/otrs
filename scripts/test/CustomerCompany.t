@@ -52,7 +52,7 @@ my $XML = '
 </Table>
 ';
 my @XMLARRAY = $XMLObject->XMLParse( String => $XML );
-my @SQL = $DBObject->SQLProcessor( Database => \@XMLARRAY );
+my @SQL      = $DBObject->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
     'SQLProcessor() CREATE TABLE',
@@ -405,7 +405,7 @@ for my $Key ( 1 .. 3, 'ä', 'カス' ) {
 }
 
 my %CustomerCompanyList = $CustomerCompanyObject->CustomerCompanyList( Valid => 0 );
-my $CompanyList = %CustomerCompanyList ? 1 : 0;
+my $CompanyList         = %CustomerCompanyList ? 1 : 0;
 
 # check CustomerCompanyList with Valid=>0
 $Self->True(

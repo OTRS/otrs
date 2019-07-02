@@ -854,6 +854,7 @@ sub Bounce {
     $HeaderObject->replace( 'Resent-Date',       $Kernel::OM->Get('Kernel::System::Time')->MailTimeStamp() );
     my $Body         = $EmailObject->body();
     my $BodyAsString = '';
+
     for ( @{$Body} ) {
         $BodyAsString .= $_ . "\n";
     }

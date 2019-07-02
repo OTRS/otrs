@@ -122,6 +122,7 @@ sub WriteDefault {
     $Out .= "use strict;\n";
     $Out .= "use warnings;\n";
     $Out .= "no warnings 'redefine';\n";
+
     if ( $Self->{utf8} ) {
         $Out .= "use utf8;\n";
     }
@@ -333,6 +334,7 @@ sub CreateConfig {
     $Out .= "use strict;\n";
     $Out .= "use warnings;\n";
     $Out .= "no warnings 'redefine';\n";
+
     if ( $Self->{utf8} ) {
         $Out .= "use utf8;\n";
     }

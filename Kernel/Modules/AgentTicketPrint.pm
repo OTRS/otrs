@@ -58,7 +58,7 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     my $Output;
-    my $QueueID = $Self->{TicketObject}->TicketQueueID( TicketID => $Self->{TicketID} );
+    my $QueueID   = $Self->{TicketObject}->TicketQueueID( TicketID => $Self->{TicketID} );
     my $ArticleID = $Self->{ParamObject}->GetParam( Param => 'ArticleID' );
 
     # check needed stuff

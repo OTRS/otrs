@@ -97,8 +97,8 @@ my @Tests = (
 
 for my $Test (@Tests) {
     my @XMLARRAY = $XMLObject->XMLParse( String => $Test );
-    my @SQL = $DBObject->SQLProcessor( Database => \@XMLARRAY );
-    my @SQLPost = $DBObject->SQLProcessorPost( Database => \@XMLARRAY );
+    my @SQL      = $DBObject->SQLProcessor( Database => \@XMLARRAY );
+    my @SQLPost  = $DBObject->SQLProcessorPost( Database => \@XMLARRAY );
 
     for my $SQL ( @SQL, @SQLPost ) {
         $Self->True(

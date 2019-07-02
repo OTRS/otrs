@@ -1008,7 +1008,7 @@ sub Run {
 
         # only if we have mod_perl we have to restart
         if ( exists $ENV{MOD_PERL} ) {
-            eval 'require mod_perl';    ## no critic
+            eval 'require mod_perl';               ## no critic
             if ( defined $mod_perl::VERSION ) {    ## no critic
                 $Webserver = 'Apache2 + mod_perl';
                 if ( -f '/etc/SuSE-release' ) {

@@ -136,7 +136,7 @@ sub Run {
     $Self->{SearchLimit} = $Self->{ConfigObject}->Get('Ticket::CustomerTicketSearch::SearchLimit')
         || 200;
     $Self->{SearchPageShown} = $Self->{ConfigObject}->Get('Ticket::CustomerTicketSearch::SearchPageShown') || 40;
-    $Self->{SortBy} = $Self->{ParamObject}->GetParam( Param => 'SortBy' )
+    $Self->{SortBy}          = $Self->{ParamObject}->GetParam( Param => 'SortBy' )
         || $Self->{ConfigObject}->Get('Ticket::CustomerTicketSearch::SortBy::Default')
         || 'Age';
     $Self->{Order} = $Self->{ParamObject}->GetParam( Param => 'Order' )
@@ -581,7 +581,7 @@ sub Run {
                         DynamicFields => 0,
                         UserID        => $Self->{UserID},
                     );
-                    %Data = %Ticket;
+                    %Data          = %Ticket;
                     $Data{Subject} = $Ticket{Title} || 'Untitled';
                     $Data{Body}    = $Self->{LayoutObject}->{LanguageObject}->Translate(
                         'This item has no articles yet.'
@@ -759,7 +759,7 @@ sub Run {
                         DynamicFields => 0,
                         UserID        => $Self->{UserID},
                     );
-                    %Article = %Ticket;
+                    %Article          = %Ticket;
                     $Article{Subject} = $Ticket{Title} || 'Untitled';
                     $Article{Body}    = $Self->{LayoutObject}->{LanguageObject}->Translate(
                         'This item has no articles yet.'
@@ -938,7 +938,7 @@ sub Run {
 
                     # if no article found, use ticket information
                     if ( !%Article ) {
-                        %Article = %Ticket;
+                        %Article          = %Ticket;
                         $Article{Subject} = $Ticket{Title} || 'Untitled';
                         $Article{Body}    = $Self->{LayoutObject}->{LanguageObject}->Translate(
                             'This item has no articles yet.'

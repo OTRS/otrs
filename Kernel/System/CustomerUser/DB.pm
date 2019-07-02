@@ -406,7 +406,7 @@ sub CustomerUserList {
 sub CustomerIDList {
     my ( $Self, %Param ) = @_;
 
-    my $Valid = defined $Param{Valid} ? $Param{Valid} : 1;
+    my $Valid      = defined $Param{Valid} ? $Param{Valid} : 1;
     my $SearchTerm = $Param{SearchTerm} || '';
 
     my $CacheType = $Self->{CacheType} . '_CustomerIDList';

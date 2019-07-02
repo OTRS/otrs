@@ -226,10 +226,11 @@ sub AgentQueueListOption {
     my $CurrentQueueID = defined( $Param{CurrentQueueID} ) ? $Param{CurrentQueueID} : '';
     my $Class          = defined( $Param{Class} )          ? $Param{Class}          : '';
     my $SelectedIDRefArray = $Param{SelectedIDRefArray} || '';
-    my $Multiple       = $Param{Multiple}                  ? 'multiple = "multiple"' : '';
-    my $TreeView       = $Param{TreeView}                  ? $Param{TreeView}        : 0;
-    my $OptionTitle    = defined( $Param{OptionTitle} )    ? $Param{OptionTitle}     : 0;
-    my $OnChangeSubmit = defined( $Param{OnChangeSubmit} ) ? $Param{OnChangeSubmit}  : '';
+    my $Multiple           = $Param{Multiple} ? 'multiple = "multiple"' : '';
+    my $TreeView           = $Param{TreeView} ? $Param{TreeView} : 0;
+    my $OptionTitle        = defined( $Param{OptionTitle} ) ? $Param{OptionTitle} : 0;
+    my $OnChangeSubmit     = defined( $Param{OnChangeSubmit} ) ? $Param{OnChangeSubmit} : '';
+
     if ($OnChangeSubmit) {
         $OnChangeSubmit = " onchange=\"submit();\"";
     }

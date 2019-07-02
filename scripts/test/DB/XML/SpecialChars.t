@@ -31,7 +31,7 @@ my $XML = '
 ';
 
 my @XMLARRAY = $XMLObject->XMLParse( String => $XML );
-my @SQL = $DBObject->SQLProcessor( Database => \@XMLARRAY );
+my @SQL      = $DBObject->SQLProcessor( Database => \@XMLARRAY );
 
 $Self->True(
     $SQL[0],
