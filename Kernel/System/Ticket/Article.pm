@@ -239,7 +239,7 @@ sub ArticleCreate {
     }
 
     # check if this is the first article (for notifications)
-    my @Index = $Self->ArticleIndex( TicketID => $Param{TicketID} );
+    my @Index        = $Self->ArticleIndex( TicketID => $Param{TicketID} );
     my $FirstArticle = scalar @Index ? 0 : 1;
 
     # if the original article body contains just one pasted picture and no text, at this point of

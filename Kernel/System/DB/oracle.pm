@@ -130,6 +130,7 @@ sub TableCreate {
     my $PrimaryKey   = '';
     my @Return       = ();
     my @Return2      = ();
+
     for my $Tag (@Param) {
 
         if (
@@ -360,6 +361,7 @@ sub TableAlter {
     my $ReferenceName = '';
     my @Reference     = ();
     my $Table         = '';
+
     for my $Tag (@Param) {
 
         if ( $Tag->{Tag} eq 'TableAlter' && $Tag->{TagType} eq 'Start' ) {

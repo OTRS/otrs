@@ -265,10 +265,10 @@ sub EditFieldRender {
 
     my $HTMLString = $Param{LayoutObject}->BuildDateSelection(
         %Param,
-        Prefix               => $FieldName,
-        Format               => 'DateInputFormat',
-        $FieldName . 'Class' => $FieldClass,
-        DiffTime             => $DiffTime,
+        Prefix                => $FieldName,
+        Format                => 'DateInputFormat',
+        $FieldName . 'Class'  => $FieldClass,
+        DiffTime              => $DiffTime,
         $FieldName . Required => $Param{Mandatory} || 0,
         $FieldName . Optional => 1,
         Validate              => 1,

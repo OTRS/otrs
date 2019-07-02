@@ -55,7 +55,7 @@ sub Run {
 
     # get queue id and name
     my $QueueID = $Param{QueueID} || die "need QueueID!";
-    my $Queue = $Self->{QueueObject}->QueueLookup( QueueID => $QueueID );
+    my $Queue   = $Self->{QueueObject}->QueueLookup( QueueID => $QueueID );
 
     # get state
     my $State = $Self->{ConfigObject}->Get('PostmasterDefaultState') || 'new';

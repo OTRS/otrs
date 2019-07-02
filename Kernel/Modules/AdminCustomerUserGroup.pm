@@ -60,7 +60,7 @@ sub Run {
     if ( $Self->{Subaction} eq 'CustomerUser' ) {
 
         # get user data
-        my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' );
+        my $ID       = $Self->{ParamObject}->GetParam( Param => 'ID' );
         my %UserData = $Self->{CustomerUserObject}->CustomerUserDataGet( User => $ID );
 
         # get group data
@@ -100,7 +100,7 @@ sub Run {
             || '*';
 
         # get group data
-        my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' );
+        my $ID        = $Self->{ParamObject}->GetParam( Param => 'ID' );
         my %GroupData = $Self->{GroupObject}->GroupGet( ID => $ID );
 
         # search customer user

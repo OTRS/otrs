@@ -84,7 +84,7 @@ sub Run {
     $Self->{SearchLimit} = $Self->{ConfigObject}->Get('Ticket::CustomerTicketSearch::SearchLimit')
         || 200;
     $Self->{SearchPageShown} = $Self->{ConfigObject}->Get('Ticket::CustomerTicketSearch::SearchPageShown') || 40;
-    $Self->{SortBy} = $Self->{ParamObject}->GetParam( Param => 'SortBy' )
+    $Self->{SortBy}          = $Self->{ParamObject}->GetParam( Param => 'SortBy' )
         || $Self->{ConfigObject}->Get('Ticket::CustomerTicketSearch::SortBy::Default')
         || 'Age';
     $Self->{Order} = $Self->{ParamObject}->GetParam( Param => 'Order' )
