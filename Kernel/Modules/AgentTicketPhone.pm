@@ -89,9 +89,9 @@ sub Run {
     if ($CustomersNumber) {
         my $CustomerCounter = 1;
         for my $Count ( 1 ... $CustomersNumber ) {
-            my $CustomerElement = $ParamObject->GetParam( Param => 'CustomerTicketText_' . $Count );
+            my $CustomerElement  = $ParamObject->GetParam( Param => 'CustomerTicketText_' . $Count );
             my $CustomerSelected = ( $Selected eq $Count ? 'checked="checked"' : '' );
-            my $CustomerKey = $ParamObject->GetParam( Param => 'CustomerKey_' . $Count )
+            my $CustomerKey      = $ParamObject->GetParam( Param => 'CustomerKey_' . $Count )
                 || '';
 
             if ($CustomerElement) {
@@ -1677,7 +1677,7 @@ sub Run {
         my $Dest           = $ParamObject->GetParam( Param => 'Dest' ) || '';
         my $CustomerUser   = $ParamObject->GetParam( Param => 'SelectedCustomerUser' );
         my $ElementChanged = $ParamObject->GetParam( Param => 'ElementChanged' ) || '';
-        my $QueueID        = '';
+        my $QueueID = '';
         if ( $Dest =~ /^(\d{1,100})\|\|.+?$/ ) {
             $QueueID = $1;
         }

@@ -22,7 +22,7 @@ my $XML = '
 </Table>
 ';
 my @XMLARRAY = $Kernel::OM->Get('Kernel::System::XML')->XMLParse( String => $XML );
-my @SQL = $DBObject->SQLProcessor( Database => \@XMLARRAY );
+my @SQL      = $DBObject->SQLProcessor( Database => \@XMLARRAY );
 for my $SQL (@SQL) {
     $Self->True(
         $DBObject->Do( SQL => $SQL ) || 0,

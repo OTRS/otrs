@@ -34,7 +34,7 @@ sub Run {
     my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
 
     my $Output;
-    my $QueueID = $TicketObject->TicketQueueID( TicketID => $Self->{TicketID} );
+    my $QueueID   = $TicketObject->TicketQueueID( TicketID => $Self->{TicketID} );
     my $ArticleID = $ParamObject->GetParam( Param => 'ArticleID' );
 
     # get layout object

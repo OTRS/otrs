@@ -24,7 +24,7 @@ my $XML = '
 </Table>
 ';
 my @XMLARRAY = $Kernel::OM->Get('Kernel::System::XML')->XMLParse( String => $XML );
-my @SQL = $DBObject->SQLProcessor( Database => \@XMLARRAY );
+my @SQL      = $DBObject->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
     'SQLProcessor() CREATE TABLE',

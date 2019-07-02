@@ -457,8 +457,8 @@ sub Find {
                 next FILE if defined $DB  && !defined $Given;
                 next FILE if !defined $DB && defined $Given;
                 if ( $Given =~ /\*/ ) {
-                    $Given =~ s/\*/.\*/g;
-                    $Given =~ s/\//\\\//g;
+                    $Given           =~ s/\*/.\*/g;
+                    $Given           =~ s/\//\\\//g;
                     next FILE if $DB !~ /$Given/;
                 }
                 else {

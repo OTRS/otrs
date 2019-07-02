@@ -231,7 +231,7 @@ sub Run {
             Stat                              => $Stat,
             Format                            => $Format,
             AgentStatisticsFrontendPermission => $AgentStatisticsFrontendPermission,
-            Preferences => $Preferences{ 'GraphWidget' . $Self->{Name} } || '{}',
+            Preferences                       => $Preferences{ 'GraphWidget' . $Self->{Name} } || '{}',
         },
         KeepScriptTags => $Param{AJAX},
     );

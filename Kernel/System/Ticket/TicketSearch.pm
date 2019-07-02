@@ -447,9 +447,9 @@ sub TicketSearch {
     }
 
     # check sort/order by options
-    my @SortByArray = ( ref $SortBy eq 'ARRAY' ? @{$SortBy} : ($SortBy) );
+    my @SortByArray       = ( ref $SortBy eq 'ARRAY' ? @{$SortBy} : ($SortBy) );
     my %LookupSortByArray = map { $_ => 1 } @SortByArray;
-    my @OrderByArray = ( ref $OrderBy eq 'ARRAY' ? @{$OrderBy} : ($OrderBy) );
+    my @OrderByArray      = ( ref $OrderBy eq 'ARRAY' ? @{$OrderBy} : ($OrderBy) );
 
     for my $Count ( 0 .. $#SortByArray ) {
         if (
@@ -2150,7 +2150,7 @@ sub TicketSearch {
                     . ' ON ' . $SortOptions{ $SortByArray[$Count] } . ' = u.id ';
 
                 my $FirstnameLastNameOrder = $Kernel::OM->Get('Kernel::Config')->Get('FirstnameLastnameOrder') || 0;
-                my $OrderBySuffix = $OrderByArray[$Count] eq 'Up' ? 'ASC' : 'DESC';
+                my $OrderBySuffix          = $OrderByArray[$Count] eq 'Up' ? 'ASC' : 'DESC';
 
                 # Sort by configured first and last name order.
                 if ( $FirstnameLastNameOrder eq '1' || $FirstnameLastNameOrder eq '6' ) {

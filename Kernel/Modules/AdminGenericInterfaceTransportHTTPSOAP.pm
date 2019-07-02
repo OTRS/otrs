@@ -330,8 +330,8 @@ sub _ShowEdit {
     # create options for request and response name schemes
     for my $Type (qw(Request Response)) {
         my $TypeDefault = $Type eq 'Request' ? 'Plain' : 'Response';
-        my $SelectedID = $TransportConfig->{ $Type . 'NameScheme' } || $TypeDefault;
-        my %Data       = (
+        my $SelectedID  = $TransportConfig->{ $Type . 'NameScheme' } || $TypeDefault;
+        my %Data        = (
             'Plain'   => "<FunctionName>DATA</FunctionName>",
             $Type     => "<FunctionName${Type}>DATA</FunctionName${Type}>",
             'Append'  => "<FunctionNameFreeText>DATA</FunctionNameFreeText>",

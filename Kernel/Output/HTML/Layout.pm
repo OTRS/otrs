@@ -1992,7 +1992,7 @@ sub LinkEncode {
 sub CustomerAgeInHours {
     my ( $Self, %Param ) = @_;
 
-    my $Age = defined( $Param{Age} ) ? $Param{Age} : return;
+    my $Age       = defined( $Param{Age} ) ? $Param{Age} : return;
     my $Space     = $Param{Space} || '<br/>';
     my $AgeStrg   = '';
     my $HourDsc   = Translatable('h');
@@ -2026,7 +2026,7 @@ sub CustomerAge {
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-    my $Age = defined( $Param{Age} ) ? $Param{Age} : return;
+    my $Age       = defined( $Param{Age} ) ? $Param{Age} : return;
     my $Space     = $Param{Space} || '<br/>';
     my $AgeStrg   = '';
     my $DayDsc    = Translatable('d');
@@ -2605,6 +2605,7 @@ sub PageNavBar {
     my $Link   = $Param{Link}   || '';
     my $Baselink = "$Self->{Baselink}$Action;$Link";
     my $i        = 0;
+
     while ( $i <= ( $Pages - 1 ) ) {
         $i++;
 

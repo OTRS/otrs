@@ -39,7 +39,7 @@ my $XML = '
 </TableCreate>
 ';
 my @XMLARRAY = $XMLObject->XMLParse( String => $XML );
-my @SQL = $DBObject->SQLProcessor( Database => \@XMLARRAY );
+my @SQL      = $DBObject->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
     'SQLProcessor() CREATE TABLE',
@@ -69,7 +69,7 @@ $XML = '
 </TableAlter>
 ';
 @XMLARRAY = $XMLObject->XMLParse( String => $XML );
-@SQL = $DBObject->SQLProcessor( Database => \@XMLARRAY );
+@SQL      = $DBObject->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
     'SQLProcessor() ALTER TABLE',
@@ -89,7 +89,7 @@ $XML = '
 </Insert>
 ';
 @XMLARRAY = $XMLObject->XMLParse( String => $XML );
-@SQL = $DBObject->SQLProcessor( Database => \@XMLARRAY );
+@SQL      = $DBObject->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
     'SQLProcessor() INSERT 1',
@@ -133,7 +133,7 @@ for my $Count ( 1 .. 6 ) {
         </Insert>
     ';
     @XMLARRAY = $XMLObject->XMLParse( String => $XML );
-    @SQL = $DBObject->SQLProcessor( Database => \@XMLARRAY );
+    @SQL      = $DBObject->SQLProcessor( Database => \@XMLARRAY );
     $Self->True(
         $SQL[0],
         "SQLProcessor() INSERT 2 - $Count",

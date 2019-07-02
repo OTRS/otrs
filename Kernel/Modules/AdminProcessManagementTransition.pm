@@ -674,8 +674,8 @@ sub _GetParams {
     my $Config = $Kernel::OM->Get('Kernel::System::JSON')->Decode(
         Data => $GetParam->{ConditionConfig}
     );
-    $GetParam->{Config} = {};
-    $GetParam->{Config}->{Condition} = $Config;
+    $GetParam->{Config}                     = {};
+    $GetParam->{Config}->{Condition}        = $Config;
     $GetParam->{Config}->{ConditionLinking} = $ParamObject->GetParam( Param => 'OverallConditionLinking' ) || '';
 
     return $GetParam;

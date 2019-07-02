@@ -91,7 +91,7 @@ sub Run {
     my $SearchLimit = $ConfigObject->Get('Ticket::CustomerTicketSearch::SearchLimit')
         || 200;
     my $SearchPageShown = $ConfigObject->Get('Ticket::CustomerTicketSearch::SearchPageShown') || 40;
-    my $SortBy = $ParamObject->GetParam( Param => 'SortBy' )
+    my $SortBy          = $ParamObject->GetParam( Param => 'SortBy' )
         || $ConfigObject->Get('Ticket::CustomerTicketSearch::SortBy::Default')
         || 'Age';
     my $CurrentOrder = $ParamObject->GetParam( Param => 'Order' )
@@ -555,7 +555,7 @@ sub Run {
                         DynamicFields => 0,
                         UserID        => $Self->{UserID},
                     );
-                    %Data = %Ticket;
+                    %Data          = %Ticket;
                     $Data{Subject} = $Ticket{Title} || 'Untitled';
                     $Data{Body}    = $LayoutObject->{LanguageObject}->Translate(
                         'This item has no articles yet.'
@@ -1076,7 +1076,7 @@ sub Run {
 
                     # if no article found, use ticket information
                     if ( !%Article ) {
-                        %Article = %Ticket;
+                        %Article          = %Ticket;
                         $Article{Subject} = $Ticket{Title} || 'Untitled';
                         $Article{Body}    = $LayoutObject->{LanguageObject}->Translate(
                             'This item has no articles yet.'

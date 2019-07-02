@@ -342,7 +342,7 @@ sub Run {
         $Hash =~ s{(.+)\.\d}{$1}xms;
 
         my $Certificate = $SMIMEObject->CertificateGet( Filename => $Filename );
-        my %Attributes = $SMIMEObject->CertificateAttributes( Certificate => $Certificate );
+        my %Attributes  = $SMIMEObject->CertificateAttributes( Certificate => $Certificate );
         return $LayoutObject->Attachment(
             ContentType => 'text/plain',
             Content     => $Attributes{Fingerprint},
@@ -394,7 +394,7 @@ sub Run {
 
         # look for needed parameters
         my $CertFingerprint = $ParamObject->GetParam( Param => 'Fingerprint' ) || '';
-        my $Output = $Self->_SignerCertificateOverview( CertFingerprint => $CertFingerprint );
+        my $Output          = $Self->_SignerCertificateOverview( CertFingerprint => $CertFingerprint );
 
         return $Output;
     }

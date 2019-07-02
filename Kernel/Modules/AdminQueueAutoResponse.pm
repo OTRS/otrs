@@ -32,8 +32,8 @@ sub Run {
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
     my $DBObject    = $Kernel::OM->Get('Kernel::System::DB');
     my $Output      = '';
-    $Param{ID} = $ParamObject->GetParam( Param => 'ID' ) || '';
-    $Param{ID} = $DBObject->Quote( $Param{ID}, 'Integer' ) if ( $Param{ID} );
+    $Param{ID}     = $ParamObject->GetParam( Param => 'ID' ) || '';
+    $Param{ID}     = $DBObject->Quote( $Param{ID}, 'Integer' ) if ( $Param{ID} );
     $Param{Action} = $ParamObject->GetParam( Param => 'Action' )
         || 'AdminQueueAutoResponse';
     $Param{Filter} = $ParamObject->GetParam( Param => 'Filter' ) || '';

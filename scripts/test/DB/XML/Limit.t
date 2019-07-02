@@ -38,7 +38,7 @@ my $XML = '
 </TableCreate>
 ';
 my @XMLARRAY = $XMLObject->XMLParse( String => $XML );
-my @SQL = $DBObject->SQLProcessor( Database => \@XMLARRAY );
+my @SQL      = $DBObject->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
     'SQLProcessor() CREATE TABLE',
@@ -62,7 +62,7 @@ for my $Count ( 1 .. 40 ) {
         </Insert>
     ';
     @XMLARRAY = $XMLObject->XMLParse( String => $XML );
-    @SQL = $DBObject->SQLProcessor( Database => \@XMLARRAY );
+    @SQL      = $DBObject->SQLProcessor( Database => \@XMLARRAY );
     $Self->True(
         $SQL[0],
         "SQLProcessor() INSERT - $Count",

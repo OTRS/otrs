@@ -210,7 +210,7 @@ sub Run {
         };
     }
 
-    my $StartHit = int( $ParamObject->GetParam( Param => 'StartHit' ) || 1 );
+    my $StartHit  = int( $ParamObject->GetParam( Param => 'StartHit' ) || 1 );
     my $PageShown = $Self->{UserShowTickets} || 1;
 
     if ( !$AllTicketsTotal ) {

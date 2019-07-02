@@ -241,8 +241,8 @@ wpStC0yiqNRd1/r/wkihHv57xSScBPkpdu2Q9RBY36dJ
         <Column Name="change_by" Required="true" Type="INTEGER"/>
     </Table>';
     my @XMLARRAY = $Kernel::OM->Get('Kernel::System::XML')->XMLParse( String => $XMLLoginTable );
-    my @SQL = $DBObject->SQLProcessor( Database => \@XMLARRAY );
-    my @SQLPost = $DBObject->SQLProcessorPost( Database => \@XMLARRAY );
+    my @SQL      = $DBObject->SQLProcessor( Database => \@XMLARRAY );
+    my @SQLPost  = $DBObject->SQLProcessorPost( Database => \@XMLARRAY );
 
     for my $SQL ( @SQL, @SQLPost ) {
         $Self->True(

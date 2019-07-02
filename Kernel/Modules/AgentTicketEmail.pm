@@ -108,9 +108,9 @@ sub Run {
     if ($CustomersNumber) {
         my $CustomerCounter = 1;
         for my $Count ( 1 ... $CustomersNumber ) {
-            my $CustomerElement = $ParamObject->GetParam( Param => 'CustomerTicketText_' . $Count );
+            my $CustomerElement  = $ParamObject->GetParam( Param => 'CustomerTicketText_' . $Count );
             my $CustomerSelected = ( $Selected eq $Count ? 'checked="checked"' : '' );
-            my $CustomerKey = $ParamObject->GetParam( Param => 'CustomerKey_' . $Count )
+            my $CustomerKey      = $ParamObject->GetParam( Param => 'CustomerKey_' . $Count )
                 || '';
 
             if ($CustomerElement) {

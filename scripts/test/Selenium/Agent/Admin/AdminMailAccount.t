@@ -96,7 +96,7 @@ $Selenium->RunTest(
         }
 
         my $MailAccountID = $Selenium->find_element( 'input[name=ID]', 'css' )->get_value();
-        my %MailAccount = $Kernel::OM->Get('Kernel::System::MailAccount')->MailAccountGet( ID => $MailAccountID );
+        my %MailAccount   = $Kernel::OM->Get('Kernel::System::MailAccount')->MailAccountGet( ID => $MailAccountID );
         $Self->Is(
             scalar $MailAccount{Password},
             'SomePassword',
