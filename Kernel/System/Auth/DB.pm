@@ -93,6 +93,7 @@ sub Auth {
         . " valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} ) AND "
         . " $Self->{UserTableUser} = '" . $Self->{DBObject}->Quote($User) . "'";
     $Self->{DBObject}->Prepare( SQL => $SQL );
+
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $GetPw  = $Row[0];
         $UserID = $Row[1];

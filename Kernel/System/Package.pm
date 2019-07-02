@@ -1194,7 +1194,7 @@ sub DeployCheck {
             return;
         }
     }
-    my $Package = $Self->RepositoryGet( %Param, Result => 'SCALAR' );
+    my $Package   = $Self->RepositoryGet( %Param, Result => 'SCALAR' );
     my %Structure = $Self->PackageParse( String => $Package );
     $Self->{DeployCheckInfo} = undef;
     if ( $Structure{Filelist} && ref $Structure{Filelist} eq 'ARRAY' ) {

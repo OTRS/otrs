@@ -42,6 +42,7 @@ my $FullBackup  = 0;
 my $DB          = '';
 my $DBDump      = '';
 getopt( 'hcrtd', \%Opts );
+
 if ( exists $Opts{h} ) {
     print "backup.pl - backup script\n";
     print "Copyright (C) 2001-2019 OTRS AG, https://otrs.com/\n";

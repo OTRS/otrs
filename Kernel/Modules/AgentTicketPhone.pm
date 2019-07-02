@@ -1134,7 +1134,7 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'AJAXUpdate' ) {
         my $Dest         = $Self->{ParamObject}->GetParam( Param => 'Dest' ) || '';
         my $CustomerUser = $Self->{ParamObject}->GetParam( Param => 'SelectedCustomerUser' );
-        my $QueueID      = '';
+        my $QueueID = '';
         if ( $Dest =~ /^(\d{1,100})\|\|.+?$/ ) {
             $QueueID = $1;
         }

@@ -695,7 +695,7 @@ sub _SendNotification {
         );
     }
     else {
-        my %Address = $Self->{QueueObject}->GetSystemAddress( QueueID => $Article{QueueID} );
+        my %Address     = $Self->{QueueObject}->GetSystemAddress( QueueID => $Article{QueueID} );
         my $ArticleType = $Recipient{NotificationArticleType} || 'email-notification-ext';
         my $ArticleID   = $Self->{TicketObject}->ArticleSend(
             ArticleType    => $ArticleType,

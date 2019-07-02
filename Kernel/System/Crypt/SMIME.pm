@@ -426,8 +426,8 @@ sub CertificateSearch {
     my @Hash = $Self->CertificateList();
     for (@Hash) {
         my $Certificate = $Self->CertificateGet( Hash => $_ );
-        my %Attributes = $Self->CertificateAttributes( Certificate => $Certificate );
-        my $Hit        = 0;
+        my %Attributes  = $Self->CertificateAttributes( Certificate => $Certificate );
+        my $Hit         = 0;
         if ($Search) {
             for ( keys %Attributes ) {
                 if ( eval { $Attributes{$_} =~ /\Q$Search\E/i } ) {
@@ -623,8 +623,8 @@ sub PrivateSearch {
     my @Hash = $Self->CertificateList();
     for (@Hash) {
         my $Certificate = $Self->CertificateGet( Hash => $_ );
-        my %Attributes = $Self->CertificateAttributes( Certificate => $Certificate );
-        my $Hit        = 0;
+        my %Attributes  = $Self->CertificateAttributes( Certificate => $Certificate );
+        my $Hit         = 0;
         if ($Search) {
             for ( keys %Attributes ) {
                 if ( $Attributes{$_} =~ /\Q$Search\E/i ) {

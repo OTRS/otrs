@@ -126,7 +126,7 @@ sub Run {
 
     # article update
     elsif ( $Self->{Subaction} eq 'ArticleUpdate' ) {
-        my $Count = $Self->{ParamObject}->GetParam( Param => 'Count' );
+        my $Count   = $Self->{ParamObject}->GetParam( Param => 'Count' );
         my %Article = $Self->{TicketObject}->ArticleGet( ArticleID => $Self->{ArticleID} );
         $Article{Count} = $Count;
 

@@ -72,7 +72,7 @@ sub Run {
     }
 
     # get content
-    my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Self->{TicketID} );
+    my %Ticket               = $Self->{TicketObject}->TicketGet( TicketID => $Self->{TicketID} );
     my @CustomerArticleTypes = $Self->{TicketObject}->ArticleTypeList( Type => 'Customer' );
     my @ArticleBox           = $Self->{TicketObject}->ArticleContentIndex(
         TicketID                   => $Self->{TicketID},

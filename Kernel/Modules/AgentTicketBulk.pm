@@ -614,7 +614,7 @@ sub _Mask {
         if ( !$Self->{ConfigObject}->Get('Ticket::ChangeOwnerToEveryone') ) {
             my %AllGroupsMembersNew;
             for my $TicketID ( @{ $Param{TicketIDs} } ) {
-                my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $TicketID );
+                my %Ticket      = $Self->{TicketObject}->TicketGet( TicketID => $TicketID );
                 my $GroupID     = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Ticket{QueueID} );
                 my %GroupMember = $Self->{GroupObject}->GroupMemberList(
                     GroupID => $GroupID,
@@ -655,7 +655,7 @@ sub _Mask {
         if ( !$Self->{ConfigObject}->Get('Ticket::ChangeOwnerToEveryone') ) {
             my %AllGroupsMembersNew;
             for my $TicketID ( @{ $Param{TicketIDs} } ) {
-                my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $TicketID );
+                my %Ticket      = $Self->{TicketObject}->TicketGet( TicketID => $TicketID );
                 my $GroupID     = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Ticket{QueueID} );
                 my %GroupMember = $Self->{GroupObject}->GroupMemberList(
                     GroupID => $GroupID,

@@ -37,7 +37,7 @@ sub Run {
     if ( $Self->{Subaction} eq 'User' ) {
 
         # get user data
-        my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' );
+        my $ID       = $Self->{ParamObject}->GetParam( Param => 'ID' );
         my %UserData = $Self->{UserObject}->GetUserData( UserID => $ID );
 
         # get role list
@@ -69,7 +69,7 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'Role' ) {
 
         # get role data
-        my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' );
+        my $ID       = $Self->{ParamObject}->GetParam( Param => 'ID' );
         my %RoleData = $Self->{GroupObject}->RoleGet( ID => $ID );
 
         # get user list, with the full name in the value

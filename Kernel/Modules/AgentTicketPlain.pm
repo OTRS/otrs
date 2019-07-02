@@ -54,7 +54,7 @@ sub Run {
     }
 
     my %Article = $Self->{TicketObject}->ArticleGet( ArticleID => $Self->{ArticleID} );
-    my $Plain = $Self->{TicketObject}->ArticlePlain( ArticleID => $Self->{ArticleID} );
+    my $Plain   = $Self->{TicketObject}->ArticlePlain( ArticleID => $Self->{ArticleID} );
     if ( !$Plain ) {
         return $Self->{LayoutObject}->ErrorScreen(
             Message => 'Can\'t read plain article! Maybe there is no plain email in backend! '

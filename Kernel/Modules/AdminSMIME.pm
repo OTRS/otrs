@@ -305,7 +305,7 @@ sub Run {
             );
         }
         my $Certificate = $Self->{CryptObject}->CertificateGet( Hash => $Hash );
-        my %Attributes = $Self->{CryptObject}->CertificateAttributes( Certificate => $Certificate );
+        my %Attributes  = $Self->{CryptObject}->CertificateAttributes( Certificate => $Certificate );
         return $Self->{LayoutObject}->Attachment(
             ContentType => 'text/plain',
             Content     => $Attributes{Fingerprint},
