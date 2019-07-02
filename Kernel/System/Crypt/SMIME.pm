@@ -912,7 +912,7 @@ sub PrivateSearch {
 
     for my $File (@Certificates) {
         my $Certificate = $Self->CertificateGet( Filename => $File );
-        my %Attributes = $Self->CertificateAttributes( Certificate => $Certificate );
+        my %Attributes  = $Self->CertificateAttributes( Certificate => $Certificate );
 
         my $Hit = 0;
         if ($Search) {

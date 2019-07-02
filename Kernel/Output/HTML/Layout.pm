@@ -2141,7 +2141,7 @@ sub LinkEncode {
 sub CustomerAgeInHours {
     my ( $Self, %Param ) = @_;
 
-    my $Age = defined( $Param{Age} ) ? $Param{Age} : return;
+    my $Age       = defined( $Param{Age} ) ? $Param{Age} : return;
     my $Space     = $Param{Space} || '<br/>';
     my $AgeStrg   = '';
     my $HourDsc   = 'h';
@@ -2173,7 +2173,7 @@ sub CustomerAgeInHours {
 sub CustomerAge {
     my ( $Self, %Param ) = @_;
 
-    my $Age = defined( $Param{Age} ) ? $Param{Age} : return;
+    my $Age       = defined( $Param{Age} ) ? $Param{Age} : return;
     my $Space     = $Param{Space} || '<br/>';
     my $AgeStrg   = '';
     my $DayDsc    = 'd';
@@ -2689,6 +2689,7 @@ sub PageNavBar {
     my $Link   = $Param{Link}   || '';
     my $Baselink = "$Self->{Baselink}$Action;$Link";
     my $i        = 0;
+
     while ( $i <= ( $Pages - 1 ) ) {
         $i++;
 
@@ -4356,6 +4357,7 @@ sub _BlockTemplatePreferences {
     my $CurrentLayer   = '';
     my %UsedNames;
     my $TemplateFile = $Param{TemplateFile} || '';
+
     if ( !defined $Param{Template} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',

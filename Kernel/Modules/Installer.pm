@@ -78,7 +78,7 @@ sub Run {
     if ( -f '/etc/SuSE-release' ) {
         $Dist{Vendor} = 'SuSE';
         if ( exists $ENV{MOD_PERL} ) {
-            eval 'require mod_perl';    ## no critic
+            eval 'require mod_perl';               ## no critic
             if ( defined $mod_perl::VERSION ) {    ## no critic
                 $Dist{Webserver} = 'rcapache2 restart';
             }
@@ -92,7 +92,7 @@ sub Run {
         $Dist{Webserver} = 'service httpd restart';
     }
     elsif ( exists $ENV{MOD_PERL} ) {
-        eval 'require mod_perl';    ## no critic
+        eval 'require mod_perl';               ## no critic
         if ( defined $mod_perl::VERSION ) {    ## no critic
             $Dist{Webserver} = 'Apache2 + mod_perl2';
         }

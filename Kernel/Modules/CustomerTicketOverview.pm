@@ -67,7 +67,7 @@ sub new {
     $Self->{Filter}  = $Self->{ParamObject}->GetParam( Param => 'Filter' )  || 'Open';
     $Self->{SortBy}  = $Self->{ParamObject}->GetParam( Param => 'SortBy' )  || 'Age';
     $Self->{OrderBy} = $Self->{ParamObject}->GetParam( Param => 'OrderBy' ) || 'Down';
-    $Self->{StartHit} = int( $Self->{ParamObject}->GetParam( Param => 'StartHit' ) || 1 );
+    $Self->{StartHit}  = int( $Self->{ParamObject}->GetParam( Param => 'StartHit' ) || 1 );
     $Self->{PageShown} = $Self->{UserShowTickets} || 1;
 
     return $Self;

@@ -37,7 +37,7 @@ sub new {
     $Self->{PrefKey} = 'UserDashboardPref' . $Self->{Name} . '-Shown';
 
     $Self->{PageShown} = $Self->{LayoutObject}->{ $Self->{PrefKey} } || $Self->{Config}->{Limit};
-    $Self->{StartHit} = int( $Self->{ParamObject}->GetParam( Param => 'StartHit' ) || 1 );
+    $Self->{StartHit}  = int( $Self->{ParamObject}->GetParam( Param => 'StartHit' ) || 1 );
 
     return $Self;
 }

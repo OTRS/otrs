@@ -38,7 +38,7 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $Nav = $Self->{ParamObject}->GetParam( Param => 'Nav' ) || 0;
+    my $Nav               = $Self->{ParamObject}->GetParam( Param => 'Nav' ) || 0;
     my $NavigationBarType = $Nav eq 'Agent' ? 'Companies' : 'Admin';
 
     # ------------------------------------------------------------ #

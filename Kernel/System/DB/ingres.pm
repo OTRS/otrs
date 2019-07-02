@@ -122,6 +122,7 @@ sub TableCreate {
     my $PrimaryKey     = '';
     my $PrimKeyColName = '';
     my @Return         = ();
+
     for my $Tag (@Param) {
 
         if ( $Tag->{Tag} eq 'Table' && $Tag->{TagType} eq 'Start' ) {

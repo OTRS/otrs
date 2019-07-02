@@ -29,7 +29,7 @@ my $XML = '
 </TableCreate>
 ';
 my @XMLARRAY = $XMLObject->XMLParse( String => $XML );
-my @SQL = $DBObject->SQLProcessor( Database => \@XMLARRAY );
+my @SQL      = $DBObject->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
     '#1 SQLProcessor() CREATE TABLE',
@@ -145,7 +145,7 @@ $XML = '
 </TableCreate>
 ';
 @XMLARRAY = $XMLObject->XMLParse( String => $XML );
-@SQL = $DBObject->SQLProcessor( Database => \@XMLARRAY );
+@SQL      = $DBObject->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
     '#2 SQLProcessor() CREATE TABLE',
@@ -175,7 +175,7 @@ $XML = '
 </TableAlter>
 ';
 @XMLARRAY = $XMLObject->XMLParse( String => $XML );
-@SQL = $DBObject->SQLProcessor( Database => \@XMLARRAY );
+@SQL      = $DBObject->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
     '#2 SQLProcessor() ALTER TABLE',
@@ -195,7 +195,7 @@ $XML = '
 </Insert>
 ';
 @XMLARRAY = $XMLObject->XMLParse( String => $XML );
-@SQL = $DBObject->SQLProcessor( Database => \@XMLARRAY );
+@SQL      = $DBObject->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
     '#2 SQLProcessor() INSERT 1',
@@ -239,7 +239,7 @@ for my $Count ( 1 .. 6 ) {
         </Insert>
     ';
     @XMLARRAY = $XMLObject->XMLParse( String => $XML );
-    @SQL = $DBObject->SQLProcessor( Database => \@XMLARRAY );
+    @SQL      = $DBObject->SQLProcessor( Database => \@XMLARRAY );
     $Self->True(
         $SQL[0],
         "#2 SQLProcessor() INSERT 2 - $Count",
@@ -450,7 +450,7 @@ $XML = '
 </TableCreate>
 ';
 @XMLARRAY = $XMLObject->XMLParse( String => $XML );
-@SQL = $DBObject->SQLProcessor( Database => \@XMLARRAY );
+@SQL      = $DBObject->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
     '#3 SQLProcessor() CREATE TABLE',
@@ -474,7 +474,7 @@ for my $Count ( 1 .. 40 ) {
         </Insert>
     ';
     @XMLARRAY = $XMLObject->XMLParse( String => $XML );
-    @SQL = $DBObject->SQLProcessor( Database => \@XMLARRAY );
+    @SQL      = $DBObject->SQLProcessor( Database => \@XMLARRAY );
     $Self->True(
         $SQL[0],
         "#3 SQLProcessor() INSERT - $Count",
@@ -644,7 +644,7 @@ $XML = '
 </TableCreate>
 ';
 @XMLARRAY = $XMLObject->XMLParse( String => $XML );
-@SQL = $DBObject->SQLProcessor( Database => \@XMLARRAY );
+@SQL      = $DBObject->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
     '#4 SQLProcessor() CREATE TABLE',
@@ -801,7 +801,7 @@ $XML = '
 </TableCreate>
 ';
 @XMLARRAY = $XMLObject->XMLParse( String => $XML );
-@SQL = $DBObject->SQLProcessor( Database => \@XMLARRAY );
+@SQL      = $DBObject->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
     '#5 SQLProcessor() CREATE TABLE',
@@ -1404,7 +1404,7 @@ $XML = '
 </TableAlter>
 ';
 @XMLARRAY = $XMLObject->XMLParse( String => $XML );
-@SQL = $DBObject->SQLProcessor( Database => \@XMLARRAY );
+@SQL      = $DBObject->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
     '#7 SQLProcessor() ALTER TABLE',
@@ -1582,7 +1582,7 @@ $XML = '
 </TableAlter>
 ';
 @XMLARRAY = $XMLObject->XMLParse( String => $XML );
-@SQL = $DBObject->SQLProcessor( Database => \@XMLARRAY );
+@SQL      = $DBObject->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
     '#7 SQLProcessor() ALTER TABLE',
@@ -1873,7 +1873,7 @@ $XML = '
 </SQL>
 ';
 @XMLARRAY = $XMLObject->XMLParse( String => $XML );
-@SQL = $DBObject->SQLProcessor( Database => \@XMLARRAY );
+@SQL      = $DBObject->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
     '#9 SQLProcessor() DROP TABLE',
@@ -1901,7 +1901,7 @@ $XML = '
 </TableCreate>
 ';
 @XMLARRAY = $XMLObject->XMLParse( String => $XML );
-@SQL = $DBObject->SQLProcessor( Database => \@XMLARRAY );
+@SQL      = $DBObject->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
     '#10 SQLProcessor() CREATE TABLE',
@@ -2005,7 +2005,7 @@ $XML = '
 </TableCreate>
 ';
 @XMLARRAY = $XMLObject->XMLParse( String => $XML );
-@SQL = $DBObject->SQLProcessor( Database => \@XMLARRAY );
+@SQL      = $DBObject->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
     '#12 SQLProcessor() CREATE TABLE',
@@ -2040,7 +2040,7 @@ $XML = '
 </TableAlter>
 ';
 @XMLARRAY = $XMLObject->XMLParse( String => $XML );
-@SQL = $DBObject->SQLProcessor( Database => \@XMLARRAY );
+@SQL      = $DBObject->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
     '#12 SQLProcessor() ALTER TABLE',
