@@ -847,6 +847,7 @@ sub Bounce {
     $HeaderObject->replace( 'Resent-From',       $RealFrom );
     my $Body         = $EmailObject->body();
     my $BodyAsString = '';
+
     for ( @{$Body} ) {
         $BodyAsString .= $_ . "\n";
     }

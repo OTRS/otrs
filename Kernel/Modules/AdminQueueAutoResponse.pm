@@ -41,8 +41,8 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     my $Output = '';
-    $Param{ID} = $Self->{ParamObject}->GetParam( Param => 'ID' ) || '';
-    $Param{ID} = $Self->{DBObject}->Quote( $Param{ID}, 'Integer' ) if ( $Param{ID} );
+    $Param{ID}     = $Self->{ParamObject}->GetParam( Param => 'ID' ) || '';
+    $Param{ID}     = $Self->{DBObject}->Quote( $Param{ID}, 'Integer' ) if ( $Param{ID} );
     $Param{Action} = $Self->{ParamObject}->GetParam( Param => 'Action' )
         || 'AdminQueueAutoResponse';
 

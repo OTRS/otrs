@@ -40,7 +40,7 @@ sub Run {
     my $Name           = $Self->{ParamObject}->GetParam( Param => 'Name' );
     my $OldName        = $Self->{ParamObject}->GetParam( Param => 'OldName' );
     my $StopAfterMatch = $Self->{ParamObject}->GetParam( Param => 'StopAfterMatch' ) || 0;
-    my %GetParam = ();
+    my %GetParam       = ();
     for my $Number ( 1 .. 12 ) {
         $GetParam{"MatchHeader$Number"} = $Self->{ParamObject}->GetParam( Param => "MatchHeader$Number" );
         $GetParam{"MatchValue$Number"}  = $Self->{ParamObject}->GetParam( Param => "MatchValue$Number" );

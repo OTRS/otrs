@@ -907,7 +907,7 @@ $Self->IsDeeply(
 
 # Check if Rootuser gets all Activity Dialogs delivered for checking
 my $ActivityDialogsArray = [ 'AD3', 'AD5', 'AD6' ];
-my @ActivityDialogs = $TicketObject->TicketAclActivityDialogData( ActivityDialogs => $ActivityDialogsArray );
+my @ActivityDialogs      = $TicketObject->TicketAclActivityDialogData( ActivityDialogs => $ActivityDialogsArray );
 
 $Self->IsDeeply(
     \@ActivityDialogs,

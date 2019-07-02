@@ -251,7 +251,7 @@ sub ArticleCreate {
     }
 
     # check if this is the first article (for notifications)
-    my @Index = $Self->ArticleIndex( TicketID => $Param{TicketID} );
+    my @Index        = $Self->ArticleIndex( TicketID => $Param{TicketID} );
     my $FirstArticle = scalar @Index ? 0 : 1;
 
     # calculate MD5 of Message ID

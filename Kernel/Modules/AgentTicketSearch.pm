@@ -102,9 +102,9 @@ sub Run {
     my $Output;
 
     # get config data
-    $Self->{StartHit} = int( $Self->{ParamObject}->GetParam( Param => 'StartHit' ) || 1 );
+    $Self->{StartHit}    = int( $Self->{ParamObject}->GetParam( Param => 'StartHit' ) || 1 );
     $Self->{SearchLimit} = $Self->{Config}->{SearchLimit} || 500;
-    $Self->{SortBy} = $Self->{ParamObject}->GetParam( Param => 'SortBy' )
+    $Self->{SortBy}      = $Self->{ParamObject}->GetParam( Param => 'SortBy' )
         || $Self->{Config}->{'SortBy::Default'}
         || 'Age';
     $Self->{OrderBy} = $Self->{ParamObject}->GetParam( Param => 'OrderBy' )

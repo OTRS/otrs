@@ -23,7 +23,7 @@ my $XML = '
 </Table>
 ';
 my @XMLARRAY = $XMLObject->XMLParse( String => $XML );
-my @SQL = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
+my @SQL      = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
     'SQLProcessor() CREATE TABLE',

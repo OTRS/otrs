@@ -2560,6 +2560,7 @@ sub _Timeoutput {
     $TimeConfig{ $Element . 'StopHour' }    = 23;
     $TimeConfig{ $Element . 'StopMinute' }  = 59;
     $TimeConfig{ $Element . 'StopSecond' }  = 59;
+
     for (qw(Start Stop)) {
         $TimeConfig{Prefix} = $Element . $_;
 

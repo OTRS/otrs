@@ -710,7 +710,7 @@ sub BuildPackageIndex {
                     exit 1;
                 }
                 my %Structure = $CommonObject{PackageObject}->PackageParse( String => ${$ContentRef} );
-                my $XML = $CommonObject{PackageObject}->PackageBuild( %Structure, Type => 'Index' );
+                my $XML       = $CommonObject{PackageObject}->PackageBuild( %Structure, Type => 'Index' );
                 print "<Package>\n";
                 print $XML;
                 print "  <File>$File</File>\n";
