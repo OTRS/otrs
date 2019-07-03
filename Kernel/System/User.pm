@@ -469,19 +469,22 @@ sub UserAdd {
         PW        => $Param{UserPw}
     );
 
-    # set email address
-    $Self->SetPreferences(
-        UserID => $UserID,
-        Key    => 'UserEmail',
-        Value  => $Param{UserEmail}
-    );
+    my @UserPreferences = grep { $_ =~ m{^User}xsi } sort keys %Param;
 
-    # set mobile phone
-    $Self->SetPreferences(
-        UserID => $UserID,
-        Key    => 'UserMobile',
-        Value  => $Param{UserMobile} || '',
-    );
+    USERPREFERENCE:
+    for my $UserPreference (@UserPreferences) {
+
+        # UserEmail is required.
+        next USERPREFERENCE if $UserPreference eq 'UserEmail' && !$Param{UserEmail};
+
+        # Set user preferences.
+        # Native user data will not be overwriten (handeled by SetPreferences()).
+        $Self->SetPreferences(
+            UserID => $UserID,
+            Key    => $UserPreference,
+            Value  => $Param{$UserPreference} || '',
+        );
+    }
 
     # delete cache
     $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
@@ -578,19 +581,22 @@ sub UserUpdate {
         );
     }
 
-    # set email address
-    $Self->SetPreferences(
-        UserID => $Param{UserID},
-        Key    => 'UserEmail',
-        Value  => $Param{UserEmail}
-    );
+    my @UserPreferences = grep { $_ =~ m{^User}xsi } sort keys %Param;
 
-    # set email address
-    $Self->SetPreferences(
-        UserID => $Param{UserID},
-        Key    => 'UserMobile',
-        Value  => $Param{UserMobile} || '',
-    );
+    USERPREFERENCE:
+    for my $UserPreference (@UserPreferences) {
+
+        # UserEmail is required.
+        next USERPREFERENCE if $UserPreference eq 'UserEmail' && !$Param{UserEmail};
+
+        # Set user preferences.
+        # Native user data will not be overwriten (handeled by SetPreferences()).
+        $Self->SetPreferences(
+            UserID => $Param{UserID},
+            Key    => $UserPreference,
+            Value  => $Param{$UserPreference} || '',
+        );
+    }
 
     # update search profiles if the UserLogin changed
     if ( lc $OldUserLogin ne lc $Param{UserLogin} ) {

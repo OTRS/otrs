@@ -56,6 +56,7 @@ my $UserID = $UserObject->UserAdd(
     UserLastname  => 'Lastname Test1',
     UserLogin     => $UserRand,
     UserEmail     => $UserRand . '@example.com',
+    UserComment   => $UserRand,
     ValidID       => 1,
     ChangeUserID  => 1,
 );
@@ -144,6 +145,11 @@ $Self->Is(
     $UserRand . '@example.com',
     'GetUserData() - UserEmail',
 );
+$Self->Is(
+    $UserData{UserComment} || '',
+    $UserRand,
+    'GetUserData() - UserComment',
+);
 
 my %UserList = $UserObject->UserList(
     Type  => 'Short',
@@ -195,6 +201,7 @@ my $Update = $UserObject->UserUpdate(
     UserLastname  => 'Lastname Tëst2',
     UserLogin     => $UserRand . '房治郎',
     UserEmail     => $UserRand . '@example2.com',
+    UserComment   => $UserRand . '房治郎',
     ValidID       => 2,
     ChangeUserID  => 1,
 );
@@ -225,6 +232,11 @@ $Self->Is(
     $UserData{UserEmail} || '',
     $UserRand . '@example2.com',
     'GetUserData() - UserEmail',
+);
+$Self->Is(
+    $UserData{UserComment} || '',
+    $UserRand . '房治郎',
+    'GetUserData() - UserComment',
 );
 
 %UserList = $UserObject->UserList(
