@@ -122,9 +122,9 @@
                 <div class="Size1of2">
                     <h4>[% Translate("Singapore") | html %]</h4>
                     <p>OTRS ASIA Pte. Ltd.</p>
-                    <p>7 Temasek Blvd#44-01, The Penthouse, Suntec Tower One</p>
-                    <p>Singapore 038987</p>
-                    <p>[% Translate("Phone") | html %]: <a href="tel:+6564306756 ">+65 6430 6756</a></p>
+                    <p>Asia Square Tower 2, 12 Marina View, #11-01</p>
+                    <p>Singapore 018961</p>
+                    <p>[% Translate("Phone") | html %]: <a href="tel:+6531636274">+65 3163 6274</a></p>
                 </div>
                 <div class="Size1of2">
                     <h4>[% Translate("Hong Kong") | html %]</h4>
