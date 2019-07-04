@@ -143,6 +143,18 @@ $Selenium->RunTest(
         );
         $Selenium->find_element( "#RecipientEmail", 'css' )->clear();
 
+        # Input data for bug#14597.
+        my $RecipientValue = 'test1@test.com; test2@test.com; test3@test.com';
+        $Selenium->find_element( "#RecipientEmail", 'css' )->send_keys($RecipientValue);
+
+        $Self->Is(
+            $Selenium->execute_script(
+                "return \$('#RecipientEmail').siblings('.FieldExplanation:eq(0)').text().trim();"
+            ),
+            'Use comma or semicolon to separate email addresses.',
+            'Fill explanation for #RecipientEmail format.'
+        );
+
         # Set back TransportEmail checkbox if it was not checked.
         if ( !$TransportEmailCheck ) {
             $Selenium->execute_script("\$('#TransportEmail').prop('checked', false);");
@@ -239,6 +251,11 @@ $Selenium->RunTest(
             $Selenium->find_element( '#ValidID', 'css' )->get_value(),
             1,
             "#ValidID stored value",
+        );
+        $Self->Is(
+            $Selenium->find_element( '#RecipientEmail', 'css' )->get_value(),
+            $RecipientValue,
+            "#RecipientEmail stored value",
         );
 
         # Check breadcrumb on Edit screen.
