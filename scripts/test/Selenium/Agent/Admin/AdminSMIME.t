@@ -163,19 +163,6 @@ $Selenium->RunTest(
             . "/scripts/test/sample/SMIME/SMIMEPrivateKey-smimeuser1.pem";
 
         $Selenium->find_element( "#FileUpload", 'css' )->send_keys($PrivateLocation);
-        $Selenium->find_element("//button[\@type='submit']")->click();
-
-        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#Secret.Error').length" );
-
-        $Self->Is(
-            $Selenium->execute_script(
-                "return \$('#Secret').hasClass('Error')"
-            ),
-            '1',
-            'Client side validation correctly detected missing input value',
-        );
-
-        $Selenium->find_element( "#FileUpload", 'css' )->send_keys($PrivateLocation);
         $Selenium->find_element( "#Secret",     'css' )->send_keys("secret");
         $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
 

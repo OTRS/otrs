@@ -276,8 +276,7 @@
 
                     <label for="Secret">[% Translate("Secret") | html %]:</label>
                     <div class="Field">
-                        <input class="W50pc Validate_Required" type="password" name="Secret" id="Secret" value="[% Data.Secret | html %]" maxlength="50"/>
-                        <div id="SecretError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                        <input class="W50pc" type="password" name="Secret" id="Secret" value="[% Data.Secret | html %]" maxlength="50"/>
                     </div>
                     <div class="Clear"></div>
 
