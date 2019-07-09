@@ -654,7 +654,7 @@
         </Value>
     </Setting>
     <Setting Name="SendmailModule" Required="1" Valid="1" ConfigLevel="200">
-        <Description Translatable="1">Defines the module to send emails. "Sendmail" directly uses the sendmail binary of your operating system. Any of the "SMTP" mechanisms use a specified (external) mailserver. "DoNotSendEmail" doesn't send emails and it is useful for test systems.</Description>
+        <Description Translatable="1">Defines the module to send emails. "DoNotSendEmail" doesn't send emails at all. Any of the "SMTP" mechanisms use a specified (external) mailserver. "Sendmail" directly uses the sendmail binary of your operating system. "Test" doesn't send emails, but writes them to $OTRS_HOME/var/tmp/CacheFileStorable/EmailTest/ for testing purposes.</Description>
         <Navigation>Core::Email</Navigation>
         <Value>
             <Item ValueType="PerlModule" ValueFilter="Kernel/System/Email/*.pm">Kernel::System::Email::Sendmail</Item>
