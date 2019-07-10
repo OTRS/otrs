@@ -1,4 +1,5 @@
 #6.0.21 ????-??-??
+ - 2019-07-10 Fixed bug#[14618](https://bugs.otrs.org/show_bug.cgi?id=14618) - Information about usage of 'URI' or 'URL' filters is missing at some dynamic field types.
  - 2019-07-09 Fixed bug#[14612](https://bugs.otrs.org/show_bug.cgi?id=14612) - Explanation for Kernel::System::Email::Test is missing from SendmailModule setting description.
  - 2019-07-04 Fixed bug#[14597](https://bugs.otrs.org/show_bug.cgi?id=14597) - Additional information on how to separate 'Additional Email Recipients' in notifications.
  - 2019-07-03 Added improvements for user module regarding the LDAP auth synchronization.
