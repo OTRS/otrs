@@ -524,8 +524,7 @@ sub ArticleFlagGet {
             FROM article_flag
             WHERE article_id = ?
                 AND create_by = ?',
-        Bind  => [ \$Param{ArticleID}, \$Param{UserID} ],
-        Limit => 1500,
+        Bind => [ \$Param{ArticleID}, \$Param{UserID} ],
     );
 
     my %Flag;
@@ -579,8 +578,7 @@ sub ArticleFlagsOfTicketGet {
             WHERE article.id = article_flag.article_id
                 AND article.ticket_id = ?
                 AND article_flag.create_by = ?',
-        Bind  => [ \$Param{TicketID}, \$Param{UserID} ],
-        Limit => 1500,
+        Bind => [ \$Param{TicketID}, \$Param{UserID} ],
     );
 
     my %Flag;
