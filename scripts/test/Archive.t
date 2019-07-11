@@ -42,13 +42,13 @@ $Self->True(
     'Checksum file size in expected range (> 1KB && < 1MB)'
 );
 
-# Verify MD5 digests for the first 100 entries in the checksum file.
-INDEX:
-for my $Index ( 0 .. 99 ) {
-    last INDEX if !defined $ChecksumFileArrayRef->[$Index];
+my $ErrorsFound;
 
-    my @Entry = split '::', $ChecksumFileArrayRef->[$Index];
-    next INDEX if @Entry < 2;
+# Verify MD5 digests in the checksum file.
+LINE:
+while (my $Line = shift @{ $ChecksumFileArrayRef}) {
+    my @Entry = split '::', $Line;
+    next LINE if @Entry < 2;
 
     chomp $Entry[1];
     my $Filename = "$Home/$Entry[1]";
@@ -58,34 +58,37 @@ for my $Index ( 0 .. 99 ) {
             1,
             "$Filename not found"
         );
-        next INDEX;
+        next LINE;
     }
 
     if ( $Filename =~ /Cron|CHANGES/ ) {
-        $Self->True(
-            1,
-            "$Filename checksum is skipped",
-        );
-        next INDEX;
+        # Skip files with expected changes.
+        next LINE;
+    }
+
+    if ( -e "$Filename.save" ) {
+        # Ignore files overwritten by packages.
+        next LINE;
     }
 
     my $Digest = $MainObject->MD5sum(
         Filename => $Filename,
     );
 
-    if ( $Digest ne $Entry[0] && -e "$Filename.save" ) {
-        $Self->True(
-            1,
-            "$Filename ignored ($Filename.save present)"
+    # To save data, we only record errors of files, no positive results.
+    if ($Digest ne $Entry[0]) {
+        $Self->Is(
+            $Digest,
+            $Entry[0],
+            "$Filename digest"
         );
-        next INDEX;
+        $ErrorsFound++;
     }
-
-    $Self->Is(
-        $Digest,
-        $Entry[0],
-        "$Filename digest"
-    );
 }
+
+$Self->False(
+    $ErrorsFound,
+    "Mismatches in file list",
+);
 
 1;
