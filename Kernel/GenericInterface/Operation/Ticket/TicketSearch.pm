@@ -240,8 +240,8 @@ perform TicketSearch Operation. This will return a Ticket ID list.
         # tickets with escalation time before ... (optional)
         TicketEscalationTimeOlderDate => '2006-01-09 23:59:59',
 
-        # search in archive (optional)
-        ArchiveFlags => ['y', 'n'],
+        # search in archive (optional, default is not to search in archived tickets)
+        SearchInArchive => 'AllTickets',    # 'AllTickets' (normal and archived) or 'ArchivedTickets' (only archived)
 
         # OrderBy and SortBy (optional)
         OrderBy => 'Down',  # Down|Up
