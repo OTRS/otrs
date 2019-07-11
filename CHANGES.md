@@ -1,4 +1,5 @@
 #5.0.38 ????-??-??
+ - 2019-05-11 Fixed bug#[14639](https://bugs.otrs.org/show_bug.cgi?id=14639) - Address Book is not working.
 
 #5.0.37 2019-07-12
  - 2019-07-01 Improved value masking in tag replacement method.

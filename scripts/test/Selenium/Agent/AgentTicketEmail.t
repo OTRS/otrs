@@ -339,6 +339,25 @@ $Selenium->RunTest(
             "Signature has correct text"
         );
 
+        # Check if Address Book is working. See bug#14639.
+        $Selenium->find_element( "#OptionAddressBook", 'css' )->click();
+
+        $Self->Is(
+            $Selenium->execute_script(
+                "return \$('.Dialog.Modal').length"
+            ),
+            '1',
+            "Address Book is shown"
+        );
+
+        $Selenium->SwitchToFrame(
+            FrameSelector => '.TextOption',
+            WaitForLoad   => 1,
+        );
+
+        # check if input field search exists.
+        $Selenium->find_element( "#Search", 'css' );
+
         # Delete created test ticket.
         my $Success = $Kernel::OM->Get('Kernel::System::Ticket')->TicketDelete(
             TicketID => $TicketID,
