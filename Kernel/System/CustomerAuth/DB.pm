@@ -168,7 +168,7 @@ sub Auth {
         }
 
         # sha256 pw
-        elsif ( $GetPw =~ m{\A .{64} \z}xms ) {
+        elsif ( $GetPw =~ m{\A [0-9a-f]{64} \z}xmsi ) {
 
             my $SHAObject = Digest::SHA->new('sha256');
 
@@ -213,7 +213,7 @@ sub Auth {
         }
 
         # sha1 pw
-        else {
+        elsif ( $GetPw =~ m{\A [0-9a-f]{40} \z}xmsi ) {
 
             my $SHAObject = Digest::SHA->new('sha1');
 
@@ -222,6 +222,17 @@ sub Auth {
 
             $SHAObject->add($Pw);
             $CryptedPw = $SHAObject->hexdigest();
+            $EncodeObject->EncodeInput( \$CryptedPw );
+        }
+
+        # No-13-chars-long crypt pw (e.g. in Fedora28).
+        else {
+            my $SaltUser = $User;
+            $EncodeObject->EncodeOutput( \$Pw );
+            $EncodeObject->EncodeOutput( \$SaltUser );
+
+            # Encode output, needed by crypt() only non utf8 signs.
+            $CryptedPw = crypt( $Pw, $SaltUser );
             $EncodeObject->EncodeInput( \$CryptedPw );
         }
     }

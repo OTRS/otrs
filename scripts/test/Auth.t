@@ -180,6 +180,76 @@ for my $CryptType (qw(plain crypt apr1 md5 sha1 sha2 bcrypt)) {
     }
 }
 
+# Check auth for user which password is encrypted by crypt algorithm different than system one.
+@Tests = (
+    {
+        Password  => 'test111test111test111',
+        UserLogin => 'example-user' . int rand 1000000,
+        CryptType => 'crypt',
+    },
+    {
+        Password  => 'test222test222test222',
+        UserLogin => 'example-user' . int rand 1000000,
+        CryptType => 'sha1',
+    }
+);
+
+my $AuthObject = $Kernel::OM->Get('Kernel::System::Auth');
+
+# Create users.
+for my $Test (@Tests) {
+    my $UserID = $UserObject->UserAdd(
+        UserFirstname => $Test->{CryptType} . '-Firstname',
+        UserLastname  => $Test->{CryptType} . '-Lastname',
+        UserLogin     => $Test->{UserLogin},
+        UserEmail     => $Test->{UserLogin} . '@example.com',
+        ValidID       => 1,
+        ChangeUserID  => 1,
+    );
+
+    $Self->True(
+        $UserID,
+        "UserID $UserID is created",
+    );
+
+    $Kernel::OM->ObjectsDiscard(
+        Objects => [
+            'Kernel::System::User',
+            'Kernel::System::Auth',
+        ],
+    );
+
+    $ConfigObject->Set(
+        Key   => "AuthModule::DB::CryptType",
+        Value => $Test->{CryptType},
+    );
+
+    $UserObject = $Kernel::OM->Get('Kernel::System::User');
+    $AuthObject = $Kernel::OM->Get('Kernel::System::Auth');
+
+    my $PasswordSet = $UserObject->SetPassword(
+        UserLogin => $Test->{UserLogin},
+        PW        => $Test->{Password},
+    );
+
+    $Self->True(
+        $PasswordSet,
+        "Password '$Test->{Password}' is set"
+    );
+}
+
+# System is set to sha1 crypt type at this moment and
+# we try to authenticate first created user (password is encrypted by different crypt type).
+my $Result = $AuthObject->Auth(
+    User => $Tests[0]->{UserLogin},
+    Pw   => $Tests[0]->{Password},
+);
+
+$Self->True(
+    $Result,
+    "System crypt type - $Tests[1]->{CryptType}, crypt type for user password - $Tests[0]->{CryptType}, user password '$Tests[0]->{Password}'",
+);
+
 $TestUserID = $UserObject->UserUpdate(
     UserID        => $TestUserID,
     UserFirstname => 'Firstname Test1',

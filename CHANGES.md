@@ -1,4 +1,5 @@
 #4.0.34 2018-??-??
+ - 2019-07-11 Fixed bug#[13900](https://bugs.otrs.org/show_bug.cgi?id=13900) - Password authentication issue in Fedora 28 operating system.
 
 #4.0.33 2018-11-09
  - 2018-10-19 Follow-up fix for bug#[13978](https://bugs.otrs.org/show_bug.cgi?id=13978) - User and customer preferences may override user data.
