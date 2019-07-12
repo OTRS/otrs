@@ -61,7 +61,7 @@ while (my $Line = shift @{ $ChecksumFileArrayRef}) {
         next LINE;
     }
 
-    if ( $Filename =~ /Cron|CHANGES/ ) {
+    if ( $Filename =~ /Cron|CHANGES|apache2-perl-startup/ ) {
         # Skip files with expected changes.
         next LINE;
     }
