@@ -2648,7 +2648,7 @@ sub TicketCountByAttribute {
     while ( scalar @TicketIDs ) {
 
         # Remove section in the array.
-        my @TicketIDsPart = splice @TicketIDs, 0, 2;
+        my @TicketIDsPart = splice @TicketIDs, 0, 900;
 
         my $TicketIDString = join ',', ('?') x scalar @TicketIDsPart;
 
