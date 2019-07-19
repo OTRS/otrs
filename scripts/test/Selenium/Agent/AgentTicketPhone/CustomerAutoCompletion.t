@@ -204,19 +204,6 @@ $Selenium->RunTest(
                     "\"$CustomerUser-1 $CustomerUser-1\" <$CustomerUser-1\@localunittest.com> ($TestCustomerUser1)",
                 SelectAssigendCustomerID => $CustomerIDs[1],
             },
-            "$CustomerUser-2" => {
-                Expected => 1,    # AgentCustomerSearch should return only 1 record (see bug#11996)
-                CustomerUser => "\"$CustomerUser-2 $CustomerUser-2\" <$CustomerUser-2\@localunittest.com>",
-                CustomerID   => $CustomerIDs[2],
-                AutocompleteInput =>
-                    "\"$CustomerUser-2 $CustomerUser-2\" <$CustomerUser-2\@localunittest.com> ($TestCustomerUser2)",
-                SelectAllCustomerID => $CustomerIDs[2],
-            },
-            "$CustomerUser-nonexisting" => {
-                Expected            => 0,
-                CustomerID          => $CustomerIDs[2],
-                SelectAllCustomerID => $CustomerIDs[2],
-            },
         );
 
         for my $AutocompleteInput ( sort keys %AutoCompleteExpected ) {
@@ -277,11 +264,7 @@ $Selenium->RunTest(
                 );
             }
 
-            if (
-                $AutoCompleteExpected{$AutocompleteInput}->{SelectAssigendCustomerID}
-                || $AutoCompleteExpected{$AutocompleteInput}->{SelectAllCustomerID}
-                )
-            {
+            if ( $AutoCompleteExpected{$AutocompleteInput}->{SelectAssigendCustomerID} ) {
 
                 $Selenium->WaitFor(
                     JavaScript => 'return !$("#SelectionCustomerID").prop("disabled");',
@@ -293,43 +276,10 @@ $Selenium->RunTest(
                         'return typeof($) === "function" && $(".Dialog:visible").length && $("#SelectionCustomerIDAll:visible").length;'
                 );
 
-                if ( $AutoCompleteExpected{$AutocompleteInput}->{SelectAssigendCustomerID} ) {
-                    $Selenium->InputFieldValueSet(
-                        Element => '#SelectionCustomerIDAssigned',
-                        Value   => $AutoCompleteExpected{$AutocompleteInput}->{SelectAssigendCustomerID},
-                    );
-                }
-                elsif ( $AutoCompleteExpected{$AutocompleteInput}->{SelectAllCustomerID} ) {
-
-                    # Check if the assigend dropdown is not visible for a not existing customer user.
-                    if ( !$AutoCompleteExpected{$AutocompleteInput}->{Expected} ) {
-                        $Self->Is(
-                            $Selenium->execute_script(
-                                "return \$('#SelectionCustomerIDAssigned:visible').length;"
-                            ),
-                            0,
-                            "SelectionCustomerIDAssigned is not visible",
-                        );
-                    }
-                    $Selenium->WaitFor( ElementExists => [ '#SelectionCustomerIDAll', 'css' ] );
-
-                    $Selenium->find_element( "#SelectionCustomerIDAll", 'css' )->clear();
-                    $Selenium->find_element( "#SelectionCustomerIDAll", 'css' )
-                        ->send_keys( $AutoCompleteExpected{$AutocompleteInput}->{SelectAllCustomerID} );
-
-                    # Wait for autocomplete to load.
-                    $Selenium->WaitFor(
-                        JavaScript =>
-                            "return !\$('.AJAXLoader:visible').length;"
-                    );
-                    sleep 1;
-
-                    # Select customer id.
-                    $Selenium->execute_script(
-                        "\$('li.ui-menu-item:contains($AutoCompleteExpected{$AutocompleteInput}->{SelectAllCustomerID})').click();"
-                    );
-
-                }
+                $Selenium->InputFieldValueSet(
+                    Element => '#SelectionCustomerIDAssigned',
+                    Value   => $AutoCompleteExpected{$AutocompleteInput}->{SelectAssigendCustomerID},
+                );
 
                 $Selenium->WaitFor(
                     JavaScript =>
