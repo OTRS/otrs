@@ -1180,7 +1180,11 @@ my @Tests = (
         },
         ExpectedResults => [
             {
-                ToArray => [ 'foo@bar.com', 'test@otrsexample.com' ],
+                ToArray => ['foo@bar.com'],
+                Body    => "JobName $TicketID Kernel::System::Email::Test $UserData{UserFirstname}=\n",
+            },
+            {
+                ToArray => ['test@otrsexample.com'],
                 Body    => "JobName $TicketID Kernel::System::Email::Test $UserData{UserFirstname}=\n",
             },
         ],
@@ -1202,7 +1206,11 @@ my @Tests = (
         },
         ExpectedResults => [
             {
-                ToArray => [ 'test@otrsexample.com', 'foo@bar.com' ],
+                ToArray => ['foo@bar.com'],
+                Body    => "JobName $TicketID Kernel::System::Email::Test $UserData{UserFirstname}=\n",
+            },
+            {
+                ToArray => ['test@otrsexample.com'],
                 Body    => "JobName $TicketID Kernel::System::Email::Test $UserData{UserFirstname}=\n",
             },
         ],
@@ -1226,7 +1234,11 @@ my @Tests = (
         },
         ExpectedResults => [
             {
-                ToArray => [ 'bar@foo.com', 'foo@bar.com' ],
+                ToArray => ['bar@foo.com'],
+                Body    => "JobName $TicketID Kernel::System::Email::Test $UserData{UserFirstname}=\n",
+            },
+            {
+                ToArray => ['foo@bar.com'],
                 Body    => "JobName $TicketID Kernel::System::Email::Test $UserData{UserFirstname}=\n",
             },
         ],

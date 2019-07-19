@@ -174,8 +174,9 @@ my $RandomID = $Helper->GetRandomNumber();
 my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
 
 # create a dynamic field
-my $FieldID = $DynamicFieldObject->DynamicFieldAdd(
-    Name       => "DFT1$RandomID",
+my $FieldName = "DFT1$RandomID";
+my $FieldID   = $DynamicFieldObject->DynamicFieldAdd(
+    Name       => $FieldName,
     Label      => 'Description',
     FieldOrder => 9991,
     FieldType  => 'Text',
@@ -186,6 +187,24 @@ my $FieldID = $DynamicFieldObject->DynamicFieldAdd(
     ValidID => 1,
     UserID  => 1,
     Reorder => 0,
+);
+
+my $FieldIDConfig = $DynamicFieldObject->DynamicFieldGet(
+    ID => $FieldID,
+);
+
+# Set DF value to ticket - test OTRS tags in RecipientEmail.
+my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
+my $FieldIDValue              = 'yyytest@otrsexample.com';
+$Success = $DynamicFieldBackendObject->ValueSet(
+    DynamicFieldConfig => $FieldIDConfig,
+    ObjectID           => $TicketID,
+    Value              => $FieldIDValue,
+    UserID             => 1,
+);
+$Self->True(
+    $Success,
+    "DF value '$FieldIDValue' is set for TicketID $TicketID.",
 );
 
 my @Tests = (
@@ -272,6 +291,87 @@ my @Tests = (
         ExpectedResults => [
             {
                 ToArray => [ $UserData{UserEmail} ],
+                Body    => "JobName $TicketID Kernel::System::Email::Test $UserData{UserFirstname}=\n",
+            },
+        ],
+    },
+    {
+        Name => 'Multiple valid RecipientEmail',
+        Data => {
+            Events         => [ 'TicketDynamicFieldUpdate_DFT1' . $RandomID . 'Update' ],
+            RecipientEmail => ['zz1test@otrsexample.com, zz2test@otrsexample.com; zz3test@otrsexample.com'],
+        },
+        ExpectedResults => [
+            {
+                ToArray => ['zz1test@otrsexample.com'],
+                Body    => "JobName $TicketID Kernel::System::Email::Test $UserData{UserFirstname}=\n",
+            },
+            {
+                ToArray => ['zz2test@otrsexample.com'],
+                Body    => "JobName $TicketID Kernel::System::Email::Test $UserData{UserFirstname}=\n",
+            },
+            {
+                ToArray => ['zz3test@otrsexample.com'],
+                Body    => "JobName $TicketID Kernel::System::Email::Test $UserData{UserFirstname}=\n",
+            },
+        ],
+    },
+    {
+        Name => 'Multiple valid RecipientEmail not separated by space with additional commas and semmi-colons',
+        Data => {
+            Events         => [ 'TicketDynamicFieldUpdate_DFT1' . $RandomID . 'Update' ],
+            RecipientEmail => ['zz1test@otrsexample.com,;,zz2test@otrsexample.com;;zz3test@otrsexample.com'],
+        },
+        ExpectedResults => [
+            {
+                ToArray => ['zz1test@otrsexample.com'],
+                Body    => "JobName $TicketID Kernel::System::Email::Test $UserData{UserFirstname}=\n",
+            },
+            {
+                ToArray => ['zz2test@otrsexample.com'],
+                Body    => "JobName $TicketID Kernel::System::Email::Test $UserData{UserFirstname}=\n",
+            },
+            {
+                ToArray => ['zz3test@otrsexample.com'],
+                Body    => "JobName $TicketID Kernel::System::Email::Test $UserData{UserFirstname}=\n",
+            },
+        ],
+    },
+    {
+        Name => 'Multiple valid and invalid RecipientEmail',
+        Data => {
+            Events         => [ 'TicketDynamicFieldUpdate_DFT1' . $RandomID . 'Update' ],
+            RecipientEmail => ['zz1test@otrsexample.com, asdfqwe; zz2test@otrsexample.com; e212355qwe.com'],
+        },
+        ExpectedResults => [
+            {
+                ToArray => ['zz1test@otrsexample.com'],
+                Body    => "JobName $TicketID Kernel::System::Email::Test $UserData{UserFirstname}=\n",
+            },
+            {
+                ToArray => ['zz2test@otrsexample.com'],
+                Body    => "JobName $TicketID Kernel::System::Email::Test $UserData{UserFirstname}=\n",
+            },
+        ],
+    },
+    {
+        Name => 'Multiple valid with OTRS-tags in RecipientEmail',
+        Data => {
+            Events => [ 'TicketDynamicFieldUpdate_DFT1' . $RandomID . 'Update' ],
+            RecipientEmail =>
+                ["zz1test\@otrsexample.com, <OTRS_TICKET_DynamicField_$FieldName>, zz2test\@otrsexample.com;"],
+        },
+        ExpectedResults => [
+            {
+                ToArray => [$FieldIDValue],
+                Body    => "JobName $TicketID Kernel::System::Email::Test $UserData{UserFirstname}=\n",
+            },
+            {
+                ToArray => ['zz1test@otrsexample.com'],
+                Body    => "JobName $TicketID Kernel::System::Email::Test $UserData{UserFirstname}=\n",
+            },
+            {
+                ToArray => ['zz2test@otrsexample.com'],
                 Body    => "JobName $TicketID Kernel::System::Email::Test $UserData{UserFirstname}=\n",
             },
         ],
@@ -396,6 +496,18 @@ for my $Test (@Tests) {
 
 # cleanup
 
+# delete the ticket
+my $TicketDelete = $TicketObject->TicketDelete(
+    TicketID => $TicketID,
+    UserID   => $UserID,
+);
+
+# sanity check
+$Self->True(
+    $TicketDelete,
+    "TicketDelete() successful for Ticket ID $TicketID",
+);
+
 # delete the dynamic field
 my $DFDelete = $DynamicFieldObject->DynamicFieldDelete(
     ID      => $FieldID,
@@ -407,18 +519,6 @@ my $DFDelete = $DynamicFieldObject->DynamicFieldDelete(
 $Self->True(
     $DFDelete,
     "DynamicFieldDelete() successful for Field ID $FieldID",
-);
-
-# delete the ticket
-my $TicketDelete = $TicketObject->TicketDelete(
-    TicketID => $TicketID,
-    UserID   => $UserID,
-);
-
-# sanity check
-$Self->True(
-    $TicketDelete,
-    "TicketDelete() successful for Ticket ID $TicketID",
 );
 
 # cleanup is done by RestoreDatabase.

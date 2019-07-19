@@ -185,6 +185,68 @@ my @Tests = (
         ExpectedResults    => [],
         JustToRealCustomer => 1,
     },
+    {
+        Name => 'Multiple valid RecipientEmail',
+        Data => {
+            Events           => ['CalendarUpdate'],
+            RecipientEmail   => ['zz1test@otrsexample.com, zz2test@otrsexample.com; zz3test@otrsexample.com'],
+            NotificationType => ['Appointment'],
+        },
+        ExpectedResults => [
+            {
+                ToArray => ['zz1test@otrsexample.com'],
+                Body    => "Calender: -=\n",
+            },
+            {
+                ToArray => ['zz2test@otrsexample.com'],
+                Body    => "Calender: -=\n",
+            },
+            {
+                ToArray => ['zz3test@otrsexample.com'],
+                Body    => "Calender: -=\n",
+            },
+        ],
+    },
+    {
+        Name => 'Multiple valid RecipientEmail not separated by space with additional commas and semmi-colons',
+        Data => {
+            Events           => ['CalendarUpdate'],
+            RecipientEmail   => ['zz1test@otrsexample.com,;,zz2test@otrsexample.com;;zz3test@otrsexample.com'],
+            NotificationType => ['Appointment'],
+        },
+        ExpectedResults => [
+            {
+                ToArray => ['zz1test@otrsexample.com'],
+                Body    => "Calender: -=\n",
+            },
+            {
+                ToArray => ['zz2test@otrsexample.com'],
+                Body    => "Calender: -=\n",
+            },
+            {
+                ToArray => ['zz3test@otrsexample.com'],
+                Body    => "Calender: -=\n",
+            },
+        ],
+    },
+    {
+        Name => 'Multiple valid and invalid RecipientEmail',
+        Data => {
+            Events           => ['CalendarUpdate'],
+            RecipientEmail   => ['aaatest@otrsexample.com, asdfqwe; zzztest@otrsexample.com; e212355qwe.com'],
+            NotificationType => ['Appointment'],
+        },
+        ExpectedResults => [
+            {
+                ToArray => ['aaatest@otrsexample.com'],
+                Body    => "Calender: -=\n",
+            },
+            {
+                ToArray => ['zzztest@otrsexample.com'],
+                Body    => "Calender: -=\n",
+            },
+        ],
+    },
 );
 
 my $NotificationEventObject      = $Kernel::OM->Get('Kernel::System::NotificationEvent');
@@ -251,6 +313,12 @@ for my $Test (@Tests) {
 
         # de-reference body
         $Email->{Body} = ${ $Email->{Body} };
+    }
+
+    # Sort emails.
+    if ( @{$Emails} > 1 ) {
+        my @Sorted = sort { $a->{ToArray}[0] cmp $b->{ToArray}[0] } @{$Emails};
+        $Emails = \@Sorted;
     }
 
     $Self->IsDeeply(

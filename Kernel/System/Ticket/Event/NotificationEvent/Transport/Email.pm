@@ -366,19 +366,20 @@ sub GetTransportRecipients {
                 Field  => $RecipientEmail,
             );
 
-            my %Recipient;
-            $Recipient{Realname}  = '';
-            $Recipient{Type}      = 'Customer';
-            $Recipient{UserEmail} = $RecipientEmail;
+            # Split multiple recipients on known delimiters: comma and semi-colon.
+            #   Do this after the OTRS tags were replaced.
+            my @RecipientEmails = split /[;,\s]+/, $RecipientEmail;
 
-            # check if we have a specified article type
-            if ( $Param{Notification}->{Data}->{IsVisibleForCustomer} ) {
-                $Recipient{IsVisibleForCustomer} = 1;
-            }
-
-            # check recipients
-            if ( $Recipient{UserEmail} && $Recipient{UserEmail} =~ /@/ ) {
-                push @Recipients, \%Recipient;
+            # Include only valid email recipients.
+            for my $Recipient (@RecipientEmails) {
+                if ( $Recipient && $Recipient =~ /@/ ) {
+                    push @Recipients, {
+                        Realname             => '',
+                        Type                 => 'Customer',
+                        UserEmail            => $Recipient,
+                        IsVisibleForCustomer => $Param{Notification}->{Data}->{IsVisibleForCustomer},
+                    };
+                }
             }
         }
     }
