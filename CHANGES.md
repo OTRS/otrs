@@ -1,4 +1,5 @@
 #6.0.21 ????-??-??
+ - 2019-07-19 Fixed bug#[14646](https://bugs.otrs.org/show_bug.cgi?id=14646) - CustomerData tags not correctly interpreted in DynamicFieldSet transition action.
  - 2019-07-19 Additional recipient email addresses in notification events are correctly separated on send to prevent information leakage.
  - 2019-07-18 Fixed bug#[14651](https://bugs.otrs.org/show_bug.cgi?id=14651) - Not used "AccessibleTickets" parameter and superfluous possible settings in setting descriptions.
  - 2019-07-10 Fixed bug#[14593](https://bugs.otrs.org/show_bug.cgi?id=14593) - Article flag seen status does not work when there are more then 1500 articles for one ticket.

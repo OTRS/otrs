@@ -29,6 +29,7 @@ my $ModuleName = 'DynamicFieldSet';
 my $RandomID   = $Helper->GetRandomID();
 my $DFName1    = 'Test1' . $RandomID;
 my $DFName2    = 'Test2' . $RandomID;
+my $DFName3    = 'Test3' . $RandomID;
 
 # set user details
 my ( $TestUserLogin, $TestUserID ) = $Helper->TestUserCreate();
@@ -61,7 +62,15 @@ my @NewDynamicFieldConfig = (
             DefaultValue => '',
         },
     },
-
+    {
+        Name       => $DFName3,
+        Label      => $DFName3,
+        FieldType  => 'Text',
+        ObjectType => 'Ticket',
+        Config     => {
+            DefaultValue => '',
+        },
+    },
 );
 
 my @AddedDynamicFields;
@@ -85,6 +94,29 @@ for my $DynamicFieldConfig (@NewDynamicFieldConfig) {
     );
 }
 
+# Create customer.
+$Kernel::OM->Get('Kernel::Config')->Set(
+    Key   => 'CheckEmailAddresses',
+    Value => '0',
+);
+
+my $CustomerUserFirstName = 'FirstName' . $RandomID;
+my $CustomerUserID = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserAdd(
+    Source         => 'CustomerUser',
+    UserFirstname  => $CustomerUserFirstName,
+    UserLastname   => 'Doe',
+    UserCustomerID => "Customer#$RandomID",
+    UserLogin      => "CustomerLogin#$RandomID",
+    UserEmail      => "customer$RandomID\@example.com",
+    UserPassword   => 'some_pass',
+    ValidID        => 1,
+    UserID         => 1,
+);
+$Self->True(
+    $CustomerUserID,
+    "CustomerUser $CustomerUserID created."
+);
+
 # get ticket object
 my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
@@ -100,6 +132,7 @@ my $TicketID = $TicketObject->TicketCreate(
     TypeID        => 1,
     OwnerID       => 1,
     ResponsibleID => 1,
+    CustomerUser  => $CustomerUserID,
     UserID        => $UserID,
 );
 
@@ -279,6 +312,17 @@ my @Tests = (
         },
         Success => 1,
     },
+    {
+        Name   => 'Correct Using OTRS Customer Data tag',
+        Config => {
+            UserID => $UserID,
+            Ticket => \%Ticket,
+            Config => {
+                $DFName3 => '<OTRS_CUSTOMER_DATA_UserFirstname>',
+            },
+        },
+        Success => 1,
+    },
 );
 
 TEST:
@@ -376,6 +420,20 @@ for my $Test (@Tests) {
         );
     }
 }
+
+# Test bug#14646 (https://bugs.otrs.org/show_bug.cgi?id=14646).
+# DynamicField value set with <OTRS_CUSTOMER_DATA_*> tag.
+%Ticket = $TicketObject->TicketGet(
+    TicketID      => $TicketID,
+    DynamicFields => 1,
+    UserID        => 1,
+);
+
+$Self->Is(
+    $Ticket{ 'DynamicField_' . $DFName3 },
+    $CustomerUserFirstName,
+    "DynamicField $DFName3 value is correctly set."
+);
 
 # cleanup is done by RestoreDatabase
 
