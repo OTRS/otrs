@@ -58,17 +58,24 @@ $Selenium->RunTest(
         # Make sure we start with a clean mail queue.
         $MailQueueClean->();
 
-        # Enable involved agent feature.
+        # Enable involved agent feature in AgentTicketNote.
         $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Ticket::Frontend::AgentTicketNote###InvolvedAgent',
             Value => 1,
         );
 
-        # Enable involved agent feature.
+        # Enable inform agent feature in AgentTicketNote.
         $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Ticket::Frontend::AgentTicketNote###InformAgent',
+            Value => 1,
+        );
+
+        # Enable inform agent feature in AgentTicketResponsible.
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'Ticket::Frontend::AgentTicketResponsible###InformAgent',
             Value => 1,
         );
 
@@ -99,6 +106,11 @@ $Selenium->RunTest(
         $Helper->ConfigSettingChange(
             Key   => 'CheckEmailAddresses',
             Value => 0,
+        );
+
+        $Helper->ConfigSettingChange(
+            Key   => 'Ticket::Responsible',
+            Value => 1,
         );
 
         # Create test users.
@@ -265,9 +277,46 @@ $Selenium->RunTest(
             "InformAgent are in Article 'To' correctly "
         );
 
-        # Make sure to navigate to zoom view of created test ticket at this moment to prevent error
-        #   messages after the ticket is deleted.
+        # Navigate to AgentTicketResponsible view of created test ticket.
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketResponsible;TicketID=$TicketID");
+
+        $Selenium->InputFieldValueSet(
+            Element => '#NewResponsibleID',
+            Value   => $UserID[1],
+        );
+        $Selenium->InputFieldValueSet(
+            Element => '#InformUserID',
+            Value   => $UserID[1],
+        );
+
+        $Selenium->find_element( "#Subject",        'css' )->send_keys('Test');
+        $Selenium->find_element( "#RichText",       'css' )->send_keys('Test');
+        $Selenium->find_element( "#submitRichText", 'css' )->click();
+
+        # Navigate to AgentTicketZoom view of created test ticket.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
+
+        # Clean the article cache, otherwise we'll get the caches result,
+        # which are wrong.
+        $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
+            Type => 'Article',
+        );
+
+        # Verify InformAgent are in Article 'To' as recipients.
+        @Articles = $ArticleObject->ArticleList(
+            TicketID => $TicketID,
+        );
+        %Article = $ArticleBackendObject->ArticleGet(
+            TicketID  => $TicketID,
+            ArticleID => $Articles[-1]->{ArticleID},
+        );
+        $ExpectedArticleTo = "\"$TestUser[1] $TestUser[1]\" <$TestUser[1]\@localunittest.com>";
+
+        $Self->Is(
+            $Article{To},
+            $ExpectedArticleTo,
+            "InformAgent are in Article 'To' correctly "
+        );
 
         # Delete created test tickets.
         $Success = $TicketObject->TicketDelete(

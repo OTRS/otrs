@@ -320,7 +320,7 @@ sub ArticleCreate {
     }
 
     # Check if this is the first article (for notifications).
-    my @Articles     = $ArticleObject->ArticleList( TicketID => $Param{TicketID} );
+    my @Articles = $ArticleObject->ArticleList( TicketID => $Param{TicketID} );
     my $FirstArticle = scalar @Articles ? 0 : 1;
 
     my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
@@ -367,7 +367,6 @@ sub ArticleCreate {
 
             next USER if $UserID == 1;
             next USER if grep { $UserID eq $_ } @{ $Param{ExcludeNotificationToUserID} };
-            next USER if grep { $UserID eq $_ } @{ $Param{ExcludeMuteNotificationToUserID} };
 
             my %UserData = $UserObject->GetUserData(
                 UserID => $UserID,

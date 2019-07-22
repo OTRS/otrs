@@ -1,4 +1,5 @@
 #6.0.21 ????-??-??
+ - 2019-07-22 Fixed bug#[14563](https://bugs.otrs.org/show_bug.cgi?id=14563) - Responsible is filtered out in To Field from Article.
  - 2019-07-22 Fixed bug#[14666](https://bugs.otrs.org/show_bug.cgi?id=14666) - OTRS console command Dev::Code::CPANAudit scans OTRS home folder and decreases performance.
  - 2019-07-19 Fixed bug#[14646](https://bugs.otrs.org/show_bug.cgi?id=14646) - CustomerData tags not correctly interpreted in DynamicFieldSet transition action.
  - 2019-07-19 Additional recipient email addresses in notification events are correctly separated on send to prevent information leakage.
