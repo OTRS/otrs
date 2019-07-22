@@ -12,6 +12,8 @@ use strict;
 use warnings;
 
 use CPAN::Audit;
+use File::Basename;
+use FindBin qw($Bin);
 
 use parent qw(Kernel::System::Console::BaseCommand);
 
@@ -37,11 +39,22 @@ sub Run {
         interactive => 0,
     );
 
-    # We don't have to pass in Kernel/cpan-lib, as it is already in @INC and therefore scanned by
-    #   CPAN::Audit::Installed.
+    my @PathsToScan;
+
+    # We need to pass an explicit list of paths to be scanned by CPAN::Audit, otherwise it will fallback to @INC which
+    #   includes our complete tree, with article storage, cache, temp files, etc. It can result in a downgraded
+    #   performance if this command is run often.
+    #   Please see bug#14666 for more information.
+    PATH:
+    for my $Path (@INC) {
+        next PATH if $Path && $Path eq '.';                          # Current folder
+        next PATH if $Path && $Path eq dirname($Bin);                # OTRS home folder
+        next PATH if $Path && $Path eq dirname($Bin) . '/Custom';    # Custom folder
+        push @PathsToScan, $Path;
+    }
 
     # Workaround for CPAN::Audit::Installed. It does not use the passed param(s), but @ARGV instead.
-    local @ARGV = ();
+    local @ARGV = @PathsToScan;
     return $Audit->command('installed') == 0 ? $Self->ExitCodeOk() : $Self->ExitCodeError();
 }
 
