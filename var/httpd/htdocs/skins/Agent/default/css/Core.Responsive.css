@@ -787,6 +787,21 @@ did not receive this file, see https://www.gnu.org/licenses/gpl-3.0.txt.
         padding: 0px;
     }
 
+    div.Headline {
+        height: unset;
+        margin: 5px 0px;
+        position: relative;
+    }
+
+    div.Headline h1 {
+        font-size: 1.3em;
+        line-height: 24px;
+        margin: 0;
+        white-space: normal;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
     #ArticleItems .WidgetSimple .Header h2,
     #ArticleItems .WidgetSimple .Header .AdditionalInformation {
         float: none;
