@@ -289,6 +289,14 @@ $Selenium->RunTest(
             Value   => $UserID[1],
         );
 
+        if ( $Selenium->execute_script("return \$('#WidgetArticle.Collapsed').length;") ) {
+            $Selenium->execute_script("\$('#WidgetArticle .Header a').click();");
+            $Selenium->WaitFor(
+                JavaScript =>
+                    'return typeof($) === "function" && $("#WidgetArticle.Expanded").length;'
+            );
+        }
+
         $Selenium->find_element( "#Subject",        'css' )->send_keys('Test');
         $Selenium->find_element( "#RichText",       'css' )->send_keys('Test');
         $Selenium->find_element( "#submitRichText", 'css' )->click();
