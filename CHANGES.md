@@ -1,4 +1,5 @@
 #6.0.21 ????-??-??
+ - 2019-07-23 Fixed bug#[14503](https://bugs.otrs.org/show_bug.cgi?id=14503) - High contrast skin visibility problem.
  - 2019-07-23 Fixed bug#[14662](https://bugs.otrs.org/show_bug.cgi?id=14662) - Syncing LDAP fields causes error when value is undefined.
  - 2019-07-22 Fixed bug#[14563](https://bugs.otrs.org/show_bug.cgi?id=14563) - Responsible is filtered out in To Field from Article.
  - 2019-07-22 Fixed bug#[14666](https://bugs.otrs.org/show_bug.cgi?id=14666) - OTRS console command Dev::Code::CPANAudit scans OTRS home folder and decreases performance.

@@ -46,7 +46,9 @@ div.DnDUpload {
 
 
 .TableSmall thead .SortAscendingLarge a,
-.TableSmall thead .SortDescendingLarge a {
+.TableSmall thead .SortDescendingLarge a,
+.ColumnSettingsContainer .DeleteFilter,
+.ColumnSettingsContainer .SelectedValue {
     color: #000;
 }
 
