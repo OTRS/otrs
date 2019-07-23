@@ -332,7 +332,7 @@ sub Sync {
             my $AttributeChange;
             ATTRIBUTE:
             for my $Attribute ( sort keys %SyncUser ) {
-                next ATTRIBUTE if $SyncUser{$Attribute} eq $UserData{$Attribute};
+                next ATTRIBUTE if defined $SyncUser{$Attribute} && $SyncUser{$Attribute} eq $UserData{$Attribute};
                 $AttributeChange = 1;
                 last ATTRIBUTE;
             }
