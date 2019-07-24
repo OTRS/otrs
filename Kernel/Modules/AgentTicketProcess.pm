@@ -2967,6 +2967,23 @@ sub _RenderCustomer {
         );
     }
 
+    # Customer user from article is preselected for new split ticket. See bug#12956.
+    if ( $Self->{LinkArticleData}->{From} && $Self->{LinkArticleData}->{SenderType} eq 'customer' ) {
+
+        my @ArticleFromAddress = Mail::Address->parse( $Self->{LinkArticleData}->{From} );
+
+        my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
+        my %List               = $CustomerUserObject->CustomerSearch(
+            PostMasterSearch => $ArticleFromAddress[0]->address(),
+            Valid            => 1,
+        );
+
+        my @CustomerUser = sort keys %List;
+        %CustomerUserData = $CustomerUserObject->CustomerUserDataGet(
+            User => $CustomerUser[0],
+        );
+    }
+
     # show customer field as "FirstName Lastname" <MailAddress>
     if ( IsHashRefWithData( \%CustomerUserData ) ) {
         $Data{CustomerUserID}       = "\"$CustomerUserData{UserFullname}" . "\" <$CustomerUserData{UserEmail}>";

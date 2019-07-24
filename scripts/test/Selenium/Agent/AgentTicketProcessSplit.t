@@ -223,6 +223,58 @@ $Selenium->RunTest(
             "\$('a.LinkObjectLink[href*=\"Action=AgentTicketZoom;TicketID=$TicketID\"]')[0].scrollIntoView(true);",
         );
 
+        # Check if ticket split with customer created article is preselecting customer user from article. See bug#12956.
+        # Create test customer company.
+        my $TestCompany = 'Company' . $RandomID;
+        my $CustomerID  = $Kernel::OM->Get('Kernel::System::CustomerCompany')->CustomerCompanyAdd(
+            CustomerID          => $TestCompany,
+            CustomerCompanyName => $TestCompany,
+            ValidID             => 1,
+            UserID              => 1,
+        );
+        $Self->True(
+            $CustomerID,
+            "CustomerCompanyID $CustomerID is created",
+        );
+
+        # Create test customer user.
+        my $TestUser      = 'CustomerUser' . $RandomID;
+        my $TestUserEmail = "$TestUser\@example.com";
+        my $CustomerUser  = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserAdd(
+            Source         => 'CustomerUser',
+            UserFirstname  => $TestUser,
+            UserLastname   => $TestUser,
+            UserCustomerID => $CustomerID,
+            UserLogin      => $TestUser,
+            UserEmail      => $TestUserEmail,
+            ValidID        => 1,
+            UserID         => 1
+        );
+        $Self->True(
+            $CustomerUser,
+            "First CustomerUser $CustomerUser is created",
+        );
+
+        my $UserFormString = "\"$TestUser $TestUser\" <$TestUserEmail>";
+        my $ArticleID2     = $ArticleBackendObject->ArticleCreate(
+            TicketID             => $TicketID,
+            IsVisibleForCustomer => 0,
+            SenderType           => 'customer',
+            From                 => $UserFormString,
+            To                   => 'Some Agent <otrs@example.com>',
+            Subject              => 'some short description',
+            Body                 => 'the message text',
+            Charset              => 'utf8',
+            MimeType             => 'text/plain',
+            HistoryType          => 'OwnerUpdate',
+            HistoryComment       => 'Some free text!',
+            UserID               => 1,
+        );
+        $Self->True(
+            $ArticleID2,
+            "Second article created."
+        );
+
         # Go to linked Ticket.
         $Selenium->find_element("//a[contains(\@href, 'Action=AgentTicketZoom;TicketID=$TicketID' )]")->VerifiedClick();
 
@@ -236,6 +288,42 @@ $Selenium->RunTest(
                 "//a[contains(\@class, 'LinkObjectLink')][contains(\@href, 'Action=AgentTicketZoom;TicketID=$TicketID[1]')]"
             ),
             "Link to child ticket is found",
+        );
+
+        # Click on the split action.
+        $Selenium->find_element( '.SplitSelection', 'css' )->click();
+
+        $Selenium->WaitForjQueryEventBound(
+            CSSSelector => '#SplitSubmit',
+        );
+
+        # Change it to Process.
+        $Selenium->InputFieldValueSet(
+            Element => '#SplitSelection',
+            Value   => 'ProcessTicket',
+        );
+        $Selenium->WaitFor(
+            JavaScript => 'return $("#ProcessEntityID").length;'
+        );
+
+        # Change it to Process EntityID.
+        $Selenium->InputFieldValueSet(
+            Element => '#ProcessEntityID',
+            Value   => $Process->{EntityID},
+        );
+        $Selenium->find_element( '#SplitSubmit', 'css' )->VerifiedClick();
+
+        $Selenium->WaitFor(
+            JavaScript => 'return $("#CustomerAutoComplete").length;'
+        );
+
+        # Check if correct user is selected after process ticket split.
+        $Self->Is(
+            $Selenium->execute_script(
+                "return \$('#CustomerAutoComplete').val().trim();"
+            ),
+            $UserFormString,
+            "Preselected customer user is correct"
         );
 
         my $Success;
@@ -339,6 +427,27 @@ $Selenium->RunTest(
                 "Transition $Transition->{Name} is deleted",
             );
         }
+
+        # Delete created test customer users.
+        my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+        $Success = $DBObject->Do(
+            SQL  => "DELETE FROM customer_user WHERE login = ?",
+            Bind => [ \$CustomerUser ],
+        );
+        $Self->True(
+            $Success,
+            "Customer user $CustomerUser is deleted",
+        );
+
+        # Delete created customer company.
+        $Success = $DBObject->Do(
+            SQL  => "DELETE FROM customer_company WHERE customer_id = ?",
+            Bind => [ \$CustomerID ],
+        );
+        $Self->True(
+            $Success,
+            "CustomerCompany $CustomerID is deleted.",
+        );
 
         # Delete test Process.
         $Success = $ProcessObject->ProcessDelete(
