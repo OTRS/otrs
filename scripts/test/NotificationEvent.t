@@ -716,6 +716,18 @@ for my $Test (@Tests) {
             $SuccessUpdate,
             "$Test->{Name} - NotificationEventUpdate() True",
         );
+
+        delete $Test->{Update}->{Message};
+        my $SuccessUpdate = $NotificationEventObject->NotificationUpdate(
+            %{ $Test->{Update} },
+            PossibleEmptyMessage => 1,
+            UserID               => $UserID,
+        );
+
+        $Self->True(
+            $SuccessUpdate,
+            "$Test->{Name} - NotificatioUpdate() with PossibleEmptyMessage parameter - True",
+        );
     }
 
     # remember ID to verify it later

@@ -1,4 +1,5 @@
 #6.0.21 ????-??-??
+ - 2019-07-25 Fixed bug#[14670](https://bugs.otrs.org/show_bug.cgi?id=14670) - Ticket notification migration from 5 to 6 fails if notification content is missing.
  - 2019-07-25 Follow-up fix for bug#[14557](https://bugs.otrs.org/show_bug.cgi?id=14557) - Webservice debug log does not honor selected agent timezone.
  - 2019-07-24 Fixed bug#[12956](https://bugs.otrs.org/show_bug.cgi?id=12956) - Customer Information wrong when splitting a ticket.
  - 2019-07-23 Fixed bug#[14358](https://bugs.otrs.org/show_bug.cgi?id=14358) - Ticket Titel hidden in Mobile Mode.

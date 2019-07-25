@@ -149,7 +149,8 @@ sub Run {
         if ($UpdateNeeded) {
             $NotificationEventObject->NotificationUpdate(
                 %{ $NotificationEventList{$NotificationEventID} },
-                UserID => 1,
+                UserID               => 1,
+                PossibleEmptyMessage => 1,
             );
         }
     }
