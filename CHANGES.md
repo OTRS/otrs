@@ -1,4 +1,5 @@
 #6.0.21 ????-??-??
+ - 2019-07-25 Follow-up fix for bug#[14557](https://bugs.otrs.org/show_bug.cgi?id=14557) - Webservice debug log does not honor selected agent timezone.
  - 2019-07-24 Fixed bug#[12956](https://bugs.otrs.org/show_bug.cgi?id=12956) - Customer Information wrong when splitting a ticket.
  - 2019-07-23 Fixed bug#[14358](https://bugs.otrs.org/show_bug.cgi?id=14358) - Ticket Titel hidden in Mobile Mode.
  - 2019-07-23 Fixed bug#[14503](https://bugs.otrs.org/show_bug.cgi?id=14503) - High contrast skin visibility problem.

@@ -268,6 +268,7 @@ sub _GetCommunicationDetails {
             }
 
             # Set date time format and values for created log time.
+            my $CreatedTime = $LogData->{Data}->[$Index]->{Created};
             if ( $LogData->{Data}->[$Index]->{Created} ) {
                 my $DateTimeObject = $Kernel::OM->Create(
                     'Kernel::System::DateTime',
@@ -304,7 +305,7 @@ sub _GetCommunicationDetails {
 
             # If formatted xml differs from original version, add it to data.
             splice @{ $LogData->{Data} }, $Index + 1, 0, {
-                Created    => $LogData->{Data}->[$Index]->{Created},
+                Created    => $CreatedTime,
                 Data       => $LintedXML,
                 DebugLevel => $LogData->{Data}->[$Index]->{DebugLevel},
                 Summary    => $LogData->{Data}->[$Index]->{Summary}

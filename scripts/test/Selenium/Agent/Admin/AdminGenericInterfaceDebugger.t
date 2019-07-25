@@ -69,10 +69,18 @@ $Selenium->RunTest(
         my @Summaries;
         for my $LogType (qw( Debug Info Notice Error )) {
 
+            my $Data = "Selenium test log data type $LogType";
+            if ( $LogType eq 'Error' ) {
+                $Data = <<"EOS";
+<?xml version="1.0" encoding="utf-8" ?>
+<test_config></test_config>
+EOS
+            }
+
             my $Summary = "Debug log nr. $Count - type $LogType";
             my $Result  = $DebuggerObject->$LogType(
                 Summary => $Summary,
-                Data    => "Selenium test log data type $LogType",
+                Data    => $Data,
             ) || 0;
             $Self->True(
                 $Result,
