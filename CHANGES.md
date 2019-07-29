@@ -1,4 +1,5 @@
 #6.0.21 ????-??-??
+ - 2019-07-29 Fixed bug#[14605](https://bugs.otrs.org/show_bug.cgi?id=14605) - Password field is not mandatory on S/MIME screen.
  - 2019-07-29 Fixed bug#[14629](https://bugs.otrs.org/show_bug.cgi?id=14629) - Problem with Calendar Overview - last selected Timeline overview is not saved.
  - 2019-07-25 Fixed bug#[14670](https://bugs.otrs.org/show_bug.cgi?id=14670) - Ticket notification migration from 5 to 6 fails if notification content is missing.
  - 2019-07-25 Follow-up fix for bug#[14557](https://bugs.otrs.org/show_bug.cgi?id=14557) - Webservice debug log does not honor selected agent timezone.

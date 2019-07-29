@@ -274,9 +274,10 @@
                     </div>
                     <div class="Clear"></div>
 
-                    <label for="Secret">[% Translate("Secret") | html %]:</label>
+                    <label class="Mandatory" for="Secret"><span class="Marker">*</span> [% Translate("Secret") | html %]:</label>
                     <div class="Field">
-                        <input class="W50pc" type="password" name="Secret" id="Secret" value="[% Data.Secret | html %]" maxlength="50"/>
+                        <input class="W50pc Validate_Required" type="password" name="Secret" id="Secret" value="[% Data.Secret | html %]" maxlength="50"/>
+                        <div id="SecretError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
                     </div>
                     <div class="Clear"></div>
 
