@@ -853,6 +853,28 @@ $Selenium->RunTest(
             );
         }
 
+        # Click on cancel.
+        $Selenium->find_element( '.Close', 'css' )->click();
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof($) === "function" && !$(".Dialog:visible").length;'
+        );
+
+        $Selenium->find_element( '.fc-agendaWeek-button', 'css' )->click();
+
+        # Go to other screen to check if selected Timeline will be saved on return to Calendar overview.
+        # See bug#14629 - https://bugs.otrs.org/show_bug.cgi?id=14629.
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=${TicketID}");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentAppointmentCalendarOverview");
+
+        $Self->Is(
+            $Selenium->execute_script(
+                "return \$('.fc-agendaWeek-button').hasClass('fc-state-active');"
+            ),
+            "1",
+            "Timeline is correctly selected after page reload"
+        );
+
         #
         # Cleanup
         #
