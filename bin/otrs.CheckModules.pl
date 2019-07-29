@@ -314,9 +314,15 @@ my @NeededModules = (
         },
     },
     {
-        Module    => 'IO::Socket::SSL',
-        Required  => 0,
-        Comment   => 'Required for SSL connections to web and mail servers.',
+        Module              => 'IO::Socket::SSL',
+        Required            => 0,
+        Comment             => 'Required for SSL connections to web and mail servers.',
+        VersionsRecommended => [
+            {
+                Version => '2.066',
+                Comment => 'This version fixes email sending (bug#14357).',
+            },
+        ],
         InstTypes => {
             aptget => 'libio-socket-ssl-perl',
             emerge => 'dev-perl/IO-Socket-SSL',
@@ -370,9 +376,15 @@ my @NeededModules = (
         },
         Depends => [
             {
-                Module    => 'IO::Socket::SSL',
-                Required  => 0,
-                Comment   => 'Required for IMAP TLS connections.',
+                Module              => 'IO::Socket::SSL',
+                Required            => 0,
+                Comment             => 'Required for SSL connections to web and mail servers.',
+                VersionsRecommended => [
+                    {
+                        Version => '2.066',
+                        Comment => 'This version fixes email sending (bug#14357).',
+                    },
+                ],
                 InstTypes => {
                     aptget => 'libio-socket-ssl-perl',
                     emerge => 'dev-perl/IO-Socket-SSL',
@@ -439,6 +451,23 @@ my @NeededModules = (
             emerge => 'dev-perl/perl-ldap',
             zypper => 'perl-ldap',
             ports  => 'net/p5-perl-ldap',
+        },
+    },
+    {
+        Module              => 'Net::SMTP',
+        Required            => 0,
+        Comment             => 'Simple Mail Transfer Protocol Client.',
+        VersionsRecommended => [
+            {
+                Version => '3.11',
+                Comment => 'This version fixes email sending (bug#14357).',
+            },
+        ],
+        InstTypes => {
+            aptget => undef,
+            emerge => undef,
+            zypper => undef,
+            ports  => undef,
         },
     },
     {

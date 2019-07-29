@@ -1,4 +1,6 @@
 #6.0.21 ????-??-??
+ - 2019-07-29 Fixed bug#[14357](https://bugs.otrs.org/show_bug.cgi?id=14357) - Email sending doesn't work fine with specific module versions.
+   Recently additional option for otrs.CheckModules.pl has been introduced to show recommended version of modules which should be used. Modules 'IO::Socket::SSL' and 'Net::SMTP' have increased recommended versions.
  - 2019-07-29 Fixed bug#[14605](https://bugs.otrs.org/show_bug.cgi?id=14605) - Password field is not mandatory on S/MIME screen.
  - 2019-07-29 Fixed bug#[14629](https://bugs.otrs.org/show_bug.cgi?id=14629) - Problem with Calendar Overview - last selected Timeline overview is not saved.
  - 2019-07-25 Fixed bug#[14670](https://bugs.otrs.org/show_bug.cgi?id=14670) - Ticket notification migration from 5 to 6 fails if notification content is missing.
