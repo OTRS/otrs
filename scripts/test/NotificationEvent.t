@@ -717,7 +717,6 @@ for my $Test (@Tests) {
             "$Test->{Name} - NotificationEventUpdate() True",
         );
 
-        delete $Test->{Update}->{Message};
         my $SuccessUpdate = $NotificationEventObject->NotificationUpdate(
             %{ $Test->{Update} },
             PossibleEmptyMessage => 1,
@@ -727,6 +726,27 @@ for my $Test (@Tests) {
         $Self->True(
             $SuccessUpdate,
             "$Test->{Name} - NotificatioUpdate() with PossibleEmptyMessage parameter - True",
+        );
+
+        my %Notification = $NotificationEventObject->NotificationGet(
+            ID => $NotificationID,
+        );
+
+        $Self->True(
+            IsHashRefWithData( $Notification{Message} ),
+            "$Test->{Name} - NotificatioUpdate() Message is not empty",
+        );
+
+        delete $Test->{Update}->{Message};
+        $SuccessUpdate = $NotificationEventObject->NotificationUpdate(
+            %{ $Test->{Update} },
+            PossibleEmptyMessage => 1,
+            UserID               => $UserID,
+        );
+
+        $Self->True(
+            $SuccessUpdate,
+            "$Test->{Name} - NotificatioUpdate() with PossibleEmptyMessage parameter without Message - True",
         );
     }
 

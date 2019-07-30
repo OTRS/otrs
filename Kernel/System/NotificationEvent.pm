@@ -470,32 +470,35 @@ sub NotificationUpdate {
     }
 
     # Check message parameter.
-    if ( !$Param{PossibleEmptyMessage} ) {
-        if ( !IsHashRefWithData( $Param{Message} ) ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Need Message!",
-            );
-            return;
-        }
+    if (
+        !$Param{PossibleEmptyMessage}
+        && !IsHashRefWithData( $Param{Message} )
+        )
+    {
 
-        # Check each argument for each message language.
-        for my $Language ( sort keys %{ $Param{Message} } ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Need Message!",
+        );
+        return;
+    }
 
-            for my $Argument (qw(Subject Body ContentType)) {
+    # Check each argument for each message language.
+    for my $Language ( sort keys %{ $Param{Message} // {} } ) {
 
-                # Error if message data is incomplete.
-                if ( !$Param{Message}->{$Language}->{$Argument} ) {
-                    $Kernel::OM->Get('Kernel::System::Log')->Log(
-                        Priority => 'error',
-                        Message  => "Need Message argument '$Argument' for language '$Language'!",
-                    );
-                    return;
-                }
+        for my $Argument (qw(Subject Body ContentType)) {
 
-                # Fix some bad stuff from some browsers (Opera)!
-                $Param{Message}->{$Language}->{Body} =~ s/(\n\r|\r\r\n|\r\n|\r)/\n/g;
+            # Error if message data is incomplete.
+            if ( !$Param{Message}->{$Language}->{$Argument} ) {
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'error',
+                    Message  => "Need Message argument '$Argument' for language '$Language'!",
+                );
+                return;
             }
+
+            # Fix some bad stuff from some browsers (Opera)!
+            $Param{Message}->{$Language}->{Body} =~ s/(\n\r|\r\r\n|\r\n|\r)/\n/g;
         }
     }
 
@@ -549,27 +552,24 @@ sub NotificationUpdate {
         Bind => [ \$Param{ID} ],
     );
 
-    if ( !$Param{PossibleEmptyMessage} ) {
+    # Insert new notification event message data.
+    for my $Language ( sort keys %{ $Param{Message} // {} } ) {
 
-        # Insert new notification event message data.
-        for my $Language ( sort keys %{ $Param{Message} } ) {
+        my %Message = %{ $Param{Message}->{$Language} };
 
-            my %Message = %{ $Param{Message}->{$Language} };
-
-            $DBObject->Do(
-                SQL => '
-                    INSERT INTO notification_event_message
-                        (notification_id, subject, text, content_type, language)
-                    VALUES (?, ?, ?, ?, ?)',
-                Bind => [
-                    \$Param{ID},
-                    \$Message{Subject},
-                    \$Message{Body},
-                    \$Message{ContentType},
-                    \$Language,
-                ],
-            );
-        }
+        $DBObject->Do(
+            SQL => '
+                INSERT INTO notification_event_message
+                    (notification_id, subject, text, content_type, language)
+                VALUES (?, ?, ?, ?, ?)',
+            Bind => [
+                \$Param{ID},
+                \$Message{Subject},
+                \$Message{Body},
+                \$Message{ContentType},
+                \$Language,
+            ],
+        );
     }
 
     $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
