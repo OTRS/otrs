@@ -1,10 +1,8 @@
 language: perl
 perl:
-  - "5.16"
-  - "5.18"
-  - "5.20"
-  - "5.22"
-  - "5.24"
+  - "5.26"
+  - "5.28"
+  - "5.30"
 
 services:
   - mysql
@@ -13,20 +11,6 @@ services:
 env:
   - DB=mysql
   - DB=postgresql
-
-# Travis currently offers us 5 parallel builds, so limit to those for faster response time.
-matrix:
-  exclude:
-    - perl: "5.16"
-      env: DB=mysql
-    - perl: "5.18"
-      env: DB=postgresql
-    - perl: "5.20"
-      env: DB=mysql
-    - perl: "5.22"
-      env: DB=postgresql
-    - perl: "5.24"
-      env: DB=mysql
 
 # Use 12.04 platform. Docker based VMs seem slower, and trusty beta has not enough available VMs.
 # See https://docs.travis-ci.com/user/ci-environment/
@@ -85,10 +69,3 @@ notifications:
       - "chat.freenode.net#otrs-dev"
     on_success: change
     on_failure: always
-
-  webhooks:
-    urls:
-      - https://webhooks.gitter.im/e/2a09392eadbc65a19408
-    on_success: change
-    on_failure: always
-    on_start: never
