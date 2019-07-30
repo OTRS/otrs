@@ -1,5 +1,3 @@
-[![Build Status](https://travis-ci.org/OTRS/otrs.svg?branch=rel-5_0)](https://travis-ci.org/OTRS/otrs)
-
 What is OTRS?
 =============
 OTRS (the former Open Ticket Request System now stands for Open Technology
