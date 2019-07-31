@@ -21,7 +21,7 @@ sub Data {
     $Self->{Translation}->{'Lock'}   = 'Lala';
     $Self->{Translation}->{'Unlock'} = 'Lulu';
 
-    # or a other syntax would be
+    # or an other syntax would be
     #    $Self->{Translation} = {
     #        %{$Self->{Translation}},
     #        # own translations
