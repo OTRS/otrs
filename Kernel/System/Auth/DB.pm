@@ -214,7 +214,7 @@ sub Auth {
             $EncodeObject->EncodeOutput( \$Pw );
             $EncodeObject->EncodeOutput( \$SaltUser );
 
-             # Encode output, needed by crypt() only non utf8 signs.
+            # Encode output, needed by crypt() only non utf8 signs.
             $CryptedPw = crypt( $Pw, $SaltUser );
             $EncodeObject->EncodeInput( \$CryptedPw );
             $Method = 'crypt';
