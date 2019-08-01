@@ -101,7 +101,7 @@ $Kernel::OM->Get('Kernel::Config')->Set(
 );
 
 my $CustomerUserFirstName = 'FirstName' . $RandomID;
-my $CustomerUserID = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserAdd(
+my $CustomerUserID        = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserAdd(
     Source         => 'CustomerUser',
     UserFirstname  => $CustomerUserFirstName,
     UserLastname   => 'Doe',

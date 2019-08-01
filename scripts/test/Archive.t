@@ -46,7 +46,7 @@ my $ErrorsFound;
 
 # Verify MD5 digests in the checksum file.
 LINE:
-while (my $Line = shift @{ $ChecksumFileArrayRef}) {
+while ( my $Line = shift @{$ChecksumFileArrayRef} ) {
     my @Entry = split '::', $Line;
     next LINE if @Entry < 2;
 
@@ -62,11 +62,13 @@ while (my $Line = shift @{ $ChecksumFileArrayRef}) {
     }
 
     if ( $Filename =~ /Cron|CHANGES|apache2-perl-startup/ ) {
+
         # Skip files with expected changes.
         next LINE;
     }
 
     if ( -e "$Filename.save" ) {
+
         # Ignore files overwritten by packages.
         next LINE;
     }
@@ -76,7 +78,7 @@ while (my $Line = shift @{ $ChecksumFileArrayRef}) {
     );
 
     # To save data, we only record errors of files, no positive results.
-    if ($Digest ne $Entry[0]) {
+    if ( $Digest ne $Entry[0] ) {
         $Self->Is(
             $Digest,
             $Entry[0],
