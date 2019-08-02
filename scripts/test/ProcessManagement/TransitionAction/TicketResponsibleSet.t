@@ -234,6 +234,18 @@ my @Tests = (
         },
         Success => 1,
     },
+    {
+        Name   => 'Correct Using Current tag',
+        Config => {
+            UserID => $UserID,
+            Ticket => \%Ticket,
+            Config => {
+                Responsible => '<OTRS_CURRENT_UserLogin>',
+                UserID      => $TestUserID,
+            },
+        },
+        Success => 1,
+    },
 );
 
 for my $Test (@Tests) {

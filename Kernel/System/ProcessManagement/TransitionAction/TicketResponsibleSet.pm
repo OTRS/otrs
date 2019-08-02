@@ -98,6 +98,7 @@ sub Run {
 
     # use ticket attributes if needed
     $Self->_ReplaceTicketAttributes(%Param);
+    $Self->_ReplaceAdditionalAttributes(%Param);
 
     if ( !$Param{Config}->{ResponsibleID} && !$Param{Config}->{Responsible} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
