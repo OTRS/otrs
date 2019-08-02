@@ -269,6 +269,11 @@ did not receive this file, see https://www.gnu.org/licenses/gpl-3.0.txt.
         background-color: #FFF1AB;
     }
 
+    .fc-widget-content .fc-sat,
+    .fc-widget-content .fc-sun {
+        background-color: #F1F1F1;
+    }
+
     .ButtonTable {
         display: inline;
         margin-left: 5px;

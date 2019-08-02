@@ -1,4 +1,5 @@
 #6.0.21 ????-??-??
+ - 2019-08-02 Added colorization of weekends in calendars.
  - 2019-08-02 Fixed bug#[14655](https://bugs.otrs.org/show_bug.cgi?id=14655) - OTRS_CURRENT tags not correctly interpreted in TicketOwnerSet and TicketResponsibleSet transition action.
  - 2019-07-29 Fixed bug#[14357](https://bugs.otrs.org/show_bug.cgi?id=14357) - Email sending doesn't work fine with specific module versions.
    Recently additional option for otrs.CheckModules.pl has been introduced to show recommended version of modules which should be used. Modules 'IO::Socket::SSL' and 'Net::SMTP' have increased recommended versions.
