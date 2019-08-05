@@ -16,6 +16,7 @@ use parent qw(Kernel::System::Console::BaseCommand Kernel::System::Console::Comm
 our @ObjectDependencies = (
     'Kernel::System::Cache',
     'Kernel::System::Package',
+    'Kernel::Config',
 );
 
 sub Configure {
@@ -54,12 +55,40 @@ sub Run {
     my $FileString = $Self->_PackageContentGet( Location => $Self->GetArgument('location') );
     return $Self->ExitCodeError() if !$FileString;
 
-    # parse package
-    my %Structure = $Kernel::OM->Get('Kernel::System::Package')->PackageParse(
+    my $PackageObject = $Kernel::OM->Get('Kernel::System::Package');
+
+    # Parse package.
+    my %Structure = $PackageObject->PackageParse(
         String => $FileString,
     );
 
-    # intro screen
+    my $Verified = $PackageObject->PackageVerify(
+        Package   => $FileString,
+        Structure => \%Structure,
+    ) || 'verified';
+    my %VerifyInfo = $PackageObject->PackageVerifyInfo();
+
+    # Check if installation of packages, which are not verified by us, is possible.
+    my $PackageAllowNotVerifiedPackages = $Kernel::OM->Get('Kernel::Config')->Get('Package::AllowNotVerifiedPackages');
+
+    if ( $Verified ne 'verified' ) {
+
+        if ( !$PackageAllowNotVerifiedPackages ) {
+
+            $Self->PrintError(
+                "$Structure{Name}->{Content}-$Structure{Version}->{Content} is not verified by the OTRS Group!\n\nThe installation of packages which are not verified by the OTRS Group is not possible by default."
+            );
+            return $Self->ExitCodeError();
+        }
+        else {
+
+            $Self->Print(
+                "<yellow>Package $Structure{Name}->{Content}-$Structure{Version}->{Content} not verified by the OTRS Group! It is recommended not to use this package.</yellow>\n"
+            );
+        }
+    }
+
+    # Intro screen.
     if ( $Structure{IntroUpgrade} ) {
         my %Data = $Self->_PackageMetadataGet(
             Tag                  => $Structure{IntroUpgrade},
@@ -75,7 +104,7 @@ sub Run {
         }
     }
 
-    # upgrade
+    # Upgrade.
     my $Success = $Kernel::OM->Get('Kernel::System::Package')->PackageUpgrade(
         String => $FileString,
         Force  => $Self->GetOption('force'),
@@ -86,7 +115,7 @@ sub Run {
         return $Self->ExitCodeError();
     }
 
-    # intro screen
+    # Intro screen.
     if ( $Structure{IntroUpgrade} ) {
         my %Data = $Self->_PackageMetadataGet(
             Tag                  => $Structure{IntroUpgrade},
