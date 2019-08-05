@@ -1,4 +1,5 @@
 #6.0.21 ????-??-??
+ - 2019-08-05 Fixed bug#[14672](https://bugs.otrs.org/show_bug.cgi?id=14672) - Multiselect Dynamic Fields do not work as recipient in Ticket Notifications.
  - 2019-08-02 Added colorization of weekends in calendars.
  - 2019-08-02 Fixed bug#[14655](https://bugs.otrs.org/show_bug.cgi?id=14655) - OTRS_CURRENT tags not correctly interpreted in TicketOwnerSet and TicketResponsibleSet transition action.
  - 2019-07-29 Fixed bug#[14357](https://bugs.otrs.org/show_bug.cgi?id=14357) - Email sending doesn't work fine with specific module versions.

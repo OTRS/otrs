@@ -181,9 +181,17 @@ sub GetTransportRecipients {
         if ( $Param{Notification}->{Data}->{RecipientEmail}->[0] ) {
             my $RecipientEmail = $Param{Notification}->{Data}->{RecipientEmail}->[0];
 
-            # Split multiple recipients on known delimiters: comma and semi-colon.
-            #   Do this after the OTRS tags were replaced.
-            my @RecipientEmails = split /[;,\s]+/, $RecipientEmail;
+            my @RecipientEmails;
+
+            if ( !IsArrayRefWithData($RecipientEmail) ) {
+
+                # Split multiple recipients on known delimiters: comma and semi-colon.
+                #   Do this after the OTRS tags were replaced.
+                @RecipientEmails = split /[;,\s]+/, $RecipientEmail;
+            }
+            else {
+                @RecipientEmails = @{$RecipientEmail};
+            }
 
             # Include only valid email recipients.
             for my $Recipient ( sort @RecipientEmails ) {
