@@ -101,9 +101,21 @@ $Selenium->RunTest(
         # Create every day appointment.
         $Selenium->find_elements("//td[contains(\@data-date,'$DataDate')]")->[1]->click();
 
-        # Wait until form and overlay has loaded, if neccessary.
+        # Wait until form and overlay has loaded, if necessary.
         $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#Title').length;" );
         $Selenium->WaitFor( JavaScript => "return \$('#CalendarID').length && \$('#EditFormSubmit').length;" );
+
+        # Click on Save, without required input fields.
+        $Selenium->find_element( '#EditFormSubmit', 'css' )->click();
+
+        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#Title.Error').length" );
+        $Self->Is(
+            $Selenium->execute_script(
+                "return \$('#Title').hasClass('Error')"
+            ),
+            '1',
+            'Client side validation correctly detected missing input value',
+        );
 
         # Enter some data.
         $Selenium->find_element( '#Title', 'css' )->send_keys('Every day');
@@ -1089,7 +1101,7 @@ $Selenium->RunTest(
                 $Day9       = $Appointment9TimeSettings->{Day};
             }
             elsif (
-                ( $Appointment9TimeSettings->{Day} == $Day9 )                           # Check if day is valid
+                ( $Appointment9TimeSettings->{Day} == $Day9 )    # Check if day is valid
                 && ( ( $Appointment9TimeSettings->{Month} - $LastMonth9 ) % 2 == 0 )    # Check if Interval matches
                 )
             {

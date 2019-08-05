@@ -15,7 +15,7 @@ did not receive this file, see https://www.gnu.org/licenses/gpl-3.0.txt.
 
 div.TooltipContainer {
     position: absolute;
-    z-index: 4000;
+    z-index: 6000;
     display: none;
 }
 
@@ -55,7 +55,7 @@ div.Tooltip.TongueBottom > div.Content {
     margin-top: 15px;
 }
 
-div.Tooltip > div.Content:after, 
+div.Tooltip > div.Content:after,
 div.Tooltip > div.Content:before {
     left: 50%;
     border: solid transparent;
@@ -66,22 +66,22 @@ div.Tooltip > div.Content:before {
     pointer-events: none;
 }
 
-div.Tooltip.TongueTop > div.Content:after, 
+div.Tooltip.TongueTop > div.Content:after,
 div.Tooltip.TongueTop > div.Content:before {
     top: 100%;
 }
 
-div.Tooltip.TongueBottom > div.Content:after, 
+div.Tooltip.TongueBottom > div.Content:after,
 div.Tooltip.TongueBottom > div.Content:before {
     bottom: 100%;
 }
 
-div.Tooltip.TongueLeft > div.Content:after, 
+div.Tooltip.TongueLeft > div.Content:after,
 div.Tooltip.TongueLeft > div.Content:before {
     left: 10%;
 }
 
-div.Tooltip.TongueRight > div.Content:after, 
+div.Tooltip.TongueRight > div.Content:after,
 div.Tooltip.TongueRight > div.Content:before {
     left: 90%;
     right: 10%;

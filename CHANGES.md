@@ -1,4 +1,5 @@
 #6.0.21 ????-??-??
+ - 2019-08-05 Fixed bug#[14644](https://bugs.otrs.org/show_bug.cgi?id=14644) - Appointment calendar - client side validation does not show tooltips.
  - 2019-08-05 Fixed bug#[14572](https://bugs.otrs.org/show_bug.cgi?id=14572) - Package installation via Console upgrade command bypasses OTRS verification.
  - 2019-08-05 Fixed bug#[14672](https://bugs.otrs.org/show_bug.cgi?id=14672) - Multiselect Dynamic Fields do not work as recipient in Ticket Notifications.
  - 2019-08-02 Added colorization of weekends in calendars.
