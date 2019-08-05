@@ -166,8 +166,8 @@
 [% RenderBlockStart("EventRow") %]
                                         <tr>
                                             <td class="AsBlock">[% Data.Event | html %]</td>
-                                            <td class="Center">[% Data.Asynchronous | html %]</td>
-                                            <td class="Center">[% Data.Condition | html %]</td>
+                                            <td class="Center">[% Translate(Data.Asynchronous) | html %]</td>
+                                            <td class="Center">[% Translate(Data.Condition) | html %]</td>
                                             <td class="Center">
                                                 <a class="Pencil EditEvent HideOnChange" href="[% Env("Baselink") %]Action=AdminGenericInterfaceInvokerEvent;Subaction=Change;WebserviceID=[% Data.WebserviceID | html %];Invoker=[% Data.Invoker | html %];Event=[% Data.Event | html %]" title="[% Translate("Edit this event") | html %]">
                                                     [% Translate("Edit this event") | html %]
@@ -203,8 +203,8 @@
 [% RenderBlockStart("EventAdd") %]
                                 [% Data.EventStrg %]
 [% RenderBlockEnd("EventAdd") %]
-                                <input type="checkbox" id="Asynchronous" checked="checked" class="GenericInterfaceSpacing" name="Asynchronous"/><label for="Asynchronous">Asynchronous</label>
-                                <button type="button" id="AddEvent" class="Add GenericInterfaceSpacing HideOnChange" name="AddEvent" value="Add Event">Add Event</button>
+                                <input type="checkbox" id="Asynchronous" checked="checked" class="GenericInterfaceSpacing" name="Asynchronous"/><label for="Asynchronous">[% Translate("Asynchronous") | html %]</label>
+                                <button type="button" id="AddEvent" class="Add GenericInterfaceSpacing HideOnChange" name="AddEvent" value="[% Translate("Add Event") | html %]">[% Translate("Add Event") | html %]</button>
                                 <p class="FieldExplanation">
                                     [% Translate("To add a new event select the event object and event name and click on the \"+\" button") | html %].
                                 </p>

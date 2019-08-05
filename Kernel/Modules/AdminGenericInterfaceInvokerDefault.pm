@@ -753,8 +753,8 @@ sub _ShowScreen {
                     Invoker      => $Param{Invoker},
                     Event        => $Event->{Event},
                     Type         => $EventType // '-',
-                    Asynchronous => $Event->{Asynchronous} ? 'Yes' : 'No',
-                    Condition    => IsHashRefWithData( $Event->{Condition} ) ? 'Yes' : 'No',
+                    Asynchronous => $Event->{Asynchronous} ? Translatable('Yes') : Translatable('No'),
+                    Condition    => IsHashRefWithData( $Event->{Condition} ) ? Translatable('Yes') : Translatable('No'),
                 },
             );
         }

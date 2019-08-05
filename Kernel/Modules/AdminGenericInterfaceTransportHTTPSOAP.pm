@@ -391,9 +391,12 @@ sub _ShowEdit {
     }
 
     # Create SOAPAction select.
-    my $SelectedSOAPAction = $TransportConfig->{SOAPAction} || 'Yes';
+    my $SelectedSOAPAction = $TransportConfig->{SOAPAction} || Translatable('Yes');
     $Param{SOAPActionStrg} = $LayoutObject->BuildSelection(
-        Data          => [ 'No', 'Yes' ],
+        Data          => {
+            'No'  => Translatable('No'),
+            'Yes' => Translatable('Yes'),
+        },
         Name          => 'SOAPAction',
         SelectedValue => $SelectedSOAPAction,
         Sort          => 'AlphaNumericValue',
@@ -496,9 +499,12 @@ sub _ShowEdit {
 
         # Create use Proxy select.
         $Param{UseProxyStrg} = $LayoutObject->BuildSelection(
-            Data          => [ 'No', 'Yes' ],
+            Data          => {
+                'No'  => Translatable('No'),
+                'Yes' => Translatable('Yes'),
+            },
             Name          => 'UseProxy',
-            SelectedValue => $Param{UseProxy} || 'No',
+            SelectedValue => $Param{UseProxy} || Translatable('No'),
             PossibleNone  => 0,
             Sort          => 'AlphanumericValue',
             Class         => 'Modernize',
@@ -506,9 +512,12 @@ sub _ShowEdit {
 
         # Create Proxy exclude select.
         $Param{ProxyExcludeStrg} = $LayoutObject->BuildSelection(
-            Data          => [ 'No', 'Yes' ],
+            Data          => {
+                'No'  => Translatable('No'),
+                'Yes' => Translatable('Yes'),
+            },
             Name          => 'ProxyExclude',
-            SelectedValue => $Param{ProxyExclude} || 'No',
+            SelectedValue => $Param{ProxyExclude} || Translatable('No'),
             PossibleNone  => 0,
             Sort          => 'AlphanumericValue',
             Class         => 'Modernize',
@@ -523,9 +532,12 @@ sub _ShowEdit {
 
         # Create use SSL select.
         $Param{UseSSLStrg} = $LayoutObject->BuildSelection(
-            Data          => [ 'No', 'Yes' ],
+            Data          => {
+                'No'  => Translatable('No'),
+                'Yes' => Translatable('Yes'),
+            },
             Name          => 'UseSSL',
-            SelectedValue => $Param{UseSSL} || 'No',
+            SelectedValue => $Param{UseSSL} || Translatable('No'),
             PossibleNone  => 0,
             Sort          => 'AlphanumericValue',
             Class         => 'Modernize',

@@ -114,8 +114,8 @@ sub _ShowScreen {
 
     my $FilterSortStrg = $LayoutObject->BuildSelection(
         Data => {
-            'ASC'  => 'ascending',
-            'DESC' => 'descending',
+            'ASC'  => Translatable('ascending'),
+            'DESC' => Translatable('descending'),
         },
         Name         => 'FilterSort',
         PossibleNone => 0,

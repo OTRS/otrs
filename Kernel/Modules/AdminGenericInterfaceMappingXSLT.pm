@@ -45,8 +45,8 @@ sub Run {
 
     # Set mapping direction for display.
     my $MappingDirection = $Direction eq 'MappingOutbound'
-        ? 'XSLT Mapping for Outgoing Data'
-        : 'XSLT Mapping for Incoming Data';
+        ? Translatable('XSLT Mapping for Outgoing Data')
+        : Translatable('XSLT Mapping for Incoming Data');
 
     # Get configured Actions.
     my $ActionsConfig = $Kernel::OM->Get('Kernel::Config')->Get( 'GenericInterface::' . $ActionType . '::Module' );
@@ -282,34 +282,33 @@ sub _ShowEdit {
             MappingOutbound => [
                 {
                     Key   => 'RequesterRequestInput',
-                    Value => Translatable('Outgoing request data before processing') . ' (RequesterRequestInput)',
+                    Value => Translatable('Outgoing request data before processing (RequesterRequestInput)'),
                 },
                 {
                     Key   => 'RequesterRequestPrepareOutput',
-                    Value => Translatable('Outgoing request data before mapping') . ' (RequesterRequestPrepareOutput)',
+                    Value => Translatable('Outgoing request data before mapping (RequesterRequestPrepareOutput)'),
                 },
             ],
             MappingInbound => [
                 {
                     Key   => 'RequesterRequestInput',
-                    Value => Translatable('Outgoing request data before processing') . ' (RequesterRequestInput)',
+                    Value => Translatable('Outgoing request data before processing (RequesterRequestInput)'),
                 },
                 {
                     Key   => 'RequesterRequestPrepareOutput',
-                    Value => Translatable('Outgoing request data before mapping') . ' (RequesterRequestPrepareOutput)',
+                    Value => Translatable('Outgoing request data before mapping (RequesterRequestPrepareOutput)'),
                 },
                 {
                     Key   => 'RequesterRequestMapOutput',
-                    Value => Translatable('Outgoing request data after mapping') . ' (RequesterRequestMapOutput)',
+                    Value => Translatable('Outgoing request data after mapping (RequesterRequestMapOutput)'),
                 },
                 {
                     Key   => 'RequesterResponseInput',
-                    Value => Translatable('Incoming response data before mapping') . ' (RequesterResponseInput)',
+                    Value => Translatable('Incoming response data before mapping (RequesterResponseInput)'),
                 },
                 {
                     Key   => 'RequesterErrorHandlingOutput',
-                    Value => Translatable('Outgoing error handler data after error handling')
-                        . ' (RequesterErrorHandlingOutput)',
+                    Value => Translatable('Outgoing error handler data after error handling (RequesterErrorHandlingOutput)'),
                 },
             ],
         },
@@ -317,26 +316,25 @@ sub _ShowEdit {
             MappingOutbound => [
                 {
                     Key   => 'ProviderRequestInput',
-                    Value => Translatable('Incoming request data before mapping') . ' (ProviderRequestInput)',
+                    Value => Translatable('Incoming request data before mapping (ProviderRequestInput)'),
                 },
                 {
                     Key   => 'ProviderRequestMapOutput',
-                    Value => Translatable('Incoming request data after mapping') . ' (ProviderRequestMapOutput)',
+                    Value => Translatable('Incoming request data after mapping (ProviderRequestMapOutput)'),
                 },
                 {
                     Key   => 'ProviderResponseInput',
-                    Value => Translatable('Outgoing response data before mapping') . ' (ProviderResponseInput)',
+                    Value => Translatable('Outgoing response data before mapping (ProviderResponseInput)'),
                 },
                 {
                     Key   => 'ProviderErrorHandlingOutput',
-                    Value => Translatable('Outgoing error handler data after error handling')
-                        . ' (ProviderErrorHandlingOutput)',
+                    Value => Translatable('Outgoing error handler data after error handling (ProviderErrorHandlingOutput)'),
                 },
             ],
             MappingInbound => [
                 {
                     Key   => 'ProviderRequestInput',
-                    Value => Translatable('Incoming request data before mapping') . ' (ProviderRequestInput)',
+                    Value => Translatable('Incoming request data before mapping (ProviderRequestInput)'),
                 },
             ],
         },

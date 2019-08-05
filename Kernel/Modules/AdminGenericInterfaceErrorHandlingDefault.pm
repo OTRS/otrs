@@ -546,23 +546,23 @@ sub _ShowScreen {
         @ErrorStageFilter = (
             {
                 Key   => 'RequesterRequestPrepare',
-                Value => 'Invoker processing outgoing request data',
+                Value => Translatable('Invoker processing outgoing request data'),
             },
             {
                 Key   => 'RequesterRequestMap',
-                Value => 'Mapping outgoing request data',
+                Value => Translatable('Mapping outgoing request data'),
             },
             {
                 Key   => 'RequesterRequestPerform',
-                Value => 'Transport processing request into response',
+                Value => Translatable('Transport processing request into response'),
             },
             {
                 Key   => 'RequesterResponseMap',
-                Value => 'Mapping incoming response data',
+                Value => Translatable('Mapping incoming response data'),
             },
             {
                 Key   => 'RequesterResponseProcess',
-                Value => 'Invoker processing incoming response data',
+                Value => Translatable('Invoker processing incoming response data'),
             },
         );
     }
@@ -571,23 +571,23 @@ sub _ShowScreen {
         @ErrorStageFilter = (
             {
                 Key   => 'ProviderRequestReceive',
-                Value => 'Transport receiving incoming request data',
+                Value => Translatable('Transport receiving incoming request data'),
             },
             {
                 Key   => 'ProviderRequestMap',
-                Value => 'Mapping incoming request data',
+                Value => Translatable('Mapping incoming request data'),
             },
             {
                 Key   => 'ProviderRequestProcess',
-                Value => 'Operation processing incoming request data',
+                Value => Translatable('Operation processing incoming request data'),
             },
             {
                 Key   => 'ProviderResponseMap',
-                Value => 'Mapping outgoing response data',
+                Value => Translatable('Mapping outgoing response data'),
             },
             {
                 Key   => 'ProviderResponseTransmit',
-                Value => 'Transport sending outgoing response data',
+                Value => Translatable('Transport sending outgoing response data'),
             },
         );
     }
@@ -604,8 +604,8 @@ sub _ShowScreen {
 
     $TemplateData{StopAfterMatchStrg} = $LayoutObject->BuildSelection(
         Data => {
-            'backend' => 'skip same backend modules only',
-            'all'     => 'skip all modules',
+            'backend' => Translatable('skip same backend modules only'),
+            'all'     => Translatable('skip all modules'),
         },
         ID           => 'StopAfterMatch',
         Name         => 'StopAfterMatch',

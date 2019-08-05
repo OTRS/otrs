@@ -517,7 +517,7 @@ sub Run {
 
                 if ( !$Loaded ) {
                     return $LayoutObject->ErrorScreen(
-                        Message => "Could not load $BackendName.",
+                        Message => $LayoutObject->{LanguageObject}->Translate( 'Could not load %s.', $BackendName ),
                     );
 
                 }
@@ -970,10 +970,10 @@ sub _ShowEdit {
 
     # Define the debug Thresholds (this needs to be hard-coded).
     my %DebugThreshold = (
-        debug  => 'Debug',
-        info   => 'Info',
-        notice => 'Notice',
-        error  => 'Error',
+        debug  => Translatable('Debug'),
+        info   => Translatable('Info'),
+        notice => Translatable('Notice'),
+        error  => Translatable('Error'),
     );
 
     # Create the DebugThreshold select.

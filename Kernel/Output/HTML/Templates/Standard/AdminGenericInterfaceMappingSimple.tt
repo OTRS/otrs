@@ -115,7 +115,7 @@
                         <label for="AddKeyMapping">[% Translate("New key map") | html %]:</label>
                         <div class="Field">
                             <div class="NewRule">
-                                <a href="" id="AddKeyMapping" class="AddButton" value="Add key mapping"><i class="fa fa-plus-square-o"></i><span class="InvisibleText">[% Translate("Add key mapping") | html %]</span></a>
+                                <a href="" id="AddKeyMapping" class="AddButton" value="[% Translate("Add key mapping") | html %]"><i class="fa fa-plus-square-o"></i><span class="InvisibleText">[% Translate("Add key mapping") | html %]</span></a>
                             </div>
                         </div>
                         <div class="Clear Spacing"></div>
@@ -130,7 +130,7 @@
                                 </div>
                                 <h3 class="Title">[% Translate("Mapping for Key ") | html %] [% Data.KeyMapNew | html %]</h3>
                                 <div class="AdditionalInformation">
-                                    <a href="" id="RemoveKeyMapping[% Data.KeyIndex | html %]" class="RemoveButton KeyMapRemove" value="Remove key mapping"><i class="fa fa-minus-square-o"></i><span class="InvisibleText">[% Translate("Remove key mapping") | html %]</span></a>
+                                    <a href="" id="RemoveKeyMapping[% Data.KeyIndex | html %]" class="RemoveButton KeyMapRemove" value="[% Translate("Remove key mapping") | html %]"><i class="fa fa-minus-square-o"></i><span class="InvisibleText">[% Translate("Remove key mapping") | html %]</span></a>
                                 </div>
                             </div>
                             <div class="Content">
@@ -203,7 +203,7 @@
                                             <div id="ValueMapNew[% Data.KeyIndex | html %]_[% Data.ValueIndex | html %]ServerError" class="TooltipErrorMessage">
                                                 <p>[% Translate("This field is required.") | html %]</p>
                                             </div>
-                                            <a href="" id="RemoveValueMapping[% Data.KeyIndex | html %]_[% Data.ValueIndex | html %]" class="RemoveButton ValueRemove" value="Remove value mapping"><i class="fa fa-minus-square-o"></i><span class="InvisibleText">[% Translate("Remove value mapping") | html %]</span></a>
+                                            <a href="" id="RemoveValueMapping[% Data.KeyIndex | html %]_[% Data.ValueIndex | html %]" class="RemoveButton ValueRemove" value="[% Translate("Remove value mapping") | html %]"><i class="fa fa-minus-square-o"></i><span class="InvisibleText">[% Translate("Remove value mapping") | html %]</span></a>
                                         </div>
 [% RenderBlockEnd("ValueTemplateRow") %]
                                     </div>
@@ -213,7 +213,7 @@
                                         <label for="AddValueMapping[% Data.KeyIndex | html %]" class="AddValueMapping">[% Translate("New value map") | html %]:</label>
                                         <div class="Field">
                                             <div class="NewValueMap">
-                                                <a href="" id="AddValueMapping[% Data.KeyIndex | html %]" class="AddButton ValueAdd" value="Add Value mapping"><i class="fa fa-plus-square-o"></i><span class="InvisibleText">[% Translate("Add value mapping") | html %]</span></a>
+                                                <a href="" id="AddValueMapping[% Data.KeyIndex | html %]" class="AddButton ValueAdd" value="[% Translate("Add value mapping") | html %]"><i class="fa fa-plus-square-o"></i><span class="InvisibleText">[% Translate("Add value mapping") | html %]</span></a>
                                             </div>
                                         </div>
                                     </fieldset>
@@ -252,7 +252,7 @@
                             <div id="ValueMapNewServerError" class="TooltipErrorMessage">
                                 <p>[% Translate("This field is required.") | html %]</p>
                             </div>
-                            <a href="#" id="RemoveValueMapping" class="RemoveButton ValueRemove" value="Spacing Remove value mapping"><i class="fa fa-minus-square-o"></i><span class="InvisibleText">[% Translate("Remove value mapping") | html %]</span></a>
+                            <a href="#" id="RemoveValueMapping" class="RemoveButton ValueRemove" value="[% Translate("Remove value mapping") | html %]"><i class="fa fa-minus-square-o"></i><span class="InvisibleText">[% Translate("Remove value mapping") | html %]</span></a>
                         </div>
 [% RenderBlockEnd("ValueTemplate") %]
 

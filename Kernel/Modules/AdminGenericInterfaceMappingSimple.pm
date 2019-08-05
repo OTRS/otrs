@@ -43,8 +43,8 @@ sub Run {
 
     # Set mapping direction for display.
     my $MappingDirection = $Direction eq 'MappingOutbound'
-        ? 'Simple Mapping for Outgoing Data'
-        : 'Simple Mapping for Incoming Data';
+        ? Translatable('Simple Mapping for Outgoing Data')
+        : Translatable('Simple Mapping for Incoming Data');
 
     # Get configured Actions.
     my $ActionsConfig = $Kernel::OM->Get('Kernel::Config')->Get( 'GenericInterface::' . $ActionType . '::Module' );

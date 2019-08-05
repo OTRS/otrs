@@ -61,7 +61,7 @@ sub Run {
     # Check for valid Invoker registration.
     if ( !IsHashRefWithData($InvokerModules) ) {
         return $LayoutObject->ErrorScreen(
-            Message => "Could not get registered modules for Invoker",
+            Message => Translatable('Could not get registered modules for Invoker'),
         );
     }
 
@@ -71,13 +71,15 @@ sub Run {
     # Check for valid web service configuration.
     if ( !IsHashRefWithData($WebserviceData) ) {
         return $LayoutObject->ErrorScreen(
-            Message => "Could not get data for WebserviceID $WebserviceID",
+            Message => $LayoutObject->{LanguageObject}
+                ->Translate( 'Could not get data for WebserviceID %s', $WebserviceID ),
         );
     }
 
     if ( !IsHashRefWithData( $WebserviceData->{Config}->{Requester}->{Invoker}->{$Invoker} ) ) {
         return $LayoutObject->ErrorScreen(
-            Message => "Could not determine config for invoker $Invoker",
+            Message => $LayoutObject->{LanguageObject}
+                ->Translate( 'Could not determine config for invoker %s', $Invoker ),
         );
     }
 
@@ -87,7 +89,7 @@ sub Run {
     # Check for valid InvokerType backend.
     if ( !$InvokerType ) {
         return $LayoutObject->ErrorScreen(
-            Message => "Could not get backend for Invoker $Invoker",
+            Message => $LayoutObject->{LanguageObject}->Translate( 'Could not get backend for Invoker %s', $Invoker ),
         );
     }
 
@@ -134,7 +136,7 @@ sub Run {
     # Check if we found a valid event
     if ( !$EventType ) {
         return $LayoutObject->ErrorScreen(
-            Message => "The event $Event is not valid.",
+            Message => $LayoutObject->{LanguageObject}->Translate( 'The event %s is not valid.', $Event ),
         );
     }
 
@@ -237,7 +239,8 @@ sub Run {
         # Check for successful web service update.
         if ( !$Success ) {
             return $LayoutObject->ErrorScreen(
-                Message => "Could not update configuration data for WebserviceID $WebserviceID",
+                Message => $LayoutObject->{LanguageObject}
+                    ->Translate( 'Could not update configuration data for WebserviceID %s', $WebserviceID ),
             );
         }
 
@@ -320,7 +323,7 @@ sub Run {
     # ------------------------------------------------------------ #
     else {
         return $LayoutObject->ErrorScreen(
-            Message => "This sub-action is not valid",
+            Message => Translatable('This sub-action is not valid'),
         );
     }
 }
@@ -345,7 +348,11 @@ sub _ShowEdit {
     $Param{DeletedString} = $Self->{DeletedString};
 
     $Param{FreshConditionLinking} = $LayoutObject->BuildSelection(
-        Data        => [ 'and', 'or', 'xor' ],
+        Data        => {
+            'and' => Translatable('and'),
+            'or'  => Translatable('or'),
+            'xor' => Translatable('xor'),
+        },
         Name        => "ConditionLinking[_INDEX_]",
         Sort        => 'AlphanumericKey',
         Translation => 1,
@@ -354,9 +361,9 @@ sub _ShowEdit {
 
     $Param{FreshConditionFieldType} = $LayoutObject->BuildSelection(
         Data => {
-            'String' => 'String',
-            'Regexp' => 'Regexp',
-            'Module' => 'Validation Module'
+            'String' => Translatable('String'),
+            'Regexp' => Translatable('Regexp'),
+            'Module' => Translatable('Validation Module'),
         },
         SelectedID  => 'String',
         Name        => "ConditionFieldType[_INDEX_][_FIELDINDEX_]",
@@ -375,7 +382,11 @@ sub _ShowEdit {
     {
 
         $Param{OverallConditionLinking} = $LayoutObject->BuildSelection(
-            Data        => [ 'and', 'or', 'xor' ],
+            Data        => {
+                'and' => Translatable('and'),
+                'or'  => Translatable('or'),
+                'xor' => Translatable('xor'),
+            },
             Name        => 'OverallConditionLinking',
             ID          => 'OverallConditionLinking',
             Sort        => 'AlphanumericKey',
@@ -391,7 +402,11 @@ sub _ShowEdit {
             my %ConditionData = %{ $ConditionData->{Condition}->{$Condition} };
 
             my $ConditionLinking = $LayoutObject->BuildSelection(
-                Data        => [ 'and', 'or', 'xor' ],
+                Data        => {
+                    'and' => Translatable('and'),
+                    'or'  => Translatable('or'),
+                    'xor' => Translatable('xor'),
+                },
                 Name        => "ConditionLinking[$Condition]",
                 Sort        => 'AlphanumericKey',
                 Translation => 1,
@@ -413,9 +428,9 @@ sub _ShowEdit {
                 my %FieldData          = %{ $ConditionData{Fields}->{$Field} };
                 my $ConditionFieldType = $LayoutObject->BuildSelection(
                     Data => {
-                        'String' => 'String',
-                        'Regexp' => 'Regexp',
-                        'Module' => 'Validation Module'
+                        'String' => Translatable('String'),
+                        'Regexp' => Translatable('Regexp'),
+                        'Module' => Translatable('Validation Module'),
                     },
                     Name        => "ConditionFieldType[$Condition][$Field]",
                     Sort        => 'AlphanumericKey',
@@ -440,7 +455,11 @@ sub _ShowEdit {
     else {
 
         $Param{OverallConditionLinking} = $LayoutObject->BuildSelection(
-            Data        => [ 'and', 'or', 'xor' ],
+            Data        => {
+                'and' => Translatable('and'),
+                'or'  => Translatable('or'),
+                'xor' => Translatable('xor'),
+            },
             Name        => 'OverallConditionLinking',
             ID          => 'OverallConditionLinking',
             Sort        => 'AlphanumericKey',
@@ -449,7 +468,11 @@ sub _ShowEdit {
         );
 
         $Param{ConditionLinking} = $LayoutObject->BuildSelection(
-            Data        => [ 'and', 'or', 'xor' ],
+            Data        => {
+                'and' => Translatable('and'),
+                'or'  => Translatable('or'),
+                'xor' => Translatable('xor'),
+            },
             Name        => 'ConditionLinking[_INDEX_]',
             Sort        => 'AlphanumericKey',
             Translation => 1,
@@ -458,9 +481,9 @@ sub _ShowEdit {
 
         $Param{ConditionFieldType} = $LayoutObject->BuildSelection(
             Data => {
-                'String' => 'String',
-                'Regexp' => 'Regexp',
-                'Module' => 'Validation Module'
+                'String' => Translatable('String'),
+                'Regexp' => Translatable('Regexp'),
+                'Module' => Translatable('Validation Module'),
             },
             Name        => 'ConditionFieldType[_INDEX_][_FIELDINDEX_]',
             Sort        => 'AlphanumericKey',
