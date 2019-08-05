@@ -12,7 +12,6 @@ use utf8;
 
 use vars (qw($Self));
 
-# get helper object
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
         RestoreDatabase  => 1,
@@ -21,9 +20,22 @@ $Kernel::OM->ObjectParamAdd(
 );
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-my $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Maint::Ticket::InvalidUserCleanup');
-my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
-my $UserObject    = $Kernel::OM->Get('Kernel::System::User');
+# Set fixed time to create user in pst.
+# Then when it is set to invalid, it have been invalid for more than a month.
+$Helper->FixedTimeSet(
+    $Kernel::OM->Create(
+        'Kernel::System::DateTime',
+        ObjectParams => {
+            String => '2019-06-15 00:00:00',
+        },
+    )->ToEpoch()
+);
+
+my $CommandObject        = $Kernel::OM->Get('Kernel::System::Console::Command::Maint::Ticket::InvalidUserCleanup');
+my $TicketObject         = $Kernel::OM->Get('Kernel::System::Ticket');
+my $UserObject           = $Kernel::OM->Get('Kernel::System::User');
+my $ArticleObject        = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+my $ArticleBackendObject = $ArticleObject->BackendForChannel( ChannelName => 'Internal' );
 
 $Kernel::OM->Get('Kernel::Config')->Set(
     Key   => 'CheckMXRecord',
@@ -43,7 +55,39 @@ my $TicketID = $TicketObject->TicketCreate(
     CustomerNo   => '123465',
     CustomerUser => 'customer@example.com',
     OwnerID      => $UserID,
-    UserID       => 1,
+    UserID       => $UserID,
+);
+
+my $ArticleID = $ArticleBackendObject->ArticleCreate(
+    TicketID             => $TicketID,
+    SenderType           => 'agent',
+    IsVisibleForCustomer => 0,
+    From                 => 'Some Agent <email@example.com>',
+    To                   => 'Some Customer <customer-a@example.com>',
+    Subject              => 'some short description',
+    Body                 => 'the message text',
+    ContentType          => 'text/plain; charset=ISO-8859-15',
+    HistoryType          => 'OwnerUpdate',
+    HistoryComment       => 'Some free text!',
+    UserID               => $UserID,
+    NoAgentNotify        => 1,
+);
+
+$Self->True(
+    $ArticleID,
+    'ArticleCreate()'
+);
+
+my $Set = $ArticleObject->ArticleFlagSet(
+    TicketID  => $TicketID,
+    ArticleID => $ArticleID,
+    Key       => 'seen',
+    Value     => 1,
+    UserID    => $UserID,
+);
+$Self->True(
+    $Set,
+    'ArticleFlagSet() article 1',
 );
 
 $Kernel::OM->Get('Kernel::System::User')->UserUpdate(
@@ -52,9 +96,12 @@ $Kernel::OM->Get('Kernel::System::User')->UserUpdate(
     ChangeUserID => 1,
 );
 
+# Set current time.
+$Helper->FixedTimeSet();
+
 my $ExitCode = $CommandObject->Execute();
 
-# just check exit code
+# Just check exit code.
 $Self->Is(
     $ExitCode,
     0,
@@ -79,6 +126,6 @@ $Self->Is(
     'Ticket from invalid owner was set to "open"',
 );
 
-# cleanup cache is done by RestoreDatabase
+# Cleanup cache is done by RestoreDatabase.
 
 1;

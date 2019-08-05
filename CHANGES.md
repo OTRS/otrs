@@ -1,4 +1,5 @@
 #6.0.21 ????-??-??
+ - 2019-08-05 Fixed bug#[14693](https://bugs.otrs.org/show_bug.cgi?id=14693) - Console command Maint::Ticket::InvalidUserCleanup doesn't pass TicketID to ArticleFlagDelete.
  - 2019-08-05 Fixed bug#[14713](https://bugs.otrs.org/show_bug.cgi?id=14713) - Untranslated strings in GenericInterface screens.
  - 2019-08-05 Fixed bug#[14644](https://bugs.otrs.org/show_bug.cgi?id=14644) - Appointment calendar - client side validation does not show tooltips.
  - 2019-08-05 Fixed bug#[14572](https://bugs.otrs.org/show_bug.cgi?id=14572) - Package installation via Console upgrade command bypasses OTRS verification.
