@@ -37,7 +37,6 @@ Core.Agent.AppointmentCalendar = (function (TargetNS) {
      */
     TargetNS.Init = function () {
         var CalendarConfig = Core.Config.Get('CalendarConfig'),
-            DefaultView,
             ResourceConfig,
             $CalendarObj = $('#calendar'),
             $DatepickerObj,
@@ -73,14 +72,6 @@ Core.Agent.AppointmentCalendar = (function (TargetNS) {
             };
         }
 
-        // Get default TimeLine from local storage if it is set.
-        if (typeof localStorage && localStorage.getItem('CalendarTimeLine') !== null) {
-            DefaultView = localStorage.getItem('CalendarTimeLine');
-        }
-        else {
-            DefaultView = Core.Config.Get('DefaultView');
-        }
-
         // Initialize calendar
         $CalendarObj.fullCalendar({
             header: {
@@ -96,7 +87,7 @@ Core.Agent.AppointmentCalendar = (function (TargetNS) {
                     }
                 }
             },
-            defaultView: DefaultView,
+            defaultView: Core.Config.Get('DefaultView'),
             allDayText: Core.Language.Translate('All-day'),
             isRTL: Core.Config.Get('IsRTLLanguage'),
             columnFormat: 'ddd, D MMM',
@@ -248,7 +239,7 @@ Core.Agent.AppointmentCalendar = (function (TargetNS) {
                             Action: 'AgentAppointmentEdit',
                             Subaction: 'UpdatePreferences',
                             OverviewScreen: Core.Config.Get('OverviewScreen') ? Core.Config.Get('OverviewScreen') : 'CalendarOverview',
-                            DefaultView: Core.Config.Get('DefaultView')
+                            DefaultView: View.name
                         },
                         function (Response) {
                             if (!Response.Success) {
@@ -565,11 +556,6 @@ Core.Agent.AppointmentCalendar = (function (TargetNS) {
 
         $('.CalendarSwitch input[type="checkbox"]').each(function () {
             CalendarSwitchInit($(this));
-        });
-
-        // Set local storage for TimeLine overview.
-        $('.fc-left .fc-button-group button').on('click', function() {
-             localStorage.setItem('CalendarTimeLine', $(this).attr("class").match("fc-(month|agendaWeek|agendaDay|timelineMonth|timelineWeek|timelineDay)-button")[1]);
         });
 
         // Auto open appointment create screen.
