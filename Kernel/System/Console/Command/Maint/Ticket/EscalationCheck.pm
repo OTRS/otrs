@@ -81,7 +81,7 @@ sub Run {
     # Find all tickets which will escalate within the next five days.
     my @Tickets = $TicketObject->TicketSearch(
         Result                           => 'ARRAY',
-        Limit                            => 100,
+        Limit                            => 1000,
         TicketEscalationTimeOlderMinutes => -( 5 * 24 * 60 ),
         Permission                       => 'rw',
         UserID                           => 1,
