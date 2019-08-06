@@ -192,6 +192,10 @@ $Selenium->RunTest(
 
         # Select customer user.
         $Selenium->find_element( "#ToCustomer", 'css' )->clear();
+        $Selenium->InputFieldValueSet(
+            Element => '#Dest',
+            Value   => $Option,
+        );
         $Selenium->find_element( "#ToCustomer", 'css' )->send_keys( $TestData[0]->{UserLogin} );
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length' );
         $Selenium->execute_script("\$('li.ui-menu-item:contains($TestData[0]->{UserLogin})').click()");
