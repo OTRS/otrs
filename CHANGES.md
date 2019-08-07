@@ -1,4 +1,5 @@
 #6.0.22 ????-??-??
+ - 2019-08-07 Fixed bug#[14716](https://bugs.otrs.org/show_bug.cgi?id=14716) - Mails with attached mails (e.g. forwarded) containing period followed by long string in the subject may get stuck.
 
 #6.0.21 2019-08-23
  - 2019-08-05 Fixed bug#[14693](https://bugs.otrs.org/show_bug.cgi?id=14693) - Console command Maint::Ticket::InvalidUserCleanup doesn't pass TicketID to ArticleFlagDelete.

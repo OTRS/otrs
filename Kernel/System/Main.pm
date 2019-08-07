@@ -222,7 +222,7 @@ sub FilenameCleanUp {
         # separate filename and extension
         my $FileName = $Param{Filename};
         my $FileExt  = '';
-        if ( $Param{Filename} =~ /(.*)\.+(.*)$/ ) {
+        if ( $Param{Filename} =~ /(.*)\.+(.{1,10})$/ ) {
             $FileName = $1;
             $FileExt  = '.' . $2;
         }
@@ -263,7 +263,7 @@ sub FilenameCleanUp {
         # separate filename and extension
         my $FileName = $Param{Filename};
         my $FileExt  = '';
-        if ( $Param{Filename} =~ /(.*)\.+(.*)$/ ) {
+        if ( $Param{Filename} =~ /(.*)\.+(.{1,10})$/ ) {
             $FileName = $1;
             $FileExt  = '.' . $2;
         }
