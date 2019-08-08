@@ -92,9 +92,6 @@ Core.Agent.TicketPhone = (function (TargetNS) {
             });
             return false;
         });
-
-        // Initialize the ticket action popup.
-        Core.Agent.TicketAction.Init();
     };
 
     /**

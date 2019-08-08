@@ -3,6 +3,8 @@
  - 2019-08-07 Fixed bug#[14716](https://bugs.otrs.org/show_bug.cgi?id=14716) - Mails with attached mails (e.g. forwarded) containing period followed by long string in the subject may get stuck.
 
 #6.0.21 2019-08-23
+ - 2019-08-08 Fixed bug#[14694](https://bugs.otrs.org/show_bug.cgi?id=14694) - Multiple emails are sent out by one action.
+   A regression was introduced in a previous bugfix in OTRS 6.0.7, that resulted in an errant submit handler which would result in multiple instances of the same article in case the recipient field was entered manually.
  - 2019-08-05 Fixed bug#[14693](https://bugs.otrs.org/show_bug.cgi?id=14693) - Console command Maint::Ticket::InvalidUserCleanup doesn't pass TicketID to ArticleFlagDelete.
  - 2019-08-05 Fixed bug#[14713](https://bugs.otrs.org/show_bug.cgi?id=14713) - Untranslated strings in GenericInterface screens.
  - 2019-08-05 Fixed bug#[14644](https://bugs.otrs.org/show_bug.cgi?id=14644) - Client side validation does not show tooltips in the Appointment calendar.

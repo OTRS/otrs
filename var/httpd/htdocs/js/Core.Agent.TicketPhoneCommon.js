@@ -45,9 +45,6 @@ Core.Agent.TicketPhoneCommon = (function (TargetNS) {
             UpdateFields.push('StandardTemplateID');
             Core.AJAX.FormUpdate($(this).parents('form'), 'AJAXUpdate', 'NextStateID', UpdateFields);
         });
-
-        // Initialize the ticket action popup.
-        Core.Agent.TicketAction.Init();
     };
 
     Core.Init.RegisterNamespace(TargetNS, 'APP_MODULE');

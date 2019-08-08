@@ -99,10 +99,6 @@ Core.Agent.TicketEmail = (function (TargetNS) {
                 });
             });
         }
-
-        // initialize the ticket action popup
-        Core.Agent.TicketAction.Init();
-
     };
 
     /**

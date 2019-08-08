@@ -61,9 +61,6 @@ Core.Agent.TicketMove = (function (TargetNS) {
             });
             return false;
         });
-
-        // Initialize the ticket action popup.
-        Core.Agent.TicketAction.Init();
     };
 
     /**
