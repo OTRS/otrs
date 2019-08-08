@@ -53,6 +53,14 @@ my @Tests = (
         Type         => 'Local',
     },
     {
+        Name => 'FilenameCleanUp() - Long extension - Local',
+        FilenameOrig =>
+            'me_to/alal.xml1234567890xml1234567890xml1234567890xml1234567890xml1234567890xml1234567890xml1234567890xml1234567890xml1234567890xml1234567890xml1234567890xml1234567890xml1234567890xml1234567890xml1234567890xml1234567890xml1234567890xml1234567890xml1234567890xml1234567890xml1234567890xml1234567890',
+        FilenameNew =>
+            'me_to_alal.xml1234567890xml1234567890xml1234567890xml1234567890xml1234567890xml1234567890xml1234567890xml1234567890xml1234567890xml1234567890xml1234567890xml1234567890xml1234567890xml1234567890xml1234567890xml1234567890',
+        Type => 'Local',
+    },
+    {
         Name         => 'FilenameCleanUp() - Attachment',
         FilenameOrig => 'me_to/a+la l.xml',
         FilenameNew  => 'me_to_a+la l.xml',
