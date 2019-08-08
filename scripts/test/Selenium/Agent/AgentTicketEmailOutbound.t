@@ -217,6 +217,26 @@ $Selenium->RunTest(
             'Ticket email outbound completed'
         );
 
+        # Check email sending multiplication (see bug#14694 - https://bugs.otrs.org/show_bug.cgi?id=14694).
+        # Navigate to AgentTicketEmailOutbound screen of created test ticket.
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketEmailOutbound;TicketID=$TicketID");
+
+        my $Subject      = "TestSubject-$RandomID";
+        my $EmailAddress = "$RandomID\@example.com";
+
+        $Selenium->find_element( "#Subject",        'css' )->send_keys($Subject);
+        $Selenium->find_element( "#ToCustomer",     'css' )->send_keys($EmailAddress);
+        $Selenium->find_element( "#submitRichText", 'css' )->VerifiedClick();
+
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#ArticleTable").length;' );
+
+        # Verify that exactly one email is sent (one article is created).
+        $Self->Is(
+            $Selenium->execute_script("return \$('#ArticleTable tbody td.Subject:contains(\"$Subject\")').length;"),
+            1,
+            "Exactly one email is sent to '$EmailAddress' with subject '$Subject'",
+        );
+
         # delete created test tickets
         my $Success = $TicketObject->TicketDelete(
             TicketID => $TicketID,

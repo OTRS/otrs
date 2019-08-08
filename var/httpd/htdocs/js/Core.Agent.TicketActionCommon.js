@@ -78,9 +78,6 @@ Core.Agent.TicketActionCommon = (function (TargetNS) {
                 }
             });
         });
-
-        // Initialize the ticket action popup.
-        Core.Agent.TicketAction.Init();
     };
 
     /**

@@ -33,9 +33,6 @@ Core.Agent.TicketCompose = (function (TargetNS) {
             EmailAddressesTo = Core.Config.Get('EmailAddressesTo'),
             EmailAddressesCc = Core.Config.Get('EmailAddressesCc');
 
-        // initialize the ticket action popup
-        Core.Agent.TicketAction.Init();
-
         // remove customer user
         $('.CustomerTicketRemove').on('click', function () {
             Core.Agent.CustomerSearch.RemoveCustomerTicket($(this));

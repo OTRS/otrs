@@ -51,10 +51,6 @@ Core.Agent.TicketForward = (function (TargetNS) {
                 });
             });
         }
-
-        // initialize the ticket action popup
-        Core.Agent.TicketAction.Init();
-
     };
 
     Core.Init.RegisterNamespace(TargetNS, 'APP_MODULE');
