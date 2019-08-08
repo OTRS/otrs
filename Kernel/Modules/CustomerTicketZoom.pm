@@ -648,7 +648,7 @@ sub Run {
             },
             HistoryType      => $Config->{HistoryType},
             HistoryComment   => $Config->{HistoryComment} || '%%',
-            AutoResponseType => 'auto follow up',
+            AutoResponseType => ( $ConfigObject->Get('AutoResponseForWebTickets') ) ? 'auto follow up' : '',
         );
         if ( !$ArticleID ) {
             my $Output = $LayoutObject->CustomerHeader(

@@ -1,4 +1,5 @@
 #6.0.22 ????-??-??
+ - 2019-08-08 Fixed bug#[14665](https://bugs.otrs.org/show_bug.cgi?id=14665) - AutoResponseForWebTicket is not honored in follow-up articles.
  - 2019-08-07 Fixed bug#[14716](https://bugs.otrs.org/show_bug.cgi?id=14716) - Mails with attached mails (e.g. forwarded) containing period followed by long string in the subject may get stuck.
 
 #6.0.21 2019-08-23
