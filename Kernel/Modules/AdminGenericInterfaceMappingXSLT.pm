@@ -307,8 +307,9 @@ sub _ShowEdit {
                     Value => Translatable('Incoming response data before mapping (RequesterResponseInput)'),
                 },
                 {
-                    Key   => 'RequesterErrorHandlingOutput',
-                    Value => Translatable('Outgoing error handler data after error handling (RequesterErrorHandlingOutput)'),
+                    Key => 'RequesterErrorHandlingOutput',
+                    Value =>
+                        Translatable('Outgoing error handler data after error handling (RequesterErrorHandlingOutput)'),
                 },
             ],
         },
@@ -327,8 +328,9 @@ sub _ShowEdit {
                     Value => Translatable('Outgoing response data before mapping (ProviderResponseInput)'),
                 },
                 {
-                    Key   => 'ProviderErrorHandlingOutput',
-                    Value => Translatable('Outgoing error handler data after error handling (ProviderErrorHandlingOutput)'),
+                    Key => 'ProviderErrorHandlingOutput',
+                    Value =>
+                        Translatable('Outgoing error handler data after error handling (ProviderErrorHandlingOutput)'),
                 },
             ],
             MappingInbound => [

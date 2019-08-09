@@ -387,7 +387,7 @@ sub _ShowEdit {
 
         # Create use Proxy select.
         $Param{UseProxyStrg} = $LayoutObject->BuildSelection(
-            Data          => {
+            Data => {
                 'No'  => Translatable('No'),
                 'Yes' => Translatable('Yes'),
             },
@@ -400,7 +400,7 @@ sub _ShowEdit {
 
         # Create Proxy exclude select.
         $Param{ProxyExcludeStrg} = $LayoutObject->BuildSelection(
-            Data          => {
+            Data => {
                 'No'  => Translatable('No'),
                 'Yes' => Translatable('Yes'),
             },
@@ -420,7 +420,7 @@ sub _ShowEdit {
 
         # Create use SSL select.
         $Param{UseSSLStrg} = $LayoutObject->BuildSelection(
-            Data          => {
+            Data => {
                 'No'  => Translatable('No'),
                 'Yes' => Translatable('Yes'),
             },
