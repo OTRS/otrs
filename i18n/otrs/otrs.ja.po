@@ -3,21 +3,21 @@
 # Udo Bretz, 2018
 # Toshihiro Takehara aka nouphet <nouphet.ratanavong@gmail.com>, 2018
 # Tomy1984, 2018
-# Norihiro Tanaka <noritnk@kcn.ne.jp>, 2018
 # Kozo Sakurai <sakurai@io-architect.com>, 2018
 # Tomohisa Hirami <hirami@io-architect.com>, 2018
 # nao_j3ster_koha <sdvr.nao@gmail.com>, 2018
-# Hisatoshi Onishi <hisatoshi.onishi@gmail.com>, 2018
-# Martin Gruner <martin.gruner@otrs.com>, 2018
 # Carlos Rodríguez <carlos.rodriguez@otrs.com>, 2018
 # Kentaro Matsuzaki <kentaro0919@gmail.com>, 2019
+# Hisatoshi Onishi <hisatoshi.onishi@gmail.com>, 2019
+# Norihiro Tanaka <noritnk@kcn.ne.jp>, 2019
+# Martin Gruner <martin.gruner@otrs.com>, 2019
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-06-27 22:01+0000\n"
+"POT-Creation-Date: 2019-08-09 00:08+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
-"Last-Translator: Kentaro Matsuzaki <kentaro0919@gmail.com>, 2019\n"
+"Last-Translator: Martin Gruner <martin.gruner@otrs.com>, 2019\n"
 "Language-Team: Japanese (https://www.transifex.com/otrs/teams/23435/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -282,7 +282,7 @@ msgstr "カレンダーをインポート"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Filter for Calendars"
-msgstr ""
+msgstr "カレンダーでフィルター"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Filter for calendars"
@@ -617,7 +617,7 @@ msgstr "一日に一度"
 msgid ""
 "Notify user just once per day about a single appointment using a selected "
 "transport."
-msgstr ""
+msgstr "選択された通知方法を使って1つの予約に対して1日に1度だけユーザーに通知します。"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Notification Methods"
@@ -1010,7 +1010,7 @@ msgstr "コミュニケーション・ログ"
 
 #. Template: AdminCommunicationLog
 msgid "Time Range"
-msgstr ""
+msgstr "時間の範囲"
 
 #. Template: AdminCommunicationLog
 msgid "Show only communication logs created in specific time range."
@@ -1128,11 +1128,11 @@ msgstr "アカウントのステータス"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Back to overview"
-msgstr ""
+msgstr "一覧に戻る"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Filter for Accounts"
-msgstr ""
+msgstr "アカウントでフィルター"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Filter for accounts"
@@ -1818,6 +1818,12 @@ msgstr "リンクを表示"
 msgid ""
 "Here you can specify an optional HTTP link for the field value in Overviews "
 "and Zoom screens."
+msgstr ""
+
+#. Template: AdminDynamicFieldDateTime
+msgid ""
+"If special characters (&, @, :, /, etc.) should not be encoded, use 'url' "
+"instead of 'uri' filter."
 msgstr ""
 
 #. Template: AdminDynamicFieldDateTime
@@ -2924,6 +2930,10 @@ msgid "This invoker will be triggered by the configured events."
 msgstr "このAPI実行元は予め設定されたトリガーによって実行されます。"
 
 #. Template: AdminGenericInterfaceInvokerDefault
+msgid "Add Event"
+msgstr "イベントを追加"
+
+#. Template: AdminGenericInterfaceInvokerDefault
 msgid ""
 "To add a new event select the event object and event name and click on the "
 "\"+\" button"
@@ -3573,7 +3583,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Set to \"No\" in order to send an empty SOAPAction header."
-msgstr ""
+msgstr "「いいえ」に設定すると、空のSOAPActionヘッダーが送信されます。"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid ""
@@ -4253,6 +4263,10 @@ msgid ""
 "Ticket dynamic fields display values, useful for Dropdown and Multiselect "
 "fields"
 msgstr "チケットのダイナミック・フィールドの表示値。ドロップダウンまたは複数選択領域で利用可能"
+
+#. Template: AdminNotificationEventTransportEmailSettings
+msgid "Use comma or semicolon to separate email addresses."
+msgstr ""
 
 #. Template: AdminNotificationEventTransportEmailSettings
 msgid ""
@@ -5418,6 +5432,7 @@ msgid ""
 "Do you really want to remove this activity from the canvas? This can only be"
 " undone by leaving this screen without saving."
 msgstr ""
+"本当にこのアクティビティをキャンバス上から削除してもよろしいですか？保存せずにこの画面から移動する場合を除いてこの操作の取り消しはできません。"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid ""
@@ -7918,7 +7933,7 @@ msgstr "分割"
 
 #. Template: AgentStatisticsAdd
 msgid "Statistics Management"
-msgstr ""
+msgstr "レポート管理"
 
 #. Template: AgentStatisticsAdd
 msgid "Add Statistics"
@@ -7962,7 +7977,7 @@ msgstr "レポートを作成"
 
 #. Template: AgentStatisticsEdit
 msgid "Edit Statistics"
-msgstr ""
+msgstr "レポートを編集"
 
 #. Template: AgentStatisticsEdit
 msgid "Run now"
@@ -7978,7 +7993,7 @@ msgstr "レポートを保存"
 
 #. Template: AgentStatisticsImport
 msgid "Import Statistics"
-msgstr ""
+msgstr "レポートをインポート"
 
 #. Template: AgentStatisticsImport
 msgid "Import Statistics Configuration"
@@ -8018,7 +8033,7 @@ msgstr "レポート一覧"
 
 #. Template: AgentStatisticsView
 msgid "View Statistics"
-msgstr ""
+msgstr "統計を閲覧"
 
 #. Template: AgentStatisticsView
 msgid "Statistics Information"
@@ -9871,13 +9886,13 @@ msgstr ""
 msgid ""
 "Provide the statistic as a widget that agents can activate in their "
 "dashboard."
-msgstr ""
+msgstr "担当者が自らのダッシュボードでアクティブにできるウィジェットとして統計を利用できます。"
 
 #. Template: GeneralSpecificationsWidget
 msgid ""
 "Please note that enabling the dashboard widget will activate caching for "
 "this statistic in the dashboard."
-msgstr ""
+msgstr "ダッシュボードウィジェットを有効にすると、ダッシュボードでこの統計のキャッシュが有効化されます。"
 
 #. Template: GeneralSpecificationsWidget
 msgid "If set to invalid end users can not generate the stat."
@@ -11012,6 +11027,14 @@ msgstr "WebサービスIDの入力が必要です！"
 msgid "Could not get data for WebserviceID %s"
 msgstr "WebサービスID %s の値を取得できませんでした"
 
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceDebugger.pm
+msgid "ascending"
+msgstr "昇順"
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceDebugger.pm
+msgid "descending"
+msgstr "降順"
+
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "Need communication type!"
 msgstr "コミュニケーション・タイプが必要です！"
@@ -11042,6 +11065,54 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "Could not determine config for error handler %s"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
+msgid "Invoker processing outgoing request data"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
+msgid "Mapping outgoing request data"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
+msgid "Transport processing request into response"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
+msgid "Mapping incoming response data"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
+msgid "Invoker processing incoming response data"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
+msgid "Transport receiving incoming request data"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
+msgid "Mapping incoming request data"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
+msgid "Operation processing incoming request data"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
+msgid "Mapping outgoing response data"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
+msgid "Transport sending outgoing response data"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
+msgid "skip same backend modules only"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
+msgid "skip all modules"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
@@ -11202,16 +11273,56 @@ msgstr "API実行元が必要です!"
 msgid "Need Event!"
 msgstr "イベントが必要！"
 
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
+msgid "Could not get registered modules for Invoker"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
+msgid "Could not get backend for Invoker %s"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
+msgid "The event %s is not valid."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
+msgid "Could not update configuration data for WebserviceID %s"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
+msgid "This sub-action is not valid"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
+msgid "xor"
+msgstr "xor"
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
+msgid "String"
+msgstr "文字列"
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
+msgid "Regexp"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
+msgid "Validation Module"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
+msgid "Simple Mapping for Outgoing Data"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
+msgid "Simple Mapping for Incoming Data"
+msgstr ""
+
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
 msgid "Could not get registered configuration for action type %s"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
 msgid "Could not get backend for %s %s"
-msgstr ""
-
-#. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
-msgid "Could not update configuration data for WebserviceID %s"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
@@ -11235,39 +11346,55 @@ msgid "Ignore (drop Value/value pair)"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
+msgid "XSLT Mapping for Outgoing Data"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
+msgid "XSLT Mapping for Incoming Data"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
 msgid "Could not find required library %s"
 msgstr "必要なライブラリ%sを見つけることができませんでした。"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
-msgid "Outgoing request data before processing"
-msgstr "処理前の送信要求データ"
-
-#. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
-msgid "Outgoing request data before mapping"
+msgid "Outgoing request data before processing (RequesterRequestInput)"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
-msgid "Outgoing request data after mapping"
+msgid "Outgoing request data before mapping (RequesterRequestPrepareOutput)"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
-msgid "Incoming response data before mapping"
+msgid "Outgoing request data after mapping (RequesterRequestMapOutput)"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
-msgid "Outgoing error handler data after error handling"
+msgid "Incoming response data before mapping (RequesterResponseInput)"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
-msgid "Incoming request data before mapping"
+msgid ""
+"Outgoing error handler data after error handling "
+"(RequesterErrorHandlingOutput)"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
-msgid "Incoming request data after mapping"
+msgid "Incoming request data before mapping (ProviderRequestInput)"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
-msgid "Outgoing response data before mapping"
+msgid "Incoming request data after mapping (ProviderRequestMapOutput)"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
+msgid "Outgoing response data before mapping (ProviderResponseInput)"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
+msgid ""
+"Outgoing error handler data after error handling "
+"(ProviderErrorHandlingOutput)"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceOperationDefault.pm
@@ -11313,6 +11440,10 @@ msgstr "名前の入力が必要です！"
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Need ExampleWebService!"
 msgstr "ExampleWebServiceが必要です！"
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
+msgid "Could not load %s."
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Could not read %s!"
@@ -11421,6 +11552,14 @@ msgstr "最初の記事の全ての受信者"
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "All recipients of the last article"
 msgstr "最後の記事の全ての受信者"
+
+#. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
+msgid "Invisible to customer"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
+msgid "Visible to customer"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminOTRSBusiness.pm
 msgid "Your system was successfully upgraded to %s."
@@ -11825,14 +11964,6 @@ msgstr "遷移の更新時にエラーが発生しました。"
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
 msgid "Edit Transition \"%s\""
 msgstr "遷移 \"%s\" を編集する"
-
-#. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
-msgid "xor"
-msgstr "xor"
-
-#. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
-msgid "String"
-msgstr "文字列"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
 msgid "Transition validation module"
@@ -12368,7 +12499,7 @@ msgstr "顧客ユーザー名"
 
 #. Perl Module: Kernel/Modules/AgentLinkObject.pm
 msgid "Need SourceObject and SourceKey!"
-msgstr ""
+msgstr "ソース・オブジェクトとソース・キーが必要です！"
 
 #. Perl Module: Kernel/Modules/AgentLinkObject.pm
 msgid "You need ro permission!"
@@ -12404,7 +12535,7 @@ msgstr "パラメータ Groupが必要です！"
 
 #. Perl Module: Kernel/Modules/AgentPreferences.pm
 msgid "Updated user preferences"
-msgstr ""
+msgstr "ユーザー設定を更新しました"
 
 #. Perl Module: Kernel/Modules/AgentPreferences.pm
 msgid "System was unable to deploy your changes."
@@ -14656,14 +14787,6 @@ msgid "unlimited"
 msgstr "無制限"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
-msgid "ascending"
-msgstr "昇順"
-
-#. Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
-msgid "descending"
-msgstr "降順"
-
-#. Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
 msgid "Attributes to be printed"
 msgstr "印刷する属性"
 
@@ -15651,35 +15774,35 @@ msgstr "問題"
 
 #. Perl Module: Kernel/System/SysConfig.pm
 msgid "Setting %s does not exists!"
-msgstr ""
+msgstr "設定 %s は存在しません！"
 
 #. Perl Module: Kernel/System/SysConfig.pm
 msgid "Setting %s is not locked to this user!"
-msgstr ""
+msgstr "Setting %s is not locked to this user!"
 
 #. Perl Module: Kernel/System/SysConfig.pm
 msgid "Setting value is not valid!"
-msgstr ""
+msgstr "設定された値は無効です！"
 
 #. Perl Module: Kernel/System/SysConfig.pm
 msgid "Could not add modified setting!"
-msgstr ""
+msgstr "変更した設定を追加できませんでした！"
 
 #. Perl Module: Kernel/System/SysConfig.pm
 msgid "Could not update modified setting!"
-msgstr ""
+msgstr "変更した設定を更新できませんでした！"
 
 #. Perl Module: Kernel/System/SysConfig.pm
 msgid "Setting could not be unlocked!"
-msgstr ""
+msgstr "設定はアンロックされていません！"
 
 #. Perl Module: Kernel/System/SysConfig.pm
 msgid "Missing key %s!"
-msgstr ""
+msgstr "キー %s がありません！"
 
 #. Perl Module: Kernel/System/SysConfig.pm
 msgid "Invalid setting: %s"
-msgstr ""
+msgstr "設定が不正です: %s"
 
 #. Perl Module: Kernel/System/SysConfig.pm
 msgid "Could not combine settings values into a perl hash."
@@ -17292,7 +17415,7 @@ msgstr "5分"
 
 #. SysConfig
 msgid "A TicketWatcher Module."
-msgstr ""
+msgstr "TicketWatcher モジュール"
 
 #. SysConfig
 msgid "A Website"
@@ -17474,7 +17597,7 @@ msgstr "担当者Webインタフェースの管理ナビゲーション"
 
 #. SysConfig
 msgid "Admin modules overview."
-msgstr ""
+msgstr "管理モジュール一覧"
 
 #. SysConfig
 msgid "Admin."
@@ -17506,7 +17629,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Agent Statistics."
-msgstr ""
+msgstr "担当者に関する統計"
 
 #. SysConfig
 msgid "Agent User Search"
@@ -18611,11 +18734,11 @@ msgstr "クロアチア"
 
 #. SysConfig
 msgid "Custom RSS Feed"
-msgstr ""
+msgstr "カスタムRSSフィード"
 
 #. SysConfig
 msgid "Custom RSS feed."
-msgstr ""
+msgstr "カスタムRSSフィード"
 
 #. SysConfig
 msgid ""
@@ -18749,7 +18872,7 @@ msgstr "デンマーク語"
 
 #. SysConfig
 msgid "Dashboard overview."
-msgstr ""
+msgstr "ダッシュボード一覧"
 
 #. SysConfig
 msgid "Data used to export the search result in CSV format."
@@ -20936,6 +21059,7 @@ msgid ""
 "Defines the period of time (in minutes) before agent is marked as \"away\" "
 "due to inactivity (e.g. in the \"Logged-In Users\" widget or for the chat)."
 msgstr ""
+"担当者が非アクティブのために「不在」としてマークされるまでの期間（分単位）を定義します（たとえば、「ログインユーザー」ウィジェット内またはチャット用）。"
 
 #. SysConfig
 msgid ""
@@ -20943,6 +21067,7 @@ msgid ""
 "\"away\" due to inactivity (e.g. in the \"Logged-In Users\" widget or for "
 "the chat)."
 msgstr ""
+"顧客が非アクティブのために「不在」としてマークされるまでの期間（分単位）を定義します（たとえば、「ログインユーザー」ウィジェット内またはチャット用）。"
 
 #. SysConfig
 msgid "Defines the postmaster default queue."
@@ -20985,7 +21110,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Defines the sender for rejected emails."
-msgstr ""
+msgstr "リジェクトされたEメールの送信者を定義します。"
 
 #. SysConfig
 msgid ""
@@ -21534,7 +21659,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Dynamic fields limit per page for Dynamic Fields Overview."
-msgstr ""
+msgstr "ダイナミック・フィールド一覧内のダイナミック・フィールド表示上限数"
 
 #. SysConfig
 msgid ""
@@ -21916,31 +22041,31 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Event module that updates customer user object name for dynamic fields."
-msgstr ""
+msgstr "ダイナミック・フィールドに対応する顧客ユーザーオブジェクト名を更新するイベント・モジュール"
 
 #. SysConfig
 msgid ""
 "Event module that updates customer user search profiles if login changes."
-msgstr ""
+msgstr "ログインが変更された際に顧客ユーザーの検索プロファイルを更新するイベント・モジュール"
 
 #. SysConfig
 msgid ""
 "Event module that updates customer user service membership if login changes."
-msgstr ""
+msgstr "ログインが変更された際に顧客ユーザーのサービスメンバーシップを更新するイベント・モジュール"
 
 #. SysConfig
 msgid ""
 "Event module that updates customer users after an update of the Customer."
-msgstr ""
+msgstr "顧客情報が更新された際に顧客ユーザー情報を更新するイベント・モジュール"
 
 #. SysConfig
 msgid ""
 "Event module that updates tickets after an update of the Customer User."
-msgstr ""
+msgstr "顧客ユーザー情報が更新された際チケットを更新するイベント・モジュール"
 
 #. SysConfig
 msgid "Event module that updates tickets after an update of the Customer."
-msgstr ""
+msgstr "顧客情報が更新された際にチケットを更新するイベント・モジュール"
 
 #. SysConfig
 msgid "Events Ticket Calendar"
@@ -26408,7 +26533,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Statistics overview."
-msgstr ""
+msgstr "レポート一覧"
 
 #. SysConfig
 msgid "Status view"

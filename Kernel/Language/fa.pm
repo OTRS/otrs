@@ -26,7 +26,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.697642637512812;
+    $Self->{Completeness}        = 0.694373618901921;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -571,6 +571,8 @@ sub Data {
         'Show link' => 'نمایش لینک',
         'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
             'در اینجا شما می توانید یک لینک HTTP اختیاری برای مقدار فیلد در صفحه نمایش بررسی ها و زوم را مشخص کنید.',
+        'If special characters (&, @, :, /, etc.) should not be encoded, use \'url\' instead of \'uri\' filter.' =>
+            '',
         'Example' => 'مثال',
         'Link for preview' => 'لینک برای پیش نمایش',
         'If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too.' =>
@@ -888,6 +890,7 @@ sub Data {
         'Condition' => 'وضعیت',
         'Edit this event' => '',
         'This invoker will be triggered by the configured events.' => 'این invoker باعث ایجاد حوادث پیکربندی خواهد شد . ',
+        'Add Event' => 'اضافه کردن رویداد',
         'To add a new event select the event object and event name and click on the "+" button' =>
             'برای اضافه کردن یک رویداد جدید انتخاب موضوع رویداد و نام  رویداد و کلیک بر روی  دکمه \ "+ " میباشد',
         'Asynchronous event triggers are handled by the OTRS Scheduler Daemon in background (recommended).' =>
@@ -1298,6 +1301,7 @@ sub Data {
             'بلیط زمینه های پویا نمایش مقادیر، مفید برای زمینه های کرکره و چندین انتخاب',
 
         # Template: AdminNotificationEventTransportEmailSettings
+        'Use comma or semicolon to separate email addresses.' => '',
         'You can use OTRS-tags like <OTRS_TICKET_DynamicField_...> to insert values from the current ticket.' =>
             '',
 
@@ -3552,6 +3556,8 @@ sub Data {
         # Perl Module: Kernel/Modules/AdminGenericInterfaceDebugger.pm
         'Need WebserviceID!' => 'نیاز WebserviceID!',
         'Could not get data for WebserviceID %s' => 'می تواند داده ها را برای WebserviceID نیست %s',
+        'ascending' => 'صعودی',
+        'descending' => 'نزولی',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
         'Need communication type!' => '',
@@ -3563,6 +3569,18 @@ sub Data {
         'Could not update web service' => '',
         'Need ErrorHandling' => '',
         'Could not determine config for error handler %s' => '',
+        'Invoker processing outgoing request data' => '',
+        'Mapping outgoing request data' => '',
+        'Transport processing request into response' => '',
+        'Mapping incoming response data' => '',
+        'Invoker processing incoming response data' => '',
+        'Transport receiving incoming request data' => '',
+        'Mapping incoming request data' => '',
+        'Operation processing incoming request data' => '',
+        'Mapping outgoing response data' => '',
+        'Transport sending outgoing response data' => '',
+        'skip same backend modules only' => '',
+        'skip all modules' => '',
         'Operation deleted' => '',
         'Invoker deleted' => '',
 
@@ -3602,11 +3620,21 @@ sub Data {
         # Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
         'Need Invoker!' => '',
         'Need Event!' => '',
+        'Could not get registered modules for Invoker' => '',
+        'Could not get backend for Invoker %s' => '',
+        'The event %s is not valid.' => '',
+        'Could not update configuration data for WebserviceID %s' => 'می تواند داده های پیکربندی برای WebserviceID به روز رسانی کنید %s',
+        'This sub-action is not valid' => '',
+        'xor' => 'XOR',
+        'String' => 'String',
+        'Regexp' => '',
+        'Validation Module' => '',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
+        'Simple Mapping for Outgoing Data' => '',
+        'Simple Mapping for Incoming Data' => '',
         'Could not get registered configuration for action type %s' => 'می تواند پیکربندی ثبت نام برای نوع عمل نمی %s',
         'Could not get backend for %s %s' => 'می تواند باطن برای دریافت %s %s',
-        'Could not update configuration data for WebserviceID %s' => 'می تواند داده های پیکربندی برای WebserviceID به روز رسانی کنید %s',
         'Keep (leave unchanged)' => 'نگه دارید (ترک بدون تغییر)',
         'Ignore (drop key/value pair)' => 'نادیده گرفتن (کلید قطره / جفت ارزش)',
         'Map to (use provided value as default)' => 'نقشه به (استفاده ارائه ارزش به عنوان پیش فرض)',
@@ -3614,15 +3642,26 @@ sub Data {
         'Ignore (drop Value/value pair)' => 'نادیده گرفتن (رها ارزش جفت / ارزش)',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
+        'XSLT Mapping for Outgoing Data' => '',
+        'XSLT Mapping for Incoming Data' => '',
         'Could not find required library %s' => 'نمی توانید کتابخانه مورد نیازرا پیدا کنید %s',
-        'Outgoing request data before processing' => '',
-        'Outgoing request data before mapping' => '',
-        'Outgoing request data after mapping' => '',
-        'Incoming response data before mapping' => '',
-        'Outgoing error handler data after error handling' => '',
-        'Incoming request data before mapping' => '',
-        'Incoming request data after mapping' => '',
-        'Outgoing response data before mapping' => '',
+        'Outgoing request data before processing (RequesterRequestInput)' =>
+            '',
+        'Outgoing request data before mapping (RequesterRequestPrepareOutput)' =>
+            '',
+        'Outgoing request data after mapping (RequesterRequestMapOutput)' =>
+            '',
+        'Incoming response data before mapping (RequesterResponseInput)' =>
+            '',
+        'Outgoing error handler data after error handling (RequesterErrorHandlingOutput)' =>
+            '',
+        'Incoming request data before mapping (ProviderRequestInput)' => '',
+        'Incoming request data after mapping (ProviderRequestMapOutput)' =>
+            '',
+        'Outgoing response data before mapping (ProviderResponseInput)' =>
+            '',
+        'Outgoing error handler data after error handling (ProviderErrorHandlingOutput)' =>
+            '',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceOperationDefault.pm
         'Could not determine config for operation %s' => 'می تواند پیکربندی برای عملیات مشخص نیست %s',
@@ -3640,6 +3679,7 @@ sub Data {
         'Web service "%s" created!' => 'وب سرویس \ " %s " ایجاد شده است!',
         'Need Name!' => 'نیاز به نام!',
         'Need ExampleWebService!' => 'نیاز ExampleWebService!',
+        'Could not load %s.' => '',
         'Could not read %s!' => 'قادر به خواندن نیست %s !',
         'Need a file to import!' => 'نیاز به یک فایل برای دریافت است .',
         'The imported file has not valid YAML content! Please check OTRS log for details' =>
@@ -3677,6 +3717,8 @@ sub Data {
         'Customer user of the ticket' => '',
         'All recipients of the first article' => '',
         'All recipients of the last article' => '',
+        'Invisible to customer' => '',
+        'Visible to customer' => '',
 
         # Perl Module: Kernel/Modules/AdminOTRSBusiness.pm
         'Your system was successfully upgraded to %s.' => 'سیستم شما با موفقیت در%s به روز رسانی شد  .',
@@ -3810,8 +3852,6 @@ sub Data {
         'Could not get data for TransitionID %s' => 'نمی تواند داده ها را برای TransitionID گرفت %s',
         'There was an error updating the Transition' => 'خطایی هنگام انتقال وجود دارد',
         'Edit Transition "%s"' => 'ویرایش گذار \ " %s "',
-        'xor' => 'XOR',
-        'String' => 'String',
         'Transition validation module' => 'انتقال ماژول اعتبار سنجی',
 
         # Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
@@ -4875,8 +4915,6 @@ sub Data {
 
         # Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
         'unlimited' => 'نا محدود',
-        'ascending' => 'صعودی',
-        'descending' => 'نزولی',
         'Attributes to be printed' => 'خواصی که قرار است چاپ شوند',
         'Sort sequence' => 'توالی ترتیب',
         'State Historic' => 'تاریخی ایالتی',

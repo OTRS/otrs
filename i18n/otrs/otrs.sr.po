@@ -1,14 +1,14 @@
 # Translators:
 # Udo Bretz, 2018
 # Jaroslav Balaz <balazj315@gmail.com>, 2018
-# Милорад Јовановић <j.milorad@gmail.com>, 2018
 # Martin Gruner <martin.gruner@otrs.com>, 2019
+# Милорад Јовановић <j.milorad@gmail.com>, 2019
 # Dusan Vuckovic, 2019
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-06-27 22:01+0000\n"
+"POT-Creation-Date: 2019-08-09 00:08+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: Dusan Vuckovic, 2019\n"
 "Language-Team: Serbian (https://www.transifex.com/otrs/teams/23435/sr/)\n"
@@ -185,7 +185,7 @@ msgstr ""
 
 #. Template: AdminACLEdit
 msgid "Check the official %sdocumentation%s."
-msgstr ""
+msgstr "Прочитајте званичну %sдокументацију%s."
 
 #. Template: AdminACLEdit
 msgid "Show or hide the content"
@@ -1912,6 +1912,12 @@ msgstr ""
 "прегледа."
 
 #. Template: AdminDynamicFieldDateTime
+msgid ""
+"If special characters (&, @, :, /, etc.) should not be encoded, use 'url' "
+"instead of 'uri' filter."
+msgstr ""
+
+#. Template: AdminDynamicFieldDateTime
 msgid "Example"
 msgstr "Пример"
 
@@ -3100,6 +3106,10 @@ msgstr "Уреди овај догађај"
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "This invoker will be triggered by the configured events."
 msgstr "Овај позиваоц ће бити активиран преко подешених догађаја."
+
+#. Template: AdminGenericInterfaceInvokerDefault
+msgid "Add Event"
+msgstr "Додај догађај"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid ""
@@ -4552,6 +4562,10 @@ msgid ""
 msgstr ""
 "Приказане вредности динамичких поља, корисно за падајућа и поља са "
 "вишеструким избором."
+
+#. Template: AdminNotificationEventTransportEmailSettings
+msgid "Use comma or semicolon to separate email addresses."
+msgstr ""
 
 #. Template: AdminNotificationEventTransportEmailSettings
 msgid ""
@@ -11645,6 +11659,14 @@ msgstr "Неопходан WebserviceID!"
 msgid "Could not get data for WebserviceID %s"
 msgstr "Не могу прибавити податке за ID веб сервиса %s"
 
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceDebugger.pm
+msgid "ascending"
+msgstr "растући"
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceDebugger.pm
+msgid "descending"
+msgstr "опадајући"
+
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "Need communication type!"
 msgstr "Неопходан тип комуникације!"
@@ -11676,6 +11698,54 @@ msgstr "Неопходан ErrorHandling"
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "Could not determine config for error handler %s"
 msgstr "Није могуће утврдити конфигурацију за обраду грешке %s"
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
+msgid "Invoker processing outgoing request data"
+msgstr "Обрада излазних података захтева у позиваоцу"
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
+msgid "Mapping outgoing request data"
+msgstr "Мапирање излазних података захтева"
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
+msgid "Transport processing request into response"
+msgstr "Обрада захтева у одговор у транспорту"
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
+msgid "Mapping incoming response data"
+msgstr "Мапирање долазних података одговора"
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
+msgid "Invoker processing incoming response data"
+msgstr "Обрада долазних података одговара у позиваоцу"
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
+msgid "Transport receiving incoming request data"
+msgstr "Примање долазних података захтева у транспорту"
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
+msgid "Mapping incoming request data"
+msgstr "Мапирање долазних података захтева"
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
+msgid "Operation processing incoming request data"
+msgstr "Обрада долазних података захтева у операцији"
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
+msgid "Mapping outgoing response data"
+msgstr "Мапирање одлазних података одговора"
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
+msgid "Transport sending outgoing response data"
+msgstr "Слање одлазних података одговора у транспорту"
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
+msgid "skip same backend modules only"
+msgstr "прескочи само исте позадинске модуле"
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
+msgid "skip all modules"
+msgstr "прескочи све модуле"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "Operation deleted"
@@ -11835,6 +11905,50 @@ msgstr "Неопходан позивалац!"
 msgid "Need Event!"
 msgstr "Неопходан догађај!"
 
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
+msgid "Could not get registered modules for Invoker"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
+msgid "Could not get backend for Invoker %s"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
+msgid "The event %s is not valid."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
+msgid "Could not update configuration data for WebserviceID %s"
+msgstr "Не могу ажурирати конфигурационе податке за ID веб сервиса %s"
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
+msgid "This sub-action is not valid"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
+msgid "xor"
+msgstr "xor"
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
+msgid "String"
+msgstr "Низ знакова"
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
+msgid "Regexp"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
+msgid "Validation Module"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
+msgid "Simple Mapping for Outgoing Data"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
+msgid "Simple Mapping for Incoming Data"
+msgstr ""
+
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
 msgid "Could not get registered configuration for action type %s"
 msgstr "Не могу прибавити регистровану конфигурацију за тип акције %s"
@@ -11842,10 +11956,6 @@ msgstr "Не могу прибавити регистровану конфигу
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
 msgid "Could not get backend for %s %s"
 msgstr "Није могуће пронаћи модул за %s %s"
-
-#. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
-msgid "Could not update configuration data for WebserviceID %s"
-msgstr "Не могу ажурирати конфигурационе податке за ID веб сервиса %s"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
 msgid "Keep (leave unchanged)"
@@ -11868,40 +11978,56 @@ msgid "Ignore (drop Value/value pair)"
 msgstr "Игнориши (одбаци пар вредност/вредност)"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
+msgid "XSLT Mapping for Outgoing Data"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
+msgid "XSLT Mapping for Incoming Data"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
 msgid "Could not find required library %s"
 msgstr "Није могуће пронаћи потребну библиотеку %s"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
-msgid "Outgoing request data before processing"
-msgstr "Подаци одлазећег захтева пре извршавања"
+msgid "Outgoing request data before processing (RequesterRequestInput)"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
-msgid "Outgoing request data before mapping"
-msgstr "Подаци одлазећег захтева пре мапирања"
+msgid "Outgoing request data before mapping (RequesterRequestPrepareOutput)"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
-msgid "Outgoing request data after mapping"
-msgstr "Подаци одлазећег захтева после извршавања"
+msgid "Outgoing request data after mapping (RequesterRequestMapOutput)"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
-msgid "Incoming response data before mapping"
-msgstr "Подаци примљеног одговора пре мапирања"
+msgid "Incoming response data before mapping (RequesterResponseInput)"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
-msgid "Outgoing error handler data after error handling"
-msgstr "Подаци о одлазећој грешци после обраде грешке"
+msgid ""
+"Outgoing error handler data after error handling "
+"(RequesterErrorHandlingOutput)"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
-msgid "Incoming request data before mapping"
-msgstr "Подаци примљеног захтева пре мапирања"
+msgid "Incoming request data before mapping (ProviderRequestInput)"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
-msgid "Incoming request data after mapping"
-msgstr "Подаци примљеног захтева после мапирања"
+msgid "Incoming request data after mapping (ProviderRequestMapOutput)"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
-msgid "Outgoing response data before mapping"
-msgstr "Подаци одлазећег одговора пре мапирања"
+msgid "Outgoing response data before mapping (ProviderResponseInput)"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
+msgid ""
+"Outgoing error handler data after error handling "
+"(ProviderErrorHandlingOutput)"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceOperationDefault.pm
 msgid "Could not determine config for operation %s"
@@ -11946,6 +12072,10 @@ msgstr "Неопходан Name!"
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Need ExampleWebService!"
 msgstr "Неопходан ExampleWebService!"
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
+msgid "Could not load %s."
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Could not read %s!"
@@ -12057,6 +12187,14 @@ msgstr "Сви примаоци првог чланка"
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "All recipients of the last article"
 msgstr "Сви примаоци последњег чланка"
+
+#. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
+msgid "Invisible to customer"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
+msgid "Visible to customer"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminOTRSBusiness.pm
 msgid "Your system was successfully upgraded to %s."
@@ -12488,14 +12626,6 @@ msgstr "Дошло је до грешке приликом ажурирања Т
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
 msgid "Edit Transition \"%s\""
 msgstr "Уреди транзицију \"%s\""
-
-#. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
-msgid "xor"
-msgstr "xor"
-
-#. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
-msgid "String"
-msgstr "Низ знакова"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
 msgid "Transition validation module"
@@ -15439,14 +15569,6 @@ msgid "unlimited"
 msgstr "неограничено"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
-msgid "ascending"
-msgstr "растући"
-
-#. Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
-msgid "descending"
-msgstr "опадајући"
-
-#. Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
 msgid "Attributes to be printed"
 msgstr "Атрибути за штампу"
 
@@ -15847,7 +15969,7 @@ msgstr "Сви захтевани Perl модули нису коректно и
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
 msgid "Perl Modules Audit"
-msgstr ""
+msgstr "Сигурносна провера Perl модула"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
@@ -15856,6 +15978,9 @@ msgid ""
 "vulnerabilities. Please note that there might be false positives for "
 "distributions patching Perl modules without changing their version number."
 msgstr ""
+"CPAN::Audit је детектовао један или више рањивих Perl модула инсталираних на"
+" систему. Молимо обратите пажњу да су могући лажно позитивни резултати за "
+"дистрибуције које освежавају Perl модуле без промене њихове верзије."
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
@@ -15863,6 +15988,7 @@ msgid ""
 "CPAN::Audit did not report any known vulnerabilities in the installed Perl "
 "modules."
 msgstr ""
+"CPAN::Audit није детектовао рањиве Perl модуле инсталиране на систему."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Swap.pm
 msgid "Free Swap Space (%)"
@@ -17289,7 +17415,7 @@ msgstr "Ажурирање пакета је завршено. Кликните 
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "No response from get package upgrade result."
-msgstr ""
+msgstr "Без одговора од команде за унапређење пакета."
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "Update all packages"
@@ -17305,7 +17431,7 @@ msgstr "Ажурирај све пакете"
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "No response from package upgrade all."
-msgstr ""
+msgstr "Без одговора од команде за унапређење свих пакета."
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "Currently not possible"
@@ -17326,7 +17452,7 @@ msgstr "Да ли сте сигурни да желите да унапреди�
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "No response from get package upgrade run status."
-msgstr ""
+msgstr "Без одговора од команде за статус унапређења пакета."
 
 #. JS File: Core.Agent.Admin.PostMasterFilter
 msgid "Delete this PostMasterFilter"
@@ -22323,7 +22449,7 @@ msgid ""
 "specified (external) mailserver. \"DoNotSendEmail\" doesn't send emails and "
 "it is useful for test systems."
 msgstr ""
-"Дефинише модуле за слање имејл порука. \"Sendmail\" директно користи "
+"Одређује модуле за слање имејл порука. \"Sendmail\" директно користи "
 "апликацију вашег оперативног система за слање имејла. Сваки од \"SMTP\" "
 "механизама користи специфичан (екстерни) имејл сервер. \"DoNotSendEmail\" не"
 " шаље имејлове и то је корисно при тестирању система."

@@ -71,15 +71,15 @@ sub Run {
     # Check for valid web service configuration.
     if ( !IsHashRefWithData($WebserviceData) ) {
         return $LayoutObject->ErrorScreen(
-            Message => $LayoutObject->{LanguageObject}
-                ->Translate( 'Could not get data for WebserviceID %s', $WebserviceID ),
+            Message =>
+                $LayoutObject->{LanguageObject}->Translate( 'Could not get data for WebserviceID %s', $WebserviceID ),
         );
     }
 
     if ( !IsHashRefWithData( $WebserviceData->{Config}->{Requester}->{Invoker}->{$Invoker} ) ) {
         return $LayoutObject->ErrorScreen(
-            Message => $LayoutObject->{LanguageObject}
-                ->Translate( 'Could not determine config for invoker %s', $Invoker ),
+            Message =>
+                $LayoutObject->{LanguageObject}->Translate( 'Could not determine config for invoker %s', $Invoker ),
         );
     }
 
@@ -348,7 +348,7 @@ sub _ShowEdit {
     $Param{DeletedString} = $Self->{DeletedString};
 
     $Param{FreshConditionLinking} = $LayoutObject->BuildSelection(
-        Data        => {
+        Data => {
             'and' => Translatable('and'),
             'or'  => Translatable('or'),
             'xor' => Translatable('xor'),
@@ -382,7 +382,7 @@ sub _ShowEdit {
     {
 
         $Param{OverallConditionLinking} = $LayoutObject->BuildSelection(
-            Data        => {
+            Data => {
                 'and' => Translatable('and'),
                 'or'  => Translatable('or'),
                 'xor' => Translatable('xor'),
@@ -402,7 +402,7 @@ sub _ShowEdit {
             my %ConditionData = %{ $ConditionData->{Condition}->{$Condition} };
 
             my $ConditionLinking = $LayoutObject->BuildSelection(
-                Data        => {
+                Data => {
                     'and' => Translatable('and'),
                     'or'  => Translatable('or'),
                     'xor' => Translatable('xor'),
@@ -455,7 +455,7 @@ sub _ShowEdit {
     else {
 
         $Param{OverallConditionLinking} = $LayoutObject->BuildSelection(
-            Data        => {
+            Data => {
                 'and' => Translatable('and'),
                 'or'  => Translatable('or'),
                 'xor' => Translatable('xor'),
@@ -468,7 +468,7 @@ sub _ShowEdit {
         );
 
         $Param{ConditionLinking} = $LayoutObject->BuildSelection(
-            Data        => {
+            Data => {
                 'and' => Translatable('and'),
                 'or'  => Translatable('or'),
                 'xor' => Translatable('xor'),

@@ -1,14 +1,14 @@
 # Translators:
 # Udo Bretz, 2018
 # Martin Gruner <martin.gruner@otrs.com>, 2018
-# Isabell Long <isabell@issyl0.co.uk>, 2018
+# Isabell Long <isabell@issyl0.co.uk>, 2019
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-06-27 22:01+0000\n"
+"POT-Creation-Date: 2019-08-09 00:08+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
-"Last-Translator: Isabell Long <isabell@issyl0.co.uk>, 2018\n"
+"Last-Translator: Isabell Long <isabell@issyl0.co.uk>, 2019\n"
 "Language-Team: English (United Kingdom) (https://www.transifex.com/otrs/teams/23435/en_GB/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1868,6 +1868,12 @@ msgstr ""
 "and Zoom screens."
 
 #. Template: AdminDynamicFieldDateTime
+msgid ""
+"If special characters (&, @, :, /, etc.) should not be encoded, use 'url' "
+"instead of 'uri' filter."
+msgstr ""
+
+#. Template: AdminDynamicFieldDateTime
 msgid "Example"
 msgstr "Example"
 
@@ -2992,6 +2998,10 @@ msgstr ""
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "This invoker will be triggered by the configured events."
 msgstr "This invoker will be triggered by the configured events."
+
+#. Template: AdminGenericInterfaceInvokerDefault
+msgid "Add Event"
+msgstr "Add Event"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid ""
@@ -4395,6 +4405,10 @@ msgid ""
 msgstr ""
 "Ticket dynamic fields display values, useful for Dropdown and Multiselect "
 "fields"
+
+#. Template: AdminNotificationEventTransportEmailSettings
+msgid "Use comma or semicolon to separate email addresses."
+msgstr ""
 
 #. Template: AdminNotificationEventTransportEmailSettings
 msgid ""
@@ -11359,6 +11373,14 @@ msgstr "Need WebserviceID!"
 msgid "Could not get data for WebserviceID %s"
 msgstr "Could not get data for WebserviceID %s"
 
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceDebugger.pm
+msgid "ascending"
+msgstr "ascending"
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceDebugger.pm
+msgid "descending"
+msgstr "descending"
+
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "Need communication type!"
 msgstr ""
@@ -11389,6 +11411,54 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "Could not determine config for error handler %s"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
+msgid "Invoker processing outgoing request data"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
+msgid "Mapping outgoing request data"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
+msgid "Transport processing request into response"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
+msgid "Mapping incoming response data"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
+msgid "Invoker processing incoming response data"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
+msgid "Transport receiving incoming request data"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
+msgid "Mapping incoming request data"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
+msgid "Operation processing incoming request data"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
+msgid "Mapping outgoing response data"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
+msgid "Transport sending outgoing response data"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
+msgid "skip same backend modules only"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
+msgid "skip all modules"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
@@ -11549,6 +11619,50 @@ msgstr ""
 msgid "Need Event!"
 msgstr ""
 
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
+msgid "Could not get registered modules for Invoker"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
+msgid "Could not get backend for Invoker %s"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
+msgid "The event %s is not valid."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
+msgid "Could not update configuration data for WebserviceID %s"
+msgstr "Could not update configuration data for WebserviceID %s"
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
+msgid "This sub-action is not valid"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
+msgid "xor"
+msgstr "xor"
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
+msgid "String"
+msgstr "String"
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
+msgid "Regexp"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
+msgid "Validation Module"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
+msgid "Simple Mapping for Outgoing Data"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
+msgid "Simple Mapping for Incoming Data"
+msgstr ""
+
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
 msgid "Could not get registered configuration for action type %s"
 msgstr "Could not get registered configuration for action type %s"
@@ -11556,10 +11670,6 @@ msgstr "Could not get registered configuration for action type %s"
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
 msgid "Could not get backend for %s %s"
 msgstr "Could not get backend for %s %s"
-
-#. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
-msgid "Could not update configuration data for WebserviceID %s"
-msgstr "Could not update configuration data for WebserviceID %s"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
 msgid "Keep (leave unchanged)"
@@ -11582,39 +11692,55 @@ msgid "Ignore (drop Value/value pair)"
 msgstr "Ignore (drop Value/value pair)"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
+msgid "XSLT Mapping for Outgoing Data"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
+msgid "XSLT Mapping for Incoming Data"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
 msgid "Could not find required library %s"
 msgstr "Could not find required library %s"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
-msgid "Outgoing request data before processing"
+msgid "Outgoing request data before processing (RequesterRequestInput)"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
-msgid "Outgoing request data before mapping"
+msgid "Outgoing request data before mapping (RequesterRequestPrepareOutput)"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
-msgid "Outgoing request data after mapping"
+msgid "Outgoing request data after mapping (RequesterRequestMapOutput)"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
-msgid "Incoming response data before mapping"
+msgid "Incoming response data before mapping (RequesterResponseInput)"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
-msgid "Outgoing error handler data after error handling"
+msgid ""
+"Outgoing error handler data after error handling "
+"(RequesterErrorHandlingOutput)"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
-msgid "Incoming request data before mapping"
+msgid "Incoming request data before mapping (ProviderRequestInput)"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
-msgid "Incoming request data after mapping"
+msgid "Incoming request data after mapping (ProviderRequestMapOutput)"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
-msgid "Outgoing response data before mapping"
+msgid "Outgoing response data before mapping (ProviderResponseInput)"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
+msgid ""
+"Outgoing error handler data after error handling "
+"(ProviderErrorHandlingOutput)"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceOperationDefault.pm
@@ -11660,6 +11786,10 @@ msgstr "Need Name!"
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Need ExampleWebService!"
 msgstr "Need ExampleWebService!"
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
+msgid "Could not load %s."
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Could not read %s!"
@@ -11769,6 +11899,14 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "All recipients of the last article"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
+msgid "Invisible to customer"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
+msgid "Visible to customer"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminOTRSBusiness.pm
@@ -12189,14 +12327,6 @@ msgstr "There was an error updating the Transition"
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
 msgid "Edit Transition \"%s\""
 msgstr "Edit Transition \"%s\""
-
-#. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
-msgid "xor"
-msgstr "xor"
-
-#. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
-msgid "String"
-msgstr "String"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
 msgid "Transition validation module"
@@ -15061,14 +15191,6 @@ msgstr "Number of Articles"
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
 msgid "unlimited"
 msgstr "unlimited"
-
-#. Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
-msgid "ascending"
-msgstr "ascending"
-
-#. Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
-msgid "descending"
-msgstr "descending"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
 msgid "Attributes to be printed"

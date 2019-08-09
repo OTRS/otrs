@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 1;
+    $Self->{Completeness}        = 0.996260411354751;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -566,6 +566,8 @@ sub Data {
         'Show link' => 'Link anzeigen',
         'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
             'Hier können Sie einen optionalen HTTP-Link für den Feldwert in Übersichten und Ansichtsseiten angeben.',
+        'If special characters (&, @, :, /, etc.) should not be encoded, use \'url\' instead of \'uri\' filter.' =>
+            '',
         'Example' => 'Beispiel',
         'Link for preview' => 'Link für Vorschau',
         'If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too.' =>
@@ -883,6 +885,7 @@ sub Data {
         'Condition' => 'Bedingung',
         'Edit this event' => 'Dieses Ereignis bearbeiten',
         'This invoker will be triggered by the configured events.' => 'Dieser Invoker wird von den konfigurierten Ereignissen ausgelöst.',
+        'Add Event' => 'Event hinzufügen',
         'To add a new event select the event object and event name and click on the "+" button' =>
             'Um einen neues Ereignis hinzuzufügen, wählen Sie bitte das Objekt und den Ereignisnamen und klicken Sie auf den "+"-Schaltfläche',
         'Asynchronous event triggers are handled by the OTRS Scheduler Daemon in background (recommended).' =>
@@ -1293,6 +1296,7 @@ sub Data {
             'Anzeigewerte der Dynamischen Felder des Tickets, verwendbar für Auswahlfelder',
 
         # Template: AdminNotificationEventTransportEmailSettings
+        'Use comma or semicolon to separate email addresses.' => '',
         'You can use OTRS-tags like <OTRS_TICKET_DynamicField_...> to insert values from the current ticket.' =>
             'Sie können OTRS-Tags wie <OTRS_TICKET_DynamicField_...> nutzen, um Werte des aktuellen Tickets einzufügen.',
 
@@ -3547,6 +3551,8 @@ sub Data {
         # Perl Module: Kernel/Modules/AdminGenericInterfaceDebugger.pm
         'Need WebserviceID!' => 'Benötige Web-Service-ID!',
         'Could not get data for WebserviceID %s' => 'Konnte keine Daten für Web-Service-ID %s ermitteln!',
+        'ascending' => 'aufsteigend',
+        'descending' => 'absteigend',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
         'Need communication type!' => 'Kommunikationstyp benötigt!',
@@ -3558,6 +3564,18 @@ sub Data {
         'Could not update web service' => 'Web-Service konnte nicht aktualisiert werden',
         'Need ErrorHandling' => 'Benötige Fehlerbehandlung',
         'Could not determine config for error handler %s' => 'Konnte Konfiguration für Fehlerbehandlung %s nicht ermitteln',
+        'Invoker processing outgoing request data' => 'Der Invoker verarbeitet ausgehende Request-Daten',
+        'Mapping outgoing request data' => 'Ausgehende Request-Daten zuordnen',
+        'Transport processing request into response' => 'Transportverarbeitung von Anfrage (Request) zu Antwort (Response)',
+        'Mapping incoming response data' => 'Eingehende Response-Daten zuordnen',
+        'Invoker processing incoming response data' => 'Invoker verarbeitet eingehende Response-Daten',
+        'Transport receiving incoming request data' => 'Transport erhält eingehende Request-Daten',
+        'Mapping incoming request data' => 'Eingehende Request-Daten zuordnen',
+        'Operation processing incoming request data' => 'Operation verarbeitet eingehende Request-Daten',
+        'Mapping outgoing response data' => 'Ausgehende Response-Daten zuordnen',
+        'Transport sending outgoing response data' => 'Transport sendet ausgehende Response-Daten',
+        'skip same backend modules only' => 'Nur gleiche Backend-Module überspringen',
+        'skip all modules' => 'Alle Module überspringen',
         'Operation deleted' => 'Operation gelöscht',
         'Invoker deleted' => 'Invoker gelöscht',
 
@@ -3597,11 +3615,21 @@ sub Data {
         # Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
         'Need Invoker!' => 'Benötige Invoker!',
         'Need Event!' => 'Benötige Ereignis!',
+        'Could not get registered modules for Invoker' => '',
+        'Could not get backend for Invoker %s' => '',
+        'The event %s is not valid.' => '',
+        'Could not update configuration data for WebserviceID %s' => 'Konnte Konfigurationsdaten für Web-Service-ID %s nicht aktualisieren',
+        'This sub-action is not valid' => '',
+        'xor' => 'exklusives oder (xor)',
+        'String' => 'Zeichenkette',
+        'Regexp' => '',
+        'Validation Module' => '',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
+        'Simple Mapping for Outgoing Data' => '',
+        'Simple Mapping for Incoming Data' => '',
         'Could not get registered configuration for action type %s' => 'Konnte keine registrierte Konfiguration für Action Typ %s ermitteln',
         'Could not get backend for %s %s' => 'Konnte Backend für %s %s nicht ermitteln',
-        'Could not update configuration data for WebserviceID %s' => 'Konnte Konfigurationsdaten für Web-Service-ID %s nicht aktualisieren',
         'Keep (leave unchanged)' => 'Behalten (unverändert lassen)',
         'Ignore (drop key/value pair)' => 'Ignorieren (Schlüssel-Wert-Paar entfernen)',
         'Map to (use provided value as default)' => 'Ändern in (verwende angegeben Wert als Standard)',
@@ -3609,15 +3637,26 @@ sub Data {
         'Ignore (drop Value/value pair)' => 'Ignorieren (Wert-Wert-Paar entfernen)',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
+        'XSLT Mapping for Outgoing Data' => '',
+        'XSLT Mapping for Incoming Data' => '',
         'Could not find required library %s' => 'Konnte benötigte Bibliothek %s nicht finden',
-        'Outgoing request data before processing' => 'Ausgehende Anfragedaten vor der Verarbeitung',
-        'Outgoing request data before mapping' => 'Ausgehende Anfragedaten vor dem Mapping',
-        'Outgoing request data after mapping' => 'Ausgehende Anfragedaten nach dem Mapping',
-        'Incoming response data before mapping' => 'Eingehende Antwortdaten vor dem Mapping',
-        'Outgoing error handler data after error handling' => 'Ausgehende Fehlerbehandlungs-Daten nach der Fehlerbehandlung',
-        'Incoming request data before mapping' => 'Eingehende Anfragedaten vor dem Mapping',
-        'Incoming request data after mapping' => 'Eingehende Anfragedaten nach dem Mapping',
-        'Outgoing response data before mapping' => 'Ausgehende Antwortdaten vor dem Mapping',
+        'Outgoing request data before processing (RequesterRequestInput)' =>
+            '',
+        'Outgoing request data before mapping (RequesterRequestPrepareOutput)' =>
+            '',
+        'Outgoing request data after mapping (RequesterRequestMapOutput)' =>
+            '',
+        'Incoming response data before mapping (RequesterResponseInput)' =>
+            '',
+        'Outgoing error handler data after error handling (RequesterErrorHandlingOutput)' =>
+            '',
+        'Incoming request data before mapping (ProviderRequestInput)' => '',
+        'Incoming request data after mapping (ProviderRequestMapOutput)' =>
+            '',
+        'Outgoing response data before mapping (ProviderResponseInput)' =>
+            '',
+        'Outgoing error handler data after error handling (ProviderErrorHandlingOutput)' =>
+            '',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceOperationDefault.pm
         'Could not determine config for operation %s' => 'Konnte Konfiguration für Operation %s nicht ermitteln',
@@ -3635,6 +3674,7 @@ sub Data {
         'Web service "%s" created!' => 'Web-Service "%s" erstellt!',
         'Need Name!' => 'Name benötigt!',
         'Need ExampleWebService!' => 'Benötige Beispiel-Web-Service!',
+        'Could not load %s.' => '',
         'Could not read %s!' => 'Konnte %s nicht lesen!',
         'Need a file to import!' => 'Benötige eine zu importierende Datei!',
         'The imported file has not valid YAML content! Please check OTRS log for details' =>
@@ -3672,6 +3712,8 @@ sub Data {
         'Customer user of the ticket' => 'Kundenbenutzer des Tickets',
         'All recipients of the first article' => 'Alle Empfänger des ersten Artikels',
         'All recipients of the last article' => 'Alle Empfänger des letzten Artikels',
+        'Invisible to customer' => 'Unsichtbar für Kunde',
+        'Visible to customer' => 'Sichtbar für Kunde',
 
         # Perl Module: Kernel/Modules/AdminOTRSBusiness.pm
         'Your system was successfully upgraded to %s.' => 'Ihr System wurde erfolgreich auf die %s erweitert.',
@@ -3805,8 +3847,6 @@ sub Data {
         'Could not get data for TransitionID %s' => 'Konnte Daten für TransitionID %s nicht ermitteln',
         'There was an error updating the Transition' => 'Beim Aktualisieren der Transition ist ein Fehler aufgetreten.',
         'Edit Transition "%s"' => 'Bearbeite Transition %s',
-        'xor' => 'exklusives oder (xor)',
-        'String' => 'Zeichenkette',
         'Transition validation module' => 'Transition-Validierungs-Modul',
 
         # Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
@@ -4870,8 +4910,6 @@ sub Data {
 
         # Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
         'unlimited' => 'unbeschränkt',
-        'ascending' => 'aufsteigend',
-        'descending' => 'absteigend',
         'Attributes to be printed' => 'Auszugebene Attribute',
         'Sort sequence' => 'Sortierreihenfolge',
         'State Historic' => 'Statuschronik',

@@ -571,6 +571,8 @@ sub Data {
         'Show link' => 'Hivatkozás megjelenítése',
         'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
             'Itt határozható meg egy opcionális HTTP hivatkozás a mező értékéhez az áttekintőben és a nagyítási képernyőkön.',
+        'If special characters (&, @, :, /, etc.) should not be encoded, use \'url\' instead of \'uri\' filter.' =>
+            'Ha a különleges karaktereket (&, @, :, /, stb.) nem kell kódolni, akkor használja az „url” szűrőt az „uri” szűrő helyett.',
         'Example' => 'Példa',
         'Link for preview' => 'Hivatkozás az előnézethez',
         'If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too.' =>
@@ -888,6 +890,7 @@ sub Data {
         'Condition' => 'Feltétel',
         'Edit this event' => 'Esemény szerkesztése',
         'This invoker will be triggered by the configured events.' => 'Ezt a meghívót a beállított események fogják aktiválni.',
+        'Add Event' => 'Esemény hozzáadása',
         'To add a new event select the event object and event name and click on the "+" button' =>
             'Egy új esemény hozzáadásához válassza ki az eseményobjektumot és az eseménynevet, majd kattintson a „+” gombra.',
         'Asynchronous event triggers are handled by the OTRS Scheduler Daemon in background (recommended).' =>
@@ -1298,6 +1301,7 @@ sub Data {
             'A jegy dinamikus mezőinek megjelenített értékei, legördülő és többválasztós mezőknél hasznos',
 
         # Template: AdminNotificationEventTransportEmailSettings
+        'Use comma or semicolon to separate email addresses.' => 'Használjon vesszőt vagy pontosvesszőt az e-mail címek elválasztásához.',
         'You can use OTRS-tags like <OTRS_TICKET_DynamicField_...> to insert values from the current ticket.' =>
             'Használhatja az OTRS címkéket (mint például <OTRS_TICKET_DynamicField_...>) értékek beszúrásához a jelenlegi jegyből.',
 
@@ -3552,6 +3556,8 @@ sub Data {
         # Perl Module: Kernel/Modules/AdminGenericInterfaceDebugger.pm
         'Need WebserviceID!' => 'Webszolgáltatás-azonosító szükséges!',
         'Could not get data for WebserviceID %s' => 'Nem sikerült lekérni az adatokat a webszolgáltatás-azonosítóhoz: %s',
+        'ascending' => 'növekvő',
+        'descending' => 'csökkenő',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
         'Need communication type!' => 'Kommunikációs típus szükséges!',
@@ -3563,6 +3569,18 @@ sub Data {
         'Could not update web service' => 'Nem sikerült frissíteni a webszolgáltatást',
         'Need ErrorHandling' => 'Hibakezelés szükséges',
         'Could not determine config for error handler %s' => 'Nem sikerült meghatározni a beállítást a(z) %s hibakezelőnél',
+        'Invoker processing outgoing request data' => 'Kimenő kérés adatainak meghívó feldolgozása',
+        'Mapping outgoing request data' => 'Kimenő kérés adatainak leképezése',
+        'Transport processing request into response' => 'Átvitel által feldolgozott kérés válaszba',
+        'Mapping incoming response data' => 'Bejövő válasz adatainak leképezése',
+        'Invoker processing incoming response data' => 'Meghívó által feldolgozott bejövő válaszadatok',
+        'Transport receiving incoming request data' => 'Átvitel által fogadott bejövő kérésadatok',
+        'Mapping incoming request data' => 'Bejövő kérés adatainak leképezése',
+        'Operation processing incoming request data' => 'Művelet által feldolgozott bejövő kérésadatok',
+        'Mapping outgoing response data' => 'Kimenő válasz adatainak leképezése',
+        'Transport sending outgoing response data' => 'Átvitel által küldött kimenő válaszadatok',
+        'skip same backend modules only' => 'csak ugyanazon háttérprogram-modulok kihagyása',
+        'skip all modules' => 'az összes modul kihagyása',
         'Operation deleted' => 'Művelet törölve',
         'Invoker deleted' => 'Meghívó törölve',
 
@@ -3602,11 +3620,21 @@ sub Data {
         # Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
         'Need Invoker!' => 'Meghívó szükséges!',
         'Need Event!' => 'Esemény szükséges!',
+        'Could not get registered modules for Invoker' => 'Nem sikerült lekérni a regisztrált modulokat a meghívóhoz',
+        'Could not get backend for Invoker %s' => 'Nem sikerült lekérni a háttérprogramot a(z) %s meghívóhoz',
+        'The event %s is not valid.' => 'A(z) %s esemény nem érvényes.',
+        'Could not update configuration data for WebserviceID %s' => 'Nem sikerült frissíteni a beállítási adatokat a(z) %s webszolgáltatás-azonosítónál',
+        'This sub-action is not valid' => 'Ez az alművelet nem érvényes',
+        'xor' => 'kizáró vagy',
+        'String' => 'Szöveg',
+        'Regexp' => 'Reguláris kifejezés',
+        'Validation Module' => 'Ellenőrző modul',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
+        'Simple Mapping for Outgoing Data' => 'Egyszerű leképezés a kimenő adatokhoz',
+        'Simple Mapping for Incoming Data' => 'Egyszerű leképezés a bejövő adatokhoz',
         'Could not get registered configuration for action type %s' => 'Nem sikerült regisztráltatni a beállítást a(z) %s művelettípushoz',
         'Could not get backend for %s %s' => 'Nem sikerült lekérni a háttérprogramot ennél: %s %s',
-        'Could not update configuration data for WebserviceID %s' => 'Nem sikerült frissíteni a beállítási adatokat a(z) %s webszolgáltatás-azonosítónál',
         'Keep (leave unchanged)' => 'Megtartás (változatlanul hagyás)',
         'Ignore (drop key/value pair)' => 'Mellőzés (kulcs-érték pár eldobása)',
         'Map to (use provided value as default)' => 'Leképezés (biztosított érték használata alapértelmezettként)',
@@ -3614,15 +3642,26 @@ sub Data {
         'Ignore (drop Value/value pair)' => 'Mellőzés (érték-érték pár eldobása)',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
+        'XSLT Mapping for Outgoing Data' => 'XSLT leképezés a kimenő adatokhoz',
+        'XSLT Mapping for Incoming Data' => 'XSLT leképezés a bejövő adatokhoz',
         'Could not find required library %s' => 'Nem található a szükséges programkönyvtár: %s',
-        'Outgoing request data before processing' => 'Kimenő kérésadatok a feldolgozás előtt',
-        'Outgoing request data before mapping' => 'Kimenő kérésadatok a leképezés előtt',
-        'Outgoing request data after mapping' => 'Kimenő kérésadatok a leképezés után',
-        'Incoming response data before mapping' => 'Bejövő válaszadatok a leképezés előtt',
-        'Outgoing error handler data after error handling' => 'Kimenő hibakezelő adatok a hibakezelés után',
-        'Incoming request data before mapping' => 'Bejövő kérésadatok a leképezés előtt',
-        'Incoming request data after mapping' => 'Bejövő kérésadatok a leképezés után',
-        'Outgoing response data before mapping' => 'Kimenő válaszadatok a leképezés előtt',
+        'Outgoing request data before processing (RequesterRequestInput)' =>
+            'Kimenő kérésadatok a feldolgozás előtt (RequesterRequestInput)',
+        'Outgoing request data before mapping (RequesterRequestPrepareOutput)' =>
+            'Kimenő kérésadatok a leképezés előtt (RequesterRequestPrepareOutput)',
+        'Outgoing request data after mapping (RequesterRequestMapOutput)' =>
+            'Kimenő kérésadatok a leképezés után (RequesterRequestMapOutput)',
+        'Incoming response data before mapping (RequesterResponseInput)' =>
+            'Bejövő válaszadatok a leképezés előtt (RequesterResponseInput)',
+        'Outgoing error handler data after error handling (RequesterErrorHandlingOutput)' =>
+            'Kimenő hibakezelő adatok a hibakezelés után (RequesterErrorHandlingOutput)',
+        'Incoming request data before mapping (ProviderRequestInput)' => 'Bejövő kérésadatok a leképezés előtt (ProviderRequestInput)',
+        'Incoming request data after mapping (ProviderRequestMapOutput)' =>
+            'Bejövő kérésadatok a leképezés után (ProviderRequestMapOutput)',
+        'Outgoing response data before mapping (ProviderResponseInput)' =>
+            'Kimenő válaszadatok a leképezés előtt (ProviderResponseInput)',
+        'Outgoing error handler data after error handling (ProviderErrorHandlingOutput)' =>
+            'Kimenő hibakezelő adatok a hibakezelés után (ProviderErrorHandlingOutput)',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceOperationDefault.pm
         'Could not determine config for operation %s' => 'Nem sikerült meghatározni a beállítást a(z) %s műveletnél',
@@ -3640,6 +3679,7 @@ sub Data {
         'Web service "%s" created!' => 'A(z) „%s” webszolgáltatás létrehozva!',
         'Need Name!' => 'Név szükséges!',
         'Need ExampleWebService!' => 'Példa webszolgáltatás szükséges!',
+        'Could not load %s.' => 'Nem sikerült betölteni: %s.',
         'Could not read %s!' => 'Nem sikerült olvasni: %s!',
         'Need a file to import!' => 'Egy fájl szükséges az importáláshoz!',
         'The imported file has not valid YAML content! Please check OTRS log for details' =>
@@ -3677,6 +3717,8 @@ sub Data {
         'Customer user of the ticket' => 'A jegy ügyfél-felhasználója',
         'All recipients of the first article' => 'Az első bejegyzés összes címzettje',
         'All recipients of the last article' => 'Az utolsó bejegyzés összes címzettje',
+        'Invisible to customer' => 'Láthatatlan az ügyfélnek',
+        'Visible to customer' => 'Látható az ügyfélnek',
 
         # Perl Module: Kernel/Modules/AdminOTRSBusiness.pm
         'Your system was successfully upgraded to %s.' => 'A rendszere sikeresen frissítve lett a következő verzióra: %s.',
@@ -3810,8 +3852,6 @@ sub Data {
         'Could not get data for TransitionID %s' => 'Nem sikerült lekérni az adatokat az átmenet-azonosítóhoz: %s',
         'There was an error updating the Transition' => 'Hiba történt az átmenet frissítésekor',
         'Edit Transition "%s"' => 'Átmenet szerkesztése: „%s”',
-        'xor' => 'kizáró vagy',
-        'String' => 'Szöveg',
         'Transition validation module' => 'Átmenet-ellenőrző modul',
 
         # Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
@@ -4875,8 +4915,6 @@ sub Data {
 
         # Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
         'unlimited' => 'korlátlan',
-        'ascending' => 'növekvő',
-        'descending' => 'csökkenő',
         'Attributes to be printed' => 'Nyomtatandó jellemzők',
         'Sort sequence' => 'Rendezési sorrend',
         'State Historic' => 'Történelmi állapot',
@@ -6823,7 +6861,7 @@ Az Ön segélyszolgálat csapata
         'Defines the maximum size in KiloByte of GenericInterface responses that get logged to the gi_debugger_entry_content table.' =>
             'Meghatározza az általános felület válaszainak legnagyobb méretét kilobájtban, amelyek naplózva lesznek a gi_debugger_entry_content táblába.',
         'Defines the module that shows a generic notification in the agent interface. Either "Text" - if configured - or the contents of "File" will be displayed.' =>
-            'Meghatározza azt a modult, amely egy általános értesítést jelenít meg az ügyintézői felületen. Vagy „Szöveg” – ha be van állítva – vagy a „Fájl” tartalma kerül megjelenítésre.',
+            'Meghatározza azt a modult, amely egy általános értesítést jelenít meg az ügyintézői felületen. Vagy a „Text” szövege – ha be van állítva – vagy a „File” tartalma kerül megjelenítésre.',
         'Defines the module that shows all the currently logged in agents in the agent interface.' =>
             'Meghatározza azt a modult, amely megjeleníti az összes aktuálisan bejelentkezett ügyintézőt az ügyintézői felületen.',
         'Defines the module that shows all the currently logged in customers in the agent interface.' =>
@@ -7319,13 +7357,13 @@ Az Ön segélyszolgálat csapata
             'Francia kiszűrendő szavak a szabad-szavas indexnél. Ezek a szavak el lesznek távolítva a keresési indexből.',
         'Frontend' => 'Előtétprogram',
         'Frontend module registration (disable AgentTicketService link if Ticket Service feature is not used).' =>
-            'Előtétprogram-modul regisztráció (az AgentTicketService hivatkozás letiltása, ha a jegy szolgáltatás funkció nincs használatban).',
+            'Előtétprogram-modul regisztráció (a szolgáltatás nézet menüpont letiltása, ha a jegy szolgáltatás funkció nincs használatban).',
         'Frontend module registration (disable company link if no company feature is used).' =>
-            'Előtétprogram-modul regisztráció (vállalat-hivatkozás letiltása, ha nincs vállalat-szolgáltatás használatban).',
+            'Előtétprogram-modul regisztráció (ügyfél adminisztráció menüpont letiltása, ha nincs vállalat-szolgáltatás használatban).',
         'Frontend module registration (disable ticket processes screen if no process available) for Customer.' =>
             'Előtétprogram-modul regisztráció (a jegyfolyamatok képernyő letiltása, ha nincs elérhető folyamat) az ügyfélnek.',
         'Frontend module registration (disable ticket processes screen if no process available).' =>
-            'Előtétprogram-modul regisztráció (a jegyfolyamatok képernyő letiltása, ha nincs elérhető folyamat).',
+            'Előtétprogram-modul regisztráció (az új folyamatjegy képernyő letiltása, ha nincs elérhető folyamat).',
         'Frontend module registration (show personal favorites as sub navigation items of \'Admin\').' =>
             'Előtétprogram-modul regisztráció (személyes kedvencek megjelenítése az „Adminisztráció” alnavigációs elemeiként).',
         'Frontend module registration for the agent interface.' => 'Előtétprogram-modul regisztráció az ügyintézői felülethez.',

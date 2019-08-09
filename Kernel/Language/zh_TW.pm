@@ -26,7 +26,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.338742740006833;
+    $Self->{Completeness}        = 0.339452660207377;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -42,7 +42,7 @@ sub Data {
         'Deploy ACLs' => '部署ACL',
         'Export ACLs' => '導出ACL',
         'Filter for ACLs' => '過濾ACL',
-        'Just start typing to filter...' => '',
+        'Just start typing to filter...' => '在這邊輸入過濾字串...',
         'Configuration Import' => '配置導入',
         'Here you can upload a configuration file to import ACLs to your system. The file needs to be in .yml format as exported by the ACL editor module.' =>
             '您可以上傳配置文件，以便將ACL導入至系統中。配置文件採用.yml格式，它可以從ACL管理模塊中導出。',
@@ -55,7 +55,7 @@ sub Data {
             '為了創建ACL，您可以導入ACL配置或從頭創建一個全新的ACL。',
         'Changes to the ACLs here only affect the behavior of the system, if you deploy the ACL data afterwards. By deploying the ACL data, the newly made changes will be written to the configuration.' =>
             '在這裡的任何ACL的修改，僅將其保存在系統中。只有在部署ACL後，它才會起作用。',
-        'ACLs' => '',
+        'ACLs' => 'ACLs',
         'Please note: This table represents the execution order of the ACLs. If you need to change the order in which ACLs are executed, please change the names of the affected ACLs.' =>
             '註意：列表中的ACL名稱排序順序決定了ACL的執行順序。如果需要更改ACL的執行順序，請修改相應的ACL名稱。',
         'ACL name' => 'ACL名稱',
@@ -68,7 +68,7 @@ sub Data {
 
         # Template: AdminACLEdit
         'Edit ACL %s' => '編輯ACL %s',
-        'Edit ACL' => '',
+        'Edit ACL' => '編輯 ACL',
         'Go to overview' => '返回概覽',
         'Delete ACL' => '刪除ACL',
         'Delete Invalid ACL' => '刪除無效的ACL',
@@ -78,13 +78,13 @@ sub Data {
         'Change settings' => '操作動作',
         'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is a white list, \'PossibleNot\' a black list.' =>
             '當匹配條件滿足時執行規定的操作動作。記住：\'Possible\'表示允許(白名單)，\'PossibleNot\'表示禁止(黑名單)。',
-        'Check the official %sdocumentation%s.' => '',
+        'Check the official %sdocumentation%s.' => '檢查官方%s文件%s。',
         'Show or hide the content' => '顯示或隱藏内容',
-        'Edit ACL Information' => '',
+        'Edit ACL Information' => '編輯 ACL 資訊',
         'Name' => '名稱',
         'Stop after match' => '匹配後停止',
-        'Edit ACL Structure' => '',
-        'Save ACL' => '',
+        'Edit ACL Structure' => '編輯 ACL 結構',
+        'Save ACL' => '儲存 ACL',
         'Save' => '保存',
         'or' => '在',
         'Save and finish' => '保存並完成',
@@ -96,12 +96,12 @@ sub Data {
             '通過填寫表數據實現ACL控制。創建ACL後，就可在編輯模式中添加ACL配置信息。',
 
         # Template: AdminAppointmentCalendarManage
-        'Calendar Management' => '',
-        'Add Calendar' => '',
-        'Edit Calendar' => '',
-        'Calendar Overview' => '',
-        'Add new Calendar' => '',
-        'Import Appointments' => '',
+        'Calendar Management' => '月曆管理',
+        'Add Calendar' => '新增行事曆',
+        'Edit Calendar' => '編輯行事曆',
+        'Calendar Overview' => '行事曆概覽',
+        'Add new Calendar' => '新增新行事曆',
+        'Import Appointments' => '匯入預約',
         'Calendar Import' => '匯入行事曆',
         'Here you can upload a configuration file to import a calendar to your system. The file needs to be in .yml format as exported by calendar management module.' =>
             '',
@@ -568,6 +568,8 @@ sub Data {
         'Show link' => '顯示鏈接',
         'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
             '可以為字段值指定一個可選的HTTP鏈接，以便其顯示在工單概況和工單詳情中。',
+        'If special characters (&, @, :, /, etc.) should not be encoded, use \'url\' instead of \'uri\' filter.' =>
+            '',
         'Example' => '範例',
         'Link for preview' => '',
         'If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too.' =>
@@ -885,6 +887,7 @@ sub Data {
         'Condition' => '條件',
         'Edit this event' => '',
         'This invoker will be triggered by the configured events.' => '配置事件將觸發這個調用程序。',
+        'Add Event' => '添事件',
         'To add a new event select the event object and event name and click on the "+" button' =>
             '選擇事件對象和事件名稱，然後點擊"+"按鈕，即可添加新的事件。',
         'Asynchronous event triggers are handled by the OTRS Scheduler Daemon in background (recommended).' =>
@@ -1295,6 +1298,7 @@ sub Data {
             '',
 
         # Template: AdminNotificationEventTransportEmailSettings
+        'Use comma or semicolon to separate email addresses.' => '',
         'You can use OTRS-tags like <OTRS_TICKET_DynamicField_...> to insert values from the current ticket.' =>
             '',
 
@@ -3550,6 +3554,8 @@ sub Data {
         # Perl Module: Kernel/Modules/AdminGenericInterfaceDebugger.pm
         'Need WebserviceID!' => '',
         'Could not get data for WebserviceID %s' => '',
+        'ascending' => '升序',
+        'descending' => '降序',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
         'Need communication type!' => '',
@@ -3561,6 +3567,18 @@ sub Data {
         'Could not update web service' => '',
         'Need ErrorHandling' => '',
         'Could not determine config for error handler %s' => '',
+        'Invoker processing outgoing request data' => '',
+        'Mapping outgoing request data' => '',
+        'Transport processing request into response' => '',
+        'Mapping incoming response data' => '',
+        'Invoker processing incoming response data' => '',
+        'Transport receiving incoming request data' => '',
+        'Mapping incoming request data' => '',
+        'Operation processing incoming request data' => '',
+        'Mapping outgoing response data' => '',
+        'Transport sending outgoing response data' => '',
+        'skip same backend modules only' => '',
+        'skip all modules' => '',
         'Operation deleted' => '',
         'Invoker deleted' => '',
 
@@ -3600,11 +3618,21 @@ sub Data {
         # Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
         'Need Invoker!' => '',
         'Need Event!' => '',
+        'Could not get registered modules for Invoker' => '',
+        'Could not get backend for Invoker %s' => '',
+        'The event %s is not valid.' => '',
+        'Could not update configuration data for WebserviceID %s' => '',
+        'This sub-action is not valid' => '',
+        'xor' => '',
+        'String' => '字串',
+        'Regexp' => '',
+        'Validation Module' => '',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
+        'Simple Mapping for Outgoing Data' => '',
+        'Simple Mapping for Incoming Data' => '',
         'Could not get registered configuration for action type %s' => '',
         'Could not get backend for %s %s' => '',
-        'Could not update configuration data for WebserviceID %s' => '',
         'Keep (leave unchanged)' => '',
         'Ignore (drop key/value pair)' => '',
         'Map to (use provided value as default)' => '',
@@ -3612,15 +3640,26 @@ sub Data {
         'Ignore (drop Value/value pair)' => '',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
+        'XSLT Mapping for Outgoing Data' => '',
+        'XSLT Mapping for Incoming Data' => '',
         'Could not find required library %s' => '',
-        'Outgoing request data before processing' => '',
-        'Outgoing request data before mapping' => '',
-        'Outgoing request data after mapping' => '',
-        'Incoming response data before mapping' => '',
-        'Outgoing error handler data after error handling' => '',
-        'Incoming request data before mapping' => '',
-        'Incoming request data after mapping' => '',
-        'Outgoing response data before mapping' => '',
+        'Outgoing request data before processing (RequesterRequestInput)' =>
+            '',
+        'Outgoing request data before mapping (RequesterRequestPrepareOutput)' =>
+            '',
+        'Outgoing request data after mapping (RequesterRequestMapOutput)' =>
+            '',
+        'Incoming response data before mapping (RequesterResponseInput)' =>
+            '',
+        'Outgoing error handler data after error handling (RequesterErrorHandlingOutput)' =>
+            '',
+        'Incoming request data before mapping (ProviderRequestInput)' => '',
+        'Incoming request data after mapping (ProviderRequestMapOutput)' =>
+            '',
+        'Outgoing response data before mapping (ProviderResponseInput)' =>
+            '',
+        'Outgoing error handler data after error handling (ProviderErrorHandlingOutput)' =>
+            '',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceOperationDefault.pm
         'Could not determine config for operation %s' => '',
@@ -3638,6 +3677,7 @@ sub Data {
         'Web service "%s" created!' => '',
         'Need Name!' => '需要名稱!',
         'Need ExampleWebService!' => '',
+        'Could not load %s.' => '',
         'Could not read %s!' => '無法讀取 %S!',
         'Need a file to import!' => '',
         'The imported file has not valid YAML content! Please check OTRS log for details' =>
@@ -3675,6 +3715,8 @@ sub Data {
         'Customer user of the ticket' => '',
         'All recipients of the first article' => '',
         'All recipients of the last article' => '',
+        'Invisible to customer' => '',
+        'Visible to customer' => '',
 
         # Perl Module: Kernel/Modules/AdminOTRSBusiness.pm
         'Your system was successfully upgraded to %s.' => '您的系統成功升級至 %s。',
@@ -3808,8 +3850,6 @@ sub Data {
         'Could not get data for TransitionID %s' => '',
         'There was an error updating the Transition' => '',
         'Edit Transition "%s"' => '',
-        'xor' => '',
-        'String' => '字串',
         'Transition validation module' => '',
 
         # Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
@@ -4873,8 +4913,6 @@ sub Data {
 
         # Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
         'unlimited' => '',
-        'ascending' => '升序',
-        'descending' => '降序',
         'Attributes to be printed' => '打印的屬性',
         'Sort sequence' => '排序',
         'State Historic' => '',

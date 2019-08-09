@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D-%M-%Y';
     $Self->{DateInputFormat}     = '%D-%M-%Y';
     $Self->{DateInputFormatLong} = '%D-%M-%Y - %T';
-    $Self->{Completeness}        = 0.523402801503246;
+    $Self->{Completeness}        = 0.520992690804012;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -572,6 +572,8 @@ sub Data {
         'Show link' => 'Toon koppeling',
         'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
             'Hier kunt u een optionele hyperlink opgeven die getoond wordt in de overzichten en zoom-schermen.',
+        'If special characters (&, @, :, /, etc.) should not be encoded, use \'url\' instead of \'uri\' filter.' =>
+            '',
         'Example' => 'Voorbeeld',
         'Link for preview' => '',
         'If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too.' =>
@@ -889,6 +891,7 @@ sub Data {
         'Condition' => 'Conditie',
         'Edit this event' => '',
         'This invoker will be triggered by the configured events.' => 'De invoker wordt aangeroepen door de geconfigureerde events.',
+        'Add Event' => 'Gebeurtenis toevoegen',
         'To add a new event select the event object and event name and click on the "+" button' =>
             'Om een nieuw event toe te voegen, selecteer het event object en de naam van het event en klik op de "+".',
         'Asynchronous event triggers are handled by the OTRS Scheduler Daemon in background (recommended).' =>
@@ -1299,6 +1302,7 @@ sub Data {
             'Ticket dynamisch veld weergave waarden, handig voor dropdown en multiselect velden',
 
         # Template: AdminNotificationEventTransportEmailSettings
+        'Use comma or semicolon to separate email addresses.' => '',
         'You can use OTRS-tags like <OTRS_TICKET_DynamicField_...> to insert values from the current ticket.' =>
             '',
 
@@ -3553,6 +3557,8 @@ sub Data {
         # Perl Module: Kernel/Modules/AdminGenericInterfaceDebugger.pm
         'Need WebserviceID!' => 'WebserviceID is vereist!',
         'Could not get data for WebserviceID %s' => 'Kon gegevens van WebserviceID %s niet ophalen',
+        'ascending' => 'aflopend',
+        'descending' => 'oplopend',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
         'Need communication type!' => '',
@@ -3564,6 +3570,18 @@ sub Data {
         'Could not update web service' => '',
         'Need ErrorHandling' => '',
         'Could not determine config for error handler %s' => '',
+        'Invoker processing outgoing request data' => '',
+        'Mapping outgoing request data' => '',
+        'Transport processing request into response' => '',
+        'Mapping incoming response data' => '',
+        'Invoker processing incoming response data' => '',
+        'Transport receiving incoming request data' => '',
+        'Mapping incoming request data' => '',
+        'Operation processing incoming request data' => '',
+        'Mapping outgoing response data' => '',
+        'Transport sending outgoing response data' => '',
+        'skip same backend modules only' => '',
+        'skip all modules' => '',
         'Operation deleted' => '',
         'Invoker deleted' => '',
 
@@ -3603,11 +3621,21 @@ sub Data {
         # Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
         'Need Invoker!' => '',
         'Need Event!' => '',
+        'Could not get registered modules for Invoker' => '',
+        'Could not get backend for Invoker %s' => '',
+        'The event %s is not valid.' => '',
+        'Could not update configuration data for WebserviceID %s' => 'Configuratiebestand kon niet worden bijgewerkt voor Webservice met ID %s',
+        'This sub-action is not valid' => '',
+        'xor' => '',
+        'String' => '',
+        'Regexp' => '',
+        'Validation Module' => '',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
+        'Simple Mapping for Outgoing Data' => '',
+        'Simple Mapping for Incoming Data' => '',
         'Could not get registered configuration for action type %s' => 'Het geregistreerde configuratiebestand voor actie type %s kon niet worden opgehaald',
         'Could not get backend for %s %s' => 'Backend voor %s %s kon niet worden opgehaald',
-        'Could not update configuration data for WebserviceID %s' => 'Configuratiebestand kon niet worden bijgewerkt voor Webservice met ID %s',
         'Keep (leave unchanged)' => '',
         'Ignore (drop key/value pair)' => '',
         'Map to (use provided value as default)' => '',
@@ -3615,15 +3643,26 @@ sub Data {
         'Ignore (drop Value/value pair)' => '',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
+        'XSLT Mapping for Outgoing Data' => '',
+        'XSLT Mapping for Incoming Data' => '',
         'Could not find required library %s' => '',
-        'Outgoing request data before processing' => '',
-        'Outgoing request data before mapping' => '',
-        'Outgoing request data after mapping' => '',
-        'Incoming response data before mapping' => '',
-        'Outgoing error handler data after error handling' => '',
-        'Incoming request data before mapping' => '',
-        'Incoming request data after mapping' => '',
-        'Outgoing response data before mapping' => '',
+        'Outgoing request data before processing (RequesterRequestInput)' =>
+            '',
+        'Outgoing request data before mapping (RequesterRequestPrepareOutput)' =>
+            '',
+        'Outgoing request data after mapping (RequesterRequestMapOutput)' =>
+            '',
+        'Incoming response data before mapping (RequesterResponseInput)' =>
+            '',
+        'Outgoing error handler data after error handling (RequesterErrorHandlingOutput)' =>
+            '',
+        'Incoming request data before mapping (ProviderRequestInput)' => '',
+        'Incoming request data after mapping (ProviderRequestMapOutput)' =>
+            '',
+        'Outgoing response data before mapping (ProviderResponseInput)' =>
+            '',
+        'Outgoing error handler data after error handling (ProviderErrorHandlingOutput)' =>
+            '',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceOperationDefault.pm
         'Could not determine config for operation %s' => 'Configuratiebestand kon niet bepaald worden voor operatie %s',
@@ -3641,6 +3680,7 @@ sub Data {
         'Web service "%s" created!' => 'Webservice "%s" aangemaakt!',
         'Need Name!' => 'Heb Naam nodig!',
         'Need ExampleWebService!' => '',
+        'Could not load %s.' => '',
         'Could not read %s!' => 'Kan %s niet lezen!',
         'Need a file to import!' => 'Heb een bestand nodig om te importeren!',
         'The imported file has not valid YAML content! Please check OTRS log for details' =>
@@ -3678,6 +3718,8 @@ sub Data {
         'Customer user of the ticket' => '',
         'All recipients of the first article' => '',
         'All recipients of the last article' => '',
+        'Invisible to customer' => '',
+        'Visible to customer' => '',
 
         # Perl Module: Kernel/Modules/AdminOTRSBusiness.pm
         'Your system was successfully upgraded to %s.' => 'Het systeem is succesvol geupgraded naar %s.',
@@ -3811,8 +3853,6 @@ sub Data {
         'Could not get data for TransitionID %s' => 'Kon gegevens voor TansitiID %s niet ophalen',
         'There was an error updating the Transition' => 'Er is een fout opgetreden bij het bijwerken van de Transitie',
         'Edit Transition "%s"' => '',
-        'xor' => '',
-        'String' => '',
         'Transition validation module' => '',
 
         # Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
@@ -4876,8 +4916,6 @@ sub Data {
 
         # Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
         'unlimited' => '',
-        'ascending' => 'aflopend',
-        'descending' => 'oplopend',
         'Attributes to be printed' => 'Attributen om af te drukken',
         'Sort sequence' => 'Sorteervolgorde',
         'State Historic' => 'Historische status',

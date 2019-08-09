@@ -12,16 +12,16 @@
 # 陈德文 <sggggy@gmail.com>, 2018
 # 张梦 <adoeh@sina.com>, 2018
 # Martin Gruner <martin.gruner@otrs.com>, 2018
-# Bob Tao <bob.tao@otrs.com>, 2018
-# 汇民 王 <whuim@163.com>, 2019
+# Bob Tao <bob.tao@otrs.com>, 2019
 # 汇民 王 <whuim@qq.com>, 2019
+# 汇民 王 <whuim@163.com>, 2019
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-06-27 22:01+0000\n"
+"POT-Creation-Date: 2019-08-09 00:08+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
-"Last-Translator: 汇民 王 <whuim@qq.com>, 2019\n"
+"Last-Translator: 汇民 王 <whuim@163.com>, 2019\n"
 "Language-Team: Chinese (China) (https://www.transifex.com/otrs/teams/23435/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -183,7 +183,7 @@ msgstr "当匹配条件满足时执行规定的操作动作。记住：'Possible
 
 #. Template: AdminACLEdit
 msgid "Check the official %sdocumentation%s."
-msgstr ""
+msgstr "查看 %s 的官方文档 %s。"
 
 #. Template: AdminACLEdit
 msgid "Show or hide the content"
@@ -1817,6 +1817,12 @@ msgid ""
 msgstr "可以为字段值指定一个可选的HTTP链接，以便其显示在工单概览和工单详情中。"
 
 #. Template: AdminDynamicFieldDateTime
+msgid ""
+"If special characters (&, @, :, /, etc.) should not be encoded, use 'url' "
+"instead of 'uri' filter."
+msgstr ""
+
+#. Template: AdminDynamicFieldDateTime
 msgid "Example"
 msgstr "样例"
 
@@ -2918,6 +2924,10 @@ msgstr "编辑这个事件"
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "This invoker will be triggered by the configured events."
 msgstr "配置事件将触发这个调用程序。"
+
+#. Template: AdminGenericInterfaceInvokerDefault
+msgid "Add Event"
+msgstr "添加事件"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid ""
@@ -4248,6 +4258,10 @@ msgid ""
 "Ticket dynamic fields display values, useful for Dropdown and Multiselect "
 "fields"
 msgstr "工单动态字段显示值，对下拉式和多项选择字段有用"
+
+#. Template: AdminNotificationEventTransportEmailSettings
+msgid "Use comma or semicolon to separate email addresses."
+msgstr ""
 
 #. Template: AdminNotificationEventTransportEmailSettings
 msgid ""
@@ -10999,6 +11013,14 @@ msgstr "需要WebserviceID！"
 msgid "Could not get data for WebserviceID %s"
 msgstr "不能获得WebserviceID %s的数据"
 
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceDebugger.pm
+msgid "ascending"
+msgstr "升序"
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceDebugger.pm
+msgid "descending"
+msgstr "降序"
+
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "Need communication type!"
 msgstr "需要通信类型！"
@@ -11030,6 +11052,54 @@ msgstr "需要错误处理"
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "Could not determine config for error handler %s"
 msgstr "无法确定错误处理程序%s的配置"
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
+msgid "Invoker processing outgoing request data"
+msgstr "调用模块正在处理发出的请求数据"
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
+msgid "Mapping outgoing request data"
+msgstr "正在匹配发出的请求数据"
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
+msgid "Transport processing request into response"
+msgstr "传输模块正在处理响应请求"
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
+msgid "Mapping incoming response data"
+msgstr "正在匹配传入的响应数据"
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
+msgid "Invoker processing incoming response data"
+msgstr "调用模块正在处理传入的响应数据"
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
+msgid "Transport receiving incoming request data"
+msgstr "传输模块正在接收传入的请求数据"
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
+msgid "Mapping incoming request data"
+msgstr "正在匹配传入的请求数据"
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
+msgid "Operation processing incoming request data"
+msgstr "操作模块正在处理传入的请求数据"
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
+msgid "Mapping outgoing response data"
+msgstr "正在匹配发出的响应数据"
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
+msgid "Transport sending outgoing response data"
+msgstr "传输模块正在发送发出的请求数据"
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
+msgid "skip same backend modules only"
+msgstr "只跳过相同的后台模块"
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
+msgid "skip all modules"
+msgstr "跳过所有模块"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "Operation deleted"
@@ -11189,6 +11259,50 @@ msgstr "需要调用程序！"
 msgid "Need Event!"
 msgstr "需要事件！"
 
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
+msgid "Could not get registered modules for Invoker"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
+msgid "Could not get backend for Invoker %s"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
+msgid "The event %s is not valid."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
+msgid "Could not update configuration data for WebserviceID %s"
+msgstr "不能更新WebserviceID %s的配置数据"
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
+msgid "This sub-action is not valid"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
+msgid "xor"
+msgstr "xor（异或）"
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
+msgid "String"
+msgstr "字符串"
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
+msgid "Regexp"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
+msgid "Validation Module"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
+msgid "Simple Mapping for Outgoing Data"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
+msgid "Simple Mapping for Incoming Data"
+msgstr ""
+
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
 msgid "Could not get registered configuration for action type %s"
 msgstr "不能获得动作类型%s 的注册配置。"
@@ -11196,10 +11310,6 @@ msgstr "不能获得动作类型%s 的注册配置。"
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
 msgid "Could not get backend for %s %s"
 msgstr "不能获得 %s %s的后端"
-
-#. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
-msgid "Could not update configuration data for WebserviceID %s"
-msgstr "不能更新WebserviceID %s的配置数据"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
 msgid "Keep (leave unchanged)"
@@ -11222,40 +11332,56 @@ msgid "Ignore (drop Value/value pair)"
 msgstr "忽略（丢弃键/值对）"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
+msgid "XSLT Mapping for Outgoing Data"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
+msgid "XSLT Mapping for Incoming Data"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
 msgid "Could not find required library %s"
 msgstr "不能找到需要的库%s"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
-msgid "Outgoing request data before processing"
-msgstr "处理前发出请求数据"
+msgid "Outgoing request data before processing (RequesterRequestInput)"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
-msgid "Outgoing request data before mapping"
-msgstr "映射前发出请求数据"
+msgid "Outgoing request data before mapping (RequesterRequestPrepareOutput)"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
-msgid "Outgoing request data after mapping"
-msgstr "映射后发出请求数据"
+msgid "Outgoing request data after mapping (RequesterRequestMapOutput)"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
-msgid "Incoming response data before mapping"
-msgstr "映射前接收响应数据"
+msgid "Incoming response data before mapping (RequesterResponseInput)"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
-msgid "Outgoing error handler data after error handling"
-msgstr "错误处理后发出错误处理程序数据"
+msgid ""
+"Outgoing error handler data after error handling "
+"(RequesterErrorHandlingOutput)"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
-msgid "Incoming request data before mapping"
-msgstr "映射前接收请求数据"
+msgid "Incoming request data before mapping (ProviderRequestInput)"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
-msgid "Incoming request data after mapping"
-msgstr "映射后接收请求数据"
+msgid "Incoming request data after mapping (ProviderRequestMapOutput)"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
-msgid "Outgoing response data before mapping"
-msgstr "映射前发出响应数据"
+msgid "Outgoing response data before mapping (ProviderResponseInput)"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
+msgid ""
+"Outgoing error handler data after error handling "
+"(ProviderErrorHandlingOutput)"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceOperationDefault.pm
 msgid "Could not determine config for operation %s"
@@ -11300,6 +11426,10 @@ msgstr "需要名称！"
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Need ExampleWebService!"
 msgstr "需要WEB服务示例！"
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
+msgid "Could not load %s."
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Could not read %s!"
@@ -11408,6 +11538,14 @@ msgstr "第一封信件的所有收件人"
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "All recipients of the last article"
 msgstr "最近一封信件的所有收件人"
+
+#. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
+msgid "Invisible to customer"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
+msgid "Visible to customer"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminOTRSBusiness.pm
 msgid "Your system was successfully upgraded to %s."
@@ -11813,14 +11951,6 @@ msgstr "更新转换时出现了一个错误"
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
 msgid "Edit Transition \"%s\""
 msgstr "编辑转换“%s”"
-
-#. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
-msgid "xor"
-msgstr "xor（异或）"
-
-#. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
-msgid "String"
-msgstr "字符串"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
 msgid "Transition validation module"
@@ -14644,14 +14774,6 @@ msgid "unlimited"
 msgstr "无限制"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
-msgid "ascending"
-msgstr "升序"
-
-#. Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
-msgid "descending"
-msgstr "降序"
-
-#. Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
 msgid "Attributes to be printed"
 msgstr "要打印的属性"
 
@@ -15035,7 +15157,7 @@ msgstr "部分Perl模块没有正确安装。"
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
 msgid "Perl Modules Audit"
-msgstr ""
+msgstr "Perl 模块 Audit"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
@@ -15044,13 +15166,14 @@ msgid ""
 "vulnerabilities. Please note that there might be false positives for "
 "distributions patching Perl modules without changing their version number."
 msgstr ""
+"CPAN::Audit 报告一个或多个已安装的 Perl 模块是否存在已知漏洞。 请注意，在不更改版本号的情况下修补Perl模块的发行版可能存在误报。"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
 msgid ""
 "CPAN::Audit did not report any known vulnerabilities in the installed Perl "
 "modules."
-msgstr ""
+msgstr "在已安装的Perl模块中 CPAN::Audit 未报告出任何已知漏洞。"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Swap.pm
 msgid "Free Swap Space (%)"
@@ -16408,7 +16531,7 @@ msgstr "最近完成了一个软件包的升级，点击这里查看结果。"
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "No response from get package upgrade result."
-msgstr ""
+msgstr "获取软件包升级结果时没有响应。"
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "Update all packages"
@@ -16424,7 +16547,7 @@ msgstr "更新所有软件包"
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "No response from package upgrade all."
-msgstr ""
+msgstr "获取全部软件包升级结果时没有响应。"
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "Currently not possible"
@@ -16445,7 +16568,7 @@ msgstr "您确定要更新所有已安装的软件包吗？"
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "No response from get package upgrade run status."
-msgstr ""
+msgstr "获取软件包升级运行状态时没有响应。"
 
 #. JS File: Core.Agent.Admin.PostMasterFilter
 msgid "Delete this PostMasterFilter"

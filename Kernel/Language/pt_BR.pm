@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.942090878032115;
+    $Self->{Completeness}        = 0.940676525582186;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -81,7 +81,7 @@ sub Data {
         'Change settings' => 'Alterar configurações',
         'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is a white list, \'PossibleNot\' a black list.' =>
             'Configure o que você quer alterar se o critério coincidir. Mantenha em mente que \'Possible\' é uma adição à lista e \'PossibleNot\', uma exclusão da lista.',
-        'Check the official %sdocumentation%s.' => '',
+        'Check the official %sdocumentation%s.' => 'Cheque a %s documentação %s oficial.',
         'Show or hide the content' => 'Mostrar ou esconder o conteúdo',
         'Edit ACL Information' => 'Editar informações da ACL',
         'Name' => 'Nome',
@@ -571,6 +571,8 @@ sub Data {
         'Show link' => 'Mostrar Link',
         'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
             'Aqui você pode especificar um link HTTP para o valor deste campo nas telas de Visão Geral e Detalhamento.',
+        'If special characters (&, @, :, /, etc.) should not be encoded, use \'url\' instead of \'uri\' filter.' =>
+            'Se carácteres especiais(&, @, :, /, etc.) não deve ser codificado, use o filtro \'url\' em vez de \'uri\'.',
         'Example' => 'Exemplo',
         'Link for preview' => 'Link para visualização',
         'If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too.' =>
@@ -888,6 +890,7 @@ sub Data {
         'Condition' => 'Condição',
         'Edit this event' => 'Editar este evento',
         'This invoker will be triggered by the configured events.' => 'Este invoker será disparado atráves dos eventos configurados.',
+        'Add Event' => 'Adicionar Evento',
         'To add a new event select the event object and event name and click on the "+" button' =>
             'Para adicionar um novo evento, selecione um objeto de evento e um nome e clique no botão "+"',
         'Asynchronous event triggers are handled by the OTRS Scheduler Daemon in background (recommended).' =>
@@ -1298,6 +1301,7 @@ sub Data {
             'Campos dinâmicos bilhete exibem valores, útil para campos do tipo Dropdown e Multiselect',
 
         # Template: AdminNotificationEventTransportEmailSettings
+        'Use comma or semicolon to separate email addresses.' => 'Use vírgula ou aspas para separar emails.',
         'You can use OTRS-tags like <OTRS_TICKET_DynamicField_...> to insert values from the current ticket.' =>
             'Você pode utilizar OTRS-tags como <OTRS_TICKET_DynamicField_...> para inserir valores do chamado atual.',
 
@@ -2042,7 +2046,7 @@ sub Data {
         'This email address is already used as system email address.' => 'Este endereço de e-mail já está sendo usado como Endereço de E-mail do Sistema.',
         'The display name and email address will be shown on mail you send.' =>
             'O nome de exibição e endereço de e-mail serão mostrados no e-mail enviado.',
-        'This system address cannot be set to invalid.' => '',
+        'This system address cannot be set to invalid.' => 'O endereço de sistema não pode ser definido como inválido.',
         'This system address cannot be set to invalid, because it is used in one or more queue(s) or auto response(s).' =>
             '',
 
@@ -2492,13 +2496,13 @@ sub Data {
         'Create Statistic' => 'Criar Estatística',
 
         # Template: AgentStatisticsEdit
-        'Edit Statistics' => '',
+        'Edit Statistics' => 'Editar Estatísticas',
         'Run now' => 'Executar agora',
         'Statistics Preview' => 'Pré-visualização da Estatística ',
         'Save Statistic' => 'Salvar Estatística',
 
         # Template: AgentStatisticsImport
-        'Import Statistics' => '',
+        'Import Statistics' => 'Importar Estatísticas',
         'Import Statistics Configuration' => 'Importar Configurações de Estatísticas',
 
         # Template: AgentStatisticsOverview
@@ -2512,7 +2516,7 @@ sub Data {
 
         # Template: AgentStatisticsView
         'Statistics Overview' => 'Visão Geral de Estatísticas',
-        'View Statistics' => '',
+        'View Statistics' => 'Visualizar Estatísticas',
         'Statistics Information' => 'Informações das Estatísticas',
         'Created by' => 'Criado por',
         'Changed by' => 'Alterado por',
@@ -3374,7 +3378,7 @@ sub Data {
         'There was an error synchronizing the ACLs.' => 'Houve um erro sincronizando a ACLs',
         'ACL %s could not be deleted' => 'ACL %s não pode ser excluída',
         'There was an error getting data for ACL with ID %s' => 'Houve um erro ao obter dados da ACL com ID %s',
-        '%s (copy) %s' => '',
+        '%s (copy) %s' => '%s(copiar)%s',
         'Please note that ACL restrictions will be ignored for the Superuser account (UserID 1).' =>
             'Favor observar que restrições de ACL serão ignoradas para a conta de Super Usuário (ID de Usuário 1).',
         'Exact match' => 'Correspondência exata',
@@ -3413,7 +3417,7 @@ sub Data {
         'There was an error getting data for Notification with ID:%s!' =>
             'Houve um erro na obtenção de dados para a Notificação com ID:%s!',
         'Unknown Notification %s!' => 'Notificação Desconhecida %s!',
-        '%s (copy)' => '',
+        '%s (copy)' => '%s(copiar)',
         'There was an error creating the Notification' => 'Houve algum erro ao criar a Notificação',
         'Notifications could not be Imported due to a unknown error, please check OTRS logs for more information' =>
             'Notificações não puderam ser importadas devido a um erro desconhecido. Por favor verifique os logs do OTRS para mais informações',
@@ -3435,7 +3439,7 @@ sub Data {
         'Attachment added!' => 'Anexo adicionado!',
 
         # Perl Module: Kernel/Modules/AdminAutoResponse.pm
-        'Auto Response added!' => '',
+        'Auto Response added!' => 'Resposta automática adicionada!',
 
         # Perl Module: Kernel/Modules/AdminCommunicationLog.pm
         'Invalid CommunicationID!' => 'ID de Comunicação Inválido!',
@@ -3552,6 +3556,8 @@ sub Data {
         # Perl Module: Kernel/Modules/AdminGenericInterfaceDebugger.pm
         'Need WebserviceID!' => 'WebserviceID Necessário!',
         'Could not get data for WebserviceID %s' => 'Não foi possível obter dados para WebserviceID %s',
+        'ascending' => 'ascendente',
+        'descending' => 'descendente',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
         'Need communication type!' => 'Necessita tipo de comunicação!',
@@ -3563,6 +3569,18 @@ sub Data {
         'Could not update web service' => 'Não foi possível atualizar o webservice',
         'Need ErrorHandling' => 'Necessita de Tratamento de Erro',
         'Could not determine config for error handler %s' => 'Não foi possível determinar a configuração para tratamento de erro %s',
+        'Invoker processing outgoing request data' => 'Invoker processando dados de solicitação enviada',
+        'Mapping outgoing request data' => 'Mapeando dados de solicitação enviada',
+        'Transport processing request into response' => 'Transporte processando solicitação na resposta',
+        'Mapping incoming response data' => 'Mapeando dados de resposta recebidos',
+        'Invoker processing incoming response data' => 'Invoker processando dados de resposta recebida',
+        'Transport receiving incoming request data' => 'Transporte recebendo dados de solicitação recebida',
+        'Mapping incoming request data' => 'Mapeando dados de solicitação recebida',
+        'Operation processing incoming request data' => 'Operação processando dados de solicitação recebida',
+        'Mapping outgoing response data' => 'Mapeando dados de resposta enviados',
+        'Transport sending outgoing response data' => 'Transporte enviando dados de resposta enviada',
+        'skip same backend modules only' => 'pular os mesmos módulos de backend apenas',
+        'skip all modules' => 'pular todos módulos',
         'Operation deleted' => 'Operação excluída',
         'Invoker deleted' => 'Invoker excluído',
 
@@ -3602,11 +3620,21 @@ sub Data {
         # Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
         'Need Invoker!' => 'Invoker é necessário!',
         'Need Event!' => 'Necessita um Evento!',
+        'Could not get registered modules for Invoker' => 'Não podemos registrar módulos para invoker',
+        'Could not get backend for Invoker %s' => '',
+        'The event %s is not valid.' => 'O Evento %s não é válido. ',
+        'Could not update configuration data for WebserviceID %s' => 'Não foi possível atualizar dados de configuração para WebserviceID %s',
+        'This sub-action is not valid' => 'Está sub ação não é válida',
+        'xor' => 'xor',
+        'String' => 'String',
+        'Regexp' => '',
+        'Validation Module' => 'Módulo de validação',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
+        'Simple Mapping for Outgoing Data' => '',
+        'Simple Mapping for Incoming Data' => '',
         'Could not get registered configuration for action type %s' => 'Não foi possível obter a configuração registrada para o tipo de ação %s',
         'Could not get backend for %s %s' => 'Não foi possível obter o backend para %s %s',
-        'Could not update configuration data for WebserviceID %s' => 'Não foi possível atualizar dados de configuração para WebserviceID %s',
         'Keep (leave unchanged)' => 'Ignorar (deixar inalterado)',
         'Ignore (drop key/value pair)' => 'Ignorar (apagar par chave/valor)',
         'Map to (use provided value as default)' => 'Mapear para (use o valor fornecido como padrão)',
@@ -3614,15 +3642,26 @@ sub Data {
         'Ignore (drop Value/value pair)' => 'Ignorar (descartar valor/par de valor)',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
+        'XSLT Mapping for Outgoing Data' => '',
+        'XSLT Mapping for Incoming Data' => '',
         'Could not find required library %s' => 'Não foi possível encontrar a biblioteca necessária %s',
-        'Outgoing request data before processing' => 'Data solicitado enviado antes de processamento',
-        'Outgoing request data before mapping' => 'Dado solicitado enviado antes de mapeamento',
-        'Outgoing request data after mapping' => 'Dado solicitado enviado após mapeamento',
-        'Incoming response data before mapping' => 'Dado de resposta recebido antes de mapeamento',
-        'Outgoing error handler data after error handling' => 'Dado de tratamento de erro enviado após tratamento de erro',
-        'Incoming request data before mapping' => 'Dado solicitado recebido antes de mapeamento',
-        'Incoming request data after mapping' => 'Solicitação de dados recebida após mapeamento',
-        'Outgoing response data before mapping' => 'Dados de resposta enviada após mapeamento',
+        'Outgoing request data before processing (RequesterRequestInput)' =>
+            '',
+        'Outgoing request data before mapping (RequesterRequestPrepareOutput)' =>
+            '',
+        'Outgoing request data after mapping (RequesterRequestMapOutput)' =>
+            '',
+        'Incoming response data before mapping (RequesterResponseInput)' =>
+            '',
+        'Outgoing error handler data after error handling (RequesterErrorHandlingOutput)' =>
+            '',
+        'Incoming request data before mapping (ProviderRequestInput)' => '',
+        'Incoming request data after mapping (ProviderRequestMapOutput)' =>
+            '',
+        'Outgoing response data before mapping (ProviderResponseInput)' =>
+            '',
+        'Outgoing error handler data after error handling (ProviderErrorHandlingOutput)' =>
+            '',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceOperationDefault.pm
         'Could not determine config for operation %s' => 'Não foi possível determinar a configuração para a operação %s',
@@ -3640,6 +3679,7 @@ sub Data {
         'Web service "%s" created!' => 'Web service "%s" criado!',
         'Need Name!' => 'Necessário Nome!',
         'Need ExampleWebService!' => 'Necessário ExampleWebService!',
+        'Could not load %s.' => '',
         'Could not read %s!' => 'Não pôde ser lido %s!',
         'Need a file to import!' => 'Necessário um arquivo para importar!',
         'The imported file has not valid YAML content! Please check OTRS log for details' =>
@@ -3677,6 +3717,8 @@ sub Data {
         'Customer user of the ticket' => 'Usuário cliente do ticket',
         'All recipients of the first article' => 'Todos os destinatários do primeiro artigo',
         'All recipients of the last article' => 'Todos os destinatários do último artigo',
+        'Invisible to customer' => '',
+        'Visible to customer' => '',
 
         # Perl Module: Kernel/Modules/AdminOTRSBusiness.pm
         'Your system was successfully upgraded to %s.' => 'Seu sistema foi atualizado com sucesso para %s.',
@@ -3810,8 +3852,6 @@ sub Data {
         'Could not get data for TransitionID %s' => 'Não foi possível obter dados para TransitionID %s',
         'There was an error updating the Transition' => 'Ocorreu um erro durante a atualização da transição',
         'Edit Transition "%s"' => 'Editar Transição "%s"',
-        'xor' => 'xor',
-        'String' => 'String',
         'Transition validation module' => 'Módulo de validação de transição',
 
         # Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
@@ -4875,8 +4915,6 @@ sub Data {
 
         # Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
         'unlimited' => 'ilimitado',
-        'ascending' => 'ascendente',
-        'descending' => 'descendente',
         'Attributes to be printed' => 'Atributos a serem impressos',
         'Sort sequence' => 'Sequência de Ordenamento',
         'State Historic' => 'Histórico de Estado',
@@ -7804,7 +7842,7 @@ Obrigado pela ajuda!
         'Parameters for the dashboard backend of the open tickets overview of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns.' =>
             'Parâmetros para o backend de painel da visão geral de tickets abertos na interface de agente. "Limit" é o número de registros apresentados como padrão. "Group" é utilizado para restringir o acesso ao plugin (exemplo: Group: admin;group1;group2;). "Default" determina se o plugin é ativado como padrão ou se o usuário precisa ativar manualmente. "CacheTTLLocal" é o tempo de cache em minutos para o plugin. "Mandatory" determina se o plugin é sempre exibido e não pode ser removido pelos agentes. Observação: Somente atributos de ticket e Campos Dinâmicos (DynamicField_NomeX) são permitidos em DefaultColumns.',
         'Parameters for the dashboard backend of the open tickets overview of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. "AccessibleTickets" determines if the plugin will show only tickets assigned to a customer user directly (=0) or also all accessible tickets for this customer (=1).' =>
-            'Parâmetros para o backend de visão geral de tickets abertos na interface de agente. "Limit" é o número de entradas exibidas como padrão. "Group" é utilizado para restringir o acesso ao plugin (exemplo Group: admin;group1;group2;). "Default" determina se o plugin é ativado como padrão ou se o usuário precisa ativar manualmente. "CacheTTLLocal" é o tempo de cache, em minutos, para o plugin. "Mandatory" determina se o plugin é exibido sempre e não pode ser removido pelos agentes.',
+            'Parâmetros para o backend de painel da visão geral de tickets abertos na interface de agente. "Limit" é o número de registros apresentados como padrão. "Group" é utilizado para restringir o acesso ao plugin (exemplo: Group: admin;group1;group2;). "Default" determina se o plugin é ativado como padrão ou se o usuário precisa ativar manualmente. "CacheTTLLocal" é o tempo de cache em minutos para o plugin. "Mandatory" determina se o plugin é sempre exibido e não pode ser removido pelos agentes. Observação: Somente atributos de ticket e Campos Dinâmicos (DynamicField_NomeX) são permitidos em DefaultColumns. Definições possíveis: 0 = Desativado, 1 = Ativado, 2 = Ativado como padrão. "AccessibleTickets" determina se o plugin irá exibir somente tickets designados ao usuário cliente diretamente (=0) ou também todos tickets designados ao cliente (=1).',
         'Parameters for the dashboard backend of the queue overview widget of the agent interface. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "QueuePermissionGroup" is not mandatory, queues are only listed if they belong to this permission group if you enable it. "States" is a list of states, the key is the sort order of the state in the widget. "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. "Mandatory" determines if the plugin is always shown and can not be removed by agents.' =>
             'Parâmetros para o backend de painel do widget de visão geral de fila na interface de agente. "Limit" é o número de entradas exibidas como padrão. "Group" é utilizado para restringir o acesso ao plugin (exemplo Group: admin;group1;group2;). "Default" determina se o plugin é ativado como padrão ou se o usuário precisa ativar manualmente. "CacheTTLLocal" é o tempo de cache, em minutos, para o plugin. "Mandatory" determina se o plugin é exibido sempre e não pode ser removido pelos agentes.',
         'Parameters for the dashboard backend of the running process tickets overview of the agent interface . "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. "Mandatory" determines if the plugin is always shown and can not be removed by agents.' =>

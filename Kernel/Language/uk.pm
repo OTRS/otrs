@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%M/%D/%Y';
     $Self->{DateInputFormat}     = '%M/%D/%Y';
     $Self->{DateInputFormatLong} = '%M/%D/%Y - %T';
-    $Self->{Completeness}        = 0.49948752989409;
+    $Self->{Completeness}        = 0.497195308516063;
 
     # csv separator
     $Self->{Separator}         = ',';
@@ -566,6 +566,8 @@ sub Data {
         'Show link' => 'Показати посилання',
         'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
             'Тут Ви можете визначити додатковий HTTP лінк для значення поля перегляд і розширений перегляд',
+        'If special characters (&, @, :, /, etc.) should not be encoded, use \'url\' instead of \'uri\' filter.' =>
+            '',
         'Example' => 'Приклад',
         'Link for preview' => 'Посилання для перегляду',
         'If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too.' =>
@@ -883,6 +885,7 @@ sub Data {
         'Condition' => 'Умова',
         'Edit this event' => '',
         'This invoker will be triggered by the configured events.' => 'Цей активатор буде викликаний сконфігурованою подією.',
+        'Add Event' => 'Додати подію',
         'To add a new event select the event object and event name and click on the "+" button' =>
             'Щоб додати нову подію, вкажіть об\'єкт події та назву події, після чого натисніть кнопку «+»',
         'Asynchronous event triggers are handled by the OTRS Scheduler Daemon in background (recommended).' =>
@@ -1293,6 +1296,7 @@ sub Data {
             'Динамічні поля квитка відображають значення, корисні для полів що Розкриваються та з Множинним вибором',
 
         # Template: AdminNotificationEventTransportEmailSettings
+        'Use comma or semicolon to separate email addresses.' => '',
         'You can use OTRS-tags like <OTRS_TICKET_DynamicField_...> to insert values from the current ticket.' =>
             'Ви можете використовувати OTRS-теги, такі як  <OTRS_TICKET_DynamicField_...>  щоб вставити значення з поточного квитка.',
 
@@ -3547,6 +3551,8 @@ sub Data {
         # Perl Module: Kernel/Modules/AdminGenericInterfaceDebugger.pm
         'Need WebserviceID!' => 'Потрібний WebserviceID!',
         'Could not get data for WebserviceID %s' => 'Неможливо отримати дані для WebserviceID %s',
+        'ascending' => ' По зростанню',
+        'descending' => ' По убуванню',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
         'Need communication type!' => '',
@@ -3558,6 +3564,18 @@ sub Data {
         'Could not update web service' => '',
         'Need ErrorHandling' => '',
         'Could not determine config for error handler %s' => '',
+        'Invoker processing outgoing request data' => '',
+        'Mapping outgoing request data' => '',
+        'Transport processing request into response' => '',
+        'Mapping incoming response data' => '',
+        'Invoker processing incoming response data' => '',
+        'Transport receiving incoming request data' => '',
+        'Mapping incoming request data' => '',
+        'Operation processing incoming request data' => '',
+        'Mapping outgoing response data' => '',
+        'Transport sending outgoing response data' => '',
+        'skip same backend modules only' => '',
+        'skip all modules' => '',
         'Operation deleted' => '',
         'Invoker deleted' => '',
 
@@ -3597,11 +3615,21 @@ sub Data {
         # Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
         'Need Invoker!' => '',
         'Need Event!' => '',
+        'Could not get registered modules for Invoker' => '',
+        'Could not get backend for Invoker %s' => '',
+        'The event %s is not valid.' => '',
+        'Could not update configuration data for WebserviceID %s' => 'Не можу оновити дані налаштування WebserviceID %s',
+        'This sub-action is not valid' => '',
+        'xor' => 'xor',
+        'String' => 'Рядок',
+        'Regexp' => '',
+        'Validation Module' => '',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
+        'Simple Mapping for Outgoing Data' => '',
+        'Simple Mapping for Incoming Data' => '',
         'Could not get registered configuration for action type %s' => 'Не можу отримати зареєстровані налаштування для типу дій %s',
         'Could not get backend for %s %s' => 'Не можу визначити механізм для %s %s',
-        'Could not update configuration data for WebserviceID %s' => 'Не можу оновити дані налаштування WebserviceID %s',
         'Keep (leave unchanged)' => 'Полишити (залишити без змін)',
         'Ignore (drop key/value pair)' => 'Ігнорувати (відкинути пари ключ/значення)',
         'Map to (use provided value as default)' => 'Відобразити до (використовувати надане значення як типове)',
@@ -3609,15 +3637,26 @@ sub Data {
         'Ignore (drop Value/value pair)' => 'Ігнорувати (відкинути пари Значення/значення)',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
+        'XSLT Mapping for Outgoing Data' => '',
+        'XSLT Mapping for Incoming Data' => '',
         'Could not find required library %s' => 'Не вдалося знайти необхідну бібліотеку %s',
-        'Outgoing request data before processing' => '',
-        'Outgoing request data before mapping' => '',
-        'Outgoing request data after mapping' => '',
-        'Incoming response data before mapping' => '',
-        'Outgoing error handler data after error handling' => '',
-        'Incoming request data before mapping' => '',
-        'Incoming request data after mapping' => '',
-        'Outgoing response data before mapping' => '',
+        'Outgoing request data before processing (RequesterRequestInput)' =>
+            '',
+        'Outgoing request data before mapping (RequesterRequestPrepareOutput)' =>
+            '',
+        'Outgoing request data after mapping (RequesterRequestMapOutput)' =>
+            '',
+        'Incoming response data before mapping (RequesterResponseInput)' =>
+            '',
+        'Outgoing error handler data after error handling (RequesterErrorHandlingOutput)' =>
+            '',
+        'Incoming request data before mapping (ProviderRequestInput)' => '',
+        'Incoming request data after mapping (ProviderRequestMapOutput)' =>
+            '',
+        'Outgoing response data before mapping (ProviderResponseInput)' =>
+            '',
+        'Outgoing error handler data after error handling (ProviderErrorHandlingOutput)' =>
+            '',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceOperationDefault.pm
         'Could not determine config for operation %s' => 'Не можу визначити налаштування для операції %s',
@@ -3635,6 +3674,7 @@ sub Data {
         'Web service "%s" created!' => 'Веб-службу "%s" створено!',
         'Need Name!' => 'Потрібно Ім\'я!',
         'Need ExampleWebService!' => 'Потрібний Взірець Веб-служби!',
+        'Could not load %s.' => '',
         'Could not read %s!' => 'Неможливо прочитати %s!',
         'Need a file to import!' => 'Потрібний файл для імпорту!',
         'The imported file has not valid YAML content! Please check OTRS log for details' =>
@@ -3672,6 +3712,8 @@ sub Data {
         'Customer user of the ticket' => '',
         'All recipients of the first article' => '',
         'All recipients of the last article' => '',
+        'Invisible to customer' => '',
+        'Visible to customer' => '',
 
         # Perl Module: Kernel/Modules/AdminOTRSBusiness.pm
         'Your system was successfully upgraded to %s.' => 'Вашу систему було успішно оновлено до %s.',
@@ -3805,8 +3847,6 @@ sub Data {
         'Could not get data for TransitionID %s' => 'Не можу отримати дані для TransitionID %s',
         'There was an error updating the Transition' => 'Під час оновлення Переходу виникла помилка',
         'Edit Transition "%s"' => 'Редагувати Перехід "%s"',
-        'xor' => 'xor',
-        'String' => 'Рядок',
         'Transition validation module' => 'Модуль перевірки Переходу',
 
         # Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
@@ -4870,8 +4910,6 @@ sub Data {
 
         # Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
         'unlimited' => 'необмежений',
-        'ascending' => ' По зростанню',
-        'descending' => ' По убуванню',
         'Attributes to be printed' => 'Атрибути для печатки',
         'Sort sequence' => 'Порядок сортування',
         'State Historic' => 'Історія Стану',

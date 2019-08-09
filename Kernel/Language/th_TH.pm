@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.591219678852067;
+    $Self->{Completeness}        = 0.588475267720551;
 
     # csv separator
     $Self->{Separator}         = ',';
@@ -566,6 +566,8 @@ sub Data {
         'Show link' => 'แสดงลิงค์',
         'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
             'คุณสามารถระบุตัวเลือกการเชื่อมโยง HTTPที่นี่ สำหรับข้อมูลในภาพรวมและหน้าจอซูม',
+        'If special characters (&, @, :, /, etc.) should not be encoded, use \'url\' instead of \'uri\' filter.' =>
+            '',
         'Example' => 'ตัวอย่าง',
         'Link for preview' => '',
         'If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too.' =>
@@ -883,6 +885,7 @@ sub Data {
         'Condition' => 'เงื่อนไข ',
         'Edit this event' => '',
         'This invoker will be triggered by the configured events.' => 'ผู้ร้องขอนี้จะถูกกำหนดโดยกิจกรรมที่ถูกกำหนดไว้',
+        'Add Event' => 'เพิ่มกิจกรรม',
         'To add a new event select the event object and event name and click on the "+" button' =>
             'ในการเพิ่มกิจกรรมใหม่เลือกออปเจ็กต์กิจกรรมและชื่อกิจกรรมและคลิกที่ปุ่ม "+"',
         'Asynchronous event triggers are handled by the OTRS Scheduler Daemon in background (recommended).' =>
@@ -1293,6 +1296,7 @@ sub Data {
             'ช่องตั๋วแบบไดนามิกแสดงค่าที่มีประโยชน์สำหรับDropdownและช่องสำหรับเลือกหลายรายการ',
 
         # Template: AdminNotificationEventTransportEmailSettings
+        'Use comma or semicolon to separate email addresses.' => '',
         'You can use OTRS-tags like <OTRS_TICKET_DynamicField_...> to insert values from the current ticket.' =>
             '',
 
@@ -3550,6 +3554,8 @@ sub Data {
         # Perl Module: Kernel/Modules/AdminGenericInterfaceDebugger.pm
         'Need WebserviceID!' => 'ต้องการ WebserviceID!',
         'Could not get data for WebserviceID %s' => 'ไม่สามารถรับข้อมูลสำหรับ WebserviceID %s',
+        'ascending' => '',
+        'descending' => '',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
         'Need communication type!' => '',
@@ -3561,6 +3567,18 @@ sub Data {
         'Could not update web service' => '',
         'Need ErrorHandling' => '',
         'Could not determine config for error handler %s' => '',
+        'Invoker processing outgoing request data' => '',
+        'Mapping outgoing request data' => '',
+        'Transport processing request into response' => '',
+        'Mapping incoming response data' => '',
+        'Invoker processing incoming response data' => '',
+        'Transport receiving incoming request data' => '',
+        'Mapping incoming request data' => '',
+        'Operation processing incoming request data' => '',
+        'Mapping outgoing response data' => '',
+        'Transport sending outgoing response data' => '',
+        'skip same backend modules only' => '',
+        'skip all modules' => '',
         'Operation deleted' => '',
         'Invoker deleted' => '',
 
@@ -3600,11 +3618,21 @@ sub Data {
         # Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
         'Need Invoker!' => '',
         'Need Event!' => '',
+        'Could not get registered modules for Invoker' => '',
+        'Could not get backend for Invoker %s' => '',
+        'The event %s is not valid.' => '',
+        'Could not update configuration data for WebserviceID %s' => 'ไม่สามารถอัปเดตข้อมูลการกำหนดค่าสำหรับ WebserviceID %s',
+        'This sub-action is not valid' => '',
+        'xor' => 'xor',
+        'String' => 'String',
+        'Regexp' => '',
+        'Validation Module' => '',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
+        'Simple Mapping for Outgoing Data' => '',
+        'Simple Mapping for Incoming Data' => '',
         'Could not get registered configuration for action type %s' => 'ไม่สามารถรับการกำหนดค่าลงทะเบียนสำหรับประเภทการกระทำ% s',
         'Could not get backend for %s %s' => 'ไม่สามารถรับแบ็กเอนด์สำหรับ %s %s',
-        'Could not update configuration data for WebserviceID %s' => 'ไม่สามารถอัปเดตข้อมูลการกำหนดค่าสำหรับ WebserviceID %s',
         'Keep (leave unchanged)' => 'เก็บ (ปล่อยไม่มีการเปลี่ยนแปลง)',
         'Ignore (drop key/value pair)' => 'ละเว้น (ดรอปคีย์ / ค่าคู่)',
         'Map to (use provided value as default)' => 'แผนที่ (การใช้งานที่มีให้คุ้มค่าเป็นค่าเริ่มต้น)',
@@ -3612,15 +3640,26 @@ sub Data {
         'Ignore (drop Value/value pair)' => 'ละเว้น (ดรอปค่า / ค่าคู่)',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
+        'XSLT Mapping for Outgoing Data' => '',
+        'XSLT Mapping for Incoming Data' => '',
         'Could not find required library %s' => 'ไม่พบไลบรารีที่จำเป็น %s',
-        'Outgoing request data before processing' => '',
-        'Outgoing request data before mapping' => '',
-        'Outgoing request data after mapping' => '',
-        'Incoming response data before mapping' => '',
-        'Outgoing error handler data after error handling' => '',
-        'Incoming request data before mapping' => '',
-        'Incoming request data after mapping' => '',
-        'Outgoing response data before mapping' => '',
+        'Outgoing request data before processing (RequesterRequestInput)' =>
+            '',
+        'Outgoing request data before mapping (RequesterRequestPrepareOutput)' =>
+            '',
+        'Outgoing request data after mapping (RequesterRequestMapOutput)' =>
+            '',
+        'Incoming response data before mapping (RequesterResponseInput)' =>
+            '',
+        'Outgoing error handler data after error handling (RequesterErrorHandlingOutput)' =>
+            '',
+        'Incoming request data before mapping (ProviderRequestInput)' => '',
+        'Incoming request data after mapping (ProviderRequestMapOutput)' =>
+            '',
+        'Outgoing response data before mapping (ProviderResponseInput)' =>
+            '',
+        'Outgoing error handler data after error handling (ProviderErrorHandlingOutput)' =>
+            '',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceOperationDefault.pm
         'Could not determine config for operation %s' => 'ไม่สามารถตรวจสอบการตั้งค่าสำหรับการดำเนินการ %s',
@@ -3638,6 +3677,7 @@ sub Data {
         'Web service "%s" created!' => 'สร้าง Web service "%s" แล้ว',
         'Need Name!' => 'ต้องการชื่อ!',
         'Need ExampleWebService!' => 'ต้องการ ExampleWebService!',
+        'Could not load %s.' => '',
         'Could not read %s!' => 'ไม่สามารถอ่าน%s!',
         'Need a file to import!' => 'ต้องการไฟล์ที่จะนำเข้า!',
         'The imported file has not valid YAML content! Please check OTRS log for details' =>
@@ -3675,6 +3715,8 @@ sub Data {
         'Customer user of the ticket' => '',
         'All recipients of the first article' => '',
         'All recipients of the last article' => '',
+        'Invisible to customer' => '',
+        'Visible to customer' => '',
 
         # Perl Module: Kernel/Modules/AdminOTRSBusiness.pm
         'Your system was successfully upgraded to %s.' => 'ระบบของคุณประสบความสำเร็จในการอัพเกรดเปน % s',
@@ -3808,8 +3850,6 @@ sub Data {
         'Could not get data for TransitionID %s' => 'ไม่สามารถรับข้อมูลสำหรับ TransitionID %s',
         'There was an error updating the Transition' => 'มีข้อผิดพลาดในการอัพเดตการเปลี่ยนผ่าน',
         'Edit Transition "%s"' => 'แก้ไขการเปลี่ยนผ่าน "%s"',
-        'xor' => 'xor',
-        'String' => 'String',
         'Transition validation module' => 'โมดูลการตรวจสอบการเปลี่ยนผ่าน',
 
         # Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
@@ -4873,8 +4913,6 @@ sub Data {
 
         # Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
         'unlimited' => '',
-        'ascending' => '',
-        'descending' => '',
         'Attributes to be printed' => 'แอตทริบิวต์ที่จะพิมพ์',
         'Sort sequence' => 'เรียงลำดับ',
         'State Historic' => 'ประวัติสถานะ',
