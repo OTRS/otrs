@@ -35,7 +35,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.938845234028015;
+    $Self->{Completeness}        = 0.934897161312256;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -577,6 +577,8 @@ sub Data {
         'Show link' => 'Показывать ссылку',
         'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
             'Здесь можно указать необязательную HTTP-ссылку для значения поля в экранах Обзоров и Подробного просмотра',
+        'If special characters (&, @, :, /, etc.) should not be encoded, use \'url\' instead of \'uri\' filter.' =>
+            '',
         'Example' => 'Пример',
         'Link for preview' => 'Ссылка для предпросмотра',
         'If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too.' =>
@@ -894,6 +896,7 @@ sub Data {
         'Condition' => 'Условие',
         'Edit this event' => 'Редактировать это событие',
         'This invoker will be triggered by the configured events.' => 'Этот invoker будет вызван при наступлении заданных событий.',
+        'Add Event' => 'Добавить событие',
         'To add a new event select the event object and event name and click on the "+" button' =>
             'Чтобы добавить новое событие выберите объект и имя события и щелкните кнопку "+" ',
         'Asynchronous event triggers are handled by the OTRS Scheduler Daemon in background (recommended).' =>
@@ -1304,6 +1307,7 @@ sub Data {
             'Отображаемые значения динамических полей заявки, полезно при использовании полей типа Dropdown и Multiselect',
 
         # Template: AdminNotificationEventTransportEmailSettings
+        'Use comma or semicolon to separate email addresses.' => '',
         'You can use OTRS-tags like <OTRS_TICKET_DynamicField_...> to insert values from the current ticket.' =>
             'Вы можете использовать OTRS-тэги типа <OTRS_TICKET_DynamicField_...> для вставки значений из текущей заявки.',
 
@@ -2050,7 +2054,7 @@ sub Data {
             'Отображаемое имя и адрес электронной почты будут показываться в отправляемой вами почте.',
         'This system address cannot be set to invalid.' => '',
         'This system address cannot be set to invalid, because it is used in one or more queue(s) or auto response(s).' =>
-            '',
+            'Данный системный адрес не может быть сохранен как "недействительный", т.к. используется в одной или нескольких очередях или автоответах.',
 
         # Template: AdminSystemConfiguration
         'online administrator documentation' => 'онлайн-руководство администратора',
@@ -2172,7 +2176,7 @@ sub Data {
         'Your email address is' => 'Ваш email адрес ',
 
         # Template: AdminTemplateAttachment
-        'Manage Template-Attachment Relations' => '',
+        'Manage Template-Attachment Relations' => 'Управление связями Шаблон-Вложения',
         'Toggle active for all' => 'Включить для всех',
         'Link %s to selected %s' => 'Связать %s с выбранным %s',
 
@@ -2485,7 +2489,7 @@ sub Data {
         'Split' => 'Разделить',
 
         # Template: AgentStatisticsAdd
-        'Statistics Management' => '',
+        'Statistics Management' => 'Управление статистикой',
         'Add Statistics' => 'Добавить отчет',
         'Read more about statistics in OTRS' => 'Читайте еще об отчетах в OTRS',
         'Dynamic Matrix' => 'Динамическая матрица',
@@ -2498,13 +2502,13 @@ sub Data {
         'Create Statistic' => 'Создать отчет',
 
         # Template: AgentStatisticsEdit
-        'Edit Statistics' => '',
+        'Edit Statistics' => 'Изменить статистику',
         'Run now' => 'Выполнить сейчас',
         'Statistics Preview' => 'Предпросмотр отчета',
         'Save Statistic' => 'Сохранить отчет',
 
         # Template: AgentStatisticsImport
-        'Import Statistics' => '',
+        'Import Statistics' => 'Импортировать статистику',
         'Import Statistics Configuration' => 'Импортировать настройки Отчета',
 
         # Template: AgentStatisticsOverview
@@ -2518,7 +2522,7 @@ sub Data {
 
         # Template: AgentStatisticsView
         'Statistics Overview' => 'Перечень отчетов',
-        'View Statistics' => '',
+        'View Statistics' => 'Просмотреть статистику',
         'Statistics Information' => 'Информация об отчете',
         'Created by' => 'Создал',
         'Changed by' => 'Изменил',
@@ -3380,7 +3384,7 @@ sub Data {
         'There was an error synchronizing the ACLs.' => 'Произошла ошибка при синхронизации ACL.',
         'ACL %s could not be deleted' => 'Невозможно удалить ACL %s',
         'There was an error getting data for ACL with ID %s' => 'Произошла ошибка при получении данный от ACL с ID %s',
-        '%s (copy) %s' => '',
+        '%s (copy) %s' => '%s (копия) %s ',
         'Please note that ACL restrictions will be ignored for the Superuser account (UserID 1).' =>
             'Обратите внимание, что для аккаунта Superuser (UserID 1) ограничения ACL игнорируются.',
         'Exact match' => 'Полное совпадение',
@@ -3419,7 +3423,7 @@ sub Data {
         'There was an error getting data for Notification with ID:%s!' =>
             'Произошла ошибка при получении данных для Уведомления с ID: %s!',
         'Unknown Notification %s!' => 'Неизвестное Уведомление %s!',
-        '%s (copy)' => '',
+        '%s (copy)' => '%s (копия)',
         'There was an error creating the Notification' => 'Произошла ошибка при создании Уведомления',
         'Notifications could not be Imported due to a unknown error, please check OTRS logs for more information' =>
             'Уведомления не могут быть импортированы из-за неизвестной ошибки, проверьте, пожалуйста, логи OTRS для получения более детальной информации',
@@ -3558,6 +3562,8 @@ sub Data {
         # Perl Module: Kernel/Modules/AdminGenericInterfaceDebugger.pm
         'Need WebserviceID!' => 'Требуется WebserviceID!',
         'Could not get data for WebserviceID %s' => 'Невозможно получить данные для WebserviceID %s',
+        'ascending' => 'По возрастанию',
+        'descending' => 'По убыванию',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
         'Need communication type!' => 'Требуется тип коммуникации!',
@@ -3569,6 +3575,18 @@ sub Data {
         'Could not update web service' => 'Не удалось обновить веб-сервис',
         'Need ErrorHandling' => 'Требуется ErrorHandling',
         'Could not determine config for error handler %s' => 'Не удалось определить конфигурацию для обработчика ошибки %s',
+        'Invoker processing outgoing request data' => '',
+        'Mapping outgoing request data' => '',
+        'Transport processing request into response' => '',
+        'Mapping incoming response data' => '',
+        'Invoker processing incoming response data' => '',
+        'Transport receiving incoming request data' => '',
+        'Mapping incoming request data' => '',
+        'Operation processing incoming request data' => '',
+        'Mapping outgoing response data' => '',
+        'Transport sending outgoing response data' => '',
+        'skip same backend modules only' => '',
+        'skip all modules' => '',
         'Operation deleted' => 'Процесс удален',
         'Invoker deleted' => 'Invoker удалён',
 
@@ -3608,11 +3626,21 @@ sub Data {
         # Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
         'Need Invoker!' => 'Требуется Invoker!',
         'Need Event!' => 'Требуется Event!',
+        'Could not get registered modules for Invoker' => '',
+        'Could not get backend for Invoker %s' => '',
+        'The event %s is not valid.' => '',
+        'Could not update configuration data for WebserviceID %s' => 'Не возможно обновить параметры для WebserviceID %s',
+        'This sub-action is not valid' => '',
+        'xor' => 'xor',
+        'String' => 'String',
+        'Regexp' => '',
+        'Validation Module' => '',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
+        'Simple Mapping for Outgoing Data' => '',
+        'Simple Mapping for Incoming Data' => '',
         'Could not get registered configuration for action type %s' => 'Не возможно зарегистрировать настройки для типа действия %s',
         'Could not get backend for %s %s' => 'Не возможно получить бэкэнд для %s %s',
-        'Could not update configuration data for WebserviceID %s' => 'Не возможно обновить параметры для WebserviceID %s',
         'Keep (leave unchanged)' => 'Keep: (оставить без изменений)',
         'Ignore (drop key/value pair)' => 'Ignore: (удалить пару ключ/значение)',
         'Map to (use provided value as default)' => 'Сопоставить с (использовать предоставленное значение по умолчанию)',
@@ -3620,15 +3648,26 @@ sub Data {
         'Ignore (drop Value/value pair)' => 'Ignore: (удалить пару Значение / Значение)',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
+        'XSLT Mapping for Outgoing Data' => '',
+        'XSLT Mapping for Incoming Data' => '',
         'Could not find required library %s' => 'Не удалось найти библиотеку %s',
-        'Outgoing request data before processing' => 'Данные исходящего запроса перед обработкой',
-        'Outgoing request data before mapping' => 'Данные исходящего запроса перед мапингом',
-        'Outgoing request data after mapping' => 'Данные исходящего запроса после мапинга',
-        'Incoming response data before mapping' => 'Данные входящего ответа перед обработкой',
-        'Outgoing error handler data after error handling' => 'Данные обработчика исходящих ошибок после обработки ошибки',
-        'Incoming request data before mapping' => 'Данные входящего ответа перед мапингом',
-        'Incoming request data after mapping' => 'Данные входящего ответа после мапинга',
-        'Outgoing response data before mapping' => 'Данные исходящего запроса перед мапингом',
+        'Outgoing request data before processing (RequesterRequestInput)' =>
+            '',
+        'Outgoing request data before mapping (RequesterRequestPrepareOutput)' =>
+            '',
+        'Outgoing request data after mapping (RequesterRequestMapOutput)' =>
+            '',
+        'Incoming response data before mapping (RequesterResponseInput)' =>
+            '',
+        'Outgoing error handler data after error handling (RequesterErrorHandlingOutput)' =>
+            '',
+        'Incoming request data before mapping (ProviderRequestInput)' => '',
+        'Incoming request data after mapping (ProviderRequestMapOutput)' =>
+            '',
+        'Outgoing response data before mapping (ProviderResponseInput)' =>
+            '',
+        'Outgoing error handler data after error handling (ProviderErrorHandlingOutput)' =>
+            '',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceOperationDefault.pm
         'Could not determine config for operation %s' => 'Не удалось определить настройки для процесса %s',
@@ -3646,6 +3685,7 @@ sub Data {
         'Web service "%s" created!' => 'Web-сервис "%s" создан!',
         'Need Name!' => 'Требуется Имя!',
         'Need ExampleWebService!' => 'Требуется ExampleWebService!',
+        'Could not load %s.' => '',
         'Could not read %s!' => 'Невозможно прочитать %s!',
         'Need a file to import!' => 'Требуется файл для импорта!',
         'The imported file has not valid YAML content! Please check OTRS log for details' =>
@@ -3683,6 +3723,8 @@ sub Data {
         'Customer user of the ticket' => 'Клиент заявки',
         'All recipients of the first article' => 'Все получатели первой заметки',
         'All recipients of the last article' => 'Все получатели последней заметки',
+        'Invisible to customer' => '',
+        'Visible to customer' => '',
 
         # Perl Module: Kernel/Modules/AdminOTRSBusiness.pm
         'Your system was successfully upgraded to %s.' => 'Ваша система успешно обновлена до %s.',
@@ -3816,8 +3858,6 @@ sub Data {
         'Could not get data for TransitionID %s' => 'Невозможно получить данные для TransitionID %s',
         'There was an error updating the Transition' => 'Произошла ошибка при обновлении Transition',
         'Edit Transition "%s"' => 'Редактировать Переход/Transition "%s"',
-        'xor' => 'xor',
-        'String' => 'String',
         'Transition validation module' => 'Модуль проверки Перехода',
 
         # Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
@@ -4881,8 +4921,6 @@ sub Data {
 
         # Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
         'unlimited' => 'неограничено',
-        'ascending' => 'По возрастанию',
-        'descending' => 'По убыванию',
         'Attributes to be printed' => 'Атрибуты для печати',
         'Sort sequence' => 'Порядок сортировки',
         'State Historic' => 'Состояние истории',
@@ -5037,7 +5075,7 @@ sub Data {
         'Not all required Perl modules are correctly installed.' => 'Не все требуемые модули Perl установлены корректно.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
-        'Perl Modules Audit' => '',
+        'Perl Modules Audit' => 'Аудит модулей Perl',
         'CPAN::Audit reported that one or more installed Perl modules have known vulnerabilities. Please note that there might be false positives for distributions patching Perl modules without changing their version number.' =>
             '',
         'CPAN::Audit did not report any known vulnerabilities in the installed Perl modules.' =>
@@ -5811,8 +5849,8 @@ sub Data {
             '',
         'The following files were already uploaded and have not been uploaded again: %s' =>
             '',
-        'No space left for the following files: %s' => '',
-        'Available space %s of %s.' => '',
+        'No space left for the following files: %s' => 'Недостаточно места для следующих файлов: %s',
+        'Available space %s of %s.' => 'Доступное место 1%s из 1%s',
         'Upload information' => 'Информация о загрузке',
         'An unknown error occurred when deleting the attachment. Please try again. If the error persists, please contact your system administrator.' =>
             'Неизвестная ошибка обнаружена при удалении вложения. Попробуйте повторить. Если ошибка повторяется постоянно, свяжитесь в вашим системным администратором.',
@@ -5997,7 +6035,7 @@ Thanks for your help!
             'Позволяет добавить сообщение на экране Ответственный в просмотре заявки в интерфейсе агента. Может быть перекрыто параметром Ticket::Frontend::NeedAccountedTime.',
         'Allows agents to exchange the axis of a stat if they generate one.' =>
             'Позволяет поменять местами оси графика в отчете.',
-        'Allows agents to generate individual-related stats.' => 'Позволяет агентам создавать индивидуальные отчеты.',
+        'Allows agents to generate individual-related stats.' => 'Разрешать использовать в отчётах данные агентов (отчеты по агентам).',
         'Allows choosing between showing the attachments of a ticket in the browser (inline) or just make them downloadable (attachment).' =>
             'Выбор варианта показа вложения к заявке - в окне браузера или как файл для загрузки(вложение).',
         'Allows choosing the next compose state for customer tickets in the customer interface.' =>
@@ -6031,7 +6069,7 @@ Thanks for your help!
             'Допускает использование medium режима просмотра заявок (CustomerInfo => 1 - показывает также информацию о клиенте).',
         'Allows having a small format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
             'Допускает использование small(краткий) режима просмотра заявок (CustomerInfo => 1 - показывает также информацию о клиенте).',
-        'Allows invalid agents to generate individual-related stats.' => 'Разрешать отчёты по агентам в статусе "invalid"',
+        'Allows invalid agents to generate individual-related stats.' => 'Разрешать строить отчёты по недействительным агентам',
         'Allows the administrators to login as other customers, via the customer user administration panel.' =>
             'Дает возможность администратору войти в систему как клиенту, через панель управления учетными записями клиентов.',
         'Allows the administrators to login as other users, via the users administration panel.' =>
@@ -6279,7 +6317,7 @@ Thanks for your help!
         'Customer Information Center search.' => '',
         'Customer Information Center.' => 'Центр оповещения клиентов.',
         'Customer Ticket Print Module.' => 'Модуль печати клиентских заявок.',
-        'Customer User Administration' => 'Управление Компаниями',
+        'Customer User Administration' => 'Управление Клиентами',
         'Customer User Information' => 'Информация о клиенте',
         'Customer User Information Center Search.' => 'Поиск в центре информации о клиентах.',
         'Customer User Information Center search.' => 'Поиск в центре информации о клиентах.',

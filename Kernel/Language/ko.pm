@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '';
     $Self->{DateInputFormat}     = '';
     $Self->{DateInputFormatLong} = '';
-    $Self->{Completeness}        = 0.980013665869491;
+    $Self->{Completeness}        = 0.973822879483257;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -566,6 +566,8 @@ sub Data {
         'Show link' => '링크 표시',
         'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
             '개요 및 확대 / 축소 화면에서 필드 값에 대한 선택적 HTTP 링크를 지정할 수 있습니다.',
+        'If special characters (&, @, :, /, etc.) should not be encoded, use \'url\' instead of \'uri\' filter.' =>
+            '',
         'Example' => '예',
         'Link for preview' => '미리보기 링크',
         'If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too.' =>
@@ -883,6 +885,7 @@ sub Data {
         'Condition' => '조건',
         'Edit this event' => '이 일정 수정',
         'This invoker will be triggered by the configured events.' => '이 호출자는 구성된 이벤트에 의해 트리거됩니다.',
+        'Add Event' => '',
         'To add a new event select the event object and event name and click on the "+" button' =>
             '새 이벤트를 추가하려면 이벤트 객체와 이벤트 이름을 선택하고 "+"버튼을 클릭하십시오.',
         'Asynchronous event triggers are handled by the OTRS Scheduler Daemon in background (recommended).' =>
@@ -1293,6 +1296,7 @@ sub Data {
             '티켓 동적 필드는 드롭 다운 및 Multiselect 필드에 유용한 값을 표시합니다. ',
 
         # Template: AdminNotificationEventTransportEmailSettings
+        'Use comma or semicolon to separate email addresses.' => '',
         'You can use OTRS-tags like <OTRS_TICKET_DynamicField_...> to insert values from the current ticket.' =>
             '<OTRS_TICKET_DynamicField _...>와 같은 OTRS 태그를 사용하여 현재 티켓의 값을 삽입 할 수 있습니다.',
 
@@ -3547,6 +3551,8 @@ sub Data {
         # Perl Module: Kernel/Modules/AdminGenericInterfaceDebugger.pm
         'Need WebserviceID!' => 'WebserviceID가 필요합니다!',
         'Could not get data for WebserviceID %s' => 'WebserviceID %s에 대한 데이터를 가져올 수 없습니다.',
+        'ascending' => '오름차순',
+        'descending' => '내림차순',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
         'Need communication type!' => '통신 유형이 필요합니다!',
@@ -3558,6 +3564,18 @@ sub Data {
         'Could not update web service' => '웹 서비스를 업데이트 할 수 없습니다.',
         'Need ErrorHandling' => 'ErrorHandling이 필요함',
         'Could not determine config for error handler %s' => 'Error handler %s에 대한 구성을 결정할 수 없습니다.',
+        'Invoker processing outgoing request data' => '',
+        'Mapping outgoing request data' => '',
+        'Transport processing request into response' => '',
+        'Mapping incoming response data' => '',
+        'Invoker processing incoming response data' => '',
+        'Transport receiving incoming request data' => '',
+        'Mapping incoming request data' => '',
+        'Operation processing incoming request data' => '',
+        'Mapping outgoing response data' => '',
+        'Transport sending outgoing response data' => '',
+        'skip same backend modules only' => '',
+        'skip all modules' => '',
         'Operation deleted' => '작업이 삭제되었습니다.',
         'Invoker deleted' => '호출자가 삭제되었습니다.',
 
@@ -3597,11 +3615,21 @@ sub Data {
         # Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
         'Need Invoker!' => '호출자가 필요합니다!',
         'Need Event!' => '이벤트가 필요합니다!',
+        'Could not get registered modules for Invoker' => '',
+        'Could not get backend for Invoker %s' => '',
+        'The event %s is not valid.' => '',
+        'Could not update configuration data for WebserviceID %s' => 'WebserviceID %s 의 설정을 업데이트 할 수 업습니다.',
+        'This sub-action is not valid' => '',
+        'xor' => 'xor',
+        'String' => '끈',
+        'Regexp' => '',
+        'Validation Module' => '',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
+        'Simple Mapping for Outgoing Data' => '',
+        'Simple Mapping for Incoming Data' => '',
         'Could not get registered configuration for action type %s' => 'Action type %s에 대한 등록 된 구성을 가져올 수 없습니다.',
         'Could not get backend for %s %s' => '%s %s의 백엔드를 가져올 수 없습니다.',
-        'Could not update configuration data for WebserviceID %s' => 'WebserviceID %s 의 설정을 업데이트 할 수 업습니다.',
         'Keep (leave unchanged)' => '유지 (변경하지 않음)',
         'Ignore (drop key/value pair)' => '무시 (키 / 값 쌍 삭제)',
         'Map to (use provided value as default)' => '지도에 (제공된 값을 기본값으로 사용)',
@@ -3609,15 +3637,26 @@ sub Data {
         'Ignore (drop Value/value pair)' => '무시 (값 / 값 쌍 놓기)',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
+        'XSLT Mapping for Outgoing Data' => '',
+        'XSLT Mapping for Incoming Data' => '',
         'Could not find required library %s' => '필요한 라이브러리 %s을 찾을 수 없습니다.',
-        'Outgoing request data before processing' => '처리하기 전에 나가는 요청 데이터',
-        'Outgoing request data before mapping' => '매핑 전에 나가는 요청 데이터',
-        'Outgoing request data after mapping' => '매핑 후에 나가는 요청 데이터',
-        'Incoming response data before mapping' => '매핑 전에 들어오는 응답 데이터',
-        'Outgoing error handler data after error handling' => '오류 처리 후 나가는 오류 처리기 데이터',
-        'Incoming request data before mapping' => '매핑 전에 들어오는 요청 데이터',
-        'Incoming request data after mapping' => '매핑 후에 들어오는 요청 데이터',
-        'Outgoing response data before mapping' => '매핑 전에 보내는 응답 데이터',
+        'Outgoing request data before processing (RequesterRequestInput)' =>
+            '',
+        'Outgoing request data before mapping (RequesterRequestPrepareOutput)' =>
+            '',
+        'Outgoing request data after mapping (RequesterRequestMapOutput)' =>
+            '',
+        'Incoming response data before mapping (RequesterResponseInput)' =>
+            '',
+        'Outgoing error handler data after error handling (RequesterErrorHandlingOutput)' =>
+            '',
+        'Incoming request data before mapping (ProviderRequestInput)' => '',
+        'Incoming request data after mapping (ProviderRequestMapOutput)' =>
+            '',
+        'Outgoing response data before mapping (ProviderResponseInput)' =>
+            '',
+        'Outgoing error handler data after error handling (ProviderErrorHandlingOutput)' =>
+            '',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceOperationDefault.pm
         'Could not determine config for operation %s' => '%s Operation에 대한 구성을 결정할 수 없습니다.',
@@ -3635,6 +3674,7 @@ sub Data {
         'Web service "%s" created!' => 'Web service "%s"가 생성되었습니다! ',
         'Need Name!' => '이름이 필요합니다!',
         'Need ExampleWebService!' => 'ExampleWebService가 필요합니다!',
+        'Could not load %s.' => '',
         'Could not read %s!' => '%s를 읽을 수 없습니다!',
         'Need a file to import!' => '가져올 파일이 필요합니다!',
         'The imported file has not valid YAML content! Please check OTRS log for details' =>
@@ -3672,6 +3712,8 @@ sub Data {
         'Customer user of the ticket' => '티켓의 고객 사용자',
         'All recipients of the first article' => '첫 번째 기사의 모든 수신자',
         'All recipients of the last article' => '마지막 기사의 모든 수신자',
+        'Invisible to customer' => '',
+        'Visible to customer' => '',
 
         # Perl Module: Kernel/Modules/AdminOTRSBusiness.pm
         'Your system was successfully upgraded to %s.' => '시스템이 %s로 성공적으로 업그레이드되었습니다.',
@@ -3805,8 +3847,6 @@ sub Data {
         'Could not get data for TransitionID %s' => 'TransitionID %s에 대한 데이터를 가져올 수 없습니다.',
         'There was an error updating the Transition' => '전환을 업데이트 하는 중 오류가 발생했습니다.',
         'Edit Transition "%s"' => '전환 편집 "%s"',
-        'xor' => 'xor',
-        'String' => '끈',
         'Transition validation module' => '전환 유효성 검사 모듈',
 
         # Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
@@ -4870,8 +4910,6 @@ sub Data {
 
         # Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
         'unlimited' => '제한 없는',
-        'ascending' => '오름차순',
-        'descending' => '내림차순',
         'Attributes to be printed' => '인쇄할 속성',
         'Sort sequence' => '정렬 순서',
         'State Historic' => '주 역사',

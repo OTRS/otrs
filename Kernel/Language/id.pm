@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.683122651178681;
+    $Self->{Completeness}        = 0.679925208227095;
 
     # csv separator
     $Self->{Separator}         = ',';
@@ -566,6 +566,8 @@ sub Data {
         'Show link' => 'Tunjukan tautan',
         'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
             'Disini andadapat mengspesifikasikan Tautan HTTP opsional untuk nilai bidang tersebut pada gambaran dan tampilan zoom.',
+        'If special characters (&, @, :, /, etc.) should not be encoded, use \'url\' instead of \'uri\' filter.' =>
+            '',
         'Example' => 'Contoh',
         'Link for preview' => 'Hubungkan untuk preview',
         'If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too.' =>
@@ -883,6 +885,7 @@ sub Data {
         'Condition' => 'Syarat',
         'Edit this event' => '',
         'This invoker will be triggered by the configured events.' => 'Invoker ini akan dipicu oleh konfigurasi ',
+        'Add Event' => 'Tambahkan event',
         'To add a new event select the event object and event name and click on the "+" button' =>
             'Untuk menambahkan even baru, pilih objek event dan nama event dan klik tombol "+".',
         'Asynchronous event triggers are handled by the OTRS Scheduler Daemon in background (recommended).' =>
@@ -1293,6 +1296,7 @@ sub Data {
             'Bidang dinamis tiket yang menampilkan nilai, berguna untuk Dropdown dan Multiselecet',
 
         # Template: AdminNotificationEventTransportEmailSettings
+        'Use comma or semicolon to separate email addresses.' => '',
         'You can use OTRS-tags like <OTRS_TICKET_DynamicField_...> to insert values from the current ticket.' =>
             '',
 
@@ -3549,6 +3553,8 @@ bin/otrs.Daemon.pl status\').',
         # Perl Module: Kernel/Modules/AdminGenericInterfaceDebugger.pm
         'Need WebserviceID!' => 'Membutuhkan ID Webservice!',
         'Could not get data for WebserviceID %s' => 'Tidak ada data untuk IDWebservice %s',
+        'ascending' => 'Menaik',
+        'descending' => 'Menurun',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
         'Need communication type!' => '',
@@ -3560,6 +3566,18 @@ bin/otrs.Daemon.pl status\').',
         'Could not update web service' => '',
         'Need ErrorHandling' => '',
         'Could not determine config for error handler %s' => '',
+        'Invoker processing outgoing request data' => '',
+        'Mapping outgoing request data' => '',
+        'Transport processing request into response' => '',
+        'Mapping incoming response data' => '',
+        'Invoker processing incoming response data' => '',
+        'Transport receiving incoming request data' => '',
+        'Mapping incoming request data' => '',
+        'Operation processing incoming request data' => '',
+        'Mapping outgoing response data' => '',
+        'Transport sending outgoing response data' => '',
+        'skip same backend modules only' => '',
+        'skip all modules' => '',
         'Operation deleted' => '',
         'Invoker deleted' => '',
 
@@ -3599,11 +3617,21 @@ bin/otrs.Daemon.pl status\').',
         # Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
         'Need Invoker!' => '',
         'Need Event!' => '',
+        'Could not get registered modules for Invoker' => '',
+        'Could not get backend for Invoker %s' => '',
+        'The event %s is not valid.' => '',
+        'Could not update configuration data for WebserviceID %s' => 'Tidak bisa memperbarui data konfigurasi untuk layanan Web',
+        'This sub-action is not valid' => '',
+        'xor' => 'xor',
+        'String' => 'Tali',
+        'Regexp' => '',
+        'Validation Module' => '',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
+        'Simple Mapping for Outgoing Data' => '',
+        'Simple Mapping for Incoming Data' => '',
         'Could not get registered configuration for action type %s' => 'Tidak bisa mendapatkan konfigurasi terdaftar untuk jenis tindakan %s',
         'Could not get backend for %s %s' => 'Tidak bisa mendapatkan backend untuk %s %s',
-        'Could not update configuration data for WebserviceID %s' => 'Tidak bisa memperbarui data konfigurasi untuk layanan Web',
         'Keep (leave unchanged)' => 'Jauhkan (tinggalkan yang tidak diubah)',
         'Ignore (drop key/value pair)' => 'Abaikan (key drop/nilai pasangan)',
         'Map to (use provided value as default)' => 'Peta ke (digunakan untuk memberikan nilai sebagai default)',
@@ -3611,15 +3639,26 @@ bin/otrs.Daemon.pl status\').',
         'Ignore (drop Value/value pair)' => 'Abaikan (drop Nilai/nilai pair)',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
+        'XSLT Mapping for Outgoing Data' => '',
+        'XSLT Mapping for Incoming Data' => '',
         'Could not find required library %s' => 'Tidak dapat menemukan perpustakaan yang diperlukan %s',
-        'Outgoing request data before processing' => '',
-        'Outgoing request data before mapping' => '',
-        'Outgoing request data after mapping' => '',
-        'Incoming response data before mapping' => '',
-        'Outgoing error handler data after error handling' => '',
-        'Incoming request data before mapping' => '',
-        'Incoming request data after mapping' => '',
-        'Outgoing response data before mapping' => '',
+        'Outgoing request data before processing (RequesterRequestInput)' =>
+            '',
+        'Outgoing request data before mapping (RequesterRequestPrepareOutput)' =>
+            '',
+        'Outgoing request data after mapping (RequesterRequestMapOutput)' =>
+            '',
+        'Incoming response data before mapping (RequesterResponseInput)' =>
+            '',
+        'Outgoing error handler data after error handling (RequesterErrorHandlingOutput)' =>
+            '',
+        'Incoming request data before mapping (ProviderRequestInput)' => '',
+        'Incoming request data after mapping (ProviderRequestMapOutput)' =>
+            '',
+        'Outgoing response data before mapping (ProviderResponseInput)' =>
+            '',
+        'Outgoing error handler data after error handling (ProviderErrorHandlingOutput)' =>
+            '',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceOperationDefault.pm
         'Could not determine config for operation %s' => 'Tidak dapat menentukan konfigurasi untuk operasi %s',
@@ -3637,6 +3676,7 @@ bin/otrs.Daemon.pl status\').',
         'Web service "%s" created!' => 'layanan web "dibuat!',
         'Need Name!' => 'Butuh Nama!',
         'Need ExampleWebService!' => 'Perlu ExampleWebService!',
+        'Could not load %s.' => '',
         'Could not read %s!' => 'Tidak dapat dibaca %s!',
         'Need a file to import!' => 'Butuh sebuah file untuk di impor!',
         'The imported file has not valid YAML content! Please check OTRS log for details' =>
@@ -3674,6 +3714,8 @@ bin/otrs.Daemon.pl status\').',
         'Customer user of the ticket' => '',
         'All recipients of the first article' => '',
         'All recipients of the last article' => '',
+        'Invisible to customer' => '',
+        'Visible to customer' => '',
 
         # Perl Module: Kernel/Modules/AdminOTRSBusiness.pm
         'Your system was successfully upgraded to %s.' => 'Sistem anda telah berhasil di upgrade ke %s.',
@@ -3807,8 +3849,6 @@ bin/otrs.Daemon.pl status\').',
         'Could not get data for TransitionID %s' => 'Tidak bisa mendapatkan data untuk dialihkan %s',
         'There was an error updating the Transition' => 'Terjadi kesalahan disaat memperbarui Transisi',
         'Edit Transition "%s"' => 'Edit transisi "%s"',
-        'xor' => 'xor',
-        'String' => 'Tali',
         'Transition validation module' => 'Modul transisi valid',
 
         # Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
@@ -4872,8 +4912,6 @@ bin/otrs.Daemon.pl status\').',
 
         # Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
         'unlimited' => 'Tanpa batas',
-        'ascending' => 'Menaik',
-        'descending' => 'Menurun',
         'Attributes to be printed' => 'Atribut yang akan dicetak',
         'Sort sequence' => 'Urutan sesuai berikut',
         'State Historic' => 'State Histori',

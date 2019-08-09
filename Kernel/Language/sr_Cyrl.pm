@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.998804236419542;
+    $Self->{Completeness}        = 0.995920448750637;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -76,7 +76,7 @@ sub Data {
         'Change settings' => 'Промени подешавања',
         'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is a white list, \'PossibleNot\' a black list.' =>
             'Подесите оно што желите да мењате ако се критеријуми слажу. Имајте на уму да је \'Possible\' бела листа, \'PossibleNot\' црна листа.',
-        'Check the official %sdocumentation%s.' => '',
+        'Check the official %sdocumentation%s.' => 'Прочитајте званичну %sдокументацију%s.',
         'Show or hide the content' => 'Покажи или сакриј садржај',
         'Edit ACL Information' => 'Уреди информације о ACL',
         'Name' => 'Назив',
@@ -566,6 +566,8 @@ sub Data {
         'Show link' => 'Покажи везу',
         'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
             'Овде можете да унесете опциону HTTP везу за вредност поља у екранима прегледа.',
+        'If special characters (&, @, :, /, etc.) should not be encoded, use \'url\' instead of \'uri\' filter.' =>
+            '',
         'Example' => 'Пример',
         'Link for preview' => 'Веза за преглед',
         'If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too.' =>
@@ -883,6 +885,7 @@ sub Data {
         'Condition' => 'Услов',
         'Edit this event' => 'Уреди овај догађај',
         'This invoker will be triggered by the configured events.' => 'Овај позиваоц ће бити активиран преко подешених догађаја.',
+        'Add Event' => 'Додај догађај',
         'To add a new event select the event object and event name and click on the "+" button' =>
             'За додавање новог догађаја изаберите објекат и назив догађаја па кликните на "+" дугме',
         'Asynchronous event triggers are handled by the OTRS Scheduler Daemon in background (recommended).' =>
@@ -1293,6 +1296,7 @@ sub Data {
             'Приказане вредности динамичких поља, корисно за падајућа и поља са вишеструким избором.',
 
         # Template: AdminNotificationEventTransportEmailSettings
+        'Use comma or semicolon to separate email addresses.' => '',
         'You can use OTRS-tags like <OTRS_TICKET_DynamicField_...> to insert values from the current ticket.' =>
             'Можете користити OTRS тагове као <OTRS_TICKET_DynamicField_...> за уметање вредности из тренутног тикета.',
 
@@ -3547,6 +3551,8 @@ sub Data {
         # Perl Module: Kernel/Modules/AdminGenericInterfaceDebugger.pm
         'Need WebserviceID!' => 'Неопходан WebserviceID!',
         'Could not get data for WebserviceID %s' => 'Не могу прибавити податке за ID веб сервиса %s',
+        'ascending' => 'растући',
+        'descending' => 'опадајући',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
         'Need communication type!' => 'Неопходан тип комуникације!',
@@ -3558,6 +3564,18 @@ sub Data {
         'Could not update web service' => 'Није могуће ажурирати веб сервис',
         'Need ErrorHandling' => 'Неопходан ErrorHandling',
         'Could not determine config for error handler %s' => 'Није могуће утврдити конфигурацију за обраду грешке %s',
+        'Invoker processing outgoing request data' => 'Обрада излазних података захтева у позиваоцу',
+        'Mapping outgoing request data' => 'Мапирање излазних података захтева',
+        'Transport processing request into response' => 'Обрада захтева у одговор у транспорту',
+        'Mapping incoming response data' => 'Мапирање долазних података одговора',
+        'Invoker processing incoming response data' => 'Обрада долазних података одговара у позиваоцу',
+        'Transport receiving incoming request data' => 'Примање долазних података захтева у транспорту',
+        'Mapping incoming request data' => 'Мапирање долазних података захтева',
+        'Operation processing incoming request data' => 'Обрада долазних података захтева у операцији',
+        'Mapping outgoing response data' => 'Мапирање одлазних података одговора',
+        'Transport sending outgoing response data' => 'Слање одлазних података одговора у транспорту',
+        'skip same backend modules only' => 'прескочи само исте позадинске модуле',
+        'skip all modules' => 'прескочи све модуле',
         'Operation deleted' => 'Операција обрисана',
         'Invoker deleted' => 'Позивалац обрисан',
 
@@ -3597,11 +3615,21 @@ sub Data {
         # Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
         'Need Invoker!' => 'Неопходан позивалац!',
         'Need Event!' => 'Неопходан догађај!',
+        'Could not get registered modules for Invoker' => '',
+        'Could not get backend for Invoker %s' => '',
+        'The event %s is not valid.' => '',
+        'Could not update configuration data for WebserviceID %s' => 'Не могу ажурирати конфигурационе податке за ID веб сервиса %s',
+        'This sub-action is not valid' => '',
+        'xor' => 'xor',
+        'String' => 'Низ знакова',
+        'Regexp' => '',
+        'Validation Module' => '',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
+        'Simple Mapping for Outgoing Data' => '',
+        'Simple Mapping for Incoming Data' => '',
         'Could not get registered configuration for action type %s' => 'Не могу прибавити регистровану конфигурацију за тип акције %s',
         'Could not get backend for %s %s' => 'Није могуће пронаћи модул за %s %s',
-        'Could not update configuration data for WebserviceID %s' => 'Не могу ажурирати конфигурационе податке за ID веб сервиса %s',
         'Keep (leave unchanged)' => 'Задржи (остави непромењено)',
         'Ignore (drop key/value pair)' => 'Игнориши (одбаци пар кључ/вредност)',
         'Map to (use provided value as default)' => 'Мапирај на (употреби понуђену вредност као подразумевану)',
@@ -3609,15 +3637,26 @@ sub Data {
         'Ignore (drop Value/value pair)' => 'Игнориши (одбаци пар вредност/вредност)',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
+        'XSLT Mapping for Outgoing Data' => '',
+        'XSLT Mapping for Incoming Data' => '',
         'Could not find required library %s' => 'Није могуће пронаћи потребну библиотеку %s',
-        'Outgoing request data before processing' => 'Подаци одлазећег захтева пре извршавања',
-        'Outgoing request data before mapping' => 'Подаци одлазећег захтева пре мапирања',
-        'Outgoing request data after mapping' => 'Подаци одлазећег захтева после извршавања',
-        'Incoming response data before mapping' => 'Подаци примљеног одговора пре мапирања',
-        'Outgoing error handler data after error handling' => 'Подаци о одлазећој грешци после обраде грешке',
-        'Incoming request data before mapping' => 'Подаци примљеног захтева пре мапирања',
-        'Incoming request data after mapping' => 'Подаци примљеног захтева после мапирања',
-        'Outgoing response data before mapping' => 'Подаци одлазећег одговора пре мапирања',
+        'Outgoing request data before processing (RequesterRequestInput)' =>
+            '',
+        'Outgoing request data before mapping (RequesterRequestPrepareOutput)' =>
+            '',
+        'Outgoing request data after mapping (RequesterRequestMapOutput)' =>
+            '',
+        'Incoming response data before mapping (RequesterResponseInput)' =>
+            '',
+        'Outgoing error handler data after error handling (RequesterErrorHandlingOutput)' =>
+            '',
+        'Incoming request data before mapping (ProviderRequestInput)' => '',
+        'Incoming request data after mapping (ProviderRequestMapOutput)' =>
+            '',
+        'Outgoing response data before mapping (ProviderResponseInput)' =>
+            '',
+        'Outgoing error handler data after error handling (ProviderErrorHandlingOutput)' =>
+            '',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceOperationDefault.pm
         'Could not determine config for operation %s' => 'Није могуће утврдити конфигурацију за операцију %s',
@@ -3635,6 +3674,7 @@ sub Data {
         'Web service "%s" created!' => 'Веб сервис "%s" је креиран!',
         'Need Name!' => 'Неопходан Name!',
         'Need ExampleWebService!' => 'Неопходан ExampleWebService!',
+        'Could not load %s.' => '',
         'Could not read %s!' => 'Није могуће прочитати %s!',
         'Need a file to import!' => 'Неопходна датотека за увоз!',
         'The imported file has not valid YAML content! Please check OTRS log for details' =>
@@ -3672,6 +3712,8 @@ sub Data {
         'Customer user of the ticket' => 'Клијент корисник тикета',
         'All recipients of the first article' => 'Сви примаоци првог чланка',
         'All recipients of the last article' => 'Сви примаоци последњег чланка',
+        'Invisible to customer' => '',
+        'Visible to customer' => '',
 
         # Perl Module: Kernel/Modules/AdminOTRSBusiness.pm
         'Your system was successfully upgraded to %s.' => 'Ваш систем је успешно унапређен на %s.',
@@ -3805,8 +3847,6 @@ sub Data {
         'Could not get data for TransitionID %s' => 'Не могу прибавити податке за ID транзиције %s',
         'There was an error updating the Transition' => 'Дошло је до грешке приликом ажурирања Транзиције',
         'Edit Transition "%s"' => 'Уреди транзицију "%s"',
-        'xor' => 'xor',
-        'String' => 'Низ знакова',
         'Transition validation module' => 'Модул валидације транзиције',
 
         # Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
@@ -4870,8 +4910,6 @@ sub Data {
 
         # Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
         'unlimited' => 'неограничено',
-        'ascending' => 'растући',
-        'descending' => 'опадајући',
         'Attributes to be printed' => 'Атрибути за штампу',
         'Sort sequence' => 'Редослед сортирања',
         'State Historic' => 'Историјат статуса',
@@ -5026,11 +5064,11 @@ sub Data {
         'Not all required Perl modules are correctly installed.' => 'Сви захтевани Perl модули нису коректно инсталирани.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
-        'Perl Modules Audit' => '',
+        'Perl Modules Audit' => 'Сигурносна провера Perl модула',
         'CPAN::Audit reported that one or more installed Perl modules have known vulnerabilities. Please note that there might be false positives for distributions patching Perl modules without changing their version number.' =>
-            '',
+            'CPAN::Audit је детектовао један или више рањивих Perl модула инсталираних на систему. Молимо обратите пажњу да су могући лажно позитивни резултати за дистрибуције које освежавају Perl модуле без промене њихове верзије.',
         'CPAN::Audit did not report any known vulnerabilities in the installed Perl modules.' =>
-            '',
+            'CPAN::Audit није детектовао рањиве Perl модуле инсталиране на систему.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Swap.pm
         'Free Swap Space (%)' => 'Слободни Swap простор (%)',
@@ -5516,18 +5554,18 @@ sub Data {
             'Ажурирање пакета је у току, кликните овде за статус напредовања.',
         'A package upgrade was recently finished. Click here to see the results.' =>
             'Ажурирање пакета је завршено. Кликните овде за резултате.',
-        'No response from get package upgrade result.' => '',
+        'No response from get package upgrade result.' => 'Без одговора од команде за унапређење пакета.',
         'Update all packages' => 'Ажурирај све пакете',
         'Dismiss' => 'Поништи',
         'Update All Packages' => 'Ажурирај све пакете',
-        'No response from package upgrade all.' => '',
+        'No response from package upgrade all.' => 'Без одговора од команде за унапређење свих пакета.',
         'Currently not possible' => 'Тренутно није могуће',
         'This is currently disabled because of an ongoing package upgrade.' =>
             'Ова функција је тренутно искључена због ажурирања пакета у току.',
         'This option is currently disabled because the OTRS Daemon is not running.' =>
             'Ова функција је тренутно искључена зато што OTRS сервис не ради.',
         'Are you sure you want to update all installed packages?' => 'Да ли сте сигурни да желите да унапредите све инсталиране пакете?',
-        'No response from get package upgrade run status.' => '',
+        'No response from get package upgrade run status.' => 'Без одговора од команде за статус унапређења пакета.',
 
         # JS File: Core.Agent.Admin.PostMasterFilter
         'Delete this PostMasterFilter' => 'Обриши овај PostMaster филтер',
@@ -6859,7 +6897,7 @@ Thanks for your help!
         'Defines the module to generate code for periodic page reloads.' =>
             'Дефинише модул за генерисање кода за периодично учитавање страница.',
         'Defines the module to send emails. "Sendmail" directly uses the sendmail binary of your operating system. Any of the "SMTP" mechanisms use a specified (external) mailserver. "DoNotSendEmail" doesn\'t send emails and it is useful for test systems.' =>
-            'Дефинише модуле за слање имејл порука. "Sendmail" директно користи апликацију вашег оперативног система за слање имејла. Сваки од "SMTP" механизама користи специфичан (екстерни) имејл сервер. "DoNotSendEmail" не шаље имејлове и то је корисно при тестирању система.',
+            'Одређује модуле за слање имејл порука. "Sendmail" директно користи апликацију вашег оперативног система за слање имејла. Сваки од "SMTP" механизама користи специфичан (екстерни) имејл сервер. "DoNotSendEmail" не шаље имејлове и то је корисно при тестирању система.',
         'Defines the module used to store the session data. With "DB" the frontend server can be splitted from the db server. "FS" is faster.' =>
             'Дефинише модул који се користи за складиштење података сесије. Са "DB" приступни сервер може бити одвојен од сервера базе података. "FS" је бржи.',
         'Defines the name of the application, shown in the web interface, tabs and title bar of the web browser.' =>

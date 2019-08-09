@@ -26,20 +26,22 @@
 # Anatoly A <aaksinenko@gmail.com>, 2018
 # Siarhei Gribov <Bars232@gmail.com>, 2018
 # Alexey Yusov <yusovas@gmail.com>, 2018
-# Rasim Kalimullin <neutrino.vm@gmail.com>, 2018
-# Martin Gruner <martin.gruner@otrs.com>, 2018
-# Sergey Nikitin <nikitin.sergey.v@gmail.com>, 2018
 # toshkov, 2019
 # Yuri Myasoedov <omerta13@yandex.ru>, 2019
 # Александр Федоров <somerandompilotguy45@gmail.com>, 2019
+# Rasim Kalimullin <neutrino.vm@gmail.com>, 2019
+# Yegor Zhakov <zhakovu@gmail.com>, 2019
+# Olga Kalugina <kalugina0506@gmail.com>, 2019
 # Yuri Kolesniov <ynkolesnikov@gmail.com>, 2019
+# Martin Gruner <martin.gruner@otrs.com>, 2019
+# Sergey Nikitin <nikitin.sergey.v@gmail.com>, 2019
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-06-27 22:01+0000\n"
+"POT-Creation-Date: 2019-08-09 00:08+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
-"Last-Translator: Yuri Kolesniov <ynkolesnikov@gmail.com>, 2019\n"
+"Last-Translator: Sergey Nikitin <nikitin.sergey.v@gmail.com>, 2019\n"
 "Language-Team: Russian (https://www.transifex.com/otrs/teams/23435/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1960,6 +1962,12 @@ msgstr ""
 "Обзоров и Подробного просмотра"
 
 #. Template: AdminDynamicFieldDateTime
+msgid ""
+"If special characters (&, @, :, /, etc.) should not be encoded, use 'url' "
+"instead of 'uri' filter."
+msgstr ""
+
+#. Template: AdminDynamicFieldDateTime
 msgid "Example"
 msgstr "Пример"
 
@@ -3154,6 +3162,10 @@ msgstr "Редактировать это событие"
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "This invoker will be triggered by the configured events."
 msgstr "Этот invoker будет вызван при наступлении заданных событий."
+
+#. Template: AdminGenericInterfaceInvokerDefault
+msgid "Add Event"
+msgstr "Добавить событие"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid ""
@@ -4609,6 +4621,10 @@ msgid ""
 msgstr ""
 "Отображаемые значения динамических полей заявки, полезно при использовании "
 "полей типа Dropdown и Multiselect"
+
+#. Template: AdminNotificationEventTransportEmailSettings
+msgid "Use comma or semicolon to separate email addresses."
+msgstr ""
 
 #. Template: AdminNotificationEventTransportEmailSettings
 msgid ""
@@ -7191,6 +7207,8 @@ msgid ""
 "This system address cannot be set to invalid, because it is used in one or "
 "more queue(s) or auto response(s)."
 msgstr ""
+"Данный системный адрес не может быть сохранен как \"недействительный\", т.к."
+" используется в одной или нескольких очередях или автоответах."
 
 #. Template: AdminSystemConfiguration
 msgid "online administrator documentation"
@@ -7566,7 +7584,7 @@ msgstr "Ваш email адрес "
 
 #. Template: AdminTemplateAttachment
 msgid "Manage Template-Attachment Relations"
-msgstr ""
+msgstr "Управление связями Шаблон-Вложения"
 
 #. Template: AdminTemplateAttachment
 msgid "Toggle active for all"
@@ -8512,7 +8530,7 @@ msgstr "Разделить"
 
 #. Template: AgentStatisticsAdd
 msgid "Statistics Management"
-msgstr ""
+msgstr "Управление статистикой"
 
 #. Template: AgentStatisticsAdd
 msgid "Add Statistics"
@@ -8556,7 +8574,7 @@ msgstr "Создать отчет"
 
 #. Template: AgentStatisticsEdit
 msgid "Edit Statistics"
-msgstr ""
+msgstr "Изменить статистику"
 
 #. Template: AgentStatisticsEdit
 msgid "Run now"
@@ -8572,7 +8590,7 @@ msgstr "Сохранить отчет"
 
 #. Template: AgentStatisticsImport
 msgid "Import Statistics"
-msgstr ""
+msgstr "Импортировать статистику"
 
 #. Template: AgentStatisticsImport
 msgid "Import Statistics Configuration"
@@ -8612,7 +8630,7 @@ msgstr "Перечень отчетов"
 
 #. Template: AgentStatisticsView
 msgid "View Statistics"
-msgstr ""
+msgstr "Просмотреть статистику"
 
 #. Template: AgentStatisticsView
 msgid "Statistics Information"
@@ -11169,7 +11187,7 @@ msgstr "Произошла ошибка при получении данный �
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "%s (copy) %s"
-msgstr ""
+msgstr "%s (копия) %s "
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid ""
@@ -11297,7 +11315,7 @@ msgstr "Неизвестное Уведомление %s!"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentNotificationEvent.pm
 msgid "%s (copy)"
-msgstr ""
+msgstr "%s (копия)"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentNotificationEvent.pm
 msgid "There was an error creating the Notification"
@@ -11712,6 +11730,14 @@ msgstr "Требуется WebserviceID!"
 msgid "Could not get data for WebserviceID %s"
 msgstr "Невозможно получить данные для WebserviceID %s"
 
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceDebugger.pm
+msgid "ascending"
+msgstr "По возрастанию"
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceDebugger.pm
+msgid "descending"
+msgstr "По убыванию"
+
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "Need communication type!"
 msgstr "Требуется тип коммуникации!"
@@ -11743,6 +11769,54 @@ msgstr "Требуется ErrorHandling"
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "Could not determine config for error handler %s"
 msgstr "Не удалось определить конфигурацию для обработчика ошибки %s"
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
+msgid "Invoker processing outgoing request data"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
+msgid "Mapping outgoing request data"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
+msgid "Transport processing request into response"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
+msgid "Mapping incoming response data"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
+msgid "Invoker processing incoming response data"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
+msgid "Transport receiving incoming request data"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
+msgid "Mapping incoming request data"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
+msgid "Operation processing incoming request data"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
+msgid "Mapping outgoing response data"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
+msgid "Transport sending outgoing response data"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
+msgid "skip same backend modules only"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
+msgid "skip all modules"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "Operation deleted"
@@ -11902,6 +11976,50 @@ msgstr "Требуется Invoker!"
 msgid "Need Event!"
 msgstr "Требуется Event!"
 
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
+msgid "Could not get registered modules for Invoker"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
+msgid "Could not get backend for Invoker %s"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
+msgid "The event %s is not valid."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
+msgid "Could not update configuration data for WebserviceID %s"
+msgstr "Не возможно обновить параметры для WebserviceID %s"
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
+msgid "This sub-action is not valid"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
+msgid "xor"
+msgstr "xor"
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
+msgid "String"
+msgstr "String"
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
+msgid "Regexp"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
+msgid "Validation Module"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
+msgid "Simple Mapping for Outgoing Data"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
+msgid "Simple Mapping for Incoming Data"
+msgstr ""
+
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
 msgid "Could not get registered configuration for action type %s"
 msgstr "Не возможно зарегистрировать настройки для типа действия %s"
@@ -11909,10 +12027,6 @@ msgstr "Не возможно зарегистрировать настройк�
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
 msgid "Could not get backend for %s %s"
 msgstr "Не возможно получить бэкэнд для %s %s"
-
-#. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
-msgid "Could not update configuration data for WebserviceID %s"
-msgstr "Не возможно обновить параметры для WebserviceID %s"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
 msgid "Keep (leave unchanged)"
@@ -11935,40 +12049,56 @@ msgid "Ignore (drop Value/value pair)"
 msgstr "Ignore: (удалить пару Значение / Значение)"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
+msgid "XSLT Mapping for Outgoing Data"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
+msgid "XSLT Mapping for Incoming Data"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
 msgid "Could not find required library %s"
 msgstr "Не удалось найти библиотеку %s"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
-msgid "Outgoing request data before processing"
-msgstr "Данные исходящего запроса перед обработкой"
+msgid "Outgoing request data before processing (RequesterRequestInput)"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
-msgid "Outgoing request data before mapping"
-msgstr "Данные исходящего запроса перед мапингом"
+msgid "Outgoing request data before mapping (RequesterRequestPrepareOutput)"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
-msgid "Outgoing request data after mapping"
-msgstr "Данные исходящего запроса после мапинга"
+msgid "Outgoing request data after mapping (RequesterRequestMapOutput)"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
-msgid "Incoming response data before mapping"
-msgstr "Данные входящего ответа перед обработкой"
+msgid "Incoming response data before mapping (RequesterResponseInput)"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
-msgid "Outgoing error handler data after error handling"
-msgstr "Данные обработчика исходящих ошибок после обработки ошибки"
+msgid ""
+"Outgoing error handler data after error handling "
+"(RequesterErrorHandlingOutput)"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
-msgid "Incoming request data before mapping"
-msgstr "Данные входящего ответа перед мапингом"
+msgid "Incoming request data before mapping (ProviderRequestInput)"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
-msgid "Incoming request data after mapping"
-msgstr "Данные входящего ответа после мапинга"
+msgid "Incoming request data after mapping (ProviderRequestMapOutput)"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
-msgid "Outgoing response data before mapping"
-msgstr "Данные исходящего запроса перед мапингом"
+msgid "Outgoing response data before mapping (ProviderResponseInput)"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
+msgid ""
+"Outgoing error handler data after error handling "
+"(ProviderErrorHandlingOutput)"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceOperationDefault.pm
 msgid "Could not determine config for operation %s"
@@ -12013,6 +12143,10 @@ msgstr "Требуется Имя!"
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Need ExampleWebService!"
 msgstr "Требуется ExampleWebService!"
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
+msgid "Could not load %s."
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Could not read %s!"
@@ -12125,6 +12259,14 @@ msgstr "Все получатели первой заметки"
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "All recipients of the last article"
 msgstr "Все получатели последней заметки"
+
+#. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
+msgid "Invisible to customer"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
+msgid "Visible to customer"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminOTRSBusiness.pm
 msgid "Your system was successfully upgraded to %s."
@@ -12545,14 +12687,6 @@ msgstr "Произошла ошибка при обновлении Transition"
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
 msgid "Edit Transition \"%s\""
 msgstr "Редактировать Переход/Transition \"%s\""
-
-#. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
-msgid "xor"
-msgstr "xor"
-
-#. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
-msgid "String"
-msgstr "String"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
 msgid "Transition validation module"
@@ -15487,14 +15621,6 @@ msgid "unlimited"
 msgstr "неограничено"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
-msgid "ascending"
-msgstr "По возрастанию"
-
-#. Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
-msgid "descending"
-msgstr "По убыванию"
-
-#. Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
 msgid "Attributes to be printed"
 msgstr "Атрибуты для печати"
 
@@ -15893,7 +16019,7 @@ msgstr "Не все требуемые модули Perl установлены 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
 msgid "Perl Modules Audit"
-msgstr ""
+msgstr "Аудит модулей Perl"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
@@ -18105,11 +18231,11 @@ msgstr ""
 
 #. JS File: Core.UI
 msgid "No space left for the following files: %s"
-msgstr ""
+msgstr "Недостаточно места для следующих файлов: %s"
 
 #. JS File: Core.UI
 msgid "Available space %s of %s."
-msgstr ""
+msgstr "Доступное место 1%s из 1%s"
 
 #. JS File: Core.UI
 msgid "Upload information"
@@ -18741,7 +18867,7 @@ msgstr "Позволяет поменять местами оси графика
 
 #. SysConfig
 msgid "Allows agents to generate individual-related stats."
-msgstr "Позволяет агентам создавать индивидуальные отчеты."
+msgstr "Разрешать использовать в отчётах данные агентов (отчеты по агентам)."
 
 #. SysConfig
 msgid ""
@@ -18859,7 +18985,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Allows invalid agents to generate individual-related stats."
-msgstr "Разрешать отчёты по агентам в статусе \"invalid\""
+msgstr "Разрешать строить отчёты по недействительным агентам"
 
 #. SysConfig
 msgid ""
@@ -19847,7 +19973,7 @@ msgstr "Модуль печати клиентских заявок."
 
 #. SysConfig
 msgid "Customer User Administration"
-msgstr "Управление Компаниями"
+msgstr "Управление Клиентами"
 
 #. SysConfig
 msgid "Customer User Information"

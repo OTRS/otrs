@@ -28,7 +28,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.209087803211479;
+    $Self->{Completeness}        = 0.215026347101819;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -98,72 +98,72 @@ sub Data {
             '',
 
         # Template: AdminAppointmentCalendarManage
-        'Calendar Management' => '',
-        'Add Calendar' => '',
-        'Edit Calendar' => '',
-        'Calendar Overview' => '',
-        'Add new Calendar' => '',
-        'Import Appointments' => '',
-        'Calendar Import' => '',
+        'Calendar Management' => 'Upravljanje kalendarima',
+        'Add Calendar' => 'Dodaj kalendar',
+        'Edit Calendar' => 'Uredi kalendar',
+        'Calendar Overview' => 'Pregled kalendara',
+        'Add new Calendar' => 'Dodaj novi kalendar',
+        'Import Appointments' => 'Uvezi sastanke/termine',
+        'Calendar Import' => 'Uvezi kalendar',
         'Here you can upload a configuration file to import a calendar to your system. The file needs to be in .yml format as exported by calendar management module.' =>
             '',
-        'Overwrite existing entities' => '',
-        'Upload calendar configuration' => '',
-        'Import Calendar' => '',
-        'Filter for Calendars' => '',
-        'Filter for calendars' => '',
+        'Overwrite existing entities' => 'Prepiši postojeće entitete',
+        'Upload calendar configuration' => 'Postavi konfiguraciju kalendara',
+        'Import Calendar' => 'Uvoz kalendara',
+        'Filter for Calendars' => 'Filter za kalendare',
+        'Filter for calendars' => 'Filter za kalendare',
         'Depending on the group field, the system will allow users the access to the calendar according to their permission level.' =>
-            '',
+            'Sustav će korisnicima omogućiti pristup kalendarima prema njihovom stupnju prava i ovisno o polju \'Grupa\'.',
         'Read only: users can see and export all appointments in the calendar.' =>
-            '',
+            'Samo čitaj: korisnici mogu vidjeti i izvršiti izvoz svih termina u kalendaru.',
         'Move into: users can modify appointments in the calendar, but without changing the calendar selection.' =>
-            '',
+            'Preseli u: korisnici mogu uređivati termine u kalendaru, ali ne mogu odabrati drugi kalendar.',
         'Create: users can create and delete appointments in the calendar.' =>
-            '',
-        'Read/write: users can manage the calendar itself.' => '',
+            'Stvori: korisnici mogu upisivati nove i brisati postojeće termine u kalendaru.',
+        'Read/write: users can manage the calendar itself.' => 'Piši/briši: korisnici mogu uređivati kalendar kao takav.',
         'Group' => 'Grupa',
         'Changed' => 'Mijenjano',
         'Created' => 'Kreirano',
         'Download' => 'Preuzimanje',
         'URL' => '',
-        'Export calendar' => '',
-        'Download calendar' => '',
-        'Copy public calendar URL' => '',
+        'Export calendar' => 'Izvoz kalendara',
+        'Download calendar' => 'Preuzimanje kalendara',
+        'Copy public calendar URL' => 'Kopiranje veze javnog kalendara',
         'Calendar' => 'Kalendar',
-        'Calendar name' => '',
-        'Calendar with same name already exists.' => '',
-        'Color' => '',
-        'Permission group' => '',
-        'Ticket Appointments' => '',
-        'Rule' => '',
+        'Calendar name' => 'Naziv kalendara',
+        'Calendar with same name already exists.' => 'Kalendar sa tim nazivom već postoji.',
+        'Color' => 'Boja',
+        'Permission group' => 'Grupa dozvola',
+        'Ticket Appointments' => 'Termini kartica',
+        'Rule' => 'Pravila',
         'Remove this entry' => 'Ukloni ovaj unos',
         'Remove' => 'Ukloni',
-        'Start date' => '',
-        'End date' => '',
+        'Start date' => 'Datum početka',
+        'End date' => 'Datum završetka',
         'Use options below to narrow down for which tickets appointments will be automatically created.' =>
-            '',
+            'Koristite se dolje ponuđenim opcijama kako bi odredili za koje će se kartice termini zakazivati automatski.',
         'Queues' => 'Redovi',
-        'Please select a valid queue.' => '',
-        'Search attributes' => '',
+        'Please select a valid queue.' => 'Molimo odredite valjan red.',
+        'Search attributes' => 'Atributi traženja',
         'Add entry' => 'Dodaj unos',
         'Add' => 'Dodati',
         'Define rules for creating automatic appointments in this calendar based on ticket data.' =>
-            '',
-        'Add Rule' => '',
+            'Odredite pravila za automatsku izradu termina u ovom kalendaru na osnovu podataka iz kartica.',
+        'Add Rule' => 'Dodaj pravilo',
         'Submit' => 'Pošalji',
 
         # Template: AdminAppointmentImport
-        'Appointment Import' => '',
+        'Appointment Import' => 'Uvoz termina',
         'Go back' => 'Vrati se natrag',
-        'Uploaded file must be in valid iCal format (.ics).' => '',
+        'Uploaded file must be in valid iCal format (.ics).' => 'Zapis koji se uvozi mora biti ispravnog iCal formata (.ics).',
         'If desired Calendar is not listed here, please make sure that you have at least \'create\' permissions.' =>
-            '',
-        'Upload' => 'Upload',
-        'Update existing appointments?' => '',
+            'Ako željeni kalendar nije naveden ovdje, provjerite imate li barem "stvorite" dozvole.',
+        'Upload' => 'Postavljanje',
+        'Update existing appointments?' => 'Ažurirati postojeći termin?',
         'All existing appointments in the calendar with same UniqueID will be overwritten.' =>
-            '',
-        'Upload calendar' => '',
-        'Import appointments' => '',
+            'Svi postojeći termini u kalendaru sa istim \'UniqueID\' će biti prepisani.',
+        'Upload calendar' => 'Postavljanje kalendara.',
+        'Import appointments' => 'Uvoz termina',
 
         # Template: AdminAppointmentNotificationEvent
         'Appointment Notification Management' => '',
@@ -570,6 +570,8 @@ sub Data {
         'Show link' => '',
         'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
             '',
+        'If special characters (&, @, :, /, etc.) should not be encoded, use \'url\' instead of \'uri\' filter.' =>
+            '',
         'Example' => 'Primjer',
         'Link for preview' => '',
         'If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too.' =>
@@ -887,6 +889,7 @@ sub Data {
         'Condition' => '',
         'Edit this event' => '',
         'This invoker will be triggered by the configured events.' => '',
+        'Add Event' => 'Dodaj događaj',
         'To add a new event select the event object and event name and click on the "+" button' =>
             '',
         'Asynchronous event triggers are handled by the OTRS Scheduler Daemon in background (recommended).' =>
@@ -1297,6 +1300,7 @@ sub Data {
             '',
 
         # Template: AdminNotificationEventTransportEmailSettings
+        'Use comma or semicolon to separate email addresses.' => '',
         'You can use OTRS-tags like <OTRS_TICKET_DynamicField_...> to insert values from the current ticket.' =>
             '',
 
@@ -3551,6 +3555,8 @@ sub Data {
         # Perl Module: Kernel/Modules/AdminGenericInterfaceDebugger.pm
         'Need WebserviceID!' => '',
         'Could not get data for WebserviceID %s' => '',
+        'ascending' => 'uzlazno',
+        'descending' => 'silazno',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
         'Need communication type!' => '',
@@ -3562,6 +3568,18 @@ sub Data {
         'Could not update web service' => '',
         'Need ErrorHandling' => '',
         'Could not determine config for error handler %s' => '',
+        'Invoker processing outgoing request data' => '',
+        'Mapping outgoing request data' => '',
+        'Transport processing request into response' => '',
+        'Mapping incoming response data' => '',
+        'Invoker processing incoming response data' => '',
+        'Transport receiving incoming request data' => '',
+        'Mapping incoming request data' => '',
+        'Operation processing incoming request data' => '',
+        'Mapping outgoing response data' => '',
+        'Transport sending outgoing response data' => '',
+        'skip same backend modules only' => '',
+        'skip all modules' => '',
         'Operation deleted' => '',
         'Invoker deleted' => '',
 
@@ -3601,11 +3619,21 @@ sub Data {
         # Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
         'Need Invoker!' => '',
         'Need Event!' => '',
+        'Could not get registered modules for Invoker' => '',
+        'Could not get backend for Invoker %s' => '',
+        'The event %s is not valid.' => '',
+        'Could not update configuration data for WebserviceID %s' => '',
+        'This sub-action is not valid' => '',
+        'xor' => '',
+        'String' => '',
+        'Regexp' => '',
+        'Validation Module' => '',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
+        'Simple Mapping for Outgoing Data' => '',
+        'Simple Mapping for Incoming Data' => '',
         'Could not get registered configuration for action type %s' => '',
         'Could not get backend for %s %s' => '',
-        'Could not update configuration data for WebserviceID %s' => '',
         'Keep (leave unchanged)' => '',
         'Ignore (drop key/value pair)' => '',
         'Map to (use provided value as default)' => '',
@@ -3613,15 +3641,26 @@ sub Data {
         'Ignore (drop Value/value pair)' => '',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
+        'XSLT Mapping for Outgoing Data' => '',
+        'XSLT Mapping for Incoming Data' => '',
         'Could not find required library %s' => '',
-        'Outgoing request data before processing' => '',
-        'Outgoing request data before mapping' => '',
-        'Outgoing request data after mapping' => '',
-        'Incoming response data before mapping' => '',
-        'Outgoing error handler data after error handling' => '',
-        'Incoming request data before mapping' => '',
-        'Incoming request data after mapping' => '',
-        'Outgoing response data before mapping' => '',
+        'Outgoing request data before processing (RequesterRequestInput)' =>
+            '',
+        'Outgoing request data before mapping (RequesterRequestPrepareOutput)' =>
+            '',
+        'Outgoing request data after mapping (RequesterRequestMapOutput)' =>
+            '',
+        'Incoming response data before mapping (RequesterResponseInput)' =>
+            '',
+        'Outgoing error handler data after error handling (RequesterErrorHandlingOutput)' =>
+            '',
+        'Incoming request data before mapping (ProviderRequestInput)' => '',
+        'Incoming request data after mapping (ProviderRequestMapOutput)' =>
+            '',
+        'Outgoing response data before mapping (ProviderResponseInput)' =>
+            '',
+        'Outgoing error handler data after error handling (ProviderErrorHandlingOutput)' =>
+            '',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceOperationDefault.pm
         'Could not determine config for operation %s' => '',
@@ -3639,6 +3678,7 @@ sub Data {
         'Web service "%s" created!' => '',
         'Need Name!' => '',
         'Need ExampleWebService!' => '',
+        'Could not load %s.' => '',
         'Could not read %s!' => '',
         'Need a file to import!' => '',
         'The imported file has not valid YAML content! Please check OTRS log for details' =>
@@ -3676,6 +3716,8 @@ sub Data {
         'Customer user of the ticket' => '',
         'All recipients of the first article' => '',
         'All recipients of the last article' => '',
+        'Invisible to customer' => '',
+        'Visible to customer' => '',
 
         # Perl Module: Kernel/Modules/AdminOTRSBusiness.pm
         'Your system was successfully upgraded to %s.' => '',
@@ -3809,8 +3851,6 @@ sub Data {
         'Could not get data for TransitionID %s' => '',
         'There was an error updating the Transition' => '',
         'Edit Transition "%s"' => '',
-        'xor' => '',
-        'String' => '',
         'Transition validation module' => '',
 
         # Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
@@ -4874,8 +4914,6 @@ sub Data {
 
         # Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
         'unlimited' => '',
-        'ascending' => 'uzlazno',
-        'descending' => 'silazno',
         'Attributes to be printed' => 'Atributi za tiskanje',
         'Sort sequence' => 'Redoslijed sortiranja',
         'State Historic' => '',

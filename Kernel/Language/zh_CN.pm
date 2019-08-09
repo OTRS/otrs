@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.998804236419542;
+    $Self->{Completeness}        = 0.995920448750637;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -82,7 +82,7 @@ sub Data {
         'Change settings' => '操作动作',
         'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is a white list, \'PossibleNot\' a black list.' =>
             '当匹配条件满足时执行规定的操作动作。记住：\'Possible\'表示允许(白名单)，\'PossibleNot\'表示禁止(黑名单)。',
-        'Check the official %sdocumentation%s.' => '',
+        'Check the official %sdocumentation%s.' => '查看 %s 的官方文档 %s。',
         'Show or hide the content' => '显示或隐藏内容',
         'Edit ACL Information' => '编辑ACL信息',
         'Name' => '名称',
@@ -572,6 +572,8 @@ sub Data {
         'Show link' => '显示链接',
         'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
             '可以为字段值指定一个可选的HTTP链接，以便其显示在工单概览和工单详情中。',
+        'If special characters (&, @, :, /, etc.) should not be encoded, use \'url\' instead of \'uri\' filter.' =>
+            '',
         'Example' => '样例',
         'Link for preview' => '连接预览',
         'If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too.' =>
@@ -889,6 +891,7 @@ sub Data {
         'Condition' => '条件',
         'Edit this event' => '编辑这个事件',
         'This invoker will be triggered by the configured events.' => '配置事件将触发这个调用程序。',
+        'Add Event' => '添加事件',
         'To add a new event select the event object and event name and click on the "+" button' =>
             '要添加新事件，请选择事件对象和事件名称，然后单击“+”按钮',
         'Asynchronous event triggers are handled by the OTRS Scheduler Daemon in background (recommended).' =>
@@ -1299,6 +1302,7 @@ sub Data {
             '工单动态字段显示值，对下拉式和多项选择字段有用',
 
         # Template: AdminNotificationEventTransportEmailSettings
+        'Use comma or semicolon to separate email addresses.' => '',
         'You can use OTRS-tags like <OTRS_TICKET_DynamicField_...> to insert values from the current ticket.' =>
             '你可以使用诸如<OTRS_TICKET_DynamicField_...>之类的OTRS标签来插入当前工单中的值。',
 
@@ -3553,6 +3557,8 @@ sub Data {
         # Perl Module: Kernel/Modules/AdminGenericInterfaceDebugger.pm
         'Need WebserviceID!' => '需要WebserviceID！',
         'Could not get data for WebserviceID %s' => '不能获得WebserviceID %s的数据',
+        'ascending' => '升序',
+        'descending' => '降序',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
         'Need communication type!' => '需要通信类型！',
@@ -3564,6 +3570,18 @@ sub Data {
         'Could not update web service' => '无法更新WEB服务',
         'Need ErrorHandling' => '需要错误处理',
         'Could not determine config for error handler %s' => '无法确定错误处理程序%s的配置',
+        'Invoker processing outgoing request data' => '调用模块正在处理发出的请求数据',
+        'Mapping outgoing request data' => '正在匹配发出的请求数据',
+        'Transport processing request into response' => '传输模块正在处理响应请求',
+        'Mapping incoming response data' => '正在匹配传入的响应数据',
+        'Invoker processing incoming response data' => '调用模块正在处理传入的响应数据',
+        'Transport receiving incoming request data' => '传输模块正在接收传入的请求数据',
+        'Mapping incoming request data' => '正在匹配传入的请求数据',
+        'Operation processing incoming request data' => '操作模块正在处理传入的请求数据',
+        'Mapping outgoing response data' => '正在匹配发出的响应数据',
+        'Transport sending outgoing response data' => '传输模块正在发送发出的请求数据',
+        'skip same backend modules only' => '只跳过相同的后台模块',
+        'skip all modules' => '跳过所有模块',
         'Operation deleted' => '操作已删除',
         'Invoker deleted' => '调用程序已删除',
 
@@ -3603,11 +3621,21 @@ sub Data {
         # Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
         'Need Invoker!' => '需要调用程序！',
         'Need Event!' => '需要事件！',
+        'Could not get registered modules for Invoker' => '',
+        'Could not get backend for Invoker %s' => '',
+        'The event %s is not valid.' => '',
+        'Could not update configuration data for WebserviceID %s' => '不能更新WebserviceID %s的配置数据',
+        'This sub-action is not valid' => '',
+        'xor' => 'xor（异或）',
+        'String' => '字符串',
+        'Regexp' => '',
+        'Validation Module' => '',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
+        'Simple Mapping for Outgoing Data' => '',
+        'Simple Mapping for Incoming Data' => '',
         'Could not get registered configuration for action type %s' => '不能获得动作类型%s 的注册配置。',
         'Could not get backend for %s %s' => '不能获得 %s %s的后端',
-        'Could not update configuration data for WebserviceID %s' => '不能更新WebserviceID %s的配置数据',
         'Keep (leave unchanged)' => '保持（保持不变）',
         'Ignore (drop key/value pair)' => '忽略（丢弃键/值对）',
         'Map to (use provided value as default)' => '映射到（使用提供的值作为默认值）',
@@ -3615,15 +3643,26 @@ sub Data {
         'Ignore (drop Value/value pair)' => '忽略（丢弃键/值对）',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
+        'XSLT Mapping for Outgoing Data' => '',
+        'XSLT Mapping for Incoming Data' => '',
         'Could not find required library %s' => '不能找到需要的库%s',
-        'Outgoing request data before processing' => '处理前发出请求数据',
-        'Outgoing request data before mapping' => '映射前发出请求数据',
-        'Outgoing request data after mapping' => '映射后发出请求数据',
-        'Incoming response data before mapping' => '映射前接收响应数据',
-        'Outgoing error handler data after error handling' => '错误处理后发出错误处理程序数据',
-        'Incoming request data before mapping' => '映射前接收请求数据',
-        'Incoming request data after mapping' => '映射后接收请求数据',
-        'Outgoing response data before mapping' => '映射前发出响应数据',
+        'Outgoing request data before processing (RequesterRequestInput)' =>
+            '',
+        'Outgoing request data before mapping (RequesterRequestPrepareOutput)' =>
+            '',
+        'Outgoing request data after mapping (RequesterRequestMapOutput)' =>
+            '',
+        'Incoming response data before mapping (RequesterResponseInput)' =>
+            '',
+        'Outgoing error handler data after error handling (RequesterErrorHandlingOutput)' =>
+            '',
+        'Incoming request data before mapping (ProviderRequestInput)' => '',
+        'Incoming request data after mapping (ProviderRequestMapOutput)' =>
+            '',
+        'Outgoing response data before mapping (ProviderResponseInput)' =>
+            '',
+        'Outgoing error handler data after error handling (ProviderErrorHandlingOutput)' =>
+            '',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceOperationDefault.pm
         'Could not determine config for operation %s' => '不能确定操作%s 的配置',
@@ -3641,6 +3680,7 @@ sub Data {
         'Web service "%s" created!' => 'Web服务“%s”已经创建！',
         'Need Name!' => '需要名称！',
         'Need ExampleWebService!' => '需要WEB服务示例！',
+        'Could not load %s.' => '',
         'Could not read %s!' => '不能读取 %s！',
         'Need a file to import!' => '导入需要一个文件！',
         'The imported file has not valid YAML content! Please check OTRS log for details' =>
@@ -3678,6 +3718,8 @@ sub Data {
         'Customer user of the ticket' => '该工单的客户用户',
         'All recipients of the first article' => '第一封信件的所有收件人',
         'All recipients of the last article' => '最近一封信件的所有收件人',
+        'Invisible to customer' => '',
+        'Visible to customer' => '',
 
         # Perl Module: Kernel/Modules/AdminOTRSBusiness.pm
         'Your system was successfully upgraded to %s.' => '你的系统已成功更新到 %s。',
@@ -3811,8 +3853,6 @@ sub Data {
         'Could not get data for TransitionID %s' => '不能获得TransitionID %s的数据',
         'There was an error updating the Transition' => '更新转换时出现了一个错误',
         'Edit Transition "%s"' => '编辑转换“%s”',
-        'xor' => 'xor（异或）',
-        'String' => '字符串',
         'Transition validation module' => '转换验证模块',
 
         # Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
@@ -4876,8 +4916,6 @@ sub Data {
 
         # Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
         'unlimited' => '无限制',
-        'ascending' => '升序',
-        'descending' => '降序',
         'Attributes to be printed' => '要打印的属性',
         'Sort sequence' => '排序',
         'State Historic' => '状态历史',
@@ -5032,11 +5070,11 @@ sub Data {
         'Not all required Perl modules are correctly installed.' => '部分Perl模块没有正确安装。',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
-        'Perl Modules Audit' => '',
+        'Perl Modules Audit' => 'Perl 模块 Audit',
         'CPAN::Audit reported that one or more installed Perl modules have known vulnerabilities. Please note that there might be false positives for distributions patching Perl modules without changing their version number.' =>
-            '',
+            'CPAN::Audit 报告一个或多个已安装的 Perl 模块是否存在已知漏洞。 请注意，在不更改版本号的情况下修补Perl模块的发行版可能存在误报。',
         'CPAN::Audit did not report any known vulnerabilities in the installed Perl modules.' =>
-            '',
+            '在已安装的Perl模块中 CPAN::Audit 未报告出任何已知漏洞。',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Swap.pm
         'Free Swap Space (%)' => '可用的交换空间(%)',
@@ -5522,18 +5560,18 @@ sub Data {
             '有一个程序包升级过程正在运行，点击这里查看有关升级进度的状态信息。',
         'A package upgrade was recently finished. Click here to see the results.' =>
             '最近完成了一个软件包的升级，点击这里查看结果。',
-        'No response from get package upgrade result.' => '',
+        'No response from get package upgrade result.' => '获取软件包升级结果时没有响应。',
         'Update all packages' => '更新所有软件包',
         'Dismiss' => '取消',
         'Update All Packages' => '更新所有软件包',
-        'No response from package upgrade all.' => '',
+        'No response from package upgrade all.' => '获取全部软件包升级结果时没有响应。',
         'Currently not possible' => '目前不可能',
         'This is currently disabled because of an ongoing package upgrade.' =>
             '由于正在进行软件包升级，因此目前已被禁用。',
         'This option is currently disabled because the OTRS Daemon is not running.' =>
             '由于OTRS守护进程没有运行，这个选项当前被禁用。',
         'Are you sure you want to update all installed packages?' => '您确定要更新所有已安装的软件包吗？',
-        'No response from get package upgrade run status.' => '',
+        'No response from get package upgrade run status.' => '获取软件包升级运行状态时没有响应。',
 
         # JS File: Core.Agent.Admin.PostMasterFilter
         'Delete this PostMasterFilter' => '删除此PostMasterFilter（邮箱管理员过滤器）',

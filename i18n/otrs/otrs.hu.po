@@ -9,7 +9,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-06-27 22:01+0000\n"
+"POT-Creation-Date: 2019-08-09 00:08+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: Balázs Úr, 2019\n"
 "Language-Team: Hungarian (https://www.transifex.com/otrs/teams/23435/hu/)\n"
@@ -1945,6 +1945,14 @@ msgstr ""
 "áttekintőben és a nagyítási képernyőkön."
 
 #. Template: AdminDynamicFieldDateTime
+msgid ""
+"If special characters (&, @, :, /, etc.) should not be encoded, use 'url' "
+"instead of 'uri' filter."
+msgstr ""
+"Ha a különleges karaktereket (&, @, :, /, stb.) nem kell kódolni, akkor "
+"használja az „url” szűrőt az „uri” szűrő helyett."
+
+#. Template: AdminDynamicFieldDateTime
 msgid "Example"
 msgstr "Példa"
 
@@ -3152,6 +3160,10 @@ msgstr "Esemény szerkesztése"
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "This invoker will be triggered by the configured events."
 msgstr "Ezt a meghívót a beállított események fogják aktiválni."
+
+#. Template: AdminGenericInterfaceInvokerDefault
+msgid "Add Event"
+msgstr "Esemény hozzáadása"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid ""
@@ -4636,6 +4648,11 @@ msgid ""
 msgstr ""
 "A jegy dinamikus mezőinek megjelenített értékei, legördülő és többválasztós "
 "mezőknél hasznos"
+
+#. Template: AdminNotificationEventTransportEmailSettings
+msgid "Use comma or semicolon to separate email addresses."
+msgstr ""
+"Használjon vesszőt vagy pontosvesszőt az e-mail címek elválasztásához."
 
 #. Template: AdminNotificationEventTransportEmailSettings
 msgid ""
@@ -11841,6 +11858,14 @@ msgstr "Webszolgáltatás-azonosító szükséges!"
 msgid "Could not get data for WebserviceID %s"
 msgstr "Nem sikerült lekérni az adatokat a webszolgáltatás-azonosítóhoz: %s"
 
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceDebugger.pm
+msgid "ascending"
+msgstr "növekvő"
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceDebugger.pm
+msgid "descending"
+msgstr "csökkenő"
+
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "Need communication type!"
 msgstr "Kommunikációs típus szükséges!"
@@ -11873,6 +11898,54 @@ msgstr "Hibakezelés szükséges"
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "Could not determine config for error handler %s"
 msgstr "Nem sikerült meghatározni a beállítást a(z) %s hibakezelőnél"
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
+msgid "Invoker processing outgoing request data"
+msgstr "Kimenő kérés adatainak meghívó feldolgozása"
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
+msgid "Mapping outgoing request data"
+msgstr "Kimenő kérés adatainak leképezése"
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
+msgid "Transport processing request into response"
+msgstr "Átvitel által feldolgozott kérés válaszba"
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
+msgid "Mapping incoming response data"
+msgstr "Bejövő válasz adatainak leképezése"
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
+msgid "Invoker processing incoming response data"
+msgstr "Meghívó által feldolgozott bejövő válaszadatok"
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
+msgid "Transport receiving incoming request data"
+msgstr "Átvitel által fogadott bejövő kérésadatok"
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
+msgid "Mapping incoming request data"
+msgstr "Bejövő kérés adatainak leképezése"
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
+msgid "Operation processing incoming request data"
+msgstr "Művelet által feldolgozott bejövő kérésadatok"
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
+msgid "Mapping outgoing response data"
+msgstr "Kimenő válasz adatainak leképezése"
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
+msgid "Transport sending outgoing response data"
+msgstr "Átvitel által küldött kimenő válaszadatok"
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
+msgid "skip same backend modules only"
+msgstr "csak ugyanazon háttérprogram-modulok kihagyása"
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
+msgid "skip all modules"
+msgstr "az összes modul kihagyása"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "Operation deleted"
@@ -12032,6 +12105,52 @@ msgstr "Meghívó szükséges!"
 msgid "Need Event!"
 msgstr "Esemény szükséges!"
 
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
+msgid "Could not get registered modules for Invoker"
+msgstr "Nem sikerült lekérni a regisztrált modulokat a meghívóhoz"
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
+msgid "Could not get backend for Invoker %s"
+msgstr "Nem sikerült lekérni a háttérprogramot a(z) %s meghívóhoz"
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
+msgid "The event %s is not valid."
+msgstr "A(z) %s esemény nem érvényes."
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
+msgid "Could not update configuration data for WebserviceID %s"
+msgstr ""
+"Nem sikerült frissíteni a beállítási adatokat a(z) %s webszolgáltatás-"
+"azonosítónál"
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
+msgid "This sub-action is not valid"
+msgstr "Ez az alművelet nem érvényes"
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
+msgid "xor"
+msgstr "kizáró vagy"
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
+msgid "String"
+msgstr "Szöveg"
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
+msgid "Regexp"
+msgstr "Reguláris kifejezés"
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
+msgid "Validation Module"
+msgstr "Ellenőrző modul"
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
+msgid "Simple Mapping for Outgoing Data"
+msgstr "Egyszerű leképezés a kimenő adatokhoz"
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
+msgid "Simple Mapping for Incoming Data"
+msgstr "Egyszerű leképezés a bejövő adatokhoz"
+
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
 msgid "Could not get registered configuration for action type %s"
 msgstr "Nem sikerült regisztráltatni a beállítást a(z) %s művelettípushoz"
@@ -12039,12 +12158,6 @@ msgstr "Nem sikerült regisztráltatni a beállítást a(z) %s művelettípushoz
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
 msgid "Could not get backend for %s %s"
 msgstr "Nem sikerült lekérni a háttérprogramot ennél: %s %s"
-
-#. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
-msgid "Could not update configuration data for WebserviceID %s"
-msgstr ""
-"Nem sikerült frissíteni a beállítási adatokat a(z) %s webszolgáltatás-"
-"azonosítónál"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
 msgid "Keep (leave unchanged)"
@@ -12067,40 +12180,58 @@ msgid "Ignore (drop Value/value pair)"
 msgstr "Mellőzés (érték-érték pár eldobása)"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
+msgid "XSLT Mapping for Outgoing Data"
+msgstr "XSLT leképezés a kimenő adatokhoz"
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
+msgid "XSLT Mapping for Incoming Data"
+msgstr "XSLT leképezés a bejövő adatokhoz"
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
 msgid "Could not find required library %s"
 msgstr "Nem található a szükséges programkönyvtár: %s"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
-msgid "Outgoing request data before processing"
-msgstr "Kimenő kérésadatok a feldolgozás előtt"
+msgid "Outgoing request data before processing (RequesterRequestInput)"
+msgstr "Kimenő kérésadatok a feldolgozás előtt (RequesterRequestInput)"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
-msgid "Outgoing request data before mapping"
-msgstr "Kimenő kérésadatok a leképezés előtt"
+msgid "Outgoing request data before mapping (RequesterRequestPrepareOutput)"
+msgstr "Kimenő kérésadatok a leképezés előtt (RequesterRequestPrepareOutput)"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
-msgid "Outgoing request data after mapping"
-msgstr "Kimenő kérésadatok a leképezés után"
+msgid "Outgoing request data after mapping (RequesterRequestMapOutput)"
+msgstr "Kimenő kérésadatok a leképezés után (RequesterRequestMapOutput)"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
-msgid "Incoming response data before mapping"
-msgstr "Bejövő válaszadatok a leképezés előtt"
+msgid "Incoming response data before mapping (RequesterResponseInput)"
+msgstr "Bejövő válaszadatok a leképezés előtt (RequesterResponseInput)"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
-msgid "Outgoing error handler data after error handling"
-msgstr "Kimenő hibakezelő adatok a hibakezelés után"
+msgid ""
+"Outgoing error handler data after error handling "
+"(RequesterErrorHandlingOutput)"
+msgstr ""
+"Kimenő hibakezelő adatok a hibakezelés után (RequesterErrorHandlingOutput)"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
-msgid "Incoming request data before mapping"
-msgstr "Bejövő kérésadatok a leképezés előtt"
+msgid "Incoming request data before mapping (ProviderRequestInput)"
+msgstr "Bejövő kérésadatok a leképezés előtt (ProviderRequestInput)"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
-msgid "Incoming request data after mapping"
-msgstr "Bejövő kérésadatok a leképezés után"
+msgid "Incoming request data after mapping (ProviderRequestMapOutput)"
+msgstr "Bejövő kérésadatok a leképezés után (ProviderRequestMapOutput)"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
-msgid "Outgoing response data before mapping"
-msgstr "Kimenő válaszadatok a leképezés előtt"
+msgid "Outgoing response data before mapping (ProviderResponseInput)"
+msgstr "Kimenő válaszadatok a leképezés előtt (ProviderResponseInput)"
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
+msgid ""
+"Outgoing error handler data after error handling "
+"(ProviderErrorHandlingOutput)"
+msgstr ""
+"Kimenő hibakezelő adatok a hibakezelés után (ProviderErrorHandlingOutput)"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceOperationDefault.pm
 msgid "Could not determine config for operation %s"
@@ -12145,6 +12276,10 @@ msgstr "Név szükséges!"
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Need ExampleWebService!"
 msgstr "Példa webszolgáltatás szükséges!"
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
+msgid "Could not load %s."
+msgstr "Nem sikerült betölteni: %s."
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Could not read %s!"
@@ -12260,6 +12395,14 @@ msgstr "Az első bejegyzés összes címzettje"
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "All recipients of the last article"
 msgstr "Az utolsó bejegyzés összes címzettje"
+
+#. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
+msgid "Invisible to customer"
+msgstr "Láthatatlan az ügyfélnek"
+
+#. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
+msgid "Visible to customer"
+msgstr "Látható az ügyfélnek"
 
 #. Perl Module: Kernel/Modules/AdminOTRSBusiness.pm
 msgid "Your system was successfully upgraded to %s."
@@ -12696,14 +12839,6 @@ msgstr "Hiba történt az átmenet frissítésekor"
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
 msgid "Edit Transition \"%s\""
 msgstr "Átmenet szerkesztése: „%s”"
-
-#. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
-msgid "xor"
-msgstr "kizáró vagy"
-
-#. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
-msgid "String"
-msgstr "Szöveg"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
 msgid "Transition validation module"
@@ -15693,14 +15828,6 @@ msgstr "Bejegyzések száma"
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
 msgid "unlimited"
 msgstr "korlátlan"
-
-#. Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
-msgid "ascending"
-msgstr "növekvő"
-
-#. Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
-msgid "descending"
-msgstr "csökkenő"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
 msgid "Attributes to be printed"
@@ -22636,8 +22763,8 @@ msgid ""
 "displayed."
 msgstr ""
 "Meghatározza azt a modult, amely egy általános értesítést jelenít meg az "
-"ügyintézői felületen. Vagy „Szöveg” – ha be van állítva – vagy a „Fájl” "
-"tartalma kerül megjelenítésre."
+"ügyintézői felületen. Vagy a „Text” szövege – ha be van állítva – vagy a "
+"„File” tartalma kerül megjelenítésre."
 
 #. SysConfig
 msgid ""
@@ -24718,16 +24845,16 @@ msgid ""
 "Frontend module registration (disable AgentTicketService link if Ticket "
 "Service feature is not used)."
 msgstr ""
-"Előtétprogram-modul regisztráció (az AgentTicketService hivatkozás "
-"letiltása, ha a jegy szolgáltatás funkció nincs használatban)."
+"Előtétprogram-modul regisztráció (a szolgáltatás nézet menüpont letiltása, "
+"ha a jegy szolgáltatás funkció nincs használatban)."
 
 #. SysConfig
 msgid ""
 "Frontend module registration (disable company link if no company feature is "
 "used)."
 msgstr ""
-"Előtétprogram-modul regisztráció (vállalat-hivatkozás letiltása, ha nincs "
-"vállalat-szolgáltatás használatban)."
+"Előtétprogram-modul regisztráció (ügyfél adminisztráció menüpont letiltása, "
+"ha nincs vállalat-szolgáltatás használatban)."
 
 #. SysConfig
 msgid ""
@@ -24742,7 +24869,7 @@ msgid ""
 "Frontend module registration (disable ticket processes screen if no process "
 "available)."
 msgstr ""
-"Előtétprogram-modul regisztráció (a jegyfolyamatok képernyő letiltása, ha "
+"Előtétprogram-modul regisztráció (az új folyamatjegy képernyő letiltása, ha "
 "nincs elérhető folyamat)."
 
 #. SysConfig
