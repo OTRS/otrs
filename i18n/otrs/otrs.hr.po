@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-05-16 18:32+0000\n"
+"POT-Creation-Date: 2019-08-09 08:43+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1136,7 +1136,7 @@ msgstr "Veličina"
 
 #. Template: AAABase
 msgid "Upload"
-msgstr "Upload"
+msgstr "Postavljanje"
 
 #. Template: AAABase
 msgid "Directory"
@@ -2899,11 +2899,7 @@ msgid "Set up what you want to change if the criteria match. Keep in mind that '
 msgstr ""
 
 #. Template: AdminACLEdit
-msgid "Check the official"
-msgstr ""
-
-#. Template: AdminACLEdit
-msgid "documentation"
+msgid "Check the official %sdocumentation%s."
 msgstr ""
 
 #. Template: AdminACLEdit
@@ -6136,7 +6132,7 @@ msgstr ""
 
 #. Template: AdminProcessManagement
 msgid "Overwrite existing entities"
-msgstr ""
+msgstr "Prepiši postojeće entitete"
 
 #. Template: AdminProcessManagement
 msgid "Upload process configuration"
@@ -7904,7 +7900,7 @@ msgstr ""
 
 #. Template: AdminSystemMaintenance
 msgid "Start date"
-msgstr ""
+msgstr "Datum početka"
 
 #. Template: AdminSystemMaintenance
 msgid "Stop date"

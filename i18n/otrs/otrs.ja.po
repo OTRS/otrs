@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-05-16 18:32+0000\n"
+"POT-Creation-Date: 2019-08-09 08:43+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2900,12 +2900,8 @@ msgid "Set up what you want to change if the criteria match. Keep in mind that '
 msgstr "マッチした対象をどのように絞り込むかを指定します。'Possible'はホワイトリスト、'PossibleNot'はブラックリストです。"
 
 #. Template: AdminACLEdit
-msgid "Check the official"
-msgstr "公式サイトをチェック"
-
-#. Template: AdminACLEdit
-msgid "documentation"
-msgstr "ドキュメント"
+msgid "Check the official %sdocumentation%s."
+msgstr ""
 
 #. Template: AdminACLEdit
 msgid "Show or hide the content"
@@ -6506,7 +6502,7 @@ msgstr "この遷移動作を本当に削除しますか？"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Do you really want to remove this activity from the canvas? This can only be undone by leaving this screen without saving."
-msgstr ""
+msgstr "本当にこのアクティビティをキャンバス上から削除してもよろしいですか？保存せずにこの画面から移動する場合を除いてこの操作の取り消しはできません。"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Do you really want to remove this transition from the canvas? This can only be undone by leaving this screen without saving."
@@ -10446,11 +10442,11 @@ msgstr "レポート結果データをキャッシュに保存して、同じ設
 
 #. Template: GeneralSpecificationsWidget
 msgid "Provide the statistic as a widget that agents can activate in their dashboard."
-msgstr ""
+msgstr "担当者が自らのダッシュボードでアクティブにできるウィジェットとして統計を利用できます。"
 
 #. Template: GeneralSpecificationsWidget
 msgid "Please note that enabling the dashboard widget will activate caching for this statistic in the dashboard."
-msgstr ""
+msgstr "ダッシュボードウィジェットを有効にすると、ダッシュボードでこの統計のキャッシュが有効化されます。"
 
 #. Template: GeneralSpecificationsWidget
 msgid "If set to invalid end users can not generate the stat."
@@ -11539,7 +11535,7 @@ msgstr "顧客ユーザーID"
 
 #. Perl Module: Kernel/Modules/AgentLinkObject.pm
 msgid "Need SourceObject and SourceKey!"
-msgstr ""
+msgstr "ソース・オブジェクトとソース・キーが必要です！"
 
 #. Perl Module: Kernel/Modules/AgentLinkObject.pm
 msgid "Please contact the administrator."
@@ -13819,7 +13815,7 @@ msgstr "300 (初心者向け)"
 
 #. SysConfig
 msgid "A TicketWatcher Module."
-msgstr ""
+msgstr "TicketWatcher モジュール"
 
 #. SysConfig
 msgid "A Website"
@@ -14627,7 +14623,7 @@ msgstr "クロアチア"
 
 #. SysConfig
 msgid "Custom RSS Feed"
-msgstr ""
+msgstr "カスタムRSSフィード"
 
 #. SysConfig
 msgid "Custom text for the page shown to customers that have no tickets yet (if you need those text translated add them to a custom translation module)."
@@ -16073,7 +16069,7 @@ msgstr "統計に関する検索のリミットを定義します。"
 
 #. SysConfig
 msgid "Defines the sender for rejected emails."
-msgstr ""
+msgstr "リジェクトされたEメールの送信者を定義します。"
 
 #. SysConfig
 msgid "Defines the separator between the agents real name and the given queue email address."
@@ -16721,23 +16717,23 @@ msgstr ""
 
 #. SysConfig
 msgid "Event module that updates customer user search profiles if login changes."
-msgstr ""
+msgstr "ログインが変更された際に顧客ユーザーの検索プロファイルを更新するイベント・モジュール"
 
 #. SysConfig
 msgid "Event module that updates customer user service membership if login changes."
-msgstr ""
+msgstr "ログインが変更された際に顧客ユーザーのサービスメンバーシップを更新するイベント・モジュール"
 
 #. SysConfig
 msgid "Event module that updates customer users after an update of the Customer."
-msgstr ""
+msgstr "顧客情報が更新された際に顧客ユーザー情報を更新するイベント・モジュール"
 
 #. SysConfig
 msgid "Event module that updates tickets after an update of the Customer User."
-msgstr ""
+msgstr "顧客ユーザー情報が更新された際チケットを更新するイベント・モジュール"
 
 #. SysConfig
 msgid "Event module that updates tickets after an update of the Customer."
-msgstr ""
+msgstr "顧客情報が更新された際にチケットを更新するイベント・モジュール"
 
 #. SysConfig
 msgid "Events Ticket Calendar"

@@ -26,7 +26,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.4714;
+    $Self->{Completeness}        = 0.4722;
 
     # csv separator
     $Self->{Separator} = '';
@@ -798,7 +798,7 @@ sub Data {
             '為了創建ACL，您可以導入ACL配置或從頭創建一個全新的ACL。',
         'Changes to the ACLs here only affect the behavior of the system, if you deploy the ACL data afterwards. By deploying the ACL data, the newly made changes will be written to the configuration.' =>
             '在這裡的任何ACL的修改，僅將其保存在系統中。只有在部署ACL後，它才會起作用。',
-        'ACLs' => '',
+        'ACLs' => 'ACLs',
         'Please note: This table represents the execution order of the ACLs. If you need to change the order in which ACLs are executed, please change the names of the affected ACLs.' =>
             '註意：列表中的ACL名稱排序順序決定了ACL的執行順序。如果需要更改ACL的執行順序，請修改相應的ACL名稱。',
         'ACL name' => 'ACL名稱',
@@ -817,12 +817,12 @@ sub Data {
         'Change settings' => '操作動作',
         'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is a white list, \'PossibleNot\' a black list.' =>
             '當匹配條件滿足時執行規定的操作動作。記住：\'Possible\'表示允許(白名單)，\'PossibleNot\'表示禁止(黑名單)。',
-        'Check the official %sdocumentation%s.' => '',
+        'Check the official %sdocumentation%s.' => '檢查官方%s文件%s。',
         'Show or hide the content' => '顯示或隱藏内容',
         'Edit ACL information' => '編輯ACL信息',
         'Stop after match' => '匹配後停止',
         'Edit ACL structure' => '編輯ACL結構',
-        'Save ACL' => '',
+        'Save ACL' => '儲存 ACL',
         'Save' => '保存',
         'or' => '在',
         'Save and finish' => '保存並完成',
@@ -944,7 +944,7 @@ sub Data {
         'You can manage these groups via the configuration setting "CustomerGroupAlwaysGroups".' =>
             '您可能通過配置参數"CustomerGroupAlwaysGroups"定義默認組。',
         'Filter for Groups' => '過濾組',
-        'Just start typing to filter...' => '',
+        'Just start typing to filter...' => '在這邊輸入過濾字串...',
         'Select the customer:group permissions.' => '選擇用戶:組權限。',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer).' =>
             '如果沒有選擇，就不具備該組的任何權限 (用戶不能創建或讀取工單)。',

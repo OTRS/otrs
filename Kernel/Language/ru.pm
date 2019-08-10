@@ -4777,7 +4777,7 @@ Thanks for your help!
             'Позволяет добавить сообщение на экране Ответственный в просмотре заявки в интерфейсе агента. Может быть перекрыто параметром Ticket::Frontend::NeedAccountedTime.',
         'Allows agents to exchange the axis of a stat if they generate one.' =>
             'Позволяет поменять местами оси графика в отчете.',
-        'Allows agents to generate individual-related stats.' => 'Позволяет агентам создавать индивидуальные отчеты.',
+        'Allows agents to generate individual-related stats.' => 'Разрешать использовать в отчётах данные агентов (отчеты по агентам).',
         'Allows choosing between showing the attachments of a ticket in the browser (inline) or just make them downloadable (attachment).' =>
             'Выбор варианта показа вложения к заявке - в окне браузера или как файл для загрузки(вложение).',
         'Allows choosing the next compose state for customer tickets in the customer interface.' =>
@@ -4813,7 +4813,7 @@ Thanks for your help!
             'Допускает использование medium режима просмотра заявок (CustomerInfo => 1 - показывает также информацию о клиенте).',
         'Allows having a small format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
             'Допускает использование small(краткий) режима просмотра заявок (CustomerInfo => 1 - показывает также информацию о клиенте).',
-        'Allows invalid agents to generate individual-related stats.' => 'Разрешать отчёты по агентам в статусе "invalid"',
+        'Allows invalid agents to generate individual-related stats.' => 'Разрешать строить отчёты по недействительным агентам',
         'Allows the administrators to login as other customers, via the customer user administration panel.' =>
             'Дает возможность администратору войти в систему как клиенту, через панель управления учетными записями клиентов.',
         'Allows the administrators to login as other users, via the users administration panel.' =>
@@ -4981,7 +4981,7 @@ Thanks for your help!
         'Customer Ticket Print Module.' => 'Модуль печати клиентских заявок.',
         'Customer User <-> Groups' => 'Клиенты <-> Группы',
         'Customer User <-> Services' => 'Клиенты <-> Сервисы',
-        'Customer User Administration' => 'Управление Компаниями',
+        'Customer User Administration' => 'Управление Клиентами',
         'Customer Users' => 'Клиенты',
         'Customer called us.' => 'Клиент позвонил нам.',
         'Customer item (icon) which shows the closed tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>

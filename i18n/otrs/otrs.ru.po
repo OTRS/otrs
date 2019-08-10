@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-05-16 18:32+0000\n"
+"POT-Creation-Date: 2019-08-09 08:43+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2899,12 +2899,8 @@ msgid "Set up what you want to change if the criteria match. Keep in mind that '
 msgstr "Задайте, что вы хотите изменить в случае выполнения условия. Имейте в виду, что 'Possible' это \"белый список\", а 'PossibleNot' - \"черный список\""
 
 #. Template: AdminACLEdit
-msgid "Check the official"
-msgstr "Обратитесь к официальной"
-
-#. Template: AdminACLEdit
-msgid "documentation"
-msgstr "документации"
+msgid "Check the official %sdocumentation%s."
+msgstr ""
 
 #. Template: AdminACLEdit
 msgid "Show or hide the content"
@@ -14070,7 +14066,7 @@ msgstr "Позволяет поменять местами оси графика
 
 #. SysConfig
 msgid "Allows agents to generate individual-related stats."
-msgstr "Позволяет агентам создавать индивидуальные отчеты."
+msgstr "Разрешать использовать в отчётах данные агентов (отчеты по агентам)."
 
 #. SysConfig
 msgid "Allows choosing between showing the attachments of a ticket in the browser (inline) or just make them downloadable (attachment)."
@@ -14146,7 +14142,7 @@ msgstr "Допускает использование small(краткий) ре
 
 #. SysConfig
 msgid "Allows invalid agents to generate individual-related stats."
-msgstr "Разрешать отчёты по агентам в статусе \"invalid\""
+msgstr "Разрешать строить отчёты по недействительным агентам"
 
 #. SysConfig
 msgid "Allows the administrators to login as other customers, via the customer user administration panel."
@@ -14650,7 +14646,7 @@ msgstr "Клиенты <-> Сервисы"
 
 #. SysConfig
 msgid "Customer User Administration"
-msgstr "Управление Компаниями"
+msgstr "Управление Клиентами"
 
 #. SysConfig
 msgid "Customer Users"

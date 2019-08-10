@@ -812,7 +812,7 @@ sub Data {
         'Delete Invalid ACL' => 'Eliminar ACL inválida',
         'Match settings' => 'Configurações correspondentes',
         'Set up matching criteria for this ACL. Use \'Properties\' to match the current screen or \'PropertiesDatabase\' to match attributes of the current ticket that are in the database.' =>
-            'Defina os critérios de igualdade para este ACL. Use \'Propriedades\' para validar o ecran atual ou \'Propriedades da Bases Dados\' para validade atributos do ticket atual na base de dados.',
+            'Defina os critérios de igualdade para este ACL. Use \'Propriedades\' para validar o ecrã atual ou \'Propriedades da Bases Dados\' para validade atributos do ticket atual na base de dados.',
         'Change settings' => 'Alterar definições',
         'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is a white list, \'PossibleNot\' a black list.' =>
             'Defina o que  quer alterar se os critérios forem válidos. Lembre-se que "Possível" é uma lista branca, "Impossível" é uma lista negra.',

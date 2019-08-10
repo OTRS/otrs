@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-05-16 18:32+0000\n"
+"POT-Creation-Date: 2019-08-09 08:43+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -36,7 +36,7 @@ msgstr "aus"
 
 #. Template: AAABase
 msgid "On"
-msgstr "Am"
+msgstr "An"
 
 #. Template: AAABase
 msgid "on"
@@ -1668,7 +1668,7 @@ msgstr "Einstellungen erfolgreich aktualisiert!"
 
 #. Template: AAAPreferences
 msgid "User Profile"
-msgstr "Benutzer-Profil"
+msgstr "Benutzerprofil"
 
 #. Template: AAAPreferences
 msgid "Email Settings"
@@ -2899,12 +2899,8 @@ msgid "Set up what you want to change if the criteria match. Keep in mind that '
 msgstr "Stellt die Wertänderungen ein für den Fall, dass die Filterbedingungen zutreffen. Hierbei ist 'Possible' eine Positivliste und 'PossibleNot' eine Negativliste."
 
 #. Template: AdminACLEdit
-msgid "Check the official"
-msgstr "Prüfen Sie die offizielle"
-
-#. Template: AdminACLEdit
-msgid "documentation"
-msgstr "Dokumentation"
+msgid "Check the official %sdocumentation%s."
+msgstr "Überprüfen Sie die offizielle %sdocumentation%s."
 
 #. Template: AdminACLEdit
 msgid "Show or hide the content"
@@ -3192,7 +3188,7 @@ msgstr "Kunde hinzufügen"
 
 #. Template: AdminCustomerUser
 msgid "Customer User Management"
-msgstr "Kundenbenutzerverwaltung"
+msgstr "Kundenbenutzer-Verwaltung"
 
 #. Template: AdminCustomerUser
 msgid "Back to search results"
@@ -3592,7 +3588,7 @@ msgstr "Leeren Wert hinzufügen"
 
 #. Template: AdminDynamicFieldDropdown
 msgid "Activate this option to create an empty selectable value."
-msgstr "Aktivieren Sie diese Option, um einen leeren Auswahlwert zu erzeugen."
+msgstr "Aktivieren Sie diese Option, um einen leeren Auswahlwert zu erstellen."
 
 #. Template: AdminDynamicFieldDropdown
 msgid "Tree View"
@@ -4156,7 +4152,7 @@ msgstr "Sie sind hier"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Web Services"
-msgstr "Webservices"
+msgstr "Web-Services"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Debugger"
@@ -4164,7 +4160,7 @@ msgstr "Debugger"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Go back to web service"
-msgstr "Zurück zum Webservice"
+msgstr "Zurück zum Web-Service"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Clear"
@@ -4172,7 +4168,7 @@ msgstr "Leeren"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Do you really want to clear the debug log of this web service?"
-msgstr "Möchten Sie wirklich das Debug-Log dieses Webservice leeren?"
+msgstr "Möchten Sie wirklich das Debug-Protokoll dieses Web-Services löschen?"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Request List"
@@ -4264,7 +4260,7 @@ msgstr "Invoker-Details"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "The name is typically used to call up an operation of a remote web service."
-msgstr "Der Name wird typischerweise genutzt, um eine Operation eines entfernten Webservice aufzurufen."
+msgstr "Der Name wird typischerweise genutzt, um eine Operation eines entfernten Web-Services aufzurufen."
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Please provide a unique name for this web service invoker."
@@ -4464,11 +4460,11 @@ msgstr "Operation-Details"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "The name is typically used to call up this web service operation from a remote system."
-msgstr "Der Name wird typischerweise benutzt, um die Webservice-Operation von einem entfernten System aus aufzurufen."
+msgstr "Der Name wird typischerweise benutzt, um die Web-Service-Operation von einem entfernten System aus aufzurufen."
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Please provide a unique name for this web service."
-msgstr "Bitte geben Sie einen eindeutigen Namen für diesen Webservice an."
+msgstr "Bitte geben Sie einen eindeutigen Namen für diesen Web-Service an."
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Mapping for incoming request data"
@@ -4832,7 +4828,7 @@ msgstr "Sortierung für ausgehende XML-Felder (Struktur unterhalb des Funktionsa
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "GenericInterface Web Service Management"
-msgstr "GenericInterface - Webservice-Verwaltung"
+msgstr "GenericInterface - Web-Service-Verwaltung"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Add web service"
@@ -4840,7 +4836,7 @@ msgstr "Webservice hinzufügen"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Clone web service"
-msgstr "Webservice klonen"
+msgstr "Web-Service klonen"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "The name must be unique."
@@ -4856,7 +4852,7 @@ msgstr "Webservice exportieren"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Import web service"
-msgstr "Webservice importieren"
+msgstr "Web-Services importieren"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Configuration File"
@@ -4864,7 +4860,7 @@ msgstr "Konfigurationsdatei"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "The file must be a valid web service configuration YAML file."
-msgstr "Die Datei muss eine gültige Webservice-Konfigurationsdatei im YAML-Format sein."
+msgstr "Die Datei muss eine gültige Web-Service-Konfigurationsdatei im YAML-Format sein."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Import"
@@ -4876,11 +4872,11 @@ msgstr "Konfigurations-Historie"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Delete web service"
-msgstr "Webservice löschen"
+msgstr "Web-Service löschen"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Do you really want to delete this web service?"
-msgstr "Wollen Sie diesen Webservice wirklich löschen?"
+msgstr "Wollen Sie diesen Web-Service wirklich löschen?"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Ready-to-run Web Services"
@@ -4932,11 +4928,11 @@ msgstr "Debug-Level"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "In provider mode, OTRS offers web services which are used by remote systems."
-msgstr "Im Modus \"Provider\" bietet OTRS Webservices an, die von entfernten Systemen genutzt werden."
+msgstr "Im Modus \"Provider\" bietet OTRS Web-Services an, die von externen Systemen genutzt werden."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "In requester mode, OTRS uses web services of remote systems."
-msgstr "Im Modus \"Requester\" nutzt OTRS selbst Webservices von entfernten Systemen."
+msgstr "Im Modus \"Requester\" nutzt OTRS selbst Web-Services von externen Systemen."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Operations are individual system functions which remote systems can request."
@@ -4944,7 +4940,7 @@ msgstr "Operations sind einzelne Systemfunktionen, die entfernte Systeme aufrufe
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Invokers prepare data for a request to a remote web service, and process its response data."
-msgstr "Invoker bereiten Daten für eine Anfrage an einen entfernten Webservice auf und verarbeiten die Antwortdaten."
+msgstr "Invoker bereiten Daten für eine Anfrage an einen externen Web-Service auf und verarbeiten die Antwortdaten."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Controller"
@@ -4992,11 +4988,11 @@ msgstr "GenericInterface-Konfigurations-Historie für Webservice %s"
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "Go back to Web Service"
-msgstr "Zurück zum Webservice"
+msgstr "Zurück zum Web-Service"
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "Here you can view older versions of the current web service's configuration, export or even restore them."
-msgstr "Hier können Sie ältere Versionen der Konfiguration dieses Webservices einsehen, exportieren oder wiederherstellen."
+msgstr "Hier können Sie ältere Versionen der Konfiguration dieses Web-Services einsehen, exportieren oder wiederherstellen."
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "Configuration History List"
@@ -5016,15 +5012,15 @@ msgstr "Wählen Sie eine Konfigurationsversion aus, um die Details zu sehen."
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "Export web service configuration"
-msgstr "Webservice-Konfiguration exportieren"
+msgstr "Web-Service-Konfiguration exportieren"
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "Restore web service configuration"
-msgstr "Webservice-Konfiguration wiederherstellen"
+msgstr "Web-Service-Konfiguration wiederherstellen"
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "Do you really want to restore this version of the web service configuration?"
-msgstr "Wollen Sie diese Version der Webservice-Konfiguration wirklich wiederherstellen?"
+msgstr "Wollen Sie diese Version der Web-Service-Konfiguration wirklich wiederherstellen?"
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "Your current web service configuration will be overwritten."
@@ -5472,7 +5468,7 @@ msgstr "Gehen Sie zum OTRS-Kundenportal"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Downgrade to ((OTRS)) Community Edition"
-msgstr ""
+msgstr "Downgrade auf ((OTRS)) Community Edition"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Read documentation"
@@ -5588,7 +5584,7 @@ msgstr "Weitere Informationen können Sie unter %s finden."
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid "Your ((OTRS)) Community Edition is the base for all future actions. Please register first before you continue with the upgrade process of %s!"
-msgstr ""
+msgstr "Ihre ((OTRS)) Community Edition ist die Grundlage für alle zukünftigen Aktionen. Bitte registrieren Sie sich zuerst, bevor Sie mit dem Upgrade-Prozess von %s fortfahren!"
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid "Before you can benefit from %s, please contact %s to get your %s contract."
@@ -5636,7 +5632,7 @@ msgstr "Bitte entfernen Sie diese Pakete zunächst und versuchen Sie es nochmals
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "You are about to downgrade to ((OTRS)) Community Edition and will lose the following features and all data related to these:"
-msgstr ""
+msgstr "Sie stehen kurz davor, auf ((OTRS)) Community Edition umzusteigen und verlieren die folgenden Funktionen und alle damit verbundenen Daten:"
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "Chat"
@@ -8436,7 +8432,7 @@ msgstr "Unerlaubte Nutzung der %s erkannt"
 
 #. Template: AgentOTRSBusinessBlockScreen
 msgid "If you decide to downgrade to ((OTRS)) Community Edition, you will lose all database tables and data related to %s."
-msgstr ""
+msgstr "Wenn Sie sich für ein Downgrade auf ((OTRS)) Community Edition entscheiden, verlieren Sie alle Datenbank-Tabellen und Daten, die sich auf %s beziehen."
 
 #. Template: AgentPreferences
 msgid "Edit your preferences"
@@ -9960,31 +9956,31 @@ msgstr "Willkommen bei %s"
 
 #. Template: Installer
 msgid "Germany"
-msgstr ""
+msgstr "Deutschland"
 
 #. Template: Installer
 msgid "United States"
-msgstr ""
+msgstr "Vereinigte Staaten von Amerika"
 
 #. Template: Installer
 msgid "Mexico"
-msgstr ""
+msgstr "Mexiko"
 
 #. Template: Installer
 msgid "Hungary"
-msgstr ""
+msgstr "Ungarn"
 
 #. Template: Installer
 msgid "Brazil"
-msgstr ""
+msgstr "Brasilien"
 
 #. Template: Installer
 msgid "Singapore"
-msgstr ""
+msgstr "Singapur"
 
 #. Template: Installer
 msgid "Hong Kong"
-msgstr ""
+msgstr "Hong Kong"
 
 #. Template: Installer
 msgid "Web site"
@@ -10420,19 +10416,19 @@ msgstr "Die ausgewählten Zeitperioden der Statistik sind Zeitzonen-unabhängig.
 
 #. Template: GeneralSpecificationsWidget
 msgid "Create summation row"
-msgstr "Summenzeile erzeugen"
+msgstr "Summenzeile erstellen"
 
 #. Template: GeneralSpecificationsWidget
 msgid "Generate an additional row containing sums for all data rows."
-msgstr "Eine zusätzliche Zeile mit Summen für alle Datenzeilen erzeugen."
+msgstr "Eine zusätzliche Zeile mit Summen für alle Datenzeilen erstellen."
 
 #. Template: GeneralSpecificationsWidget
 msgid "Create summation column"
-msgstr "Summenspalte erzeugen"
+msgstr "Summenspalte erstellen"
 
 #. Template: GeneralSpecificationsWidget
 msgid "Generate an additional column containing sums for all data columns."
-msgstr "Eine zusätzliche Spalte mit Summen für alle Datenspalten erzeugen."
+msgstr "Eine zusätzliche Spalte mit Summen für alle Datenspalten erstellen."
 
 #. Template: GeneralSpecificationsWidget
 msgid "Cache results"
@@ -10516,7 +10512,7 @@ msgstr "Die vergangenen %s und der/die aktuelle+kommenden %s %s."
 
 #. Template: RestrictionsWidget
 msgid "Do not allow changes to this element when the statistic is generated."
-msgstr "Beim Erzeugen der Statistik keine Veränderungen an diesem Element erlauben."
+msgstr "Beim Erstellen der Statistik keine Veränderungen an diesem Element erlauben."
 
 #. Template: StatsParamsWidget
 msgid "Format"
@@ -10788,11 +10784,11 @@ msgstr "Bitte entfernen Sie die folgenden Worte, da sie nicht für die Ticket-Au
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceDebugger.pm
 msgid "Need WebserviceID!"
-msgstr "Benötige WebserviceID!"
+msgstr "Benötige Web-Service-ID!"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceDebugger.pm
 msgid "Could not get data for WebserviceID %s"
-msgstr "Konnte keine Daten für WebserviceID %s ermitteln!"
+msgstr "Konnte keine Daten für Web-Service-ID %s ermitteln!"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerDefault.pm
 msgid "Need InvokerType"
@@ -10824,7 +10820,7 @@ msgstr "Konnte Backend für %s %s nicht ermitteln"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
 msgid "Could not update configuration data for WebserviceID %s"
-msgstr "Konnte Konfigurationsdaten für WebserviceID %s nicht aktualisieren"
+msgstr "Konnte Konfigurationsdaten für Web-Service-ID %s nicht aktualisieren"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
 msgid "Keep (leave unchanged)"
@@ -10876,11 +10872,11 @@ msgstr "Subaktion benötigt!"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "There is another web service with the same name."
-msgstr "Es existiert bereits ein Webservice mit demselben Namen."
+msgstr "Es existiert bereits ein Web-Service mit demselben Namen."
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "There was an error updating the web service."
-msgstr "Beim Aktualisieren des Webservice ist ein Fehler aufgetreten."
+msgstr "Beim Aktualisieren des Web-Service ist ein Fehler aufgetreten."
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Web service \"%s\" updated!"
@@ -10888,11 +10884,11 @@ msgstr "Web Service \"%s\" aktualisiert!"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "There was an error creating the web service."
-msgstr "Beim Erstellen des Webservice ist ein Fehler aufgetreten."
+msgstr "Beim Erstellen des Web-Service ist ein Fehler aufgetreten."
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Web service \"%s\" created!"
-msgstr "Webservice \"%s\" erstellt!"
+msgstr "Web-Service \"%s\" erstellt!"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Need Name!"
@@ -10900,7 +10896,7 @@ msgstr "Name benötigt!"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Need ExampleWebService!"
-msgstr "Benötige Beispiel-Webservice!"
+msgstr "Benötige Beispiel-Web-Service!"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Could not read %s!"
@@ -10916,7 +10912,7 @@ msgstr "Die importierte Datei enthält ungültigen YAML-Inhalt. Bitte prüfen Si
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Web service \"%s\" deleted!"
-msgstr "Webservice \"%s\" gelöscht!"
+msgstr "Web-Service \"%s\" gelöscht!"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "New Web service"
@@ -13104,7 +13100,7 @@ msgstr "Werte in ungültigen Dynamischen Feldern"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
 msgid "GenericInterface Webservices"
-msgstr "GenericInterface-Webservices"
+msgstr "GenericInterface-Web-Services"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
 msgid "Process Tickets"
@@ -14129,11 +14125,11 @@ msgstr "Erlaubt erweiterte Suchbedingungen der generischen Agenten-Schnittstelle
 
 #. SysConfig
 msgid "Allows generic agent to execute custom command line scripts."
-msgstr ""
+msgstr "Ermöglicht es dem GenericAgent, benutzerdefinierte Befehlszeilen-Skripte auszuführen."
 
 #. SysConfig
 msgid "Allows generic agent to execute custom modules."
-msgstr ""
+msgstr "Ermöglicht es dem GenericAgent, benutzerdefinierte Module auszuführen."
 
 #. SysConfig
 msgid "Allows having a medium format ticket overview (CustomerInfo => 1 - shows also the customer information)."
@@ -14277,7 +14273,7 @@ msgstr "Cache-Zeit in Sekunden für das Ticket-Prozess-Navigationsleisten-Ausgab
 
 #. SysConfig
 msgid "Cache time in seconds for the web service config backend."
-msgstr "Cache-Zeit in Sekunden für das Webservice-Konfigurations-Backend."
+msgstr "Cache-Zeit in Sekunden für das Web-Service-Konfigurations-Backend"
 
 #. SysConfig
 msgid "Catalan"
@@ -14509,59 +14505,59 @@ msgstr "Ticket erstellen"
 
 #. SysConfig
 msgid "Create and manage Service Level Agreements (SLAs)."
-msgstr "Service-Level-Abkommen (SLAs) erzeugen und verwalten."
+msgstr "Service-Level-Vereinbarungen (SLAs) erstellen und verwalten."
 
 #. SysConfig
 msgid "Create and manage agents."
-msgstr "Agents erzeugen und verwalten."
+msgstr "Agenten erstellen und verwalten."
 
 #. SysConfig
 msgid "Create and manage attachments."
-msgstr "Anhänge erzeugen und verwalten."
+msgstr "Anhänge erstellen und verwalten."
 
 #. SysConfig
 msgid "Create and manage customer users."
-msgstr "Kundenbenutzer erzeugen und verwalten."
+msgstr "Kundenbenutzer erstellen und verwalten."
 
 #. SysConfig
 msgid "Create and manage customers."
-msgstr "Kunden erzeugen und verwalten."
+msgstr "Kunden erstellen und verwalten."
 
 #. SysConfig
 msgid "Create and manage dynamic fields."
-msgstr "Dynamische Felder erzeugen und verwalten."
+msgstr "Dynamische Felder erstellen und verwalten."
 
 #. SysConfig
 msgid "Create and manage groups."
-msgstr "Gruppen erzeugen und verwalten."
+msgstr "Gruppen erstellen und verwalten."
 
 #. SysConfig
 msgid "Create and manage queues."
-msgstr "Queues erzeugen und verwalten."
+msgstr "Queues erstellen und verwalten."
 
 #. SysConfig
 msgid "Create and manage responses that are automatically sent."
-msgstr "Vorlagen für automatische Antworten erzeugen und verwalten."
+msgstr "Vorlagen für automatische Antworten erstellen und verwalten."
 
 #. SysConfig
 msgid "Create and manage roles."
-msgstr "Rollen erzeugen und verwalten."
+msgstr "Rollen erstellen und verwalten."
 
 #. SysConfig
 msgid "Create and manage salutations."
-msgstr "Anreden erzeugen und verwalten."
+msgstr "Anreden erstellen und verwalten."
 
 #. SysConfig
 msgid "Create and manage services."
-msgstr "Services erzeugen und verwalten."
+msgstr "Services erstellen und verwalten."
 
 #. SysConfig
 msgid "Create and manage signatures."
-msgstr "Signaturen erzeugen und verwalten."
+msgstr "Signaturen erstellen und verwalten."
 
 #. SysConfig
 msgid "Create and manage templates."
-msgstr "Vorlagen erzeugen und verwalten."
+msgstr "Vorlagen erstellen und verwalten."
 
 #. SysConfig
 msgid "Create and manage ticket notifications."
@@ -14569,19 +14565,19 @@ msgstr "Ticket-Benachrichtigungen erstellen und verwalten."
 
 #. SysConfig
 msgid "Create and manage ticket priorities."
-msgstr "Ticket-Prioritäten erzeugen und verwalten."
+msgstr "Ticket-Prioritäten erstellen und verwalten."
 
 #. SysConfig
 msgid "Create and manage ticket states."
-msgstr "Ticket-Status  erzeugen und verwalten."
+msgstr "Ticket-Status erstellen und verwalten."
 
 #. SysConfig
 msgid "Create and manage ticket types."
-msgstr "Ticket-Typen erzeugen und verwalten."
+msgstr "Ticket-Typen erstellen und verwalten."
 
 #. SysConfig
 msgid "Create and manage web services."
-msgstr "Webservices erzeugen und verwalten."
+msgstr "Web-Services erstellen und verwalten."
 
 #. SysConfig
 msgid "Create new Ticket."
@@ -14649,7 +14645,7 @@ msgstr "Kundenbenutzer <-> Services"
 
 #. SysConfig
 msgid "Customer User Administration"
-msgstr "Kundenbenutzerverwaltung"
+msgstr "Kundenbenutzer-Verwaltung"
 
 #. SysConfig
 msgid "Customer Users"
@@ -14757,7 +14753,7 @@ msgstr "Standard Entitäts-Präfixe des Prozessmanagements für Entitäts-IDs, d
 
 #. SysConfig
 msgid "Default agent name"
-msgstr ""
+msgstr "Standard-Agentenname"
 
 #. SysConfig
 msgid "Default data to use on attribute for ticket search screen. Example: \"TicketCreateTimePointFormat=year;TicketCreateTimePointStart=Last;TicketCreateTimePoint=2;\"."
@@ -15202,7 +15198,7 @@ msgstr "Definiert die genutzte Standard-CSS in RichText-Editoren."
 
 #. SysConfig
 msgid "Defines the default agent name in the ticket zoom view of the customer interface."
-msgstr ""
+msgstr "Definiert den Standard-Agentennamen in der Ticket-Detailansicht des Kunden-Interface."
 
 #. SysConfig
 msgid "Defines the default auto response type of the article for this operation."
@@ -15582,7 +15578,7 @@ msgstr "Definiert die standardmäßigen sichtbaren Sendertypen eines Tickets (St
 
 #. SysConfig
 msgid "Defines the displayed style of the From field in notes that are visible for customers. A default agent name can be defined in Ticket::Frontend::CustomerTicketZoom###DefaultAgentName setting."
-msgstr ""
+msgstr "Definiert den angezeigten Stil des Feldes \"Von\" in Notizen, die für Kunden sichtbar sind. Ein Standard-Agentenname kann in der Einstellung Ticket::Frontend::CustomerTicketZoom####DefaultAgentName definiert werden."
 
 #. SysConfig
 msgid "Defines the dynamic fields that are used for displaying on calendar events."
@@ -16066,7 +16062,7 @@ msgstr "Definiert das Trennzeichen zwischen dem echten Namen des Agenten und der
 
 #. SysConfig
 msgid "Defines the shown links in the footer area of the customer and public interface of this OTRS system. The value in \"Key\" is the external URL, the value in \"Content\" is the shown label."
-msgstr ""
+msgstr "Definiert die angezeigten Verknüpfungen im Fußbereich des Öffentlichen- und Kunden-Interface dieses OTRS Systems. Der Wert in \"Schlüssel\" ist die externe URL, der Wert in \"Inhalt\" das angezeigte Label."
 
 #. SysConfig
 msgid "Defines the standard permissions available for customers within the application. If more permissions are needed, you can enter them here. Permissions must be hard coded to be effective. Please ensure, when adding any of the afore mentioned permissions, that the \"rw\" permission remains the last entry."
@@ -16262,7 +16258,7 @@ msgstr "Definiert den Nächstmöglichen Ticketstatus, nachdem ein neues Telefon-
 
 #. SysConfig
 msgid "Determines the next possible ticket states, for process tickets in the agent interface."
-msgstr "Definiert den Nächstmöglichen Ticketstatus für Prozesstickets im Agenten-Interface."
+msgstr "Definiert den Nächstmöglichen Ticket-Status für Prozess-Tickets im Agenten-Interface."
 
 #. SysConfig
 msgid "Determines the next possible ticket states, for process tickets in the customer interface."
@@ -16334,7 +16330,7 @@ msgstr "Zeigt eine Warnung an und verhindert die Suche, wenn Stop-Wörter in der
 
 #. SysConfig
 msgid "Display settings to override defaults for Process Tickets."
-msgstr "Einstellungen zum Überschreiben der Standardwerte für Prozesstickets anzeigen."
+msgstr "Einstellungen zum Überschreiben der Standardwerte für Prozess-Tickets anzeigen."
 
 #. SysConfig
 msgid "Displays the accounted time for an article in the ticket zoom view."
@@ -16910,7 +16906,7 @@ msgstr "Anzeige von allgemeinen Ticket-Daten in Ticket-Übersichten (Fallback). 
 
 #. SysConfig
 msgid "Generate dashboard statistics."
-msgstr "Übersichtsseitenstatistiken erzeugen."
+msgstr "Übersichtsseitenstatistiken erstellen."
 
 #. SysConfig
 msgid "Generic Info module."
@@ -16942,7 +16938,7 @@ msgstr "GenericInterface TransportHTTPSOAP Benutzeroberfläche"
 
 #. SysConfig
 msgid "GenericInterface Web Service GUI"
-msgstr "GenericInterface Webservices Benutzeroberfläche"
+msgstr "GenericInterface Web-Services-Benutzeroberfläche"
 
 #. SysConfig
 msgid "GenericInterface Webservice History GUI"
@@ -17202,7 +17198,7 @@ msgstr "Aktivieren um die Standard-Ausgabe des Daemons in eine Log-Datei umzulei
 
 #. SysConfig
 msgid "If enabled the daemon will use this directory to create its PID files. Note: Please stop the daemon before any change and use this setting only if <$OTRSHome>/var/run/ can not be used."
-msgstr "Wenn aktiviert, verwendet der Daemon dieses Verzeichnis, um seine PID-Dateien zu erzeugen. Hinweis: Bitte stoppen Sie den Daemon vor der Änderung und nutzen Sie diese Einstellung nur, wenn <$OTRSHome>/var/run/ nicht benutzt werden kann."
+msgstr "Wenn aktiviert, verwendet der Daemon dieses Verzeichnis, um seine PID-Dateien zu erstellen. Hinweis: Bitte stoppen Sie den Daemon vor der Änderung und nutzen Sie diese Einstellung nur, wenn <$OTRSHome>/var/run/ nicht benutzt werden kann."
 
 #. SysConfig
 msgid "If enabled, OTRS will deliver all CSS files in minified form. WARNING: If you turn this off, there will likely be problems in IE 7, because it cannot load more than 32 CSS files."
@@ -17518,7 +17514,7 @@ msgstr "Hauptmenü-Registrierung."
 
 #. SysConfig
 msgid "Makes the application block external content loading."
-msgstr ""
+msgstr "Lässt die Anwendung das Laden externer Inhalte blockieren."
 
 #. SysConfig
 msgid "Makes the application check the MX record of email addresses before sending an email or submitting a telephone or email ticket."
@@ -18234,7 +18230,7 @@ msgstr "Dateibasierte Generic-Agent-Jobs ausführen (Hinweis: Der Modulname muss
 
 #. SysConfig
 msgid "Running Process Tickets"
-msgstr "Aktive Prozesstickets"
+msgstr "Aktive Prozess-Tickets"
 
 #. SysConfig
 msgid "Runs an initial wildcard search of the existing customer company when accessing the AdminCustomerCompany module."
@@ -19466,7 +19462,7 @@ msgstr "Entfernt leere Zeilen in der Ticket-Vorschau in der Service-Ansicht."
 
 #. SysConfig
 msgid "Support Agent"
-msgstr ""
+msgstr "Support-Agent"
 
 #. SysConfig
 msgid "Swahili"
@@ -19598,7 +19594,7 @@ msgstr "Der Text am Anfang des Betreffs, wenn eine E-Mail weitergeleitet wird, z
 
 #. SysConfig
 msgid "The value of the From field"
-msgstr ""
+msgstr "Der Wert des Von-Feldes"
 
 #. SysConfig
 msgid "This event module stores attributes from CustomerUser as DynamicFields tickets. Please see the setting above for how to configure the mapping."

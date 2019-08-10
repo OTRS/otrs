@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-05-16 18:32+0000\n"
+"POT-Creation-Date: 2019-08-09 08:43+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2899,12 +2899,8 @@ msgid "Set up what you want to change if the criteria match. Keep in mind that '
 msgstr "Thiết lập những gì bạn muốn thay đổi nếu phù hợp tiêu chuẩn. Hãy nhớ rằng \"có thể\" là một danh sách trắng, 'PossibleNot' danh sách đen."
 
 #. Template: AdminACLEdit
-msgid "Check the official"
-msgstr "Kiểm tra chính thức"
-
-#. Template: AdminACLEdit
-msgid "documentation"
-msgstr "tài liệu"
+msgid "Check the official %sdocumentation%s."
+msgstr ""
 
 #. Template: AdminACLEdit
 msgid "Show or hide the content"

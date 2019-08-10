@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-05-16 18:32+0000\n"
+"POT-Creation-Date: 2019-08-09 08:43+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -936,7 +936,7 @@ msgstr "megfordítás"
 
 #. Template: AAABase
 msgid "Facility"
-msgstr "Képesség"
+msgstr "Összetevő"
 
 #. Template: AAABase
 msgid "Time Zone"
@@ -2899,12 +2899,8 @@ msgid "Set up what you want to change if the criteria match. Keep in mind that '
 msgstr "Állítsa be, amit módosítani szeretne a feltétel egyezésekor. Ne feledkezzen meg arról, hogy a „Possible” a fehérlista, a „PossibleNot” a feketelista."
 
 #. Template: AdminACLEdit
-msgid "Check the official"
-msgstr "Nézze meg a hivatalos"
-
-#. Template: AdminACLEdit
-msgid "documentation"
-msgstr "dokumentációt"
+msgid "Check the official %sdocumentation%s."
+msgstr "Nézze meg a hivatalos %sdokumentációt%s."
 
 #. Template: AdminACLEdit
 msgid "Show or hide the content"
@@ -7900,7 +7896,7 @@ msgstr "Egy rendszerkarbantartás időszak ütemezése az ügyintézők és ügy
 
 #. Template: AdminSystemMaintenance
 msgid "Some time before this system maintenance starts the users will receive a notification on each screen announcing about this fact."
-msgstr "Egy kis idő a rendszerkarbantartás indulása előtt. A felhasználók értesítést fognak kapni minden képernyőn ennek a ténynek a bejelentéséről."
+msgstr "Nem sokkal a rendszerkarbantartás indulása előtt a felhasználók értesítést fognak kapni minden képernyőn ennek a ténynek a bejelentéséről."
 
 #. Template: AdminSystemMaintenance
 msgid "Start date"
@@ -8720,7 +8716,7 @@ msgstr "E-mail küldése"
 
 #. Template: AgentTicketBulk
 msgid "Merge to"
-msgstr "Egyesítés ezzel"
+msgstr "Egyesítés ezzel:"
 
 #. Template: AgentTicketBulk
 msgid "Invalid ticket identifier!"
@@ -14490,7 +14486,7 @@ msgstr "Azt szabályozza, hogy az adminisztrátornak megengedett-e egy elmentett
 
 #. SysConfig
 msgid "Controls if the admin is allowed to make changes to the database via AdminSelectBox."
-msgstr "Azt szabályozza, hogy az adminisztrátornak megengedett-e az adatbázison módosításokat végrehajtania az adminisztrátori lekérdeződobon keresztül."
+msgstr "Azt szabályozza, hogy az adminisztrátornak megengedett-e az adatbázison módosításokat végrehajtani az adminisztrátori lekérdeződobozon keresztül."
 
 #. SysConfig
 msgid "Controls if the ticket and article seen flags are removed when a ticket is archived."
@@ -14758,7 +14754,7 @@ msgstr "Alapértelmezett ProcessManagement entitás előtagok azon entitás azon
 
 #. SysConfig
 msgid "Default agent name"
-msgstr ""
+msgstr "Alapértelmezett ügyintézőnév"
 
 #. SysConfig
 msgid "Default data to use on attribute for ticket search screen. Example: \"TicketCreateTimePointFormat=year;TicketCreateTimePointStart=Last;TicketCreateTimePoint=2;\"."
@@ -15098,7 +15094,7 @@ msgstr "Meghatározza a HTTP gépnevet a támogatási adatok gyűjtéséhez a ny
 
 #. SysConfig
 msgid "Defines the IP regular expression for accessing the local repository. You need to enable this to have access to your local repository and the package::RepositoryList is required on the remote host."
-msgstr "Az IP reguláris kifejezést határozza meg a helyi tárolóhoz való hozzáféréshez. Engedélyeznie kell ezt a helyi tárolóhoz való hozzáféréshez, továbbá a package::RepositoryList szükséges a távoli kiszolgálón."
+msgstr "Az IP reguláris kifejezést határozza meg a helyi tárolóhoz való hozzáféréshez. Engedélyeznie kell ezt a helyi tárolóhoz való hozzáféréshez, továbbá a Package::RepositoryList szükséges a távoli kiszolgálón."
 
 #. SysConfig
 msgid "Defines the URL CSS path."
@@ -15198,7 +15194,7 @@ msgstr "Meghatározza a RichText szerkesztőkben használt alapértelmezett CSS-
 
 #. SysConfig
 msgid "Defines the default agent name in the ticket zoom view of the customer interface."
-msgstr ""
+msgstr "Meghatározza az alapértelmezett ügyintézőnevet az ügyfélfelület jegynagyítás nézetén."
 
 #. SysConfig
 msgid "Defines the default auto response type of the article for this operation."
@@ -15578,7 +15574,7 @@ msgstr "Meghatározza egy jegy alapértelmezett megtekinthető küldő típusait
 
 #. SysConfig
 msgid "Defines the displayed style of the From field in notes that are visible for customers. A default agent name can be defined in Ticket::Frontend::CustomerTicketZoom###DefaultAgentName setting."
-msgstr ""
+msgstr "Meghatározza a Feladó mező megjelenített stílusát azokban a jegyzetekben, amelyek láthatóak az ügyfeleknek. Egy alapértelmezett ügyintézőnév a Ticket::Frontend::CustomerTicketZoom###DefaultAgentName beállításban adható meg."
 
 #. SysConfig
 msgid "Defines the dynamic fields that are used for displaying on calendar events."
@@ -15798,7 +15794,7 @@ msgstr "Meghatározza az általános felület válaszainak legnagyobb méretét 
 
 #. SysConfig
 msgid "Defines the module that shows a generic notification in the agent interface. Either \"Text\" - if configured - or the contents of \"File\" will be displayed."
-msgstr "Meghatározza azt a modult, amely egy általános értesítést jelenít meg az ügyintézői felületen. Vagy „Szöveg” – ha be van állítva – vagy a „Fájl” tartalma kerül megjelenítésre."
+msgstr "Meghatározza azt a modult, amely egy általános értesítést jelenít meg az ügyintézői felületen. Vagy a „Text” szövege – ha be van állítva – vagy a „File” tartalma kerül megjelenítésre."
 
 #. SysConfig
 msgid "Defines the module that shows all the currently logged in agents in the agent interface."
@@ -16850,11 +16846,11 @@ msgstr "Előtétprogram"
 
 #. SysConfig
 msgid "Frontend module registration (disable AgentTicketService link if Ticket Service feature is not used)."
-msgstr "Előtétprogram-modul regisztráció (az AgentTicketService hivatkozás letiltása, ha a jegy szolgáltatás funkció nincs használatban)."
+msgstr "Előtétprogram-modul regisztráció (a szolgáltatás nézet menüpont letiltása, ha a jegy szolgáltatás funkció nincs használatban)."
 
 #. SysConfig
 msgid "Frontend module registration (disable company link if no company feature is used)."
-msgstr "Előtétprogram-modul regisztráció (vállalat-hivatkozás letiltása, ha nincs vállalat-szolgáltatás használatban)."
+msgstr "Előtétprogram-modul regisztráció (ügyfél adminisztráció menüpont letiltása, ha nincs vállalat-szolgáltatás használatban)."
 
 #. SysConfig
 msgid "Frontend module registration (disable ticket processes screen if no process available) for Customer."
@@ -16862,7 +16858,7 @@ msgstr "Előtétprogram-modul regisztráció (a jegyfolyamatok képernyő letilt
 
 #. SysConfig
 msgid "Frontend module registration (disable ticket processes screen if no process available)."
-msgstr "Előtétprogram-modul regisztráció (a jegyfolyamatok képernyő letiltása, ha nincs elérhető folyamat)."
+msgstr "Előtétprogram-modul regisztráció (az új folyamatjegy képernyő letiltása, ha nincs elérhető folyamat)."
 
 #. SysConfig
 msgid "Frontend module registration for the agent interface."
@@ -17070,7 +17066,7 @@ msgstr "Ha „FS” lett kiválasztva a SessionModule modulnál, akkor meg kell 
 
 #. SysConfig
 msgid "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify (by using a RegExp) to strip parts of REMOTE_USER (e. g. for to remove trailing domains). RegExp-Note, $1 will be the new Login."
-msgstr "Ha „HTTPBasicAuth” lett kiválasztva a Customer::AuthModule modulnál, akkor megadhatja (reguláris kifejezés használatával) a TÁVOLI_FELHASZNÁLÓ részeinek felvágását (például a záró tartományok eltávolításához). Reguláris kifejezés megjegyzés, a $1 lesz az új bejelentkezés."
+msgstr "Ha „HTTPBasicAuth” lett kiválasztva a Customer::AuthModule modulnál, akkor megadhatja (reguláris kifejezés használatával) a REMOTE_USER részeinek felvágását (például a záró tartományok eltávolításához). Reguláris kifejezés megjegyzés, a $1 lesz az új bejelentkezés."
 
 #. SysConfig
 msgid "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify to strip leading parts of user names (e. g. for domains like example_domain\\\\user to user)."
@@ -17142,7 +17138,7 @@ msgstr "Ha „Sendmail” lett kiválasztva a SendmailModule modulnál, akkor me
 
 #. SysConfig
 msgid "If \"SysLog\" was selected for LogModule, a special log facility can be specified."
-msgstr "Ha „SysLog” lett kiválasztva a LogModule modulnál, akkor megadható egy speciális naplózó képesség."
+msgstr "Ha „SysLog” lett kiválasztva a LogModule modulnál, akkor megadható egy speciális naplózó összetevő."
 
 #. SysConfig
 msgid "If \"SysLog\" was selected for LogModule, a special log sock can be specified (on solaris you may need to use 'stream')."
@@ -17514,7 +17510,7 @@ msgstr "Főmenü regisztráció."
 
 #. SysConfig
 msgid "Makes the application block external content loading."
-msgstr ""
+msgstr "Blokkoltatja az alkalmazással a külső tartalom betöltését."
 
 #. SysConfig
 msgid "Makes the application check the MX record of email addresses before sending an email or submitting a telephone or email ticket."
@@ -17678,11 +17674,11 @@ msgstr "Egy modul az elszámolt idő jegy statisztikák előállításához."
 
 #. SysConfig
 msgid "Module to generate html OpenSearch profile for short ticket search in the agent interface."
-msgstr "Egy modul a HTML OpenSearch profil előállításához a rövid jegykeresésnél az ügyintézői felületen."
+msgstr "Egy modul a gyors jegykeresés HTML OpenSearch profiljának előállításához az ügyintézői felületen."
 
 #. SysConfig
 msgid "Module to generate html OpenSearch profile for short ticket search in the customer interface."
-msgstr "Egy modul a HTML OpenSearch profil előállításához a rövid jegykeresésnél az ügyfélfelületen."
+msgstr "Egy modul a gyors jegykeresés HTML OpenSearch profiljának előállításához az ügyfélfelületen."
 
 #. SysConfig
 msgid "Module to generate ticket solution and response time statistics."
@@ -17834,19 +17830,19 @@ msgstr "Választás"
 
 #. SysConfig
 msgid "Optional queue limitation for the CreatorCheck permission module. If set, permission is only granted for tickets in the specified queues."
-msgstr "Opcionális várólista korlátozás a CreatorCheck jogosultsági modulnál. Ha be van állítva, akkor a jogosultságok csak a jegyeknél vannak engedélyezve a megadott várólistákban."
+msgstr "Opcionális várólista korlátozás a CreatorCheck jogosultsági modulnál. Ha be van állítva, akkor a jogosultságok csak a megadott várólistákban lévő jegyeknél vannak engedélyezve."
 
 #. SysConfig
 msgid "Optional queue limitation for the InvolvedCheck permission module. If set, permission is only granted for tickets in the specified queues."
-msgstr "Opcionális várólista korlátozás az InvolvedCheck jogosultsági modulnál. Ha be van állítva, akkor a jogosultságok csak a jegyeknél vannak engedélyezve a megadott várólistákban."
+msgstr "Opcionális várólista korlátozás az InvolvedCheck jogosultsági modulnál. Ha be van állítva, akkor a jogosultságok csak a megadott várólistákban lévő jegyeknél vannak engedélyezve."
 
 #. SysConfig
 msgid "Optional queue limitation for the OwnerCheck permission module. If set, permission is only granted for tickets in the specified queues."
-msgstr "Opcionális várólista korlátozás az OwnerCheck jogosultsági modulnál. Ha be van állítva, akkor a jogosultságok csak a jegyeknél vannak engedélyezve a megadott várólistákban."
+msgstr "Opcionális várólista korlátozás az OwnerCheck jogosultsági modulnál. Ha be van állítva, akkor a jogosultságok csak a megadott várólistákban lévő jegyeknél vannak engedélyezve."
 
 #. SysConfig
 msgid "Optional queue limitation for the ResponsibleCheck permission module. If set, permission is only granted for tickets in the specified queues."
-msgstr "Opcionális várólista korlátozás a ResponsibleCheck jogosultsági modulnál. Ha be van állítva, akkor a jogosultságok csak a jegyeknél vannak engedélyezve a megadott várólistákban."
+msgstr "Opcionális várólista korlátozás a ResponsibleCheck jogosultsági modulnál. Ha be van állítva, akkor a jogosultságok csak a megadott várólistákban lévő jegyeknél vannak engedélyezve."
 
 #. SysConfig
 msgid "Out Of Office"
@@ -18362,7 +18358,7 @@ msgstr "Csak a tulajdonosnak küld ügyintéző követő értesítést, ha a jeg
 
 #. SysConfig
 msgid "Sends all outgoing email via bcc to the specified address. Please use this only for backup reasons."
-msgstr "Elküld minden kimenő e-mailt titkos másolatként egy megadott címre. Ez csak biztonsági mentés céljából használja."
+msgstr "Elküld minden kimenő e-mailt titkos másolatként egy megadott címre. Ezt csak biztonsági mentés céljából használja."
 
 #. SysConfig
 msgid "Sends customer notifications just to the mapped customer."
@@ -18410,7 +18406,7 @@ msgstr "A beágyazott HTML bejegyzések alapértelmezett magasságának beállí
 
 #. SysConfig
 msgid "Set the limit of tickets that will be executed on a single genericagent job execution."
-msgstr "Azon jegyek korlátjának beállítása, amelyek egy egyedüli genericagent feladat végrehajtásakor lesznek végrehajtva."
+msgstr "Azon jegyek korlátjának beállítása, amelyek egy önálló általános ügyintéző feladat végrehajtásakor lesznek végrehajtva."
 
 #. SysConfig
 msgid "Set the maximum height (in pixels) of inline HTML articles in AgentTicketZoom."
@@ -19350,7 +19346,7 @@ msgstr "Azt a könyvtárat adja meg, ahol a személyes SSL tanúsítványok vann
 
 #. SysConfig
 msgid "Specifies the email address that should be used by the application when sending notifications. The email address is used to build the complete display name for the notification master (i.e. \"OTRS Notifications\" otrs@your.example.com). You can use the OTRS_CONFIG_FQDN variable as set in your configuation, or choose another email address."
-msgstr "Azt az e-mail címet adja meg, amelyet az alkalmazás az értesítések elküldésekor használjon. Az e-mail cím a teljes megjelenítési név összeállításához lesz használva az értesítési mesternél (azaz „OTRS értesítések” otrs@your.example.com). Használhatja az OTRS_CONFIG_FQDN változót, ahogy a konfigurációban be van állítva, vagy válasszon egy másik e-mail címet."
+msgstr "Azt az e-mail címet adja meg, amelyet az alkalmazás az értesítések elküldésekor használjon. Az e-mail cím a teljes megjelenítési név összeállításához lesz használva az értesítési mesternél (azaz \"OTRS értesítések\" <otrs@your.example.com>). Használhatja az OTRS_CONFIG_FQDN változót, ahogy a konfigurációban be van állítva, vagy válasszon egy másik e-mail címet."
 
 #. SysConfig
 msgid "Specifies the email addresses to get notification messages from scheduler tasks."
@@ -19362,7 +19358,7 @@ msgstr "Azt a csoportot adja meg, ahol a felhasználónak írási, olvasási jog
 
 #. SysConfig
 msgid "Specifies the name that should be used by the application when sending notifications. The sender name is used to build the complete display name for the notification master (i.e. \"OTRS Notifications\" otrs@your.example.com)."
-msgstr "Azt a nevet adja meg, amelyet az alkalmazás az értesítések elküldésekor használjon. A küldő neve a teljes megjelenítési név összeállításához lesz használva az értesítési mesternél (azaz „OTRS értesítésiek” otrs@your.example.com)."
+msgstr "Azt a nevet adja meg, amelyet az alkalmazás az értesítések elküldésekor használjon. A küldő neve a teljes megjelenítési név összeállításához lesz használva az értesítési mesternél (azaz \"OTRS értesítésiek\" <otrs@your.example.com>)."
 
 #. SysConfig
 msgid "Specifies the order in which the firstname and the lastname of agents will be displayed."
@@ -19462,7 +19458,7 @@ msgstr "Eltávolítja az üres sorokat a jegyelőnézetből a szolgáltatás né
 
 #. SysConfig
 msgid "Support Agent"
-msgstr ""
+msgstr "Támogató ügyintéző"
 
 #. SysConfig
 msgid "Swahili"
@@ -19594,7 +19590,7 @@ msgstr "A tárgy elején lévő szöveg egy e-mail továbbításakor, például 
 
 #. SysConfig
 msgid "The value of the From field"
-msgstr ""
+msgstr "A Feladó mező értéke"
 
 #. SysConfig
 msgid "This event module stores attributes from CustomerUser as DynamicFields tickets. Please see the setting above for how to configure the mapping."

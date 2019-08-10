@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-05-16 18:32+0000\n"
+"POT-Creation-Date: 2019-08-09 08:43+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2844,7 +2844,7 @@ msgstr "在這裡的任何ACL的修改，僅將其保存在系統中。只有在
 
 #. Template: AdminACL
 msgid "ACLs"
-msgstr ""
+msgstr "ACLs"
 
 #. Template: AdminACL
 msgid "Please note: This table represents the execution order of the ACLs. If you need to change the order in which ACLs are executed, please change the names of the affected ACLs."
@@ -2899,12 +2899,8 @@ msgid "Set up what you want to change if the criteria match. Keep in mind that '
 msgstr "當匹配條件滿足時執行規定的操作動作。記住：'Possible'表示允許(白名單)，'PossibleNot'表示禁止(黑名單)。"
 
 #. Template: AdminACLEdit
-msgid "Check the official"
-msgstr "查看官方"
-
-#. Template: AdminACLEdit
-msgid "documentation"
-msgstr "手冊"
+msgid "Check the official %sdocumentation%s."
+msgstr "檢查官方%s文件%s。"
 
 #. Template: AdminACLEdit
 msgid "Show or hide the content"
@@ -2924,7 +2920,7 @@ msgstr "編輯ACL結構"
 
 #. Template: AdminACLEdit
 msgid "Save ACL"
-msgstr ""
+msgstr "儲存 ACL"
 
 #. Template: AdminACLEdit
 msgid "Save"
@@ -3284,7 +3280,7 @@ msgstr "過濾組"
 
 #. Template: AdminCustomerUserGroup
 msgid "Just start typing to filter..."
-msgstr ""
+msgstr "在這邊輸入過濾字串..."
 
 #. Template: AdminCustomerUserGroup
 msgid "Select the customer:group permissions."

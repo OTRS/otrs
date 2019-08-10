@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-05-16 18:32+0000\n"
+"POT-Creation-Date: 2019-08-09 08:43+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2899,12 +2899,8 @@ msgid "Set up what you want to change if the criteria match. Keep in mind that '
 msgstr "Configure o que você quer alterar se o critério coincidir. Mantenha em mente que 'Possible' é uma adição à lista e 'PossibleNot', uma exclusão da lista."
 
 #. Template: AdminACLEdit
-msgid "Check the official"
-msgstr "Verifique a oficial"
-
-#. Template: AdminACLEdit
-msgid "documentation"
-msgstr "documentação"
+msgid "Check the official %sdocumentation%s."
+msgstr "Cheque a %s documentação %s oficial."
 
 #. Template: AdminACLEdit
 msgid "Show or hide the content"
@@ -19462,7 +19458,7 @@ msgstr "Elimina linhas vazias na visão prévia de ticket da visão de serviço.
 
 #. SysConfig
 msgid "Support Agent"
-msgstr ""
+msgstr "Agente de Suporte"
 
 #. SysConfig
 msgid "Swahili"

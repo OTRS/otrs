@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-05-16 18:32+0000\n"
+"POT-Creation-Date: 2019-08-09 08:43+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2899,12 +2899,8 @@ msgid "Set up what you want to change if the criteria match. Keep in mind that '
 msgstr "Établir le changement souhaité si le critère correspond. Garder en tête que \"Possible\" est une liste blanche, \"PossibleNot\" est une liste noire."
 
 #. Template: AdminACLEdit
-msgid "Check the official"
-msgstr "Vérifier l'officiel"
-
-#. Template: AdminACLEdit
-msgid "documentation"
-msgstr "documentation"
+msgid "Check the official %sdocumentation%s."
+msgstr ""
 
 #. Template: AdminACLEdit
 msgid "Show or hide the content"
@@ -2976,11 +2972,11 @@ msgstr "Lister"
 
 #. Template: AdminAttachment
 msgid "Download file"
-msgstr "Télécharger fichier"
+msgstr "Télécharger le fichier"
 
 #. Template: AdminAttachment
 msgid "Delete this attachment"
-msgstr "Supprimer pièce jointe"
+msgstr "Supprimer la pièce jointe"
 
 #. Template: AdminAttachment
 msgid "Do you really want to delete this attachment?"
@@ -2988,11 +2984,11 @@ msgstr "Voulez-vous vraiment supprimer cette pièce jointe ? "
 
 #. Template: AdminAttachment
 msgid "Add Attachment"
-msgstr "Ajouter pièce jointe"
+msgstr "Ajouter une pièce jointe"
 
 #. Template: AdminAttachment
 msgid "Edit Attachment"
-msgstr "Editer pièce jointe"
+msgstr "Editer la pièce jointe"
 
 #. Template: AdminAutoResponse
 msgid "Auto Response Management"
@@ -3004,11 +3000,11 @@ msgstr "Ajouter réponse automatique"
 
 #. Template: AdminAutoResponse
 msgid "Add Auto Response"
-msgstr "Ajouter Réponse Automatique"
+msgstr "Ajouter une réponse automatique"
 
 #. Template: AdminAutoResponse
 msgid "Edit Auto Response"
-msgstr "Editer Réponse Automatique"
+msgstr "Editer la réponse automatique"
 
 #. Template: AdminAutoResponse
 msgid "Response"
@@ -3072,7 +3068,7 @@ msgstr "Options des clé internes des champs de tickets dynamique"
 
 #. Template: AdminAutoResponse
 msgid "Options of ticket dynamic fields display values, useful for Dropdown and Multiselect fields"
-msgstr ""
+msgstr "Options des valeurs d'affichage des champs de tickets dynamiques, pour les champs Dropdown et Multiselect"
 
 #. Template: AdminAutoResponse
 msgid "Config options"
@@ -4116,7 +4112,7 @@ msgstr "Valeur Param %s"
 
 #. Template: AdminGenericAgent
 msgid "Save Changes"
-msgstr "Enregistrer les Modifications"
+msgstr "Enregistrer les modifications"
 
 #. Template: AdminGenericAgent
 msgid "Results"
@@ -5188,7 +5184,7 @@ msgstr "Téléverser la configuration de notification"
 
 #. Template: AdminNotificationEvent
 msgid "Import Notification configuration"
-msgstr "Importer configuration de notification"
+msgstr "Importer la configuration de notification"
 
 #. Template: AdminNotificationEvent
 msgid "Delete this notification"
@@ -5200,11 +5196,11 @@ msgstr "Voulez-vous vraiment supprimer cette notification ?"
 
 #. Template: AdminNotificationEvent
 msgid "Add Notification"
-msgstr "Ajouter Notification"
+msgstr "Ajouter une notification"
 
 #. Template: AdminNotificationEvent
 msgid "Edit Notification"
-msgstr "Editer Notification"
+msgstr "Editer la notification"
 
 #. Template: AdminNotificationEvent
 msgid "Show in agent preferences"
@@ -5300,7 +5296,7 @@ msgstr "Methodes de notification"
 
 #. Template: AdminNotificationEvent
 msgid "These are the possible methods that can be used to send this notification to each of the recipients. Please select at least one method below."
-msgstr ""
+msgstr "Voici les méthodes possible pour envoyer cette notification à chaque destinataire. Choisissez au moins une méthode ci-dessous."
 
 #. Template: AdminNotificationEvent
 msgid "Enable this notification method"
@@ -5448,11 +5444,11 @@ msgstr "Utiliser ce modèle pour générer l'email (uniquement pour les emails a
 
 #. Template: AdminNotificationEventTransportEmailSettings
 msgid "Enable email security"
-msgstr "Activer sécurité email"
+msgstr "Activer la sécurité de l'email"
 
 #. Template: AdminNotificationEventTransportEmailSettings
 msgid "Email security level"
-msgstr "Niveau de sécurité email"
+msgstr "Niveau de sécurité de l'email"
 
 #. Template: AdminNotificationEventTransportEmailSettings
 msgid "If signing key/certificate is missing"
@@ -6128,7 +6124,7 @@ msgstr "Créer un nouveau processus."
 
 #. Template: AdminProcessManagement
 msgid "Deploy All Processes"
-msgstr "Supprimer tous les processus"
+msgstr "Déployer tous les processus"
 
 #. Template: AdminProcessManagement
 msgid "Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module."
@@ -6620,11 +6616,11 @@ msgstr ""
 
 #. Template: AdminProcessManagementTransition
 msgid "Transition"
-msgstr ""
+msgstr "Transition"
 
 #. Template: AdminProcessManagementTransition
 msgid "Transition Name"
-msgstr ""
+msgstr "Nom de la transition"
 
 #. Template: AdminProcessManagementTransition
 msgid "Conditions can only operate on non-empty fields."
@@ -6696,11 +6692,11 @@ msgstr "Ajouter une file"
 
 #. Template: AdminQueue
 msgid "Add Queue"
-msgstr "Ajouter une File"
+msgstr "Ajouter une file"
 
 #. Template: AdminQueue
 msgid "Edit Queue"
-msgstr "Editer une File"
+msgstr "Editer la file"
 
 #. Template: AdminQueue
 msgid "A queue with this name already exists!"
@@ -6724,7 +6720,7 @@ msgstr "Seules les plages horaires de bureau sont prises en compte."
 
 #. Template: AdminQueue
 msgid "If an agent locks a ticket and does not close it before the unlock timeout has passed, the ticket will unlock and will become available for other agents."
-msgstr "Si un opérateur vérouille un ticket et ne le ferme pas avant le délai de dévérouillage, le ticket sera dévérouillé et sera disponible pour un autre opérateur."
+msgstr "Si un opérateur verrouille un ticket et ne le ferme pas avant le délai de déverrouillage, le ticket sera déverrouillé et sera disponible pour un autre opérateur."
 
 #. Template: AdminQueue
 msgid "Notify by"
@@ -17467,11 +17463,11 @@ msgstr ""
 
 #. SysConfig
 msgid "Lock / unlock this ticket"
-msgstr ""
+msgstr "Vérrouiller / déverrouiller ce ticket"
 
 #. SysConfig
 msgid "Locked Tickets."
-msgstr ""
+msgstr "Tickets verrouillés."
 
 #. SysConfig
 msgid "Locked ticket."
@@ -19675,7 +19671,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Ticket Lock."
-msgstr "Ticket verrouillé."
+msgstr "Verrouillage ticket"
 
 #. SysConfig
 msgid "Ticket Merge."
@@ -20007,7 +20003,7 @@ msgstr "information"
 
 #. SysConfig
 msgid "inline"
-msgstr ""
+msgstr "en ligne"
 
 #. SysConfig
 msgid "notice"
@@ -20019,7 +20015,7 @@ msgstr "en attente"
 
 #. SysConfig
 msgid "responsible"
-msgstr ""
+msgstr "responsable"
 
 #. SysConfig
 msgid "stats"

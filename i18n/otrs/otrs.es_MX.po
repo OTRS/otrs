@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-05-16 18:32+0000\n"
+"POT-Creation-Date: 2019-08-09 08:43+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2899,12 +2899,8 @@ msgid "Set up what you want to change if the criteria match. Keep in mind that '
 msgstr "Configure lo que quiere cambiar si los criterios corresponden entre si. Tenga en cuenta que 'Possible' es una lista blanca, 'PossibleNot' una lista negra."
 
 #. Template: AdminACLEdit
-msgid "Check the official"
-msgstr "Verificar el oficial"
-
-#. Template: AdminACLEdit
-msgid "documentation"
-msgstr "documentación"
+msgid "Check the official %sdocumentation%s."
+msgstr ""
 
 #. Template: AdminACLEdit
 msgid "Show or hide the content"
@@ -8184,11 +8180,11 @@ msgstr "Iniciar chat"
 
 #. Template: AgentCustomerTableView
 msgid "Video call"
-msgstr ""
+msgstr "Video llamada"
 
 #. Template: AgentCustomerTableView
 msgid "Audio call"
-msgstr ""
+msgstr "Audio llamada"
 
 #. Template: AgentDaemonInfo
 msgid "The OTRS Daemon is a daemon process that performs asynchronous tasks, e.g. ticket escalation triggering, email sending, etc."
@@ -11480,11 +11476,11 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminSystemMaintenance.pm
 msgid "Session has been killed!"
-msgstr ""
+msgstr "¡La sesión ha sido cerrada!"
 
 #. Perl Module: Kernel/Modules/AdminSystemMaintenance.pm
 msgid "All sessions have been killed, except for your own."
-msgstr ""
+msgstr "¡Todas las sesiones han sido cerradas, excepto por la actual! "
 
 #. Perl Module: Kernel/Modules/AdminSystemMaintenance.pm
 msgid "There was an error updating the System Maintenance"
@@ -11496,7 +11492,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminTemplate.pm
 msgid "Template updated!"
-msgstr ""
+msgstr "¡Plantilla actualizada!"
 
 #. Perl Module: Kernel/Modules/AdminTemplate.pm
 msgid "Template added!"

@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.6876;
+    $Self->{Completeness}        = 0.6886;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -2538,8 +2538,8 @@ sub Data {
         # Template: AgentCustomerTableView
         'Note: Customer is invalid!' => 'Nota: ¡El cliente es inválido!',
         'Start chat' => 'Iniciar chat',
-        'Video call' => '',
-        'Audio call' => '',
+        'Video call' => 'Video llamada',
+        'Audio call' => 'Audio llamada',
 
         # Template: AgentDaemonInfo
         'The OTRS Daemon is a daemon process that performs asynchronous tasks, e.g. ticket escalation triggering, email sending, etc.' =>
@@ -3727,13 +3727,13 @@ sub Data {
         'Need SystemMaintenanceID!' => '',
         'Could not get data for SystemMaintenanceID %s' => '',
         'System Maintenance was saved successfully!' => '',
-        'Session has been killed!' => '',
-        'All sessions have been killed, except for your own.' => '',
+        'Session has been killed!' => '¡La sesión ha sido cerrada!',
+        'All sessions have been killed, except for your own.' => '¡Todas las sesiones han sido cerradas, excepto por la actual! ',
         'There was an error updating the System Maintenance' => '',
         'Was not possible to delete the SystemMaintenance entry: %s!' => '',
 
         # Perl Module: Kernel/Modules/AdminTemplate.pm
-        'Template updated!' => '',
+        'Template updated!' => '¡Plantilla actualizada!',
         'Template added!' => '',
 
         # Perl Module: Kernel/Modules/AdminType.pm

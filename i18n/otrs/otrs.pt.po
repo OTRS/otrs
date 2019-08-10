@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-05-16 18:32+0000\n"
+"POT-Creation-Date: 2019-08-09 08:43+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2888,7 +2888,7 @@ msgstr "Configurações correspondentes"
 
 #. Template: AdminACLEdit
 msgid "Set up matching criteria for this ACL. Use 'Properties' to match the current screen or 'PropertiesDatabase' to match attributes of the current ticket that are in the database."
-msgstr "Defina os critérios de igualdade para este ACL. Use 'Propriedades' para validar o ecran atual ou 'Propriedades da Bases Dados' para validade atributos do ticket atual na base de dados."
+msgstr "Defina os critérios de igualdade para este ACL. Use 'Propriedades' para validar o ecrã atual ou 'Propriedades da Bases Dados' para validade atributos do ticket atual na base de dados."
 
 #. Template: AdminACLEdit
 msgid "Change settings"
@@ -2899,12 +2899,8 @@ msgid "Set up what you want to change if the criteria match. Keep in mind that '
 msgstr "Defina o que  quer alterar se os critérios forem válidos. Lembre-se que \"Possível\" é uma lista branca, \"Impossível\" é uma lista negra."
 
 #. Template: AdminACLEdit
-msgid "Check the official"
-msgstr "Verificar a documentação oficial"
-
-#. Template: AdminACLEdit
-msgid "documentation"
-msgstr "documentação"
+msgid "Check the official %sdocumentation%s."
+msgstr ""
 
 #. Template: AdminACLEdit
 msgid "Show or hide the content"

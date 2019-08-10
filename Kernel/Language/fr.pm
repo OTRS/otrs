@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.5118;
+    $Self->{Completeness}        = 0.5134;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -847,17 +847,17 @@ sub Data {
         'Attachment Management' => 'Gestion des pièces jointes',
         'Add attachment' => 'Ajouter pièce jointe',
         'List' => 'Lister',
-        'Download file' => 'Télécharger fichier',
-        'Delete this attachment' => 'Supprimer pièce jointe',
+        'Download file' => 'Télécharger le fichier',
+        'Delete this attachment' => 'Supprimer la pièce jointe',
         'Do you really want to delete this attachment?' => 'Voulez-vous vraiment supprimer cette pièce jointe ? ',
-        'Add Attachment' => 'Ajouter pièce jointe',
-        'Edit Attachment' => 'Editer pièce jointe',
+        'Add Attachment' => 'Ajouter une pièce jointe',
+        'Edit Attachment' => 'Editer la pièce jointe',
 
         # Template: AdminAutoResponse
         'Auto Response Management' => 'Gestion des réponses automatiques',
         'Add auto response' => 'Ajouter réponse automatique',
-        'Add Auto Response' => 'Ajouter Réponse Automatique',
-        'Edit Auto Response' => 'Editer Réponse Automatique',
+        'Add Auto Response' => 'Ajouter une réponse automatique',
+        'Edit Auto Response' => 'Editer la réponse automatique',
         'Response' => 'Réponse',
         'Auto response from' => 'Réponse automatique de',
         'Reference' => 'Référence',
@@ -874,7 +874,7 @@ sub Data {
         'Options of the ticket data' => 'Options des données du ticket',
         'Options of ticket dynamic fields internal key values' => 'Options des clé internes des champs de tickets dynamique',
         'Options of ticket dynamic fields display values, useful for Dropdown and Multiselect fields' =>
-            '',
+            'Options des valeurs d\'affichage des champs de tickets dynamiques, pour les champs Dropdown et Multiselect',
         'Config options' => 'Options de configuration',
         'Example response' => 'Exemple de réponse',
 
@@ -1201,7 +1201,7 @@ sub Data {
         'Execute Custom Module' => 'Exécuter le Module Client',
         'Param %s key' => 'Clé Param %s',
         'Param %s value' => 'Valeur Param %s',
-        'Save Changes' => 'Enregistrer les Modifications',
+        'Save Changes' => 'Enregistrer les modifications',
         'Results' => 'Résultat',
         '%s Tickets affected! What do you want to do?' => '%s Tickets impactés! Que voulez vous faire?',
         'Warning: You used the DELETE option. All deleted tickets will be lost!' =>
@@ -1553,11 +1553,11 @@ sub Data {
             'Ici vous pouvez envoyer un fichier de configuration pour importer un notification de ticket vers votre système. Ce fichier a besoin d\'être en format "yml" comme exporté par le module "Notification de ticket".',
         'Overwrite existing notifications?' => 'Écraser les notifications existantes ? ',
         'Upload Notification configuration' => 'Téléverser la configuration de notification',
-        'Import Notification configuration' => 'Importer configuration de notification',
+        'Import Notification configuration' => 'Importer la configuration de notification',
         'Delete this notification' => 'Supprimer cette notification',
         'Do you really want to delete this notification?' => 'Voulez-vous vraiment supprimer cette notification ?',
-        'Add Notification' => 'Ajouter Notification',
-        'Edit Notification' => 'Editer Notification',
+        'Add Notification' => 'Ajouter une notification',
+        'Edit Notification' => 'Editer la notification',
         'Show in agent preferences' => 'Montrer dans les préferences de l\'opérateur',
         'Agent preferences tooltip' => 'Infobulle des préférences de l\'opérateur',
         'This message will be shown on the agent preferences screen as a tooltip for this notification.' =>
@@ -1586,7 +1586,7 @@ sub Data {
             '',
         'Notification Methods' => 'Methodes de notification',
         'These are the possible methods that can be used to send this notification to each of the recipients. Please select at least one method below.' =>
-            '',
+            'Voici les méthodes possible pour envoyer cette notification à chaque destinataire. Choisissez au moins une méthode ci-dessous.',
         'Enable this notification method' => 'Activer cette méthode de notification',
         'Transport' => 'Transport',
         'At least one method is needed per notification.' => 'Au moins une méthode par notification est nécessaire.',
@@ -1637,8 +1637,8 @@ sub Data {
         'Email template' => 'Modèle d\'email',
         'Use this template to generate the complete email (only for HTML emails).' =>
             'Utiliser ce modèle pour générer l\'email (uniquement pour les emails au format HTML).',
-        'Enable email security' => 'Activer sécurité email',
-        'Email security level' => 'Niveau de sécurité email',
+        'Enable email security' => 'Activer la sécurité de l\'email',
+        'Email security level' => 'Niveau de sécurité de l\'email',
         'If signing key/certificate is missing' => 'Si la clé/certificat de signature est manquant',
         'If encryption key/certificate is missing' => 'Si la clé/certificat de chiffrage est manquant',
 
@@ -1863,7 +1863,7 @@ sub Data {
         'Process Management' => 'Gestion des processus',
         'Filter for Processes' => '',
         'Create New Process' => 'Créer un nouveau processus.',
-        'Deploy All Processes' => 'Supprimer tous les processus',
+        'Deploy All Processes' => 'Déployer tous les processus',
         'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.' =>
             'Ici vous pouvez envoyer un fichier de configuration pour importer le processus vers votre système. Le fichier a besoin d\'être en format "yml" comme exporté par le module de gestion de processus.',
         'Overwrite existing entities' => 'Écraser les entités existantes',
@@ -2031,8 +2031,8 @@ sub Data {
         # Template: AdminProcessManagementTransition
         'Please note that changing this transition will affect the following processes' =>
             '',
-        'Transition' => '',
-        'Transition Name' => '',
+        'Transition' => 'Transition',
+        'Transition Name' => 'Nom de la transition',
         'Conditions can only operate on non-empty fields.' => '',
         'Type of Linking between Conditions' => '',
         'Remove this Condition' => '',
@@ -2055,15 +2055,15 @@ sub Data {
         # Template: AdminQueue
         'Manage Queues' => 'Gérer les Files',
         'Add queue' => 'Ajouter une file',
-        'Add Queue' => 'Ajouter une File',
-        'Edit Queue' => 'Editer une File',
+        'Add Queue' => 'Ajouter une file',
+        'Edit Queue' => 'Editer la file',
         'A queue with this name already exists!' => 'Une file avec ce nom existe déjà !',
         'Sub-queue of' => 'Sous-file de',
         'Unlock timeout' => 'Délai du déverrouillage',
         '0 = no unlock' => '0 = pas de déverrouillage',
         'Only business hours are counted.' => 'Seules les plages horaires de bureau sont prises en compte.',
         'If an agent locks a ticket and does not close it before the unlock timeout has passed, the ticket will unlock and will become available for other agents.' =>
-            'Si un opérateur vérouille un ticket et ne le ferme pas avant le délai de dévérouillage, le ticket sera dévérouillé et sera disponible pour un autre opérateur.',
+            'Si un opérateur verrouille un ticket et ne le ferme pas avant le délai de déverrouillage, le ticket sera déverrouillé et sera disponible pour un autre opérateur.',
         'Notify by' => 'Notification par',
         '0 = no escalation' => '0 = pas de remontée du ticket',
         'If there is not added a customer contact, either email-external or phone, to a new ticket before the time defined here expires, the ticket is escalated.' =>
@@ -6158,8 +6158,8 @@ Thanks for your help!
             '',
         'List view' => '',
         'Lithuanian' => '',
-        'Lock / unlock this ticket' => '',
-        'Locked Tickets.' => '',
+        'Lock / unlock this ticket' => 'Vérrouiller / déverrouiller ce ticket',
+        'Locked Tickets.' => 'Tickets verrouillés.',
         'Locked ticket.' => 'Ticket verrouillé.',
         'Log file for the ticket counter.' => 'Fichier log pour le compteur de tickets.',
         'Logged-In Users' => 'Utilisateurs actuellement connectés',
@@ -7065,7 +7065,7 @@ Thanks for your help!
         'Ticket Forward Email.' => '',
         'Ticket FreeText.' => '',
         'Ticket History.' => '',
-        'Ticket Lock.' => 'Ticket verrouillé.',
+        'Ticket Lock.' => 'Verrouillage ticket',
         'Ticket Merge.' => '',
         'Ticket Move.' => '',
         'Ticket Note.' => '',
@@ -7172,10 +7172,10 @@ Thanks for your help!
         'error' => 'erreur',
         'forward' => 'transférer',
         'info' => 'information',
-        'inline' => '',
+        'inline' => 'en ligne',
         'notice' => '',
         'pending' => 'en attente',
-        'responsible' => '',
+        'responsible' => 'responsable',
         'stats' => 'statistiques',
 
     };

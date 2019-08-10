@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.9156;
+    $Self->{Completeness}        = 0.916;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -820,7 +820,7 @@ sub Data {
         'Change settings' => 'Alterar configurações',
         'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is a white list, \'PossibleNot\' a black list.' =>
             'Configure o que você quer alterar se o critério coincidir. Mantenha em mente que \'Possible\' é uma adição à lista e \'PossibleNot\', uma exclusão da lista.',
-        'Check the official %sdocumentation%s.' => '',
+        'Check the official %sdocumentation%s.' => 'Cheque a %s documentação %s oficial.',
         'Show or hide the content' => 'Mostrar ou esconder o conteúdo',
         'Edit ACL information' => 'Editar a informação da ACL',
         'Stop after match' => 'Parar Após Encontrar',
@@ -6989,7 +6989,7 @@ Obrigado pela ajuda!
         'Strips empty lines on the ticket preview in the queue view.' => 'Elimina linhas vazias na visão prévia de ticket da visão de fila.',
         'Strips empty lines on the ticket preview in the service view.' =>
             'Elimina linhas vazias na visão prévia de ticket da visão de serviço.',
-        'Support Agent' => '',
+        'Support Agent' => 'Agente de Suporte',
         'Swahili' => 'Swahili',
         'Swedish' => 'Sueco',
         'System Address Display Name' => 'Nome de Exibição do Endereço de Sistema',

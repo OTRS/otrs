@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.799;
+    $Self->{Completeness}        = 0.7992;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -6996,7 +6996,7 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'Strips empty lines on the ticket preview in the queue view.' => '',
         'Strips empty lines on the ticket preview in the service view.' =>
             '',
-        'Support Agent' => '',
+        'Support Agent' => 'Agente de soporte',
         'Swahili' => 'Suajili',
         'Swedish' => 'Sueco',
         'System Address Display Name' => '',

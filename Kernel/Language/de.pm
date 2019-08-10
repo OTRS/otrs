@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.9872;
+    $Self->{Completeness}        = 0.9914;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -38,7 +38,7 @@ sub Data {
         'no' => 'nein',
         'Off' => 'Aus',
         'off' => 'aus',
-        'On' => 'Am',
+        'On' => 'An',
         'on' => 'ein',
         'top' => 'hoch',
         'end' => 'runter',
@@ -475,7 +475,7 @@ sub Data {
 
         # Template: AAAPreferences
         'Preferences updated successfully!' => 'Einstellungen erfolgreich aktualisiert!',
-        'User Profile' => 'Benutzer-Profil',
+        'User Profile' => 'Benutzerprofil',
         'Email Settings' => 'E-Mail-Einstellungen',
         'Other Settings' => 'Andere Einstellungen',
         'Notification Settings' => 'Benachrichtigungseinstellungen',
@@ -815,7 +815,7 @@ sub Data {
         'Change settings' => 'Werte ändern',
         'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is a white list, \'PossibleNot\' a black list.' =>
             'Stellt die Wertänderungen ein für den Fall, dass die Filterbedingungen zutreffen. Hierbei ist \'Possible\' eine Positivliste und \'PossibleNot\' eine Negativliste.',
-        'Check the official %sdocumentation%s.' => '',
+        'Check the official %sdocumentation%s.' => 'Überprüfen Sie die offizielle %sdocumentation%s.',
         'Show or hide the content' => 'Inhalt einblenden oder ausblenden',
         'Edit ACL information' => 'ACL-Information bearbeiten',
         'Stop after match' => 'Stoppen nach Treffer',
@@ -911,7 +911,7 @@ sub Data {
         'Add Customer' => 'Kunde hinzufügen',
 
         # Template: AdminCustomerUser
-        'Customer User Management' => 'Kundenbenutzerverwaltung',
+        'Customer User Management' => 'Kundenbenutzer-Verwaltung',
         'Back to search results' => 'Zurück zum Suchergebnis',
         'Add customer user' => 'Kundenbenutzer hinzufügen',
         'Customer user are needed to have a customer history and to login via customer panel.' =>
@@ -1042,7 +1042,7 @@ sub Data {
         'Add value' => 'Wert hinzufügen',
         'Add Value' => 'Wert hinzufügen',
         'Add empty value' => 'Leeren Wert hinzufügen',
-        'Activate this option to create an empty selectable value.' => 'Aktivieren Sie diese Option, um einen leeren Auswahlwert zu erzeugen.',
+        'Activate this option to create an empty selectable value.' => 'Aktivieren Sie diese Option, um einen leeren Auswahlwert zu erstellen.',
         'Tree View' => 'Baumansicht',
         'Activate this option to display values as a tree.' => 'Aktivieren Sie diese Option um die Werte als Baum anzuzeigen.',
         'Translatable values' => 'Wertübersetzung',
@@ -1207,12 +1207,12 @@ sub Data {
         # Template: AdminGenericInterfaceDebugger
         'GenericInterface Debugger for Web Service %s' => 'GenericInterface Debugger für Webservice %s',
         'You are here' => 'Sie sind hier',
-        'Web Services' => 'Webservices',
+        'Web Services' => 'Web-Services',
         'Debugger' => 'Debugger',
-        'Go back to web service' => 'Zurück zum Webservice',
+        'Go back to web service' => 'Zurück zum Web-Service',
         'Clear' => 'Leeren',
         'Do you really want to clear the debug log of this web service?' =>
-            'Möchten Sie wirklich das Debug-Log dieses Webservice leeren?',
+            'Möchten Sie wirklich das Debug-Protokoll dieses Web-Services löschen?',
         'Request List' => 'Anfrageliste',
         'Time' => 'Zeit',
         'Remote IP' => 'Remote-IP',
@@ -1238,7 +1238,7 @@ sub Data {
         'All configuration data will be lost.' => 'Die Konfigurationsdaten gehen verloren.',
         'Invoker Details' => 'Invoker-Details',
         'The name is typically used to call up an operation of a remote web service.' =>
-            'Der Name wird typischerweise genutzt, um eine Operation eines entfernten Webservice aufzurufen.',
+            'Der Name wird typischerweise genutzt, um eine Operation eines entfernten Web-Services aufzurufen.',
         'Please provide a unique name for this web service invoker.' => 'Bitte geben sie einen eindeutigen Namen für diesen Webservice-Invoker an.',
         'Invoker backend' => 'Invoker-Backend',
         'This OTRS invoker backend module will be called to prepare the data to be sent to the remote system, and to process its response data.' =>
@@ -1301,8 +1301,8 @@ sub Data {
         'Do you really want to delete this operation?' => 'Wollen Sie diese Operation wirklich löschen?',
         'Operation Details' => 'Operation-Details',
         'The name is typically used to call up this web service operation from a remote system.' =>
-            'Der Name wird typischerweise benutzt, um die Webservice-Operation von einem entfernten System aus aufzurufen.',
-        'Please provide a unique name for this web service.' => 'Bitte geben Sie einen eindeutigen Namen für diesen Webservice an.',
+            'Der Name wird typischerweise benutzt, um die Web-Service-Operation von einem entfernten System aus aufzurufen.',
+        'Please provide a unique name for this web service.' => 'Bitte geben Sie einen eindeutigen Namen für diesen Web-Service an.',
         'Mapping for incoming request data' => 'Mapping für eingehende Anfragedaten',
         'The request data will be processed by this mapping, to transform it to the kind of data OTRS expects.' =>
             'Die Daten der eingehenden Anfrage werden von diesem Mapping verarbeitet, um sie so umzuformen, wie die OTRS-Operation sie benötigt.',
@@ -1424,20 +1424,20 @@ sub Data {
             'Sortierung für ausgehende XML-Felder (Struktur unterhalb des Funktionsaufrufes) - siehe Dokumentation für SOAP-Transport.',
 
         # Template: AdminGenericInterfaceWebservice
-        'GenericInterface Web Service Management' => 'GenericInterface - Webservice-Verwaltung',
+        'GenericInterface Web Service Management' => 'GenericInterface - Web-Service-Verwaltung',
         'Add web service' => 'Webservice hinzufügen',
-        'Clone web service' => 'Webservice klonen',
+        'Clone web service' => 'Web-Service klonen',
         'The name must be unique.' => 'Der Name muss eindeutig sein.',
         'Clone' => 'Klonen',
         'Export web service' => 'Webservice exportieren',
-        'Import web service' => 'Webservice importieren',
+        'Import web service' => 'Web-Services importieren',
         'Configuration File' => 'Konfigurationsdatei',
         'The file must be a valid web service configuration YAML file.' =>
-            'Die Datei muss eine gültige Webservice-Konfigurationsdatei im YAML-Format sein.',
+            'Die Datei muss eine gültige Web-Service-Konfigurationsdatei im YAML-Format sein.',
         'Import' => 'Importieren',
         'Configuration history' => 'Konfigurations-Historie',
-        'Delete web service' => 'Webservice löschen',
-        'Do you really want to delete this web service?' => 'Wollen Sie diesen Webservice wirklich löschen?',
+        'Delete web service' => 'Web-Service löschen',
+        'Do you really want to delete this web service?' => 'Wollen Sie diesen Web-Service wirklich löschen?',
         'Ready-to-run Web Services' => 'Webservices zur sofortigen Nutzung',
         'Here you can activate ready-to-run web services showcasing our best practices that are a part of %s.' =>
             'Hier können Sie Webservices zur sofortigen Nutzung aktivieren, die Teil der %s sind und nach unseren Best-Practices erstellt wurden.',
@@ -1456,13 +1456,13 @@ sub Data {
         'Requester transport' => 'Requester-Transport',
         'Debug threshold' => 'Debug-Level',
         'In provider mode, OTRS offers web services which are used by remote systems.' =>
-            'Im Modus "Provider" bietet OTRS Webservices an, die von entfernten Systemen genutzt werden.',
+            'Im Modus "Provider" bietet OTRS Web-Services an, die von externen Systemen genutzt werden.',
         'In requester mode, OTRS uses web services of remote systems.' =>
-            'Im Modus "Requester" nutzt OTRS selbst Webservices von entfernten Systemen.',
+            'Im Modus "Requester" nutzt OTRS selbst Web-Services von externen Systemen.',
         'Operations are individual system functions which remote systems can request.' =>
             'Operations sind einzelne Systemfunktionen, die entfernte Systeme aufrufen können.',
         'Invokers prepare data for a request to a remote web service, and process its response data.' =>
-            'Invoker bereiten Daten für eine Anfrage an einen entfernten Webservice auf und verarbeiten die Antwortdaten.',
+            'Invoker bereiten Daten für eine Anfrage an einen externen Web-Service auf und verarbeiten die Antwortdaten.',
         'Controller' => 'Controller',
         'Inbound mapping' => 'Eingehendes Mapping',
         'Outbound mapping' => 'Ausgehendes Mapping',
@@ -1477,17 +1477,17 @@ sub Data {
 
         # Template: AdminGenericInterfaceWebserviceHistory
         'GenericInterface Configuration History for Web Service %s' => 'GenericInterface-Konfigurations-Historie für Webservice %s',
-        'Go back to Web Service' => 'Zurück zum Webservice',
+        'Go back to Web Service' => 'Zurück zum Web-Service',
         'Here you can view older versions of the current web service\'s configuration, export or even restore them.' =>
-            'Hier können Sie ältere Versionen der Konfiguration dieses Webservices einsehen, exportieren oder wiederherstellen.',
+            'Hier können Sie ältere Versionen der Konfiguration dieses Web-Services einsehen, exportieren oder wiederherstellen.',
         'Configuration History List' => 'Liste der Konfigurationshistorie',
         'Version' => 'Version',
         'Create time' => 'Erstellzeit',
         'Select a single configuration version to see its details.' => 'Wählen Sie eine Konfigurationsversion aus, um die Details zu sehen.',
-        'Export web service configuration' => 'Webservice-Konfiguration exportieren',
-        'Restore web service configuration' => 'Webservice-Konfiguration wiederherstellen',
+        'Export web service configuration' => 'Web-Service-Konfiguration exportieren',
+        'Restore web service configuration' => 'Web-Service-Konfiguration wiederherstellen',
         'Do you really want to restore this version of the web service configuration?' =>
-            'Wollen Sie diese Version der Webservice-Konfiguration wirklich wiederherstellen?',
+            'Wollen Sie diese Version der Web-Service-Konfiguration wirklich wiederherstellen?',
         'Your current web service configuration will be overwritten.' => 'Ihre aktuelle Konfiguration wird überschrieben.',
         'Restore' => 'Wiederherstellen',
 
@@ -1637,7 +1637,7 @@ sub Data {
         # Template: AdminOTRSBusinessInstalled
         'Manage %s' => ' %s verwalten',
         'Go to the OTRS customer portal' => 'Gehen Sie zum OTRS-Kundenportal',
-        'Downgrade to ((OTRS)) Community Edition' => '',
+        'Downgrade to ((OTRS)) Community Edition' => 'Downgrade auf ((OTRS)) Community Edition',
         'Read documentation' => 'Dokumentation lesen',
         '%s makes contact regularly with cloud.otrs.com to check on available updates and the validity of the underlying contract.' =>
             '%s kontaktiert regelmäßig cloud.otrs.com, um die Verfügbarkeit von Updates und die Gültigkeit des zugrundeliegenden Vertrages zu prüfen.',
@@ -1680,7 +1680,7 @@ sub Data {
             'Die %s wird bald verfügbar sein. Bitte prüfen Sie in einigen Tagen erneut.',
         'Please have a look at %s for more information.' => 'Weitere Informationen können Sie unter %s finden.',
         'Your ((OTRS)) Community Edition is the base for all future actions. Please register first before you continue with the upgrade process of %s!' =>
-            '',
+            'Ihre ((OTRS)) Community Edition ist die Grundlage für alle zukünftigen Aktionen. Bitte registrieren Sie sich zuerst, bevor Sie mit dem Upgrade-Prozess von %s fortfahren!',
         'Before you can benefit from %s, please contact %s to get your %s contract.' =>
             'Bevor Sie von %s profitieren können, kontaktieren Sie bitte %s um ihren %s-Vertrag zu erhalten.',
         'Connection to cloud.otrs.com via HTTPS couldn\'t be established. Please make sure that your OTRS can connect to cloud.otrs.com via port 443.' =>
@@ -1702,7 +1702,7 @@ sub Data {
         'Please uninstall the packages first using the package manager and try again.' =>
             'Bitte entfernen Sie diese Pakete zunächst und versuchen Sie es nochmals.',
         'You are about to downgrade to ((OTRS)) Community Edition and will lose the following features and all data related to these:' =>
-            '',
+            'Sie stehen kurz davor, auf ((OTRS)) Community Edition umzusteigen und verlieren die folgenden Funktionen und alle damit verbundenen Daten:',
         'Chat' => 'Chat',
         'Report Generator' => 'Berichtgenerator',
         'Timeline view in ticket zoom' => 'Timeline-View im Ticket-Zoom',
@@ -2645,7 +2645,7 @@ sub Data {
         # Template: AgentOTRSBusinessBlockScreen
         'Unauthorized usage of %s detected' => 'Unerlaubte Nutzung der %s erkannt',
         'If you decide to downgrade to ((OTRS)) Community Edition, you will lose all database tables and data related to %s.' =>
-            '',
+            'Wenn Sie sich für ein Downgrade auf ((OTRS)) Community Edition entscheiden, verlieren Sie alle Datenbank-Tabellen und Daten, die sich auf %s beziehen.',
 
         # Template: AgentPreferences
         'Edit your preferences' => 'Persönliche Einstellungen bearbeiten',
@@ -3154,13 +3154,13 @@ sub Data {
         'General Specifications and Mail Settings' => 'Allgemeine Einstellungen und E-Mail-Einstellungen',
         'Finish' => 'Abschließen',
         'Welcome to %s' => 'Willkommen bei %s',
-        'Germany' => '',
-        'United States' => '',
-        'Mexico' => '',
-        'Hungary' => '',
-        'Brazil' => '',
-        'Singapore' => '',
-        'Hong Kong' => '',
+        'Germany' => 'Deutschland',
+        'United States' => 'Vereinigte Staaten von Amerika',
+        'Mexico' => 'Mexiko',
+        'Hungary' => 'Ungarn',
+        'Brazil' => 'Brasilien',
+        'Singapore' => 'Singapur',
+        'Hong Kong' => 'Hong Kong',
         'Web site' => 'Website',
         'Mail check successful.' => 'Konfigurationsprüfung erfolgreich.',
         'Error in the mail settings. Please correct and try again.' => 'Fehler in der Mail-Konfiguration. Bitte korrigieren und nochmals probieren.',
@@ -3329,12 +3329,12 @@ sub Data {
         'Result formats' => 'Ergebnisformate',
         'The selected time periods in the statistic are time zone neutral.' =>
             'Die ausgewählten Zeitperioden der Statistik sind Zeitzonen-unabhängig.',
-        'Create summation row' => 'Summenzeile erzeugen',
+        'Create summation row' => 'Summenzeile erstellen',
         'Generate an additional row containing sums for all data rows.' =>
-            'Eine zusätzliche Zeile mit Summen für alle Datenzeilen erzeugen.',
-        'Create summation column' => 'Summenspalte erzeugen',
+            'Eine zusätzliche Zeile mit Summen für alle Datenzeilen erstellen.',
+        'Create summation column' => 'Summenspalte erstellen',
         'Generate an additional column containing sums for all data columns.' =>
-            'Eine zusätzliche Spalte mit Summen für alle Datenspalten erzeugen.',
+            'Eine zusätzliche Spalte mit Summen für alle Datenspalten erstellen.',
         'Cache results' => 'Ergebnisse cachen',
         'Stores statistics result data in a cache to be used in subsequent views with the same configuration (requires at least one selected time field).' =>
             'Speichert Statistikergebnisse in einem Cache, der bei späteren Aufrufen mit derselben Konfiguration verwendet wird. (Benötigt mindestens ein ausgewähltes Zeitfeld)',
@@ -3366,7 +3366,7 @@ sub Data {
         'The past complete %s and the current+upcoming complete %s %s' =>
             'Die vergangenen %s und der/die aktuelle+kommenden %s %s.',
         'Do not allow changes to this element when the statistic is generated.' =>
-            'Beim Erzeugen der Statistik keine Veränderungen an diesem Element erlauben.',
+            'Beim Erstellen der Statistik keine Veränderungen an diesem Element erlauben.',
 
         # Template: StatsParamsWidget
         'Format' => 'Format',
@@ -3475,8 +3475,8 @@ sub Data {
             'Bitte entfernen Sie die folgenden Worte, da sie nicht für die Ticket-Auswahl genutzt werden können:',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceDebugger.pm
-        'Need WebserviceID!' => 'Benötige WebserviceID!',
-        'Could not get data for WebserviceID %s' => 'Konnte keine Daten für WebserviceID %s ermitteln!',
+        'Need WebserviceID!' => 'Benötige Web-Service-ID!',
+        'Could not get data for WebserviceID %s' => 'Konnte keine Daten für Web-Service-ID %s ermitteln!',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerDefault.pm
         'Need InvokerType' => 'Benötige InvokerType',
@@ -3488,7 +3488,7 @@ sub Data {
         # Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
         'Could not get registered configuration for action type %s' => 'Konnte keine registrierte Konfiguration für Action Typ %s ermitteln',
         'Could not get backend for %s %s' => 'Konnte Backend für %s %s nicht ermitteln',
-        'Could not update configuration data for WebserviceID %s' => 'Konnte Konfigurationsdaten für WebserviceID %s nicht aktualisieren',
+        'Could not update configuration data for WebserviceID %s' => 'Konnte Konfigurationsdaten für Web-Service-ID %s nicht aktualisieren',
         'Keep (leave unchanged)' => 'Behalten (unverändert lassen)',
         'Ignore (drop key/value pair)' => 'Ignorieren (Schlüssel-Wert-Paar entfernen)',
         'Map to (use provided value as default)' => 'Ändern in (verwende angegeben Wert als Standard)',
@@ -3509,18 +3509,18 @@ sub Data {
         'Need Subaction!' => 'Subaktion benötigt!',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
-        'There is another web service with the same name.' => 'Es existiert bereits ein Webservice mit demselben Namen.',
-        'There was an error updating the web service.' => 'Beim Aktualisieren des Webservice ist ein Fehler aufgetreten.',
+        'There is another web service with the same name.' => 'Es existiert bereits ein Web-Service mit demselben Namen.',
+        'There was an error updating the web service.' => 'Beim Aktualisieren des Web-Service ist ein Fehler aufgetreten.',
         'Web service "%s" updated!' => 'Web Service "%s" aktualisiert!',
-        'There was an error creating the web service.' => 'Beim Erstellen des Webservice ist ein Fehler aufgetreten.',
-        'Web service "%s" created!' => 'Webservice "%s" erstellt!',
+        'There was an error creating the web service.' => 'Beim Erstellen des Web-Service ist ein Fehler aufgetreten.',
+        'Web service "%s" created!' => 'Web-Service "%s" erstellt!',
         'Need Name!' => 'Name benötigt!',
-        'Need ExampleWebService!' => 'Benötige Beispiel-Webservice!',
+        'Need ExampleWebService!' => 'Benötige Beispiel-Web-Service!',
         'Could not read %s!' => 'Konnte %s nicht lesen!',
         'Need a file to import!' => 'Benötige eine zu importierende Datei!',
         'The imported file has not valid YAML content! Please check OTRS log for details' =>
             'Die importierte Datei enthält ungültigen YAML-Inhalt. Bitte prüfen Sie das Systemprotokoll für mehr Informationen.',
-        'Web service "%s" deleted!' => 'Webservice "%s" gelöscht!',
+        'Web service "%s" deleted!' => 'Web-Service "%s" gelöscht!',
         'New Web service' => 'Neuer Web Service',
         'Operations' => 'Operationen',
         'Invokers' => 'Invoker',
@@ -4375,7 +4375,7 @@ sub Data {
         'Dynamic Field Values' => 'Werte in Dynamischen Feldern',
         'Invalid Dynamic Fields' => 'Ungültige Dynamische Felder',
         'Invalid Dynamic Field Values' => 'Werte in ungültigen Dynamischen Feldern',
-        'GenericInterface Webservices' => 'GenericInterface-Webservices',
+        'GenericInterface Webservices' => 'GenericInterface-Web-Services',
         'Process Tickets' => 'Prozess-Tickets',
         'Months Between First And Last Ticket' => 'Monate zwischen erstem und letztem Ticket',
         'Tickets Per Month (avg)' => 'Tickets pro Monat (Durchschnitt)',
@@ -4795,8 +4795,8 @@ Ihr Helpdesk-Team
         'Allows extended search conditions in ticket search of the generic agent interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
             'Erlaubt erweiterte Suchbedingungen der generischen Agenten-Schnittstelle. Mit diesem Feature kann man z.B. Ticket-Titel mit Bedingungen wie dieser "(*key1*&&*key2*)" oder "(*key1*||*key2*)" durchsuchen.',
         'Allows generic agent to execute custom command line scripts.' =>
-            '',
-        'Allows generic agent to execute custom modules.' => '',
+            'Ermöglicht es dem GenericAgent, benutzerdefinierte Befehlszeilen-Skripte auszuführen.',
+        'Allows generic agent to execute custom modules.' => 'Ermöglicht es dem GenericAgent, benutzerdefinierte Module auszuführen.',
         'Allows having a medium format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
             'Ermöglicht eine Ticket-Übersicht mit einigen Ticketinformationen  (Customer => 1 - zeigt auch die Kundeninformation).',
         'Allows having a small format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
@@ -4849,7 +4849,7 @@ Ihr Helpdesk-Team
         'Cache time in seconds for the SSL certificate attributes.' => 'Cache-Zeit in Sekunden für SSL-Zertifikatsattribute.',
         'Cache time in seconds for the ticket process navigation bar output module.' =>
             'Cache-Zeit in Sekunden für das Ticket-Prozess-Navigationsleisten-Ausgabemodul.',
-        'Cache time in seconds for the web service config backend.' => 'Cache-Zeit in Sekunden für das Webservice-Konfigurations-Backend.',
+        'Cache time in seconds for the web service config backend.' => 'Cache-Zeit in Sekunden für das Web-Service-Konfigurations-Backend',
         'Catalan' => 'Katalanisch',
         'Change password' => 'Passwort ändern',
         'Change queue!' => 'Queue ändern',
@@ -4933,25 +4933,25 @@ Ihr Helpdesk-Team
         'Converts HTML mails into text messages.' => 'Konvertiert HTML E-Mails in Textnachrichten.',
         'Create New process ticket.' => 'Neues Prozess-Ticket erstellen.',
         'Create Ticket' => 'Ticket erstellen',
-        'Create and manage Service Level Agreements (SLAs).' => 'Service-Level-Abkommen (SLAs) erzeugen und verwalten.',
-        'Create and manage agents.' => 'Agents erzeugen und verwalten.',
-        'Create and manage attachments.' => 'Anhänge erzeugen und verwalten.',
-        'Create and manage customer users.' => 'Kundenbenutzer erzeugen und verwalten.',
-        'Create and manage customers.' => 'Kunden erzeugen und verwalten.',
-        'Create and manage dynamic fields.' => 'Dynamische Felder erzeugen und verwalten.',
-        'Create and manage groups.' => 'Gruppen erzeugen und verwalten.',
-        'Create and manage queues.' => 'Queues erzeugen und verwalten.',
-        'Create and manage responses that are automatically sent.' => 'Vorlagen für automatische Antworten erzeugen und verwalten.',
-        'Create and manage roles.' => 'Rollen erzeugen und verwalten.',
-        'Create and manage salutations.' => 'Anreden erzeugen und verwalten.',
-        'Create and manage services.' => 'Services erzeugen und verwalten.',
-        'Create and manage signatures.' => 'Signaturen erzeugen und verwalten.',
-        'Create and manage templates.' => 'Vorlagen erzeugen und verwalten.',
+        'Create and manage Service Level Agreements (SLAs).' => 'Service-Level-Vereinbarungen (SLAs) erstellen und verwalten.',
+        'Create and manage agents.' => 'Agenten erstellen und verwalten.',
+        'Create and manage attachments.' => 'Anhänge erstellen und verwalten.',
+        'Create and manage customer users.' => 'Kundenbenutzer erstellen und verwalten.',
+        'Create and manage customers.' => 'Kunden erstellen und verwalten.',
+        'Create and manage dynamic fields.' => 'Dynamische Felder erstellen und verwalten.',
+        'Create and manage groups.' => 'Gruppen erstellen und verwalten.',
+        'Create and manage queues.' => 'Queues erstellen und verwalten.',
+        'Create and manage responses that are automatically sent.' => 'Vorlagen für automatische Antworten erstellen und verwalten.',
+        'Create and manage roles.' => 'Rollen erstellen und verwalten.',
+        'Create and manage salutations.' => 'Anreden erstellen und verwalten.',
+        'Create and manage services.' => 'Services erstellen und verwalten.',
+        'Create and manage signatures.' => 'Signaturen erstellen und verwalten.',
+        'Create and manage templates.' => 'Vorlagen erstellen und verwalten.',
         'Create and manage ticket notifications.' => 'Ticket-Benachrichtigungen erstellen und verwalten.',
-        'Create and manage ticket priorities.' => 'Ticket-Prioritäten erzeugen und verwalten.',
-        'Create and manage ticket states.' => 'Ticket-Status  erzeugen und verwalten.',
-        'Create and manage ticket types.' => 'Ticket-Typen erzeugen und verwalten.',
-        'Create and manage web services.' => 'Webservices erzeugen und verwalten.',
+        'Create and manage ticket priorities.' => 'Ticket-Prioritäten erstellen und verwalten.',
+        'Create and manage ticket states.' => 'Ticket-Status erstellen und verwalten.',
+        'Create and manage ticket types.' => 'Ticket-Typen erstellen und verwalten.',
+        'Create and manage web services.' => 'Web-Services erstellen und verwalten.',
         'Create new Ticket.' => 'Neues Ticket erstellen.',
         'Create new email ticket and send this out (outbound).' => 'Neues E-Mail-Ticket erstellen und versenden (ausgehend).',
         'Create new email ticket.' => 'Neues E-Mail-Ticket erstellen.',
@@ -4969,7 +4969,7 @@ Ihr Helpdesk-Team
         'Customer Ticket Print Module.' => 'Kunden-Ticketdruck-Modul.',
         'Customer User <-> Groups' => 'Kundenbenutzer <-> Gruppen',
         'Customer User <-> Services' => 'Kundenbenutzer <-> Services',
-        'Customer User Administration' => 'Kundenbenutzerverwaltung',
+        'Customer User Administration' => 'Kundenbenutzer-Verwaltung',
         'Customer Users' => 'Kundenbenutzer',
         'Customer called us.' => 'Kunde hat angerufen.',
         'Customer item (icon) which shows the closed tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
@@ -5002,7 +5002,7 @@ Ihr Helpdesk-Team
         'Default ACL values for ticket actions.' => 'Standard ACL-Werte für Ticketaktionen.',
         'Default ProcessManagement entity prefixes for entity IDs that are automatically generated.' =>
             'Standard Entitäts-Präfixe des Prozessmanagements für Entitäts-IDs, die automatisch generiert werden.',
-        'Default agent name' => '',
+        'Default agent name' => 'Standard-Agentenname',
         'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimePointFormat=year;TicketCreateTimePointStart=Last;TicketCreateTimePoint=2;".' =>
             'Standarddaten, die als Attribute für die für die Ticket-Suchmaske verwendet werden. Beispiel: "TicketCreateTimePointFormat = Jahr; TicketCreateTimePointStart = Letzter; TicketCreateTimePoint = 2;".',
         'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimeStartYear=2010;TicketCreateTimeStartMonth=10;TicketCreateTimeStartDay=4;TicketCreateTimeStopYear=2010;TicketCreateTimeStopMonth=11;TicketCreateTimeStopDay=3;".' =>
@@ -5198,7 +5198,7 @@ Legen Sie die Mindestlänge für Passwörter mit \'PasswordMinSize\' fest. Legen
             'Definiert das benutzte Datumseingabeformat in Formularen (Option für Eingabefelder).',
         'Defines the default CSS used in rich text editors.' => 'Definiert die genutzte Standard-CSS in RichText-Editoren.',
         'Defines the default agent name in the ticket zoom view of the customer interface.' =>
-            '',
+            'Definiert den Standard-Agentennamen in der Ticket-Detailansicht des Kunden-Interface.',
         'Defines the default auto response type of the article for this operation.' =>
             'Definiert den Standard-Auto-Antwort-Typ des Artikels für diese Operation.',
         'Defines the default body of a note in the ticket free text screen of the agent interface.' =>
@@ -5382,7 +5382,7 @@ Legen Sie die Mindestlänge für Passwörter mit \'PasswordMinSize\' fest. Legen
         'Defines the default viewable sender types of a ticket (default: customer).' =>
             'Definiert die standardmäßigen sichtbaren Sendertypen eines Tickets (Standard: Kunde).',
         'Defines the displayed style of the From field in notes that are visible for customers. A default agent name can be defined in Ticket::Frontend::CustomerTicketZoom###DefaultAgentName setting.' =>
-            '',
+            'Definiert den angezeigten Stil des Feldes "Von" in Notizen, die für Kunden sichtbar sind. Ein Standard-Agentenname kann in der Einstellung Ticket::Frontend::CustomerTicketZoom####DefaultAgentName definiert werden.',
         'Defines the dynamic fields that are used for displaying on calendar events.' =>
             'Definiert die dynamischen Felder, die benutzt werden um Kalender-Events anzuzeigen.',
         'Defines the fall-back path to open fetchmail binary. Note: The name of the binary needs to be \'fetchmail\', if it is different please use a symbolic link.' =>
@@ -5610,7 +5610,7 @@ Legen Sie die Mindestlänge für Passwörter mit \'PasswordMinSize\' fest. Legen
         'Defines the separator between the agents real name and the given queue email address.' =>
             'Definiert das Trennzeichen zwischen dem echten Namen des Agenten und der gegebenen E-Mailqueue Adresse. ',
         'Defines the shown links in the footer area of the customer and public interface of this OTRS system. The value in "Key" is the external URL, the value in "Content" is the shown label.' =>
-            '',
+            'Definiert die angezeigten Verknüpfungen im Fußbereich des Öffentlichen- und Kunden-Interface dieses OTRS Systems. Der Wert in "Schlüssel" ist die externe URL, der Wert in "Inhalt" das angezeigte Label.',
         'Defines the standard permissions available for customers within the application. If more permissions are needed, you can enter them here. Permissions must be hard coded to be effective. Please ensure, when adding any of the afore mentioned permissions, that the "rw" permission remains the last entry.' =>
             'Legt die verfügbaren Standardberechtigungen für Kunden innerhalb der Applikation fest. Werden mehr Berechtigungen benötigt, können sie hier eingegeben werden. Berechtigungen müssen hart-kodiert sein, um Auswirkungen zu haben. Bitte stellen Sie beim Anlegen neuer Berechtigungen sicher, dass "rw" immer der letzte Eintrag bleibt.',
         'Defines the standard size of PDF pages.' => 'Bestimmt die Standardgröße von PDF-Seiten.',
@@ -5694,7 +5694,7 @@ Legen Sie die Mindestlänge für Passwörter mit \'PasswordMinSize\' fest. Legen
         'Determines the next possible ticket states, after the creation of a new phone ticket in the agent interface.' =>
             'Definiert den Nächstmöglichen Ticketstatus, nachdem ein neues Telefon-Ticket im Agenten-Interface erstellt wurde.',
         'Determines the next possible ticket states, for process tickets in the agent interface.' =>
-            'Definiert den Nächstmöglichen Ticketstatus für Prozesstickets im Agenten-Interface.',
+            'Definiert den Nächstmöglichen Ticket-Status für Prozess-Tickets im Agenten-Interface.',
         'Determines the next possible ticket states, for process tickets in the customer interface.' =>
             'Bestimmt die die möglichen Folge-Ticket-Status für Prozesstickets im Kundenbereich.',
         'Determines the next screen after new customer ticket in the customer interface.' =>
@@ -5729,7 +5729,7 @@ Legen Sie die Mindestlänge für Passwörter mit \'PasswordMinSize\' fest. Legen
             '',
         'Display a warning and prevent search when using stop words within fulltext search.' =>
             'Zeigt eine Warnung an und verhindert die Suche, wenn Stop-Wörter in der Volltextsuche eingegeben werden.',
-        'Display settings to override defaults for Process Tickets.' => 'Einstellungen zum Überschreiben der Standardwerte für Prozesstickets anzeigen.',
+        'Display settings to override defaults for Process Tickets.' => 'Einstellungen zum Überschreiben der Standardwerte für Prozess-Tickets anzeigen.',
         'Displays the accounted time for an article in the ticket zoom view.' =>
             'Zeigt die bisher benötigte Zeit für einen Artikel in der TicketZoomView an.',
         'Dropdown' => 'Einfachauswahl',
@@ -5943,7 +5943,7 @@ Legen Sie die Mindestlänge für Passwörter mit \'PasswordMinSize\' fest. Legen
         'Galician' => 'Galizisch',
         'General ticket data shown in the ticket overviews (fall-back). Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note that TicketNumber can not be disabled, because it is necessary.' =>
             'Anzeige von allgemeinen Ticket-Daten in Ticket-Übersichten (Fallback). Mögliche Einstellungen: 0 = Deaktiviert, 1 = Verfügbar, 2 = Standardmäßig aktiviert. Beachten Sie, dass die Ticket-Nummer nicht abgeschaltet werden kann.',
-        'Generate dashboard statistics.' => 'Übersichtsseitenstatistiken erzeugen.',
+        'Generate dashboard statistics.' => 'Übersichtsseitenstatistiken erstellen.',
         'Generic Info module.' => 'Generisches Informationsmodul',
         'GenericAgent' => 'GenericAgent',
         'GenericInterface Debugger GUI' => 'GenericInterface Debugger Benutzeroberfläche',
@@ -5951,7 +5951,7 @@ Legen Sie die Mindestlänge für Passwörter mit \'PasswordMinSize\' fest. Legen
         'GenericInterface Operation GUI' => 'GenericInterface Operation Benutzeroberfläche',
         'GenericInterface TransportHTTPREST GUI' => 'GenericInterface TransportHTTPREST Benutzeroberfläche',
         'GenericInterface TransportHTTPSOAP GUI' => 'GenericInterface TransportHTTPSOAP Benutzeroberfläche',
-        'GenericInterface Web Service GUI' => 'GenericInterface Webservices Benutzeroberfläche',
+        'GenericInterface Web Service GUI' => 'GenericInterface Web-Services-Benutzeroberfläche',
         'GenericInterface Webservice History GUI' => 'GenericInterface Webservice Verlauf Benutzeroberfläche',
         'GenericInterface Webservice Mapping GUI' => 'Webservice Mapping-GUI für GenericInterface',
         'GenericInterface module registration for the invoker layer.' => 'Modulregistrierung für Invoker-Layer des GenericInterface',
@@ -6062,7 +6062,7 @@ Legen Sie die Mindestlänge für Passwörter mit \'PasswordMinSize\' fest. Legen
         'If enabled the daemon will redirect the standard output stream to a log file.' =>
             'Aktivieren um die Standard-Ausgabe des Daemons in eine Log-Datei umzuleiten.',
         'If enabled the daemon will use this directory to create its PID files. Note: Please stop the daemon before any change and use this setting only if <$OTRSHome>/var/run/ can not be used.' =>
-            'Wenn aktiviert, verwendet der Daemon dieses Verzeichnis, um seine PID-Dateien zu erzeugen. Hinweis: Bitte stoppen Sie den Daemon vor der Änderung und nutzen Sie diese Einstellung nur, wenn <$OTRSHome>/var/run/ nicht benutzt werden kann.',
+            'Wenn aktiviert, verwendet der Daemon dieses Verzeichnis, um seine PID-Dateien zu erstellen. Hinweis: Bitte stoppen Sie den Daemon vor der Änderung und nutzen Sie diese Einstellung nur, wenn <$OTRSHome>/var/run/ nicht benutzt werden kann.',
         'If enabled, OTRS will deliver all CSS files in minified form. WARNING: If you turn this off, there will likely be problems in IE 7, because it cannot load more than 32 CSS files.' =>
             'Wenn akiviert, liefert OTRS alle CSS-Dateien in minifizierter Form aus. WARNUNG: Das Abschalten dieser Einstellung wird im IE 7 wahrscheinlich Probleme verursachen, weil dieser Browser nicht mehr als 32 CSS-Dateien für eine Seite laden kann.',
         'If enabled, OTRS will deliver all JavaScript files in minified form.' =>
@@ -6173,7 +6173,7 @@ Legen Sie die Mindestlänge für Passwörter mit \'PasswordMinSize\' fest. Legen
         'Loop-Protection! No auto-response sent to "%s".' => 'Loop-Protection! Keine Auto-Antwort versandt an "%s".',
         'Mail Accounts' => 'E-Mailkonten',
         'Main menu registration.' => 'Hauptmenü-Registrierung.',
-        'Makes the application block external content loading.' => '',
+        'Makes the application block external content loading.' => 'Lässt die Anwendung das Laden externer Inhalte blockieren.',
         'Makes the application check the MX record of email addresses before sending an email or submitting a telephone or email ticket.' =>
             'Überprüft vor dem Senden einer E-Mail oder vor dem übermitteln eines Telefon-Tickets, den MX-Eintrag der E-Mailadresse.',
         'Makes the application check the syntax of email addresses.' => 'Überprüft die Syntax der E-Mailadressen.',
@@ -6444,7 +6444,7 @@ Legen Sie die Mindestlänge für Passwörter mit \'PasswordMinSize\' fest. Legen
         'Roles <-> Groups' => 'Rollen <-> Gruppen',
         'Run file based generic agent jobs (Note: module name needs to be specified in -configuration-module param e.g. "Kernel::System::GenericAgent").' =>
             'Dateibasierte Generic-Agent-Jobs ausführen (Hinweis: Der Modulname muss im Parameter -configuration-module angegeben sein, z. B. "Kernel::System::GenericAgent").',
-        'Running Process Tickets' => 'Aktive Prozesstickets',
+        'Running Process Tickets' => 'Aktive Prozess-Tickets',
         'Runs an initial wildcard search of the existing customer company when accessing the AdminCustomerCompany module.' =>
             'Führt eine initiale Wildcard-Suche für bestehende Kundenfirmen aus, wenn auf AdminCustomerCompany zugegriffen wird.',
         'Runs an initial wildcard search of the existing customer users when accessing the AdminCustomerUser module.' =>
@@ -6987,7 +6987,7 @@ Legen Sie die Mindestlänge für Passwörter mit \'PasswordMinSize\' fest. Legen
         'Strips empty lines on the ticket preview in the queue view.' => 'Entfernt leere Zeilen in der Ticket-Vorschau in der Queue-Ansicht.',
         'Strips empty lines on the ticket preview in the service view.' =>
             'Entfernt leere Zeilen in der Ticket-Vorschau in der Service-Ansicht.',
-        'Support Agent' => '',
+        'Support Agent' => 'Support-Agent',
         'Swahili' => 'Swahili',
         'Swedish' => 'Schwedisch',
         'System Address Display Name' => 'System-Adresse Anzeigename',
@@ -7041,7 +7041,7 @@ Legen Sie die Mindestlänge für Passwörter mit \'PasswordMinSize\' fest. Legen
             'Der Text am Anfang des Betreffs einer E-Mail Antwort, z.B. RE, AW oder AS.',
         'The text at the beginning of the subject when an email is forwarded, e.g. FW, Fwd, or WG.' =>
             'Der Text am Anfang des Betreffs, wenn eine E-Mail weitergeleitet wird, z.B. FW, Fwd oder WG.',
-        'The value of the From field' => '',
+        'The value of the From field' => 'Der Wert des Von-Feldes',
         'This event module stores attributes from CustomerUser as DynamicFields tickets. Please see the setting above for how to configure the mapping.' =>
             '',
         'This is a description for TimeZone on Customer side.' => '',

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-05-16 18:32+0000\n"
+"POT-Creation-Date: 2019-08-09 08:43+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2899,12 +2899,8 @@ msgid "Set up what you want to change if the criteria match. Keep in mind that '
 msgstr "当匹配条件满足时执行规定的操作动作。记住：'Possible'表示允许(白名单)，'PossibleNot'表示禁止(黑名单)。"
 
 #. Template: AdminACLEdit
-msgid "Check the official"
-msgstr "查看官方"
-
-#. Template: AdminACLEdit
-msgid "documentation"
-msgstr "文档"
+msgid "Check the official %sdocumentation%s."
+msgstr "查看 %s 的官方文档 %s。"
 
 #. Template: AdminACLEdit
 msgid "Show or hide the content"
@@ -14128,11 +14124,11 @@ msgstr "允许在自动任务界面搜索工单时扩展搜索条件，通过这
 
 #. SysConfig
 msgid "Allows generic agent to execute custom command line scripts."
-msgstr ""
+msgstr "允许自动任务执行定制的命令行脚本。"
 
 #. SysConfig
 msgid "Allows generic agent to execute custom modules."
-msgstr ""
+msgstr "允许自动任务执行定制的模块。"
 
 #. SysConfig
 msgid "Allows having a medium format ticket overview (CustomerInfo => 1 - shows also the customer information)."
@@ -14756,7 +14752,7 @@ msgstr "自动生成的流程实体ID的默认前缀。"
 
 #. SysConfig
 msgid "Default agent name"
-msgstr ""
+msgstr "默认的服务人员姓名"
 
 #. SysConfig
 msgid "Default data to use on attribute for ticket search screen. Example: \"TicketCreateTimePointFormat=year;TicketCreateTimePointStart=Last;TicketCreateTimePoint=2;\"."
@@ -15196,7 +15192,7 @@ msgstr "定义用于富文本编辑器的默认CSS。"
 
 #. SysConfig
 msgid "Defines the default agent name in the ticket zoom view of the customer interface."
-msgstr ""
+msgstr "定义客户界面工单详情视图中默认的服务人员姓名。"
 
 #. SysConfig
 msgid "Defines the default auto response type of the article for this operation."
@@ -15576,7 +15572,7 @@ msgstr "定义工单默认可见的发送人类型（默认：客户）。"
 
 #. SysConfig
 msgid "Defines the displayed style of the From field in notes that are visible for customers. A default agent name can be defined in Ticket::Frontend::CustomerTicketZoom###DefaultAgentName setting."
-msgstr ""
+msgstr "定义客户可见的注释中“发件人”字段的显示样式。 可以在 Ticket::Frontend::CustomerTicketZoom###DefaultAgentName 设置中定义默认的服务人员姓名。"
 
 #. SysConfig
 msgid "Defines the dynamic fields that are used for displaying on calendar events."
@@ -17512,7 +17508,7 @@ msgstr "主菜单注册。"
 
 #. SysConfig
 msgid "Makes the application block external content loading."
-msgstr ""
+msgstr "使应用程序阻止外部内容加载。"
 
 #. SysConfig
 msgid "Makes the application check the MX record of email addresses before sending an email or submitting a telephone or email ticket."
@@ -19460,7 +19456,7 @@ msgstr "在工单服务视图工单预览时去掉空白行。"
 
 #. SysConfig
 msgid "Support Agent"
-msgstr ""
+msgstr "维护人员"
 
 #. SysConfig
 msgid "Swahili"
@@ -19592,7 +19588,7 @@ msgstr "转发邮件中加在主题前的文字，如FW、Fwd或WG。"
 
 #. SysConfig
 msgid "The value of the From field"
-msgstr ""
+msgstr "“发件人”字段的值"
 
 #. SysConfig
 msgid "This event module stores attributes from CustomerUser as DynamicFields tickets. Please see the setting above for how to configure the mapping."

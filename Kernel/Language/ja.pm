@@ -27,7 +27,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y/%M/%D';
     $Self->{DateInputFormat}     = '%Y/%M/%D';
     $Self->{DateInputFormatLong} = '%Y/%M/%D - %T';
-    $Self->{Completeness}        = 0.8188;
+    $Self->{Completeness}        = 0.8212;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -1984,7 +1984,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Do you really want to delete this Transition?' => 'この遷移を本当に削除しますか？',
         'Do you really want to delete this Transition Action?' => 'この遷移動作を本当に削除しますか？',
         'Do you really want to remove this activity from the canvas? This can only be undone by leaving this screen without saving.' =>
-            '',
+            '本当にこのアクティビティをキャンバス上から削除してもよろしいですか？保存せずにこの画面から移動する場合を除いてこの操作の取り消しはできません。',
         'Do you really want to remove this transition from the canvas? This can only be undone by leaving this screen without saving.' =>
             '本当にこの遷移をキャンバス上から削除してもよろしいですか？保存せずにこの画面から移動する場合を除いてこの操作の取り消しはできません。',
         'Hide EntityIDs' => 'エンティティIDを隠す',
@@ -3344,9 +3344,9 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Stores statistics result data in a cache to be used in subsequent views with the same configuration (requires at least one selected time field).' =>
             'レポート結果データをキャッシュに保存して、同じ設定で後続のビューで使用するようにしました（少なくとも1つの選択された時間フィールドが必要です）。',
         'Provide the statistic as a widget that agents can activate in their dashboard.' =>
-            '',
+            '担当者が自らのダッシュボードでアクティブにできるウィジェットとして統計を利用できます。',
         'Please note that enabling the dashboard widget will activate caching for this statistic in the dashboard.' =>
-            '',
+            'ダッシュボードウィジェットを有効にすると、ダッシュボードでこの統計のキャッシュが有効化されます。',
         'If set to invalid end users can not generate the stat.' => '無効なエンドユーザーに設定されている場合、統計を生成できません。',
 
         # Template: PreviewWidget
@@ -3755,7 +3755,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Customer User ID' => '顧客ユーザーID',
 
         # Perl Module: Kernel/Modules/AgentLinkObject.pm
-        'Need SourceObject and SourceKey!' => '',
+        'Need SourceObject and SourceKey!' => 'ソース・オブジェクトとソース・キーが必要です！',
         'Please contact the administrator.' => '管理者に連絡してください。',
         'You need ro permission!' => 'ro許可が必要です！',
         'Can not delete link with %s!' => '%sに対するリンクが削除できませんでした！',
@@ -4676,7 +4676,7 @@ Thanks for your help!
         '100 (Expert)' => '100 (熟練者向け)',
         '200 (Advanced)' => '200 (中級者向け)',
         '300 (Beginner)' => '300 (初心者向け)',
-        'A TicketWatcher Module.' => '',
+        'A TicketWatcher Module.' => 'TicketWatcher モジュール',
         'A Website' => 'Webサイト',
         'A list of dynamic fields that are merged into the main ticket during a merge operation. Only dynamic fields that are empty in the main ticket will be set.' =>
             'マージ操作中にメインチケットにマージされるダイナミック・フィールドの一覧。 メインチケットで空のダイナミック・フィールドのみが設定されます。',
@@ -4973,7 +4973,7 @@ Thanks for your help!
         'Create new process ticket.' => 'プロセスチケットを作成',
         'Create tickets.' => 'チケットの作成',
         'Croatian' => 'クロアチア',
-        'Custom RSS Feed' => '',
+        'Custom RSS Feed' => 'カスタムRSSフィード',
         'Custom text for the page shown to customers that have no tickets yet (if you need those text translated add them to a custom translation module).' =>
             '',
         'Customer Administration' => '顧客管理',
@@ -5624,7 +5624,7 @@ Contentはダイナミック・フィールドの形式によって設定内容�
         'Defines the required permission to show a ticket in the escalation view of the agent interface.' =>
             '',
         'Defines the search limit for the stats.' => '統計に関する検索のリミットを定義します。',
-        'Defines the sender for rejected emails.' => '',
+        'Defines the sender for rejected emails.' => 'リジェクトされたEメールの送信者を定義します。',
         'Defines the separator between the agents real name and the given queue email address.' =>
             '担当者の実名と与えられたキューのEメールアドレスに間に置く分離を定義します。',
         'Defines the shown links in the footer area of the customer and public interface of this OTRS system. The value in "Key" is the external URL, the value in "Content" is the shown label.' =>
@@ -5889,15 +5889,15 @@ Contentはダイナミック・フィールドの形式によって設定内容�
         'Event module that performs an update statement on TicketIndex to rename the queue name there if needed and if StaticDB is actually used.' =>
             '',
         'Event module that updates customer user search profiles if login changes.' =>
-            '',
+            'ログインが変更された際に顧客ユーザーの検索プロファイルを更新するイベント・モジュール',
         'Event module that updates customer user service membership if login changes.' =>
-            '',
+            'ログインが変更された際に顧客ユーザーのサービスメンバーシップを更新するイベント・モジュール',
         'Event module that updates customer users after an update of the Customer.' =>
-            '',
+            '顧客情報が更新された際に顧客ユーザー情報を更新するイベント・モジュール',
         'Event module that updates tickets after an update of the Customer User.' =>
-            '',
+            '顧客ユーザー情報が更新された際チケットを更新するイベント・モジュール',
         'Event module that updates tickets after an update of the Customer.' =>
-            '',
+            '顧客情報が更新された際にチケットを更新するイベント・モジュール',
         'Events Ticket Calendar' => 'イベント・チケット・カレンダー',
         'Execute SQL statements.' => 'SQL文の実行',
         'Executes a custom command or module. Note: if module is used, function is required.' =>

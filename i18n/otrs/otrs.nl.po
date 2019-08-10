@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-05-16 18:32+0000\n"
+"POT-Creation-Date: 2019-08-09 08:43+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2899,12 +2899,8 @@ msgid "Set up what you want to change if the criteria match. Keep in mind that '
 msgstr "Geef aan wat u wilt dat gebeurt als de activatie-criteria kloppen."
 
 #. Template: AdminACLEdit
-msgid "Check the official"
-msgstr "Bekijk de"
-
-#. Template: AdminACLEdit
-msgid "documentation"
-msgstr "documentatie"
+msgid "Check the official %sdocumentation%s."
+msgstr ""
 
 #. Template: AdminACLEdit
 msgid "Show or hide the content"
@@ -4072,7 +4068,7 @@ msgstr "Notitie toevoegen"
 
 #. Template: AdminGenericAgent
 msgid "This field must have less then 200 characters."
-msgstr ""
+msgstr "Dit veld mag maximaal 200 karakters bevatten"
 
 #. Template: AdminGenericAgent
 msgid "Time units"
@@ -4516,7 +4512,7 @@ msgstr "Route maken voor actie"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Define the route that should get mapped to this operation. Variables marked by a ':' will get mapped to the entered name and passed along with the others to the mapping. (e.g. /Ticket/:TicketID)."
-msgstr "Bepaal de route die gemapt moet worden op deze operatie. Variabelen gemarkeerd met een ':' woden gemapt op de ingevoerde naam en doorgegeven met de maping (bijvoorbeeld /Ticket/:TicketID)."
+msgstr "Bepaal de route die gemapt moet worden op deze operatie. Variabelen gemarkeerd met een ':' woden gemapt op de ingevoerde naam en doorgegeven met de maping (bv. /Ticket/:TicketID)."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Valid request methods for Operation"
@@ -5352,7 +5348,7 @@ msgstr "Berichttekst"
 
 #. Template: AdminNotificationEvent
 msgid "This field is required and must have less than 4000 characters."
-msgstr ""
+msgstr "Dit veld is vereist en mag maximaal 4000 tekens bevatten."
 
 #. Template: AdminNotificationEvent
 msgid "Add new notification language"
@@ -5448,11 +5444,11 @@ msgstr "Gebruik deze template om de complete mail te genereren (alleen voor HTML
 
 #. Template: AdminNotificationEventTransportEmailSettings
 msgid "Enable email security"
-msgstr ""
+msgstr "Email beveiliging inschakelen"
 
 #. Template: AdminNotificationEventTransportEmailSettings
 msgid "Email security level"
-msgstr ""
+msgstr "Niveau van email beveiliging"
 
 #. Template: AdminNotificationEventTransportEmailSettings
 msgid "If signing key/certificate is missing"
@@ -5768,11 +5764,11 @@ msgstr "Wilt u dit pakket echt herinstalleren? Eventuele handmatige aanpassingen
 
 #. Template: AdminPackageManager
 msgid "Go to updating instructions"
-msgstr ""
+msgstr "Ga naar update instructies"
 
 #. Template: AdminPackageManager
 msgid "package information"
-msgstr ""
+msgstr "pakketinformatie"
 
 #. Template: AdminPackageManager
 msgid "Package installation requires a patch level update of OTRS."
@@ -5928,7 +5924,7 @@ msgstr "Verplicht"
 
 #. Template: AdminPackageManager
 msgid "Primary Key"
-msgstr ""
+msgstr "Primaire Sleutel"
 
 #. Template: AdminPackageManager
 msgid "Auto Increment"
@@ -6564,7 +6560,7 @@ msgstr "In dit scherm kunt u een nieuw proces aanmaken. Om het nieuwe proces bes
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "cancel & close"
-msgstr ""
+msgstr "Annuleren & sluiten"
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "Start Activity"
@@ -7264,7 +7260,7 @@ msgstr ""
 
 #. Template: AdminSMIME
 msgid "Faulty SMIME configuration"
-msgstr ""
+msgstr "Onjuiste SMIME configuratie"
 
 #. Template: AdminSMIME
 msgid "SMIME support is enabled, but the relevant configuration contains errors. Please check the configuration using the button below."
@@ -7272,7 +7268,7 @@ msgstr ""
 
 #. Template: AdminSMIME
 msgid "Check SMIME configuration"
-msgstr ""
+msgstr "Controleer SMIME configuratie"
 
 #. Template: AdminSMIME
 msgid "Add certificate"
@@ -8228,7 +8224,7 @@ msgstr "Instellingen opslaan"
 
 #. Template: AgentDashboardCommon
 msgid "Close this widget"
-msgstr ""
+msgstr "Sluit deze widget"
 
 #. Template: AgentDashboardCommon
 msgid "Available Columns"
@@ -11532,7 +11528,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentDashboardCommon.pm
 msgid "Customer User ID"
-msgstr ""
+msgstr "Klantgebruiker ID"
 
 #. Perl Module: Kernel/Modules/AgentLinkObject.pm
 msgid "Need SourceObject and SourceKey!"
@@ -16818,7 +16814,7 @@ msgstr "Vervolg vraag voor [%s]. %s"
 
 #. SysConfig
 msgid "Forces encoding of outgoing emails (7bit|8bit|quoted-printable|base64)."
-msgstr ""
+msgstr "dwingt codering af van uitgaande e-mails (7bit|8bit|quoted-printable|base64)."
 
 #. SysConfig
 msgid "Forces to choose a different ticket state (from current) after lock action. Define the current state as key, and the next state after lock action as content."
@@ -16906,7 +16902,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Generate dashboard statistics."
-msgstr ""
+msgstr "Genereer dashboard statistieken."
 
 #. SysConfig
 msgid "Generic Info module."
@@ -17278,7 +17274,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Incoming Phone Call."
-msgstr ""
+msgstr "Inkomend telefoongesprek"
 
 #. SysConfig
 msgid "IndexAccelerator: to choose your backend TicketViewAccelerator module. \"RuntimeDB\" generates each queue view on the fly from ticket table (no performance problems up to approx. 60.000 tickets in total and 6.000 open tickets in the system). \"StaticDB\" is the most powerful module, it uses an extra ticket-index table that works like a view (recommended if more than 80.000 and 6.000 open tickets are stored in the system). Use the command \"bin/otrs.Console.pl Maint::Ticket::QueueIndexRebuild\" for initial index creation."
@@ -17330,7 +17326,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Japanese"
-msgstr ""
+msgstr "Japans"
 
 #. SysConfig
 msgid "JavaScript function for the search frontend."
@@ -17346,15 +17342,15 @@ msgstr ""
 
 #. SysConfig
 msgid "Lastname Firstname (UserLogin)"
-msgstr ""
+msgstr "Achternaam Voornaam (Loginnaam)"
 
 #. SysConfig
 msgid "Lastname, Firstname"
-msgstr ""
+msgstr "Achternaam, Voornaam"
 
 #. SysConfig
 msgid "Lastname, Firstname (UserLogin)"
-msgstr ""
+msgstr "Achternaam, Voornaam (Loginnaam)"
 
 #. SysConfig
 msgid "Latvian"
@@ -17370,7 +17366,7 @@ msgstr "Koppel object"
 
 #. SysConfig
 msgid "Link Object."
-msgstr ""
+msgstr "Koppel Object"
 
 #. SysConfig
 msgid "Link agents to groups."
@@ -17482,7 +17478,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Locked Tickets."
-msgstr ""
+msgstr "Vergrendelde Tickets."
 
 #. SysConfig
 msgid "Locked ticket."
@@ -17494,11 +17490,11 @@ msgstr ""
 
 #. SysConfig
 msgid "Logged-In Users"
-msgstr ""
+msgstr "Ingelogde gebruikers."
 
 #. SysConfig
 msgid "Logout of customer panel."
-msgstr ""
+msgstr "Uitloggen van het klantpaneel."
 
 #. SysConfig
 msgid "Loop-Protection! No auto-response sent to \"%s\"."
@@ -17534,7 +17530,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Manage OTRS Group cloud services."
-msgstr ""
+msgstr "Beheer OTRS Group cloud diensten."
 
 #. SysConfig
 msgid "Manage PGP keys for email encryption."
@@ -17566,7 +17562,7 @@ msgstr "Beheer van taken op basis van events of tijdschema's"
 
 #. SysConfig
 msgid "Mark this ticket as junk!"
-msgstr ""
+msgstr "Markeer het ticket als junk!"
 
 #. SysConfig
 msgid "Max size (in characters) of the customer information table (phone and email) in the compose screen."
@@ -17690,7 +17686,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Module to generate ticket statistics."
-msgstr ""
+msgstr "Module om ticket statistieken te genereren."
 
 #. SysConfig
 msgid "Module to grant access if the CustomerID of the ticket matches the CustomerID of the customer."
@@ -17786,7 +17782,7 @@ msgstr ""
 
 #. SysConfig
 msgid "None"
-msgstr ""
+msgstr "Geen"
 
 #. SysConfig
 msgid "Norwegian"
@@ -17830,7 +17826,7 @@ msgstr "Open tickets (klant)"
 
 #. SysConfig
 msgid "Option"
-msgstr ""
+msgstr "Optie"
 
 #. SysConfig
 msgid "Optional queue limitation for the CreatorCheck permission module. If set, permission is only granted for tickets in the specified queues."
@@ -17858,7 +17854,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Overview Escalated Tickets."
-msgstr ""
+msgstr "Overzicht geëscaleerde tickets."
 
 #. SysConfig
 msgid "Overview Refresh Time"
@@ -17866,7 +17862,7 @@ msgstr "Verversingsinterval overzichten"
 
 #. SysConfig
 msgid "Overview of all escalated tickets."
-msgstr ""
+msgstr "Overzicht van alle geëscaleerde tickets."
 
 #. SysConfig
 msgid "Overview of all open Tickets."
@@ -17878,11 +17874,11 @@ msgstr "Overzicht van alle openstaande tickets."
 
 #. SysConfig
 msgid "Overview of customer tickets."
-msgstr ""
+msgstr "Overzicht van alle klanttickets."
 
 #. SysConfig
 msgid "PGP Key Management"
-msgstr ""
+msgstr "PGP sleutel beheer"
 
 #. SysConfig
 msgid "Package event module file a scheduler task for update registration."
@@ -17986,7 +17982,7 @@ msgstr ""
 
 #. SysConfig
 msgid "ParentChild"
-msgstr ""
+msgstr "OuderKind"
 
 #. SysConfig
 msgid "Path for the log file (it only applies if \"FS\" was selected for LoopProtectionModule and it is mandatory)."
@@ -18014,19 +18010,19 @@ msgstr ""
 
 #. SysConfig
 msgid "Phone Call."
-msgstr ""
+msgstr "Telefoongesprek."
 
 #. SysConfig
 msgid "Picture Upload"
-msgstr ""
+msgstr "Afbeelding upload"
 
 #. SysConfig
 msgid "Picture upload module."
-msgstr ""
+msgstr "Afbeelding upload module."
 
 #. SysConfig
 msgid "Picture-Upload"
-msgstr ""
+msgstr "Afbeelding-upload"
 
 #. SysConfig
 msgid "Polish"
@@ -18202,11 +18198,11 @@ msgstr ""
 
 #. SysConfig
 msgid "Responsible Tickets"
-msgstr ""
+msgstr "Verantwoordelijke tickets"
 
 #. SysConfig
 msgid "Responsible Tickets."
-msgstr ""
+msgstr "Verantwoordelijke tickets."
 
 #. SysConfig
 msgid "Restores a ticket from the archive (only if the event is a state change to any open available state)."

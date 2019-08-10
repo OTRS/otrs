@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D-%M-%Y';
     $Self->{DateInputFormat}     = '%D-%M-%Y';
     $Self->{DateInputFormatLong} = '%D-%M-%Y - %T';
-    $Self->{Completeness}        = 0.651;
+    $Self->{Completeness}        = 0.6588;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -1186,7 +1186,7 @@ sub Data {
         'New Dynamic Field Values' => 'Nieuwe dynamische velden',
         'Archive selected tickets' => 'Archiveer geselecteerde tickets',
         'Add Note' => 'Notitie toevoegen',
-        'This field must have less then 200 characters.' => '',
+        'This field must have less then 200 characters.' => 'Dit veld mag maximaal 200 karakters bevatten',
         'Time units' => 'Bestede tijd',
         'Execute Ticket Commands' => 'Ticketcommando\'s uitvoeren',
         'Send agent/customer notifications on changes' => 'Stuur behandelaars / klanten een melding bij wijzigingen',
@@ -1326,7 +1326,7 @@ sub Data {
         'Properties' => 'Eigenschappen',
         'Route mapping for Operation' => 'Route maken voor actie',
         'Define the route that should get mapped to this operation. Variables marked by a \':\' will get mapped to the entered name and passed along with the others to the mapping. (e.g. /Ticket/:TicketID).' =>
-            'Bepaal de route die gemapt moet worden op deze operatie. Variabelen gemarkeerd met een \':\' woden gemapt op de ingevoerde naam en doorgegeven met de maping (bijvoorbeeld /Ticket/:TicketID).',
+            'Bepaal de route die gemapt moet worden op deze operatie. Variabelen gemarkeerd met een \':\' woden gemapt op de ingevoerde naam en doorgegeven met de maping (bv. /Ticket/:TicketID).',
         'Valid request methods for Operation' => 'Geldige verzoek methoden voor Operatie',
         'Limit this Operation to specific request methods. If no method is selected all requests will be accepted.' =>
             'Beperk deze operatie tot verschillende verzoek methoden. Als er geen methode is geselecteerd wordt alles geaccepteerd.',
@@ -1600,7 +1600,7 @@ sub Data {
         'Remove Notification Language' => 'Verwijder de taal voor de meldingen',
         'Message body' => 'Berichttekst',
         'This field is required and must have less than 4000 characters.' =>
-            '',
+            'Dit veld is vereist en mag maximaal 4000 tekens bevatten.',
         'Add new notification language' => 'Voeg nieuwe taal voor meldingen toe',
         'Do you really want to delete this notification language?' => 'Weet u zeker dat u de taal van deze melding wilt verwijderen?',
         'Tag Reference' => 'Tag verwijzing',
@@ -1635,8 +1635,8 @@ sub Data {
         'Email template' => 'Email sjabloon',
         'Use this template to generate the complete email (only for HTML emails).' =>
             'Gebruik deze template om de complete mail te genereren (alleen voor HTML email).',
-        'Enable email security' => '',
-        'Email security level' => '',
+        'Enable email security' => 'Email beveiliging inschakelen',
+        'Email security level' => 'Niveau van email beveiliging',
         'If signing key/certificate is missing' => '',
         'If encryption key/certificate is missing' => '',
 
@@ -1748,8 +1748,8 @@ sub Data {
         'Reinstall package' => 'Herinstalleer pakket',
         'Do you really want to reinstall this package? Any manual changes will be lost.' =>
             'Wilt u dit pakket echt herinstalleren? Eventuele handmatige aanpassingen gaan verloren.',
-        'Go to updating instructions' => '',
-        'package information' => '',
+        'Go to updating instructions' => 'Ga naar update instructies',
+        'package information' => 'pakketinformatie',
         'Package installation requires a patch level update of OTRS.' => '',
         'Package update requires a patch level update of OTRS.' => '',
         'If you are a OTRS Business Solution™ customer, please visit our customer portal and file a request.' =>
@@ -1798,7 +1798,7 @@ sub Data {
         'Download' => 'Downloaden',
         'Download file from package!' => 'Download bestand van pakket.',
         'Required' => 'Verplicht',
-        'Primary Key' => '',
+        'Primary Key' => 'Primaire Sleutel',
         'Auto Increment' => '',
         'SQL' => 'SQL statement',
         'File differences for file %s' => 'Verschillen in bestand %s',
@@ -2012,7 +2012,7 @@ sub Data {
             'In dit scherm kunt u een nieuw proces aanmaken. Om het nieuwe proces beschikbaar te maken voor uw gebruikers moet u de status op \'Actief\' zetten en vervolgens een synchronisatie uitvoeren.',
 
         # Template: AdminProcessManagementProcessPrint
-        'cancel & close' => '',
+        'cancel & close' => 'Annuleren & sluiten',
         'Start Activity' => 'Start activiteit',
         'Contains %s dialog(s)' => 'Bevat %s dialoog(en)',
         'Assigned dialogs' => 'Toegewezen dialogen',
@@ -2239,10 +2239,10 @@ sub Data {
         'To be able to use SMIME in OTRS, you have to enable it first.' =>
             '',
         'Enable SMIME support' => '',
-        'Faulty SMIME configuration' => '',
+        'Faulty SMIME configuration' => 'Onjuiste SMIME configuratie',
         'SMIME support is enabled, but the relevant configuration contains errors. Please check the configuration using the button below.' =>
             '',
-        'Check SMIME configuration' => '',
+        'Check SMIME configuration' => 'Controleer SMIME configuratie',
         'Add certificate' => 'Nieuw certificaat',
         'Add private key' => 'Private sleutel toevoegen',
         'Filter for certificates' => 'Filter op certificaten',
@@ -2568,7 +2568,7 @@ sub Data {
 
         # Template: AgentDashboardCommon
         'Save settings' => 'Instellingen opslaan',
-        'Close this widget' => '',
+        'Close this widget' => 'Sluit deze widget',
         'Available Columns' => 'Beschikbare kolommen',
         'Visible Columns (order by drag & drop)' => 'Beschikbare kolommen (sorteer door middel van drag & drop)',
 
@@ -3752,7 +3752,7 @@ sub Data {
         'Can\'t get element data of %s!' => 'Kan element gegevens van %s niet ophalen!',
         'Can\'t get filter content data of %s!' => 'Kan filter gegevens van %s niet ophalen!',
         'Customer Company Name' => '',
-        'Customer User ID' => '',
+        'Customer User ID' => 'Klantgebruiker ID',
 
         # Perl Module: Kernel/Modules/AgentLinkObject.pm
         'Need SourceObject and SourceKey!' => '',
@@ -5916,7 +5916,7 @@ Het Helpdesk Team
         'Firstname Lastname (UserLogin)' => 'Voornaam Achternaam (Loginnaam)',
         'FollowUp for [%s]. %s' => 'Vervolg vraag voor [%s]. %s',
         'Forces encoding of outgoing emails (7bit|8bit|quoted-printable|base64).' =>
-            '',
+            'dwingt codering af van uitgaande e-mails (7bit|8bit|quoted-printable|base64).',
         'Forces to choose a different ticket state (from current) after lock action. Define the current state as key, and the next state after lock action as content.' =>
             '',
         'Forces to unlock tickets after being moved to another queue.' =>
@@ -5946,7 +5946,7 @@ Het Helpdesk Team
         'Galician' => 'Galicische',
         'General ticket data shown in the ticket overviews (fall-back). Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note that TicketNumber can not be disabled, because it is necessary.' =>
             '',
-        'Generate dashboard statistics.' => '',
+        'Generate dashboard statistics.' => 'Genereer dashboard statistieken.',
         'Generic Info module.' => '',
         'GenericAgent' => 'Automatische taken',
         'GenericInterface Debugger GUI' => '',
@@ -6103,7 +6103,7 @@ Het Helpdesk Team
         'Include unknown customers in ticket filter.' => '',
         'Includes article create times in the ticket search of the agent interface.' =>
             '',
-        'Incoming Phone Call.' => '',
+        'Incoming Phone Call.' => 'Inkomend telefoongesprek',
         'IndexAccelerator: to choose your backend TicketViewAccelerator module. "RuntimeDB" generates each queue view on the fly from ticket table (no performance problems up to approx. 60.000 tickets in total and 6.000 open tickets in the system). "StaticDB" is the most powerful module, it uses an extra ticket-index table that works like a view (recommended if more than 80.000 and 6.000 open tickets are stored in the system). Use the command "bin/otrs.Console.pl Maint::Ticket::QueueIndexRebuild" for initial index creation.' =>
             '',
         'Indonesian' => '',
@@ -6122,17 +6122,17 @@ Het Helpdesk Team
             '',
         'Ivory' => '',
         'Ivory (Slim)' => '',
-        'Japanese' => '',
+        'Japanese' => 'Japans',
         'JavaScript function for the search frontend.' => '',
         'Last customer subject' => '',
         'Lastname Firstname' => '',
-        'Lastname Firstname (UserLogin)' => '',
-        'Lastname, Firstname' => '',
-        'Lastname, Firstname (UserLogin)' => '',
+        'Lastname Firstname (UserLogin)' => 'Achternaam Voornaam (Loginnaam)',
+        'Lastname, Firstname' => 'Achternaam, Voornaam',
+        'Lastname, Firstname (UserLogin)' => 'Achternaam, Voornaam (Loginnaam)',
         'Latvian' => '',
         'Left' => '',
         'Link Object' => 'Koppel object',
-        'Link Object.' => '',
+        'Link Object.' => 'Koppel Object',
         'Link agents to groups.' => 'Koppel behandelaars aan groepen.',
         'Link agents to roles.' => 'Koppel behandelaars aan rollen.',
         'Link attachments to templates.' => 'Koppel bijlagen aan sjablonen.',
@@ -6168,11 +6168,11 @@ Het Helpdesk Team
         'List view' => '',
         'Lithuanian' => '',
         'Lock / unlock this ticket' => '',
-        'Locked Tickets.' => '',
+        'Locked Tickets.' => 'Vergrendelde Tickets.',
         'Locked ticket.' => 'Ticket vergrendeld.',
         'Log file for the ticket counter.' => '',
-        'Logged-In Users' => '',
-        'Logout of customer panel.' => '',
+        'Logged-In Users' => 'Ingelogde gebruikers.',
+        'Logout of customer panel.' => 'Uitloggen van het klantpaneel.',
         'Loop-Protection! No auto-response sent to "%s".' => 'Lus beveiliging! Geen automatisch antwoord verstuurd aan "%s".',
         'Mail Accounts' => '',
         'Main menu registration.' => '',
@@ -6183,7 +6183,7 @@ Het Helpdesk Team
         'Makes the session management use html cookies. If html cookies are disabled or if the client browser disabled html cookies, then the system will work as usual and append the session id to the links.' =>
             '',
         'Malay' => '',
-        'Manage OTRS Group cloud services.' => '',
+        'Manage OTRS Group cloud services.' => 'Beheer OTRS Group cloud diensten.',
         'Manage PGP keys for email encryption.' => 'Beheer PGP-sleutels voor encryptie van e-mail.',
         'Manage POP3 or IMAP accounts to fetch email from.' => 'Beheer POP3 of IMAP accounts om e-mail op te halen en om te zetten naar tickets.',
         'Manage S/MIME certificates for email encryption.' => 'Beheer S/MIME certificaten voor encryptie van e-mail.',
@@ -6191,7 +6191,7 @@ Het Helpdesk Team
         'Manage support data.' => 'Beheer support gegevens.',
         'Manage system registration.' => 'Beheer systeemregistratie.',
         'Manage tasks triggered by event or time based execution.' => 'Beheer van taken op basis van events of tijdschema\'s',
-        'Mark this ticket as junk!' => '',
+        'Mark this ticket as junk!' => 'Markeer het ticket als junk!',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' =>
             '',
         'Max size (in rows) of the informed agents box in the agent interface.' =>
@@ -6244,7 +6244,7 @@ Het Helpdesk Team
             '',
         'Module to generate ticket solution and response time statistics.' =>
             '',
-        'Module to generate ticket statistics.' => '',
+        'Module to generate ticket statistics.' => 'Module om ticket statistieken te genereren.',
         'Module to grant access if the CustomerID of the ticket matches the CustomerID of the customer.' =>
             '',
         'Module to grant access if the CustomerUserID of the ticket matches the CustomerUserID of the customer.' =>
@@ -6277,7 +6277,7 @@ Het Helpdesk Team
             '',
         'Next possible ticket states after adding a phone note in the ticket phone outbound screen of the agent interface.' =>
             '',
-        'None' => '',
+        'None' => 'Geen',
         'Norwegian' => '',
         'Notification sent to "%s".' => 'Melding verstuurd aan "%s".',
         'Number of displayed tickets' => 'Aantal weergegeven tickets',
@@ -6292,7 +6292,7 @@ Het Helpdesk Team
         'Old: "%s" New: "%s"' => 'Oud: "%s" Nieuw: "%s"',
         'Open tickets (customer user)' => 'Open tickets (klant gebruiker)',
         'Open tickets (customer)' => 'Open tickets (klant)',
-        'Option' => '',
+        'Option' => 'Optie',
         'Optional queue limitation for the CreatorCheck permission module. If set, permission is only granted for tickets in the specified queues.' =>
             '',
         'Optional queue limitation for the InvolvedCheck permission module. If set, permission is only granted for tickets in the specified queues.' =>
@@ -6304,13 +6304,13 @@ Het Helpdesk Team
         'Out Of Office' => 'Afwezig',
         'Overloads (redefines) existing functions in Kernel::System::Ticket. Used to easily add customizations.' =>
             '',
-        'Overview Escalated Tickets.' => '',
+        'Overview Escalated Tickets.' => 'Overzicht geëscaleerde tickets.',
         'Overview Refresh Time' => 'Verversingsinterval overzichten',
-        'Overview of all escalated tickets.' => '',
+        'Overview of all escalated tickets.' => 'Overzicht van alle geëscaleerde tickets.',
         'Overview of all open Tickets.' => 'Overzicht van alle openstaande tickets',
         'Overview of all open tickets.' => 'Overzicht van alle openstaande tickets.',
-        'Overview of customer tickets.' => '',
-        'PGP Key Management' => '',
+        'Overview of customer tickets.' => 'Overzicht van alle klanttickets.',
+        'PGP Key Management' => 'PGP sleutel beheer',
         'Package event module file a scheduler task for update registration.' =>
             '',
         'Parameters for the CreateNextMask object in the preference view of the agent interface.' =>
@@ -6358,7 +6358,7 @@ Het Helpdesk Team
         'Parameters of the example SLA attribute Comment2.' => '',
         'Parameters of the example queue attribute Comment2.' => '',
         'Parameters of the example service attribute Comment2.' => '',
-        'ParentChild' => '',
+        'ParentChild' => 'OuderKind',
         'Path for the log file (it only applies if "FS" was selected for LoopProtectionModule and it is mandatory).' =>
             '',
         'People' => 'Personen',
@@ -6367,10 +6367,10 @@ Het Helpdesk Team
         'Permitted width for compose email windows.' => '',
         'Permitted width for compose note windows.' => '',
         'Persian' => '',
-        'Phone Call.' => '',
-        'Picture Upload' => '',
-        'Picture upload module.' => '',
-        'Picture-Upload' => '',
+        'Phone Call.' => 'Telefoongesprek.',
+        'Picture Upload' => 'Afbeelding upload',
+        'Picture upload module.' => 'Afbeelding upload module.',
+        'Picture-Upload' => 'Afbeelding-upload',
         'Polish' => '',
         'Portuguese' => '',
         'Portuguese (Brasil)' => '',
@@ -6437,8 +6437,8 @@ Het Helpdesk Team
             '',
         'Resets and unlocks the owner of a ticket if it was moved to another queue.' =>
             '',
-        'Responsible Tickets' => '',
-        'Responsible Tickets.' => '',
+        'Responsible Tickets' => 'Verantwoordelijke tickets',
+        'Responsible Tickets.' => 'Verantwoordelijke tickets.',
         'Restores a ticket from the archive (only if the event is a state change to any open available state).' =>
             '',
         'Retains all services in listings even if they are children of invalid elements.' =>

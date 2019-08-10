@@ -28,7 +28,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.3144;
+    $Self->{Completeness}        = 0.3148;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -326,7 +326,7 @@ sub Data {
         'Filename' => 'Naziv datoteke',
         'Type' => 'Tip',
         'Size' => 'Veličina',
-        'Upload' => 'Upload',
+        'Upload' => 'Postavljanje',
         'Directory' => 'Imenik',
         'Signed' => 'Potpisano',
         'Sign' => 'Potpis',
@@ -1862,7 +1862,7 @@ sub Data {
         'Deploy All Processes' => '',
         'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.' =>
             '',
-        'Overwrite existing entities' => '',
+        'Overwrite existing entities' => 'Prepiši postojeće entitete',
         'Upload process configuration' => '',
         'Import process configuration' => '',
         'Ready-to-run Processes' => '',
@@ -2448,7 +2448,7 @@ sub Data {
             '',
         'Some time before this system maintenance starts the users will receive a notification on each screen announcing about this fact.' =>
             '',
-        'Start date' => '',
+        'Start date' => 'Datum početka',
         'Stop date' => '',
         'Delete System Maintenance' => '',
         'Do you really want to delete this scheduled system maintenance?' =>
