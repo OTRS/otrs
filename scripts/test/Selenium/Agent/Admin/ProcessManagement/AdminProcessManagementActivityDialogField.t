@@ -189,13 +189,13 @@ $Selenium->RunTest(
 
         $Selenium->WaitFor(
             JavaScript =>
-                "return typeof(\$) === 'function' && \$('a.AsBlock:contains(\"Activity Dialogs\")').closest('.AccordionElement').hasClass('Active') === true"
+                "return typeof(\$) === 'function' && \$('a.AsBlock:contains(\"Activity Dialogs\")').closest('.AccordionElement').hasClass('Active') === true;"
         );
 
         $Selenium->find_element( "#ActivityDialogFilter", 'css' )->send_keys('Make order');
         $Selenium->WaitFor(
             JavaScript =>
-                "return typeof(\$) === 'function' && \$('#ActivityDialogs li:visible').length === 1"
+                "return typeof(\$) === 'function' && \$('#ActivityDialogs li:visible').length === 1;"
         );
 
         # Go to edit test ActivityDialog screen.
@@ -205,11 +205,17 @@ $Selenium->RunTest(
         my $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
 
-        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('a[data-id=Article]').length" );
+        $Selenium->WaitForjQueryEventBound(
+            CSSSelector => "a[data-id=Article]",
+        );
+
+        $Selenium->execute_script(
+            "\$('a[data-id=Article]')[0].scrollIntoView(true);",
+        );
 
         $Selenium->execute_script("\$('a[data-id=Article]').click();");
 
-        $Selenium->WaitFor( JavaScript => "return \$('.Dialog.Modal').length" );
+        $Selenium->WaitFor( JavaScript => "return \$('.Dialog.Modal').length;" );
 
         # Check if there is field name in header of edit dialog for field of an activity dialog.
         # See bug#14667 for more information.
