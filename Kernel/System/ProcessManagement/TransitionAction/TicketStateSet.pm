@@ -139,6 +139,11 @@ sub Run {
                 );
             }
         }
+        else {
+
+            # Data is the same as in ticket nothing to do.
+            $Success = 1;
+        }
 
     }
     elsif ( $Param{Config}->{State} ) {
@@ -164,6 +169,11 @@ sub Run {
                         . $Param{Ticket}->{TicketID} . '!',
                 );
             }
+        }
+        else {
+
+            # Data is the same as in ticket nothing to do.
+            $Success = 1;
         }
 
     }

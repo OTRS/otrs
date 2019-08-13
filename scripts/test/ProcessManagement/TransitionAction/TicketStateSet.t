@@ -239,6 +239,30 @@ my @Tests = (
         },
         Success => 1,
     },
+    {
+        Name   => 'Correct Using same State (bug#14720)',
+        Config => {
+            UserID => $UserID,
+            Ticket => \%Ticket,
+            Config => {
+                State  => 'new',
+                UserID => $TestUserID,
+            },
+        },
+        Success => 1,
+    },
+    {
+        Name   => 'Correct Using same StateID (bug#14720)',
+        Config => {
+            UserID => $UserID,
+            Ticket => \%Ticket,
+            Config => {
+                StateID => 1,
+                UserID  => $TestUserID,
+            },
+        },
+        Success => 1,
+    },
 );
 
 for my $Test (@Tests) {
