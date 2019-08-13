@@ -436,6 +436,11 @@ $Selenium->RunTest(
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$("#RemoveCustomerTicket_2").length;' );
 
         # Input required field and select customer.
+        $Selenium->VerifiedRefresh();
+        $Selenium->WaitForjQueryEventBound(
+            CSSSelector => '#ToCustomer',
+            Event       => 'change',
+        );
         $Selenium->find_element( "#ToCustomer", 'css' )->send_keys($TestCustomer);
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length;' );
         $Selenium->execute_script("\$('li.ui-menu-item:contains($TestCustomer)').click();");
