@@ -31,7 +31,7 @@ BEGIN {
     # set $0 to index.pl if it is not an existing file:
     # on Fedora, $0 is not a path which would break OTRS.
     # see bug # 8533
-    if ( !-e $0 ) {
+    if ( !-e $0 or -d $0 ) {
         $0 = '/opt/otrs/bin/cgi-bin/index.pl';    ## no critic
     }
 }
