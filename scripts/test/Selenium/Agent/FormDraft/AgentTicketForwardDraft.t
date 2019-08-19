@@ -193,19 +193,19 @@ $Selenium->RunTest(
 
                 $Selenium->WaitFor(
                     JavaScript =>
-                        "return typeof(\$) === 'function' && \$('.AttachmentList tbody tr td.Filename:contains(Main-Test1.pdf)').length === 1;"
+                        "return typeof(\$) === 'function' && \$('.AttachmentList td.Filename:contains(\"Main-Test1.pdf\")').length === 1;"
                 );
 
                 # Wait until file is uploaded and 'Progress' class is removed.
                 $Selenium->WaitFor(
                     JavaScript =>
-                        "return !\$('.td.Filename:contains(Main-Test1.pdf)').siblings('.Filesize').find('.Progress').length;"
+                        "return !\$('.AttachmentList td.Filename:contains(\"Main-Test1.pdf\")').siblings('.Filesize').find('.Progress').length;"
                 );
 
                 # Check if uploaded.
                 $Self->True(
                     $Selenium->execute_script(
-                        "return \$('.AttachmentList tbody tr td.Filename:contains(Main-Test1.pdf)').length === 1;"
+                        "return \$('.AttachmentList td.Filename:contains(\"Main-Test1.pdf\")').length === 1;"
                     ),
                     "Uploaded file 'Main-Test1.pdf' correctly"
                 );
@@ -385,7 +385,7 @@ $Selenium->RunTest(
                 # There should be only one file with a certain name.
                 $Self->True(
                     $Selenium->execute_script(
-                        "return \$('.AttachmentList tbody tr td.Filename:contains(Main-Test1.pdf)').length === 1;"
+                        "return \$('.AttachmentList td.Filename:contains(\"Main-Test1.pdf\")').length === 1;"
                     ),
                     "Uploaded file 'Main-Test1.pdf' correctly"
                 );
@@ -414,19 +414,19 @@ $Selenium->RunTest(
 
                 $Selenium->WaitFor(
                     JavaScript =>
-                        "return typeof(\$) === 'function' && \$('.AttachmentList tbody tr td.Filename:contains(Main-Test1.doc)').length === 1;"
+                        "return typeof(\$) === 'function' && \$('.AttachmentList td.Filename:contains(\"Main-Test1.doc\")').length === 1;"
                 );
 
                 # Wait until file is uploaded and 'Progress' class is removed.
                 $Selenium->WaitFor(
                     JavaScript =>
-                        "return !\$('.td.Filename:contains(Main-Test1.doc)').siblings('.Filesize').find('.Progress').length;"
+                        "return !\$('.AttachmentList td.Filename:contains(\"Main-Test1.doc\")').siblings('.Filesize').find('.Progress').length;"
                 );
 
                 # Check if uploaded.
                 $Self->True(
                     $Selenium->execute_script(
-                        "return \$('.AttachmentList tbody tr td.Filename:contains(Main-Test1.doc)').length === 1;"
+                        "return \$('.AttachmentList td.Filename:contains(\"Main-Test1.doc\")').length === 1;"
                     ),
                     "Uploaded file 'Main-Test1.doc' correctly"
                 );
