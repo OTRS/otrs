@@ -149,58 +149,69 @@ for my $ResultEntry ( @{ $Result{Result} || [] } ) {
     );
 }
 
-# Check if the identifier from the disabled plugions are not present.
-for my $DisabledPluginsIdentifier (
-    qw(Kernel::System::SupportDataCollector::Plugin::OTRS::PackageDeployment Kernel::System::SupportDataCollector::Plugin::OTRS::PackageDeployment::Verification Kernel::System::SupportDataCollector::Plugin::OTRS::PackageDeployment::FrameworkVersion)
-    )
-{
-    $Self->False(
-        $SeenIdentifier{$DisabledPluginsIdentifier},
-        "Collect() - SupportDataCollector::DisablePlugins - $DisabledPluginsIdentifier should not be present"
+my $Config = $Kernel::OM->Get('Kernel::Config')->Get('SupportDataCollector::IdentifierFilterBlacklist');
+
+if ( grep $_ eq 'Kernel::System::SupportDataCollector::Plugin::OTRS::PackageDeployment', @{$Config} ) {
+    $Self->True(
+        1,
+        'Kernel::System::SupportDataCollector::Plugin::OTRS::PackageDeployment is blacklisted, skipping test cases ...'
     );
 }
+else {
 
-# Check if the identifiers from the identifier filter blacklist are not present.
-$Self->False(
-    $SeenIdentifier{'Kernel::System::SupportDataCollector::Plugin::OTRS::TimeSettings::UserDefaultTimeZone'},
-    "Collect() - SupportDataCollector::IdentifierFilterBlacklist - Kernel::System::SupportDataCollector::Plugin::OTRS::TimeSettings::UserDefaultTimeZone should not be present"
-);
+    # Check if the identifier from the disabled plugins are not present.
+    for my $DisabledPluginsIdentifier (
+        qw(Kernel::System::SupportDataCollector::Plugin::OTRS::PackageDeployment Kernel::System::SupportDataCollector::Plugin::OTRS::PackageDeployment::Verification Kernel::System::SupportDataCollector::Plugin::OTRS::PackageDeployment::FrameworkVersion)
+        )
+    {
+        $Self->False(
+            $SeenIdentifier{$DisabledPluginsIdentifier},
+            "Collect() - SupportDataCollector::DisablePlugins - $DisabledPluginsIdentifier should not be present"
+        );
+    }
 
-# cache tests
-my $CacheResult = $CacheObject->Get(
-    Type => 'SupportDataCollector',
-    Key  => 'DataCollect',
-);
-$Self->IsDeeply(
-    $CacheResult,
-    \%Result,
-    "Collect() - Cache"
-);
+    # Check if the identifiers from the identifier filter blacklist are not present.
+    $Self->False(
+        $SeenIdentifier{'Kernel::System::SupportDataCollector::Plugin::OTRS::TimeSettings::UserDefaultTimeZone'},
+        "Collect() - SupportDataCollector::IdentifierFilterBlacklist - Kernel::System::SupportDataCollector::Plugin::OTRS::TimeSettings::UserDefaultTimeZone should not be present"
+    );
 
-$Self->True(
-    $TimeElapsed < 30,
-    "Collect() - Should take less than 30 seconds, it took $TimeElapsed"
-);
+    # cache tests
+    my $CacheResult = $CacheObject->Get(
+        Type => 'SupportDataCollector',
+        Key  => 'DataCollect',
+    );
+    $Self->IsDeeply(
+        $CacheResult,
+        \%Result,
+        "Collect() - Cache"
+    );
 
-my $TimeStartCache = [ Time::HiRes::gettimeofday() ];
-%Result = $SupportDataCollectorObject->Collect(
-    UseCache => 1,
-);
-my $TimeElapsedCache = Time::HiRes::tv_interval($TimeStartCache);
+    $Self->True(
+        $TimeElapsed < 30,
+        "Collect() - Should take less than 30 seconds, it took $TimeElapsed"
+    );
 
-$CacheResult = $CacheObject->Get(
-    Type => 'SupportDataCollector',
-    Key  => 'DataCollect',
-);
-$Self->IsDeeply(
-    $CacheResult,
-    \%Result,
-    "Collect() - Cache",
-);
+    my $TimeStartCache = [ Time::HiRes::gettimeofday() ];
+    %Result = $SupportDataCollectorObject->Collect(
+        UseCache => 1,
+    );
+    my $TimeElapsedCache = Time::HiRes::tv_interval($TimeStartCache);
 
-$Self->True(
-    $TimeElapsedCache < $TimeElapsed,
-    "Collect() - Should take less than $TimeElapsed seconds, it took $TimeElapsedCache",
-);
+    $CacheResult = $CacheObject->Get(
+        Type => 'SupportDataCollector',
+        Key  => 'DataCollect',
+    );
+    $Self->IsDeeply(
+        $CacheResult,
+        \%Result,
+        "Collect() - Cache",
+    );
 
+    $Self->True(
+        $TimeElapsedCache < $TimeElapsed,
+        "Collect() - Should take less than $TimeElapsed seconds, it took $TimeElapsedCache",
+    );
+
+}
 1;
