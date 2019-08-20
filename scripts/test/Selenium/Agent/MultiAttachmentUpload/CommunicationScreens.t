@@ -137,6 +137,7 @@ $Selenium->RunTest(
                 JavaScript =>
                     "return !\$('.td.Filename:contains(\"Main-Test1.doc\")').siblings('.Filesize').find('.Progress').length;"
             );
+            sleep 2;
 
             # Check if uploaded.
             $Self->True(
@@ -149,9 +150,11 @@ $Selenium->RunTest(
             $Selenium->WaitFor(
                 JavaScript => "return \$('.AttachmentDelete i').length === 1;"
             );
+            sleep 2;
 
             # Delete Attachment.
             $Selenium->find_element( ".AttachmentDelete i", 'css' )->click();
+            sleep 2;
 
             # Wait until attachment is deleted.
             $Selenium->WaitFor(
