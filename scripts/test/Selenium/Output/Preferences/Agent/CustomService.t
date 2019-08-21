@@ -120,8 +120,9 @@ $Selenium->RunTest(
         );
 
         # add child service to 'My Services' preference
-        $Selenium->execute_script(
-            "\$('#ServiceID').val('$ServiceIDs[1]').trigger('redraw.InputField').trigger('change');"
+        $Selenium->InputFieldValueSet(
+            Element => '#ServiceID',
+            Value   => $ServiceIDs[1],
         );
         $Selenium->find_element( "#ServiceIDUpdate", 'css' )->VerifiedClick();
 
