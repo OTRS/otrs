@@ -164,7 +164,7 @@ $Selenium->RunTest(
             Priority     => '3 normal',
             State        => 'new',
             CustomerID   => 'SeleniumCustomer',
-            CustomerUser => "SeleniumCustomer\@localhost.com",
+            CustomerUser => "SeleniumCustomer\@example.com",
             OwnerID      => 1,
             UserID       => 1,
         );
@@ -226,6 +226,11 @@ $Selenium->RunTest(
             Element => '#DestQueueID',
             Value   => 4,
         );
+
+        $Selenium->WaitForjQueryEventBound(
+            CSSSelector => "#submitRichText",
+        );
+
         $Selenium->find_element( "#submitRichText", 'css' )->click();
 
         # Return back to zoom view and click on history and switch to its view.
@@ -237,8 +242,10 @@ $Selenium->RunTest(
                 'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete;'
         );
 
+        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#nav-Close').length;" );
+
         $Self->True(
-            $Selenium->find_element("//a[\@title='Close this ticket']")->is_displayed(),
+            $Selenium->execute_script("return \$('#nav-Close').length;"),
             "Close menu found on page",
         );
 

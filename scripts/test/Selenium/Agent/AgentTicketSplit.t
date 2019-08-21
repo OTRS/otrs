@@ -266,12 +266,19 @@ $Selenium->RunTest(
                     "Check AccountedTime field for ArticleID = $ArticleIDs[0] in $Screen split screen",
                 );
 
+                $Selenium->execute_script(
+                    "\$(\"#submitRichText\")[0].scrollIntoView(true);",
+                );
+
                 $Selenium->WaitForjQueryEventBound(
                     CSSSelector => "#submitRichText",
                 );
 
-                $Selenium->execute_script(
-                    "\$(\"#submitRichText\")[0].scrollIntoView(true);",
+                $Self->True(
+                    $Selenium->execute_script(
+                        "return \$('#submitRichText').length;"
+                    ),
+                    "Element '#submitRichText' is found in screen"
                 );
 
                 # Submit form.
