@@ -84,8 +84,8 @@ for my $PluginFile (@PluginFiles) {
 }
 
 $Self->True(
-    $TimeElapsed < 180,
-    "CollectAsynchronous() - Should take less than 120 seconds, it took $TimeElapsed"
+    $TimeElapsed < 240,
+    "CollectAsynchronous() - Should take less than 240 seconds, it took $TimeElapsed"
 );
 
 # test the support data collect function
@@ -96,7 +96,7 @@ $CacheObject->CleanUp(
 $TimeStart = [ Time::HiRes::gettimeofday() ];
 
 %Result = $SupportDataCollectorObject->Collect(
-    WebTimeout => 60,
+    WebTimeout => 240,
     Hostname   => $HelperObject->GetTestHTTPHostname(),
 );
 
@@ -175,8 +175,8 @@ $Self->IsDeeply(
 );
 
 $Self->True(
-    $TimeElapsed < 60,
-    "Collect() - Should take less than 60 seconds, it took $TimeElapsed"
+    $TimeElapsed < 240,
+    "Collect() - Should take less than 240 seconds, it took $TimeElapsed"
 );
 
 my $TimeStartCache = [ Time::HiRes::gettimeofday() ];
