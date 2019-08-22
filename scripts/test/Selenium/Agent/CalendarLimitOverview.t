@@ -42,6 +42,30 @@ $Selenium->RunTest(
             Groups => [ 'users', $GroupName ],
         );
 
+        my $InvalidID = $Kernel::OM->Get('Kernel::System::Valid')->ValidLookup(
+            Valid => 'invalid',
+        );
+
+        # Get all valid calendars in the system and set them to invalid.
+        # At the end of the test, set them back to valid state.
+        my @OldCalendars = $CalendarObject->CalendarList(
+            ValidID => 1,
+        );
+        for my $OldCalendar (@OldCalendars) {
+            my $Success = $CalendarObject->CalendarUpdate(
+                CalendarID   => $OldCalendar->{CalendarID},
+                GroupID      => $OldCalendar->{GroupID},
+                CalendarName => $OldCalendar->{CalendarName},
+                Color        => $OldCalendar->{Color},
+                UserID       => $UserID,
+                ValidID      => $InvalidID,
+            );
+            $Self->True(
+                $Success,
+                "CalendarID $OldCalendar->{CalendarID} is set to invalid",
+            );
+        }
+
         # Create test calendars.
         my @Calendars;
         my $LastCalendarIndex = 15;
@@ -103,10 +127,26 @@ $Selenium->RunTest(
                 "return \$('#Calendars tbody input[type=checkbox]').filter( function() { return \$(this).prop('checked') == true; } ).length === 0;"
         );
 
+        $Self->True(
+            $Selenium->execute_script(
+                "return \$('#Calendars tbody input[type=checkbox]').filter( function() { return \$(this).prop('checked') == true; } ).length === 0;"
+            ),
+            "All checkboxes are unchecked",
+        );
+
         for my $Index (@CheckedIndices) {
             my $CalendarID   = $Calendars[$Index]->{CalendarID};
             my $CalendarName = $Calendars[$Index]->{CalendarName};
+
+            $Selenium->execute_script(
+                "\$(\"#Calendar$CalendarID\")[0].scrollIntoView(true);",
+            );
+            $Self->True(
+                $Selenium->execute_script("return !\$('#Calendar$CalendarID:checked').length;"),
+                "Before checking - CalendarID $CalendarID, CalendarName $CalendarName - unchecked",
+            );
             $Selenium->find_element( "#Calendar$CalendarID", 'css' )->click();
+
             $Selenium->WaitFor(
                 JavaScript =>
                     "return !\$('.CalendarWidget.Loading').length && \$('#Calendar$CalendarID:checked').length;"
@@ -137,6 +177,22 @@ $Selenium->RunTest(
                 $Length,
                 "After changes - CalendarID $CalendarID, CalendarName $CalendarName - $Checked",
             ) || die;
+        }
+
+        # Set old calendar to valid state.
+        for my $OldCalendar (@OldCalendars) {
+            my $Success = $CalendarObject->CalendarUpdate(
+                CalendarID   => $OldCalendar->{CalendarID},
+                GroupID      => $OldCalendar->{GroupID},
+                CalendarName => $OldCalendar->{CalendarName},
+                Color        => $OldCalendar->{Color},
+                UserID       => $UserID,
+                ValidID      => 1,
+            );
+            $Self->True(
+                $Success,
+                "CalendarID $OldCalendar->{CalendarID} is set to valid",
+            );
         }
 
         # Cleanup.
