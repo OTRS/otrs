@@ -144,7 +144,7 @@ $Selenium->RunTest(
 
         # Wait until page has loaded.
         $Selenium->WaitFor(
-            JavaScript => 'return typeof($) === "function" && $("#ArticleTable tbody .Sender a").length;'
+            JavaScript => 'return typeof($) === "function" && $("#ArticleTable tbody").length;'
         );
 
         # Check if the sender format is correct.
