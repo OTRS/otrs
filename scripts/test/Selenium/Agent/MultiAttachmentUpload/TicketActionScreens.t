@@ -174,7 +174,6 @@ $Selenium->RunTest(
             my $Location = "$Home/scripts/test/sample/Main/Main-Test1.doc";
             $Selenium->find_element( "#FileUpload", 'css' )->clear();
             $Selenium->find_element( "#FileUpload", 'css' )->send_keys($Location);
-            sleep 2;
 
             $Selenium->WaitFor(
                 JavaScript =>
