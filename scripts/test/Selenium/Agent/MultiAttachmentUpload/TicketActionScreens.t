@@ -136,7 +136,7 @@ $Selenium->RunTest(
 
                 $Selenium->WaitFor(
                     JavaScript =>
-                        'return typeof($) === "function" && $(".Cluster ul ul").length'
+                        'return typeof($) === "function" && $(".Cluster ul ul").length;'
                 );
 
                 # Force sub menus to be visible in order to be able to click one of the links.
@@ -160,7 +160,7 @@ $Selenium->RunTest(
             $Selenium->switch_to_window( $Handles->[1] );
 
             # Wait until page has loaded, if necessary.
-            $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('.DnDUpload').length" );
+            $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('.DnDUpload').length;" );
 
             # Check DnDUpload.
             my $Element = $Selenium->find_element( ".DnDUpload", 'css' );
@@ -168,8 +168,8 @@ $Selenium->RunTest(
             $Element->is_displayed();
 
             # Hide DnDUpload and show input field.
-            $Selenium->execute_script("\$('.DnDUpload').css('display', 'none')");
-            $Selenium->execute_script("\$('#FileUpload').css('display', 'block')");
+            $Selenium->execute_script("\$('.DnDUpload').css('display', 'none');");
+            $Selenium->execute_script("\$('#FileUpload').css('display', 'block');");
 
             my $Location = "$Home/scripts/test/sample/Main/Main-Test1.doc";
             $Selenium->find_element( "#FileUpload", 'css' )->clear();
@@ -178,32 +178,42 @@ $Selenium->RunTest(
 
             $Selenium->WaitFor(
                 JavaScript =>
-                    "return typeof(\$) === 'function' && \$('.AttachmentDelete i').length === 1"
+                    "return typeof(\$) === 'function' && \$('.AttachmentList tbody tr td.Filename:contains(\"Main-Test1.doc\")').length === 1;"
+            );
+
+            # Wait until file is uploaded and 'Progress' class is removed.
+            $Selenium->WaitFor(
+                JavaScript =>
+                    "return !\$('.td.Filename:contains(\"Main-Test1.doc\")').siblings('.Filesize').find('.Progress').length;"
             );
             sleep 2;
 
             # Check if uploaded.
             $Self->True(
                 $Selenium->execute_script(
-                    "return \$('.AttachmentDelete i').length"
+                    "return \$('.AttachmentList tbody tr td.Filename:contains(\"Main-Test1.doc\")').length;"
                 ),
                 "$Action - Upload file correct"
             );
 
+            $Selenium->WaitFor(
+                JavaScript => "return \$('.AttachmentDelete i').length === 1;"
+            );
+            sleep 2;
+
             # Delete Attachment.
-            $Selenium->find_element( "(//a[\@class='AttachmentDelete'])[1]", 'xpath' )->click();
+            $Selenium->find_element( ".AttachmentDelete i", 'css' )->click();
             sleep 2;
 
             # Wait until attachment is deleted.
             $Selenium->WaitFor(
-                JavaScript =>
-                    "return typeof(\$) === 'function' && \$('.AttachmentDelete i').length === 0"
+                JavaScript => "return !\$('.AttachmentDelete i').length;"
             );
 
             # Check if deleted.
             $Self->True(
                 $Selenium->execute_script(
-                    "return \$('.AttachmentDelete i').length === 0"
+                    "return !\$('.AttachmentDelete i').length;"
                 ),
                 "$Action - Uploaded file Main-Test1.doc deleted"
             );
