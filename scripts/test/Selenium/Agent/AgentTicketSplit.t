@@ -32,6 +32,13 @@ $Selenium->RunTest(
             Value => 0,
         );
 
+        # Do not check RichText.
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'Frontend::RichText',
+            Value => '0',
+        );
+
         my %AgentTicketEmailConfig = $Kernel::OM->Get('Kernel::System::SysConfig')->SettingGet(
             Name => 'Frontend::Module###AgentTicketEmail',
         );
@@ -173,6 +180,11 @@ $Selenium->RunTest(
                     "${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID;ArticleID=$Test->{ArticleID}",
                 );
 
+                # Wait until screen is loaded completely.
+                $Selenium->WaitFor(
+                    ElementMissing => [ '.WidgetIsLoading', 'css' ],
+                );
+
                 $Selenium->WaitForjQueryEventBound(
                     CSSSelector => ".SplitSelection",
                 );
@@ -199,75 +211,77 @@ $Selenium->RunTest(
 
                 $Selenium->find_element( '#SplitSubmit', 'css' )->VerifiedClick();
 
-                $Selenium->WaitFor(
-                    JavaScript => "return typeof(\$) === 'function' && \$('#CustomerTicketText_1').length;"
+                my @PageFields = (
+                    {
+                        Name  => 'From',
+                        ID    => 'CustomerTicketText_1',
+                        Value => $Test->{ToValueOnSplit},
+                    },
+                    {
+                        Name  => 'CustomerID',
+                        ID    => 'CustomerID',
+                        Value => $CustomerID,
+                    },
+                    {
+                        Name     => 'Queue',
+                        ID       => 'Dest',
+                        Value    => $Queue,
+                        Dropdown => 1,
+                    },
+                    {
+                        Name     => 'Priority',
+                        ID       => 'PriorityID',
+                        Value    => $Priority,
+                        Dropdown => 1,
+                    },
+                    {
+                        Name  => 'Subject',
+                        ID    => 'Subject',
+                        Value => $Subject,
+                    },
+                    {
+                        Name  => 'Body',
+                        ID    => 'RichText',
+                        Value => $Body,
+                    },
+                    {
+                        Name  => 'AccountedTime',
+                        ID    => 'TimeUnits',
+                        Value => $AccountedTime,
+                    },
                 );
 
-                # Check From field.
-                $Self->Is(
-                    $Selenium->execute_script(
-                        "return \$('#CustomerTicketText_1').val();"
-                    ),
-                    $Test->{ToValueOnSplit},
-                    "Check From field for ArticleID = $ArticleIDs[0] in $Screen split screen.",
-                );
+                for my $PageField (@PageFields) {
+                    my $ID    = $PageField->{ID};
+                    my $Value = $PageField->{Value};
 
-                # Check CustomerID.
-                $Self->Is(
-                    $Selenium->execute_script(
-                        "return \$('#CustomerID').val();"
-                    ),
-                    $CustomerID,
-                    "Check CustomerID field for ArticleID = $ArticleIDs[0] in $Screen split screen",
-                );
-
-                # Check Queue.
-                $Self->Is(
-                    $Selenium->execute_script(
-                        "return \$('#Dest option:selected').text();"
-                    ),
-                    $Queue,
-                    "Check Queue field for ArticleID = $ArticleIDs[0] in $Screen split screen",
-                );
-
-                # Check Priority.
-                $Self->Is(
-                    $Selenium->execute_script(
-                        "return \$('#PriorityID option:selected').text();"
-                    ),
-                    $Priority,
-                    "Check Priority field for ArticleID = $ArticleIDs[0] in $Screen split screen",
-                );
-
-                # Check Subject.
-                $Self->Is(
-                    $Selenium->execute_script(
-                        "return \$('#Subject').val();"
-                    ),
-                    $Subject,
-                    "Check Subject field for ArticleID = $ArticleIDs[0] in $Screen split screen",
-                );
-
-                # Check Body.
-                $Self->Is(
-                    $Selenium->execute_script(
-                        "return \$('#RichText').val();"
-                    ),
-                    $Body,
-                    "Check Subject field for ArticleID = $ArticleIDs[0] in $Screen split screen",
-                );
-
-                # Check accounted time on creation screen.
-                $Self->Is(
-                    $Selenium->execute_script(
-                        "return \$('#TimeUnits').val();"
-                    ),
-                    $AccountedTime,
-                    "Check AccountedTime field for ArticleID = $ArticleIDs[0] in $Screen split screen",
-                );
+                    if ( $PageField->{Dropdown} ) {
+                        $Selenium->WaitFor(
+                            JavaScript =>
+                                "return typeof(\$) === 'function' && \$('#$ID option:selected').text() == '$Value';"
+                        );
+                        $Self->Is(
+                            $Selenium->execute_script(
+                                "return \$('#$ID option:selected').text();"
+                            ),
+                            $Value,
+                            "Check '$PageField->{Name}' field for ArticleID = $ArticleIDs[0] in '$Screen' split screen",
+                        );
+                    }
+                    else {
+                        $Selenium->WaitFor(
+                            JavaScript => "return typeof(\$) === 'function' && \$('#$ID').val() == '$Value';"
+                        );
+                        $Self->Is(
+                            $Selenium->execute_script("return \$('#$ID').val();"),
+                            $Value,
+                            "Check '$PageField->{Name}' field for ArticleID = $ArticleIDs[0] in '$Screen' split screen",
+                        );
+                    }
+                }
 
                 $Selenium->execute_script(
-                    "\$(\"#submitRichText\")[0].scrollIntoView(true);",
+                    "\$('#submitRichText')[0].scrollIntoView(true);",
                 );
 
                 $Selenium->WaitForjQueryEventBound(
