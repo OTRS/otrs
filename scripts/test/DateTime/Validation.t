@@ -12,6 +12,17 @@ use utf8;
 
 use vars (qw($Self));
 
+# Broken on certain Perl 5.28 versions due to a Perl crash that we can't work around.
+my @BlacklistPerlVersions = (
+    v5.28.1,
+    v5.28.2,
+);
+
+if ( grep { $^V eq $_ } @BlacklistPerlVersions ) {
+    $Self->True( 1, "Current Perl version $^V is known to be buggy for this test, skipping." );
+    return 1;
+}
+
 #
 # Tests for validating DateTime object values
 #
