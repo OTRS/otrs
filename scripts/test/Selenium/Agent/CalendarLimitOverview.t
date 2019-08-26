@@ -147,6 +147,8 @@ $Selenium->RunTest(
             );
             $Selenium->find_element( "#Calendar$CalendarID", 'css' )->click();
 
+            Time::HiRes::sleep(0.5);
+
             $Selenium->WaitFor(
                 JavaScript =>
                     "return !\$('.CalendarWidget.Loading').length && \$('#Calendar$CalendarID:checked').length;"
