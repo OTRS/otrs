@@ -2670,7 +2670,7 @@ sub _RenderArticle {
         };
     }
 
-    if ( $Self->{LinkArticleData} ) {
+    if ( IsHashRefWithData( $Self->{LinkArticleData} ) ) {
         my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
         my $TicketNumber = $TicketObject->TicketNumberLookup(
             TicketID => $Self->{LinkArticleData}->{TicketID},
@@ -2968,7 +2968,10 @@ sub _RenderCustomer {
     }
 
     # Customer user from article is preselected for new split ticket. See bug#12956.
-    if ( $Self->{LinkArticleData}->{From} && $Self->{LinkArticleData}->{SenderType} eq 'customer' ) {
+    if ( IsHashRefWithData( $Self->{LinkArticleData} )
+        && $Self->{LinkArticleData}->{From}
+        && $Self->{LinkArticleData}->{SenderType} eq 'customer' )
+    {
 
         my @ArticleFromAddress = Mail::Address->parse( $Self->{LinkArticleData}->{From} );
 

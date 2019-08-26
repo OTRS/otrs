@@ -19,12 +19,20 @@ ActivityDialogs:
       DescriptionShort: Make order
       FieldOrder:
       - CustomerID
+      - Article
       Fields:
         CustomerID:
           DefaultValue: ''
           DescriptionLong: ''
           DescriptionShort: ''
           Display: '2'
+        Article:
+          Config:
+            IsVisibleForCustomer: 1
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '1'
       Interface:
       - AgentInterface
       - CustomerInterface
