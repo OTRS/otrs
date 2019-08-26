@@ -150,7 +150,7 @@
                             </ul>
                             <ul class="AllocationList Tablelike W90pc" id="AvailableFields">
 [% RenderBlockStart("AvailableFieldRow") %]
-                                <li title="[% Translate("Name: %s", Data.FieldnameTranslated) | html %]" data-name-translated="[% Data.FieldnameTranslated | html %]" data-id="[% Data.Field | html %]" data-config="">
+                                <li title="[% Data.FieldnameTranslated | html %]" data-name-translated="[% Data.FieldnameTranslated | html %]" data-id="[% Data.Field | html %]" data-config="">
                                     [% Data.FieldnameTranslated | html %]
                                     <span class="Functions ShowOnAssignedList">
                                         <a href="#" data-id="[% Data.Field | html %]" data-entity="[% Data.Field | html %]" class="FieldDetailsOverlay Icon" title="[% Translate("Edit") | html %]">

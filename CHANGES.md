@@ -1,4 +1,5 @@
 #6.0.22 ????-??-??
+ - 2019-08-26 Fixed bug#[14724](https://bugs.otrs.org/show_bug.cgi?id=14724) - When you create an activity dialog it's not possible to search for a dynamic field with the name 'Name'.
  - 2019-08-21 Fixed bug#[14737](https://bugs.otrs.org/show_bug.cgi?id=14737) - Switch to customer feature not working in AgentCustomerInformationCenter.
  - 2019-08-13 Fixed bug#[14720](https://bugs.otrs.org/show_bug.cgi?id=14720) - TicketStateSet script task fails if target state equals current state.
  - 2019-08-09 Fixed bug#[14677](https://bugs.otrs.org/show_bug.cgi?id=14677) - Undefined field in title of user task activity dialog edit window.
