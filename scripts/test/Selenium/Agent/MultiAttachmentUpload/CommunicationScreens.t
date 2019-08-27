@@ -87,6 +87,9 @@ $Selenium->RunTest(
         for my $Action (
             qw(
             AgentTicketNote
+            AgentTicketPhoneOutbound
+            AgentTicketEmailOutbound
+            AgentTicketPhoneInbound
             )
             )
         {
@@ -126,13 +129,13 @@ $Selenium->RunTest(
 
             $Selenium->WaitFor(
                 JavaScript =>
-                    "return typeof(\$) === 'function' && \$('.AttachmentList tbody tr td.Filename:contains(Main-Test1.doc)').length === 1;"
+                    "return typeof(\$) === 'function' && \$('.AttachmentList tbody tr td.Filename:contains(\"Main-Test1.doc\")').length === 1;"
             );
 
             # Wait until file is uploaded and 'Progress' class is removed.
             $Selenium->WaitFor(
                 JavaScript =>
-                    "return !\$('.td.Filename:contains(Main-Test1.doc)').siblings('.Filesize').find('.Progress').length;"
+                    "return !\$('.td.Filename:contains(\"Main-Test1.doc\")').siblings('.Filesize').find('.Progress').length;"
             );
 
             # Check if uploaded.
@@ -143,18 +146,22 @@ $Selenium->RunTest(
                 "$Action - Upload file correct"
             );
 
+            $Selenium->WaitFor(
+                JavaScript => "return \$('.AttachmentDelete i').length === 1;"
+            );
+
             # Delete Attachment.
             $Selenium->find_element( ".AttachmentDelete i", 'css' )->click();
 
             # Wait until attachment is deleted.
             $Selenium->WaitFor(
-                JavaScript => "return !\$('.AttachmentDelete').length;"
+                JavaScript => "return !\$('.AttachmentDelete i').length;"
             );
 
             # Check if deleted.
             $Self->True(
                 $Selenium->execute_script(
-                    "return !\$('.AttachmentDelete').length;"
+                    "return !\$('.AttachmentDelete i').length;"
                 ),
                 "$Action - Uploaded file Main-Test1.doc deleted"
             );
