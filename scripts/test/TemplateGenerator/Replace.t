@@ -33,13 +33,13 @@ my $UserLanguage         = 'de';
 
 my @DynamicFieldsToAdd = (
     {
-        Name       => 'Replace1' . $RandomID,
+        Name       => 'Replace1password' . $RandomID,
         Label      => 'a description',
         FieldOrder => 9998,
         FieldType  => 'Text',
         ObjectType => 'Ticket',
         Config     => {
-            Name        => 'Replace1' . $RandomID,
+            Name        => 'Replace1password' . $RandomID,
             Description => 'Description for Dynamic Field.',
         },
         Reorder => 0,
@@ -420,7 +420,7 @@ my @Tests = (
             From => 'test@home.com',
         },
         RichText => 0,
-        Template => 'Test <OTRS_TICKET_DynamicField_Replace1' . $RandomID . '>',
+        Template => 'Test <OTRS_TICKET_DynamicField_Replace1password' . $RandomID . '>',
         Result   => 'Test otrs',
     },
     {
@@ -429,7 +429,7 @@ my @Tests = (
             From => 'test@home.com',
         },
         RichText => 0,
-        Template => 'Test <OTRS_TICKET_DynamicField_Replace1' . $RandomID . '_Value>',
+        Template => 'Test <OTRS_TICKET_DynamicField_Replace1password' . $RandomID . '_Value>',
         Result   => 'Test otrs',
     },
     {

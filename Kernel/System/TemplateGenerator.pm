@@ -1933,6 +1933,9 @@ sub _MaskSensitiveValue {
 
     return '' if !$Param{Key} || !defined $Param{Value};
 
+    # Skip masking sensitive values for Dynamic Fields.
+    return $Param{Value} if $Param{Key} =~ qr{ dynamicfield }xi;
+
     # Match general key names, i.e. from the user preferences.
     my $Match = qr{ config|secret|passw|userpw|auth|token }xi;
 

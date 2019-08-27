@@ -1,4 +1,6 @@
 #6.0.22 ????-??-??
+ - 2019-08-27 Fixed bug#[14728](https://bugs.otrs.org/show_bug.cgi?id=14728) - Dynamic field values are replaced by "xxx" in notifications and emails when using <OTRS>-tags in notifications.
+  It's fixed by adding a check if the tag is referring to the Dynamic field and in this case system skips value replacement.
  - 2019-08-26 Fixed bug#[14724](https://bugs.otrs.org/show_bug.cgi?id=14724) - When you create an activity dialog it's not possible to search for a dynamic field with the name 'Name'.
  - 2019-08-21 Fixed bug#[14737](https://bugs.otrs.org/show_bug.cgi?id=14737) - Switch to customer feature not working in AgentCustomerInformationCenter.
  - 2019-08-13 Fixed bug#[14720](https://bugs.otrs.org/show_bug.cgi?id=14720) - TicketStateSet script task fails if target state equals current state.
