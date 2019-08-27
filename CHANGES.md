@@ -1,4 +1,4 @@
-#6.0.22 ????-??-??
+#6.0.23 ????-??-??
  - 2019-08-27 Fixed bug#[14728](https://bugs.otrs.org/show_bug.cgi?id=14728) - Dynamic field values are replaced by "xxx" in notifications and emails when using <OTRS>-tags in notifications.
   It's fixed by adding a check if the tag is referring to the Dynamic field and in this case system skips value replacement.
  - 2019-08-26 Fixed bug#[14724](https://bugs.otrs.org/show_bug.cgi?id=14724) - When you create an activity dialog it's not possible to search for a dynamic field with the name 'Name'.
@@ -7,6 +7,8 @@
  - 2019-08-09 Fixed bug#[14677](https://bugs.otrs.org/show_bug.cgi?id=14677) - Undefined field in title of user task activity dialog edit window.
  - 2019-08-08 Fixed bug#[14665](https://bugs.otrs.org/show_bug.cgi?id=14665) - AutoResponseForWebTicket is not honored in follow-up articles.
  - 2019-08-07 Fixed bug#[14716](https://bugs.otrs.org/show_bug.cgi?id=14716) - Mails with attached mails (e.g. forwarded) containing period followed by long string in the subject may get stuck.
+
+#6.0.22 ????-??-??
 
 #6.0.21 2019-08-23
  - 2019-08-08 Updated translations, thanks to all translators.
