@@ -326,6 +326,22 @@ $Selenium->RunTest(
             "Preselected customer user is correct"
         );
 
+        # Navigate to AgentTicketProcess screen. Test bug#14758.
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketProcess");
+
+        $Selenium->InputFieldValueSet(
+            Element => '#ProcessEntityID',
+            Value   => $ListReverse{$ProcessName},
+        );
+
+        # Verify form is loaded.
+        $Self->True(
+            $Selenium->execute_script(
+                "return \$('#CustomerAutoComplete').length;"
+            ),
+            "Customer field is available."
+        );
+
         my $Success;
         for my $TicketID (@DeleteTicketIDs) {
 
