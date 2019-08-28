@@ -2968,9 +2968,11 @@ sub _RenderCustomer {
     }
 
     # Customer user from article is preselected for new split ticket. See bug#12956.
-    if ( IsHashRefWithData( $Self->{LinkArticleData} )
+    if (
+        IsHashRefWithData( $Self->{LinkArticleData} )
         && $Self->{LinkArticleData}->{From}
-        && $Self->{LinkArticleData}->{SenderType} eq 'customer' )
+        && $Self->{LinkArticleData}->{SenderType} eq 'customer'
+        )
     {
 
         my @ArticleFromAddress = Mail::Address->parse( $Self->{LinkArticleData}->{From} );
