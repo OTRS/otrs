@@ -8,7 +8,7 @@
  - 2019-08-08 Fixed bug#[14665](https://bugs.otrs.org/show_bug.cgi?id=14665) - AutoResponseForWebTicket is not honored in follow-up articles.
  - 2019-08-07 Fixed bug#[14716](https://bugs.otrs.org/show_bug.cgi?id=14716) - Mails with attached mails (e.g. forwarded) containing period followed by long string in the subject may get stuck.
 
-#6.0.22 ????-??-??
+#6.0.22 2019-08-30
  - 2019-08-26 Fixed bug#[14758](https://bugs.otrs.org/show_bug.cgi?id=14758) - If activity dialog contains 'Article' field after 'CustomerID', users are not able to create process ticket (Need TicketID error).
 
 #6.0.21 2019-08-23
