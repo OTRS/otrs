@@ -1,4 +1,4 @@
-#6.0.22 2019-??-??
+#6.0.22 2019-08-30
  - 2019-08-26 Fixed bug#[14758](https://bugs.otrs.org/show_bug.cgi?id=14758) - If activity dialog contains 'Article' field after 'CustomerID', users are not able to create process ticket (Need TicketID error).
 
 #6.0.21 2019-08-23
