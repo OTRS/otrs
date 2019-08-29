@@ -3,9 +3,6 @@ Active: 1
 PlatformSets:
  - ondemand-otrs6
 
-DeployOTRSPackages:
- - OTRSCodePolicy@master
-
 TestModes:
  Merge:
   PlatformSets:
