@@ -8,7 +8,6 @@ TestModes:
   PlatformSets:
    - ondemand-merge-otrs5
   DeployOTRSPackages:
-   - OTRSCodePolicy@master
    - FAQ@rel-5_0
    - TimeAccounting@rel-5_0
    - Survey@rel-5_0
