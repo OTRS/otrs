@@ -2006,10 +2006,13 @@ sub _ColumnFilterJSON {
 
         my %Values = %{ $Param{ColumnValues} };
 
-        # set possible values
+        # Set possible values.
+        # Keys must be link encoded because they are added to URL during filtering
+        # and can contain characters like '&', ';', etc.
+        # See bug#14497 - https://bugs.otrs.org/show_bug.cgi?id=14497.
         for my $ValueKey ( sort { lc $Values{$a} cmp lc $Values{$b} } keys %Values ) {
             push @{$Data}, {
-                Key   => $ValueKey,
+                Key   => $LayoutObject->LinkEncode($ValueKey),
                 Value => $Values{$ValueKey},
             };
         }
