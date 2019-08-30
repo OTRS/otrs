@@ -118,18 +118,20 @@ $Selenium->RunTest(
             );
             $Selenium->execute_script("\$('li.ui-menu-item:contains($TestCustomer)').click()");
 
+            # Wait for "Customer Information".
+            $Selenium->WaitFor(
+                JavaScript => 'return typeof($) === "function" && $(".SidebarColumn fieldset .Value").length'
+            );
+
             $Selenium->InputFieldValueSet(
                 Element => '#Dest',
                 Value   => '2||Raw',
             );
 
+            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length;' );
+
             $Selenium->find_element( "#Subject",  'css' )->send_keys($TicketSubject);
             $Selenium->find_element( "#RichText", 'css' )->send_keys($TicketBody);
-
-            # Wait for "Customer Information".
-            $Selenium->WaitFor(
-                JavaScript => 'return typeof($) === "function" && $(".SidebarColumn fieldset .Value").length'
-            );
 
             $Selenium->find_element( "#submitRichText", 'css' )->VerifiedClick();
 
