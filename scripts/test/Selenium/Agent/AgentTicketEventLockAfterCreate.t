@@ -129,6 +129,7 @@ $Selenium->RunTest(
             );
 
             $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length;' );
+            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Dest").val() === "2||Raw";' );
 
             $Selenium->find_element( "#Subject",  'css' )->send_keys($TicketSubject);
             $Selenium->find_element( "#RichText", 'css' )->send_keys($TicketBody);
