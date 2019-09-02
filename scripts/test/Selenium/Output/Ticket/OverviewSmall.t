@@ -17,12 +17,9 @@ my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 $Selenium->RunTest(
     sub {
 
-        my $Helper                    = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-        my $UserObject                = $Kernel::OM->Get('Kernel::System::User');
-        my $TicketObject              = $Kernel::OM->Get('Kernel::System::Ticket');
-        my $DynamicFieldObject        = $Kernel::OM->Get('Kernel::System::DynamicField');
-        my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
-        my $SysConfigObject           = $Kernel::OM->Get('Kernel::System::SysConfig');
+        my $Helper       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+        my $UserObject   = $Kernel::OM->Get('Kernel::System::User');
+        my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
         # Do not check email addresses and mx records.
         # Change settings in both runtime and disk configuration.
@@ -118,105 +115,18 @@ $Selenium->RunTest(
                 ResponsibleID => $UserIDs[$Count],
                 UserID        => $TestUserID,
             );
+
             $Self->True(
                 $TicketID,
                 "Ticket is created - $TicketID"
             );
+
             push @TicketIDs,     $TicketID;
             push @TicketNumbers, $TicketNumber;
         }
 
         # Reverse sort test ticket numbers for test purposes.
         my @SortTicketNumbers = reverse sort @TicketNumbers;
-
-        # Define every possible dynamic field value to at least one ticket.
-        my @Tests = (
-            {
-                Key      => 'Key1&1',
-                TicketID => $TicketIDs[0],
-            },
-            {
-                Key      => 'Key2;2',
-                TicketID => $TicketIDs[1],
-            },
-            {
-                Key      => 'Key3?3',
-                TicketID => $TicketIDs[2],
-            },
-        );
-
-        # Add dropdown dynamic field where keys have special characters like '&', ';' and '?'.
-        my $DFName         = 'DF' . $RandomID;
-        my $DynamicFieldID = $DynamicFieldObject->DynamicFieldAdd(
-            Name       => $DFName,
-            Label      => $DFName,
-            FieldOrder => 9991,
-            FieldType  => 'Dropdown',
-            ObjectType => 'Ticket',
-            Config     => {
-                DefaultValue   => '',
-                PossibleNone   => '0',
-                PossibleValues => {
-                    $Tests[0]->{Key} => 'Value 1',
-                    $Tests[1]->{Key} => 'Value 2',
-                    $Tests[2]->{Key} => 'Value 3',
-                },
-                TranslatableValues => '0',
-                TreeView           => '0',
-            },
-            ValidID => 1,
-            UserID  => $TestUserID,
-        );
-
-        my $DynamicFieldConfig = $DynamicFieldObject->DynamicFieldGet(
-            Name => $DFName,
-        );
-
-        # Set dynamic field values.
-        for my $Test (@Tests) {
-            my $Success = $DynamicFieldBackendObject->ValueSet(
-                DynamicFieldConfig => $DynamicFieldConfig,
-                ObjectID           => $Test->{TicketID},
-                Value              => $Test->{Key},
-                UserID             => 1,
-            );
-            $Self->True(
-                $Success,
-                "Value '$Test->{Key}' from Dynamic field '$DFName' is set successfully for TicketID '$Test->{TicketID}'"
-            );
-        }
-
-        # Add test dynamic field column to the table in AgentTicketStatusView screen.
-        my %AgentTicketStatusViewDefaultColumns = $SysConfigObject->SettingGet(
-            Name => 'Ticket::Frontend::AgentTicketStatusView###DefaultColumns',
-        );
-        $Helper->ConfigSettingChange(
-            Valid => 1,
-            Key   => 'Ticket::Frontend::AgentTicketStatusView###DefaultColumns',
-            Value => {
-                %{ $AgentTicketStatusViewDefaultColumns{EffectiveValue} },
-                "DynamicField_$DFName" => 2,
-            },
-        );
-
-        # Add test dynamic field column to the table in TicketNew section in AgentDashboard screen.
-        my %DashboardTicketNew = $SysConfigObject->SettingGet(
-            Name => 'DashboardBackend###0120-TicketNew',
-        );
-        $DashboardTicketNew{EffectiveValue}->{DefaultColumns}->{"DynamicField_$DFName"} = 2;
-
-        $Helper->ConfigSettingChange(
-            Valid => 1,
-            Key   => 'DashboardBackend###0120-TicketNew',
-            Value => {
-                %{ $DashboardTicketNew{EffectiveValue} },
-            },
-        );
-
-        my $LayoutObject = Kernel::Output::HTML::Layout->new(
-            Lang         => 'en',
-            UserTimeZone => 'UTC',
-        );
 
         # Login as test user.
         $Selenium->Login(
@@ -225,48 +135,9 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
-        my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
-
-        # Check on AgentDashboard screen if the filter has correct keys from test dynamic field (see bug#14497).
-        $Selenium->find_element("//a[contains(\@title, \'$DFName, filter not active\' )]")->click();
-
-        for my $Test (@Tests) {
-            my $LinkEncodedKey = $LayoutObject->LinkEncode( $Test->{Key} );
-
-            $Selenium->WaitFor(
-                JavaScript =>
-                    "return typeof(\$) === 'function' && \$('#ColumnFilterDynamicField_${DFName}0120-TicketNew option[value=\"$LinkEncodedKey\"]').length;"
-            );
-
-            $Self->True(
-                $Selenium->execute_script(
-                    "return \$('#ColumnFilterDynamicField_${DFName}0120-TicketNew option[value=\"$LinkEncodedKey\"]').length;"
-                ),
-                "Key '$Test->{Key}' is found as correctly encoded - '$LinkEncodedKey'"
-            );
-        }
-
         # Go to status open view, overview small, default sort is Age, default order is Down.
+        my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketStatusView");
-
-        # Check on AgentTicketStatusView screen if the filter has correct keys from test dynamic field (see bug#14497).
-        $Selenium->find_element("//a[contains(\@title, \'$DFName, filter not active\' )]")->click();
-
-        for my $Test (@Tests) {
-            my $LinkEncodedKey = $LayoutObject->LinkEncode( $Test->{Key} );
-
-            $Selenium->WaitFor(
-                JavaScript =>
-                    "return typeof(\$) === 'function' && \$('#ColumnFilterDynamicField_$DFName option[value=\"$LinkEncodedKey\"]').length;"
-            );
-
-            $Self->True(
-                $Selenium->execute_script(
-                    "return \$('#ColumnFilterDynamicField_$DFName option[value=\"$LinkEncodedKey\"]').length;"
-                ),
-                "Key '$Test->{Key}' is found as correctly encoded - '$LinkEncodedKey'"
-            );
-        }
 
         # Set filter to test queue.
         $Selenium->find_element("//a[contains(\@title, \'Queue, filter not active\' )]")->click();
@@ -279,14 +150,14 @@ $Selenium->RunTest(
             Value   => $QueueID,
         );
         $Selenium->WaitFor(
-            JavaScript => "return typeof(\$) === 'function' && \$('li.ContextSettings.RemoveFilters').length;"
+            JavaScript => "return typeof(\$) === 'function' && \$('li.ContextSettings.RemoveFilters').length"
         );
 
         # Set tickets per page to 10.
         $Selenium->VerifiedRefresh();
         $Selenium->find_element( "#ShowContextSettingsDialog", 'css' )->click();
         $Selenium->WaitFor(
-            JavaScript => 'return $(".Dialog.Modal #UserTicketOverviewSmallPageShown").length;'
+            JavaScript => 'return $(".Dialog.Modal #UserTicketOverviewSmallPageShown").length'
         );
         $Selenium->InputFieldValueSet(
             Element => '#UserTicketOverviewSmallPageShown',
@@ -319,7 +190,7 @@ $Selenium->RunTest(
 
         $Selenium->find_element( "#DialogButton1", 'css' )->click();
         $Selenium->WaitFor(
-            JavaScript => 'return !$(".Dialog.Modal").length;'
+            JavaScript => 'return !$(".Dialog.Modal").length'
         );
 
         # Sort by ticket number, order down.
@@ -457,16 +328,6 @@ $Selenium->RunTest(
         $Self->True(
             $Success,
             "Delete queue - $QueueID",
-        );
-
-        # Delete created test dynamic fields.
-        $Success = $DynamicFieldObject->DynamicFieldDelete(
-            ID     => $DynamicFieldID,
-            UserID => 1,
-        );
-        $Self->True(
-            $Success,
-            "Delete dynamic field - $DynamicFieldID",
         );
 
         my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
