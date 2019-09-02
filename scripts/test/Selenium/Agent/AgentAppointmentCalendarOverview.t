@@ -613,7 +613,7 @@ $Selenium->RunTest(
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".CalendarWidget.Loading").length;' );
 
         # Show the fourth calendar and hide all others.
-        $Selenium->find_element( 'Calendar' . $Calendar4{CalendarID}, 'id' )->click();
+        $Selenium->execute_script("\$('#Calendar$Calendar4{CalendarID}').click();");
         $Selenium->WaitFor(
             JavaScript => 'return typeof($) === "function" && $("#Calendar'
                 . $Calendar4{CalendarID}
@@ -626,7 +626,7 @@ $Selenium->RunTest(
             "CalendarID $Calendar4{CalendarID} - checked",
         );
 
-        $Selenium->find_element( 'Calendar' . $Calendar1{CalendarID}, 'id' )->click();
+        $Selenium->execute_script("\$('#Calendar$Calendar1{CalendarID}').click();");
         $Selenium->WaitFor(
             JavaScript => 'return typeof($) === "function" && $("#Calendar'
                 . $Calendar1{CalendarID}
@@ -639,7 +639,7 @@ $Selenium->RunTest(
             "CalendarID $Calendar1{CalendarID} - unchecked",
         );
 
-        $Selenium->find_element( 'Calendar' . $Calendar2{CalendarID}, 'id' )->click();
+        $Selenium->execute_script("\$('#Calendar$Calendar2{CalendarID}').click();");
         $Selenium->WaitFor(
             JavaScript => 'return typeof($) === "function" && $("#Calendar'
                 . $Calendar2{CalendarID}
@@ -652,7 +652,7 @@ $Selenium->RunTest(
             "CalendarID $Calendar2{CalendarID} - unchecked",
         );
 
-        $Selenium->find_element( 'Calendar' . $Calendar3{CalendarID}, 'id' )->click();
+        $Selenium->execute_script("\$('#Calendar$Calendar3{CalendarID}').click();");
         $Selenium->WaitFor(
             JavaScript => 'return typeof($) === "function" && $("#Calendar'
                 . $Calendar3{CalendarID}
