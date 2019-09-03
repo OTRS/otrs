@@ -11093,6 +11093,7 @@
         <Value>
             <Array>
                 <Item>AgentTicketBounce</Item>
+                <Item>AgentTicketBulk</Item>
                 <Item>AgentTicketClose</Item>
                 <Item>AgentTicketCompose</Item>
                 <Item>AgentTicketCustomer</Item>
