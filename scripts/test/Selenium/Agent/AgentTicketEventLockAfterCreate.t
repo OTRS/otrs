@@ -122,6 +122,7 @@ $Selenium->RunTest(
             $Selenium->WaitFor(
                 JavaScript => 'return typeof($) === "function" && $(".SidebarColumn fieldset .Value").length'
             );
+            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length;' );
 
             $Selenium->InputFieldValueSet(
                 Element => '#Dest',
