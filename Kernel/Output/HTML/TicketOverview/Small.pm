@@ -432,6 +432,21 @@ sub Run {
     my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
     my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 
+    # Get extended ticket data if columns are used, save performance. See bug#14748.
+    my %ExtendedColumnsHash = (
+        FirstResponse          => 1,
+        FirstResponseInMin     => 1,
+        FirstResponseDiffInMin => 1,
+        SolutionInMin          => 1,
+        SolutionDiffInMin      => 1,
+        FirstLock              => 1,
+    );
+
+    my $Extended = 0;
+    if ( grep { $ExtendedColumnsHash{$_} } @{ $Self->{ColumnsEnabled} } ) {
+        $Extended = 1;
+    }
+
     for my $TicketID ( @{ $Param{TicketIDs} } ) {
         $Counter++;
         if ( $Counter >= $Param{StartHit} && $Counter < ( $Param{PageShown} + $Param{StartHit} ) ) {
@@ -471,7 +486,7 @@ sub Run {
             # Get ticket data.
             my %Ticket = $TicketObject->TicketGet(
                 TicketID      => $TicketID,
-                Extended      => 1,
+                Extended      => $Extended,
                 DynamicFields => 0,
             );
 
