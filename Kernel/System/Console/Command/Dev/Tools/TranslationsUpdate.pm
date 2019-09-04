@@ -174,7 +174,7 @@ sub HandleLanguage {
 
         # remove underscores and/or version numbers and following from module name
         # i.e. FAQ_2_0 or FAQ20
-        $Module =~ s{ [[(?:_|\-)0-9]+ .+ \z }{}xms;
+        $Module =~ s/((_|\-)?(\d+))+$//gix;
 
         # save module directory in target file
         $TargetFile = "$ModuleDirectory/Kernel/Language/${Language}_$Module.pm";

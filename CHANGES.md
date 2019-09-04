@@ -1,4 +1,5 @@
 #6.0.23 ????-??-??
+ - 2019-09-04 Fixed bug#[14708](https://bugs.otrs.org/show_bug.cgi?id=14708) - Dev::Tools::TranslationsUpdate command generates wrong filename if the module name contains a number.
  - 2019-09-04 Fixed bug#[14764](https://bugs.otrs.org/show_bug.cgi?id=14764) - Calendar overview - first column in timeline month is marked as blocked.
  - 2019-09-04 Fixed bug#[14678](https://bugs.otrs.org/show_bug.cgi?id=14678) - NotificationOwnerUpdate event can cause wrong <OTRS_CUSTOMER_BODY> tag replacing - 'No body' instead of last customer article body.
  - 2019-09-03 Fixed bug#[14610](https://bugs.otrs.org/show_bug.cgi?id=14610) - There is no autocomplete option for AgentTicketBulk action in ACL configuration.
