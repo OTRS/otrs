@@ -405,6 +405,15 @@ Core.Agent.AppointmentCalendar = (function (TargetNS) {
             eventMouseout: function() {
                 $('.AppointmentTooltip').fadeOut("fast").remove();
             },
+            eventAfterAllRender: function () {
+
+                // If the first day in timelineMonth view is not Saturday or Sunday, the first div.fc-bgevent should be removed.
+                // There is a bug from fullcalendar and it can be solved here. See bug#14764.
+                if (!$('.fc-timelineMonth-view .fc-slats td.fc-widget-content:eq(0)').hasClass('fc-sat')
+                    && !$('.fc-timelineMonth-view .fc-slats td.fc-widget-content:eq(0)').hasClass('fc-sun')) {
+                    $('.fc-timelineMonth-view .fc-bgevent-container .fc-bgevent:eq(0)').remove();
+                }
+            },
             events: Core.Config.Get('WorkingHoursConfig'),
             resources: ResourceConfig,
             resourceColumns: [
