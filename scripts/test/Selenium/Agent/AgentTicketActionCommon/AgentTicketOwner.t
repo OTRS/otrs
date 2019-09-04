@@ -33,6 +33,20 @@ $Selenium->RunTest(
             Value => 0
         );
 
+        # Disable check of email addresses.
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'CheckEmailAddresses',
+            Value => 0,
+        );
+
+        # Disable MX record check.
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'CheckMXRecord',
+            Value => 0,
+        );
+
         my $Config = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Frontend::AgentTicketOwner');
         $Helper->ConfigSettingChange(
             Valid => 1,
@@ -112,7 +126,7 @@ $Selenium->RunTest(
         );
         $Self->True(
             $TicketID,
-            "Ticket is created - ID $TicketID",
+            "Ticket $TicketID is created",
         );
 
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
@@ -214,8 +228,150 @@ $Selenium->RunTest(
             "There is no Out Of Office message in the article 'Sender' column."
         );
 
+        # Check <OTRS_CUSTOMER_BODY> tag in NotificationOwnerUpdate notification body (see bug#14678).
+        my $MailQueueObject = $Kernel::OM->Get('Kernel::System::MailQueue');
+        my $TestEmailObject = $Kernel::OM->Get('Kernel::System::Email::Test');
+
+        # Cleanup mail queue.
+        $MailQueueObject->Delete();
+
+        my $SendEmails = sub {
+            my %Param = @_;
+            my $Items = $MailQueueObject->List();
+            my @ToReturn;
+            for my $Item (@$Items) {
+                $MailQueueObject->Send( %{$Item} );
+                push @ToReturn, $Item->{Message};
+            }
+
+            # Clean mail queue.
+            $MailQueueObject->Delete();
+
+            return @ToReturn;
+        };
+
+        # Enable Test email backend.
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'SendmailModule',
+            Value => 'Kernel::System::Email::Test',
+        );
+
+        # Cleanup test email backend.
+        my $Success = $TestEmailObject->CleanUp();
+        $Self->True(
+            $Success,
+            'Initial cleanup',
+        );
+
+        # Disable AgentTicketOwner###NoteMandatory.
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'Ticket::Frontend::AgentTicketOwner###NoteMandatory',
+            Value => 0
+        );
+
+        my $RandomID = $Helper->GetRandomID();
+        my $Subject  = "Subject-$RandomID";
+        my $Body     = "Body-$RandomID";
+
+        my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForChannel(
+            ChannelName => 'Email',
+        );
+
+        # Create customer article for test ticket.
+        my $ArticleID = $ArticleBackendObject->ArticleCreate(
+            TicketID             => $TicketID,
+            IsVisibleForCustomer => 1,
+            SenderType           => 'customer',
+            Subject              => $Subject,
+            Body                 => $Body,
+            Charset              => 'ISO-8859-15',
+            MimeType             => 'text/plain',
+            HistoryType          => 'EmailCustomer',
+            HistoryComment       => 'Some free text!',
+            UserID               => $UserID[1],
+        );
+        $Self->True(
+            $ArticleID,
+            "ArticleID $ArticleID is created for TicketID $TicketID",
+        );
+
+        # Add notification.
+        my $NotificationEventObject = $Kernel::OM->Get('Kernel::System::NotificationEvent');
+        my $NotificationID          = $NotificationEventObject->NotificationAdd(
+            Name => "Notification-$RandomID",
+            Data => {
+                Events          => ['NotificationOwnerUpdate'],
+                RecipientAgents => [ $UserID[0] ],
+                Transports      => ['Email'],
+            },
+            Message => {
+                en => {
+                    Subject     => "Notification-Subject-$RandomID",
+                    Body        => 'OTRS_CUSTOMER_BODY tag: <OTRS_CUSTOMER_BODY>',
+                    ContentType => 'text/plain',
+                },
+            },
+            ValidID => 1,
+            UserID  => 1,
+        );
+        $Self->True(
+            $NotificationID,
+            "NotificationID $NotificationID is created",
+        );
+
+        # Navigate to owner screen of created test ticket to change owner without note (article).
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketOwner;TicketID=$TicketID");
+
+        # Wait until page has loaded, if necessary.
+        $Selenium->WaitFor(
+            JavaScript => 'return typeof($) === "function" && $(".WidgetSimple").length && $("#NewOwnerID").length;'
+        );
+
+        # Change ticket owner.
+        $Selenium->InputFieldValueSet(
+            Element => '#NewOwnerID',
+            Value   => $UserID[0],
+        );
+
+        # Submit.
+        $Selenium->find_element( "#submitRichText", 'css' )->VerifiedClick();
+
+        $SendEmails->();
+
+        # Get test emails.
+        my $Emails = $TestEmailObject->EmailsGet();
+
+        # Check if OTRS_CUSTOMER_BODY tag is replaced correctly in any email.
+        my $Found = 0;
+        my $Match = "OTRS_CUSTOMER_BODY tag: $Body";
+        EMAIL:
+        for my $Email ( @{$Emails} ) {
+            $Found = ( ${ $Email->{Body} } =~ m/$Match/ ? 1 : 0 );
+            last EMAIL if $Found;
+        }
+
+        $Self->True(
+            $Found,
+            'OTRS_CUSTOMER_BODY tag is replaced correctly',
+        );
+
+        # Cleanup test email backend and mail queue.
+        $TestEmailObject->CleanUp();
+        $MailQueueObject->Delete();
+
+        $Success = $NotificationEventObject->NotificationDelete(
+            ID     => $NotificationID,
+            UserID => 1,
+        );
+        $Self->True(
+            $Success,
+            "NotificationID $NotificationID is deleted",
+        );
+
         # Delete created test tickets.
-        my $Success = $TicketObject->TicketDelete(
+        $Success = $TicketObject->TicketDelete(
             TicketID => $TicketID,
             UserID   => $UserID[0],
         );
@@ -230,7 +386,7 @@ $Selenium->RunTest(
         }
         $Self->True(
             $Success,
-            "Ticket is deleted - ID $TicketID"
+            "Ticket $TicketID is deleted"
         );
 
         # Make sure the cache is correct.

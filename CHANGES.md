@@ -1,4 +1,5 @@
 #6.0.23 ????-??-??
+ - 2019-09-04 Fixed bug#[14678](https://bugs.otrs.org/show_bug.cgi?id=14678) - NotificationOwnerUpdate event can cause wrong <OTRS_CUSTOMER_BODY> tag replacing - 'No body' instead of last customer article body.
  - 2019-09-03 Fixed bug#[14610](https://bugs.otrs.org/show_bug.cgi?id=14610) - There is no autocomplete option for AgentTicketBulk action in ACL configuration.
    `ACLKeysLevel3::Actions###100-Default` is updated. AgentTicketBulk is added as a posible action.
  - 2019-08-27 Fixed bug#[14728](https://bugs.otrs.org/show_bug.cgi?id=14728) - Dynamic field values are replaced by "xxx" in notifications and emails when using <OTRS>-tags in notifications.

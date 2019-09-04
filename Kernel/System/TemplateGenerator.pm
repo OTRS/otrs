@@ -1034,7 +1034,11 @@ sub NotificationEvent {
     # fill up required attributes
     for my $Text (qw(Subject Body)) {
         if ( !$Param{CustomerMessageParams}->{$Text} ) {
-            $Param{CustomerMessageParams}->{$Text} = "No $Text";
+
+            # Set to last customer article attribute if it is empty string.
+            # For example, if Body is empty string (not undef!), it is maybe sent from NotificationOwnerUpdate event
+            # and overrides last customer article body (in %CustomerArticle) above - see bug#14678.
+            $Param{CustomerMessageParams}->{$Text} = $CustomerArticle{$Text} || "No $Text";
         }
     }
 
