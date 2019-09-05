@@ -87,10 +87,10 @@ sub Run {
 
     # Clean-up unwanted files.
     File::Path::remove_tree("$CPANDir/Test/Selenium");
-    system("find $CPANDir -name *.pod -exec rm {} +");
-    system("find $CPANDir -name *.pl -exec rm {} +");
-    system("find $CPANDir -name *.so -exec rm {} +");
-    system("find $CPANDir -name *.exists -exec rm {} +");
+    system("find $CPANDir -name *.pod -exec rm -f {} +");
+    system("find $CPANDir -name *.pl -exec rm -f {} +");
+    system("find $CPANDir -name *.so -exec rm -f {} +");
+    system("find $CPANDir -name *.exists -exec rm -f {} +");
 
     # Fix unwanted 755 permissions.
     system("find $CPANDir -type f -exec chmod 640 {} +");
