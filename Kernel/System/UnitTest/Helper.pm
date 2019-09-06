@@ -7,9 +7,6 @@
 # --
 
 package Kernel::System::UnitTest::Helper;
-## nofilter(TidyAll::Plugin::OTRS::Perl::Time)
-## nofilter(TidyAll::Plugin::OTRS::Migrations::OTRS6::TimeObject)
-## nofilter(TidyAll::Plugin::OTRS::Migrations::OTRS6::DateTime)
 
 use strict;
 use warnings;
@@ -396,26 +393,6 @@ sub FixedTimeSet {
         $FixedTime = $TimeToSave // CORE::time();
     }
 
-    # This is needed to reload objects that directly use the native time functions
-    #   to get a hold of the overrides.
-    my @Objects = (
-        'Kernel::System::Time',
-        'Kernel::System::DB',
-        'Kernel::System::Cache::FileStorable',
-        'Kernel::System::PID',
-    );
-
-    for my $Object (@Objects) {
-        my $FilePath = $Object;
-        $FilePath =~ s{::}{/}xmsg;
-        $FilePath .= '.pm';
-        if ( $INC{$FilePath} ) {
-            no warnings 'redefine';    ## no critic
-            delete $INC{$FilePath};
-            $Kernel::OM->Get('Kernel::System::Main')->Require($Object);
-        }
-    }
-
     return $FixedTime;
 }
 
@@ -448,6 +425,9 @@ sub FixedTimeAddSeconds {
 }
 
 # See http://perldoc.perl.org/5.10.0/perlsub.html#Overriding-Built-in-Functions
+## nofilter(TidyAll::Plugin::OTRS::Perl::Time)
+## nofilter(TidyAll::Plugin::OTRS::Migrations::OTRS6::TimeObject)
+## nofilter(TidyAll::Plugin::OTRS::Migrations::OTRS6::DateTime)
 BEGIN {
     no warnings 'redefine';    ## no critic
     *CORE::GLOBAL::time = sub {
@@ -481,6 +461,26 @@ BEGIN {
             @_
         );
     };
+
+    # This is needed to reload objects that directly use the native time functions
+    #   to get a hold of the overrides.
+    my @Objects = (
+        'Kernel::System::Time',
+        'Kernel::System::DB',
+        'Kernel::System::Cache::FileStorable',
+        'Kernel::System::PID',
+    );
+
+    for my $Object (@Objects) {
+        my $FilePath = $Object;
+        $FilePath =~ s{::}{/}xmsg;
+        $FilePath .= '.pm';
+        if ( $INC{$FilePath} ) {
+            no warnings 'redefine';    ## no critic
+            delete $INC{$FilePath};
+            require $FilePath;         ## nofilter(TidyAll::Plugin::OTRS::Perl::Require)
+        }
+    }
 }
 
 =head2 DESTROY()
