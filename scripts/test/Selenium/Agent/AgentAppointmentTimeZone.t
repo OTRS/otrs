@@ -86,12 +86,14 @@ $Selenium->RunTest(
                 'return typeof($) === "function" && $(".fc-timelineWeek-view .fc-slats td.fc-widget-content:nth-child(5)").length;'
         );
 
-        # Hide indicator line. This was causing issue in some of the tests in specific execution time.
-        $Selenium->execute_script("\$('.fc-now-indicator.fc-now-indicator-line').hide();");
-        $Selenium->WaitFor(
-            JavaScript =>
-                'return typeof($) === "function" && $(".fc-now-indicator.fc-now-indicator-line").is(":hidden");'
-        );
+        # Hide indicator line if visible. This was causing issue in some of tests in specific execution time.
+        if ( $Selenium->execute_script("return \$('.fc-now-indicator.fc-now-indicator-line:visible').length;") ) {
+            $Selenium->execute_script("\$('.fc-now-indicator.fc-now-indicator-line').hide();");
+            $Selenium->WaitFor(
+                JavaScript =>
+                    'return typeof($) === "function" && $(".fc-now-indicator.fc-now-indicator-line").is(":hidden");'
+            );
+        }
 
         # Click on the timeline view for an appointment dialog.
         $Selenium->find_element( '.fc-timelineWeek-view .fc-slats td.fc-widget-content:nth-child(5)', 'css' )->click();
