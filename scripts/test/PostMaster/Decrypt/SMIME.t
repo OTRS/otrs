@@ -52,7 +52,7 @@ my $OpenSSLVersionString = qx{$OpenSSLBin version};
 my $OpenSSLMajorVersion;
 
 # Get the OpenSSL major version, e.g. 1 for version 1.0.0
-if ( $OpenSSLVersionString =~ m{ \A (?: OpenSSL )? \s* ( \d )  }xmsi ) {
+if ( $OpenSSLVersionString =~ m{ \A (?: (?: Open|Libre)SSL )? \s* ( \d )  }xmsi ) {
     $OpenSSLMajorVersion = $1;
 }
 

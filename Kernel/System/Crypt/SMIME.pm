@@ -2323,7 +2323,7 @@ sub _Init {
     $Self->{OpenSSLVersionString} = qx{$Self->{Cmd} version};
 
     # get the openssl major version, e.g. 1 for version 1.0.0
-    if ( $Self->{OpenSSLVersionString} =~ m{ \A (?: OpenSSL )? \s* ( \d )  }xmsi ) {
+    if ( $Self->{OpenSSLVersionString} =~ m{ \A (?: (?: Open|Libre)SSL )? \s* ( \d )  }xmsi ) {
         $Self->{OpenSSLMajorVersion} = $1;
     }
 

@@ -1,4 +1,5 @@
 #6.0.23 ????-??-??
+ - 2019-09-06 Fixed LibreSSL version detection.
  - 2019-09-04 Fixed bug#[14497](https://bugs.otrs.org/show_bug.cgi?id=14497) - Insufficient encoding in ColumnFilterDynamicField affects bad filtering.
  - 2019-09-04 Fixed bug#[14748](https://bugs.otrs.org/show_bug.cgi?id=14748) - TicketOverviewSmall has a much lower performance than Medium and Large screens.
  - 2019-09-04 Fixed bug#[14708](https://bugs.otrs.org/show_bug.cgi?id=14708) - Dev::Tools::TranslationsUpdate command generates wrong filename if the module name contains a number.
