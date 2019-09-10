@@ -618,7 +618,7 @@ sub HandleError {
     #
     # If a shared screenshot folder is present, then we also store the screenshot there for external use.
     #
-    if ( -d '/var/otrs-unittest/' ) {
+    if ( -d '/var/otrs-unittest/' && -w '/var/otrs-unittest/' ) {
 
         my $SharedScreenshotDir = '/var/otrs-unittest/SeleniumScreenshots';
         mkdir $SharedScreenshotDir || return $Self->False( 1, "Could not create $SharedScreenshotDir." );
