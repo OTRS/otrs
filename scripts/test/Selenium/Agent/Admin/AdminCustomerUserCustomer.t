@@ -149,6 +149,43 @@ $Selenium->RunTest(
             "Customer $CustomerName is not active for CustomerUser $CustomerUserName",
         );
 
+        # Check if Customer user has customer relation information in search result screen. See bug#14760.
+        # navigate AdminCustomerUserCustomer screen
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminCustomerUserCustomer");
+
+        # Search for customer user.
+        $Selenium->find_element( "#Search", 'css' )->clear();
+        $Selenium->find_element( "#Search", 'css' )->send_keys($CustomerUserName);
+        $Selenium->find_element("//button[\@value='Search'][\@type='submit']")->VerifiedClick();
+
+        $Selenium->find_element(
+            "//ul[contains(\@id, \'CustomerUsers')]//li//a[contains(\@href, \'ID=$CustomerUserName' )]"
+        )->VerifiedClick();
+
+        # Check if customer is displayed after customer user search.
+        $Self->Is(
+            $Selenium->execute_script("return \$('a[href*=\"$CustomerName\"]').length"),
+            "1",
+            "Customer is displayed correctly"
+        );
+
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminCustomerUserCustomer");
+
+        # Search for customer.
+        $Selenium->find_element( "#Search", 'css' )->clear();
+        $Selenium->find_element( "#Search", 'css' )->send_keys($CustomerName);
+        $Selenium->find_element("//button[\@value='Search'][\@type='submit']")->VerifiedClick();
+
+        $Selenium->find_element("//ul[contains(\@id, \'Customers')]//li//a[contains(\@href, \'ID=$CustomerName' )]")
+            ->VerifiedClick();
+
+        # Check if customer user is displayed after customer search.
+        $Self->Is(
+            $Selenium->execute_script("return \$('a[href*=\"$CustomerUserName\"]').length"),
+            "1",
+            "Customer user is displayed correctly"
+        );
+
         # get DB object
         my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 

@@ -97,7 +97,7 @@
                         <li>[% Translate("No data found.") | html %]</li>
 [% RenderBlockEnd("NoDataFoundMsgCustomerUser") %]
 [% RenderBlockStart("List1n") %]
-                        <li><a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=[% Data.Subaction | uri %];ID=[% Data.ID | uri %];Search=[% Data.Search | uri %]" class="AsBlock">[% Data.Name | html %]</a></li>
+                        <li><a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=[% Data.Subaction | uri %];ID=[% Data.ID | uri %]" class="AsBlock">[% Data.Name | html %]</a></li>
 [% RenderBlockEnd("List1n") %]
                     </ul>
                 </div>
@@ -116,7 +116,7 @@
                         <li>[% Translate("No data found.") | html %]</li>
 [% RenderBlockEnd("NoDataFoundMsgCustomer") %]
 [% RenderBlockStart("Listn1") %]
-                        <li><a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=[% Data.Subaction | uri %];ID=[% Data.ID | uri %];Search=[% Data.Search | uri %]" class="AsBlock">[% Data.Name | html %]</a></li>
+                        <li><a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=[% Data.Subaction | uri %];ID=[% Data.ID | uri %]" class="AsBlock">[% Data.Name | html %]</a></li>
 [% RenderBlockEnd("Listn1") %]
                     </ul>
                 </div>
