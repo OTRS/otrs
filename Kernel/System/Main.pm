@@ -21,6 +21,8 @@ use List::Util qw();
 use Fcntl qw(:flock);
 use Encode;
 
+use Kernel::System::VariableCheck qw(IsStringWithData);
+
 our @ObjectDependencies = (
     'Kernel::System::Encode',
     'Kernel::System::Log',
@@ -174,7 +176,7 @@ to clean up filenames which can be used in any case (also quoting is done)
 sub FilenameCleanUp {
     my ( $Self, %Param ) = @_;
 
-    if ( !$Param{Filename} ) {
+    if ( !IsStringWithData( $Param{Filename} ) ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'Need Filename!',

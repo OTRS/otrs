@@ -727,6 +727,51 @@ my @Tests = (
         Operation => 'TicketUpdate',
     },
     {
+        Name           => 'Add email article (with attachment named "0")',
+        SuccessRequest => '1',
+        RequestData    => {
+            TicketID => $TicketID1,
+            Ticket   => {
+                Title => 'Updated',
+            },
+            Article => {
+                Subject              => 'Article subject',
+                Body                 => 'Article body',
+                AutoResponseType     => 'auto reply',
+                IsVisibleForCustomer => 1,
+                CommunicationChannel => 'Email',
+                SenderType           => 'agent',
+                Charset              => 'utf8',
+                MimeType             => 'text/plain',
+                HistoryType          => 'AddNote',
+                HistoryComment       => '%%',
+            },
+            Attachment => [
+                {
+                    Content     => 'Ymx1YiBibHViIGJsdWIg',
+                    ContentType => 'text/html',
+                    Filename    => '0',
+                },
+            ],
+        },
+        IncludeTicketData        => 1,
+        ExpectedReturnRemoteData => {
+            Success => 1,
+            Data    => {
+                TicketID     => $Ticket{TicketID},
+                TicketNumber => $Ticket{TicketNumber},
+            },
+        },
+        ExpectedReturnLocalData => {
+            Success => 1,
+            Data    => {
+                TicketID     => $Ticket{TicketID},
+                TicketNumber => $Ticket{TicketNumber},
+            },
+        },
+        Operation => 'TicketUpdate',
+    },
+    {
         Name           => 'Add article (with To, Cc and Bcc parameters)',
         SuccessRequest => '1',
         RequestData    => {

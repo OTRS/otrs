@@ -184,7 +184,7 @@ sub ArticleWriteAttachment {
 
     # check needed stuff
     for my $Item (qw(Filename ContentType ArticleID UserID)) {
-        if ( !$Param{$Item} ) {
+        if ( !IsStringWithData( $Param{$Item} ) ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Need $Item!"
