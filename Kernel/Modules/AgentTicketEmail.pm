@@ -462,14 +462,20 @@ sub Run {
                 $Article{ContentType} = 'text/plain';
             }
 
-            # Strip out external content if BlockLoadingRemoteContent is enabled.
-            if ( $ConfigObject->Get('Ticket::Frontend::BlockLoadingRemoteContent') ) {
-                my %SafetyCheckResult = $Kernel::OM->Get('Kernel::System::HTMLUtils')->Safety(
-                    String       => $Article{Body},
-                    NoExtSrcLoad => 1,
-                );
-                $Article{Body} = $SafetyCheckResult{String};
-            }
+            my %SafetyCheckResult = $Kernel::OM->Get('Kernel::System::HTMLUtils')->Safety(
+                String => $Article{Body},
+
+                # Strip out external content if BlockLoadingRemoteContent is enabled.
+                NoExtSrcLoad => $ConfigObject->Get('Ticket::Frontend::BlockLoadingRemoteContent'),
+
+                # Disallow potentially unsafe content.
+                NoApplet     => 1,
+                NoObject     => 1,
+                NoEmbed      => 1,
+                NoSVG        => 1,
+                NoJavaScript => 1,
+            );
+            $Article{Body} = $SafetyCheckResult{String};
 
             # show customer info
             if ( $ConfigObject->Get('Ticket::Frontend::CustomerInfoCompose') ) {
