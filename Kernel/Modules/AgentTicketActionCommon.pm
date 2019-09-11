@@ -1329,14 +1329,20 @@ sub Run {
         # set Body var to calculated content
         $GetParam{Body} = $Body;
 
-        # Strip out external content if needed.
-        if ( $ConfigObject->Get('Ticket::Frontend::BlockLoadingRemoteContent') ) {
-            my %SafetyCheckResult = $Kernel::OM->Get('Kernel::System::HTMLUtils')->Safety(
-                String       => $GetParam{Body},
-                NoExtSrcLoad => 1,
-            );
-            $GetParam{Body} = $SafetyCheckResult{String};
-        }
+        my %SafetyCheckResult = $Kernel::OM->Get('Kernel::System::HTMLUtils')->Safety(
+            String => $GetParam{Body},
+
+            # Strip out external content if BlockLoadingRemoteContent is enabled.
+            NoExtSrcLoad => $ConfigObject->Get('Ticket::Frontend::BlockLoadingRemoteContent'),
+
+            # Disallow potentially unsafe content.
+            NoApplet     => 1,
+            NoObject     => 1,
+            NoEmbed      => 1,
+            NoSVG        => 1,
+            NoJavaScript => 1,
+        );
+        $GetParam{Body} = $SafetyCheckResult{String};
 
         if ( $Self->{ReplyToArticle} ) {
             my $TicketSubjectRe = $ConfigObject->Get('Ticket::SubjectRe') || 'Re';

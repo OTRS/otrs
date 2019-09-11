@@ -175,7 +175,15 @@ $Selenium->RunTest(
             ArticleType => 'email-external',
             SenderType  => 'customer',
             Subject     => 'some short description',
-            Body => '<!DOCTYPE html><html><body>' . $RandomID . '<br /><img src="' . $ImgSource . '"/></body></html>',
+            Body =>
+                '<!DOCTYPE html><html><body>'
+                . $RandomID . '<br /><img src="' . $ImgSource . '"/>'
+                . '<applet code="foo.class"></applet>'
+                . '<object data="bar.swf"></object>'
+                . '<embed src="baz.swf">'
+                . '<svg width="100" height="100"><circle cx="50" cy="50" r="40" fill="yellow" /></svg>'
+                . '<script type="text/javascript">alert(1);</script>'
+                . '</body></html>',
             Charset        => 'utf-8',
             MimeType       => 'text/html',
             HistoryType    => 'EmailCustomer',
@@ -203,6 +211,24 @@ $Selenium->RunTest(
             "BlockLoadingRemoteContent is disabled - external content is loaded"
         );
 
+        # Verify potentially unsafe tags are not present.
+        $Self->False(
+            $Selenium->execute_script("return CKEDITOR.instances.RichText.getData().indexOf('<applet') > -1;"),
+            'APPLET tag is stripped from the quoted content'
+        );
+        $Self->False(
+            $Selenium->execute_script("return CKEDITOR.instances.RichText.getData().indexOf('<embed') > -1;"),
+            'EMBED tag is stripped from the quoted content'
+        );
+        $Self->False(
+            $Selenium->execute_script("return CKEDITOR.instances.RichText.getData().indexOf('<svg') > -1;"),
+            'SVG tag is stripped from the quoted content'
+        );
+        $Self->False(
+            $Selenium->execute_script("return CKEDITOR.instances.RichText.getData().indexOf('<script') > -1;"),
+            'SCRIPT tag is stripped from the quoted content'
+        );
+
         # Enable global external content blocking.
         $Helper->ConfigSettingChange(
             Valid => 1,
@@ -221,6 +247,24 @@ $Selenium->RunTest(
         $Self->False(
             $Selenium->execute_script("return CKEDITOR.instances.RichText.getData().indexOf('$ImgSource') > -1;"),
             "BlockLoadingRemoteContent is enabled - external content is not loaded"
+        );
+
+        # Verify potentially unsafe tags are not present.
+        $Self->False(
+            $Selenium->execute_script("return CKEDITOR.instances.RichText.getData().indexOf('<applet') > -1;"),
+            'APPLET tag is stripped from the quoted content'
+        );
+        $Self->False(
+            $Selenium->execute_script("return CKEDITOR.instances.RichText.getData().indexOf('<embed') > -1;"),
+            'EMBED tag is stripped from the quoted content'
+        );
+        $Self->False(
+            $Selenium->execute_script("return CKEDITOR.instances.RichText.getData().indexOf('<svg') > -1;"),
+            'SVG tag is stripped from the quoted content'
+        );
+        $Self->False(
+            $Selenium->execute_script("return CKEDITOR.instances.RichText.getData().indexOf('<script') > -1;"),
+            'SCRIPT tag is stripped from the quoted content'
         );
 
         # Delete created test ticket.

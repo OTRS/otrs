@@ -295,14 +295,20 @@ sub Form {
         AttachmentsInclude => 1,
     );
 
-    # Strip out external content if needed.
-    if ( $ConfigObject->Get('Ticket::Frontend::BlockLoadingRemoteContent') ) {
-        my %SafetyCheckResult = $Kernel::OM->Get('Kernel::System::HTMLUtils')->Safety(
-            String       => $Data{Body},
-            NoExtSrcLoad => 1,
-        );
-        $Data{Body} = $SafetyCheckResult{String};
-    }
+    my %SafetyCheckResult = $Kernel::OM->Get('Kernel::System::HTMLUtils')->Safety(
+        String => $Data{Body},
+
+        # Strip out external content if BlockLoadingRemoteContent is enabled.
+        NoExtSrcLoad => $ConfigObject->Get('Ticket::Frontend::BlockLoadingRemoteContent'),
+
+        # Disallow potentially unsafe content.
+        NoApplet     => 1,
+        NoObject     => 1,
+        NoEmbed      => 1,
+        NoSVG        => 1,
+        NoJavaScript => 1,
+    );
+    $Data{Body} = $SafetyCheckResult{String};
 
     if ( $LayoutObject->{BrowserRichText} ) {
 
