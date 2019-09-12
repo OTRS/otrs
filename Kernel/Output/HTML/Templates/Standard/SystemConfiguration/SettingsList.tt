@@ -11,7 +11,7 @@
 [% FOREACH Setting IN Data.SettingList %]
     <li>
         <div class="WidgetSimple Expanded Setting
-            [% IF Setting.IsReadonly OR Setting.OverriddenFileName %]IsReadonly[% END %]
+            [% IF Setting.IsReadonly OR Setting.OverriddenFileName OR Setting.HasConfigLevel < Data.ConfigLevel %]IsReadonly[% END %]
             [% IF !Setting.IsValid %]IsDisabled[% END %]
             [% IF Setting.IsModified %]IsModified[% END %]
             [% IF Setting.IsDirty %]IsDirty[% END %]
@@ -23,7 +23,7 @@
             <div class="Header">
                 <h2>
                     <div class="Icon">
-                        <i class="fa fa-ban [% IF Setting.IsValid || Setting.OverriddenFileName %]Hidden[% END %]" title="[% Translate("This setting is disabled.") | html %]"></i>
+                        <i class="fa fa-ban [% IF Setting.IsValid || Setting.OverriddenFileName || Setting.HasConfigLevel < Data.ConfigLevel %]Hidden[% END %]" title="[% Translate("This setting is disabled.") | html %]"></i>
                     </div>
 
                     [% IF Env("Subaction") == 'Invalid' %]
@@ -35,6 +35,10 @@
                     [% IF Setting.OverriddenFileName %]
                     <div class="Icon">
                         <i class="fa fa-exclamation-triangle" title="[% Translate("This setting is currently being overridden in %s and can't thus be changed here!", Setting.OverriddenFileName) | html %]"></i>
+                    </div>
+                    [% ELSIF Setting.HasConfigLevel < Data.ConfigLevel %]
+                    <div class="Icon">
+                        <i class="fa fa-exclamation-triangle" title="[% Translate("Changing this setting is only available in a higher config level!") | html %]"></i>
                     </div>
                     [% END %]
 

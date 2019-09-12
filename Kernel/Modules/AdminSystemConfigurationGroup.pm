@@ -33,6 +33,7 @@ sub Run {
     my $ConfigObject    = $Kernel::OM->Get('Kernel::Config');
     my $ParamObject     = $Kernel::OM->Get('Kernel::System::Web::Request');
     my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
+    my $ConfigLevel     = $Kernel::OM->Get('Kernel::Config')->Get('ConfigLevel') || 0;
 
     if ( $Self->{Subaction} eq 'Lock' ) {
 
@@ -491,6 +492,7 @@ sub Run {
             Data         => {
                 SettingList             => \@SettingList,
                 OTRSBusinessIsInstalled => $Kernel::OM->Get('Kernel::System::OTRSBusiness')->OTRSBusinessIsInstalled(),
+                ConfigLevel             => $ConfigLevel
             },
         );
 
@@ -737,6 +739,7 @@ sub Run {
             CategoriesStrg          => $Self->_GetCategoriesStrg(),
             InvalidSettings         => $Self->_CheckInvalidSettings(),
             OTRSBusinessIsInstalled => $Kernel::OM->Get('Kernel::System::OTRSBusiness')->OTRSBusinessIsInstalled(),
+            ConfigLevel             => $ConfigLevel,
         },
     );
     $Output .= $LayoutObject->Footer();

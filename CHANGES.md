@@ -1,4 +1,5 @@
 #6.0.23 ????-??-??
+ - 2019-09-12 Fixed bug#[13886](https://bugs.otrs.org/show_bug.cgi?id=13886) - Access to settings with higher ConfigLevel is possible even if systemwide ConfigLevel is not matched.
  - 2019-09-11 Fixed bug#[14761](https://bugs.otrs.org/show_bug.cgi?id=14761) - Article creating with an attachment named '0' does not work and shows error message.
  - 2019-09-10 Fixed bug#[14760](https://bugs.otrs.org/show_bug.cgi?id=14760) - Customer user has no customer relation information in search result screen.
  - 2019-09-06 Fixed LibreSSL version detection.

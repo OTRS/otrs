@@ -49,10 +49,13 @@ sub Run {
         );
     }
 
+    my $ConfigLevel = $Kernel::OM->Get('Kernel::Config')->Get('ConfigLevel') || 0;
+
     # collect some data which needs to be passed to several screens
     my %OutputData = (
         CategoriesStrg  => $Self->_GetCategoriesStrg(),
         InvalidSettings => $Self->_CheckInvalidSettings(),
+        ConfigLevel     => $ConfigLevel,
     );
 
     # Create navigation tree
