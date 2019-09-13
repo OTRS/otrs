@@ -69,6 +69,9 @@ sub new {
 
     $Self->{UnitTestDriverObject} = $Kernel::OM->Get('Kernel::System::UnitTest::Driver');
 
+    # Override Perl's built-in time handling mechanism to set a fixed time if needed.
+    $Self->_MockPerlTimeHandling();
+
     # Remove any leftover custom files from aborted previous runs.
     $Self->CustomFileCleanup();
 
@@ -428,7 +431,7 @@ sub FixedTimeAddSeconds {
 ## nofilter(TidyAll::Plugin::OTRS::Perl::Time)
 ## nofilter(TidyAll::Plugin::OTRS::Migrations::OTRS6::TimeObject)
 ## nofilter(TidyAll::Plugin::OTRS::Migrations::OTRS6::DateTime)
-BEGIN {
+sub _MockPerlTimeHandling {
     no warnings 'redefine';    ## no critic
     *CORE::GLOBAL::time = sub {
         return defined $FixedTime ? $FixedTime : CORE::time();
@@ -481,6 +484,8 @@ BEGIN {
             require $FilePath;         ## nofilter(TidyAll::Plugin::OTRS::Perl::Require)
         }
     }
+
+    return 1;
 }
 
 =head2 DESTROY()
