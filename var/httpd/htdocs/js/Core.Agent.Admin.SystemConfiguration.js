@@ -472,7 +472,7 @@ Core.Agent.Admin = Core.Agent.Admin || {};
                 if ($DefaultObj.length) {
                     $WidgetObj.data('original-padding', OriginalPadding);
                     $WidgetObj.find('.Content').animate({
-                        'padding-bottom' : OriginalPadding + 25
+                        'padding-bottom' : OriginalPadding + $DefaultObj.height()
                     }, 'fast');
                     $DefaultObj.slideDown('fast');
                 }

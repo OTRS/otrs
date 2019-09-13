@@ -438,4 +438,21 @@
             </Array>
         </Value>
     </Setting>
+    <Setting Name="TestAgentTicketOwnerBody" Required="0" Valid="1">
+            <Description Translatable="1">Sets the default body text for notes added in the ticket owner screen of a zoomed ticket in the agent interface.</Description>
+            <Navigation>TestAgentTicketOwnerBody</Navigation>
+            <Value>
+                <Item ValueType="Textarea"><![CDATA[Test:<br /><br />
+                    Test1: Test1<br />
+                    Test2: Test2<br />
+                    Test3: Test3<br />
+                    Test4: Test4<br />
+                    Test5: Test5<br />
+                    Test6: Test6<br />
+                    Test7: Test7<br />
+                    Test8: Test8<br />
+                    Test9: Test9<br />
+                    Test10: Test10<br />]]></Item>
+            </Value>
+    </Setting>
 </otrs_config>

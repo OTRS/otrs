@@ -66,10 +66,10 @@ $Selenium->RunTest(
             "${ScriptAlias}index.pl?Action=AdminSystemConfiguration;Subaction=View;Setting=ExampleAoA;"
         );
 
-        $Selenium->execute_script("\$('div[data-name=ExampleAoA] > .Header .WidgetAction.Expand').trigger('click')");
+        $Selenium->execute_script("\$('div[data-name=ExampleAoA] > .Header .WidgetAction.Expand').trigger('click');");
         $Selenium->WaitFor(
             JavaScript =>
-                "return typeof(\$) === 'function' && \$('div[data-name=ExampleAoA] > div.WidgetMenu:visible').length"
+                "return typeof(\$) === 'function' && \$('div[data-name=ExampleAoA] > div.WidgetMenu:visible').length;"
         );
 
         $Selenium->execute_script(
@@ -77,7 +77,7 @@ $Selenium->RunTest(
         );
         $Selenium->WaitFor(
             JavaScript =>
-                "return \$('div[data-name=ExampleAoA] > div.WidgetMenu:visible > .RemoveFromFavourites').length"
+                "return \$('div[data-name=ExampleAoA] > div.WidgetMenu:visible > .RemoveFromFavourites').length;"
         );
 
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminSystemConfiguration;Subaction=Favourites;");
@@ -93,10 +93,10 @@ $Selenium->RunTest(
             "${ScriptAlias}index.pl?Action=AdminSystemConfiguration;Subaction=View;Setting=ExampleAoH;"
         );
 
-        $Selenium->execute_script("\$('div[data-name=ExampleAoH] > .Header .WidgetAction.Expand').trigger('click')");
+        $Selenium->execute_script("\$('div[data-name=ExampleAoH] > .Header .WidgetAction.Expand').trigger('click');");
         $Selenium->WaitFor(
             JavaScript =>
-                "return typeof(\$) === 'function' && \$('div[data-name=ExampleAoH] > div.WidgetMenu:visible').length"
+                "return typeof(\$) === 'function' && \$('div[data-name=ExampleAoH] > div.WidgetMenu:visible').length;"
         );
 
         $Selenium->execute_script(
@@ -104,7 +104,7 @@ $Selenium->RunTest(
         );
         $Selenium->WaitFor(
             JavaScript =>
-                "return \$('div[data-name=ExampleAoH] > div.WidgetMenu:visible > .RemoveFromFavourites').length"
+                "return \$('div[data-name=ExampleAoH] > div.WidgetMenu:visible > .RemoveFromFavourites').length;"
         );
 
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminSystemConfiguration;Subaction=Favourites;");
@@ -117,6 +117,21 @@ $Selenium->RunTest(
         $Self->True(
             $Selenium->execute_script("return \$('.SettingsList li div[data-name=ExampleAoH]').length;"),
             "'ExampleAoH' exists in Favourite settings"
+        );
+
+        # Check if default strings are displayed correctly. See bug#14768.
+        $Selenium->VerifiedGet(
+            "${ScriptAlias}index.pl?Action=AdminSystemConfiguration;Subaction=View;Setting=TestAgentTicketOwnerBody;"
+        );
+        $Selenium->find_element( ".Header .ActionMenu.Visible", 'css' )->click();
+        $Selenium->WaitFor( JavaScript => "return \$('div.WidgetMessage.Bottom:visible').length;" );
+        $Selenium->find_element( ".Header .ActionMenu.Visible", 'css' )->click();
+        $Selenium->WaitFor( JavaScript => "return !\$('div.WidgetMessage.Bottom:visible').length;" );
+
+        $Self->Is(
+            $Selenium->execute_script("return \$('div.WidgetMessage.Bottom:visible').length;"),
+            "0",
+            "Default setting is hidden successfully"
         );
     }
 );
