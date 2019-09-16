@@ -12,44 +12,33 @@ use utf8;
 
 use vars (qw($Self));
 
-# get selenium object
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
 
-        # get needed objects
         my $Helper       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+        my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
-        # do not check email addresses
+        # Do not check email addresses.
         $Helper->ConfigSettingChange(
             Key   => 'CheckEmailAddresses',
             Value => 0,
         );
 
-        # enable ticket watcher feature
+        # Enable ticket watcher feature.
         $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Ticket::Watcher',
             Value => 1,
         );
 
-        # create test user and login
+        # Create test user.
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => [ 'admin', 'users' ],
         ) || die "Did not get test user";
 
-        $Selenium->Login(
-            Type     => 'Agent',
-            User     => $TestUserLogin,
-            Password => $TestUserLogin,
-        );
-
-        # get ticket object
-        my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
-
-        # create test tickets
+        # Create test tickets.
         my @TicketIDs;
         for ( 1 .. 3 ) {
             my $TicketID = $TicketObject->TicketCreate(
@@ -72,41 +61,66 @@ $Selenium->RunTest(
             push @TicketIDs, $TicketID;
         }
 
-        # get script alias
-        my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
+        # Login as test user.
+        $Selenium->Login(
+            Type     => 'Agent',
+            User     => $TestUserLogin,
+            Password => $TestUserLogin,
+        );
+
+        my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
         for my $TicketID (@TicketIDs) {
 
-            # go to AgentTicketZoom
+            # Go to AgentTicketZoom screen.
             $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
 
-            # check watcher feature - subscribe ticket to watch it
+            $Selenium->WaitFor(
+                JavaScript =>
+                    'return typeof($) === "function" && $("a[href*=\'Action=AgentTicketWatcher\']").length;'
+            );
+
+            # Check watcher feature - subscribe ticket to watch it.
             $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketWatcher\' )]")->VerifiedClick();
 
+            $Self->True(
+                $Selenium->execute_script(
+                    "return \$('a[href*=\"Action=AgentTicketWatcher;Subaction=Unsubscribe\"]').length;"
+                ),
+                "TicketID $TicketID is subscribed",
+            );
         }
 
-        # go to AgentTicketWatchView
+        # Go to AgentTicketWatchView screen.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketWatchView");
 
-        my $Element = $Selenium->find_element(
-            "//a[contains(\@href, \'Action=AgentTicketWatchView;SortBy=Age;OrderBy=Up;View=;Filter=All\' )]"
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof($) === "function" && $("a[href*=\'Action=AgentTicketWatchView;SortBy=Age;OrderBy=Up;View=;Filter=All\']").length;'
         );
-        $Element->is_enabled();
-        $Element->is_displayed();
-        $Element->VerifiedClick();
 
-        # check different views for filters
+        $Selenium->find_element(
+            "//a[contains(\@href, \'Action=AgentTicketWatchView;SortBy=Age;OrderBy=Up;View=;Filter=All\' )]"
+        )->VerifiedClick();
+
+        # Check different views for filters.
         for my $View (qw(Small Medium Preview)) {
 
-            # click on viewer controller
+            $Selenium->WaitFor(
+                JavaScript =>
+                    "return typeof(\$) === 'function' && \$('a[href*=\"Action=AgentTicketWatchView;Filter=All;View=$View;\"]').length;"
+            );
+
+            # Click on viewer controller.
             $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketWatchView;Filter=All;View=$View;\' )]")
                 ->VerifiedClick();
 
-            # check screen output
-            $Selenium->find_element( "table",             'css' );
-            $Selenium->find_element( "table tbody tr td", 'css' );
+            $Selenium->WaitFor(
+                JavaScript =>
+                    'return typeof($) === "function" && $("table tbody").length;'
+            );
 
-            # verify that all tickets are present
+            # Verify that all tickets are present.
             for my $TicketID (@TicketIDs) {
 
                 my $TicketNumber = $TicketObject->TicketNumberLookup(
@@ -121,7 +135,7 @@ $Selenium->RunTest(
             }
         }
 
-        # delete created test tickets
+        # Delete created test tickets.
         my $Success;
         for my $TicketID (@TicketIDs) {
             $Success = $TicketObject->TicketDelete(
@@ -143,7 +157,7 @@ $Selenium->RunTest(
             );
         }
 
-        # make sure the cache is correct
+        # Make sure the cache is correct.
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => 'Ticket' );
 
     }
