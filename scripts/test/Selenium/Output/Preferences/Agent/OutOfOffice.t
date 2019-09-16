@@ -43,26 +43,33 @@ $Selenium->RunTest(
         # Go to agent preferences.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentPreferences;Subaction=Group;Group=UserProfile");
 
+        $Selenium->WaitForjQueryEventBound(
+            CSSSelector => '#UserTimeZone',
+            Event       => 'change',
+        );
+
         # Change test user time zone preference to -5 hours. Displayed out of office date values
         #   should not be converted to local time zone, see bug#12471.
         $Selenium->InputFieldValueSet(
             Element => '#UserTimeZone',
             Value   => 'Pacific/Easter',
         );
+
+        $Self->True(
+            $Selenium->execute_script("return \$('#UserTimeZone').val() == 'Pacific/Easter';"),
+            "UserTimeZone is set to 'Pacific/Easter'",
+        );
+
         $Selenium->execute_script(
             "\$('#UserTimeZone').closest('.WidgetSimple').find('.SettingUpdateBox').find('button').trigger('click');"
         );
         $Selenium->WaitFor(
             JavaScript =>
-                "return \$('#UserTimeZone').closest('.WidgetSimple').hasClass('HasOverlay')"
+                "return \$('#UserTimeZone').closest('.WidgetSimple').find('.fa-check').length;"
         );
         $Selenium->WaitFor(
             JavaScript =>
-                "return \$('#UserTimeZone').closest('.WidgetSimple').find('.fa-check').length"
-        );
-        $Selenium->WaitFor(
-            JavaScript =>
-                "return !\$('#UserTimeZone').closest('.WidgetSimple').hasClass('HasOverlay')"
+                "return !\$('#UserTimeZone').closest('.WidgetSimple').hasClass('HasOverlay');"
         );
 
         # Reload the screen.
@@ -78,13 +85,19 @@ $Selenium->RunTest(
         $Selenium->find_element( "#OutOfOfficeOn", 'css' )->click();
         $Selenium->WaitFor(
             JavaScript =>
-                "return typeof(\$) === 'function' && \$('#OutOfOfficeOn:checked').length"
+                "return typeof(\$) === 'function' && \$('#OutOfOfficeOn:checked').length;"
         );
 
         for my $FieldGroup (qw(Start End)) {
             for my $FieldType (qw(Year Month Day)) {
                 $Selenium->execute_script(
                     "\$('#OutOfOffice$FieldGroup$FieldType').val($Date->{$FieldType}).trigger('change');"
+                );
+                $Self->True(
+                    $Selenium->execute_script(
+                        "return \$('#OutOfOffice$FieldGroup$FieldType').val() == '$Date->{$FieldType}';"
+                    ),
+                    "OutOfOffice$FieldGroup$FieldType is set to '$Date->{$FieldType}'",
                 );
             }
         }
@@ -93,15 +106,11 @@ $Selenium->RunTest(
         );
         $Selenium->WaitFor(
             JavaScript =>
-                "return \$('#OutOfOfficeOn').closest('.WidgetSimple').hasClass('HasOverlay')"
+                "return \$('#OutOfOfficeOn').closest('.WidgetSimple').find('.fa-check').length;"
         );
         $Selenium->WaitFor(
             JavaScript =>
-                "return \$('#OutOfOfficeOn').closest('.WidgetSimple').find('.fa-check').length"
-        );
-        $Selenium->WaitFor(
-            JavaScript =>
-                "return !\$('#OutOfOfficeOn').closest('.WidgetSimple').hasClass('HasOverlay')"
+                "return !\$('#OutOfOfficeOn').closest('.WidgetSimple').hasClass('HasOverlay');"
         );
 
         # Reload the screen.
@@ -124,21 +133,22 @@ $Selenium->RunTest(
             "\$('#OutOfOfficeStartYear').val('$StartYear').trigger('change');"
         );
 
+        $Self->True(
+            $Selenium->execute_script("return \$('#OutOfOfficeStartYear').val() == $StartYear;"),
+            "OutOfOfficeStartYear is set to '$StartYear'",
+        );
+
         $Selenium->execute_script(
             "\$('#OutOfOfficeOn').closest('.WidgetSimple').find('.SettingUpdateBox').find('button').trigger('click');"
         );
         $Selenium->WaitFor(
             JavaScript =>
-                "return \$('#OutOfOfficeOn').closest('.WidgetSimple').hasClass('HasOverlay')"
-        );
-        $Selenium->WaitFor(
-            JavaScript =>
-                "return \$('#OutOfOfficeOn').closest('.WidgetSimple').find('.WidgetMessage.Error:visible').length"
+                "return \$('#OutOfOfficeOn').closest('.WidgetSimple').find('.WidgetMessage.Error:visible').length;"
         );
 
         $Self->Is(
             $Selenium->execute_script(
-                "return \$('#OutOfOfficeOn').closest('.WidgetSimple').find('.WidgetMessage.Error').text()"
+                "return \$('#OutOfOfficeOn').closest('.WidgetSimple').find('.WidgetMessage.Error').text();"
             ),
             "Please specify an end date that is after the start date.",
             'Error message shows up correctly',
