@@ -32,6 +32,12 @@ $Selenium->RunTest(
             Value => 0,
         );
 
+        # Do not check RichText.
+        $Helper->ConfigSettingChange(
+            Key   => 'Frontend::RichText',
+            Value => 0,
+        );
+
         # Create test user and login.
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => [ 'admin', 'users' ],

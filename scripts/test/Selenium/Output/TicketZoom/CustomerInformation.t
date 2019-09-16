@@ -169,16 +169,25 @@ $Selenium->RunTest(
             "Customer Information Widget is expanded"
         );
 
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof($) === "function" && $(".SidebarColumn a[title*=\'Show or hide the content\']").length;'
+        );
+
         # Toggle to collapse 'Customer Information' widget.
-        $Selenium->find_element("//a[contains(\@title, \'Show or hide the content' )]")->click();
+        $Selenium->find_element(
+            "//div[contains(\@class, 'SidebarColumn')]//a[contains(\@title, \'Show or hide the content' )]"
+        )->click();
 
         $Selenium->WaitFor(
-            JavaScript => 'return $("div.WidgetSimple.Collapsed").length'
+            JavaScript => 'return $(".SidebarColumn div.WidgetSimple.Collapsed").length;'
         );
 
         # Verify there is collapsed element on the screen.
         $Self->True(
-            $Selenium->find_element("//div[contains(\@class, \'WidgetSimple Collapsed')]"),
+            $Selenium->find_element(
+                "//div[contains(\@class, 'SidebarColumn')]//div[contains(\@class, \'WidgetSimple Collapsed')]"
+            ),
             "Customer Information Widget is collapsed"
         );
 
