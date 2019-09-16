@@ -466,6 +466,11 @@ $Selenium->RunTest(
                 "return typeof(\$) === 'function' && \$('.AJAXLoader:visible', \$('.PopupIframe').contents()).length == 0"
         );
 
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return CKEDITOR.instances.RichText.getData() == '$TemplateText';"
+        );
+
         my $CKEditorValue = $Selenium->execute_script(
             "return CKEDITOR.instances.RichText.getData()"
         );
