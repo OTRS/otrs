@@ -1,8 +1,10 @@
 #5.0.39 ????-??-??
 
 #5.0.38 2019-10-04
- - 2019-08-08 Fixed bug#[14716](https://bugs.otrs.org/show_bug.cgi?id=14716) - Mails with attached mails (e.g. forwarded) containing period followed by long string in the subject may get stuck.
+ - 2019-08-07 Fixed bug#[14716](https://bugs.otrs.org/show_bug.cgi?id=14716) - E-mails with attached e-mails (e.g. forwarded) containing period followed by long string in the subject may get stuck.
+   Put such e-mail into OTRS PostMaster and mail processing will run until the process is killed manually.
  - 2019-05-11 Fixed bug#[14639](https://bugs.otrs.org/show_bug.cgi?id=14639) - Address Book is not working.
+  Instead, JavaScript error message is present.
 
 #5.0.37 2019-07-12
  - 2019-07-01 Improved value masking in tag replacement method.
