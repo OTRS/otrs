@@ -164,6 +164,8 @@ $Selenium->RunTest(
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentAppointmentCalendarOverview");
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".CalendarWidget.Loading").length;' );
 
+        Time::HiRes::sleep(2);
+
         # Create a hash from the array for easier comparison.
         my %CheckedIndicesHash = map { $_ => 1 } @CheckedIndices;
 
