@@ -74,10 +74,20 @@ $Selenium->RunTest(
             "${ScriptAlias}index.pl?Action=AgentPreferences;Subaction=Group;Group=NotificationSettings"
         );
 
+        $Selenium->WaitForjQueryEventBound(
+            CSSSelector => '#QueueID',
+            Event       => 'change',
+        );
+
         # Set MyQueue preferences.
         $Selenium->InputFieldValueSet(
             Element => '#QueueID',
             Value   => $QueueID,
+        );
+
+        $Self->True(
+            $Selenium->execute_script("return \$('#QueueID').val() == $QueueID;"),
+            "Queue is set to $QueueID",
         );
 
         # Save the setting, wait for the ajax call to finish and check if success sign is shown.
@@ -86,15 +96,11 @@ $Selenium->RunTest(
         );
         $Selenium->WaitFor(
             JavaScript =>
-                "return \$('#QueueID').closest('.WidgetSimple').hasClass('HasOverlay')"
+                "return \$('#QueueID').closest('.WidgetSimple').find('.fa-check').length;"
         );
         $Selenium->WaitFor(
             JavaScript =>
-                "return \$('#QueueID').closest('.WidgetSimple').find('.fa-check').length"
-        );
-        $Selenium->WaitFor(
-            JavaScript =>
-                "return !\$('#QueueID').closest('.WidgetSimple').hasClass('HasOverlay')"
+                "return !\$('#QueueID').closest('.WidgetSimple').hasClass('HasOverlay');"
         );
 
         # Navigate to AgentDashboard screen.
