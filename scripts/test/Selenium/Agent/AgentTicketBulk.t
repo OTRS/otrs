@@ -389,6 +389,10 @@ $Selenium->RunTest(
             "After change - Ticket type is not translated",
         );
 
+        $Selenium->WaitForjQueryEventBound(
+            CSSSelector => ".UndoClosePopup",
+        );
+
         # Click on 'Undo & close' link.
         $Selenium->execute_script("\$('.UndoClosePopup').click();");
 
