@@ -1,26 +1,32 @@
 #6.0.24 ????-??-??
 
 #6.0.23 2019-10-04
- - 2019-09-13 Fixed bug#[14768](https://bugs.otrs.org/show_bug.cgi?id=14768) - Advanced setting options are not reachable in System Configuration.
- - 2019-09-12 Fixed bug#[13886](https://bugs.otrs.org/show_bug.cgi?id=13886) - Access to settings with higher ConfigLevel is possible even if systemwide ConfigLevel is not matched.
- - 2019-09-11 Fixed bug#[14761](https://bugs.otrs.org/show_bug.cgi?id=14761) - Article creating with an attachment named '0' does not work and shows error message.
+ - 2019-09-13 Fixed bug#[14768](https://bugs.otrs.org/show_bug.cgi?id=14768) - Advanced setting options are not reachable in System Configuration if the setting value contains too much text.
+ - 2019-09-12 Fixed bug#[13886](https://bugs.otrs.org/show_bug.cgi?id=13886) - Access to settings with higher ConfigLevel is possible even if system wide ConfigLevel is not matched.
+ - 2019-09-11 Fixed bug#[14761](https://bugs.otrs.org/show_bug.cgi?id=14761) - It's not possible to create article with attachment named '0'.
+ Instead, error message is shown.
  - 2019-09-10 Fixed bug#[14760](https://bugs.otrs.org/show_bug.cgi?id=14760) - Customer user has no customer relation information in search result screen.
  - 2019-09-06 Fixed LibreSSL version detection.
- - 2019-09-04 Fixed bug#[14497](https://bugs.otrs.org/show_bug.cgi?id=14497) - Insufficient encoding in ColumnFilterDynamicField affects bad filtering.
- - 2019-09-04 Fixed bug#[14748](https://bugs.otrs.org/show_bug.cgi?id=14748) - TicketOverviewSmall has a much lower performance than Medium and Large screens.
+ - 2019-09-04 Fixed bug#[14497](https://bugs.otrs.org/show_bug.cgi?id=14497) - Filtering doesn't work when special characters (like & and ;) are used in ColumnFilterDynamicField.
+  In this case there is encoding problem.
+ - 2019-09-04 Fixed bug#[14748](https://bugs.otrs.org/show_bug.cgi?id=14748) - TicketOverviewSmall screen has a much lower performance than Medium and Large screens.
  - 2019-09-04 Fixed bug#[14708](https://bugs.otrs.org/show_bug.cgi?id=14708) - Dev::Tools::TranslationsUpdate command generates wrong filename if the module name contains a number.
- - 2019-09-04 Fixed bug#[14764](https://bugs.otrs.org/show_bug.cgi?id=14764) - Calendar overview - first column in timeline month is marked as blocked.
- - 2019-09-04 Fixed bug#[14678](https://bugs.otrs.org/show_bug.cgi?id=14678) - NotificationOwnerUpdate event can cause wrong <OTRS_CUSTOMER_BODY> tag replacing - 'No body' instead of last customer article body.
+ - 2019-09-04 Fixed bug#[14764](https://bugs.otrs.org/show_bug.cgi?id=14764) - Wrong calendar highlighting in the Month timeline.
+ - 2019-09-04 Fixed bug#[14678](https://bugs.otrs.org/show_bug.cgi?id=14678) - NotificationOwnerUpdate event can cause wrong <OTRS_CUSTOMER_BODY> tag replacing.
+  Systems sets content to 'No body' instead of last customer article body.
  - 2019-09-03 Fixed bug#[14610](https://bugs.otrs.org/show_bug.cgi?id=14610) - There is no autocomplete option for AgentTicketBulk action in ACL configuration.
-   `ACLKeysLevel3::Actions###100-Default` is updated. AgentTicketBulk is added as a posible action.
+   `ACLKeysLevel3::Actions###100-Default` is updated. AgentTicketBulk is added as a possible action.
  - 2019-08-27 Fixed bug#[14728](https://bugs.otrs.org/show_bug.cgi?id=14728) - Dynamic field values are replaced by "xxx" in notifications and emails when using <OTRS>-tags in notifications.
   It's fixed by adding a check if the tag is referring to the Dynamic field and in this case system skips value replacement.
- - 2019-08-26 Fixed bug#[14724](https://bugs.otrs.org/show_bug.cgi?id=14724) - When you create an activity dialog it's not possible to search for a dynamic field with the name 'Name'.
- - 2019-08-21 Fixed bug#[14737](https://bugs.otrs.org/show_bug.cgi?id=14737) - Switch to customer feature not working in AgentCustomerInformationCenter.
- - 2019-08-13 Fixed bug#[14720](https://bugs.otrs.org/show_bug.cgi?id=14720) - TicketStateSet script task fails if target state equals current state.
- - 2019-08-09 Fixed bug#[14677](https://bugs.otrs.org/show_bug.cgi?id=14677) - Undefined field in title of user task activity dialog edit window.
- - 2019-08-08 Fixed bug#[14665](https://bugs.otrs.org/show_bug.cgi?id=14665) - AutoResponseForWebTicket is not honored in follow-up articles.
- - 2019-08-07 Fixed bug#[14716](https://bugs.otrs.org/show_bug.cgi?id=14716) - Mails with attached mails (e.g. forwarded) containing period followed by long string in the subject may get stuck.
+ - 2019-08-26 Fixed bug#[14724](https://bugs.otrs.org/show_bug.cgi?id=14724) - It's not possible to search for a dynamic field with the name 'Name' in the activity dialog.
+ - 2019-08-21 Fixed bug#[14737](https://bugs.otrs.org/show_bug.cgi?id=14737) - "Switch to customer" feature is not working in AgentCustomerInformationCenter.
+ - 2019-08-13 Fixed bug#[14720](https://bugs.otrs.org/show_bug.cgi?id=14720) - In the process management, TicketStateSet script task fails if target state equals current state.
+   When TicketStateSet fails, it causes a scheduler error e-mail to be sent.
+ - 2019-08-12 Fixed bug#[14677](https://bugs.otrs.org/show_bug.cgi?id=14677) - Undefined field in title of activity dialog edit window.
+ - 2019-08-08 Fixed bug#[14665](https://bugs.otrs.org/show_bug.cgi?id=14665) - Config option 'AutoResponseForWebTicket' is not honored in follow-up articles.
+   When 'AutoResponseForWebTickets' is set to 'No', follow-up articles generate auto-response.
+ - 2019-08-07 Fixed bug#[14716](https://bugs.otrs.org/show_bug.cgi?id=14716) - E-mails with attached e-mails (e.g. forwarded) containing period followed by long string in the subject may get stuck.
+   Put such e-mail into OTRS PostMaster and mail processing will run until the process is killed manually.
 
 #6.0.22 2019-08-30
  - 2019-08-26 Fixed bug#[14758](https://bugs.otrs.org/show_bug.cgi?id=14758) - If activity dialog contains 'Article' field after 'CustomerID', users are not able to create process ticket (Need TicketID error).
