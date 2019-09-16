@@ -1,4 +1,6 @@
-#5.0.38 ????-??-??
+#5.0.39 ????-??-??
+
+#5.0.38 2019-10-04
  - 2019-08-08 Fixed bug#[14716](https://bugs.otrs.org/show_bug.cgi?id=14716) - Mails with attached mails (e.g. forwarded) containing period followed by long string in the subject may get stuck.
  - 2019-05-11 Fixed bug#[14639](https://bugs.otrs.org/show_bug.cgi?id=14639) - Address Book is not working.
 
