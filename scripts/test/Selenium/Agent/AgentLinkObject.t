@@ -168,9 +168,22 @@ $Selenium->RunTest(
             "TicketNumber $TicketNumbers[2] - found",
         ) || die;
 
+        # Scroll to child ticket link.
+        $Selenium->execute_script(
+            "\$('a.LinkObjectLink[href*=\"Action=AgentTicketZoom;TicketID=$TicketIDs[1]\"]')[0].scrollIntoView(true);",
+        );
+
+        $Self->True(
+            $Selenium->execute_script(
+                "return \$('a.LinkObjectLink[href*=\"Action=AgentTicketZoom;TicketID=$TicketIDs[1]\"]').length;"
+            ),
+            "Link for child TicketID $TicketIDs[1] is found"
+        );
+
         # Click on child ticket.
-        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketZoom;TicketID=$TicketIDs[1]' )]")
-            ->VerifiedClick();
+        $Selenium->find_element(
+            "//a[contains(\@class, 'LinkObjectLink')][contains(\@href, \'Action=AgentTicketZoom;TicketID=$TicketIDs[1]' )]"
+        )->VerifiedClick();
 
         # Verify that child test ticket is linked with parent test ticket.
         $Self->True(
