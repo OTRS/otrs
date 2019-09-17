@@ -43,12 +43,6 @@ $Selenium->RunTest(
             Groups => [ 'admin', 'users' ],
         ) || die "Did not get test user";
 
-        $Selenium->Login(
-            Type     => 'Agent',
-            User     => $TestUserLogin,
-            Password => $TestUserLogin,
-        );
-
         my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
         my @DeleteTicketIDs;
@@ -92,6 +86,12 @@ $Selenium->RunTest(
         $Self->True(
             $ArticleID,
             "ArticleCreate - ID $ArticleID",
+        );
+
+        $Selenium->Login(
+            Type     => 'Agent',
+            User     => $TestUserLogin,
+            Password => $TestUserLogin,
         );
 
         my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -282,7 +282,9 @@ $Selenium->RunTest(
         );
 
         # Go to linked Ticket.
-        $Selenium->find_element("//a[contains(\@href, 'Action=AgentTicketZoom;TicketID=$TicketID' )]")->VerifiedClick();
+        $Selenium->find_element(
+            "//a[contains(\@class, 'LinkObjectLink')][contains(\@href, 'Action=AgentTicketZoom;TicketID=$TicketID' )]"
+        )->VerifiedClick();
 
         $Selenium->WaitFor(
             JavaScript => 'return typeof($) === "function" && $(".AsBlock.LinkObjectLink").length;'
