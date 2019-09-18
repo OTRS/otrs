@@ -1772,6 +1772,12 @@ sub Run {
             Name => 'DocumentColumnFilterForm',
             Data => {},
         );
+
+        # Add UseSubQueues param if available.
+        if ( $Param{UseSubQueues} ) {
+            $Param{ColumnFilterForm}->{UseSubQueues} = $Param{UseSubQueues};
+        }
+
         for my $Element ( sort keys %{ $Param{ColumnFilterForm} } ) {
             $LayoutObject->Block(
                 Name => 'DocumentColumnFilterFormElement',

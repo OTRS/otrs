@@ -358,6 +358,7 @@ sub Run {
             Env                 => $Self,
             View                => $View,
             EnableColumnFilters => 1,
+            UseSubQueues        => $UseSubQueues,
         );
 
         if ( !$FilterContent ) {
@@ -517,6 +518,7 @@ sub Run {
             QueueID => $Self->{QueueID} || '',
             Filter  => $Filter          || '',
         },
+        UseSubQueues => $UseSubQueues,
 
         # do not print the result earlier, but return complete content
         Output => 1,

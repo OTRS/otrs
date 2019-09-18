@@ -69,7 +69,7 @@ $Selenium->RunTest(
 
         # Create test queues.
         my @Queues;
-        for my $Item ( 1 .. 3 ) {
+        for my $Item ( 1 .. 4 ) {
 
             my $QueueID;
             my $QueueName = 'Queue' . $Helper->GetRandomID();
@@ -77,6 +77,13 @@ $Selenium->RunTest(
                 $QueueName = 'Delete';
                 $QueueID   = $QueueObject->QueueLookup( Queue => $QueueName );
             }
+            elsif ( $Item == 4 ) {
+                $QueueName = $Queues[1]->{QueueName} . '::' . $QueueName;
+
+                # $QueueID   = $QueueObject->QueueLookup( Queue => $QueueName );
+            }
+
+            my $Created = '';
             if ( !defined $QueueID ) {
                 $QueueID = $QueueObject->QueueAdd(
                     Name            => $QueueName,
@@ -92,12 +99,14 @@ $Selenium->RunTest(
                     $QueueID,
                     "QueueAdd() successful for test $QueueName ID $QueueID",
                 );
+                $Created = 1;
             }
 
             push @Queues,
                 {
                 QueueName => $QueueName,
                 QueueID   => $QueueID,
+                Created   => $Created,
                 };
         }
 
@@ -110,39 +119,52 @@ $Selenium->RunTest(
                 Queue   => 'Postmaster',
                 QueueID => 1,
                 Lock    => 'unlock',
+                State   => 'open',
             },
             {
                 Queue        => 'Raw',
                 QueueID      => 2,
                 Lock         => 'unlock',
                 FixedTimeSet => $FixedTime - 60 * 60 - 100,
+                State        => 'open',
             },
             {
                 Queue   => 'Junk',
                 QueueID => 3,
                 Lock    => 'lock',
+                State   => 'open',
             },
             {
                 Queue   => 'Misc',
                 QueueID => 4,
                 Lock    => 'lock',
+                State   => 'open',
             },
             {
                 Queue        => $Queues[0]->{QueueName},
                 QueueID      => $Queues[0]->{QueueID},
                 Lock         => 'unlock',
                 FixedTimeSet => $FixedTime - 10 * 60 - 100,
+                State        => 'open',
             },
             {
                 Queue        => $Queues[1]->{QueueName},
                 QueueID      => $Queues[1]->{QueueID},
                 Lock         => 'unlock',
                 FixedTimeSet => $FixedTime - 20 * 60 - 100,
+                State        => 'open',
             },
             {
                 Queue   => $Queues[2]->{QueueName},
                 QueueID => $Queues[2]->{QueueID},
                 Lock    => 'unlock',
+                State   => 'open',
+            },
+            {
+                Queue   => $Queues[3]->{QueueName},
+                QueueID => $Queues[3]->{QueueID},
+                Lock    => 'unlock',
+                State   => 'new',
             }
         );
 
@@ -166,7 +188,7 @@ $Selenium->RunTest(
                 Queue         => $TicketCreate->{Queue},
                 Lock          => $TicketCreate->{Lock},
                 Priority      => '3 normal',
-                State         => 'open',
+                State         => $TicketCreate->{State},
                 CustomerID    => 'SeleniumCustomer',
                 CustomerUser  => 'SeleniumCustomer@localhost.com',
                 OwnerID       => $TestUserID,
@@ -238,7 +260,9 @@ $Selenium->RunTest(
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketQueue;View=Small");
 
         # Test if tickets show with appropriate filters.
+        TEST:
         for my $Test (@Tests) {
+            next TEST if $Test->{State} eq 'new';
 
             # Check for Queue filter buttons (Postmaster / Raw / Junk / Misc / QueueTest).
             my $Element = $Selenium->find_element(
@@ -339,6 +363,67 @@ $Selenium->RunTest(
             "Title for filtered AgentTicketQueue screen is not translated.",
         );
 
+        # Check state ID for states 'open' and 'new'.
+        my $StateObject = $Kernel::OM->Get('Kernel::System::State');
+        my $OpenStateID = $StateObject->StateLookup(
+            State => 'open',
+        );
+        my $NewStateID = $StateObject->StateLookup(
+            State => 'new',
+        );
+
+        # Navigate to test queue view of queue with sub-queue.
+        $Selenium->VerifiedGet(
+            "${ScriptAlias}index.pl?Action=AgentTicketQueue;QueueID=$Queues[1]->{QueueID};View=Small"
+        );
+
+        # Click on state column filter.
+        $Selenium->execute_script("\$('.ColumnSettingsTrigger[title*=\"Status\"]').click();");
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return typeof(\$) === 'function' && \$('#ColumnFilterState:visible').length;"
+        );
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return typeof(\$) === 'function' && \$('#ColumnFilterState option[value=\"$OpenStateID\"]').length"
+        );
+
+        # Verify there is only 'open' state to filter from.
+        $Self->True(
+            $Selenium->execute_script("return \$('#ColumnFilterState option[value=\"$OpenStateID\"]').length;"),
+            "'open' state is available as filter selection."
+        );
+        $Self->False(
+            $Selenium->execute_script("return \$('#ColumnFilterState option[value=\"$NewStateID\"]').length;"),
+            "'new' state is not available as filter selection."
+        );
+
+        # Naviage to test queue view with sub-queue.
+        $Selenium->VerifiedGet(
+            "${ScriptAlias}index.pl?Action=AgentTicketQueue;QueueID=$Queues[1]->{QueueID};View=Small;UseSubQueues=1;"
+        );
+
+        # Click on state column filter.
+        $Selenium->execute_script("\$('.ColumnSettingsTrigger[title*=\"Status\"]').click();");
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return typeof(\$) === 'function' && \$('#ColumnFilterState:visible').length;"
+        );
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return typeof(\$) === 'function' && \$('#ColumnFilterState option[value=\"$OpenStateID\"]').length"
+        );
+
+        # Verify there are both 'open' and 'new' state to filter from.
+        $Self->True(
+            $Selenium->execute_script("return \$('#ColumnFilterState option[value=\"$OpenStateID\"]').length;"),
+            "'open' state is available as filter selection with sub-queues."
+        );
+        $Self->True(
+            $Selenium->execute_script("return \$('#ColumnFilterState option[value=\"$NewStateID\"]').length;"),
+            "'new' state is available as filter selection with sub-queues."
+        );
+
         # Delete created test tickets.
         my $Success;
         for my $TicketID (@TicketIDs) {
@@ -363,13 +448,15 @@ $Selenium->RunTest(
 
         # Delete created test queue.
         for my $Queue (@Queues) {
-            $Success = $Kernel::OM->Get('Kernel::System::DB')->Do(
-                SQL => "DELETE FROM queue WHERE id = $Queue->{QueueID}",
-            );
-            $Self->True(
-                $Success,
-                "Delete queue - ID $Queue->{QueueID}",
-            );
+            if ( $Queue->{Created} ) {
+                $Success = $Kernel::OM->Get('Kernel::System::DB')->Do(
+                    SQL => "DELETE FROM queue WHERE id = $Queue->{QueueID}",
+                );
+                $Self->True(
+                    $Success,
+                    "Delete queue - ID $Queue->{QueueID}",
+                );
+            }
         }
 
         my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
