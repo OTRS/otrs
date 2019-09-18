@@ -116,8 +116,10 @@ $Selenium->RunTest(
         # Navigate to zoom view of created test ticket.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
 
-        # Expand article details.
-        $Selenium->find_element( '.WidgetAction.Expand', 'css' )->click();
+        # Wait until screen is loaded completely.
+        $Selenium->WaitFor(
+            ElementMissing => [ '.WidgetIsLoading', 'css' ],
+        );
 
         # Create test fields for FormDraft.
         my $Title         = 'ForwardFormDraft' . $RandomID;
@@ -323,6 +325,11 @@ $Selenium->RunTest(
         # Refresh screen.
         $Selenium->VerifiedRefresh();
 
+        # Wait until screen is loaded completely.
+        $Selenium->WaitFor(
+            ElementMissing => [ '.WidgetIsLoading', 'css' ],
+        );
+
         # Wait until page has loaded, if necessary.
         $Selenium->WaitFor(
             JavaScript =>
@@ -438,6 +445,11 @@ $Selenium->RunTest(
         # Switch back window.
         $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
+
+        # Wait until screen is loaded completely.
+        $Selenium->WaitFor(
+            ElementMissing => [ '.WidgetIsLoading', 'css' ],
+        );
 
         # Wait until page has loaded.
         $Selenium->WaitFor(

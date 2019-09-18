@@ -148,6 +148,11 @@ $Selenium->RunTest(
         # Navigate to zoom view of created test ticket.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketIDs[0]");
 
+        # Wait until screen is loaded completely.
+        $Selenium->WaitFor(
+            ElementMissing => [ '.WidgetIsLoading', 'css' ],
+        );
+
         # Verify that parent test tickets is linked with child test ticket.
         $Self->True(
             index( $Selenium->get_page_source(), 'Child' ) > -1,
@@ -220,6 +225,11 @@ $Selenium->RunTest(
 
         # Navigate to AgentTicketZoom screen.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketIDs[0]");
+
+        # Wait until screen is loaded completely.
+        $Selenium->WaitFor(
+            ElementMissing => [ '.WidgetIsLoading', 'css' ],
+        );
 
         # Check for updated ticket title in linked tickets complex view table.
         $Self->True(
@@ -565,6 +575,11 @@ $Selenium->RunTest(
         # Navigate to zoom view of created test ticket.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketIDs[0]");
 
+        # Wait until screen is loaded completely.
+        $Selenium->WaitFor(
+            ElementMissing => [ '.WidgetIsLoading', 'css' ],
+        );
+
         # Make sure they are really linked.
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#WidgetTicket").length;' );
         $Selenium->find_element( "#WidgetTicket", "css" );
@@ -647,6 +662,11 @@ $Selenium->RunTest(
 
         # Navigate to zoom view of created test ticket.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketIDs[0]");
+
+        # Wait until screen is loaded completely.
+        $Selenium->WaitFor(
+            ElementMissing => [ '.WidgetIsLoading', 'css' ],
+        );
 
         # Verify column settings button is available for both Ticket and Appointment link object widget.
         # See bug#13702 (https://bugs.otrs.org/show_bug.cgi?id=13702);
