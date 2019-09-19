@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.995920448750637;
+    $Self->{Completeness}        = 0.999829960891005;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -573,7 +573,7 @@ sub Data {
         'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
             '可以为字段值指定一个可选的HTTP链接，以便其显示在工单概览和工单详情中。',
         'If special characters (&, @, :, /, etc.) should not be encoded, use \'url\' instead of \'uri\' filter.' =>
-            '',
+            '如果不应编码特殊字符（&、@、 :、 / 等），请使用“url”代替“uri”过滤器。',
         'Example' => '样例',
         'Link for preview' => '连接预览',
         'If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too.' =>
@@ -1302,7 +1302,7 @@ sub Data {
             '工单动态字段显示值，对下拉式和多项选择字段有用',
 
         # Template: AdminNotificationEventTransportEmailSettings
-        'Use comma or semicolon to separate email addresses.' => '',
+        'Use comma or semicolon to separate email addresses.' => '使用逗号或分号分隔电子邮件地址。',
         'You can use OTRS-tags like <OTRS_TICKET_DynamicField_...> to insert values from the current ticket.' =>
             '你可以使用诸如<OTRS_TICKET_DynamicField_...>之类的OTRS标签来插入当前工单中的值。',
 
@@ -1599,7 +1599,6 @@ sub Data {
             '用鼠标将左侧列表中的元素拖放到右侧，你可以为这个活动对话框分配字段。',
         'Filter available fields' => '可用字段的过滤器',
         'Available Fields' => '可用的字段',
-        'Name: %s' => '名称：%s',
         'Assigned Fields' => '分配的字段',
         'Communication Channel' => '通信渠道',
         'Is visible for customer' => '对客户可见',
@@ -3215,6 +3214,8 @@ sub Data {
         'This setting is fixed but not deployed yet!' => '这个设置已修正，但尚未部署！',
         'This setting is currently being overridden in %s and can\'t thus be changed here!' =>
             '这个设置目前已在%s中覆盖，所以无法在这里更改！',
+        'Changing this setting is only available in a higher config level!' =>
+            '',
         '%s (%s) is currently working on this setting.' => '%s（%s）正在处理这个设置。',
         'Toggle advanced options for this setting' => '显示/隐藏此设置的高级选项',
         'Disable this setting, so it is no longer effective' => '禁用此设置，因此它不再有效',
@@ -3621,19 +3622,19 @@ sub Data {
         # Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
         'Need Invoker!' => '需要调用程序！',
         'Need Event!' => '需要事件！',
-        'Could not get registered modules for Invoker' => '',
-        'Could not get backend for Invoker %s' => '',
-        'The event %s is not valid.' => '',
+        'Could not get registered modules for Invoker' => '无法获得调用程序的注册模块',
+        'Could not get backend for Invoker %s' => '不能获得调用程序 %s的后端',
+        'The event %s is not valid.' => '事件 %s 无效。',
         'Could not update configuration data for WebserviceID %s' => '不能更新WebserviceID %s的配置数据',
-        'This sub-action is not valid' => '',
+        'This sub-action is not valid' => '这个子动作无效',
         'xor' => 'xor（异或）',
         'String' => '字符串',
-        'Regexp' => '',
-        'Validation Module' => '',
+        'Regexp' => '正则表达式',
+        'Validation Module' => '验证模块',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
-        'Simple Mapping for Outgoing Data' => '',
-        'Simple Mapping for Incoming Data' => '',
+        'Simple Mapping for Outgoing Data' => '出站数据的简单映射',
+        'Simple Mapping for Incoming Data' => '传入数据的简单映射',
         'Could not get registered configuration for action type %s' => '不能获得动作类型%s 的注册配置。',
         'Could not get backend for %s %s' => '不能获得 %s %s的后端',
         'Keep (leave unchanged)' => '保持（保持不变）',
@@ -3643,26 +3644,26 @@ sub Data {
         'Ignore (drop Value/value pair)' => '忽略（丢弃键/值对）',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
-        'XSLT Mapping for Outgoing Data' => '',
-        'XSLT Mapping for Incoming Data' => '',
+        'XSLT Mapping for Outgoing Data' => '出站数据的XSLT映射',
+        'XSLT Mapping for Incoming Data' => '传入数据的XSLT映射',
         'Could not find required library %s' => '不能找到需要的库%s',
         'Outgoing request data before processing (RequesterRequestInput)' =>
-            '',
+            '处理前的传出请求数据（RequesterRequestInput）',
         'Outgoing request data before mapping (RequesterRequestPrepareOutput)' =>
-            '',
+            '映射前的传出请求数据（RequesterRequestPrepareOutput）',
         'Outgoing request data after mapping (RequesterRequestMapOutput)' =>
-            '',
+            '映射后的传出请求数据（RequesterRequestMapOutput）',
         'Incoming response data before mapping (RequesterResponseInput)' =>
-            '',
+            '映射前的传入响应数据（RequesterResponseInput）',
         'Outgoing error handler data after error handling (RequesterErrorHandlingOutput)' =>
-            '',
-        'Incoming request data before mapping (ProviderRequestInput)' => '',
+            '错误处理后的传出错误处理程序数据（RequesterErrorHandlingOutput）',
+        'Incoming request data before mapping (ProviderRequestInput)' => '映射前的传入请求数据（ProviderRequestInput）',
         'Incoming request data after mapping (ProviderRequestMapOutput)' =>
-            '',
+            '映射后的传入请求数据（ProviderRequestMapOutput）',
         'Outgoing response data before mapping (ProviderResponseInput)' =>
-            '',
+            '映射前的传出响应数据（ProviderResponseInput）',
         'Outgoing error handler data after error handling (ProviderErrorHandlingOutput)' =>
-            '',
+            '错误处理后的传出错误处理程序数据（ProviderErrorHandlingOutput）',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceOperationDefault.pm
         'Could not determine config for operation %s' => '不能确定操作%s 的配置',
@@ -3680,7 +3681,7 @@ sub Data {
         'Web service "%s" created!' => 'Web服务“%s”已经创建！',
         'Need Name!' => '需要名称！',
         'Need ExampleWebService!' => '需要WEB服务示例！',
-        'Could not load %s.' => '',
+        'Could not load %s.' => '不能载入 %s。',
         'Could not read %s!' => '不能读取 %s！',
         'Need a file to import!' => '导入需要一个文件！',
         'The imported file has not valid YAML content! Please check OTRS log for details' =>
@@ -3718,8 +3719,8 @@ sub Data {
         'Customer user of the ticket' => '该工单的客户用户',
         'All recipients of the first article' => '第一封信件的所有收件人',
         'All recipients of the last article' => '最近一封信件的所有收件人',
-        'Invisible to customer' => '',
-        'Visible to customer' => '',
+        'Invisible to customer' => '客户不可见',
+        'Visible to customer' => '对客户可见',
 
         # Perl Module: Kernel/Modules/AdminOTRSBusiness.pm
         'Your system was successfully upgraded to %s.' => '你的系统已成功更新到 %s。',
@@ -6900,8 +6901,8 @@ Thanks for your help!
             '如果客户用户还没有选择一个时区，定义在客户界面中显示一条通知的模块。',
         'Defines the module to generate code for periodic page reloads.' =>
             '定义生成定期页面刷新代码的模块。',
-        'Defines the module to send emails. "Sendmail" directly uses the sendmail binary of your operating system. Any of the "SMTP" mechanisms use a specified (external) mailserver. "DoNotSendEmail" doesn\'t send emails and it is useful for test systems.' =>
-            '定义发送邮件的模块。“Sendmail”直接使用操作系统中的Sendmail程序；任何“SMTP”方式使用指定的外部邮件服务器；“DoNotSendEmail（不发送邮件）”不会发送邮件，在测试系统时有用。',
+        'Defines the module to send emails. "DoNotSendEmail" doesn\'t send emails at all. Any of the "SMTP" mechanisms use a specified (external) mailserver. "Sendmail" directly uses the sendmail binary of your operating system. "Test" doesn\'t send emails, but writes them to $OTRS_HOME/var/tmp/CacheFileStorable/EmailTest/ for testing purposes.' =>
+            '定义发送电子邮件的模块。 “DoNotSendEmail”根本不发送电子邮件。 任何“SMTP”机制都使用指定的（外部）邮件服务器。 “Sendmail”直接使用操作系统的sendmail二进制文件。 “Test”不会发送电子邮件，而是将它们写入$OTRS_HOME/var/tmp/CacheFileStorable/EmailTest/ 以用于测试目的。',
         'Defines the module used to store the session data. With "DB" the frontend server can be splitted from the db server. "FS" is faster.' =>
             '定义存储会话数据的模块。使用“DB（数据库）”则前端服务器能从数据库服务器中拆分出来。“FS（文件系统）”更快一些。',
         'Defines the name of the application, shown in the web interface, tabs and title bar of the web browser.' =>
@@ -7834,14 +7835,10 @@ Thanks for your help!
             '服务人员界面新建工单概览的仪表板后端的参数。"Limit（限制）" 是默认的显示条目数，“GROUP”（组）用于到本插件的访问权限限制（如 Group:admin;group1;group2）。“Default（默认）”代表这个插件是默认启用还是需要用户手动启用。“CacheTTL”表明本插件的缓存过期时间（单位：分钟）。“Mandatory（强制）”确定插件是否始终显示且不能被服务人员移除。 注意：只有工单属性和动态字段（DynamicField_NameX）才允许使用DefaultColumns（默认字段）。',
         'Parameters for the dashboard backend of the new tickets overview of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns.' =>
             '服务人员界面新建工单概览的仪表板后端的参数。"Limit（限制）" 是默认的显示条目数，“GROUP”（组）用于到本插件的访问权限限制（如 Group:admin;group1;group2）。“Default（默认）”代表这个插件是默认启用还是需要用户手动启用。“CacheTTL”表明本插件的缓存过期时间（单位：分钟）。“Mandatory（强制）”确定插件是否始终显示且不能被服务人员移除。 注意：只有工单属性和动态字段（DynamicField_NameX）才允许使用DefaultColumns（默认字段）。',
-        'Parameters for the dashboard backend of the new tickets overview of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. "AccessibleTickets" determines if the plugin will show only tickets assigned to a customer user directly (=0) or also all accessible tickets for this customer (=1).' =>
-            '服务人员界面新建工单概览的仪表板后端的参数。"Limit（限制）" 是默认的显示条目数，“GROUP”（组）用于到本插件的访问权限限制（如 Group:admin;group1;group2）。“Default（默认）”代表这个插件是默认启用还是需要用户手动启用。“CacheTTL”表明本插件的缓存过期时间（单位：分钟）。 注意：只有工单属性和动态字段（DynamicField_NameX）才允许使用DefaultColumns（默认字段）。可能的设置：0 = 禁用，1 = 可用，2 = 默认启用。 “AccessibleTickets（可访问的工单）”确定本插件是仅显示直接分配给某个客户用户的工单（= 0），还是显示该客户的所有可访问的工单（= 1）。',
         'Parameters for the dashboard backend of the open tickets overview of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. "Mandatory" determines if the plugin is always shown and can not be removed by agents. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns.' =>
             '服务人员界面处理工单概览的仪表板后端的参数。"Limit（限制）" 是默认的显示条目数，“GROUP”（组）用于到本插件的访问权限限制（如 Group:admin;group1;group2）。“Default（默认）”代表这个插件是默认启用还是需要用户手动启用。“CacheTTL”表明本插件的缓存过期时间（单位：分钟）。“Mandatory（强制）”确定插件是否始终显示且不能被服务人员移除。 注意：只有工单属性和动态字段（DynamicField_NameX）才允许使用DefaultColumns（默认字段）。',
         'Parameters for the dashboard backend of the open tickets overview of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns.' =>
             '服务人员界面处理工单概览的仪表板后端的参数。"Limit（限制）" 是默认的显示条目数，“GROUP”（组）用于到本插件的访问权限限制（如 Group:admin;group1;group2）。“Default（默认）”代表这个插件是默认启用还是需要用户手动启用。“CacheTTL”表明本插件的缓存过期时间（单位：分钟）。 注意：只有工单属性和动态字段（DynamicField_NameX）才允许使用DefaultColumns（默认字段）。',
-        'Parameters for the dashboard backend of the open tickets overview of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. "AccessibleTickets" determines if the plugin will show only tickets assigned to a customer user directly (=0) or also all accessible tickets for this customer (=1).' =>
-            '服务人员界面处理工单概览的仪表板后端的参数。"Limit（限制）" 是默认的显示条目数，“GROUP”（组）用于到本插件的访问权限限制（如 Group:admin;group1;group2）。“Default（默认）”代表这个插件是默认启用还是需要用户手动启用。“CacheTTL”表明本插件的缓存过期时间（单位：分钟）。“Mandatory（强制）”确定插件是否始终显示且不能被服务人员移除。 注意：只有工单属性和动态字段（DynamicField_NameX）才允许使用DefaultColumns（默认字段）。可能的设置：0 = 禁用，1 = 可用，2 = 默认启用。 “AccessibleTickets（可访问的工单）”确定本插件是仅显示直接分配给某个客户用户的工单（= 0），还是显示该客户的所有可访问的工单（= 1）。',
         'Parameters for the dashboard backend of the queue overview widget of the agent interface. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "QueuePermissionGroup" is not mandatory, queues are only listed if they belong to this permission group if you enable it. "States" is a list of states, the key is the sort order of the state in the widget. "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. "Mandatory" determines if the plugin is always shown and can not be removed by agents.' =>
             '服务人员界面执行中的队列概览小部件的仪表板后端的参数。“GROUP”（组）用于到本插件的访问权限限制（如 Group:admin;group1;group2）。“QueuePermissionGroup（队列权限组）”不是必需的，只有在启用了权限组且队列属于此权限组时才会显示队列。"States（状态）"是状态的列表，该键是小部件中状态的排序顺序。“Default（默认）”代表这个插件是默认启用还是需要用户手动启用。“CacheTTL”表明本插件的缓存过期时间（单位：分钟）。“Mandatory（强制）”确定插件是否始终显示且不能被服务人员移除。',
         'Parameters for the dashboard backend of the running process tickets overview of the agent interface . "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. "Mandatory" determines if the plugin is always shown and can not be removed by agents.' =>
@@ -7850,16 +7847,16 @@ Thanks for your help!
             '服务人员界面工单升级概览的仪表板后端的参数。"Limit（限制）" 是默认的显示条目数，“GROUP”（组）用于到本插件的访问权限限制（如 Group:admin;group1;group2）。“Default（默认）”代表这个插件是默认启用还是需要用户手动启用。“CacheTTL”表明本插件的缓存过期时间（单位：分钟）。“Mandatory（强制）”确定插件是否始终显示且不能被服务人员移除。 注意：只有工单属性和动态字段（DynamicField_NameX）才允许使用DefaultColumns（默认字段）。',
         'Parameters for the dashboard backend of the ticket escalation overview of the agent interface . "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns.' =>
             '服务人员界面工单升级概览的仪表板后端的参数。"Limit（限制）" 是默认的显示条目数，“GROUP”（组）用于到本插件的访问权限限制（如 Group:admin;group1;group2）。“Default（默认）”代表这个插件是默认启用还是需要用户手动启用。“CacheTTL”表明本插件的缓存过期时间（单位：分钟）。 注意：只有工单属性和动态字段（DynamicField_NameX）才允许使用DefaultColumns（默认字段）。',
-        'Parameters for the dashboard backend of the ticket escalation overview of the agent interface . "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. "AccessibleTickets" determines if the plugin will show only tickets assigned to a customer user directly (=0) or also all accessible tickets for this customer (=1).' =>
-            '服务人员界面工单升级概览的仪表板后端的参数。"Limit（限制）" 是默认的显示条目数，“GROUP”（组）用于到本插件的访问权限限制（如 Group:admin;group1;group2）。“Default（默认）”代表这个插件是默认启用还是需要用户手动启用。“CacheTTL”表明本插件的缓存过期时间（单位：分钟）。 注意：只有工单属性和动态字段（DynamicField_NameX）才允许使用DefaultColumns（默认字段）。可能的设置：0 = 禁用，1 = 可用，2 = 默认启用。 “AccessibleTickets（可访问的工单）”确定本插件是仅显示直接分配给某个客户用户的工单（= 0），还是显示该客户的所有可访问的工单（= 1）。',
+        'Parameters for the dashboard backend of the ticket escalation overview of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns.' =>
+            '服务人员界面工单升级概览的仪表板后端的参数。"Limit（限制）" 是默认的显示条目数，“GROUP”（组）用于到本插件的访问权限限制（如 Group:admin;group1;group2）。“Default（默认）”代表这个插件是默认启用还是需要用户手动启用。“CacheTTL”表明本插件的缓存过期时间（单位：分钟）。 注意：只有工单属性和动态字段（DynamicField_NameX）才允许使用DefaultColumns（默认字段）。',
         'Parameters for the dashboard backend of the ticket events calendar of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. "Mandatory" determines if the plugin is always shown and can not be removed by agents.' =>
             '服务人员界面工单事件日历的仪表板后端的参数。"Limit（限制）" 是默认的显示条目数，“GROUP”（组）用于到本插件的访问权限限制（如 Group:admin;group1;group2）。“Default（默认）”代表这个插件是默认启用还是需要用户手动启用。“CacheTTL”表明本插件的缓存过期时间（单位：分钟）。“Mandatory（强制）”确定插件是否始终显示且不能被服务人员移除。',
         'Parameters for the dashboard backend of the ticket pending reminder overview of the agent interface . "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. "Mandatory" determines if the plugin is always shown and can not be removed by agents. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns.' =>
             '服务人员界面工单挂起提醒概览的仪表板后端的参数。"Limit（限制）" 是默认的显示条目数，“GROUP”（组）用于到本插件的访问权限限制（如 Group:admin;group1;group2）。“Default（默认）”代表这个插件是默认启用还是需要用户手动启用。“CacheTTL”表明本插件的缓存过期时间（单位：分钟）。“Mandatory（强制）”确定插件是否始终显示且不能被服务人员移除。 注意：只有工单属性和动态字段（DynamicField_NameX）才允许使用DefaultColumns（默认字段）。',
         'Parameters for the dashboard backend of the ticket pending reminder overview of the agent interface . "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns.' =>
             '服务人员界面工单挂起提醒的仪表板后端的参数。"Limit（限制）" 是默认的显示条目数，“GROUP”（组）用于到本插件的访问权限限制（如 Group:admin;group1;group2）。“Default（默认）”代表这个插件是默认启用还是需要用户手动启用。“CacheTTL”表明本插件的缓存过期时间（单位：分钟）。 注意：只有工单属性和动态字段（DynamicField_NameX）才允许使用DefaultColumns（默认字段）。',
-        'Parameters for the dashboard backend of the ticket pending reminder overview of the agent interface . "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. "AccessibleTickets" determines if the plugin will show only tickets assigned to a customer user directly (=0) or also all accessible tickets for this customer (=1).' =>
-            '服务人员界面工单挂起提醒概览的仪表板后端的参数。"Limit（限制）" 是默认的显示条目数，“GROUP”（组）用于到本插件的访问权限限制（如 Group:admin;group1;group2）。“Default（默认）”代表这个插件是默认启用还是需要用户手动启用。“CacheTTL”表明本插件的缓存过期时间（单位：分钟）。“Mandatory（强制）”确定插件是否始终显示且不能被服务人员移除。 注意：只有工单属性和动态字段（DynamicField_NameX）才允许使用DefaultColumns（默认字段）。可能的设置：0 = 禁用，1 = 可用，2 = 默认启用。 “AccessibleTickets（可访问的工单）”确定本插件是仅显示直接分配给某个客户用户的工单（= 0），还是显示该客户的所有可访问的工单（= 1）。',
+        'Parameters for the dashboard backend of the ticket pending reminder overview of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns.' =>
+            '服务人员界面工单挂起提醒的仪表板后端的参数。"Limit（限制）" 是默认的显示条目数，“GROUP”（组）用于到本插件的访问权限限制（如 Group:admin;group1;group2）。“Default（默认）”代表这个插件是默认启用还是需要用户手动启用。“CacheTTL”表明本插件的缓存过期时间（单位：分钟）。 注意：只有工单属性和动态字段（DynamicField_NameX）才允许使用DefaultColumns（默认字段）。',
         'Parameters for the dashboard backend of the ticket stats of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. "Mandatory" determines if the plugin is always shown and can not be removed by agents.' =>
             '服务人员界面工单统计的仪表板后端的参数。"Limit（限制）" 是默认的显示条目数，“GROUP”（组）用于到本插件的访问权限限制（如 Group:admin;group1;group2）。“Default（默认）”代表这个插件是默认启用还是需要用户手动启用。“CacheTTL”表明本插件的缓存过期时间（单位：分钟）。“Mandatory（强制）”确定插件是否始终显示且不能被服务人员移除。',
         'Parameters for the dashboard backend of the upcoming events widget of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. "Mandatory" determines if the plugin is always shown and can not be removed by agents.' =>

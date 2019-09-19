@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.495325514193439;
+    $Self->{Completeness}        = 0.498384628464547;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -114,7 +114,7 @@ sub Data {
         'Overwrite existing entities' => 'Sovrascrivi le entità esistenti',
         'Upload calendar configuration' => 'Carica configurazione calendario',
         'Import Calendar' => 'Importa Calendario',
-        'Filter for Calendars' => '',
+        'Filter for Calendars' => 'Filtra per Calendari',
         'Filter for calendars' => 'Filtra per calendari',
         'Depending on the group field, the system will allow users the access to the calendar according to their permission level.' =>
             'Dipende dal gruppo di appartenenza, l\'accesso al calendario sarà regolato secondo i permessi settati sul sistema.',
@@ -327,7 +327,7 @@ sub Data {
         'Time Range' => '',
         'Show only communication logs created in specific time range.' =>
             '',
-        'Filter for Communications' => '',
+        'Filter for Communications' => 'Filtra per Comunicazioni',
         'Filter for communications' => 'Filtro per le comunicazioni',
         'In this screen you can see an overview about incoming and outgoing communications.' =>
             '',
@@ -1601,7 +1601,6 @@ sub Data {
             'Puoi assegnare campi a questo messaggio di attività trascinando gli elementi con il mouse dalla lista di sinistra a quella di destra.',
         'Filter available fields' => 'Filtro sui campi disponibili',
         'Available Fields' => 'Campi disponibili',
-        'Name: %s' => 'Nome: %s',
         'Assigned Fields' => 'Campi assegnati',
         'Communication Channel' => 'Canale di comunicazione',
         'Is visible for customer' => 'È visibile per il cliente',
@@ -2741,7 +2740,7 @@ sub Data {
         'Save filter settings as default' => 'Salva impostazioni filtri come predefinite',
         'Event Type' => 'Tipo evento',
         'Save as default' => 'Salva come predefinito',
-        'Drafts' => '',
+        'Drafts' => 'Bozze',
         'by' => 'da',
         'Change Queue' => 'Cambia coda',
         'There are no dialogs available at this point in the process.' =>
@@ -2949,16 +2948,16 @@ sub Data {
         'Click to delete this attachment.' => '',
 
         # Template: DraftButtons
-        'Update draft' => '',
-        'Save as new draft' => '',
+        'Update draft' => 'Aggiorna bozza',
+        'Save as new draft' => 'Salva in bozza',
 
         # Template: DraftNotifications
-        'You have loaded the draft "%s".' => '',
-        'You have loaded the draft "%s". You last changed it %s.' => '',
+        'You have loaded the draft "%s".' => 'Hai caricato la bozza "%s"',
+        'You have loaded the draft "%s". You last changed it %s.' => 'Hai caricato la bozza "%s". L\'hai modificata per ultimo %s.',
         'You have loaded the draft "%s". It was last changed %s by %s.' =>
-            '',
+            'Hai caricato la bozza "%s". L\'ultima modifica è %s di %s.',
         'Please note that this draft is outdated because the ticket was modified since this draft was created.' =>
-            '',
+            'Attenzione: questa bozza è obsoleta perché il ticket è stato modificato dopo che la bozza è stata creata.',
 
         # Template: Header
         'View notifications' => '',
@@ -3217,6 +3216,8 @@ sub Data {
         'This setting is fixed but not deployed yet!' => '',
         'This setting is currently being overridden in %s and can\'t thus be changed here!' =>
             '',
+        'Changing this setting is only available in a higher config level!' =>
+            '',
         '%s (%s) is currently working on this setting.' => '',
         'Toggle advanced options for this setting' => '',
         'Disable this setting, so it is no longer effective' => '',
@@ -3296,7 +3297,7 @@ sub Data {
         'Show' => 'Visualizza',
 
         # JS Template: FormDraftAddDialog
-        'Draft title' => '',
+        'Draft title' => 'Titolo della bozza',
 
         # JS Template: ArticleViewSettingsDialog
         'Article display' => '',
@@ -4091,16 +4092,16 @@ sub Data {
         # Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
         'No TicketID is given!' => '',
         'You need %s permissions!' => '',
-        'Loading draft failed!' => '',
+        'Loading draft failed!' => 'Caricamento della bozza fallito!',
         'Sorry, you need to be the ticket owner to perform this action.' =>
             'Spiacente, devi essere il proprietario del ticket per effettuare questa operazione.',
         'Please change the owner first.' => 'Prima è necessario cambiare il proprietario.',
-        'FormDraft functionality disabled!' => '',
-        'Draft name is required!' => '',
-        'FormDraft name %s is already in use!' => '',
+        'FormDraft functionality disabled!' => 'Funzione bozze non attiva!',
+        'Draft name is required!' => 'La bozza richiede un nome!',
+        'FormDraft name %s is already in use!' => 'Il nome %s per il modulo bozza è già usato!',
         'Could not perform validation on field %s!' => '',
         'No subject' => 'Nessun oggetto',
-        'Could not delete draft!' => '',
+        'Could not delete draft!' => 'Non puoi cancellare la bozza!',
         'Previous Owner' => 'Gestore precedente',
         'wrote' => 'ha scritto',
         'Message from' => 'Messaggio da',
@@ -4336,7 +4337,7 @@ sub Data {
         'Notification Was Sent' => '',
         'This ticket does not exist, or you don\'t have permissions to access it in its current state.' =>
             '',
-        'Missing FormDraftID!' => '',
+        'Missing FormDraftID!' => 'Manca l\'ID del modulo bozza!',
         'Can\'t get for ArticleID %s!' => '',
         'Article filter settings were saved.' => '',
         'Event type filter settings were saved.' => '',
@@ -5753,8 +5754,8 @@ sub Data {
         ' ...show less' => '',
 
         # JS File: Core.Agent.TicketFormDraft
-        'Add new draft' => '',
-        'Delete draft' => '',
+        'Add new draft' => 'Aggiungi nuova bozza',
+        'Delete draft' => 'Cancella bozza',
         'There are no more drafts available.' => '',
         'It was not possible to delete this draft.' => '',
 
@@ -6893,7 +6894,7 @@ Thanks for your help!
             '',
         'Defines the module to generate code for periodic page reloads.' =>
             '',
-        'Defines the module to send emails. "Sendmail" directly uses the sendmail binary of your operating system. Any of the "SMTP" mechanisms use a specified (external) mailserver. "DoNotSendEmail" doesn\'t send emails and it is useful for test systems.' =>
+        'Defines the module to send emails. "DoNotSendEmail" doesn\'t send emails at all. Any of the "SMTP" mechanisms use a specified (external) mailserver. "Sendmail" directly uses the sendmail binary of your operating system. "Test" doesn\'t send emails, but writes them to $OTRS_HOME/var/tmp/CacheFileStorable/EmailTest/ for testing purposes.' =>
             '',
         'Defines the module used to store the session data. With "DB" the frontend server can be splitted from the db server. "FS" is faster.' =>
             '',
@@ -7827,13 +7828,9 @@ Thanks for your help!
             '',
         'Parameters for the dashboard backend of the new tickets overview of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns.' =>
             '',
-        'Parameters for the dashboard backend of the new tickets overview of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. "AccessibleTickets" determines if the plugin will show only tickets assigned to a customer user directly (=0) or also all accessible tickets for this customer (=1).' =>
-            '',
         'Parameters for the dashboard backend of the open tickets overview of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. "Mandatory" determines if the plugin is always shown and can not be removed by agents. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns.' =>
             '',
         'Parameters for the dashboard backend of the open tickets overview of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns.' =>
-            '',
-        'Parameters for the dashboard backend of the open tickets overview of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. "AccessibleTickets" determines if the plugin will show only tickets assigned to a customer user directly (=0) or also all accessible tickets for this customer (=1).' =>
             '',
         'Parameters for the dashboard backend of the queue overview widget of the agent interface. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "QueuePermissionGroup" is not mandatory, queues are only listed if they belong to this permission group if you enable it. "States" is a list of states, the key is the sort order of the state in the widget. "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. "Mandatory" determines if the plugin is always shown and can not be removed by agents.' =>
             '',
@@ -7843,7 +7840,7 @@ Thanks for your help!
             '',
         'Parameters for the dashboard backend of the ticket escalation overview of the agent interface . "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns.' =>
             '',
-        'Parameters for the dashboard backend of the ticket escalation overview of the agent interface . "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. "AccessibleTickets" determines if the plugin will show only tickets assigned to a customer user directly (=0) or also all accessible tickets for this customer (=1).' =>
+        'Parameters for the dashboard backend of the ticket escalation overview of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns.' =>
             '',
         'Parameters for the dashboard backend of the ticket events calendar of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. "Mandatory" determines if the plugin is always shown and can not be removed by agents.' =>
             '',
@@ -7851,7 +7848,7 @@ Thanks for your help!
             '',
         'Parameters for the dashboard backend of the ticket pending reminder overview of the agent interface . "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns.' =>
             '',
-        'Parameters for the dashboard backend of the ticket pending reminder overview of the agent interface . "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. "AccessibleTickets" determines if the plugin will show only tickets assigned to a customer user directly (=0) or also all accessible tickets for this customer (=1).' =>
+        'Parameters for the dashboard backend of the ticket pending reminder overview of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns.' =>
             '',
         'Parameters for the dashboard backend of the ticket stats of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. "Mandatory" determines if the plugin is always shown and can not be removed by agents.' =>
             '',

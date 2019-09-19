@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.995920448750637;
+    $Self->{Completeness}        = 0.997789491583064;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -567,7 +567,7 @@ sub Data {
         'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
             'Овде можете да унесете опциону HTTP везу за вредност поља у екранима прегледа.',
         'If special characters (&, @, :, /, etc.) should not be encoded, use \'url\' instead of \'uri\' filter.' =>
-            '',
+            'Уколико специјални карактери (&, @, :, /, итд) не треба да буду енкодирани, користите \'url\' филтер уместо \'uri\'.',
         'Example' => 'Пример',
         'Link for preview' => 'Веза за преглед',
         'If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too.' =>
@@ -1296,7 +1296,7 @@ sub Data {
             'Приказане вредности динамичких поља, корисно за падајућа и поља са вишеструким избором.',
 
         # Template: AdminNotificationEventTransportEmailSettings
-        'Use comma or semicolon to separate email addresses.' => '',
+        'Use comma or semicolon to separate email addresses.' => 'Користите зарез или тачку-зарез за одвајање имејл адреса.',
         'You can use OTRS-tags like <OTRS_TICKET_DynamicField_...> to insert values from the current ticket.' =>
             'Можете користити OTRS тагове као <OTRS_TICKET_DynamicField_...> за уметање вредности из тренутног тикета.',
 
@@ -1593,7 +1593,6 @@ sub Data {
             'Поља можете доделити у овом дијалогу активности превлачењем елемената мишем из леве листе у десну листу.',
         'Filter available fields' => 'Филтрирај расположива поља',
         'Available Fields' => 'Расположива поља',
-        'Name: %s' => 'Назив: %s',
         'Assigned Fields' => 'Додељена поља',
         'Communication Channel' => 'Комуникациони канал',
         'Is visible for customer' => 'Видљиво клијенту',
@@ -3209,6 +3208,8 @@ sub Data {
         'This setting is fixed but not deployed yet!' => 'Ово подешавање је статичко, али није још распоређено!',
         'This setting is currently being overridden in %s and can\'t thus be changed here!' =>
             'Ово подешавање је тренутно прегажено у %s и не може бити измењено овде!',
+        'Changing this setting is only available in a higher config level!' =>
+            '',
         '%s (%s) is currently working on this setting.' => '%s (%s) тренутно ради на овом подешавању.',
         'Toggle advanced options for this setting' => 'Преклопи напредне опције за ово подешавање',
         'Disable this setting, so it is no longer effective' => 'Искључи ово подешавање, тако да више није ефективно',
@@ -3615,19 +3616,19 @@ sub Data {
         # Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
         'Need Invoker!' => 'Неопходан позивалац!',
         'Need Event!' => 'Неопходан догађај!',
-        'Could not get registered modules for Invoker' => '',
-        'Could not get backend for Invoker %s' => '',
-        'The event %s is not valid.' => '',
+        'Could not get registered modules for Invoker' => 'Није могуће пронаћи регистровани модул позиваоца',
+        'Could not get backend for Invoker %s' => 'Није могуће пронаћи модул за позиваоца %s',
+        'The event %s is not valid.' => 'Догађај %s није важећи.',
         'Could not update configuration data for WebserviceID %s' => 'Не могу ажурирати конфигурационе податке за ID веб сервиса %s',
-        'This sub-action is not valid' => '',
+        'This sub-action is not valid' => 'Ова подакција је неважећа',
         'xor' => 'xor',
         'String' => 'Низ знакова',
-        'Regexp' => '',
-        'Validation Module' => '',
+        'Regexp' => 'Регуларни израз',
+        'Validation Module' => 'Модул валидације',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
-        'Simple Mapping for Outgoing Data' => '',
-        'Simple Mapping for Incoming Data' => '',
+        'Simple Mapping for Outgoing Data' => 'Једноставно мапирање излазних података',
+        'Simple Mapping for Incoming Data' => 'Једноставно мапирање долазних података',
         'Could not get registered configuration for action type %s' => 'Не могу прибавити регистровану конфигурацију за тип акције %s',
         'Could not get backend for %s %s' => 'Није могуће пронаћи модул за %s %s',
         'Keep (leave unchanged)' => 'Задржи (остави непромењено)',
@@ -3637,15 +3638,15 @@ sub Data {
         'Ignore (drop Value/value pair)' => 'Игнориши (одбаци пар вредност/вредност)',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
-        'XSLT Mapping for Outgoing Data' => '',
-        'XSLT Mapping for Incoming Data' => '',
+        'XSLT Mapping for Outgoing Data' => 'XSLT мапирање одлазних података',
+        'XSLT Mapping for Incoming Data' => 'XSLT мапирање долазних података',
         'Could not find required library %s' => 'Није могуће пронаћи потребну библиотеку %s',
         'Outgoing request data before processing (RequesterRequestInput)' =>
-            '',
+            'Подаци одлазећег захтева пре извршавања (RequesterRequestInput)',
         'Outgoing request data before mapping (RequesterRequestPrepareOutput)' =>
-            '',
+            'Подаци одлазећег захтева пре мапирања (RequesterRequestPrepareOutput)',
         'Outgoing request data after mapping (RequesterRequestMapOutput)' =>
-            '',
+            'Подаци примљеног захтева после мапирања (RequesterRequestMapOutput)',
         'Incoming response data before mapping (RequesterResponseInput)' =>
             '',
         'Outgoing error handler data after error handling (RequesterErrorHandlingOutput)' =>
@@ -6896,8 +6897,8 @@ Thanks for your help!
             'Дефинише модул за приказ обавештења у интерфејсу оператера, ако клијент корисник још није подесио временску зону.',
         'Defines the module to generate code for periodic page reloads.' =>
             'Дефинише модул за генерисање кода за периодично учитавање страница.',
-        'Defines the module to send emails. "Sendmail" directly uses the sendmail binary of your operating system. Any of the "SMTP" mechanisms use a specified (external) mailserver. "DoNotSendEmail" doesn\'t send emails and it is useful for test systems.' =>
-            'Одређује модуле за слање имејл порука. "Sendmail" директно користи апликацију вашег оперативног система за слање имејла. Сваки од "SMTP" механизама користи специфичан (екстерни) имејл сервер. "DoNotSendEmail" не шаље имејлове и то је корисно при тестирању система.',
+        'Defines the module to send emails. "DoNotSendEmail" doesn\'t send emails at all. Any of the "SMTP" mechanisms use a specified (external) mailserver. "Sendmail" directly uses the sendmail binary of your operating system. "Test" doesn\'t send emails, but writes them to $OTRS_HOME/var/tmp/CacheFileStorable/EmailTest/ for testing purposes.' =>
+            '',
         'Defines the module used to store the session data. With "DB" the frontend server can be splitted from the db server. "FS" is faster.' =>
             'Дефинише модул који се користи за складиштење података сесије. Са "DB" приступни сервер може бити одвојен од сервера базе података. "FS" је бржи.',
         'Defines the name of the application, shown in the web interface, tabs and title bar of the web browser.' =>
@@ -7830,14 +7831,10 @@ Thanks for your help!
             'Параметри за додатак листе нових тикета контролне табле у интерфејсу оператера. "Limit" дефинише подразумевани број приказаних ставки. "Group" се користи да ограничи приступ додатку (нпр. Group: admin;group1;group2;). "Default" одређује да ли је додатак подразумевано активиран или да је неопходно да га корисник мануелно активира. "CacheTTLLocal" је време у минутима за кеширање додатка. "Mandatory" одређује да ли је додатак увек приказан и не може бити искључен од стране оператера. Напомена: за DefaultColumns су дозвољени само атрибути тикета и динамичка поља (DynamicField_NameX).',
         'Parameters for the dashboard backend of the new tickets overview of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns.' =>
             'Параметри за додатак листе нових тикета контролне табле у интерфејсу оператера. "Limit" дефинише подразумевани број приказаних ставки. "Group" се користи да ограничи приступ додатку (нпр. Group: admin;group1;group2;). "Default" одређује да ли је додатак подразумевано активиран или да је неопходно да га корисник мануелно активира. "CacheTTLLocal" је време у минутима за кеширање додатка. Напомена: за DefaultColumns су дозвољени само атрибути тикета и динамичка поља (DynamicField_NameX).',
-        'Parameters for the dashboard backend of the new tickets overview of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. "AccessibleTickets" determines if the plugin will show only tickets assigned to a customer user directly (=0) or also all accessible tickets for this customer (=1).' =>
-            'Параметри за додатак листе нових тикета контролне табле у интерфејсу оператера. "Limit" дефинише подразумевани број приказаних ставки. "Group" се користи да ограничи приступ додатку (нпр. Group: admin;group1;group2;). "Default" одређује да ли је додатак подразумевано активиран или да је неопходно да га корисник мануелно активира. "CacheTTLLocal" је време у минутима за кеширање додатка. Напомена: за DefaultColumns су дозвољени само атрибути тикета и динамичка поља (DynamicField_NameX). Могућа подешавања: 0 = искључено, 1 = укључено, 2 = подразумевано укључено. "AccessibleTickets" одређује да ли ће додатак приказати само тикете додељене директно клијент кориснику (=0) или и све тикете којима има приступ (=1).',
         'Parameters for the dashboard backend of the open tickets overview of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. "Mandatory" determines if the plugin is always shown and can not be removed by agents. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns.' =>
             'Параметри за додатак листе отворених тикета контролне табле у интерфејсу оператера. "Limit" дефинише подразумевани број приказаних ставки. "Group" се користи да ограничи приступ додатку (нпр. Group: admin;group1;group2;). "Default" одређује да ли је додатак подразумевано активиран или да је неопходно да га корисник мануелно активира. "CacheTTLLocal" је време у минутима за кеширање додатка. "Mandatory" одређује да ли је додатак увек приказан и не може бити искључен од стране оператера. Напомена: за DefaultColumns су дозвољени само атрибути тикета и динамичка поља (DynamicField_NameX).',
         'Parameters for the dashboard backend of the open tickets overview of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns.' =>
             'Параметри за додатак листе отворених тикета контролне табле у интерфејсу оператера. "Limit" дефинише подразумевани број приказаних ставки. "Group" се користи да ограничи приступ додатку (нпр. Group: admin;group1;group2;). "Default" одређује да ли је додатак подразумевано активиран или да је неопходно да га корисник мануелно активира. "CacheTTLLocal" је време у минутима за кеширање додатка. Напомена: за DefaultColumns су дозвољени само атрибути тикета и динамичка поља (DynamicField_NameX).',
-        'Parameters for the dashboard backend of the open tickets overview of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. "AccessibleTickets" determines if the plugin will show only tickets assigned to a customer user directly (=0) or also all accessible tickets for this customer (=1).' =>
-            'Параметри за додатак листе отворених тикета контролне табле у интерфејсу оператера. "Limit" дефинише подразумевани број приказаних ставки. "Group" се користи да ограничи приступ додатку (нпр. Group: admin;group1;group2;). "Default" одређује да ли је додатак подразумевано активиран или да је неопходно да га корисник мануелно активира. "CacheTTLLocal" је време у минутима за кеширање додатка. Напомена: за DefaultColumns су дозвољени само атрибути тикета и динамичка поља (DynamicField_NameX). Могућа подешавања: 0 = искључено, 1 = укључено, 2 = подразумевано укључено. "AccessibleTickets" одређује да ли ће додатак приказати само тикете додељене директно клијент кориснику (=0) или и све тикете којима има приступ (=1).',
         'Parameters for the dashboard backend of the queue overview widget of the agent interface. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "QueuePermissionGroup" is not mandatory, queues are only listed if they belong to this permission group if you enable it. "States" is a list of states, the key is the sort order of the state in the widget. "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. "Mandatory" determines if the plugin is always shown and can not be removed by agents.' =>
             'Параметри за додатак листе редова контролне табле у интерфејсу оператера. "Limit" дефинише подразумевани број приказаних ставки. "Group" се користи да ограничи приступ додатку (нпр. Group: admin;group1;group2;). "QueuePermissionGroup" није неопходан, ако га дефинишете редови ће бити излистани само ако припадају овој групи дозвола. "States" је листа стања, кључ је редослед сортирања стања у додатку. "Default" одређује да ли је додатак подразумевано активиран или да је неопходно да га корисник мануелно активира. "CacheTTLLocal" је време у минутима за кеширање додатка. "Mandatory" одређује да ли је додатак увек приказан и не може бити искључен од стране оператера.',
         'Parameters for the dashboard backend of the running process tickets overview of the agent interface . "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. "Mandatory" determines if the plugin is always shown and can not be removed by agents.' =>
@@ -7846,16 +7843,16 @@ Thanks for your help!
             'Параметри за додатак листе ескалираних тикета контролне табле у интерфејсу оператера. "Limit" дефинише подразумевани број приказаних ставки. "Group" се користи да ограничи приступ додатку (нпр. Group: admin;group1;group2;). "Default" одређује да ли је додатак подразумевано активиран или да је неопходно да га корисник мануелно активира. "CacheTTLLocal" је време у минутима за кеширање додатка. "Mandatory" одређује да ли је додатак увек приказан и не може бити искључен од стране оператера. Напомена: за DefaultColumns су дозвољени само атрибути тикета и динамичка поља (DynamicField_NameX).',
         'Parameters for the dashboard backend of the ticket escalation overview of the agent interface . "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns.' =>
             'Параметри за додатак листе ескалираних тикета контролне табле у интерфејсу оператера. "Limit" дефинише подразумевани број приказаних ставки. "Group" се користи да ограничи приступ додатку (нпр. Group: admin;group1;group2;). "Default" одређује да ли је додатак подразумевано активиран или да је неопходно да га корисник мануелно активира. "CacheTTLLocal" је време у минутима за кеширање додатка. Напомена: за DefaultColumns су дозвољени само атрибути тикета и динамичка поља (DynamicField_NameX).',
-        'Parameters for the dashboard backend of the ticket escalation overview of the agent interface . "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. "AccessibleTickets" determines if the plugin will show only tickets assigned to a customer user directly (=0) or also all accessible tickets for this customer (=1).' =>
-            'Параметри за додатак листе ескалираних тикета контролне табле у интерфејсу оператера. "Limit" дефинише подразумевани број приказаних ставки. "Group" се користи да ограничи приступ додатку (нпр. Group: admin;group1;group2;). "Default" одређује да ли је додатак подразумевано активиран или да је неопходно да га корисник мануелно активира. "CacheTTLLocal" је време у минутима за кеширање додатка. Напомена: за DefaultColumns су дозвољени само атрибути тикета и динамичка поља (DynamicField_NameX). Могућа подешавања: 0 = искључено, 1 = укључено, 2 = подразумевано укључено. "AccessibleTickets" одређује да ли ће додатак приказати само тикете додељене директно клијент кориснику (=0) или и све тикете којима има приступ (=1).',
+        'Parameters for the dashboard backend of the ticket escalation overview of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns.' =>
+            '',
         'Parameters for the dashboard backend of the ticket events calendar of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. "Mandatory" determines if the plugin is always shown and can not be removed by agents.' =>
             'Параметри за додатак календара догађаја тикета у контролне табле у интерфејсу оператера. "Limit" дефинише подразумевани број приказаних ставки. "Group" се користи да ограничи приступ додатку (нпр. Group: admin;group1;group2;). "Default" одређује да ли је додатак подразумевано активиран или да је неопходно да га корисник мануелно активира. "CacheTTLLocal" је време у минутима за кеширање додатка. "Mandatory" одређује да ли је додатак увек приказан и не може бити искључен од стране оператера.',
         'Parameters for the dashboard backend of the ticket pending reminder overview of the agent interface . "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. "Mandatory" determines if the plugin is always shown and can not be removed by agents. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns.' =>
             'Параметри за додатак листе тикета на чекању контролне табле у интерфејсу оператера. "Limit" дефинише подразумевани број приказаних ставки. "Group" се користи да ограничи приступ додатку (нпр. Group: admin;group1;group2;). "Default" одређује да ли је додатак подразумевано активиран или да је неопходно да га корисник мануелно активира. "CacheTTLLocal" је време у минутима за кеширање додатка. "Mandatory" одређује да ли је додатак увек приказан и не може бити искључен од стране оператера. Напомена: за DefaultColumns су дозвољени само атрибути тикета и динамичка поља (DynamicField_NameX).',
         'Parameters for the dashboard backend of the ticket pending reminder overview of the agent interface . "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns.' =>
             'Параметри за додатак листе тикета на чекању контролне табле у интерфејсу оператера. "Limit" дефинише подразумевани број приказаних ставки. "Group" се користи да ограничи приступ додатку (нпр. Group: admin;group1;group2;). "Default" одређује да ли је додатак подразумевано активиран или да је неопходно да га корисник мануелно активира. "CacheTTLLocal" је време у минутима за кеширање додатка. Напомена: за DefaultColumns су дозвољени само атрибути тикета и динамичка поља (DynamicField_NameX).',
-        'Parameters for the dashboard backend of the ticket pending reminder overview of the agent interface . "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. "AccessibleTickets" determines if the plugin will show only tickets assigned to a customer user directly (=0) or also all accessible tickets for this customer (=1).' =>
-            'Параметри за додатак листе тикета на чекању контролне табле у интерфејсу оператера. "Limit" дефинише подразумевани број приказаних ставки. "Group" се користи да ограничи приступ додатку (нпр. Group: admin;group1;group2;). "Default" одређује да ли је додатак подразумевано активиран или да је неопходно да га корисник мануелно активира. "CacheTTLLocal" је време у минутима за кеширање додатка. Напомена: за DefaultColumns су дозвољени само атрибути тикета и динамичка поља (DynamicField_NameX). Могућа подешавања: 0 = искључено, 1 = укључено, 2 = подразумевано укључено. "AccessibleTickets" одређује да ли ће додатак приказати само тикете додељене директно клијент кориснику (=0) или и све тикете којима има приступ (=1).',
+        'Parameters for the dashboard backend of the ticket pending reminder overview of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns.' =>
+            '',
         'Parameters for the dashboard backend of the ticket stats of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. "Mandatory" determines if the plugin is always shown and can not be removed by agents.' =>
             'Параметри за додатак статистика тикета контролне табле у интерфејсу оператера. "Limit" дефинише подразумевани број приказаних ставки. "Group" се користи да ограничи приступ додатку (нпр. Group: admin;group1;group2;). "Default" одређује да ли је додатак подразумевано активиран или да је неопходно да га корисник мануелно активира. "CacheTTLLocal" је време у минутима за кеширање додатка. "Mandatory" одређује да ли је додатак увек приказан и не може бити искључен од стране оператера.',
         'Parameters for the dashboard backend of the upcoming events widget of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. "Mandatory" determines if the plugin is always shown and can not be removed by agents.' =>

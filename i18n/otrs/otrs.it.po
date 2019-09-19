@@ -14,13 +14,15 @@
 # Martin Gruner <martin.gruner@otrs.com>, 2018
 # Luca Maranzano <liuk@linux.it>, 2019
 # Vincenzo Reale <vinx.reale@gmail.com>, 2019
+# AulaWeb <staff@aulaweb.unige.it>, 2019
+# Antonio Marchignoli <antonio@marchignoli.com>, 2019
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-08-09 00:08+0000\n"
+"POT-Creation-Date: 2019-09-19 02:35+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
-"Last-Translator: Vincenzo Reale <vinx.reale@gmail.com>, 2019\n"
+"Last-Translator: Antonio Marchignoli <antonio@marchignoli.com>, 2019\n"
 "Language-Team: Italian (https://www.transifex.com/otrs/teams/23435/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -303,7 +305,7 @@ msgstr "Importa Calendario"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Filter for Calendars"
-msgstr ""
+msgstr "Filtra per Calendari"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Filter for calendars"
@@ -1070,7 +1072,7 @@ msgstr ""
 
 #. Template: AdminCommunicationLog
 msgid "Filter for Communications"
-msgstr ""
+msgstr "Filtra per Comunicazioni"
 
 #. Template: AdminCommunicationLog
 msgid "Filter for communications"
@@ -5414,10 +5416,6 @@ msgid "Available Fields"
 msgstr "Campi disponibili"
 
 #. Template: AdminProcessManagementActivityDialog
-msgid "Name: %s"
-msgstr "Nome: %s"
-
-#. Template: AdminProcessManagementActivityDialog
 msgid "Assigned Fields"
 msgstr "Campi assegnati"
 
@@ -9005,7 +9003,7 @@ msgstr "Salva come predefinito"
 
 #. Template: AgentTicketZoom
 msgid "Drafts"
-msgstr ""
+msgstr "Bozze"
 
 #. Template: AgentTicketZoom
 msgid "by"
@@ -9594,29 +9592,31 @@ msgstr ""
 
 #. Template: DraftButtons
 msgid "Update draft"
-msgstr ""
+msgstr "Aggiorna bozza"
 
 #. Template: DraftButtons
 msgid "Save as new draft"
-msgstr ""
+msgstr "Salva in bozza"
 
 #. Template: DraftNotifications
 msgid "You have loaded the draft \"%s\"."
-msgstr ""
+msgstr "Hai caricato la bozza \"%s\""
 
 #. Template: DraftNotifications
 msgid "You have loaded the draft \"%s\". You last changed it %s."
-msgstr ""
+msgstr "Hai caricato la bozza \"%s\". L'hai modificata per ultimo %s."
 
 #. Template: DraftNotifications
 msgid "You have loaded the draft \"%s\". It was last changed %s by %s."
-msgstr ""
+msgstr "Hai caricato la bozza \"%s\". L'ultima modifica è %s di %s."
 
 #. Template: DraftNotifications
 msgid ""
 "Please note that this draft is outdated because the ticket was modified "
 "since this draft was created."
 msgstr ""
+"Attenzione: questa bozza è obsoleta perché il ticket è stato modificato dopo"
+" che la bozza è stata creata."
 
 #. Template: Header
 msgid "View notifications"
@@ -10345,6 +10345,10 @@ msgid ""
 msgstr ""
 
 #. Template: SettingsList
+msgid "Changing this setting is only available in a higher config level!"
+msgstr ""
+
+#. Template: SettingsList
 msgid "%s (%s) is currently working on this setting."
 msgstr ""
 
@@ -10571,7 +10575,7 @@ msgstr "Visualizza"
 
 #. JS Template: FormDraftAddDialog
 msgid "Draft title"
-msgstr ""
+msgstr "Titolo della bozza"
 
 #. JS Template: ArticleViewSettingsDialog
 msgid "Article display"
@@ -12921,7 +12925,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
 msgid "Loading draft failed!"
-msgstr ""
+msgstr "Caricamento della bozza fallito!"
 
 #. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
 msgid "Sorry, you need to be the ticket owner to perform this action."
@@ -12935,15 +12939,15 @@ msgstr "Prima è necessario cambiare il proprietario."
 
 #. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
 msgid "FormDraft functionality disabled!"
-msgstr ""
+msgstr "Funzione bozze non attiva!"
 
 #. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
 msgid "Draft name is required!"
-msgstr ""
+msgstr "La bozza richiede un nome!"
 
 #. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
 msgid "FormDraft name %s is already in use!"
-msgstr ""
+msgstr "Il nome %s per il modulo bozza è già usato!"
 
 #. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
 msgid "Could not perform validation on field %s!"
@@ -12955,7 +12959,7 @@ msgstr "Nessun oggetto"
 
 #. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
 msgid "Could not delete draft!"
-msgstr ""
+msgstr "Non puoi cancellare la bozza!"
 
 #. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
 msgid "Previous Owner"
@@ -13633,7 +13637,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Missing FormDraftID!"
-msgstr ""
+msgstr "Manca l'ID del modulo bozza!"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Can't get for ArticleID %s!"
@@ -17402,11 +17406,11 @@ msgstr ""
 
 #. JS File: Core.Agent.TicketFormDraft
 msgid "Add new draft"
-msgstr ""
+msgstr "Aggiungi nuova bozza"
 
 #. JS File: Core.Agent.TicketFormDraft
 msgid "Delete draft"
-msgstr ""
+msgstr "Cancella bozza"
 
 #. JS File: Core.Agent.TicketFormDraft
 msgid "There are no more drafts available."
@@ -21288,10 +21292,11 @@ msgstr ""
 
 #. SysConfig
 msgid ""
-"Defines the module to send emails. \"Sendmail\" directly uses the sendmail "
-"binary of your operating system. Any of the \"SMTP\" mechanisms use a "
-"specified (external) mailserver. \"DoNotSendEmail\" doesn't send emails and "
-"it is useful for test systems."
+"Defines the module to send emails. \"DoNotSendEmail\" doesn't send emails at"
+" all. Any of the \"SMTP\" mechanisms use a specified (external) mailserver. "
+"\"Sendmail\" directly uses the sendmail binary of your operating system. "
+"\"Test\" doesn't send emails, but writes them to "
+"$OTRS_HOME/var/tmp/CacheFileStorable/EmailTest/ for testing purposes."
 msgstr ""
 
 #. SysConfig
@@ -24434,21 +24439,6 @@ msgstr ""
 
 #. SysConfig
 msgid ""
-"Parameters for the dashboard backend of the new tickets overview of the "
-"agent interface. \"Limit\" is the number of entries shown by default. "
-"\"Group\" is used to restrict the access to the plugin (e. g. Group: "
-"admin;group1;group2;). \"Default\" determines if the plugin is enabled by "
-"default or if the user needs to enable it manually. \"CacheTTLLocal\" is the"
-" cache time in minutes for the plugin. Note: Only Ticket attributes and "
-"Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible"
-" settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. "
-"\"AccessibleTickets\" determines if the plugin will show only tickets "
-"assigned to a customer user directly (=0) or also all accessible tickets for"
-" this customer (=1)."
-msgstr ""
-
-#. SysConfig
-msgid ""
 "Parameters for the dashboard backend of the open tickets overview of the "
 "agent interface. \"Limit\" is the number of entries shown by default. "
 "\"Group\" is used to restrict the access to the plugin (e. g. Group: "
@@ -24469,21 +24459,6 @@ msgid ""
 "default or if the user needs to enable it manually. \"CacheTTLLocal\" is the"
 " cache time in minutes for the plugin. Note: Only Ticket attributes and "
 "Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns."
-msgstr ""
-
-#. SysConfig
-msgid ""
-"Parameters for the dashboard backend of the open tickets overview of the "
-"agent interface. \"Limit\" is the number of entries shown by default. "
-"\"Group\" is used to restrict the access to the plugin (e. g. Group: "
-"admin;group1;group2;). \"Default\" determines if the plugin is enabled by "
-"default or if the user needs to enable it manually. \"CacheTTLLocal\" is the"
-" cache time in minutes for the plugin. Note: Only Ticket attributes and "
-"Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible"
-" settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. "
-"\"AccessibleTickets\" determines if the plugin will show only tickets "
-"assigned to a customer user directly (=0) or also all accessible tickets for"
-" this customer (=1)."
 msgstr ""
 
 #. SysConfig
@@ -24537,16 +24512,12 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Parameters for the dashboard backend of the ticket escalation overview of "
-"the agent interface . \"Limit\" is the number of entries shown by default. "
+"the agent interface. \"Limit\" is the number of entries shown by default. "
 "\"Group\" is used to restrict the access to the plugin (e. g. Group: "
 "admin;group1;group2;). \"Default\" determines if the plugin is enabled by "
 "default or if the user needs to enable it manually. \"CacheTTLLocal\" is the"
 " cache time in minutes for the plugin. Note: Only Ticket attributes and "
-"Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible"
-" settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. "
-"\"AccessibleTickets\" determines if the plugin will show only tickets "
-"assigned to a customer user directly (=0) or also all accessible tickets for"
-" this customer (=1)."
+"Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns."
 msgstr ""
 
 #. SysConfig
@@ -24588,16 +24559,13 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Parameters for the dashboard backend of the ticket pending reminder overview"
-" of the agent interface . \"Limit\" is the number of entries shown by "
+" of the agent interface. \"Limit\" is the number of entries shown by "
 "default. \"Group\" is used to restrict the access to the plugin (e. g. "
 "Group: admin;group1;group2;). \"Default\" determines if the plugin is "
 "enabled by default or if the user needs to enable it manually. "
 "\"CacheTTLLocal\" is the cache time in minutes for the plugin. Note: Only "
 "Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for "
-"DefaultColumns. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled "
-"by default. \"AccessibleTickets\" determines if the plugin will show only "
-"tickets assigned to a customer user directly (=0) or also all accessible "
-"tickets for this customer (=1)."
+"DefaultColumns."
 msgstr ""
 
 #. SysConfig
