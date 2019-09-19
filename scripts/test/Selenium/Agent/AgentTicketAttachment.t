@@ -21,17 +21,6 @@ $Selenium->RunTest(
         my $TicketObject         = $Kernel::OM->Get('Kernel::System::Ticket');
         my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article::Backend::Internal');
 
-        # Disable rich text editor.
-        my $Success = $ConfigObject->Set(
-            Key   => 'Frontend::RichText',
-            Value => 0,
-        );
-
-        $Self->True(
-            $Success,
-            "Disable RichText with true",
-        );
-
         my %OutputFilterTextAutoLink = $Kernel::OM->Get('Kernel::System::SysConfig')->SettingGet(
             Name    => 'Frontend::Output::FilterText###OutputFilterTextAutoLink',
             Default => 1,
@@ -54,7 +43,7 @@ $Selenium->RunTest(
             Value => $OutputFilterTextAutoLinkCVE{EffectiveValue},
         );
 
-        # Disable rich text and zoom article forcing, in order to get inline HTML attachment (file-1.html) to show up.
+        # Disable RichText and zoom article forcing, in order to get inline HTML attachment (file-1.html) to show up.
         $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Frontend::RichText',
@@ -211,9 +200,21 @@ Something: $CVENumber): Hard-coded Credentials"
                     $Selenium->find_element("//img[contains(\@src, \'$CVEConfig->{Image}' )]"),
                     "Image for $CVEConfig->{Description} link is found - $CVEConfig->{Image}",
                 );
+
+                my %Response = $Kernel::OM->Get('Kernel::System::WebUserAgent')->Request(
+                    Type => 'GET',
+                    URL  => $CVEConfig->{Image},
+                );
+
+                # check result
+                $Self->Is(
+                    $Response{Status},
+                    '200 OK',
+                    "$CVEConfig->{Image} - there is correct image for the link",
+                );
             }
 
-            # Set download type to inline.
+            # set download type to inline
             $Helper->ConfigSettingChange(
                 Valid => 1,
                 Key   => 'AttachmentDownloadType',

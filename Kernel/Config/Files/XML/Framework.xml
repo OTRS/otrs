@@ -1049,7 +1049,7 @@
         </Value>
     </Setting>
     <Setting Name="SessionCSRFProtection" Required="1" Valid="1">
-        <Description Translatable="1">Protection against CSRF (Cross Site Request Forgery) exploits (for more info see http://en.wikipedia.org/wiki/Cross-site_request_forgery).</Description>
+        <Description Translatable="1">Protection against CSRF (Cross Site Request Forgery) exploits (for more info see https://en.wikipedia.org/wiki/Cross-site_request_forgery).</Description>
         <Navigation>Core::Session</Navigation>
         <Value>
             <Item ValueType="Checkbox">1</Item>
@@ -3574,7 +3574,7 @@ You can log in via the following URL:
                 <Item Key="CSSClass">GoogleMaps</Item>
                 <Item Key="Target">_blank</Item>
                 <Item Key="Text">Location</Item>
-                <Item Key="URL">http://maps.google.com/maps?z=7&amp;q=</Item>
+                <Item Key="URL">https://maps.google.com/maps?z=7&amp;q=</Item>
                 <Item Key="IconName">fa-globe</Item>
             </Hash>
         </Value>
@@ -3591,7 +3591,7 @@ You can log in via the following URL:
                 <Item Key="CSSClass">Google</Item>
                 <Item Key="Target">_blank</Item>
                 <Item Key="Text">Google</Item>
-                <Item Key="URL">http://google.com/search?q=</Item>
+                <Item Key="URL">https://google.com/search?q=</Item>
                 <Item Key="IconName">fa-google</Item>
             </Hash>
         </Value>
@@ -3608,7 +3608,7 @@ You can log in via the following URL:
                 <Item Key="CSSClass">LinkedIn</Item>
                 <Item Key="Target">_blank</Item>
                 <Item Key="Text">LinkedIn</Item>
-                <Item Key="URL">http://www.linkedin.com/commonSearch?type=people&amp;keywords=</Item>
+                <Item Key="URL">https://www.linkedin.com/commonSearch?type=people&amp;keywords=</Item>
                 <Item Key="IconName">fa-linkedin</Item>
             </Hash>
         </Value>
@@ -7695,12 +7695,12 @@ via the Preferences button after logging in.
                 <Item Key="Module">Kernel::Output::HTML::Dashboard::RSS</Item>
                 <Item Key="Title" Translatable="1">Custom RSS Feed</Item>
                 <Item Key="Description" Translatable="1">Custom RSS feed.</Item>
-                <Item Key="URL">http://www.otrs.com/en/rss.xml</Item>
-                <Item Key="URL_de">http://www.otrs.com/de/rss.xml</Item>
-                <Item Key="URL_es">http://www.otrs.com/es/rss.xml</Item>
-                <Item Key="URL_nl">http://www.otrs.com/nl/rss.xml</Item>
-                <Item Key="URL_ru">http://www.otrs.com/ru/rss.xml</Item>
-                <Item Key="URL_zh">http://www.otrs.com/cn/rss.xml</Item>
+                <Item Key="URL">https://www.otrs.com/en/rss.xml</Item>
+                <Item Key="URL_de">https://www.otrs.com/de/rss.xml</Item>
+                <Item Key="URL_es">https://www.otrs.com/es/rss.xml</Item>
+                <Item Key="URL_nl">https://www.otrs.com/nl/rss.xml</Item>
+                <Item Key="URL_ru">https://www.otrs.com/ru/rss.xml</Item>
+                <Item Key="URL_zh">https://www.otrs.com/cn/rss.xml</Item>
                 <Item Key="Block">ContentSmall</Item>
                 <Item Key="Limit">6</Item>
                 <Item Key="Group"></Item>
@@ -7736,11 +7736,11 @@ via the Preferences button after logging in.
                 <Item Key="Title" Translatable="1">A picture</Item>
                 <Item Key="Description" Translatable="1">Some picture description!</Item>
                 <Item Key="Block">ContentLarge</Item>
-                <Item Key="URL">http://www.otrs.com/wp-uploads//2013/10/OTRS_Logo-300x170.png</Item>
+                <Item Key="URL">https://www.otrs.com/wp-uploads//2013/10/OTRS_Logo-300x170.png</Item>
                 <Item Key="Group"></Item>
                 <Item Key="Default">1</Item>
-                <Item Key="Link">http://otrs.org/</Item>
-                <Item Key="LinkTitle">http://otrs.org/</Item>
+                <Item Key="Link">https://otrs.org/</Item>
+                <Item Key="LinkTitle">https://otrs.org/</Item>
                 <Item Key="Width">198</Item>
                 <Item Key="Height">140</Item>
                 <Item Key="Mandatory">0</Item>
@@ -7770,10 +7770,10 @@ via the Preferences button after logging in.
                 <Item Key="Title" Translatable="1">A Website</Item>
                 <Item Key="Description" Translatable="1">Some description!</Item>
                 <Item Key="Block">ContentLarge</Item>
-                <Item Key="URL">http://www.otrs.org/</Item>
+                <Item Key="URL">https://www.otrs.org/</Item>
                 <Item Key="Group"></Item>
                 <Item Key="Default">1</Item>
-                <Item Key="Link">http://otrs.org/</Item>
+                <Item Key="Link">https://otrs.org/</Item>
                 <Item Key="LinkTitle">OTRS.org/</Item>
                 <Item Key="Width">1024</Item>
                 <Item Key="Height">800</Item>
@@ -7820,24 +7820,24 @@ via the Preferences button after logging in.
                 <Item Key="URL1">
                     <Hash>
                         <Item Key="Description">Mitre</Item>
-                        <Item Key="URL">http://cve.mitre.org/cgi-bin/cvename.cgi?name=&lt;MATCH1&gt;-&lt;MATCH2&gt;-&lt;MATCH3&gt;</Item>
-                        <Item Key="Image">http://cve.mitre.org/favicon.ico</Item>
+                        <Item Key="URL">https://cve.mitre.org/cgi-bin/cvename.cgi?name=&lt;MATCH1&gt;-&lt;MATCH2&gt;-&lt;MATCH3&gt;</Item>
+                        <Item Key="Image">https://cve.mitre.org/favicon.ico</Item>
                         <Item Key="Target">_blank</Item>
                     </Hash>
                 </Item>
                 <Item Key="URL2">
                     <Hash>
                         <Item Key="Description">Google</Item>
-                        <Item Key="URL">http://google.com/search?q=&lt;MATCH1&gt;-&lt;MATCH2&gt;-&lt;MATCH3&gt;</Item>
-                        <Item Key="Image">http://www.google.de/favicon.ico</Item>
+                        <Item Key="URL">https://google.com/search?q=&lt;MATCH1&gt;-&lt;MATCH2&gt;-&lt;MATCH3&gt;</Item>
+                        <Item Key="Image">https://www.google.de/favicon.ico</Item>
                         <Item Key="Target">_blank</Item>
                     </Hash>
                 </Item>
                 <Item Key="URL3">
                     <Hash>
                         <Item Key="Description">US-CERT NVD</Item>
-                        <Item Key="URL">http://nvd.nist.gov/nvd.cfm?cvename=&lt;MATCH1&gt;-&lt;MATCH2&gt;-&lt;MATCH3&gt;</Item>
-                        <Item Key="Image">http://nvd.nist.gov/favicon.ico</Item>
+                        <Item Key="URL">https://nvd.nist.gov/nvd.cfm?cvename=&lt;MATCH1&gt;-&lt;MATCH2&gt;-&lt;MATCH3&gt;</Item>
+                        <Item Key="Image">https://nvd.nist.gov/NVD/Media/images/favicons/favicon-16x16.png</Item>
                         <Item Key="Target">_blank</Item>
                     </Hash>
                 </Item>
@@ -7853,7 +7853,7 @@ via the Preferences button after logging in.
         <Description Translatable="1">Defines a filter for html output to add links behind bugtraq numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.</Description>
         <Navigation>Frontend::Base::OutputFilter</Navigation>
         <!-- Example strings: BugTraq ID: 23862 | BugTraq ID: 8945 | Bugtraq ID 140 | BUGTRAQ:20070425 | BID 20799 -->
-        <!-- Example URL: http://www.securityfocus.com/bid/23862/info  -->
+        <!-- Example URL: https://www.securityfocus.com/bid/23862/info  -->
         <Value>
             <Hash>
                 <Item Key="RegExp">
@@ -7869,16 +7869,16 @@ via the Preferences button after logging in.
                 <Item Key="URL1">
                     <Hash>
                         <Item Key="Description">Security Focus</Item>
-                        <Item Key="URL">http://www.securityfocus.com/bid/&lt;MATCH1&gt;/info</Item>
-                        <Item Key="Image">http://www.securityfocus.com/favicon.ico</Item>
+                        <Item Key="URL">https://www.securityfocus.com/bid/&lt;MATCH1&gt;/info</Item>
+                        <Item Key="Image">https://www.securityfocus.com/favicon.ico</Item>
                         <Item Key="Target">_blank</Item>
                     </Hash>
                 </Item>
                 <Item Key="URL2">
                     <Hash>
                         <Item Key="Description">Google</Item>
-                        <Item Key="URL">http://google.com/search?q=&lt;MATCH&gt;</Item>
-                        <Item Key="Image">http://www.google.de/favicon.ico</Item>
+                        <Item Key="URL">https://google.com/search?q=&lt;MATCH&gt;</Item>
+                        <Item Key="Image">https://www.google.de/favicon.ico</Item>
                         <Item Key="Target">_blank</Item>
                     </Hash>
                 </Item>
@@ -7894,7 +7894,7 @@ via the Preferences button after logging in.
         <Description Translatable="1">Defines a filter for html output to add links behind MSBulletin numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.</Description>
         <Navigation>Frontend::Base::OutputFilter</Navigation>
         <!-- Example strings: MS07-021 | MS04-028 | MS-07-002 -->
-        <!-- Example URL: http://www.microsoft.com/technet/security/bulletin/MS07-021.mspx  -->
+        <!-- Example URL: https://www.microsoft.com/technet/security/bulletin/MS07-021.mspx  -->
         <Value>
             <Hash>
                 <Item Key="RegExp">
@@ -7905,16 +7905,16 @@ via the Preferences button after logging in.
                 <Item Key="URL1">
                     <Hash>
                         <Item Key="Description">Microsoft Technet</Item>
-                        <Item Key="URL">http://www.microsoft.com/technet/security/bulletin/MS&lt;MATCH1&gt;-&lt;MATCH2&gt;.mspx</Item>
-                        <Item Key="Image">http://www.microsoft.com/favicon.ico</Item>
+                        <Item Key="URL">https://www.microsoft.com/technet/security/bulletin/MS&lt;MATCH1&gt;-&lt;MATCH2&gt;.mspx</Item>
+                        <Item Key="Image">https://www.microsoft.com/favicon.ico</Item>
                         <Item Key="Target">_blank</Item>
                     </Hash>
                 </Item>
                 <Item Key="URL2">
                     <Hash>
                         <Item Key="Description">Google</Item>
-                        <Item Key="URL">http://google.com/search?q=MS&lt;MATCH1&gt;-&lt;MATCH2&gt;</Item>
-                        <Item Key="Image">http://www.google.de/favicon.ico</Item>
+                        <Item Key="URL">https://google.com/search?q=MS&lt;MATCH1&gt;-&lt;MATCH2&gt;</Item>
+                        <Item Key="Image">https://www.google.de/favicon.ico</Item>
                         <Item Key="Target">_blank</Item>
                     </Hash>
                 </Item>
