@@ -25,7 +25,8 @@
 # Sergey Stepanov <Stepanov.SA@bashkortostan.ru>, 2018
 # Anatoly A <aaksinenko@gmail.com>, 2018
 # Siarhei Gribov <Bars232@gmail.com>, 2018
-# Alexey Yusov <yusovas@gmail.com>, 2018
+# Martin Gruner <martin.gruner@otrs.com>, 2018
+# Sergey Nikitin <nikitin.sergey.v@gmail.com>, 2018
 # toshkov, 2019
 # Yuri Myasoedov <omerta13@yandex.ru>, 2019
 # Александр Федоров <somerandompilotguy45@gmail.com>, 2019
@@ -33,15 +34,14 @@
 # Yegor Zhakov <zhakovu@gmail.com>, 2019
 # Olga Kalugina <kalugina0506@gmail.com>, 2019
 # Yuri Kolesniov <ynkolesnikov@gmail.com>, 2019
-# Martin Gruner <martin.gruner@otrs.com>, 2019
-# Sergey Nikitin <nikitin.sergey.v@gmail.com>, 2019
+# Alexey Yusov <yusovas@gmail.com>, 2019
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-08-09 00:08+0000\n"
+"POT-Creation-Date: 2019-09-19 02:35+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
-"Last-Translator: Sergey Nikitin <nikitin.sergey.v@gmail.com>, 2019\n"
+"Last-Translator: Alexey Yusov <yusovas@gmail.com>, 2019\n"
 "Language-Team: Russian (https://www.transifex.com/otrs/teams/23435/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1495,15 +1495,15 @@ msgstr "Полные права на чтение и запись для зая�
 
 #. Template: AdminCustomerUser
 msgid "Customer User Management"
-msgstr "Управление Компаниями"
+msgstr "Управление учётными записями клиентов"
 
 #. Template: AdminCustomerUser
 msgid "Add Customer User"
-msgstr "Добавить клиента"
+msgstr "Добавить учётную запись клиента"
 
 #. Template: AdminCustomerUser
 msgid "Edit Customer User"
-msgstr "Редактировать клиента"
+msgstr "Редактировать  учётную запись клиента"
 
 #. Template: AdminCustomerUser
 msgid "Back to search results"
@@ -5658,10 +5658,6 @@ msgid "Available Fields"
 msgstr "Доступные поля"
 
 #. Template: AdminProcessManagementActivityDialog
-msgid "Name: %s"
-msgstr "Имя: %s"
-
-#. Template: AdminProcessManagementActivityDialog
 msgid "Assigned Fields"
 msgstr "Назначенные поля"
 
@@ -7200,7 +7196,7 @@ msgstr ""
 
 #. Template: AdminSystemAddress
 msgid "This system address cannot be set to invalid."
-msgstr ""
+msgstr "Этот системный адрес не может быть установлен недействительным"
 
 #. Template: AdminSystemAddress
 msgid ""
@@ -10712,6 +10708,10 @@ msgstr ""
 "изменен!"
 
 #. Template: SettingsList
+msgid "Changing this setting is only available in a higher config level!"
+msgstr ""
+
+#. Template: SettingsList
 msgid "%s (%s) is currently working on this setting."
 msgstr "%s (%s) работает с этим параметром."
 
@@ -11816,7 +11816,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "skip all modules"
-msgstr ""
+msgstr "пропустить все модули"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "Operation deleted"
@@ -12006,7 +12006,7 @@ msgstr "String"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
 msgid "Regexp"
-msgstr ""
+msgstr "Регулярное выражение"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
 msgid "Validation Module"
@@ -18643,7 +18643,7 @@ msgstr "Статистика агентов"
 
 #. SysConfig
 msgid "Agent User Search"
-msgstr ""
+msgstr "Поиск агента"
 
 #. SysConfig
 msgid "Agent User Search."
@@ -22448,15 +22448,12 @@ msgstr ""
 
 #. SysConfig
 msgid ""
-"Defines the module to send emails. \"Sendmail\" directly uses the sendmail "
-"binary of your operating system. Any of the \"SMTP\" mechanisms use a "
-"specified (external) mailserver. \"DoNotSendEmail\" doesn't send emails and "
-"it is useful for test systems."
+"Defines the module to send emails. \"DoNotSendEmail\" doesn't send emails at"
+" all. Any of the \"SMTP\" mechanisms use a specified (external) mailserver. "
+"\"Sendmail\" directly uses the sendmail binary of your operating system. "
+"\"Test\" doesn't send emails, but writes them to "
+"$OTRS_HOME/var/tmp/CacheFileStorable/EmailTest/ for testing purposes."
 msgstr ""
-"Задает модуль для отправки почты. \"Sendmail\" непосредственно использует "
-"sendmail сервис вашей ОС. Любой из \"SMTP\" механизмов использует заданный "
-"(внешний) почтовый сервер. \"DoNotSendEmail\" отключает отправку почты, это "
-"может быть полезно при тестировании системы."
 
 #. SysConfig
 msgid ""
@@ -26115,32 +26112,6 @@ msgstr ""
 
 #. SysConfig
 msgid ""
-"Parameters for the dashboard backend of the new tickets overview of the "
-"agent interface. \"Limit\" is the number of entries shown by default. "
-"\"Group\" is used to restrict the access to the plugin (e. g. Group: "
-"admin;group1;group2;). \"Default\" determines if the plugin is enabled by "
-"default or if the user needs to enable it manually. \"CacheTTLLocal\" is the"
-" cache time in minutes for the plugin. Note: Only Ticket attributes and "
-"Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible"
-" settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. "
-"\"AccessibleTickets\" determines if the plugin will show only tickets "
-"assigned to a customer user directly (=0) or also all accessible tickets for"
-" this customer (=1)."
-msgstr ""
-"Параметры для раздела Дайджеста в интерфейсе агента с обзорным списком новых"
-" заявок. \"Limit\" - число записей, отображаемых по умолчанию. \"Group\" "
-"используется для ограничения доступа к разделу (например, Group: "
-"admin;group1;group2;). \"Default\" определяет, будет ли раздел доступен по "
-"умолчанию или агент должен активировать его вручную. \"CacheTTLLocal\" - "
-"время обновления кэша в минутах для этого раздела. Примечание: только "
-"Атрибуты заявки и Дополнительные поля (DynamicField_NameX) допустимы для "
-"использования в DefaultColumns. Возможные настройки: 0=Отключен, 1=Доступен,"
-" 2=Включен по умолчанию. \"AccessibleTickets\" определяет, будут ли в "
-"разделе отображаться только заявки непосредственно назначенные на клиента "
-"(=0) или также все заявки доступные для компании (=1)."
-
-#. SysConfig
-msgid ""
 "Parameters for the dashboard backend of the open tickets overview of the "
 "agent interface. \"Limit\" is the number of entries shown by default. "
 "\"Group\" is used to restrict the access to the plugin (e. g. Group: "
@@ -26179,32 +26150,6 @@ msgstr ""
 "время обновления кэша в минутах для этого раздела. Примечание: только "
 "Атрибуты заявки и Дополнительные поля (DynamicField_NameX) допустимы для "
 "использования в DefaultColumns."
-
-#. SysConfig
-msgid ""
-"Parameters for the dashboard backend of the open tickets overview of the "
-"agent interface. \"Limit\" is the number of entries shown by default. "
-"\"Group\" is used to restrict the access to the plugin (e. g. Group: "
-"admin;group1;group2;). \"Default\" determines if the plugin is enabled by "
-"default or if the user needs to enable it manually. \"CacheTTLLocal\" is the"
-" cache time in minutes for the plugin. Note: Only Ticket attributes and "
-"Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible"
-" settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. "
-"\"AccessibleTickets\" determines if the plugin will show only tickets "
-"assigned to a customer user directly (=0) or also all accessible tickets for"
-" this customer (=1)."
-msgstr ""
-"Параметры для раздела Дайджеста в интерфейсе агента с обзорным списком "
-"открытых заявок. \"Limit\" - число записей, отображаемых по умолчанию. "
-"\"Group\" используется для ограничения доступа к разделу (например, Group: "
-"admin;group1;group2;). \"Default\" определяет, будет ли раздел доступен по "
-"умолчанию или агент должен активировать его вручную. \"CacheTTLLocal\" - "
-"время обновления кэша в минутах для этого раздела. Примечание: только "
-"Атрибуты заявки и Дополнительные поля (DynamicField_NameX) допустимы для "
-"использования в DefaultColumns. Возможные настройки: 0=Отключен, 1=Доступен,"
-" 2=Включен по умолчанию. \"AccessibleTickets\" определяет, будут ли в "
-"разделе отображаться только заявки непосредственно назначенные на клиента "
-"(=0) или также все заявки доступные для компании (=1)."
 
 #. SysConfig
 msgid ""
@@ -26292,28 +26237,13 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Parameters for the dashboard backend of the ticket escalation overview of "
-"the agent interface . \"Limit\" is the number of entries shown by default. "
+"the agent interface. \"Limit\" is the number of entries shown by default. "
 "\"Group\" is used to restrict the access to the plugin (e. g. Group: "
 "admin;group1;group2;). \"Default\" determines if the plugin is enabled by "
 "default or if the user needs to enable it manually. \"CacheTTLLocal\" is the"
 " cache time in minutes for the plugin. Note: Only Ticket attributes and "
-"Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible"
-" settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. "
-"\"AccessibleTickets\" determines if the plugin will show only tickets "
-"assigned to a customer user directly (=0) or also all accessible tickets for"
-" this customer (=1)."
+"Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns."
 msgstr ""
-"Параметры для раздела Дайджеста в интерфейсе агента с обзорным списком "
-"эскалированных заявок. \"Limit\" - число записей, отображаемых по умолчанию."
-" \"Group\" используется для ограничения доступа к разделу (например, Group: "
-"admin;group1;group2;). \"Default\" определяет, будет ли раздел доступен по "
-"умолчанию или агент должен активировать его вручную. \"CacheTTLLocal\" - "
-"время обновления кэша в минутах для этого раздела. Примечание: только "
-"Атрибуты заявки и Дополнительные поля (DynamicField_NameX) допустимы для "
-"использования в DefaultColumns. Возможные настройки: 0=Отключен, 1=Доступен,"
-" 2=Включен по умолчанию. \"AccessibleTickets\" определяет, будут ли в "
-"разделе отображаться только заявки непосредственно назначенные на клиента "
-"(=0) или также все заявки доступные для компании (=1)."
 
 #. SysConfig
 msgid ""
@@ -26379,29 +26309,14 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Parameters for the dashboard backend of the ticket pending reminder overview"
-" of the agent interface . \"Limit\" is the number of entries shown by "
+" of the agent interface. \"Limit\" is the number of entries shown by "
 "default. \"Group\" is used to restrict the access to the plugin (e. g. "
 "Group: admin;group1;group2;). \"Default\" determines if the plugin is "
 "enabled by default or if the user needs to enable it manually. "
 "\"CacheTTLLocal\" is the cache time in minutes for the plugin. Note: Only "
 "Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for "
-"DefaultColumns. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled "
-"by default. \"AccessibleTickets\" determines if the plugin will show only "
-"tickets assigned to a customer user directly (=0) or also all accessible "
-"tickets for this customer (=1)."
+"DefaultColumns."
 msgstr ""
-"Параметры для раздела Дайджеста в интерфейсе агента с обзорным списком "
-"заявок, отложенных с напоминанием. \"Limit\" - число записей, отображаемых "
-"по умолчанию. \"Group\" используется для ограничения доступа к разделу "
-"(например, Group: admin;group1;group2;). \"Default\" определяет, будет ли "
-"раздел доступен по умолчанию или агент должен активировать его вручную. "
-"\"CacheTTLLocal\" - время обновления кэша в минутах для этого раздела. "
-"Примечание: только Атрибуты заявки и Дополнительные поля "
-"(DynamicField_NameX) допустимы для использования в DefaultColumns. Возможные"
-" настройки: 0=Отключен, 1=Доступен, 2=Включен по умолчанию. "
-"\"AccessibleTickets\" определяет, будут ли в разделе отображаться только "
-"заявки непосредственно назначенные на клиента (=0) или также все заявки "
-"доступные для компании (=1)."
 
 #. SysConfig
 msgid ""

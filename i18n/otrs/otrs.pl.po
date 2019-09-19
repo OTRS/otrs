@@ -12,18 +12,18 @@
 # Adam <reedu@wp.pl>, 2018
 # Kamil Zając <kz@itpartners.com.pl>, 2018
 # Bartosz Huczek <bhuczek@sas24.pl>, 2018
+# Martin Gruner <martin.gruner@otrs.com>, 2018
 # Daniel Lisiecki, 2019
 # Patryk Zera <sanchez@atlasnet.pl>, 2019
 # Łukasz Beczek <lukbec+transifex@gmail.com>, 2019
 # Jerzy Ruszczak <orcio6@o2.pl>, 2019
-# Martin Gruner <martin.gruner@otrs.com>, 2019
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-08-09 00:08+0000\n"
+"POT-Creation-Date: 2019-09-19 02:35+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
-"Last-Translator: Martin Gruner <martin.gruner@otrs.com>, 2019\n"
+"Last-Translator: Jerzy Ruszczak <orcio6@o2.pl>, 2019\n"
 "Language-Team: Polish (https://www.transifex.com/otrs/teams/23435/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -5561,10 +5561,6 @@ msgid "Available Fields"
 msgstr "Dostępne pola"
 
 #. Template: AdminProcessManagementActivityDialog
-msgid "Name: %s"
-msgstr "Nazwa: %s"
-
-#. Template: AdminProcessManagementActivityDialog
 msgid "Assigned Fields"
 msgstr "Przypisane pola"
 
@@ -10470,6 +10466,10 @@ msgstr "To ustawienie jest przygotowane ale jeszcze nie wdrożone!"
 msgid ""
 "This setting is currently being overridden in %s and can't thus be changed "
 "here!"
+msgstr ""
+
+#. Template: SettingsList
+msgid "Changing this setting is only available in a higher config level!"
 msgstr ""
 
 #. Template: SettingsList
@@ -21567,15 +21567,12 @@ msgstr ""
 
 #. SysConfig
 msgid ""
-"Defines the module to send emails. \"Sendmail\" directly uses the sendmail "
-"binary of your operating system. Any of the \"SMTP\" mechanisms use a "
-"specified (external) mailserver. \"DoNotSendEmail\" doesn't send emails and "
-"it is useful for test systems."
+"Defines the module to send emails. \"DoNotSendEmail\" doesn't send emails at"
+" all. Any of the \"SMTP\" mechanisms use a specified (external) mailserver. "
+"\"Sendmail\" directly uses the sendmail binary of your operating system. "
+"\"Test\" doesn't send emails, but writes them to "
+"$OTRS_HOME/var/tmp/CacheFileStorable/EmailTest/ for testing purposes."
 msgstr ""
-"Definiuje moduł wysyłkowy poczty. \"Sendmail\" używa bezpośrednio programu "
-"sendmail z twojego systemu. Jakikolwiek mechanizm \"SMTP\" używa wskazanego "
-"(zewnętrznego) serwera pocztowego. \"DoNotSendEmail\" nie przesyła poczty i "
-"winno być wykorzystywane w systemach testowych."
 
 #. SysConfig
 msgid ""
@@ -24926,21 +24923,6 @@ msgstr ""
 
 #. SysConfig
 msgid ""
-"Parameters for the dashboard backend of the new tickets overview of the "
-"agent interface. \"Limit\" is the number of entries shown by default. "
-"\"Group\" is used to restrict the access to the plugin (e. g. Group: "
-"admin;group1;group2;). \"Default\" determines if the plugin is enabled by "
-"default or if the user needs to enable it manually. \"CacheTTLLocal\" is the"
-" cache time in minutes for the plugin. Note: Only Ticket attributes and "
-"Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible"
-" settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. "
-"\"AccessibleTickets\" determines if the plugin will show only tickets "
-"assigned to a customer user directly (=0) or also all accessible tickets for"
-" this customer (=1)."
-msgstr ""
-
-#. SysConfig
-msgid ""
 "Parameters for the dashboard backend of the open tickets overview of the "
 "agent interface. \"Limit\" is the number of entries shown by default. "
 "\"Group\" is used to restrict the access to the plugin (e. g. Group: "
@@ -24961,21 +24943,6 @@ msgid ""
 "default or if the user needs to enable it manually. \"CacheTTLLocal\" is the"
 " cache time in minutes for the plugin. Note: Only Ticket attributes and "
 "Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns."
-msgstr ""
-
-#. SysConfig
-msgid ""
-"Parameters for the dashboard backend of the open tickets overview of the "
-"agent interface. \"Limit\" is the number of entries shown by default. "
-"\"Group\" is used to restrict the access to the plugin (e. g. Group: "
-"admin;group1;group2;). \"Default\" determines if the plugin is enabled by "
-"default or if the user needs to enable it manually. \"CacheTTLLocal\" is the"
-" cache time in minutes for the plugin. Note: Only Ticket attributes and "
-"Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible"
-" settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. "
-"\"AccessibleTickets\" determines if the plugin will show only tickets "
-"assigned to a customer user directly (=0) or also all accessible tickets for"
-" this customer (=1)."
 msgstr ""
 
 #. SysConfig
@@ -25029,16 +24996,12 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Parameters for the dashboard backend of the ticket escalation overview of "
-"the agent interface . \"Limit\" is the number of entries shown by default. "
+"the agent interface. \"Limit\" is the number of entries shown by default. "
 "\"Group\" is used to restrict the access to the plugin (e. g. Group: "
 "admin;group1;group2;). \"Default\" determines if the plugin is enabled by "
 "default or if the user needs to enable it manually. \"CacheTTLLocal\" is the"
 " cache time in minutes for the plugin. Note: Only Ticket attributes and "
-"Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible"
-" settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. "
-"\"AccessibleTickets\" determines if the plugin will show only tickets "
-"assigned to a customer user directly (=0) or also all accessible tickets for"
-" this customer (=1)."
+"Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns."
 msgstr ""
 
 #. SysConfig
@@ -25080,16 +25043,13 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Parameters for the dashboard backend of the ticket pending reminder overview"
-" of the agent interface . \"Limit\" is the number of entries shown by "
+" of the agent interface. \"Limit\" is the number of entries shown by "
 "default. \"Group\" is used to restrict the access to the plugin (e. g. "
 "Group: admin;group1;group2;). \"Default\" determines if the plugin is "
 "enabled by default or if the user needs to enable it manually. "
 "\"CacheTTLLocal\" is the cache time in minutes for the plugin. Note: Only "
 "Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for "
-"DefaultColumns. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled "
-"by default. \"AccessibleTickets\" determines if the plugin will show only "
-"tickets assigned to a customer user directly (=0) or also all accessible "
-"tickets for this customer (=1)."
+"DefaultColumns."
 msgstr ""
 
 #. SysConfig

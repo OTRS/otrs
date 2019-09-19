@@ -4,6 +4,7 @@
  - 2019-09-18 Fixed bug#[14743](https://bugs.otrs.org/show_bug.cgi?id=14743) - There is wrong filter state values in queue view for queues with sub-queues.
 
 #6.0.23 2019-10-04
+ - 2019-09-18 Updated translations, thanks to all translators.
  - 2019-09-13 Fixed bug#[14768](https://bugs.otrs.org/show_bug.cgi?id=14768) - Advanced setting options are not reachable in System Configuration if the setting value contains too much text.
  - 2019-09-12 Fixed bug#[13886](https://bugs.otrs.org/show_bug.cgi?id=13886) - Access to settings with higher ConfigLevel is possible even if system wide ConfigLevel is not matched.
  - 2019-09-11 Fixed bug#[14761](https://bugs.otrs.org/show_bug.cgi?id=14761) - It's not possible to create article with attachment named '0'.

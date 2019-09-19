@@ -1,13 +1,13 @@
 # Translators:
+# 신홍열 <hyshin@shinjjang.com>, 2018
 # Carlos Rodríguez <carlos.rodriguez@otrs.com>, 2018
-# 신홍열 <hyshin@shinjjang.com>, 2019
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-08-09 00:08+0000\n"
+"POT-Creation-Date: 2019-09-19 02:35+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
-"Last-Translator: 신홍열 <hyshin@shinjjang.com>, 2019\n"
+"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>, 2018\n"
 "Language-Team: Korean (https://www.transifex.com/otrs/teams/23435/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -5266,10 +5266,6 @@ msgid "Available Fields"
 msgstr "사용 가능한 필드"
 
 #. Template: AdminProcessManagementActivityDialog
-msgid "Name: %s"
-msgstr "이름 : %s"
-
-#. Template: AdminProcessManagementActivityDialog
 msgid "Assigned Fields"
 msgstr "할당된 필드"
 
@@ -10090,6 +10086,10 @@ msgid ""
 "This setting is currently being overridden in %s and can't thus be changed "
 "here!"
 msgstr "이 설정은 현재 %s에서 덮어써지고 있으므로 여기에서 변경할 수 없습니다!"
+
+#. Template: SettingsList
+msgid "Changing this setting is only available in a higher config level!"
+msgstr ""
 
 #. Template: SettingsList
 msgid "%s (%s) is currently working on this setting."
@@ -21026,14 +21026,12 @@ msgstr "정기적 페이지 제로드를 위한 코드를 생성하는 모듈을
 
 #. SysConfig
 msgid ""
-"Defines the module to send emails. \"Sendmail\" directly uses the sendmail "
-"binary of your operating system. Any of the \"SMTP\" mechanisms use a "
-"specified (external) mailserver. \"DoNotSendEmail\" doesn't send emails and "
-"it is useful for test systems."
+"Defines the module to send emails. \"DoNotSendEmail\" doesn't send emails at"
+" all. Any of the \"SMTP\" mechanisms use a specified (external) mailserver. "
+"\"Sendmail\" directly uses the sendmail binary of your operating system. "
+"\"Test\" doesn't send emails, but writes them to "
+"$OTRS_HOME/var/tmp/CacheFileStorable/EmailTest/ for testing purposes."
 msgstr ""
-"전자 메일을 보낼 모듈을 정의합니다. \"Sendmail\"은 운영 체제의 sendmail 바이너리를 직접 사용합니다. 모든 "
-"\"SMTP\"메커니즘은 지정된 (외부) 메일 서버를 사용합니다. \"DoNotSendEmail\"은 전자 메일을 보내지 않으며 테스트 "
-"시스템에 유용합니다."
 
 #. SysConfig
 msgid ""
@@ -24403,28 +24401,6 @@ msgstr ""
 
 #. SysConfig
 msgid ""
-"Parameters for the dashboard backend of the new tickets overview of the "
-"agent interface. \"Limit\" is the number of entries shown by default. "
-"\"Group\" is used to restrict the access to the plugin (e. g. Group: "
-"admin;group1;group2;). \"Default\" determines if the plugin is enabled by "
-"default or if the user needs to enable it manually. \"CacheTTLLocal\" is the"
-" cache time in minutes for the plugin. Note: Only Ticket attributes and "
-"Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible"
-" settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. "
-"\"AccessibleTickets\" determines if the plugin will show only tickets "
-"assigned to a customer user directly (=0) or also all accessible tickets for"
-" this customer (=1)."
-msgstr ""
-"새 티켓의 대시 보드 백엔드에 대한 매개 변수 에이전트 인터페이스 개요입니다. \"제한\"은 기본적으로 표시되는 항목 수입니다. "
-"\"그룹\"은 플러그인 (예 : 그룹 : 관리자, 그룹 1, 그룹 2)에 대한 액세스를 제한하는 데 사용됩니다. \"기본값\"은 "
-"플러그인이 기본적으로 활성화되어 있는지 여부 또는 사용자가 수동으로 활성화해야하는지 여부를 결정합니다. \"CacheTTLLocal\"은"
-" 플러그인의 캐시 시간입니다. 참고 : Ticket 속성과 Dynamic Fields (DynamicField_NameX) 만 "
-"DefaultColumn에 허용됩니다. 가능한 설정 : 0 = 사용 안 함, 1 = 사용 가능, 2 = 기본적으로 사용함. "
-"\"AccessibleTickets\"은 플러그인이 고객 사용자에게 직접 할당 된 티켓 (= 0) 또는이 고객에 대해 액세스 가능한 모든"
-" 티켓 (= 1) 만 표시할지 여부를 결정합니다."
-
-#. SysConfig
-msgid ""
 "Parameters for the dashboard backend of the open tickets overview of the "
 "agent interface. \"Limit\" is the number of entries shown by default. "
 "\"Group\" is used to restrict the access to the plugin (e. g. Group: "
@@ -24456,28 +24432,6 @@ msgstr ""
 "플러그인이 기본적으로 활성화되어 있는지 여부 또는 사용자가 수동으로 활성화해야하는지 여부를 결정합니다. \"CacheTTLLocal\"은"
 " 플러그인의 캐시 시간입니다. 참고 : Ticket 속성과 Dynamic Fields (DynamicField_NameX) 만 "
 "DefaultColumn에 허용됩니다."
-
-#. SysConfig
-msgid ""
-"Parameters for the dashboard backend of the open tickets overview of the "
-"agent interface. \"Limit\" is the number of entries shown by default. "
-"\"Group\" is used to restrict the access to the plugin (e. g. Group: "
-"admin;group1;group2;). \"Default\" determines if the plugin is enabled by "
-"default or if the user needs to enable it manually. \"CacheTTLLocal\" is the"
-" cache time in minutes for the plugin. Note: Only Ticket attributes and "
-"Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible"
-" settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. "
-"\"AccessibleTickets\" determines if the plugin will show only tickets "
-"assigned to a customer user directly (=0) or also all accessible tickets for"
-" this customer (=1)."
-msgstr ""
-"에이전트 인터페이스의 열린 티켓 개요의 대시 보드 백엔드에 대한 매개 변수입니다. \"제한\"은 기본적으로 표시되는 항목 수입니다. "
-"\"그룹\"은 플러그인 (예 : 그룹 : 관리자, 그룹 1, 그룹 2)에 대한 액세스를 제한하는 데 사용됩니다. \"기본값\"은 "
-"플러그인이 기본적으로 활성화되어 있는지 여부 또는 사용자가 수동으로 활성화해야하는지 여부를 결정합니다. \"CacheTTLLocal\"은"
-" 플러그인의 캐시 시간입니다. 참고 : Ticket 속성과 Dynamic Fields (DynamicField_NameX) 만 "
-"DefaultColumn에 허용됩니다. 가능한 설정 : 0 = 사용 안 함, 1 = 사용 가능, 2 = 기본적으로 사용함. "
-"\"AccessibleTickets\"은 플러그인이 고객 사용자에게 직접 할당 된 티켓 (= 0) 또는이 고객에 대해 액세스 가능한 모든"
-" 티켓 (= 1) 만 표시할지 여부를 결정합니다."
 
 #. SysConfig
 msgid ""
@@ -24552,24 +24506,13 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Parameters for the dashboard backend of the ticket escalation overview of "
-"the agent interface . \"Limit\" is the number of entries shown by default. "
+"the agent interface. \"Limit\" is the number of entries shown by default. "
 "\"Group\" is used to restrict the access to the plugin (e. g. Group: "
 "admin;group1;group2;). \"Default\" determines if the plugin is enabled by "
 "default or if the user needs to enable it manually. \"CacheTTLLocal\" is the"
 " cache time in minutes for the plugin. Note: Only Ticket attributes and "
-"Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible"
-" settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. "
-"\"AccessibleTickets\" determines if the plugin will show only tickets "
-"assigned to a customer user directly (=0) or also all accessible tickets for"
-" this customer (=1)."
+"Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns."
 msgstr ""
-"에이전트 인터페이스의 티켓 에스컬레이션 개요의 대시 보드 백엔드에 대한 매개 변수입니다. \"제한\"은 기본적으로 표시되는 항목 "
-"수입니다. \"그룹\"은 플러그인 (예 : 그룹 : 관리자, 그룹 1, 그룹 2)에 대한 액세스를 제한하는 데 사용됩니다. "
-"\"기본값\"은 플러그인이 기본적으로 활성화되어 있는지 여부 또는 사용자가 수동으로 활성화해야하는지 여부를 결정합니다. "
-"\"CacheTTLLocal\"은 플러그인의 캐시 시간입니다. 참고 : Ticket 속성과 Dynamic Fields "
-"(DynamicField_NameX) 만 DefaultColumn에 허용됩니다. 가능한 설정 : 0 = 사용 안 함, 1 = 사용 가능,"
-" 2 = 기본적으로 사용함. \"AccessibleTickets\"은 플러그인이 고객 사용자에게 직접 할당 된 티켓 (= 0) 또는이 "
-"고객에 대해 액세스 가능한 모든 티켓 (= 1) 만 표시할지 여부를 결정합니다."
 
 #. SysConfig
 msgid ""
@@ -24624,24 +24567,14 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Parameters for the dashboard backend of the ticket pending reminder overview"
-" of the agent interface . \"Limit\" is the number of entries shown by "
+" of the agent interface. \"Limit\" is the number of entries shown by "
 "default. \"Group\" is used to restrict the access to the plugin (e. g. "
 "Group: admin;group1;group2;). \"Default\" determines if the plugin is "
 "enabled by default or if the user needs to enable it manually. "
 "\"CacheTTLLocal\" is the cache time in minutes for the plugin. Note: Only "
 "Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for "
-"DefaultColumns. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled "
-"by default. \"AccessibleTickets\" determines if the plugin will show only "
-"tickets assigned to a customer user directly (=0) or also all accessible "
-"tickets for this customer (=1)."
+"DefaultColumns."
 msgstr ""
-"에이전트 인터페이스의 티켓 보류 알림 요약의 대시 보드 백엔드에 대한 매개 변수입니다. \"제한\"은 기본적으로 표시되는 항목 수입니다."
-" \"그룹\"은 플러그인 (예 : 그룹 : 관리자, 그룹 1, 그룹 2)에 대한 액세스를 제한하는 데 사용됩니다. \"기본값\"은 "
-"플러그인이 기본적으로 활성화되어 있는지 여부 또는 사용자가 수동으로 활성화해야하는지 여부를 결정합니다. \"CacheTTLLocal\"은"
-" 플러그인의 캐시 시간입니다. 참고 : Ticket 속성과 Dynamic Fields (DynamicField_NameX) 만 "
-"DefaultColumn에 허용됩니다. 가능한 설정 : 0 = 사용 안 함, 1 = 사용 가능, 2 = 기본적으로 사용함. "
-"\"AccessibleTickets\"은 플러그인이 고객 사용자에게 직접 할당 된 티켓 (= 0) 또는이 고객에 대해 액세스 가능한 모든"
-" 티켓 (= 1) 만 표시할지 여부를 결정합니다."
 
 #. SysConfig
 msgid ""

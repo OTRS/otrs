@@ -9,7 +9,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-08-09 00:08+0000\n"
+"POT-Creation-Date: 2019-09-19 02:35+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: Balázs Úr, 2019\n"
 "Language-Team: Hungarian (https://www.transifex.com/otrs/teams/23435/hu/)\n"
@@ -135,7 +135,7 @@ msgstr "Másolás"
 
 #. Template: AdminACL
 msgid "No data found."
-msgstr "Nem található adat"
+msgstr "Nem található adat."
 
 #. Template: AdminACL
 msgid "No matches found."
@@ -1450,7 +1450,7 @@ msgstr "A(z) %s jogosultság ki- vagy bekapcsolása ehhez: %s"
 
 #. Template: AdminCustomerGroup
 msgid "Customer Default Groups:"
-msgstr "Alapértelmezett ügyfélcsoportok"
+msgstr "Alapértelmezett ügyfélcsoportok:"
 
 #. Template: AdminCustomerGroup
 msgid "No changes can be made to these groups."
@@ -3171,7 +3171,7 @@ msgid ""
 "\"+\" button"
 msgstr ""
 "Egy új esemény hozzáadásához válassza ki az eseményobjektumot és az "
-"eseménynevet, majd kattintson a „+” gombra."
+"eseménynevet, majd kattintson a „+” gombra"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid ""
@@ -3554,7 +3554,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Operation backend"
-msgstr "Műveleti háttérprogram."
+msgstr "Műveleti háttérprogram"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid ""
@@ -4332,7 +4332,7 @@ msgid ""
 msgstr ""
 "Új csoportok létrehozása a hozzáférési jogosultságok kezeléséhez az "
 "ügyintézők különböző csoportjainál (például beszerzési részleg, támogató "
-"részleg, értékesítési részleg, …)."
+"részleg, értékesítési részleg, …). "
 
 #. Template: AdminGroup
 msgid "It's useful for ASP solutions. "
@@ -5143,7 +5143,7 @@ msgstr "Helyi tároló"
 
 #. Template: AdminPackageManager
 msgid "This package is verified by OTRSverify (tm)"
-msgstr "Ezt a csomagot az OTRSverify (tm) ellenőrizte."
+msgstr "Ezt a csomagot az OTRSverify (tm) ellenőrizte"
 
 #. Template: AdminPackageManager
 msgid "Uninstall"
@@ -5706,10 +5706,6 @@ msgstr "Elérhető mezők szűrése"
 #. Template: AdminProcessManagementActivityDialog
 msgid "Available Fields"
 msgstr "Elérhető mezők"
-
-#. Template: AdminProcessManagementActivityDialog
-msgid "Name: %s"
-msgstr "Név: %s"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Assigned Fields"
@@ -9208,7 +9204,7 @@ msgstr "Várólista módosítása"
 
 #. Template: AgentTicketOverviewNavBar
 msgid "Remove active filters for this screen."
-msgstr "Aktív szűrők eltávolítása ennél a képernyőnél"
+msgstr "Aktív szűrők eltávolítása ennél a képernyőnél."
 
 #. Template: AgentTicketOverviewNavBar
 msgid "Tickets per page"
@@ -9240,7 +9236,7 @@ msgstr "Új telefonos jegy létrehozása"
 
 #. Template: AgentTicketPhone
 msgid "Please include at least one customer for the ticket."
-msgstr "Vegyen fel legalább egy ügyfelet a jegyhez!"
+msgstr "Vegyen fel legalább egy ügyfelet a jegyhez."
 
 #. Template: AgentTicketPhone
 msgid "To queue"
@@ -9892,7 +9888,7 @@ msgstr "Ügyfél-azonosító"
 
 #. Template: CustomerTicketSearch
 msgid "Fulltext Search in Tickets (e. g. \"John*n\" or \"Will*\")"
-msgstr "Szabad-szavas keresés a jegyekben (például „Kata*n” vagy „Gerg*”)."
+msgstr "Szabad-szavas keresés a jegyekben (például „Kata*n” vagy „Gerg*”)"
 
 #. Template: CustomerTicketSearch
 msgid "Types"
@@ -10826,6 +10822,11 @@ msgid ""
 msgstr ""
 "Ez a beállítás jelenleg felülírásra kerül ebben: %s, és ezért itt nem "
 "változtatható meg!"
+
+#. Template: SettingsList
+msgid "Changing this setting is only available in a higher config level!"
+msgstr ""
+"A beállítás megváltoztatása csak magasabb beállítási szinten érhető el!"
 
 #. Template: SettingsList
 msgid "%s (%s) is currently working on this setting."
@@ -17905,7 +17906,7 @@ msgstr "Támogatási csomag"
 
 #. JS File: Core.Agent.Admin.SupportDataCollector
 msgid "The mail could not be sent"
-msgstr "A levelet nem sikerült elküldeni."
+msgstr "A levelet nem sikerült elküldeni"
 
 #. JS File: Core.Agent.Admin.SysConfig.Entity
 msgid ""
@@ -20472,7 +20473,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Default skin for the agent interface (slim version)."
-msgstr "Alapértelmezett felszín az ügyintézői felülethez (karcsú változat)"
+msgstr "Alapértelmezett felszín az ügyintézői felülethez (karcsú változat)."
 
 #. SysConfig
 msgid "Default skin for the agent interface."
@@ -22928,15 +22929,18 @@ msgstr ""
 
 #. SysConfig
 msgid ""
-"Defines the module to send emails. \"Sendmail\" directly uses the sendmail "
-"binary of your operating system. Any of the \"SMTP\" mechanisms use a "
-"specified (external) mailserver. \"DoNotSendEmail\" doesn't send emails and "
-"it is useful for test systems."
+"Defines the module to send emails. \"DoNotSendEmail\" doesn't send emails at"
+" all. Any of the \"SMTP\" mechanisms use a specified (external) mailserver. "
+"\"Sendmail\" directly uses the sendmail binary of your operating system. "
+"\"Test\" doesn't send emails, but writes them to "
+"$OTRS_HOME/var/tmp/CacheFileStorable/EmailTest/ for testing purposes."
 msgstr ""
-"Meghatározza azt a modult, amely e-maileket küld. A „Sendmail” közvetlenül "
-"az operációs rendszere sendmail binárisát használja. Az „SMTP” mechanizmusok"
-" bármelyike egy megadott (külső) levelező-kiszolgálót használ. A "
-"„DoNotSendEmail” nem küld e-maileket, és tesztrendszerek esetén hasznos."
+"Meghatározza azt a modult, amely e-maileket küld. A „DoNotSendEmail” "
+"egyáltalán nem küld e-maileket. Az „SMTP” mechanizmusok bármelyike egy "
+"megadott (külső) levelező-kiszolgálót használ. A „Sendmail” közvetlenül az "
+"operációs rendszere sendmail binárisát használja. A „Test” nem küld "
+"e-maileket, hanem az $OTRS_HOME/var/tmp/CacheFileStorable/EmailTest/ mappába"
+" írja azokat tesztelési céllal."
 
 #. SysConfig
 msgid ""
@@ -24749,19 +24753,19 @@ msgstr "Első válaszidő"
 
 #. SysConfig
 msgid "FirstLock"
-msgstr "FirstLock"
+msgstr "Első zárolás"
 
 #. SysConfig
 msgid "FirstResponse"
-msgstr "FirstResponse"
+msgstr "Első válasz"
 
 #. SysConfig
 msgid "FirstResponseDiffInMin"
-msgstr "FirstResponseDiffInMin"
+msgstr "Első válasz különbsége percben"
 
 #. SysConfig
 msgid "FirstResponseInMin"
-msgstr "FirstResponseInMin"
+msgstr "Első válasz percben"
 
 #. SysConfig
 msgid "Firstname Lastname"
@@ -26976,33 +26980,6 @@ msgstr ""
 
 #. SysConfig
 msgid ""
-"Parameters for the dashboard backend of the new tickets overview of the "
-"agent interface. \"Limit\" is the number of entries shown by default. "
-"\"Group\" is used to restrict the access to the plugin (e. g. Group: "
-"admin;group1;group2;). \"Default\" determines if the plugin is enabled by "
-"default or if the user needs to enable it manually. \"CacheTTLLocal\" is the"
-" cache time in minutes for the plugin. Note: Only Ticket attributes and "
-"Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible"
-" settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. "
-"\"AccessibleTickets\" determines if the plugin will show only tickets "
-"assigned to a customer user directly (=0) or also all accessible tickets for"
-" this customer (=1)."
-msgstr ""
-"Paraméterek az ügyintézői felület új jegyek áttekintésének vezérlőpult "
-"háttérprogramjához. A „Limit” az alapértelmezetten megjelenített bejegyzések"
-" száma. A „Group” használható a hozzáférés korlátozásához a bővítményre "
-"(például Group: admin;csoport1;csoport2;). A „Default” azt határozza meg, "
-"hogy a bővítmény alapértelmezetten engedélyezve van, vagy hogy a "
-"felhasználónak kézzel kell engedélyeznie azt. A „CacheTTLLocal” a bővítmény "
-"gyorsítótár ideje percben. Megjegyzés: csak jegyattribútumok és dinamikus "
-"mezők (DynamicField_NévX) engedélyezettek DefaultColumns értékeinél. "
-"Lehetséges beállítások: 0 = letiltva, 1 = elérhető, 2 = alapértelmezetten "
-"engedélyezve. Az „AccessibleTickets” határozza meg, hogy a bővítmény csak "
-"közvetlenül az ügyfél-felhasználóhoz rendelt jegyeket fogja megjeleníteni "
-"(=0), vagy az összes elérhető jegyet is ennél az ügyfélnél (=1)."
-
-#. SysConfig
-msgid ""
 "Parameters for the dashboard backend of the open tickets overview of the "
 "agent interface. \"Limit\" is the number of entries shown by default. "
 "\"Group\" is used to restrict the access to the plugin (e. g. Group: "
@@ -27042,33 +27019,6 @@ msgstr ""
 "felhasználónak kézzel kell engedélyeznie azt. A „CacheTTLLocal” a bővítmény "
 "gyorsítótár ideje percben. Megjegyzés: csak jegyattribútumok és dinamikus "
 "mezők (DynamicField_NévX) engedélyezettek DefaultColumns értékeinél."
-
-#. SysConfig
-msgid ""
-"Parameters for the dashboard backend of the open tickets overview of the "
-"agent interface. \"Limit\" is the number of entries shown by default. "
-"\"Group\" is used to restrict the access to the plugin (e. g. Group: "
-"admin;group1;group2;). \"Default\" determines if the plugin is enabled by "
-"default or if the user needs to enable it manually. \"CacheTTLLocal\" is the"
-" cache time in minutes for the plugin. Note: Only Ticket attributes and "
-"Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible"
-" settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. "
-"\"AccessibleTickets\" determines if the plugin will show only tickets "
-"assigned to a customer user directly (=0) or also all accessible tickets for"
-" this customer (=1)."
-msgstr ""
-"Paraméterek az ügyintézői felület nyitott jegyek áttekintésének vezérlőpult "
-"háttérprogramjához. A „Limit” az alapértelmezetten megjelenített bejegyzések"
-" száma. A „Group” használható a hozzáférés korlátozásához a bővítményre "
-"(például Group: admin;csoport1;csoport2;). A „Default” azt határozza meg, "
-"hogy a bővítmény alapértelmezetten engedélyezve van, vagy hogy a "
-"felhasználónak kézzel kell engedélyeznie azt. A „CacheTTLLocal” a bővítmény "
-"gyorsítótár ideje percben. Megjegyzés: csak jegyattribútumok és dinamikus "
-"mezők (DynamicField_NévX) engedélyezettek DefaultColumns értékeinél. "
-"Lehetséges beállítások: 0 = letiltva, 1 = elérhető, 2 = alapértelmezetten "
-"engedélyezve. Az „AccessibleTickets” határozza meg, hogy a bővítmény csak "
-"közvetlenül az ügyfél-felhasználóhoz rendelt jegyeket fogja megjeleníteni "
-"(=0), vagy az összes elérhető jegyet is ennél az ügyfélnél (=1)."
 
 #. SysConfig
 msgid ""
@@ -27158,16 +27108,12 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Parameters for the dashboard backend of the ticket escalation overview of "
-"the agent interface . \"Limit\" is the number of entries shown by default. "
+"the agent interface. \"Limit\" is the number of entries shown by default. "
 "\"Group\" is used to restrict the access to the plugin (e. g. Group: "
 "admin;group1;group2;). \"Default\" determines if the plugin is enabled by "
 "default or if the user needs to enable it manually. \"CacheTTLLocal\" is the"
 " cache time in minutes for the plugin. Note: Only Ticket attributes and "
-"Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible"
-" settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. "
-"\"AccessibleTickets\" determines if the plugin will show only tickets "
-"assigned to a customer user directly (=0) or also all accessible tickets for"
-" this customer (=1)."
+"Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns."
 msgstr ""
 "Paraméterek az ügyintézői felület jegyeszkaláció áttekintésének vezérlőpult "
 "háttérprogramjához. A „Limit” az alapértelmezetten megjelenített bejegyzések"
@@ -27176,11 +27122,7 @@ msgstr ""
 "hogy a bővítmény alapértelmezetten engedélyezve van, vagy hogy a "
 "felhasználónak kézzel kell engedélyeznie azt. A „CacheTTLLocal” a bővítmény "
 "gyorsítótár ideje percben. Megjegyzés: csak jegyattribútumok és dinamikus "
-"mezők (DynamicField_NévX) engedélyezettek DefaultColumns értékeinél. "
-"Lehetséges beállítások: 0 = letiltva, 1 = elérhető, 2 = alapértelmezetten "
-"engedélyezve. Az „AccessibleTickets” határozza meg, hogy a bővítmény csak "
-"közvetlenül az ügyfél-felhasználóhoz rendelt jegyeket fogja megjeleníteni "
-"(=0), vagy az összes elérhető jegyet is ennél az ügyfélnél (=1)."
+"mezők (DynamicField_NévX) engedélyezettek a DefaultColumns értékeinél."
 
 #. SysConfig
 msgid ""
@@ -27248,16 +27190,13 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Parameters for the dashboard backend of the ticket pending reminder overview"
-" of the agent interface . \"Limit\" is the number of entries shown by "
+" of the agent interface. \"Limit\" is the number of entries shown by "
 "default. \"Group\" is used to restrict the access to the plugin (e. g. "
 "Group: admin;group1;group2;). \"Default\" determines if the plugin is "
 "enabled by default or if the user needs to enable it manually. "
 "\"CacheTTLLocal\" is the cache time in minutes for the plugin. Note: Only "
 "Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for "
-"DefaultColumns. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled "
-"by default. \"AccessibleTickets\" determines if the plugin will show only "
-"tickets assigned to a customer user directly (=0) or also all accessible "
-"tickets for this customer (=1)."
+"DefaultColumns."
 msgstr ""
 "Paraméterek az ügyintézői felület jegy emlékeztető függőben áttekintésének "
 "vezérlőpult háttérprogramjához. A „Limit” az alapértelmezetten megjelenített"
@@ -27266,12 +27205,8 @@ msgstr ""
 "határozza meg, hogy a bővítmény alapértelmezetten engedélyezve van, vagy "
 "hogy a felhasználónak kézzel kell engedélyeznie azt. A „CacheTTLLocal” a "
 "bővítmény gyorsítótár ideje percben. Megjegyzés: csak jegyattribútumok és "
-"dinamikus mezők (DynamicField_NévX) engedélyezettek DefaultColumns "
-"értékeinél. Lehetséges beállítások: 0 = letiltva, 1 = elérhető, 2 = "
-"alapértelmezetten engedélyezve. Az „AccessibleTickets” határozza meg, hogy a"
-" bővítmény csak közvetlenül az ügyfél-felhasználóhoz rendelt jegyeket fogja "
-"megjeleníteni (=0), vagy az összes elérhető jegyet is ennél az ügyfélnél "
-"(=1)."
+"dinamikus mezők (DynamicField_NévX) engedélyezettek a DefaultColumns "
+"értékeinél."
 
 #. SysConfig
 msgid ""
@@ -30100,11 +30035,11 @@ msgstr "Megoldási idő"
 
 #. SysConfig
 msgid "SolutionDiffInMin"
-msgstr "SolutionDiffInMin"
+msgstr "Megoldás különbsége percben"
 
 #. SysConfig
 msgid "SolutionInMin"
-msgstr "SolutionInMin"
+msgstr "Megoldás percben"
 
 #. SysConfig
 msgid "Some description!"
@@ -31181,11 +31116,11 @@ msgstr "Felhasználói profil"
 
 #. SysConfig
 msgid "UserFirstname"
-msgstr "UserFirstname"
+msgstr "Felhasználó keresztneve"
 
 #. SysConfig
 msgid "UserLastname"
-msgstr "UserLastname"
+msgstr "Felhasználó vezetékneve"
 
 #. SysConfig
 msgid "Users, Groups & Roles"
