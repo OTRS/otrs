@@ -73,12 +73,14 @@ sub Post {
         for my $RegExp ( @{ $Link->{RegExp} } ) {
             my @Count    = $RegExp =~ m{\(}gx;
             my $Elements = scalar @Count;
-            if ( my @MatchData = ${ $Param{Data} } =~ m{([\s:]$RegExp)}gxi ) {
+
+            if ( my @MatchData = ${ $Param{Data} } =~ m{((?<!\w)$RegExp)}gxi ) {
                 my $Counter = 0;
                 KEYWORD:
                 while ( $MatchData[$Counter] ) {
 
                     my $HoleMatchString = $MatchData[$Counter];
+                    $HoleMatchString =~ s/^\s+|\s+$//g;
                     if ( $Keywords{$HoleMatchString} ) {
                         $Counter += $Elements + 1;
                         next KEYWORD;

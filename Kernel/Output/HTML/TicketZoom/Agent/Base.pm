@@ -274,7 +274,7 @@ sub _ArticleModuleMeta {
             my @Count    = $RegExp =~ m{\(}gx;
             my $Elements = scalar @Count;
 
-            if ( my @MatchData = $ArticlePlain =~ m{([\s:]$RegExp)}gxi ) {
+            if ( my @MatchData = $ArticlePlain =~ m{((?<!\w)$RegExp)}gxi ) {
                 my $Counter = 0;
 
                 MATCH:

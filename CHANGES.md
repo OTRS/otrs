@@ -1,4 +1,5 @@
 #6.0.24 ????-??-??
+ - 2019-09-19 Fixed bug#[12726](https://bugs.otrs.org/show_bug.cgi?id=12726) - Automatic links to CVE numbers don't work in TicketViewZoom.
  - 2019-09-18 Fixed bug#[14743](https://bugs.otrs.org/show_bug.cgi?id=14743) - There is wrong filter state values in queue view for queues with sub-queues.
 
 #6.0.23 2019-10-04
