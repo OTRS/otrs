@@ -109,6 +109,10 @@ $Selenium->RunTest(
             my $CalendarID   = $Calendars[$Index]->{CalendarID};
             my $CalendarName = $Calendars[$Index]->{CalendarName};
 
+            # Wait until checkbox and its change event has been loaded.
+            $Selenium->WaitFor( JavaScript => "return \$('#Calendar$CalendarID:checked').length == $Length;" );
+            Time::HiRes::sleep(0.5);
+
             $Self->Is(
                 $Selenium->execute_script("return \$('#Calendar$CalendarID:checked').length;"),
                 $Length,
@@ -164,8 +168,6 @@ $Selenium->RunTest(
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentAppointmentCalendarOverview");
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".CalendarWidget.Loading").length;' );
 
-        Time::HiRes::sleep(2);
-
         # Create a hash from the array for easier comparison.
         my %CheckedIndicesHash = map { $_ => 1 } @CheckedIndices;
 
@@ -175,6 +177,8 @@ $Selenium->RunTest(
             my $Checked = $Length ? 'checked' : 'unchecked';
             my $CalendarID   = $Calendars[$Index]->{CalendarID};
             my $CalendarName = $Calendars[$Index]->{CalendarName};
+
+            $Selenium->WaitFor( JavaScript => "return \$('#Calendar$CalendarID:checked').length == $Length;" );
 
             $Self->Is(
                 $Selenium->execute_script("return \$('#Calendar$CalendarID:checked').length;"),
