@@ -51,17 +51,30 @@ $Selenium->RunTest(
         );
 
         # Wait for reload to kick in.
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".Remove").length;' );
         sleep 1;
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete;'
+        );
 
         # Wait until all AJAX calls finished.
         $Selenium->WaitFor( JavaScript => "return \$.active == 0" );
+
+        $Selenium->WaitFor(
+            JavaScript => 'return typeof($) === "function" && $(".DataTable").length && $("#SysConfigGroup").length;'
+        );
 
         # Remove selected Ticket sysconfig group.
         $Selenium->execute_script(
             "\$('#SysConfigGroup').val('').trigger('redraw.InputField').trigger('change');"
         );
+
+        # Wait for reload to kick in.
         sleep 1;
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete;'
+        );
 
         # Wait until all AJAX calls finished.
         $Selenium->WaitFor( JavaScript => "return \$.active == 0" );
