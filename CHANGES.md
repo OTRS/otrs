@@ -1,4 +1,5 @@
 #6.0.24 ????-??-??
+ - 2019-10-01 Fixed bug#[14615](https://bugs.otrs.org/show_bug.cgi?id=14615) - Gravatar image mm (mystery-man) is renamed to mp (mystery-person).
  - 2019-09-19 Fixed bug#[14751](https://bugs.otrs.org/show_bug.cgi?id=14751) - Wrong URL of favicon for US-CERT NVD in OutputFilterTextAutoLink###CVE system configuration item.
  - 2019-09-19 Fixed bug#[12726](https://bugs.otrs.org/show_bug.cgi?id=12726) - Automatic links to CVE numbers don't work in TicketViewZoom.
  - 2019-09-18 Fixed bug#[14743](https://bugs.otrs.org/show_bug.cgi?id=14743) - There is wrong filter state values in queue view for queues with sub-queues.
