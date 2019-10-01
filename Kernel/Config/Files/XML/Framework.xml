@@ -785,17 +785,17 @@
         </Value>
     </Setting>
     <Setting Name="Frontend::Gravatar::DefaultImage" Required="1" Valid="1" ConfigLevel="200">
-        <Description Translatable="1">Define which avatar default image should be used for the current agent if no gravatar is assigned to the mail address of the agent. Check http://gravatar.com/site/implement/images/ for further information.</Description>
+        <Description Translatable="1">Define which avatar default image should be used for the current agent if no gravatar is assigned to the mail address of the agent. Check https://gravatar.com/site/implement/images/ for further information.</Description>
         <Navigation>Frontend::Agent</Navigation>
         <Value>
-           <Item ValueType="String" ValueRegex="">mm</Item>
+           <Item ValueType="String" ValueRegex="">mp</Item>
         </Value>
     </Setting>
     <Setting Name="Frontend::Gravatar::ArticleDefaultImage" Required="1" Valid="1" ConfigLevel="200">
-        <Description Translatable="1">Define which avatar default image should be used for the article view if no gravatar is assigned to the mail address. Check http://gravatar.com/site/implement/images/ for further information.</Description>
+        <Description Translatable="1">Define which avatar default image should be used for the article view if no gravatar is assigned to the mail address. Check https://gravatar.com/site/implement/images/ for further information.</Description>
         <Navigation>Frontend::Agent</Navigation>
         <Value>
-            <Item ValueType="String" ValueRegex="">mm</Item>
+            <Item ValueType="String" ValueRegex="">mp</Item>
         </Value>
     </Setting>
     <Setting Name="LoginURL" Required="0" Valid="0" ConfigLevel="200">

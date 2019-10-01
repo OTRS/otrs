@@ -11,6 +11,7 @@ use warnings;
 use utf8;
 
 use vars (qw($Self));
+use Digest::MD5 qw(md5_hex);
 
 my $TicketObject         = $Kernel::OM->Get('Kernel::System::Ticket');
 my $ArticleObject        = $Kernel::OM->Get('Kernel::System::Ticket::Article');
@@ -359,6 +360,26 @@ $Self->IsDeeply(
     \%ResultHash,
     {},
     '_MetaArticleGet() after delete'
+);
+
+# Check default image for avatar.
+# See bug#14615 for more information.
+my $DefaultImage = 'mp';
+$Helper->ConfigSettingChange(
+    Valid => 0,
+    Key   => "Frontend::Gravatar::ArticleDefaultImage",
+    Value => $DefaultImage,
+);
+
+my $Email       = 'someagentUnitTest@example.com';
+my $SenderImage = $Kernel::OM->Get('Kernel::Output::HTML::TicketZoom::Agent::Base')->_ArticleSenderImage(
+    Sender => "Some Agent <$Email>",
+);
+
+$Self->Is(
+    $SenderImage,
+    '//www.gravatar.com/avatar/' . md5_hex( lc $Email ) . '?s=80&d=' . $DefaultImage,
+    'Avatar link is generated successfully'
 );
 
 # cleanup is done by RestoreDatabase.

@@ -44,7 +44,7 @@ sub Param {
     };
 
     if ( $AvatarEngine eq 'Gravatar' && $Self->{UserEmail} ) {
-        $Return->{Avatar} = '//www.gravatar.com/avatar/' . md5_hex( lc $Self->{UserEmail} ) . '?s=45&d=mm';
+        $Return->{Avatar} = '//www.gravatar.com/avatar/' . md5_hex( lc $Self->{UserEmail} ) . '?s=45&d=mp';
     }
 
     return $Return;
