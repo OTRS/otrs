@@ -87,13 +87,7 @@ $Selenium->RunTest(
             Value => 1,
         );
 
-        my $RandomID    = $Helper->GetRandomID();
-        my $SessionName = "OTRS$RandomID";
-        $Helper->ConfigSettingChange(
-            Valid => 1,
-            Key   => 'SessionName',
-            Value => $SessionName,
-        );
+        my $RandomID = $Helper->GetRandomID();
 
         # Create and login test user.
         my $Language      = 'de';
@@ -367,6 +361,8 @@ $Selenium->RunTest(
 
         # Check if the IFRAME element DOES NOT contain the session ID parameter.
         my $IframeElement = $Selenium->find_element('//iframe[not(contains(@id, "AttachmentWindow"))]');
+        my $SessionName   = $Selenium->execute_script('return Core.Config.Get("SessionName");');
+
         $Self->False(
             ( $IframeElement->get_attribute('src') =~ m{$SessionName=} ) // 0,
             'Session ID not present in the IFRAME source URL'
