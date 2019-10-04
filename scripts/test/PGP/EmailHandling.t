@@ -781,6 +781,16 @@ for my $Test (@TestVariations) {
 
     my @CheckResult = $CheckObject->Check( Article => \%Article );
 
+    # Run check a second time to simulate repeated views.
+    my @FirstCheckResult = @CheckResult;
+    @CheckResult = $CheckObject->Check( Article => \%Article );
+
+    $Self->IsDeeply(
+        \@FirstCheckResult,
+        \@CheckResult,
+        "$Test->{Name} - CheckObject() stable",
+    );
+
     if ( $Test->{VerifySignature} ) {
         my $SignatureVerified =
             grep {

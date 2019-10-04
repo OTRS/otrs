@@ -70,6 +70,21 @@ sub Check {
     # get needed objects
     my $PGPObject = $Kernel::OM->Get('Kernel::System::Crypt::PGP');
 
+    # Get plain article/email from filesystem storage.
+    my $Message = $ArticleBackendObject->ArticlePlain(
+        ArticleID => $Self->{ArticleID},
+        UserID    => $Self->{UserID},
+    );
+    return if !$Message;
+
+    my $ParserObject = Kernel::System::EmailParser->new(
+        Email => $Message,
+    );
+
+    # Ensure we are using original body instead or article content.
+    # This is necessary for follow-up checks (otherwise the information about e.g. encryption is lost).
+    $Param{Article}->{Body} = $ParserObject->GetMessageBody();
+
     # check inline pgp crypt
     if ( $Param{Article}->{Body} && $Param{Article}->{Body} =~ /\A[\s\n]*^-----BEGIN PGP MESSAGE-----/m ) {
 
@@ -175,23 +190,12 @@ sub Check {
         }
     }
 
-    # Get plain article/email from filesystem storage.
-    my $Message = $ArticleBackendObject->ArticlePlain(
-        ArticleID => $Self->{ArticleID},
-        UserID    => $Self->{UserID},
-    );
-    return if !$Message;
-
     # check inline pgp signature (but ignore if is in quoted text)
     if (
         $Param{Article}->{Body}
         && $Param{Article}->{Body} =~ m{ ^\s* -----BEGIN [ ] PGP [ ] SIGNED [ ] MESSAGE----- }xms
         )
     {
-        # create local email parser object
-        my $ParserObject = Kernel::System::EmailParser->new(
-            Email => $Message,
-        );
 
         # get the charset of the original message
         my $Charset = $ParserObject->GetCharset();
@@ -280,7 +284,7 @@ sub Check {
                 # could be altered and a signature verify could fail. See Bug#9954
                 my $EntityCopy = $Entity->dup();
 
-                my $ParserObject = Kernel::System::EmailParser->new(
+                $ParserObject = Kernel::System::EmailParser->new(
                     Entity => $EntityCopy,
                 );
 
