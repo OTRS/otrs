@@ -44,7 +44,7 @@ my $GroupID   = $GroupObject->GroupAdd(
 
 $Self->True(
     $GroupID,
-    "Test group $UserID created",
+    "Test group $GroupID created",
 );
 
 # add test user to test group
