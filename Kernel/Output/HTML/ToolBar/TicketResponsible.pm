@@ -57,7 +57,7 @@ sub Run {
         Result         => 'COUNT',
         StateType      => 'Open',
         ResponsibleIDs => [ $Self->{UserID} ],
-        UserID         => 1,
+        UserID         => $Self->{UserID},
         Permission     => 'ro',
     );
     my $CountNew = $TicketObject->TicketSearch(
@@ -68,7 +68,7 @@ sub Run {
             Seen => 1,
         },
         TicketFlagUserID => $Self->{UserID},
-        UserID           => 1,
+        UserID           => $Self->{UserID},
         Permission       => 'ro',
     );
     $CountNew = $Count - $CountNew;
@@ -78,7 +78,7 @@ sub Run {
         StateType                     => ['pending reminder'],
         ResponsibleIDs                => [ $Self->{UserID} ],
         TicketPendingTimeOlderMinutes => 1,
-        UserID                        => 1,
+        UserID                        => $Self->{UserID},
         Permission                    => 'ro',
     );
 
