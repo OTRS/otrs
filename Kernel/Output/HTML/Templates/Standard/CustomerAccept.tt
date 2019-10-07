@@ -15,7 +15,7 @@
             [% Translate("thank you for using our services.") | html %]
         </p>
         <p>
-            <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Accept=1">[% Translate("Yes, I accepted your license.") | html %]</a>
+            <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Accept=1">[% Translate("Yes, I accept your license.") | html %]</a>
         </p>
     </div>
 </div>
