@@ -256,7 +256,7 @@ sub HandleLanguage {
                 $Word =~ s{\\"}{"}smxg;
                 $Word =~ s{\\'}{'}smxg;
 
-                if (!$UsedWords{$Word}++) {
+                if ( $Word && !$UsedWords{$Word}++ ) {
 
                     push @OriginalTranslationStrings, {
                         Location => "Template: $File",
@@ -325,7 +325,7 @@ sub HandleLanguage {
                 $Word =~ s{\\"}{"}smxg;
                 $Word =~ s{\\'}{'}smxg;
 
-                if (!$UsedWords{$Word}++) {
+                if ( $Word && !$UsedWords{$Word}++ ) {
                     push @OriginalTranslationStrings, {
                         Location => "JS Template: $File",
                         Source   => $Word,
@@ -425,7 +425,7 @@ sub HandleLanguage {
                 my $SkipWord;
                 $SkipWord = 1 if $Word =~ m{\$}xms;
 
-                if ($Word && !$SkipWord && !$UsedWords{$Word}++ ) {
+                if ( $Word && !$SkipWord && !$UsedWords{$Word}++ ) {
 
                     push @OriginalTranslationStrings, {
                         Location => "Perl Module: $File",
@@ -469,7 +469,7 @@ sub HandleLanguage {
             {
                 my $Word = $1 // '';
 
-                if ($Word && !$UsedWords{$Word}++) {
+                if ( $Word && !$UsedWords{$Word}++ ) {
 
                     if ($IsSubTranslation) {
                         $File =~ s{^.*/(.+\.sopm)}{$1}smx;
