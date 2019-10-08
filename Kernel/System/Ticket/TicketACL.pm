@@ -1132,6 +1132,19 @@ sub _GetChecks {
         }
     }
 
+    # Check for ActivityEntityID if set as parameter (ProcessManagement).
+    if ( ( $CheckAll || $RequiredChecks{Process} ) && $Param{ActivityEntityID} ) {
+
+        my $Activity = $Kernel::OM->Get('Kernel::System::ProcessManagement::Activity')->ActivityGet(
+            ActivityEntityID => $Param{ActivityEntityID},
+            Interface        => [$Interface],
+        );
+
+        if ( IsHashRefWithData($Activity) ) {
+            $Checks{Process}->{ActivityEntityID} = $Param{ActivityEntityID};
+        }
+    }
+
     # check for dynamic fields
     if ( IsHashRefWithData( $Param{DynamicField} ) ) {
         $Checks{DynamicField} = $Param{DynamicField};

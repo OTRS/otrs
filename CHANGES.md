@@ -1,4 +1,5 @@
 #6.0.24 ????-??-??
+ - 2019-10-08 Fixed bug#[14775](https://bugs.otrs.org/show_bug.cgi?id=14775) - ACL does not match process activity (ActivityEntityID).
  - 2019-10-07 Fixed bug#[14785](https://bugs.otrs.org/show_bug.cgi?id=14785) - Grammar of the CustomerAccept link name should be corrected.
  - 2019-10-04 Fixed bug#[13469](https://bugs.otrs.org/show_bug.cgi?id=13469) - Missing Signing and Encryption information.
  - 2019-10-01 Fixed bug#[14615](https://bugs.otrs.org/show_bug.cgi?id=14615) - Gravatar image mm (mystery-man) is renamed to mp (mystery-person).
