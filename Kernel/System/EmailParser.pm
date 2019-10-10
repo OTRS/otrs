@@ -746,7 +746,7 @@ sub PartsAttachments {
     elsif ( $PartData{ContentType} eq 'message/rfc822' ) {
 
         my ($SubjectString) = $Part->as_string() =~ m/^Subject: ([^\n]*(\n[ \t][^\n]*)*)/m;
-        my $Subject = $Self->_DecodeString( String => $SubjectString );
+        my $Subject = $Self->_DecodeString( String => $SubjectString ) . '.eml';
 
         # cleanup filename
         $Subject = $Kernel::OM->Get('Kernel::System::Main')->FilenameCleanUp(
@@ -756,9 +756,9 @@ sub PartsAttachments {
 
         if ( $Subject eq '' ) {
             $Self->{NoFilenamePartCounter}++;
-            $Subject = "Unbenannt-$Self->{NoFilenamePartCounter}";
+            $Subject = "Untitled-$Self->{NoFilenamePartCounter}" . '.eml';
         }
-        $PartData{Filename} = $Subject . '.eml';
+        $PartData{Filename} = $Subject;
     }
     else {
         $Self->{NoFilenamePartCounter}++;

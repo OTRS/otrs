@@ -1,4 +1,5 @@
 #6.0.24 ????-??-??
+ - 2019-10-10 Follow-up fix for bug#[14716](https://bugs.otrs.org/show_bug.cgi?id=14716) - Mails with attached mails (e.g. forwarded) containing period followed by long string in the subject may get stuck.
  - 2019-10-08 Fixed bug#[14798](https://bugs.otrs.org/show_bug.cgi?id=14798) - Dev::Tools::TranslationsUpdate includes the header of PO file into the language file for empty string.
  - 2019-10-08 Fixed bug#[14775](https://bugs.otrs.org/show_bug.cgi?id=14775) - ACL does not match process activity (ActivityEntityID).
  - 2019-10-07 Fixed bug#[14785](https://bugs.otrs.org/show_bug.cgi?id=14785) - Grammar of the CustomerAccept link name should be corrected.

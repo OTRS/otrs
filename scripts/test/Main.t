@@ -53,12 +53,46 @@ my @Tests = (
         Type         => 'Local',
     },
     {
-        Name => 'FilenameCleanUp() - Long extension - Local',
-        FilenameOrig =>
-            'me_to/alal.xml1234567890xml1234567890xml1234567890xml1234567890xml1234567890xml1234567890xml1234567890xml1234567890xml1234567890xml1234567890xml1234567890xml1234567890xml1234567890xml1234567890xml1234567890xml1234567890xml1234567890xml1234567890xml1234567890xml1234567890xml1234567890xml1234567890',
-        FilenameNew =>
-            'me_to_alal.xml1234567890xml1234567890xml1234567890xml1234567890xml1234567890xml1234567890xml1234567890xml1234567890xml1234567890xml1234567890xml1234567890xml1234567890xml1234567890xml1234567890xml1234567890xml1234567890',
-        Type => 'Local',
+        Name         => 'FilenameCleanUp() - Long filename no extension - Local',
+        FilenameOrig => 'a' x 250,
+        FilenameNew  => 'a' x 220,
+        Type         => 'Local',
+    },
+    {
+        Name         => 'FilenameCleanUp() - Long filename short extension - Local',
+        FilenameOrig => 'a' x 250 . '.test',
+        FilenameNew  => 'a' x 215 . '.test',
+        Type         => 'Local',
+    },
+    {
+        Name         => 'FilenameCleanUp() - Short filename long extension - Local',
+        FilenameOrig => 'test.' . 'a' x 250,
+        FilenameNew  => 't.' . 'a' x 218,
+        Type         => 'Local',
+    },
+    {
+        Name         => 'FilenameCleanUp() - Long filename no extension - 2 bytes character - Local',
+        FilenameOrig => 'ß' x 250,
+        FilenameNew  => 'ß' x 110,
+        Type         => 'Local',
+    },
+    {
+        Name         => 'FilenameCleanUp() - Long filename short extension - 2 bytes character - Local',
+        FilenameOrig => 'ß' x 250 . '.test',
+        FilenameNew  => 'ß' x 107 . '.test',
+        Type         => 'Local',
+    },
+    {
+        Name         => 'FilenameCleanUp() - Short filename long extension - 2 bytes character - Local',
+        FilenameOrig => 'test.' . 'ß' x 250,
+        FilenameNew  => 't.' . 'ß' x 109,
+        Type         => 'Local',
+    },
+    {
+        Name         => 'FilenameCleanUp() - Filename ending with period - Local',
+        FilenameOrig => 'abc.',
+        FilenameNew  => 'abc.',
+        Type         => 'Local',
     },
     {
         Name         => 'FilenameCleanUp() - Attachment',
