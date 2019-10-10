@@ -184,9 +184,8 @@ $Selenium->RunTest(
             );
         }
 
-        # Navigate to AdminACL and synchronize the created ACLs.
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminACL");
-        $Selenium->find_element("//a[contains(\@href, 'Action=AdminACL;Subaction=ACLDeploy')]")->VerifiedClick();
+        # Synchronize test ACLs.
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminACL;Subaction=ACLDeploy");
 
         $Self->True(
             1,
@@ -288,9 +287,8 @@ $Selenium->RunTest(
             $ACL->{ACLID} = $ACLID;
         }
 
-        # Navigate to AdminACL and synchronize the created ACLs.
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminACL");
-        $Selenium->find_element("//a[contains(\@href, 'Action=AdminACL;Subaction=ACLDeploy')]")->VerifiedClick();
+        # Synchronize test ACLs.
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminACL;Subaction=ACLDeploy");
 
         $Self->True(
             1,
@@ -319,10 +317,15 @@ $Selenium->RunTest(
             next ACL if $ACL->{ACLID} == $ACLs[0]->{ACLID};
 
             my $Success = $ACLObject->ACLUpdate(
-                ID      => $ACL->{ACLID},
-                Name    => $ACL->{Name},
-                ValidID => $InvalidID,
-                UserID  => $TestUserID,
+                ID             => $ACL->{ACLID},
+                Name           => $ACL->{Name},
+                ValidID        => $InvalidID,
+                UserID         => $TestUserID,
+                Comment        => $ACL->{Comment},
+                Description    => $ACL->{Description},
+                StopAfterMatch => $ACL->{StopAfterMatch},
+                ConfigMatch    => $ACL->{ConfigMatch},
+                ConfigChange   => $ACL->{ConfigChange},
             );
             $Self->True(
                 $Success,
@@ -330,9 +333,8 @@ $Selenium->RunTest(
             );
         }
 
-        # Navigate to AdminACL and synchronize the created ACLs.
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminACL");
-        $Selenium->find_element("//a[contains(\@href, 'Action=AdminACL;Subaction=ACLDeploy')]")->VerifiedClick();
+        # Synchronize test ACLs.
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminACL;Subaction=ACLDeploy");
 
         $Self->True(
             1,
