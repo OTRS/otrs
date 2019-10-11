@@ -334,11 +334,23 @@ $Selenium->RunTest(
         }
 
         # Synchronize test ACLs.
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminACL;Subaction=ACLDeploy");
-
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminACL");
         $Self->True(
-            1,
-            "ACL information is synchronized after update",
+            index(
+                $Selenium->get_page_source(),
+                'ACL information from database is not in sync with the system configuration, please deploy all ACLs.'
+                )
+                > -1,
+            "ACL deployment successful."
+        );
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminACL;Subaction=ACLDeploy");
+        $Self->False(
+            index(
+                $Selenium->get_page_source(),
+                'ACL information from database is not in sync with the system configuration, please deploy all ACLs.'
+                )
+                > -1,
+            "ACL deployment successful."
         );
 
         # Navigate again to agent ticket process directly via URL with pre-selected process and activity dialog.
