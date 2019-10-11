@@ -736,6 +736,22 @@ for my $Test (@TestVariations) {
                 "$Test->{Name} - Attachment '$Attachment->{Filename}' was found"
             );
         }
+
+        # Remove all attachments, then run CheckObject again to verify they are not written again.
+        $ArticleBackendObject->ArticleDeleteAttachment(
+            ArticleID => $ArticleID,
+            UserID    => 1,
+        );
+
+        $CheckObject->Check( Article => \%Article );
+
+        %Index = $ArticleBackendObject->ArticleAttachmentIndex(
+            ArticleID => $ArticleID,
+        );
+        $Self->False(
+            scalar keys %Index,
+            "$Test->{Name} - Attachments not rewritten by ArticleCheck module"
+        );
     }
 }
 

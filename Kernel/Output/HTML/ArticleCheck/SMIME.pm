@@ -295,6 +295,18 @@ sub Check {
                         . ", but sender address $OrigSender: does not match certificate address!";
                 }
 
+                # Determine if we have decrypted article and attachments before.
+                my %Index = $ArticleBackendObject->ArticleAttachmentIndex(
+                    ArticleID => $Self->{ArticleID},
+                );
+
+                if (
+                    !grep { $Index{$_}->{ContentType} =~ m{ application/ (?: x- )? pkcs7-mime }xms } sort keys %Index
+                    )
+                {
+                    return @Return;
+                }
+
                 # updated article body
                 $ArticleBackendObject->ArticleUpdate(
                     TicketID  => $Param{Article}->{TicketID},
@@ -407,29 +419,41 @@ sub Check {
                         . ", but sender address $OrigSender: does not match certificate address!";
                 }
 
-                # updated article body
-                $ArticleBackendObject->ArticleUpdate(
-                    TicketID  => $Param{Article}->{TicketID},
+                # Determine if we have decrypted article and attachments before.
+                my %Index = $ArticleBackendObject->ArticleAttachmentIndex(
                     ArticleID => $Self->{ArticleID},
-                    Key       => 'Body',
-                    Value     => $Body,
-                    UserID    => $ChangeUserID,
                 );
 
-                # delete crypted attachments
-                $ArticleBackendObject->ArticleDeleteAttachment(
-                    ArticleID => $Self->{ArticleID},
-                    UserID    => $ChangeUserID,
-                );
+                if (
+                    grep { $Index{$_}->{ContentType} =~ m{ application/ (?: x- )? pkcs7 }xms } sort keys %Index
+                    )
+                {
 
-                # write attachments to the storage
-                for my $Attachment ( $ParserObject->GetAttachments() ) {
-                    $ArticleBackendObject->ArticleWriteAttachment(
-                        %{$Attachment},
+                    # Update article body.
+                    $ArticleBackendObject->ArticleUpdate(
+                        TicketID  => $Param{Article}->{TicketID},
+                        ArticleID => $Self->{ArticleID},
+                        Key       => 'Body',
+                        Value     => $Body,
+                        UserID    => $ChangeUserID,
+                    );
+
+                    # Delete crypted attachments.
+                    $ArticleBackendObject->ArticleDeleteAttachment(
                         ArticleID => $Self->{ArticleID},
                         UserID    => $ChangeUserID,
                     );
+
+                    # Write decrypted attachments to the storage.
+                    for my $Attachment ( $ParserObject->GetAttachments() ) {
+                        $ArticleBackendObject->ArticleWriteAttachment(
+                            %{$Attachment},
+                            ArticleID => $Self->{ArticleID},
+                            UserID    => $ChangeUserID,
+                        );
+                    }
                 }
+
             }
 
             # output signature verification errors
