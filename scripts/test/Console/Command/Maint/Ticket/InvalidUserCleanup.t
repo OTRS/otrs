@@ -42,6 +42,13 @@ $Kernel::OM->Get('Kernel::Config')->Set(
     Value => 0,
 );
 
+# Enable ticket watcher feature.
+$Helper->ConfigSettingChange(
+    Valid => 1,
+    Key   => 'Ticket::Watcher',
+    Value => 1,
+);
+
 my $UserName = $Helper->TestUserCreate();
 my %User     = $UserObject->GetUserData( User => $UserName );
 my $UserID   = $User{UserID};
@@ -87,13 +94,24 @@ my $Set = $ArticleObject->ArticleFlagSet(
 );
 $Self->True(
     $Set,
-    'ArticleFlagSet() article 1',
+    'ArticleFlagSet() article $ArticleID',
 );
 
 $Kernel::OM->Get('Kernel::System::User')->UserUpdate(
     %User,
     ValidID      => 2,
     ChangeUserID => 1,
+);
+
+my $Subscribe = $TicketObject->TicketWatchSubscribe(
+    TicketID    => $TicketID,
+    WatchUserID => $UserID,
+    UserID      => $UserID,
+);
+
+$Self->True(
+    $Subscribe,
+    "TicketWatchSubscribe() User:$UserID to Ticket:$TicketID",
 );
 
 # Set current time.

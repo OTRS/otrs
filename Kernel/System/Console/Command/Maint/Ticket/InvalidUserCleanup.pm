@@ -266,7 +266,7 @@ sub _CleanupFlags {
                     WatchUserID => $User->{UserID},
                     UserID      => 1,
                 );
-                $Count++ if $$Unsubscribe;
+                $Count++ if $Unsubscribe;
                 Time::HiRes::usleep( $Param{MicroSleep} ) if $Param{MicroSleep};
             }
 
