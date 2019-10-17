@@ -439,9 +439,9 @@ sub Do {
     #   the timestamp is sometimes 1 second off the perl timestamp.
 
     $Param{SQL} =~ s{
-        (?<= \s | \( | , )  # lookahead
+        (?<= \s | \( | , )  # lookbehind
         current_timestamp   # replace current_timestamp by 'yyyy-mm-dd hh:mm:ss'
-        (?=  \s | \) | , )  # lookbehind
+        (?=  \s | \) | , )  # lookahead
     }
     {
         # Only calculate timestamp if it is really needed (on first invocation or if the system time changed)
