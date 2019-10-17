@@ -31,18 +31,20 @@ build a JSON output which can be used for e. g. data for pull downs
 
     my $JSON = $LayoutObject->BuildSelectionJSON(
         [
-            Data          => $ArrayRef,      # use $HashRef, $ArrayRef or $ArrayHashRef (see below)
-            Name          => 'TheName',      # name of element
-            SelectedID    => [1, 5, 3],      # (optional) use integer or arrayref (unable to use with ArrayHashRef)
-            SelectedValue => 'test',         # (optional) use string or arrayref (unable to use with ArrayHashRef)
-            Sort          => 'NumericValue', # (optional) (AlphanumericValue|NumericValue|AlphanumericKey|NumericKey|TreeView) unable to use with ArrayHashRef
-            SortReverse   => 0,              # (optional) reverse the list
-            Translation   => 1,              # (optional) default 1 (0|1) translate value
-            PossibleNone  => 0,              # (optional) default 0 (0|1) add a leading empty selection
-            Max => 100,                      # (optional) default 100 max size of the shown value
-        ],
-        [
-            # ...
+            {
+                Data          => $ArrayRef,      # use $HashRef, $ArrayRef or $ArrayHashRef (see below)
+                Name          => 'TheName',      # name of element
+                SelectedID    => [1, 5, 3],      # (optional) use integer or arrayref (unable to use with ArrayHashRef)
+                SelectedValue => 'test',         # (optional) use string or arrayref (unable to use with ArrayHashRef)
+                Sort          => 'NumericValue', # (optional) (AlphanumericValue|NumericValue|AlphanumericKey|NumericKey|TreeView) unable to use with ArrayHashRef
+                SortReverse   => 0,              # (optional) reverse the list
+                Translation   => 1,              # (optional) default 1 (0|1) translate value
+                PossibleNone  => 0,              # (optional) default 0 (0|1) add a leading empty selection
+                Max => 100,                      # (optional) default 100 max size of the shown value
+            },
+            {
+                # ...
+            }
         ]
     );
 
