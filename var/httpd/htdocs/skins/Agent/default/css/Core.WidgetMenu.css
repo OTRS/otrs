@@ -243,8 +243,9 @@ ul.ContextFunctions li:last-child:hover > a {
 }
 
 .Actions li:last-child:after {
-    content: "";
-    display: none;
+    content: " | ";
+    display: block;
+    visibility: hidden;
 }
 
 .RTL .Actions li {

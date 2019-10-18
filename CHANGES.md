@@ -1,4 +1,5 @@
 #6.0.24 ????-??-??
+ - 2019-10-18 Fixed bug#[14824](https://bugs.otrs.org/show_bug.cgi?id=14824) - Submenu items suddenly disappears in AgentTicketZoom.
  - 2019-10-15 Follow-up fix for bug#[14693](https://bugs.otrs.org/show_bug.cgi?id=14693) - Console command Maint::Ticket::InvalidUserCleanup reports error about ArticleFlagDelete().
  - 2019-10-11 Fixed bug#[14800](https://bugs.otrs.org/show_bug.cgi?id=14800) - Signature check and decryption of pgp and s/mime mails causes needless write operations.
  - 2019-10-10 Follow-up fix for bug#[14716](https://bugs.otrs.org/show_bug.cgi?id=14716) - Mails with attached mails (e.g. forwarded) containing period followed by long string in the subject may get stuck.
