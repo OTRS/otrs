@@ -13,7 +13,7 @@
 [% RenderBlockStart("rw:SLA:DescriptionLong") %]
     <span class="FieldHelpContainer">
         <i class="fa fa-question-circle FieldHelpTrigger"></i>
-        <span>[% Data.DescriptionLong | html %]</span>
+        <span>[% Translate(Data.DescriptionLong) | html %]</span>
     </span>
 [% RenderBlockEnd("rw:SLA:DescriptionLong") %]
     [% Data.Label | html %]:

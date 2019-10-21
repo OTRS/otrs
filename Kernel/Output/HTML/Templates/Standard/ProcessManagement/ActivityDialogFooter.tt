@@ -12,7 +12,7 @@
 [% RenderBlockStart("Footer") %]
                 <div class="[% Data.FooterCSSClass | html %]">
 [% RenderBlockStart("SubmitAdviceText") %]
-                    <p class="SubmitInfo">[% Data.AdviceText | html %]</p>
+                    <p class="SubmitInfo">[% Translate(Data.AdviceText) | html %]</p>
 [% RenderBlockEnd("SubmitAdviceText") %]
                     <button class="Primary CallForAction" id="[% Data.ButtonID | html %]" accesskey="g" title="[% Translate(Data.ButtonTitle) | html %] (g)" type="submit" value="[% Translate(Data.ButtonText) | html %]"><span>[% Translate(Data.ButtonText) | html %]</span></button>
                 </div>

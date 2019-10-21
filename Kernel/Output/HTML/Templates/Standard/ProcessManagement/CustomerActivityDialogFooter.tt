@@ -13,7 +13,7 @@
                 <div class="PopupFooter">
                     <button class="Primary" id="[% Data.ButtonID | html %]" accesskey="g" title="[% Translate(Data.ButtonTitle) | html %] (g)" type="submit" value="[% Translate(Data.ButtonText) | html %]">[% Translate(Data.ButtonText) | html %]</button>
 [% RenderBlockStart("SubmitAdviceText") %]
-                    <span class="AdviceText">[% Data.AdviceText | html %]</span>
+                    <span class="AdviceText">[% Translate(Data.AdviceText) | html %]</span>
 [% RenderBlockEnd("SubmitAdviceText") %]
                 </div>
 [% RenderBlockEnd("Footer") %]

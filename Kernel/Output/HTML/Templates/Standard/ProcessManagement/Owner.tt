@@ -14,7 +14,7 @@
 [% RenderBlockStart("rw:Owner:DescriptionLong") %]
     <span class="FieldHelpContainer">
         <i class="fa fa-question-circle FieldHelpTrigger"></i>
-        <span>[% Data.DescriptionLong | html %]</span>
+        <span>[% Translate(Data.DescriptionLong) | html %]</span>
     </span>
 [% RenderBlockEnd("rw:Owner:DescriptionLong") %]
     [% Data.Label | html %]:
@@ -28,7 +28,7 @@
     <div id="[% Data.FieldID | html %]Error" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
     <div id="[% Data.FieldID | html %]ServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
 [% RenderBlockStart("rw:Owner:DescriptionShort") %]
-    <div class="FieldExplanation">[% Data.DescriptionShort | html %]</div>
+    <div class="FieldExplanation">[% Translate(Data.DescriptionShort) | html %]</div>
 [% RenderBlockEnd("rw:Owner:DescriptionShort") %]
 </div>
 <div class="Clear"></div>

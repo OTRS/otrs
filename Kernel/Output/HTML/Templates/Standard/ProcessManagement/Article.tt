@@ -29,7 +29,7 @@
 <div class="Clear"></div>
 
 [% RenderBlockStart("rw:Article:DescriptionShort") %]
-<div class="Field FieldExplanation">[% Data.DescriptionShort %]</div>
+<div class="Field FieldExplanation">[% Translate(Data.DescriptionShort) | html %]</div>
 [% RenderBlockEnd("rw:Article:DescriptionShort") %]
 
 <label class="[% Data.MandatoryClass | html %]" for="RichText">
@@ -39,7 +39,7 @@
 [% RenderBlockStart("rw:Article:DescriptionLong") %]
     <span class="FieldHelpContainer">
         <i class="fa fa-question-circle FieldHelpTrigger"></i>
-        <span>[% Data.DescriptionLong | html %]</span>
+        <span>[% Translate(Data.DescriptionLong) | html %]</span>
     </span>
 [% RenderBlockEnd("rw:Article:DescriptionLong") %]
     [% Data.LabelBody | html %]:

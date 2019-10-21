@@ -11,14 +11,14 @@
 [% RenderBlockStart("rw:DynamicField:DescriptionLong") %]
     <span class="FieldHelpContainer">
         <i class="fa fa-question-circle FieldHelpTrigger"></i>
-        <span>[% Data.DescriptionLong | html %]</span>
+        <span>[% Translate(Data.DescriptionLong) | html %]</span>
     </span>
 [% RenderBlockEnd("rw:DynamicField:DescriptionLong") %]
     [% Data.Label %]
     <div class="Field">
         [% Data.Content %]
 [% RenderBlockStart("rw:DynamicField:DescriptionShort") %]
-        <div class="FieldExplanation">[% Data.DescriptionShort %]</div>
+        <div class="FieldExplanation">[% Translate(Data.DescriptionShort) | html %]</div>
 [% RenderBlockEnd("rw:DynamicField:DescriptionShort") %]
     </div>
     <div class="Clear"></div>

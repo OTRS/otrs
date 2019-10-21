@@ -17,7 +17,7 @@
 [% RenderBlockStart("rw:Customer:DescriptionLong") %]
     <span class="FieldHelpContainer">
         <i class="fa fa-question-circle FieldHelpTrigger"></i>
-        <span>[% Data.DescriptionLong | html %]</span>
+        <span>[% Translate(Data.DescriptionLong)| html %]</span>
     </span>
 [% RenderBlockEnd("rw:Customer:DescriptionLong") %]
     [% Data.LabelCustomerUser | html %]:
