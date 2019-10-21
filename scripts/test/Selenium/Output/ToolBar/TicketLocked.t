@@ -127,10 +127,10 @@ $Selenium->RunTest(
         # Refresh dashboard page.
         $Selenium->VerifiedRefresh();
 
-        # click on tool bar AgentTicketLockedView
+        # Click on tool bar AgentTicketLockedView.
         $Selenium->find_element("//a[contains(\@title, \'Locked Tickets Total:\' )]")->VerifiedClick();
 
-        # verify that test is on the correct screen
+        # Verify that test is on the correct screen.
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
         my $ExpectedURL = "${ScriptAlias}index.pl?Action=AgentTicketLockedView";
 
