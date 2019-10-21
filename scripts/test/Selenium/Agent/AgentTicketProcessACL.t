@@ -287,13 +287,19 @@ $Selenium->RunTest(
             $ACL->{ACLID} = $ACLID;
         }
 
-        # Synchronize test ACLs.
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminACL;Subaction=ACLDeploy");
+        # Navigate to AdminACL and synchronize ACL's.
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminACL");
 
-        $Self->True(
-            1,
-            "ACL information is synchronized",
-        );
+        # Click 'Deploy ACLs'.
+        $Selenium->find_element("//a[contains(\@href, 'Action=AdminACL;Subaction=ACLDeploy')]")->VerifiedClick();
+
+        # Verify ACL are
+        for my $ACL (@ACLs) {
+            $Self->True(
+                $Selenium->find_element("//a[text()=\"$ACL->{Name}\"]")->is_displayed(),
+                "ACLName '$ACL->{Name}' found on page.",
+            );
+        }
 
         # Navigate to agent ticket process directly via URL with pre-selected process and activity dialog.
         $Selenium->VerifiedGet(
@@ -302,6 +308,7 @@ $Selenium->RunTest(
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length;' );
 
         # Verify all test queues exist for appropriate process, activity and activity dialog (see bug#14775).
+        $Selenium->WaitFor( ElementExists => [ '#QueueID', 'css' ] );
         for my $Queue (@Queues) {
             $Self->True(
                 $Selenium->execute_script("return \$('#QueueID option[value=\"$Queue->{ID}\"]').length;"),
