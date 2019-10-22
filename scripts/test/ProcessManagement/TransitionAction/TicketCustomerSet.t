@@ -14,11 +14,9 @@ use vars (qw($Self));
 
 use Kernel::System::VariableCheck qw(:all);
 
-# get needed objects
 my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 my $ModuleObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::TransitionAction::TicketCustomerSet');
 
-# get helper object
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
         RestoreDatabase  => 1,
@@ -27,16 +25,11 @@ $Kernel::OM->ObjectParamAdd(
 );
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-# define variables
-my $UserID     = 1;
+my ( $TestUserLogin, $TestUserID ) = $Helper->TestUserCreate();
+my $UserID     = $TestUserID;
 my $ModuleName = 'TicketCustomerSet';
 
-# set user details
-my ( $TestUserLogin, $TestUserID ) = $Helper->TestUserCreate();
-
-#
-# Create a test ticket
-#
+# Create a test ticket.
 my $TicketID = $TicketObject->TicketCreate(
     Title         => 'test',
     QueueID       => 1,
@@ -49,7 +42,6 @@ my $TicketID = $TicketObject->TicketCreate(
     UserID        => $UserID,
 );
 
-# sanity checks
 $Self->True(
     $TicketID,
     "TicketCreate() - $TicketID",
@@ -64,7 +56,6 @@ $Self->True(
     "TicketGet() - Get Ticket with ID $TicketID.",
 );
 
-# Run() tests
 my @Tests = (
     {
         Name    => 'No Params',
@@ -235,11 +226,35 @@ my @Tests = (
         },
         Success => 1,
     },
+    {
+        Name   => 'Correct Using Current tag to set CustomerID',
+        Config => {
+            UserID => $UserID,
+            Ticket => \%Ticket,
+            Config => {
+                CustomerID => '<OTRS_CURRENT_UserLogin>',
+            },
+        },
+        ExpectedCustomerID => $TestUserLogin,
+        Success            => 1,
+    },
+    {
+        Name   => 'Correct Using Current tag to set CustomerUserID',
+        Config => {
+            UserID => $UserID,
+            Ticket => \%Ticket,
+            Config => {
+                CustomerUserID => '<OTRS_CURRENT_UserLogin>',
+            },
+        },
+        ExpectedCustomerUserID => $TestUserLogin,
+        Success                => 1,
+    },
 );
 
 for my $Test (@Tests) {
 
-    # make a deep copy to avoid changing the definition
+    # Make a deep copy to avoid changing the definition.
     my $OrigTest = Storable::dclone($Test);
 
     my $Success = $ModuleObject->Run(
@@ -257,13 +272,28 @@ for my $Test (@Tests) {
             "$ModuleName Run() - Test:'$Test->{Name}' | executed with True"
         );
 
-        # get ticket
         my %Ticket = $TicketObject->TicketGet(
             TicketID => $TicketID,
             UserID   => 1,
         );
 
-        # set Attributes No as CustomerID and User as CustomerUserID
+        if ( $Test->{ExpectedCustomerUserID} ) {
+            $Self->Is(
+                $TestUserLogin,
+                $Ticket{CustomerUserID},
+                "CustomerUserID is successfully replaced by OTRS_CURRENT_ tag",
+            );
+        }
+
+        if ( $Test->{ExpectedCustomerID} ) {
+            $Self->Is(
+                $TestUserLogin,
+                $Ticket{CustomerID},
+                "CustomerID is successfully replaced by OTRS_CURRENT_ tag",
+            );
+        }
+
+        # Set Attributes No as CustomerID and User as CustomerUserID.
         $Ticket{No}   = $Ticket{CustomerID}     || '';
         $Ticket{User} = $Ticket{CustomerUserID} || '';
 
@@ -315,6 +345,6 @@ for my $Test (@Tests) {
     }
 }
 
-# cleanup is done by RestoreDatabase.
+# Cleanup is done by RestoreDatabase.
 
 1;

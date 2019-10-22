@@ -96,6 +96,7 @@ sub Run {
 
     # use ticket attributes if needed
     $Self->_ReplaceTicketAttributes(%Param);
+    $Self->_ReplaceAdditionalAttributes(%Param);
 
     if ( !$Param{Config}->{SLAID} && !$Param{Config}->{SLA} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(

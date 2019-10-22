@@ -95,6 +95,7 @@ sub Run {
 
     # use ticket attributes if needed
     $Self->_ReplaceTicketAttributes(%Param);
+    $Self->_ReplaceAdditionalAttributes(%Param);
 
     if ( !$Param{Config}->{LockID} && !$Param{Config}->{Lock} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(

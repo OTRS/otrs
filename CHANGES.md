@@ -1,4 +1,5 @@
 #6.0.24 ????-??-??
+ - 2019-10-22 Fixed bug#[14810](https://bugs.otrs.org/show_bug.cgi?id=14810) - Additional attributes replacing (like OTRS_CURRENT_ tags) is missing in many Transition Action modules (TicketCustomerSet, TicketQueueSet, etc.).
  - 2019-10-21 Fixed bug#[14742](https://bugs.otrs.org/show_bug.cgi?id=14742) - Translation short/long description in a process.
  - 2019-10-18 Fixed bug#[14824](https://bugs.otrs.org/show_bug.cgi?id=14824) - Submenu items suddenly disappear in AgentTicketZoom.
  - 2019-10-15 Follow-up fix for bug#[14693](https://bugs.otrs.org/show_bug.cgi?id=14693) - Console command Maint::Ticket::InvalidUserCleanup reports error about ArticleFlagDelete().
