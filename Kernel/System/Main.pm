@@ -270,24 +270,28 @@ sub FilenameCleanUp {
         # separate filename and extension
         my $FileName = $Param{Filename};
         my $FileExt  = '';
-        if ( $Param{Filename} =~ /(.*)\.+(.{1,10})$/ ) {
+        if ( $Param{Filename} =~ /(.*)\.+([^.]+)$/ ) {
             $FileName = $1;
             $FileExt  = '.' . $2;
         }
 
         if ( length $FileName ) {
-            my $ModifiedName;
+            my $ModifiedName = $FileName . $FileExt;
 
-            # remove character by character starting from the end of the filename string
-            # untill we get acceptable 220 byte long filename size including extension
-            CHOPSTRING:
-            while (1) {
+            while ( length encode( 'UTF-8', $ModifiedName ) > 220 ) {
+
+                # Remove character by character starting from the end of the filename string
+                #   until we get acceptable 220 byte long filename size including extension.
+                if ( length $FileName > 1 ) {
+                    chop $FileName;
+                }
+
+                # If we reached minimum filename length, remove characters from the end of the extension string.
+                else {
+                    chop $FileExt;
+                }
 
                 $ModifiedName = $FileName . $FileExt;
-
-                last CHOPSTRING if ( length encode( 'UTF-8', $ModifiedName ) < 220 );
-                chop $FileName;
-
             }
             $Param{Filename} = $ModifiedName;
         }
@@ -311,25 +315,30 @@ sub FilenameCleanUp {
         # separate filename and extension
         my $FileName = $Param{Filename};
         my $FileExt  = '';
-        if ( $Param{Filename} =~ /(.*)\.+(.{1,10})$/ ) {
+        if ( $Param{Filename} =~ /(.*)\.+([^.]+)$/ ) {
             $FileName = $1;
             $FileExt  = '.' . $2;
         }
 
         if ( length $FileName ) {
-            my $ModifiedName;
+            my $ModifiedName = $FileName . $FileExt;
 
-            # remove character by character starting from the end of the filename string
-            # untill we get acceptable 220 byte long filename size including extension
-            CHOPSTRING:
-            while (1) {
+            while ( length encode( 'UTF-8', $ModifiedName ) > 220 ) {
+
+                # Remove character by character starting from the end of the filename string
+                #   until we get acceptable 220 byte long filename size including extension.
+                if ( length $FileName > 1 ) {
+                    chop $FileName;
+                }
+
+                # If we reached minimum filename length, remove characters from the end of the extension string.
+                else {
+                    chop $FileExt;
+                }
 
                 $ModifiedName = $FileName . $FileExt;
-
-                last CHOPSTRING if ( length encode( 'UTF-8', $ModifiedName ) < 220 );
-                chop $FileName;
-
             }
+
             $Param{Filename} = $ModifiedName;
         }
     }
