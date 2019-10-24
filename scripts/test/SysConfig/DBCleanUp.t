@@ -30,6 +30,7 @@ my %Setting1 = (
     'Description'      => 'Test::Setting',
     'EffectiveValue'   => '3600',
     'IsValid'          => '1',
+    'IsInvisible'      => '1',
     'Name'             => 'Test::Setting',
     'Navigation'       => 'Core',
     'XMLContentParsed' => {
@@ -45,8 +46,9 @@ my %Setting1 = (
                 'Content' => 'Core',
             },
         ],
-        'Valid' => '1',
-        'Value' => [
+        'Valid'     => '1',
+        'Invisible' => '1',
+        'Value'     => [
             {
                 'Item' => [
                     {
@@ -58,7 +60,7 @@ my %Setting1 = (
             },
         ],
     },
-    'XMLContentRaw' => '<Setting Name="Test::Setting" Valid="1">
+    'XMLContentRaw' => '<Setting Name="Test::Setting" Valid="1" Invisible="1">
         <Description Translatable="1">Test::Setting</Description>
         <Navigation>Core/Navigation>
         <Value>

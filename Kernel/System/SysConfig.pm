@@ -5201,7 +5201,9 @@ sub _DBCleanUp {
 
     my $SysConfigDBObject = $Kernel::OM->Get('Kernel::System::SysConfig::DB');
 
-    my @SettingsDB = $SysConfigDBObject->DefaultSettingList();
+    my @SettingsDB = $SysConfigDBObject->DefaultSettingList(
+        IncludeInvisible => 1,
+    );
 
     my ( $DefaultUpdated, $ModifiedUpdated );
 
