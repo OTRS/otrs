@@ -468,15 +468,20 @@ var Core = Core || {};
             URL,
             Value,
             function(Response) {
+                var LinkURL = 'Action=AdminSystemConfigurationDeployment;Subaction=Deployment';
 
                 TargetNS.CleanWidgetClasses($Widget);
                 TargetNS.SettingRender(Response, $Widget);
 
                 if (Response.Data.SettingData.IsDirty) {
+                    if (Core.Config.Get('SessionUseCookie') === '0') {
+                        LinkURL += ';' + Core.Config.Get('SessionName') + '=' + Core.Config.Get('SessionID');
+                    }
+
                     Core.UI.ShowNotification(
                         Core.Language.Translate('You have undeployed settings, would you like to deploy them?'),
                         'Notice',
-                        'Action=AdminSystemConfigurationDeployment;Subaction=Deployment',
+                        LinkURL,
                         function() {
                             Core.UI.InitStickyElement();
                         }
@@ -1054,6 +1059,7 @@ var Core = Core || {};
             Core.Config.Get('Baselink'),
             Data,
             function(Response) {
+                var LinkURL = 'Action=AdminSystemConfigurationDeployment;Subaction=Deployment';
 
                 TargetNS.SettingRender(Response, $Widget);
                 TargetNS.CleanWidgetClasses($Widget);
@@ -1077,10 +1083,13 @@ var Core = Core || {};
                         );
                     }
                     else {
+                        if (Core.Config.Get('SessionUseCookie') === '0') {
+                            LinkURL += ';' + Core.Config.Get('SessionName') + '=' + Core.Config.Get('SessionID');
+                        }
                         Core.UI.ShowNotification(
                             Core.Language.Translate('You have undeployed settings, would you like to deploy them?'),
                             'Notice',
-                            'Action=AdminSystemConfigurationDeployment;Subaction=Deployment',
+                            LinkURL,
                             function() {
                                 Core.UI.InitStickyElement();
                             }

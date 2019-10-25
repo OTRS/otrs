@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    * This file is for testing development purpose only!
+    * It will be deleted before merging to the master
+-->
+<otrs_config version="2.0" init="Application">
+    <Setting Name="NoCookieCheckbox" Required="1" Valid="1">
+        <Description Translatable="1">Checkbox item.</Description>
+        <Navigation>Sample</Navigation>
+        <Value>
+            <Item ValueType="Checkbox">0</Item>
+        </Value>
+    </Setting>
+</otrs_config>
