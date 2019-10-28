@@ -1,4 +1,6 @@
-#6.0.24 ????-??-??
+#6.0.25 ????-??-??
+
+#6.0.24 2019-11-15
  - 2019-10-25 Fixed bug#[13651](https://bugs.otrs.org/show_bug.cgi?id=13651) - Link without Session ID when deploying settings without SessionUseCookie.
  - 2019-10-24 Updated welcome ticket text.
  - 2019-10-24 Fixed bug#[14763](https://bugs.otrs.org/show_bug.cgi?id=14763) - Invisible SysConfig settings are not removed on package deinstallation.
