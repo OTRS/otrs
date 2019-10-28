@@ -1,5 +1,3 @@
-#5.0.40 ????-??-??
-
 #5.0.39 2019-11-15
  - 2019-10-23 Follow-up fix for bug#[14716](https://bugs.otrs.org/show_bug.cgi?id=14716) - Mails with attached mails (e.g. forwarded) containing period followed by long string in the subject may get stuck.
 
