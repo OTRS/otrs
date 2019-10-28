@@ -1,5 +1,3 @@
-#6.0.25 ????-??-??
-
 #6.0.24 2019-11-15
  - 2019-10-25 Fixed bug#[13651](https://bugs.otrs.org/show_bug.cgi?id=13651) - Link without Session ID when deploying settings without SessionUseCookie.
  - 2019-10-24 Updated welcome ticket text.
