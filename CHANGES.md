@@ -1,24 +1,27 @@
 #6.0.25 ????-??-??
 
 #6.0.24 2019-11-15
- - 2019-10-25 Fixed bug#[13651](https://bugs.otrs.org/show_bug.cgi?id=13651) - Link without Session ID when deploying settings without SessionUseCookie.
+ - 2019-10-25 Fixed bug#[13651](https://bugs.otrs.org/show_bug.cgi?id=13651) - User is logged out after deploying system configuration changes.
+  There is missing SessionID parameter in the link for setting deployment when SessionUserCookie is disabled.
  - 2019-10-24 Updated welcome ticket text.
  - 2019-10-24 Fixed bug#[14763](https://bugs.otrs.org/show_bug.cgi?id=14763) - Invisible SysConfig settings are not removed on package deinstallation.
  - 2019-10-23 Follow-up fix for bug#[14542](https://bugs.otrs.org/show_bug.cgi?id=14542) - Date values for escalation times are not localized in ticket small overview.
- - 2019-10-22 Fixed bug#[14810](https://bugs.otrs.org/show_bug.cgi?id=14810) - Additional attributes replacing (like OTRS_CURRENT_ tags) is missing in many Transition Action modules (TicketCustomerSet, TicketQueueSet, etc.).
+ - 2019-10-21 Fixed bug#[14742](https://bugs.otrs.org/show_bug.cgi?id=14742) - Short and long dynamic field descriptions are not translated in the process management.
+ Translation short/long description in a process.
  - 2019-10-21 Fixed bug#[14742](https://bugs.otrs.org/show_bug.cgi?id=14742) - Translation short/long description in a process.
- - 2019-10-18 Fixed bug#[14824](https://bugs.otrs.org/show_bug.cgi?id=14824) - Submenu items suddenly disappear in AgentTicketZoom.
+ - 2019-10-18 Fixed bug#[14824](https://bugs.otrs.org/show_bug.cgi?id=14824) - Ticket action sub-menu items suddenly disappear in the AgentTicketZoom.
  - 2019-10-15 Follow-up fix for bug#[14693](https://bugs.otrs.org/show_bug.cgi?id=14693) - Console command Maint::Ticket::InvalidUserCleanup reports error about ArticleFlagDelete().
- - 2019-10-11 Fixed bug#[14800](https://bugs.otrs.org/show_bug.cgi?id=14800) - Signature check and decryption of pgp and s/mime mails causes needless write operations.
+ - 2019-10-11 Fixed bug#[14800](https://bugs.otrs.org/show_bug.cgi?id=14800) - Signature check and decryption of PGP and S/MIME mails causes needless write operations.
  - 2019-10-10 Follow-up fix for bug#[14716](https://bugs.otrs.org/show_bug.cgi?id=14716) - Mails with attached mails (e.g. forwarded) containing period followed by long string in the subject may get stuck.
  - 2019-10-08 Fixed bug#[14798](https://bugs.otrs.org/show_bug.cgi?id=14798) - Dev::Tools::TranslationsUpdate includes the header of PO file into the language file for empty string.
  - 2019-10-08 Fixed bug#[14775](https://bugs.otrs.org/show_bug.cgi?id=14775) - ACL does not match process activity (ActivityEntityID).
- - 2019-10-07 Fixed bug#[14785](https://bugs.otrs.org/show_bug.cgi?id=14785) - Grammar of the CustomerAccept link name should be corrected.
- - 2019-10-04 Fixed bug#[13469](https://bugs.otrs.org/show_bug.cgi?id=13469) - Missing Signing and Encryption information.
- - 2019-10-01 Fixed bug#[14615](https://bugs.otrs.org/show_bug.cgi?id=14615) - Gravatar image mm (mystery-man) is renamed to mp (mystery-person).
- - 2019-09-19 Fixed bug#[14751](https://bugs.otrs.org/show_bug.cgi?id=14751) - Wrong URL of favicon for US-CERT NVD in OutputFilterTextAutoLink###CVE system configuration item.
+ - 2019-10-07 Fixed bug#[14785](https://bugs.otrs.org/show_bug.cgi?id=14785) - Wrong grammar in the CustomerAccept link in the customer interface.
+ - 2019-10-04 Fixed bug#[13469](https://bugs.otrs.org/show_bug.cgi?id=13469) - Missing Signing and Encryption information in the Ticket zoom screen.
+ - 2019-10-01 Fixed bug#[14615](https://bugs.otrs.org/show_bug.cgi?id=14615) - Outdated default Gravatar image URL.
+  Gravatar image mm (mystery-man) is renamed to mp (mystery-person).
+ - 2019-09-19 Fixed bug#[14751](https://bugs.otrs.org/show_bug.cgi?id=14751) - Wrong favicon URL for US-CERT NVD in OutputFilterTextAutoLink###CVE system configuration item.
  - 2019-09-19 Fixed bug#[12726](https://bugs.otrs.org/show_bug.cgi?id=12726) - Automatic links to CVE numbers don't work in TicketViewZoom.
- - 2019-09-18 Fixed bug#[14743](https://bugs.otrs.org/show_bug.cgi?id=14743) - There is wrong filter state values in queue view for queues with sub-queues.
+ - 2019-09-18 Fixed bug#[14743](https://bugs.otrs.org/show_bug.cgi?id=14743) - Missing filter state in the queue view for queues with sub-queues.
 
 #6.0.23 2019-10-04
  - 2019-09-18 Updated translations, thanks to all translators.
