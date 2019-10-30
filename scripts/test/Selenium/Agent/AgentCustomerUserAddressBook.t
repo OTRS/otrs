@@ -584,6 +584,9 @@ $Selenium->RunTest(
             # Reload the AgentTicketEmail screen for every test, to refresh the page completely.
             $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketEmail");
 
+            # Wait until jQuery has been loaded.
+            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function";' );
+
             for my $SubTest ( @{$Test} ) {
 
                 # Reset the page load complete flag inside the frame, so following switch to frame can check if it has
