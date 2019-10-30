@@ -423,6 +423,10 @@ $Selenium->RunTest(
             "Alert dialog is found.",
         );
 
+        $Selenium->WaitForjQueryEventBound(
+            CSSSelector => '#DialogButton1',
+        );
+
         $Selenium->execute_script("\$('#DialogButton1').click();");
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".Dialog.Modal").length;' );
 
