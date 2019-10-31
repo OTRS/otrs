@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-09-19 02:35+0000\n"
+"POT-Creation-Date: 2019-10-31 17:51+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: Dusan Vuckovic, 2019\n"
 "Language-Team: Serbian (https://www.transifex.com/otrs/teams/23435/sr/)\n"
@@ -9484,8 +9484,8 @@ msgid "thank you for using our services."
 msgstr "хвала вам на коришћењу наших услуга."
 
 #. Template: CustomerAccept
-msgid "Yes, I accepted your license."
-msgstr "Да, прихватам вашу лиценцу."
+msgid "Yes, I accept your license."
+msgstr ""
 
 #. Template: TicketCustomerIDSelection
 msgid ""
@@ -10640,6 +10640,7 @@ msgstr ""
 #. Template: SettingsList
 msgid "Changing this setting is only available in a higher config level!"
 msgstr ""
+"Промена овог подешавања је могућа само у напредном конфигурационом моду."
 
 #. Template: SettingsList
 msgid "%s (%s) is currently working on this setting."
@@ -12005,31 +12006,33 @@ msgstr "Подаци примљеног захтева после мапирањ
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
 msgid "Incoming response data before mapping (RequesterResponseInput)"
-msgstr ""
+msgstr "Подаци примљеног одговора пре мапирања (RequesterResponseInput)"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
 msgid ""
 "Outgoing error handler data after error handling "
 "(RequesterErrorHandlingOutput)"
 msgstr ""
+"Подаци о одлазећој грешци после обраде грешке (RequesterErrorHandlingOutput)"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
 msgid "Incoming request data before mapping (ProviderRequestInput)"
-msgstr ""
+msgstr "Подаци примљеног захтева пре мапирања (ProviderRequestInput)"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
 msgid "Incoming request data after mapping (ProviderRequestMapOutput)"
-msgstr ""
+msgstr "Подаци примљеног захтева после мапирања (ProviderRequestMapOutput)"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
 msgid "Outgoing response data before mapping (ProviderResponseInput)"
-msgstr ""
+msgstr "Подаци одлазећег одговора пре мапирања (ProviderResponseInput)"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
 msgid ""
 "Outgoing error handler data after error handling "
 "(ProviderErrorHandlingOutput)"
 msgstr ""
+"Подаци о одлазећој грешци после обраде грешке (ProviderErrorHandlingOutput)"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceOperationDefault.pm
 msgid "Could not determine config for operation %s"
@@ -12077,7 +12080,7 @@ msgstr "Неопходан ExampleWebService!"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Could not load %s."
-msgstr ""
+msgstr "Није било могуће учитати %s."
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Could not read %s!"
@@ -12192,11 +12195,11 @@ msgstr "Сви примаоци последњег чланка"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "Invisible to customer"
-msgstr ""
+msgstr "Невидљиво клијенту"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "Visible to customer"
-msgstr ""
+msgstr "Видљиво клијенту"
 
 #. Perl Module: Kernel/Modules/AdminOTRSBusiness.pm
 msgid "Your system was successfully upgraded to %s."
@@ -20202,21 +20205,15 @@ msgstr "Дефиниши први дан у недељи за избор дат�
 msgid ""
 "Define which avatar default image should be used for the article view if no "
 "gravatar is assigned to the mail address. Check "
-"http://gravatar.com/site/implement/images/ for further information."
+"https://gravatar.com/site/implement/images/ for further information."
 msgstr ""
-"Дфинише која сличица ће бити приказана у прегледу чланака уколико оператер "
-"нема одговарајућу повезану са имејл адресом. Погледајте "
-"http://gravatar.com/site/implement/images/ за више информација."
 
 #. SysConfig
 msgid ""
 "Define which avatar default image should be used for the current agent if no"
 " gravatar is assigned to the mail address of the agent. Check "
-"http://gravatar.com/site/implement/images/ for further information."
+"https://gravatar.com/site/implement/images/ for further information."
 msgstr ""
-"Дефинише која сличица ће бити приказана као подразумевана уколико оператер "
-"нема одговарајућу повезану са имејл адресом. Погледајте "
-"http://gravatar.com/site/implement/images/ за више информација."
 
 #. SysConfig
 msgid ""
@@ -22452,6 +22449,11 @@ msgid ""
 "\"Test\" doesn't send emails, but writes them to "
 "$OTRS_HOME/var/tmp/CacheFileStorable/EmailTest/ for testing purposes."
 msgstr ""
+"Дефинише модул за слање имејлова. \"DoNotSendEmail\" не шаље имејлове "
+"уопште. Сваки од SMTP механизама користи специфични (екстерни) мејл сервер."
+"  \"Sendmail\" директно користи sendmail програм вашег оперативног система. "
+"\"Test\" не шаље имејлове, али их чува у "
+"$OTRS_HOME/var/tmp/CacheFileStorable/EmailTest/ у сврху тестирања."
 
 #. SysConfig
 msgid ""
@@ -26453,6 +26455,14 @@ msgid ""
 " cache time in minutes for the plugin. Note: Only Ticket attributes and "
 "Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns."
 msgstr ""
+"Параметри за додатак листе ескалираних тикета контролне табле у интерфејсу "
+"оператера. \"Limit\" дефинише подразумевани број приказаних ставки. "
+"\"Group\" се користи да ограничи приступ додатку (нпр. Group: "
+"admin;group1;group2;). \"Default\" одређује да ли је додатак подразумевано "
+"активиран или да је неопходно да га корисник мануелно активира. "
+"\"CacheTTLLocal\" је време у минутима за кеширање додатка. Напомена: за "
+"DefaultColumns су дозвољени само атрибути тикета и динамичка поља "
+"(DynamicField_NameX)."
 
 #. SysConfig
 msgid ""
@@ -26526,6 +26536,14 @@ msgid ""
 "Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for "
 "DefaultColumns."
 msgstr ""
+"Параметри за додатак листе тикета на чекању контролне табле у интерфејсу "
+"оператера. \"Limit\" дефинише подразумевани број приказаних ставки. "
+"\"Group\" се користи да ограничи приступ додатку (нпр. Group: "
+"admin;group1;group2;). \"Default\" одређује да ли је додатак подразумевано "
+"активиран или да је неопходно да га корисник мануелно активира. "
+"\"CacheTTLLocal\" је време у минутима за кеширање додатка. Напомена: за "
+"DefaultColumns су дозвољени само атрибути тикета и динамичка поља "
+"(DynamicField_NameX)."
 
 #. SysConfig
 msgid ""
@@ -26803,11 +26821,8 @@ msgstr "Новости о производу"
 #. SysConfig
 msgid ""
 "Protection against CSRF (Cross Site Request Forgery) exploits (for more info"
-" see http://en.wikipedia.org/wiki/Cross-site_request_forgery)."
+" see https://en.wikipedia.org/wiki/Cross-site_request_forgery)."
 msgstr ""
-"Заштита од CSRF експлоатације (Cross Site Request Forgery, за више "
-"информација погледајте http://en.wikipedia.org/wiki/Cross-"
-"site_request_forgery)."
 
 #. SysConfig
 msgid "Provides a matrix overview of the tickets per state per queue"

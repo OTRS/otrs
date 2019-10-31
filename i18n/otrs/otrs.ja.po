@@ -15,7 +15,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-09-19 02:35+0000\n"
+"POT-Creation-Date: 2019-10-31 17:51+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: Norihiro Tanaka <noritnk@kcn.ne.jp>, 2019\n"
 "Language-Team: Japanese (https://www.transifex.com/otrs/teams/23435/ja/)\n"
@@ -8936,8 +8936,8 @@ msgid "thank you for using our services."
 msgstr "私たちのサービスをご利用いただきありがとうございます。"
 
 #. Template: CustomerAccept
-msgid "Yes, I accepted your license."
-msgstr "はい、私はあなたの許可を受け入れました。"
+msgid "Yes, I accept your license."
+msgstr ""
 
 #. Template: TicketCustomerIDSelection
 msgid ""
@@ -19031,14 +19031,14 @@ msgstr "日付ピッカーにおける週の開始曜日を設定します。"
 msgid ""
 "Define which avatar default image should be used for the article view if no "
 "gravatar is assigned to the mail address. Check "
-"http://gravatar.com/site/implement/images/ for further information."
+"https://gravatar.com/site/implement/images/ for further information."
 msgstr ""
 
 #. SysConfig
 msgid ""
 "Define which avatar default image should be used for the current agent if no"
 " gravatar is assigned to the mail address of the agent. Check "
-"http://gravatar.com/site/implement/images/ for further information."
+"https://gravatar.com/site/implement/images/ for further information."
 msgstr ""
 
 #. SysConfig
@@ -24343,11 +24343,8 @@ msgstr "製品ニュース"
 #. SysConfig
 msgid ""
 "Protection against CSRF (Cross Site Request Forgery) exploits (for more info"
-" see http://en.wikipedia.org/wiki/Cross-site_request_forgery)."
+" see https://en.wikipedia.org/wiki/Cross-site_request_forgery)."
 msgstr ""
-"CSRF (Cross Site Request "
-"Forgery)攻撃に対するプロテクションです（さらに詳細はhttp://en.wikipedia.org/wiki/Cross-"
-"site_request_forgeryを参照ください）。"
 
 #. SysConfig
 msgid "Provides a matrix overview of the tickets per state per queue"

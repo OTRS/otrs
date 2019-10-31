@@ -32,7 +32,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-09-19 02:35+0000\n"
+"POT-Creation-Date: 2019-10-31 17:51+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: Armando Ríos <armando.rios@otrs.com>, 2019\n"
 "Language-Team: Spanish (https://www.transifex.com/otrs/teams/23435/es/)\n"
@@ -9540,7 +9540,7 @@ msgid "thank you for using our services."
 msgstr ""
 
 #. Template: CustomerAccept
-msgid "Yes, I accepted your license."
+msgid "Yes, I accept your license."
 msgstr ""
 
 #. Template: TicketCustomerIDSelection
@@ -20192,14 +20192,14 @@ msgstr "Definir el día de inicio de la semana para el selector de fecha."
 msgid ""
 "Define which avatar default image should be used for the article view if no "
 "gravatar is assigned to the mail address. Check "
-"http://gravatar.com/site/implement/images/ for further information."
+"https://gravatar.com/site/implement/images/ for further information."
 msgstr ""
 
 #. SysConfig
 msgid ""
 "Define which avatar default image should be used for the current agent if no"
 " gravatar is assigned to the mail address of the agent. Check "
-"http://gravatar.com/site/implement/images/ for further information."
+"https://gravatar.com/site/implement/images/ for further information."
 msgstr ""
 
 #. SysConfig
@@ -25523,7 +25523,7 @@ msgstr "Noticias de productos"
 #. SysConfig
 msgid ""
 "Protection against CSRF (Cross Site Request Forgery) exploits (for more info"
-" see http://en.wikipedia.org/wiki/Cross-site_request_forgery)."
+" see https://en.wikipedia.org/wiki/Cross-site_request_forgery)."
 msgstr ""
 
 #. SysConfig

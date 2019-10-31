@@ -16,13 +16,14 @@
 # Vincenzo Reale <vinx.reale@gmail.com>, 2019
 # AulaWeb <staff@aulaweb.unige.it>, 2019
 # Antonio Marchignoli <antonio@marchignoli.com>, 2019
+# catelotti remo <catelotti.remo@gmail.com>, 2019
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-09-19 02:35+0000\n"
+"POT-Creation-Date: 2019-10-31 17:51+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
-"Last-Translator: Antonio Marchignoli <antonio@marchignoli.com>, 2019\n"
+"Last-Translator: catelotti remo <catelotti.remo@gmail.com>, 2019\n"
 "Language-Team: Italian (https://www.transifex.com/otrs/teams/23435/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -288,7 +289,7 @@ msgid ""
 "management module."
 msgstr ""
 "Qui è possibile caricare un file di configurazione per importare un "
-"calendario nel sistema. Il file deve essere nel formato YAML così come "
+"calendario nel sistema. Il file deve essere nel formato YML così come "
 "esportato dal modulo di gestione calendari."
 
 #. Template: AdminAppointmentCalendarManage
@@ -538,6 +539,9 @@ msgid ""
 " to your system. The file needs to be in .yml format as exported by the "
 "appointment notification module."
 msgstr ""
+"qui puoi caricare un file di configurazione per importare notifiche di "
+"appuntamenti nel tuo sistema.Il file deve avere il formato .yml come viene "
+"esportato dal modulo di notifiche appuntamenti ."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Overwrite existing notifications?"
@@ -9237,7 +9241,7 @@ msgid "thank you for using our services."
 msgstr ""
 
 #. Template: CustomerAccept
-msgid "Yes, I accepted your license."
+msgid "Yes, I accept your license."
 msgstr ""
 
 #. Template: TicketCustomerIDSelection
@@ -19487,14 +19491,14 @@ msgstr "Definire il giorno di inizio settimana per il selezionatore di date."
 msgid ""
 "Define which avatar default image should be used for the article view if no "
 "gravatar is assigned to the mail address. Check "
-"http://gravatar.com/site/implement/images/ for further information."
+"https://gravatar.com/site/implement/images/ for further information."
 msgstr ""
 
 #. SysConfig
 msgid ""
 "Define which avatar default image should be used for the current agent if no"
 " gravatar is assigned to the mail address of the agent. Check "
-"http://gravatar.com/site/implement/images/ for further information."
+"https://gravatar.com/site/implement/images/ for further information."
 msgstr ""
 
 #. SysConfig
@@ -24803,7 +24807,7 @@ msgstr "Notizie sul prodotto"
 #. SysConfig
 msgid ""
 "Protection against CSRF (Cross Site Request Forgery) exploits (for more info"
-" see http://en.wikipedia.org/wiki/Cross-site_request_forgery)."
+" see https://en.wikipedia.org/wiki/Cross-site_request_forgery)."
 msgstr ""
 
 #. SysConfig

@@ -15,15 +15,15 @@
 # Martin Gruner <martin.gruner@otrs.com>, 2018
 # Ton van Boven <info@tonvanboven.nl>, 2019
 # Erik Thijs <erik.thijs@thomasmore.be>, 2019
-# Nick van der Burg <nickvdburg.nvdb@gmail.com>, 2019
 # David Van Uffelen <inactive+david.vanuffelen@transifex.com>, 2019
+# Nick van der Burg <nickvdburg.nvdb@gmail.com>, 2019
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-09-19 02:35+0000\n"
+"POT-Creation-Date: 2019-10-31 17:51+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
-"Last-Translator: David Van Uffelen <inactive+david.vanuffelen@transifex.com>, 2019\n"
+"Last-Translator: Nick van der Burg <nickvdburg.nvdb@gmail.com>, 2019\n"
 "Language-Team: Dutch (https://www.transifex.com/otrs/teams/23435/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -195,7 +195,7 @@ msgstr "Geef aan wat u wilt dat gebeurt als de activatie-criteria kloppen."
 
 #. Template: AdminACLEdit
 msgid "Check the official %sdocumentation%s."
-msgstr ""
+msgstr "Bekijk de officiële %sdocumentatie%s"
 
 #. Template: AdminACLEdit
 msgid "Show or hide the content"
@@ -532,6 +532,9 @@ msgid ""
 " to your system. The file needs to be in .yml format as exported by the "
 "appointment notification module."
 msgstr ""
+"Hier kun je configuratiebestanden uploaden om Afspraak Notificaties te "
+"importeren. Het bestand moet in .yml formaat zoals geëxporteerd door de "
+"notificatie module."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Overwrite existing notifications?"
@@ -630,7 +633,7 @@ msgstr "Verstuur naar deze gebruikers"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Send to all group members (agents only)"
-msgstr ""
+msgstr "Verstuur naar alle groepsleden (alleen behandelaars)"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Send to all role members"
@@ -1283,7 +1286,7 @@ msgstr "Detailweergave voor %s communicatie gestart om %s"
 
 #. Template: AdminCommunicationLogZoom
 msgid "Filter for Log Entries"
-msgstr ""
+msgstr "Filter op logitems"
 
 #. Template: AdminCommunicationLogZoom
 msgid "Filter for log entries"
@@ -1647,7 +1650,7 @@ msgstr "U kunt deze groepen beheren via de optie \"CustomerGroupAlwaysGroups\"."
 
 #. Template: AdminCustomerUserGroup
 msgid "Filter for groups"
-msgstr ""
+msgstr "Filter op groepen"
 
 #. Template: AdminCustomerUserGroup
 msgid "Select the customer user - group permissions."
@@ -1695,11 +1698,11 @@ msgstr "Nieuw veld voor object"
 
 #. Template: AdminDynamicField
 msgid "Filter for Dynamic Fields"
-msgstr ""
+msgstr "Filter op Dynamische Velden"
 
 #. Template: AdminDynamicField
 msgid "Filter for dynamic fields"
-msgstr ""
+msgstr "Filter op dynamische velden"
 
 #. Template: AdminDynamicField
 msgid "More Business Fields"
@@ -2108,15 +2111,15 @@ msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Edit Job"
-msgstr ""
+msgstr "Bewerk taak"
 
 #. Template: AdminGenericAgent
 msgid "Add Job"
-msgstr ""
+msgstr "Taak toevoegen"
 
 #. Template: AdminGenericAgent
 msgid "Run Job"
-msgstr ""
+msgstr "Voer taak uit"
 
 #. Template: AdminGenericAgent
 msgid "Filter for Jobs"
@@ -9309,7 +9312,7 @@ msgid "thank you for using our services."
 msgstr ""
 
 #. Template: CustomerAccept
-msgid "Yes, I accepted your license."
+msgid "Yes, I accept your license."
 msgstr ""
 
 #. Template: TicketCustomerIDSelection
@@ -19648,14 +19651,14 @@ msgstr ""
 msgid ""
 "Define which avatar default image should be used for the article view if no "
 "gravatar is assigned to the mail address. Check "
-"http://gravatar.com/site/implement/images/ for further information."
+"https://gravatar.com/site/implement/images/ for further information."
 msgstr ""
 
 #. SysConfig
 msgid ""
 "Define which avatar default image should be used for the current agent if no"
 " gravatar is assigned to the mail address of the agent. Check "
-"http://gravatar.com/site/implement/images/ for further information."
+"https://gravatar.com/site/implement/images/ for further information."
 msgstr ""
 
 #. SysConfig
@@ -24895,7 +24898,7 @@ msgstr "Productnieuws"
 #. SysConfig
 msgid ""
 "Protection against CSRF (Cross Site Request Forgery) exploits (for more info"
-" see http://en.wikipedia.org/wiki/Cross-site_request_forgery)."
+" see https://en.wikipedia.org/wiki/Cross-site_request_forgery)."
 msgstr ""
 
 #. SysConfig

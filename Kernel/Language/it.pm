@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.498384628464547;
+    $Self->{Completeness}        = 0.498554667573542;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -110,7 +110,7 @@ sub Data {
         'Import Appointments' => 'Importa Appuntamenti',
         'Calendar Import' => 'Importazione Calendario',
         'Here you can upload a configuration file to import a calendar to your system. The file needs to be in .yml format as exported by calendar management module.' =>
-            'Qui è possibile caricare un file di configurazione per importare un calendario nel sistema. Il file deve essere nel formato YAML così come esportato dal modulo di gestione calendari.',
+            'Qui è possibile caricare un file di configurazione per importare un calendario nel sistema. Il file deve essere nel formato YML così come esportato dal modulo di gestione calendari.',
         'Overwrite existing entities' => 'Sovrascrivi le entità esistenti',
         'Upload calendar configuration' => 'Carica configurazione calendario',
         'Import Calendar' => 'Importa Calendario',
@@ -177,7 +177,7 @@ sub Data {
         'Filter for Notifications' => 'Filtro per notifiche',
         'Filter for notifications' => 'Filtro per notifiche',
         'Here you can upload a configuration file to import appointment notifications to your system. The file needs to be in .yml format as exported by the appointment notification module.' =>
-            '',
+            'qui puoi caricare un file di configurazione per importare notifiche di appuntamenti nel tuo sistema.Il file deve avere il formato .yml come viene esportato dal modulo di notifiche appuntamenti .',
         'Overwrite existing notifications?' => 'Vuoi sovrascrivere le notifiche esistenti?',
         'Upload Notification configuration' => 'Carica configurazione delle notifiche',
         'Import Notification configuration' => 'Importa configurazione delle notifiche',
@@ -2822,7 +2822,7 @@ sub Data {
         # Template: CustomerAccept
         'Dear Customer,' => '',
         'thank you for using our services.' => '',
-        'Yes, I accepted your license.' => '',
+        'Yes, I accept your license.' => '',
 
         # Template: TicketCustomerIDSelection
         'The customer ID is not changeable, no other customer ID can be assigned to this ticket.' =>
@@ -6372,9 +6372,9 @@ Thanks for your help!
         'Define the start day of the week for the date picker for the indicated calendar.' =>
             '',
         'Define the start day of the week for the date picker.' => 'Definire il giorno di inizio settimana per il selezionatore di date.',
-        'Define which avatar default image should be used for the article view if no gravatar is assigned to the mail address. Check http://gravatar.com/site/implement/images/ for further information.' =>
+        'Define which avatar default image should be used for the article view if no gravatar is assigned to the mail address. Check https://gravatar.com/site/implement/images/ for further information.' =>
             '',
-        'Define which avatar default image should be used for the current agent if no gravatar is assigned to the mail address of the agent. Check http://gravatar.com/site/implement/images/ for further information.' =>
+        'Define which avatar default image should be used for the current agent if no gravatar is assigned to the mail address of the agent. Check https://gravatar.com/site/implement/images/ for further information.' =>
             '',
         'Define which avatar engine should be used for the agent avatar on the header and the sender images in AgentTicketZoom. If \'None\' is selected, initials will be displayed instead. Please note that selecting anything other than \'None\' will transfer the encrypted email address of the particular user to an external service.' =>
             '',
@@ -7906,7 +7906,7 @@ Thanks for your help!
         'ProcessID' => 'ID processo',
         'Processes & Automation' => '',
         'Product News' => 'Notizie sul prodotto',
-        'Protection against CSRF (Cross Site Request Forgery) exploits (for more info see http://en.wikipedia.org/wiki/Cross-site_request_forgery).' =>
+        'Protection against CSRF (Cross Site Request Forgery) exploits (for more info see https://en.wikipedia.org/wiki/Cross-site_request_forgery).' =>
             '',
         'Provides a matrix overview of the tickets per state per queue' =>
             '',

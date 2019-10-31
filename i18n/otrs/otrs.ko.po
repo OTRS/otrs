@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-09-19 02:35+0000\n"
+"POT-Creation-Date: 2019-10-31 17:51+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>, 2018\n"
 "Language-Team: Korean (https://www.transifex.com/otrs/teams/23435/ko/)\n"
@@ -8991,8 +8991,8 @@ msgid "thank you for using our services."
 msgstr "우리의 서비스를 이용해주셔서 감사합니다."
 
 #. Template: CustomerAccept
-msgid "Yes, I accepted your license."
-msgstr "네, 면허를 받아 들였습니다."
+msgid "Yes, I accept your license."
+msgstr ""
 
 #. Template: TicketCustomerIDSelection
 msgid ""
@@ -19197,17 +19197,15 @@ msgstr "날짜 선택 도구의 시작 요일을 정의하십시오."
 msgid ""
 "Define which avatar default image should be used for the article view if no "
 "gravatar is assigned to the mail address. Check "
-"http://gravatar.com/site/implement/images/ for further information."
+"https://gravatar.com/site/implement/images/ for further information."
 msgstr ""
 
 #. SysConfig
 msgid ""
 "Define which avatar default image should be used for the current agent if no"
 " gravatar is assigned to the mail address of the agent. Check "
-"http://gravatar.com/site/implement/images/ for further information."
+"https://gravatar.com/site/implement/images/ for further information."
 msgstr ""
-"상담원의 메일 주소에 gravatar가 할당되지 않은 경우 현재 상담원에 사용할 아바타 기본 이미지를 정의합니다. 자세한 내용은 "
-"http://gravatar.com/site/implement/images/ 를 확인하십시오."
 
 #. SysConfig
 msgid ""
@@ -24831,10 +24829,8 @@ msgstr "제품 뉴스"
 #. SysConfig
 msgid ""
 "Protection against CSRF (Cross Site Request Forgery) exploits (for more info"
-" see http://en.wikipedia.org/wiki/Cross-site_request_forgery)."
+" see https://en.wikipedia.org/wiki/Cross-site_request_forgery)."
 msgstr ""
-"CSRF (Cross Site Request Forgery) 공격에 대한 보호 (자세한 내용은 "
-"http://en.wikipedia.org/wiki/Cross-site_request_forgery 참조)"
 
 #. SysConfig
 msgid "Provides a matrix overview of the tickets per state per queue"
