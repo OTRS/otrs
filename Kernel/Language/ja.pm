@@ -27,7 +27,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y/%M/%D';
     $Self->{DateInputFormat}     = '%Y/%M/%D';
     $Self->{DateInputFormatLong} = '%Y/%M/%D - %T';
-    $Self->{Completeness}        = 0.764665873150825;
+    $Self->{Completeness}        = 0.76449583404183;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -2820,7 +2820,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         # Template: CustomerAccept
         'Dear Customer,' => 'お客様各位',
         'thank you for using our services.' => '私たちのサービスをご利用いただきありがとうございます。',
-        'Yes, I accepted your license.' => 'はい、私はあなたの許可を受け入れました。',
+        'Yes, I accept your license.' => '',
 
         # Template: TicketCustomerIDSelection
         'The customer ID is not changeable, no other customer ID can be assigned to this ticket.' =>

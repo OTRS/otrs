@@ -2820,7 +2820,7 @@ sub Data {
         # Template: CustomerAccept
         'Dear Customer,' => '尊敬的客户，',
         'thank you for using our services.' => '感谢您使用我们的服务。',
-        'Yes, I accepted your license.' => '是，同意许可。',
+        'Yes, I accept your license.' => '',
 
         # Template: TicketCustomerIDSelection
         'The customer ID is not changeable, no other customer ID can be assigned to this ticket.' =>
@@ -3215,7 +3215,7 @@ sub Data {
         'This setting is currently being overridden in %s and can\'t thus be changed here!' =>
             '这个设置目前已在%s中覆盖，所以无法在这里更改！',
         'Changing this setting is only available in a higher config level!' =>
-            '',
+            '更改此设置仅适用于更高的配置级别！',
         '%s (%s) is currently working on this setting.' => '%s（%s）正在处理这个设置。',
         'Toggle advanced options for this setting' => '显示/隐藏此设置的高级选项',
         'Disable this setting, so it is no longer effective' => '禁用此设置，因此它不再有效',

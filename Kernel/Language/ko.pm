@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '';
     $Self->{DateInputFormat}     = '';
     $Self->{DateInputFormatLong} = '';
-    $Self->{Completeness}        = 0.973133820778779;
+    $Self->{Completeness}        = 0.972963781669784;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -2814,7 +2814,7 @@ sub Data {
         # Template: CustomerAccept
         'Dear Customer,' => '친애하는 고객,',
         'thank you for using our services.' => '우리의 서비스를 이용해주셔서 감사합니다.',
-        'Yes, I accepted your license.' => '네, 면허를 받아 들였습니다.',
+        'Yes, I accept your license.' => '',
 
         # Template: TicketCustomerIDSelection
         'The customer ID is not changeable, no other customer ID can be assigned to this ticket.' =>

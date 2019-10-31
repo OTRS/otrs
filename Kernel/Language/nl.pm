@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D-%M-%Y';
     $Self->{DateInputFormat}     = '%D-%M-%Y';
     $Self->{DateInputFormatLong} = '%D-%M-%Y - %T';
-    $Self->{Completeness}        = 0.520999829960891;
+    $Self->{Completeness}        = 0.522700221050842;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -82,7 +82,7 @@ sub Data {
         'Change settings' => 'Verander instellingen',
         'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is a white list, \'PossibleNot\' a black list.' =>
             'Geef aan wat u wilt dat gebeurt als de activatie-criteria kloppen.',
-        'Check the official %sdocumentation%s.' => '',
+        'Check the official %sdocumentation%s.' => 'Bekijk de officiële %sdocumentatie%s',
         'Show or hide the content' => 'Toon of verberg de inhoud',
         'Edit ACL Information' => 'Bewerk ACL-informatie',
         'Name' => 'Naam',
@@ -175,7 +175,7 @@ sub Data {
         'Filter for Notifications' => 'Filter voor notificaties',
         'Filter for notifications' => 'Filter voor notificaties',
         'Here you can upload a configuration file to import appointment notifications to your system. The file needs to be in .yml format as exported by the appointment notification module.' =>
-            '',
+            'Hier kun je configuratiebestanden uploaden om Afspraak Notificaties te importeren. Het bestand moet in .yml formaat zoals geëxporteerd door de notificatie module.',
         'Overwrite existing notifications?' => 'Bestaande meldingen overschrijven?',
         'Upload Notification configuration' => 'Upload meldingconfiguratie',
         'Import Notification configuration' => 'Melding configuratie importeren',
@@ -200,7 +200,7 @@ sub Data {
         'Recipients' => 'Ontvangers',
         'Send to' => 'Versturen naar',
         'Send to these agents' => 'Verstuur naar deze gebruikers',
-        'Send to all group members (agents only)' => '',
+        'Send to all group members (agents only)' => 'Verstuur naar alle groepsleden (alleen behandelaars)',
         'Send to all role members' => 'Verstuur naar alle leden van een rol',
         'Send on out of office' => 'Verstuur ook wanneer afwezigheidsassistent aan staat',
         'Also send if the user is currently out of office.' => 'Verstuur ook wanneer afwezigheidsassistent aan staat',
@@ -384,7 +384,7 @@ sub Data {
 
         # Template: AdminCommunicationLogZoom
         'Detail view for %s communication started at %s' => 'Detailweergave voor %s communicatie gestart om %s',
-        'Filter for Log Entries' => '',
+        'Filter for Log Entries' => 'Filter op logitems',
         'Filter for log entries' => 'Filter op logitems',
         'Show only entries with specific priority and higher:' => 'Toon enkel items met deze prioriteit, of hoger',
         'Communication Log Overview (%s)' => 'Communicatielogboek overzicht (%s)',
@@ -490,7 +490,7 @@ sub Data {
             '',
         'You can manage these groups via the configuration setting "CustomerGroupAlwaysGroups".' =>
             'U kunt deze groepen beheren via de optie "CustomerGroupAlwaysGroups".',
-        'Filter for groups' => '',
+        'Filter for groups' => 'Filter op groepen',
         'Select the customer user - group permissions.' => 'Selecteer de Klant gebruiker - groep permissies',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer user).' =>
             'Als niets geselecteerd is, zijn er geen permissies in deze groep (tickets zijn niet toegankelijk voor de klant gebruiker).',
@@ -506,8 +506,8 @@ sub Data {
         # Template: AdminDynamicField
         'Dynamic Fields Management' => 'Beheer van dynamische velden',
         'Add new field for object' => 'Nieuw veld voor object',
-        'Filter for Dynamic Fields' => '',
-        'Filter for dynamic fields' => '',
+        'Filter for Dynamic Fields' => 'Filter op Dynamische Velden',
+        'Filter for dynamic fields' => 'Filter op dynamische velden',
         'More Business Fields' => '',
         'Would you like to benefit from additional dynamic field types for businesses? Upgrade to %s to get access to the following field types:' =>
             '',
@@ -631,9 +631,9 @@ sub Data {
 
         # Template: AdminGenericAgent
         'Generic Agent Job Management' => '',
-        'Edit Job' => '',
-        'Add Job' => '',
-        'Run Job' => '',
+        'Edit Job' => 'Bewerk taak',
+        'Add Job' => 'Taak toevoegen',
+        'Run Job' => 'Voer taak uit',
         'Filter for Jobs' => '',
         'Filter for jobs' => '',
         'Last run' => 'Laatst uitgevoerd',
@@ -2820,7 +2820,7 @@ sub Data {
         # Template: CustomerAccept
         'Dear Customer,' => '',
         'thank you for using our services.' => '',
-        'Yes, I accepted your license.' => '',
+        'Yes, I accept your license.' => '',
 
         # Template: TicketCustomerIDSelection
         'The customer ID is not changeable, no other customer ID can be assigned to this ticket.' =>

@@ -2814,7 +2814,7 @@ sub Data {
         # Template: CustomerAccept
         'Dear Customer,' => 'Estimado Cliente,',
         'thank you for using our services.' => 'gracias por usar nuestros servicios.',
-        'Yes, I accepted your license.' => '',
+        'Yes, I accept your license.' => '',
 
         # Template: TicketCustomerIDSelection
         'The customer ID is not changeable, no other customer ID can be assigned to this ticket.' =>

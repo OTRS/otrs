@@ -1,4 +1,5 @@
 #6.0.24 2019-11-15
+ - 2019-10-31 Updated translations, thanks to all translators.
  - 2019-10-25 Fixed bug#[13651](https://bugs.otrs.org/show_bug.cgi?id=13651) - User is logged out after deploying system configuration changes.
   There is missing SessionID parameter in the link for setting deployment when SessionUserCookie is disabled.
  - 2019-10-24 Updated welcome ticket text.

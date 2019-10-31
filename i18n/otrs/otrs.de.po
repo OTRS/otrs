@@ -44,7 +44,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-09-19 02:35+0000\n"
+"POT-Creation-Date: 2019-10-31 16:38+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: Michael Reuther <michael.reuther@otrs.com>, 2019\n"
 "Language-Team: German (https://www.transifex.com/otrs/teams/23435/de/)\n"
@@ -2327,7 +2327,7 @@ msgstr "(z. B. 234321)"
 
 #. Template: AdminGenericAgent
 msgid "Customer user ID"
-msgstr "Kundenbenutzer-ID"
+msgstr "Kundenbenutzer-Nummer"
 
 #. Template: AdminGenericAgent
 msgid "(e. g. U5150)"
@@ -2563,7 +2563,7 @@ msgstr "Neue Ticketsperre festlegen"
 
 #. Template: AdminGenericAgent
 msgid "New customer user ID"
-msgstr "Neue Kundenbenutzer-ID"
+msgstr "Neue Kundenbenutzer-Nummer"
 
 #. Template: AdminGenericAgent
 msgid "New customer ID"
@@ -4597,7 +4597,7 @@ msgstr "SLA"
 
 #. Template: AdminNotificationEvent
 msgid "Customer User ID"
-msgstr "Kundenbenutzer-ID"
+msgstr "Kundenbenutzer-Nummer"
 
 #. Template: AdminNotificationEvent
 msgid "Article Filter"
@@ -9721,8 +9721,8 @@ msgid "thank you for using our services."
 msgstr "Danke, dass Sie unsere Services nutzen."
 
 #. Template: CustomerAccept
-msgid "Yes, I accepted your license."
-msgstr "Ja, ich akzeptiere die Lizenz."
+msgid "Yes, I accept your license."
+msgstr ""
 
 #. Template: TicketCustomerIDSelection
 msgid ""
@@ -11676,7 +11676,7 @@ msgstr "Sekunde"
 
 #. Perl Module: Kernel/Modules/AdminCustomerCompany.pm
 msgid "Customer company updated!"
-msgstr "Kundenfirma aktualisiert!"
+msgstr "Kundenunternehmen aktualisiert!"
 
 #. Perl Module: Kernel/Modules/AdminCustomerCompany.pm
 msgid "Dynamic field %s not found!"
@@ -11688,11 +11688,11 @@ msgstr "Wert für Dynamisches Feld 1%s kann nicht gesetzt werden!"
 
 #. Perl Module: Kernel/Modules/AdminCustomerCompany.pm
 msgid "Customer Company %s already exists!"
-msgstr "Die Kundenfirma %s existiert bereits!"
+msgstr "Das Kundenunternehmen %s existiert bereits!"
 
 #. Perl Module: Kernel/Modules/AdminCustomerCompany.pm
 msgid "Customer company added!"
-msgstr "Kundenfirma hinzugefügt!"
+msgstr "Kundenunternehmen hinzugefügt!"
 
 #. Perl Module: Kernel/Modules/AdminCustomerGroup.pm
 msgid "No configuration for 'CustomerGroupPermissionContext' found!"
@@ -20437,7 +20437,7 @@ msgstr "Kundenbenutzersuche"
 
 #. SysConfig
 msgid "CustomerID search"
-msgstr "Kundennummernsuche"
+msgstr "Kundennummern-Suche"
 
 #. SysConfig
 msgid "CustomerName"
@@ -21686,8 +21686,8 @@ msgid ""
 "'CustomerCompany_' must be added."
 msgstr ""
 "Definiert die Standard-Filterfelder in der Kundenbenutzer-Adressbuch-Suche "
-"(Kundenbenutzer oder Kundenfirma). Für Kundenfirma-Felder muss ein Präfix "
-"'CustomerCompany_' hinzugefügt werden."
+"(Kundenbenutzer oder Kundenunternehmen). Für Kundenunternehmen-Felder muss "
+"ein Präfix 'CustomerCompany_' hinzugefügt werden."
 
 #. SysConfig
 msgid ""
@@ -27510,7 +27510,7 @@ msgid ""
 "groups."
 msgstr ""
 "Gibt Kundenbenutzern Zugriff auf Tickets, auch wenn diese nicht einem "
-"Kundenbenutzer derselben Kundennummer zugewiesen sind, basierend auf  "
+"Kundenbenutzer derselben Kundennummer zugewiesen sind, basierend auf "
 "Gruppenrechten."
 
 #. SysConfig
@@ -30693,7 +30693,7 @@ msgid ""
 "created by the customer user."
 msgstr ""
 "Diese Option verweigert den Zugriff auf Tickets von anderen Kundenbenutzern "
-"mit der selben Kundenfirma."
+"mit dem selben Kundenunternehmen."
 
 #. SysConfig
 msgid ""

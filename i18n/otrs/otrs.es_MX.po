@@ -21,7 +21,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-09-19 02:35+0000\n"
+"POT-Creation-Date: 2019-10-31 16:38+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: FCRUZ <francisco.cruz@otrs.com>, 2019\n"
 "Language-Team: Spanish (Mexico) (https://www.transifex.com/otrs/teams/23435/es_MX/)\n"
@@ -9202,7 +9202,7 @@ msgid "thank you for using our services."
 msgstr "gracias por usar nuestros servicios."
 
 #. Template: CustomerAccept
-msgid "Yes, I accepted your license."
+msgid "Yes, I accept your license."
 msgstr ""
 
 #. Template: TicketCustomerIDSelection

@@ -129,7 +129,7 @@ sub Data {
         'Export calendar' => '',
         'Download calendar' => '',
         'Copy public calendar URL' => '',
-        'Calendar' => 'kolendar',
+        'Calendar' => 'Koledar',
         'Calendar name' => '',
         'Calendar with same name already exists.' => '',
         'Color' => '',
@@ -2818,7 +2818,7 @@ sub Data {
         # Template: CustomerAccept
         'Dear Customer,' => '',
         'thank you for using our services.' => '',
-        'Yes, I accepted your license.' => '',
+        'Yes, I accept your license.' => '',
 
         # Template: TicketCustomerIDSelection
         'The customer ID is not changeable, no other customer ID can be assigned to this ticket.' =>

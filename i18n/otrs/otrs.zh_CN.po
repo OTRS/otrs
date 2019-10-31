@@ -19,7 +19,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-09-19 02:35+0000\n"
+"POT-Creation-Date: 2019-10-31 16:38+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: 汇民 王 <whuim@qq.com>, 2019\n"
 "Language-Team: Chinese (China) (https://www.transifex.com/otrs/teams/23435/zh_CN/)\n"
@@ -8926,8 +8926,8 @@ msgid "thank you for using our services."
 msgstr "感谢您使用我们的服务。"
 
 #. Template: CustomerAccept
-msgid "Yes, I accepted your license."
-msgstr "是，同意许可。"
+msgid "Yes, I accept your license."
+msgstr ""
 
 #. Template: TicketCustomerIDSelection
 msgid ""
@@ -10018,7 +10018,7 @@ msgstr "这个设置目前已在%s中覆盖，所以无法在这里更改！"
 
 #. Template: SettingsList
 msgid "Changing this setting is only available in a higher config level!"
-msgstr ""
+msgstr "更改此设置仅适用于更高的配置级别！"
 
 #. Template: SettingsList
 msgid "%s (%s) is currently working on this setting."

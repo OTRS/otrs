@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.498384628464547;
+    $Self->{Completeness}        = 0.498554667573542;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -110,7 +110,7 @@ sub Data {
         'Import Appointments' => 'Importa Appuntamenti',
         'Calendar Import' => 'Importazione Calendario',
         'Here you can upload a configuration file to import a calendar to your system. The file needs to be in .yml format as exported by calendar management module.' =>
-            'Qui è possibile caricare un file di configurazione per importare un calendario nel sistema. Il file deve essere nel formato YAML così come esportato dal modulo di gestione calendari.',
+            'Qui è possibile caricare un file di configurazione per importare un calendario nel sistema. Il file deve essere nel formato YML così come esportato dal modulo di gestione calendari.',
         'Overwrite existing entities' => 'Sovrascrivi le entità esistenti',
         'Upload calendar configuration' => 'Carica configurazione calendario',
         'Import Calendar' => 'Importa Calendario',
@@ -177,7 +177,7 @@ sub Data {
         'Filter for Notifications' => 'Filtro per notifiche',
         'Filter for notifications' => 'Filtro per notifiche',
         'Here you can upload a configuration file to import appointment notifications to your system. The file needs to be in .yml format as exported by the appointment notification module.' =>
-            '',
+            'qui puoi caricare un file di configurazione per importare notifiche di appuntamenti nel tuo sistema.Il file deve avere il formato .yml come viene esportato dal modulo di notifiche appuntamenti .',
         'Overwrite existing notifications?' => 'Vuoi sovrascrivere le notifiche esistenti?',
         'Upload Notification configuration' => 'Carica configurazione delle notifiche',
         'Import Notification configuration' => 'Importa configurazione delle notifiche',
@@ -2822,7 +2822,7 @@ sub Data {
         # Template: CustomerAccept
         'Dear Customer,' => '',
         'thank you for using our services.' => '',
-        'Yes, I accepted your license.' => '',
+        'Yes, I accept your license.' => '',
 
         # Template: TicketCustomerIDSelection
         'The customer ID is not changeable, no other customer ID can be assigned to this ticket.' =>

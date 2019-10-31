@@ -3,13 +3,14 @@
 # Blaž <zalb.jatagob@gmail.com>, 2018
 # Martin Gruner <martin.gruner@otrs.com>, 2018
 # Matjaž Godec <matjaz.godec@gmail.com>, 2019
+# Blaz Drolc <blaz.drolc@gmail.com>, 2019
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-09-19 02:35+0000\n"
+"POT-Creation-Date: 2019-10-31 16:38+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
-"Last-Translator: Matjaž Godec <matjaz.godec@gmail.com>, 2019\n"
+"Last-Translator: Blaz Drolc <blaz.drolc@gmail.com>, 2019\n"
 "Language-Team: Slovenian (https://www.transifex.com/otrs/teams/23435/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -335,7 +336,7 @@ msgstr ""
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Calendar"
-msgstr "kolendar"
+msgstr "Koledar"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Calendar name"
@@ -8946,7 +8947,7 @@ msgid "thank you for using our services."
 msgstr ""
 
 #. Template: CustomerAccept
-msgid "Yes, I accepted your license."
+msgid "Yes, I accept your license."
 msgstr ""
 
 #. Template: TicketCustomerIDSelection

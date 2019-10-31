@@ -2816,7 +2816,7 @@ bin/otrs.Daemon.pl status\').',
         # Template: CustomerAccept
         'Dear Customer,' => '',
         'thank you for using our services.' => '',
-        'Yes, I accepted your license.' => '',
+        'Yes, I accept your license.' => '',
 
         # Template: TicketCustomerIDSelection
         'The customer ID is not changeable, no other customer ID can be assigned to this ticket.' =>
