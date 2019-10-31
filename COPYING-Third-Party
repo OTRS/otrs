@@ -390,11 +390,11 @@ o Name:    TableSorter
 
 o Name:    jQuery UI
   Web:     http://www.jqueryui.com/
-  License: GNU v2 - http://www.gnu.org/licenses/gpl.html
+  License: MIT License - http://www.opensource.org/licenses/mit-license.php
 
 o Name:    jQuery Validate
   Web:     http://bassistance.de/jquery-plugins/jquery-plugin-validation/
-  License: GNU v2 - http://www.gnu.org/licenses/gpl.html
+  License: MIT License - http://www.opensource.org/licenses/mit-license.php
 
 o Name:    jsPlumb
   Web:     http://jsplumbtoolkit.com/
