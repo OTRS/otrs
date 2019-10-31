@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.679816357762285;
+    $Self->{Completeness}        = 0.67964631865329;
 
     # csv separator
     $Self->{Separator}         = ',';
@@ -6377,9 +6377,9 @@ Helpdesk Team Anda
         'Define the start day of the week for the date picker for the indicated calendar.' =>
             'Tentukan hari awal pekan ini untuk pemilih tanggal kalender yang telah ditunjukkan.',
         'Define the start day of the week for the date picker.' => 'Tentukan hari awal pekan ini untuk datepicker.',
-        'Define which avatar default image should be used for the article view if no gravatar is assigned to the mail address. Check http://gravatar.com/site/implement/images/ for further information.' =>
+        'Define which avatar default image should be used for the article view if no gravatar is assigned to the mail address. Check https://gravatar.com/site/implement/images/ for further information.' =>
             '',
-        'Define which avatar default image should be used for the current agent if no gravatar is assigned to the mail address of the agent. Check http://gravatar.com/site/implement/images/ for further information.' =>
+        'Define which avatar default image should be used for the current agent if no gravatar is assigned to the mail address of the agent. Check https://gravatar.com/site/implement/images/ for further information.' =>
             '',
         'Define which avatar engine should be used for the agent avatar on the header and the sender images in AgentTicketZoom. If \'None\' is selected, initials will be displayed instead. Please note that selecting anything other than \'None\' will transfer the encrypted email address of the particular user to an external service.' =>
             '',
@@ -7912,8 +7912,8 @@ Helpdesk Team Anda
         'ProcessID' => 'ProcessID',
         'Processes & Automation' => '',
         'Product News' => 'Berita produk',
-        'Protection against CSRF (Cross Site Request Forgery) exploits (for more info see http://en.wikipedia.org/wiki/Cross-site_request_forgery).' =>
-            'Perlindungan terhadap CSRF (Cross Site Request Pemalsuan) eksploitasi (untuk info lebih lanjut lihat http://en.wikipedia.org/wiki/Cross-site_request_forgery).',
+        'Protection against CSRF (Cross Site Request Forgery) exploits (for more info see https://en.wikipedia.org/wiki/Cross-site_request_forgery).' =>
+            '',
         'Provides a matrix overview of the tickets per state per queue' =>
             '',
         'Provides customer users access to tickets even if the tickets are not assigned to a customer user of the same customer ID(s), based on permission groups.' =>

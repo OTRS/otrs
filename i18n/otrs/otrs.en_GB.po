@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-10-31 16:38+0000\n"
+"POT-Creation-Date: 2019-10-31 17:51+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: Isabell Long <isabell@issyl0.co.uk>, 2019\n"
 "Language-Team: English (United Kingdom) (https://www.transifex.com/otrs/teams/23435/en_GB/)\n"
@@ -19635,14 +19635,14 @@ msgstr "Define the start day of the week for the date picker."
 msgid ""
 "Define which avatar default image should be used for the article view if no "
 "gravatar is assigned to the mail address. Check "
-"http://gravatar.com/site/implement/images/ for further information."
+"https://gravatar.com/site/implement/images/ for further information."
 msgstr ""
 
 #. SysConfig
 msgid ""
 "Define which avatar default image should be used for the current agent if no"
 " gravatar is assigned to the mail address of the agent. Check "
-"http://gravatar.com/site/implement/images/ for further information."
+"https://gravatar.com/site/implement/images/ for further information."
 msgstr ""
 
 #. SysConfig
@@ -25677,10 +25677,8 @@ msgstr "Product News"
 #. SysConfig
 msgid ""
 "Protection against CSRF (Cross Site Request Forgery) exploits (for more info"
-" see http://en.wikipedia.org/wiki/Cross-site_request_forgery)."
+" see https://en.wikipedia.org/wiki/Cross-site_request_forgery)."
 msgstr ""
-"Protection against CSRF (Cross Site Request Forgery) exploits (for more info"
-" see http://en.wikipedia.org/wiki/Cross-site_request_forgery)."
 
 #. SysConfig
 msgid "Provides a matrix overview of the tickets per state per queue"

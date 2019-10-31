@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-10-31 16:38+0000\n"
+"POT-Creation-Date: 2019-10-31 17:51+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: OTRS SDN BHD <otrssdnbhd@gmail.com>, 2019\n"
 "Language-Team: Malay (https://www.transifex.com/otrs/teams/23435/ms/)\n"
@@ -19682,14 +19682,14 @@ msgstr "Menetukan hari permulaan mingguan untuk pemilih tarikh."
 msgid ""
 "Define which avatar default image should be used for the article view if no "
 "gravatar is assigned to the mail address. Check "
-"http://gravatar.com/site/implement/images/ for further information."
+"https://gravatar.com/site/implement/images/ for further information."
 msgstr ""
 
 #. SysConfig
 msgid ""
 "Define which avatar default image should be used for the current agent if no"
 " gravatar is assigned to the mail address of the agent. Check "
-"http://gravatar.com/site/implement/images/ for further information."
+"https://gravatar.com/site/implement/images/ for further information."
 msgstr ""
 
 #. SysConfig
@@ -25729,11 +25729,8 @@ msgstr "Berita produk"
 #. SysConfig
 msgid ""
 "Protection against CSRF (Cross Site Request Forgery) exploits (for more info"
-" see http://en.wikipedia.org/wiki/Cross-site_request_forgery)."
+" see https://en.wikipedia.org/wiki/Cross-site_request_forgery)."
 msgstr ""
-"Perlindungan terhadap eksploitasi CSRF (Pemalsuan Permintaan Laman "
-"Silang)(untuk lebih maklumat lihat http://en.wikipedia.org/wiki/Cross-"
-"site_request_forgery)."
 
 #. SysConfig
 msgid "Provides a matrix overview of the tickets per state per queue"

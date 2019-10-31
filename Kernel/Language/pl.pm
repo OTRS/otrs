@@ -27,7 +27,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.668083659241626;
+    $Self->{Completeness}        = 0.667913620132631;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -6368,9 +6368,9 @@ Thanks for your help!
         'Define the start day of the week for the date picker for the indicated calendar.' =>
             '',
         'Define the start day of the week for the date picker.' => '',
-        'Define which avatar default image should be used for the article view if no gravatar is assigned to the mail address. Check http://gravatar.com/site/implement/images/ for further information.' =>
+        'Define which avatar default image should be used for the article view if no gravatar is assigned to the mail address. Check https://gravatar.com/site/implement/images/ for further information.' =>
             '',
-        'Define which avatar default image should be used for the current agent if no gravatar is assigned to the mail address of the agent. Check http://gravatar.com/site/implement/images/ for further information.' =>
+        'Define which avatar default image should be used for the current agent if no gravatar is assigned to the mail address of the agent. Check https://gravatar.com/site/implement/images/ for further information.' =>
             '',
         'Define which avatar engine should be used for the agent avatar on the header and the sender images in AgentTicketZoom. If \'None\' is selected, initials will be displayed instead. Please note that selecting anything other than \'None\' will transfer the encrypted email address of the particular user to an external service.' =>
             '',
@@ -7902,8 +7902,8 @@ Thanks for your help!
         'ProcessID' => '',
         'Processes & Automation' => '',
         'Product News' => 'Wiadomości o produkcie',
-        'Protection against CSRF (Cross Site Request Forgery) exploits (for more info see http://en.wikipedia.org/wiki/Cross-site_request_forgery).' =>
-            'Ochrona przeciw exploitom CSRF (Cross Site Request Forgery). (By dowiedzieć się więcej odwiedź http://pl.wikipedia.org/wiki/Cross-site_request_forgery).',
+        'Protection against CSRF (Cross Site Request Forgery) exploits (for more info see https://en.wikipedia.org/wiki/Cross-site_request_forgery).' =>
+            '',
         'Provides a matrix overview of the tickets per state per queue' =>
             '',
         'Provides customer users access to tickets even if the tickets are not assigned to a customer user of the same customer ID(s), based on permission groups.' =>

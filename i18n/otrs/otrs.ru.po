@@ -39,7 +39,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-10-31 16:38+0000\n"
+"POT-Creation-Date: 2019-10-31 17:51+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: Alexey Yusov <yusovas@gmail.com>, 2019\n"
 "Language-Team: Russian (https://www.transifex.com/otrs/teams/23435/ru/)\n"
@@ -20273,23 +20273,15 @@ msgstr "Укажите первый день недели для использ�
 msgid ""
 "Define which avatar default image should be used for the article view if no "
 "gravatar is assigned to the mail address. Check "
-"http://gravatar.com/site/implement/images/ for further information."
+"https://gravatar.com/site/implement/images/ for further information."
 msgstr ""
-"Определите картинку, которая по умолчанию будет отображаться в качестве "
-"аватара при просмотре статьи, если gravatar не присвоен адресу электронной "
-"почты. Для получения дополнительной информации посетите "
-"http://gravatar.com/site/implement/images/."
 
 #. SysConfig
 msgid ""
 "Define which avatar default image should be used for the current agent if no"
 " gravatar is assigned to the mail address of the agent. Check "
-"http://gravatar.com/site/implement/images/ for further information."
+"https://gravatar.com/site/implement/images/ for further information."
 msgstr ""
-"Определите картинку, которая по умолчанию будет использоваться в качестве "
-"аватара для текущего агента, если gravatar не присвоен адресу его "
-"электронной почты. Для получения дополнительной информации посетите "
-"http://gravatar.com/site/implement/images/."
 
 #. SysConfig
 msgid ""
@@ -26572,10 +26564,8 @@ msgstr "Новости о продукте"
 #. SysConfig
 msgid ""
 "Protection against CSRF (Cross Site Request Forgery) exploits (for more info"
-" see http://en.wikipedia.org/wiki/Cross-site_request_forgery)."
+" see https://en.wikipedia.org/wiki/Cross-site_request_forgery)."
 msgstr ""
-"Защита от CSRF (Cross Site Request Forgery) эксплойтов (для более подробной "
-"информации см. http://en.wikipedia.org/wiki/Cross-site_request_forgery)."
 
 #. SysConfig
 msgid "Provides a matrix overview of the tickets per state per queue"

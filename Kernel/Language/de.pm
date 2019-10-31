@@ -6374,10 +6374,10 @@ Ihr Helpdesk-Team
         'Define the start day of the week for the date picker for the indicated calendar.' =>
             'Definiert den Wochentag, mit dem die Woche im angegebenen Kalender beginnt.',
         'Define the start day of the week for the date picker.' => 'Definiert den Beginn einer Woche für den Datumswähler.',
-        'Define which avatar default image should be used for the article view if no gravatar is assigned to the mail address. Check http://gravatar.com/site/implement/images/ for further information.' =>
-            'Definiert welches Avatar-Standardbild in der Artikel-Ansicht verwendet werden soll, wenn kein Gravatar für die Mailadresse des Agents zugeordnet ist. Siehe http://gravatar.com/site/implement/images/ für weitere Informationen.',
-        'Define which avatar default image should be used for the current agent if no gravatar is assigned to the mail address of the agent. Check http://gravatar.com/site/implement/images/ for further information.' =>
-            'Definiert welches Avatar Standardbild für den aktuellen Agent verwendet werden soll, wenn kein Gravatar für die Mailadresse des Agents zugeordnet ist. Siehe http://gravatar.com/site/implement/images/ für weitere Informationen.',
+        'Define which avatar default image should be used for the article view if no gravatar is assigned to the mail address. Check https://gravatar.com/site/implement/images/ for further information.' =>
+            'Definiert welches Avatar-Standardbild in der Artikel-Ansicht verwendet werden soll, wenn kein Gravatar für die Mailadresse des Agents zugeordnet ist. Siehe https://gravatar.com/site/implement/images/ für weitere Informationen.',
+        'Define which avatar default image should be used for the current agent if no gravatar is assigned to the mail address of the agent. Check https://gravatar.com/site/implement/images/ for further information.' =>
+            'Definiert welches Avatar Standardbild für den aktuellen Agent verwendet werden soll, wenn kein Gravatar für die Mailadresse des Agents zugeordnet ist. Siehe https://gravatar.com/site/implement/images/ für weitere Informationen.',
         'Define which avatar engine should be used for the agent avatar on the header and the sender images in AgentTicketZoom. If \'None\' is selected, initials will be displayed instead. Please note that selecting anything other than \'None\' will transfer the encrypted email address of the particular user to an external service.' =>
             'Legt fest, welche Avatar-Engine für die Avatare im Kopf der Software und die Absenderbilder in AgentTicketZoom genutzt werden soll. Wenn \'Keine\' ausgewählt ist, werden stattdessen die Initialen des jeweiligen Nutzers angezeigt. Bitte beachten Sie, dass jede Auswahl außer \'Keine\' dazu führt, dass die verschlüsselte E-Mail-Adresse des jeweiligen Nutzers an einen externen Dienst übertragen wird.',
         'Define which columns are shown in the linked appointment widget (LinkObject::ViewMode = "complex"). Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default.' =>
@@ -7908,7 +7908,7 @@ Ihr Helpdesk-Team
         'ProcessID' => 'ProcessID',
         'Processes & Automation' => 'Prozesse & Automatisierung',
         'Product News' => 'Produkt-Neuigkeiten',
-        'Protection against CSRF (Cross Site Request Forgery) exploits (for more info see http://en.wikipedia.org/wiki/Cross-site_request_forgery).' =>
+        'Protection against CSRF (Cross Site Request Forgery) exploits (for more info see https://en.wikipedia.org/wiki/Cross-site_request_forgery).' =>
             'Schutz gegen CSRF-Lücken (Cross Site Request Forgery). Besuchen Sie https://de.wikipedia.org/wiki/Cross-Site-Request-Forgery für mehr Informationen.',
         'Provides a matrix overview of the tickets per state per queue' =>
             'Stellt eine Matrix-Übersicht von Tickets pro Status in Queues zur Verfügung',

@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.999829960891005;
+    $Self->{Completeness}        = 0.99931984356402;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -6379,10 +6379,10 @@ Thanks for your help!
         'Define the start day of the week for the date picker for the indicated calendar.' =>
             '为选定的日历定义日期选择器中一周的起始日。',
         'Define the start day of the week for the date picker.' => '定义日期选择器中一周的起始日。',
-        'Define which avatar default image should be used for the article view if no gravatar is assigned to the mail address. Check http://gravatar.com/site/implement/images/ for further information.' =>
-            '如果没有分配邮件地址的gravatar（个人全球统一标识），则定义信件视图应该使用哪个头像作为默认图像。 查看 http://gravatar.com/site/implement/images/ 以了解更多信息。',
-        'Define which avatar default image should be used for the current agent if no gravatar is assigned to the mail address of the agent. Check http://gravatar.com/site/implement/images/ for further information.' =>
-            '如果没有分配给服务人员的邮件地址的gravatar（个人全球统一标识），则定义当前服务人员应该使用哪个头像作为默认图像。 查看 http://gravatar.com/site/implement/images/ 以了解更多信息。',
+        'Define which avatar default image should be used for the article view if no gravatar is assigned to the mail address. Check https://gravatar.com/site/implement/images/ for further information.' =>
+            '',
+        'Define which avatar default image should be used for the current agent if no gravatar is assigned to the mail address of the agent. Check https://gravatar.com/site/implement/images/ for further information.' =>
+            '',
         'Define which avatar engine should be used for the agent avatar on the header and the sender images in AgentTicketZoom. If \'None\' is selected, initials will be displayed instead. Please note that selecting anything other than \'None\' will transfer the encrypted email address of the particular user to an external service.' =>
             '定义服务人员工单详情中的服务人员头像和的发件人图片使用哪个头像引擎。 如果选择“无”，则用缩写替代。 请注意，选择除“无”之外的任何内容都会将特定用户的加密过的电子邮件地址传输到外部服务。',
         'Define which columns are shown in the linked appointment widget (LinkObject::ViewMode = "complex"). Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default.' =>
@@ -7913,8 +7913,8 @@ Thanks for your help!
         'ProcessID' => '流程ID',
         'Processes & Automation' => '流程和自动化',
         'Product News' => '产品新闻',
-        'Protection against CSRF (Cross Site Request Forgery) exploits (for more info see http://en.wikipedia.org/wiki/Cross-site_request_forgery).' =>
-            '针对CSRF（跨站请求伪造）漏洞利用的保护（参阅http://en.wikipedia.org/wiki/Cross-site_request_forgery获取更多信息）。',
+        'Protection against CSRF (Cross Site Request Forgery) exploits (for more info see https://en.wikipedia.org/wiki/Cross-site_request_forgery).' =>
+            '',
         'Provides a matrix overview of the tickets per state per queue' =>
             '提供每个队列每个状态的工单的矩阵概览',
         'Provides customer users access to tickets even if the tickets are not assigned to a customer user of the same customer ID(s), based on permission groups.' =>

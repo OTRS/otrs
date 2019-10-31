@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '';
     $Self->{DateInputFormat}     = '';
     $Self->{DateInputFormatLong} = '';
-    $Self->{Completeness}        = 0.972963781669784;
+    $Self->{Completeness}        = 0.972623703451794;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -6375,10 +6375,10 @@ Thanks for your help!
         'Define the start day of the week for the date picker for the indicated calendar.' =>
             '표시된 달력의 날짜 선택 도구에 대한 시작 요일을 정의하십시오.',
         'Define the start day of the week for the date picker.' => '날짜 선택 도구의 시작 요일을 정의하십시오.',
-        'Define which avatar default image should be used for the article view if no gravatar is assigned to the mail address. Check http://gravatar.com/site/implement/images/ for further information.' =>
+        'Define which avatar default image should be used for the article view if no gravatar is assigned to the mail address. Check https://gravatar.com/site/implement/images/ for further information.' =>
             '',
-        'Define which avatar default image should be used for the current agent if no gravatar is assigned to the mail address of the agent. Check http://gravatar.com/site/implement/images/ for further information.' =>
-            '상담원의 메일 주소에 gravatar가 할당되지 않은 경우 현재 상담원에 사용할 아바타 기본 이미지를 정의합니다. 자세한 내용은 http://gravatar.com/site/implement/images/ 를 확인하십시오.',
+        'Define which avatar default image should be used for the current agent if no gravatar is assigned to the mail address of the agent. Check https://gravatar.com/site/implement/images/ for further information.' =>
+            '',
         'Define which avatar engine should be used for the agent avatar on the header and the sender images in AgentTicketZoom. If \'None\' is selected, initials will be displayed instead. Please note that selecting anything other than \'None\' will transfer the encrypted email address of the particular user to an external service.' =>
             '에이전트 아바타에 사용할 아바타 엔진과 AgentTicketZoom의 보낸 사람 이미지를 정의하십시오. \'없음\'을 선택하면 대신 이니셜이 표시됩니다. \'없음\'이외의 다른 것을 선택하면 특정 사용자의 암호화 된 이메일 주소가 외부 서비스로 전송됩니다.',
         'Define which columns are shown in the linked appointment widget (LinkObject::ViewMode = "complex"). Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default.' =>
@@ -7909,8 +7909,8 @@ Thanks for your help!
         'ProcessID' => 'ProcessID',
         'Processes & Automation' => '프로세스 및 자동화',
         'Product News' => '제품 뉴스',
-        'Protection against CSRF (Cross Site Request Forgery) exploits (for more info see http://en.wikipedia.org/wiki/Cross-site_request_forgery).' =>
-            'CSRF (Cross Site Request Forgery) 공격에 대한 보호 (자세한 내용은 http://en.wikipedia.org/wiki/Cross-site_request_forgery 참조)',
+        'Protection against CSRF (Cross Site Request Forgery) exploits (for more info see https://en.wikipedia.org/wiki/Cross-site_request_forgery).' =>
+            '',
         'Provides a matrix overview of the tickets per state per queue' =>
             '큐당 상태 별 티켓 개요를 제공합니다.',
         'Provides customer users access to tickets even if the tickets are not assigned to a customer user of the same customer ID(s), based on permission groups.' =>

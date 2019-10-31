@@ -19,7 +19,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-10-31 16:38+0000\n"
+"POT-Creation-Date: 2019-10-31 17:51+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: 汇民 王 <whuim@qq.com>, 2019\n"
 "Language-Team: Chinese (China) (https://www.transifex.com/otrs/teams/23435/zh_CN/)\n"
@@ -19036,19 +19036,15 @@ msgstr "定义日期选择器中一周的起始日。"
 msgid ""
 "Define which avatar default image should be used for the article view if no "
 "gravatar is assigned to the mail address. Check "
-"http://gravatar.com/site/implement/images/ for further information."
+"https://gravatar.com/site/implement/images/ for further information."
 msgstr ""
-"如果没有分配邮件地址的gravatar（个人全球统一标识），则定义信件视图应该使用哪个头像作为默认图像。 查看 "
-"http://gravatar.com/site/implement/images/ 以了解更多信息。"
 
 #. SysConfig
 msgid ""
 "Define which avatar default image should be used for the current agent if no"
 " gravatar is assigned to the mail address of the agent. Check "
-"http://gravatar.com/site/implement/images/ for further information."
+"https://gravatar.com/site/implement/images/ for further information."
 msgstr ""
-"如果没有分配给服务人员的邮件地址的gravatar（个人全球统一标识），则定义当前服务人员应该使用哪个头像作为默认图像。 查看 "
-"http://gravatar.com/site/implement/images/ 以了解更多信息。"
 
 #. SysConfig
 msgid ""
@@ -24425,10 +24421,8 @@ msgstr "产品新闻"
 #. SysConfig
 msgid ""
 "Protection against CSRF (Cross Site Request Forgery) exploits (for more info"
-" see http://en.wikipedia.org/wiki/Cross-site_request_forgery)."
+" see https://en.wikipedia.org/wiki/Cross-site_request_forgery)."
 msgstr ""
-"针对CSRF（跨站请求伪造）漏洞利用的保护（参阅http://en.wikipedia.org/wiki/Cross-"
-"site_request_forgery获取更多信息）。"
 
 #. SysConfig
 msgid "Provides a matrix overview of the tickets per state per queue"

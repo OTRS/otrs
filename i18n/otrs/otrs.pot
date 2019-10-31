@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-10-31 16:45+0000\n"
+"POT-Creation-Date: 2019-10-31 18:10+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17550,11 +17550,11 @@ msgid "Define the start day of the week for the date picker."
 msgstr ""
 
 #. SysConfig
-msgid "Define which avatar default image should be used for the article view if no gravatar is assigned to the mail address. Check http://gravatar.com/site/implement/images/ for further information."
+msgid "Define which avatar default image should be used for the article view if no gravatar is assigned to the mail address. Check https://gravatar.com/site/implement/images/ for further information."
 msgstr ""
 
 #. SysConfig
-msgid "Define which avatar default image should be used for the current agent if no gravatar is assigned to the mail address of the agent. Check http://gravatar.com/site/implement/images/ for further information."
+msgid "Define which avatar default image should be used for the current agent if no gravatar is assigned to the mail address of the agent. Check https://gravatar.com/site/implement/images/ for further information."
 msgstr ""
 
 #. SysConfig
@@ -21334,7 +21334,7 @@ msgid "Product News"
 msgstr ""
 
 #. SysConfig
-msgid "Protection against CSRF (Cross Site Request Forgery) exploits (for more info see http://en.wikipedia.org/wiki/Cross-site_request_forgery)."
+msgid "Protection against CSRF (Cross Site Request Forgery) exploits (for more info see https://en.wikipedia.org/wiki/Cross-site_request_forgery)."
 msgstr ""
 
 #. SysConfig

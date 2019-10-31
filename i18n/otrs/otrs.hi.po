@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-10-31 16:38+0000\n"
+"POT-Creation-Date: 2019-10-31 17:51+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: Martin Gruner <martin.gruner@otrs.com>, 2018\n"
 "Language-Team: Hindi (https://www.transifex.com/otrs/teams/23435/hi/)\n"
@@ -19080,14 +19080,14 @@ msgstr "दिनांक पिकर के लिए सप्ताह क�
 msgid ""
 "Define which avatar default image should be used for the article view if no "
 "gravatar is assigned to the mail address. Check "
-"http://gravatar.com/site/implement/images/ for further information."
+"https://gravatar.com/site/implement/images/ for further information."
 msgstr ""
 
 #. SysConfig
 msgid ""
 "Define which avatar default image should be used for the current agent if no"
 " gravatar is assigned to the mail address of the agent. Check "
-"http://gravatar.com/site/implement/images/ for further information."
+"https://gravatar.com/site/implement/images/ for further information."
 msgstr ""
 
 #. SysConfig
@@ -24804,10 +24804,8 @@ msgstr "उत्पाद समाचार"
 #. SysConfig
 msgid ""
 "Protection against CSRF (Cross Site Request Forgery) exploits (for more info"
-" see http://en.wikipedia.org/wiki/Cross-site_request_forgery)."
+" see https://en.wikipedia.org/wiki/Cross-site_request_forgery)."
 msgstr ""
-"CSRF(क्रॉस साइट अनुरोध जालसाजी) के खिलाफ संरक्षण,कारनामे(अधिक जानकारी के लिए"
-" http://en.wikipedia.org/wiki/Cross-site_request_forgery देखें)।"
 
 #. SysConfig
 msgid "Provides a matrix overview of the tickets per state per queue"

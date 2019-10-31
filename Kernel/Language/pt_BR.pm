@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.939976194524741;
+    $Self->{Completeness}        = 0.939466077197755;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -6380,10 +6380,10 @@ Obrigado pela ajuda!
         'Define the start day of the week for the date picker for the indicated calendar.' =>
             'Define o dia de início da semana no selecionador de dias do calendário indicado.',
         'Define the start day of the week for the date picker.' => 'Define o dia de início da semana para o selecionador de data.',
-        'Define which avatar default image should be used for the article view if no gravatar is assigned to the mail address. Check http://gravatar.com/site/implement/images/ for further information.' =>
-            'Definir qual imagem de avatar padrão deve ser utilizada para a visão de artigo se nenhum gravatar estiver associado ao endereço de e-mail. Verifique http://gravatar.com/site/implement/images/ para mais informações.',
-        'Define which avatar default image should be used for the current agent if no gravatar is assigned to the mail address of the agent. Check http://gravatar.com/site/implement/images/ for further information.' =>
-            'Definir qual imagem de avatar padrão deve ser utilizada para a visão de artigo se nenhum gravatar estiver associado ao endereço de e-mail do agente. Verifique http://gravatar.com/site/implement/images/ para mais informações.',
+        'Define which avatar default image should be used for the article view if no gravatar is assigned to the mail address. Check https://gravatar.com/site/implement/images/ for further information.' =>
+            '',
+        'Define which avatar default image should be used for the current agent if no gravatar is assigned to the mail address of the agent. Check https://gravatar.com/site/implement/images/ for further information.' =>
+            '',
         'Define which avatar engine should be used for the agent avatar on the header and the sender images in AgentTicketZoom. If \'None\' is selected, initials will be displayed instead. Please note that selecting anything other than \'None\' will transfer the encrypted email address of the particular user to an external service.' =>
             'Definir qual engine de avatar deve ser utilizada para o avatar de agente no cabeçalho e as imagens de remetente em AgentTicketZoom. Se \'Nenhum\' for selecionado, iniciais serão exibidas no lugar. Favor observar que selecionar algo diferente de \'Nenhum\' irá transferir o endereço de e-mail criptografado do usuário para um serviço externo.',
         'Define which columns are shown in the linked appointment widget (LinkObject::ViewMode = "complex"). Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default.' =>
@@ -7914,8 +7914,8 @@ Obrigado pela ajuda!
         'ProcessID' => 'ID de Processo',
         'Processes & Automation' => 'Processos e Automação',
         'Product News' => 'Notícias do Produto',
-        'Protection against CSRF (Cross Site Request Forgery) exploits (for more info see http://en.wikipedia.org/wiki/Cross-site_request_forgery).' =>
-            'Proteção contra exploração CSRF (Cross Site Request Forgery) (para mais informação veja http://en.wikipedia.org/wiki/Cross-site_request_forgery).',
+        'Protection against CSRF (Cross Site Request Forgery) exploits (for more info see https://en.wikipedia.org/wiki/Cross-site_request_forgery).' =>
+            '',
         'Provides a matrix overview of the tickets per state per queue' =>
             'Gera uma visão geral em matriz dos tickets por estado e por fila.',
         'Provides customer users access to tickets even if the tickets are not assigned to a customer user of the same customer ID(s), based on permission groups.' =>

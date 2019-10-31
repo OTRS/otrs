@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.999829960891005;
+    $Self->{Completeness}        = 0.99931984356402;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -6381,10 +6381,10 @@ Vaša tehnička podrška
         'Define the start day of the week for the date picker for the indicated calendar.' =>
             'Definiši prvi dan u nedelji za izbor datuma za navedeni kalendar.',
         'Define the start day of the week for the date picker.' => 'Definiši prvi dan u nedelji za izbor datuma.',
-        'Define which avatar default image should be used for the article view if no gravatar is assigned to the mail address. Check http://gravatar.com/site/implement/images/ for further information.' =>
-            'Dfiniše koja sličica će biti prikazana u pregledu članaka ukoliko operater nema odgovarajuću povezanu sa imejl adresom. Pogledajte http://gravatar.com/site/implement/images/ za više informacija.',
-        'Define which avatar default image should be used for the current agent if no gravatar is assigned to the mail address of the agent. Check http://gravatar.com/site/implement/images/ for further information.' =>
-            'Definiše koja sličica će biti prikazana kao podrazumevana ukoliko operater nema odgovarajuću povezanu sa imejl adresom. Pogledajte http://gravatar.com/site/implement/images/ za više informacija.',
+        'Define which avatar default image should be used for the article view if no gravatar is assigned to the mail address. Check https://gravatar.com/site/implement/images/ for further information.' =>
+            '',
+        'Define which avatar default image should be used for the current agent if no gravatar is assigned to the mail address of the agent. Check https://gravatar.com/site/implement/images/ for further information.' =>
+            '',
         'Define which avatar engine should be used for the agent avatar on the header and the sender images in AgentTicketZoom. If \'None\' is selected, initials will be displayed instead. Please note that selecting anything other than \'None\' will transfer the encrypted email address of the particular user to an external service.' =>
             'Definiše koji servis će biti korišćen za avatar sličice operatera u zaglavlju i detaljnom prikazu tiketa. Ako je odabran \'Ni jedan\', biće prikazani inicijali operatera. Molimo obratite pažnju da će odabirom jedne od opcija, šifrovana imejl adresa korisnika biti prosleđena eksternom servisu.',
         'Define which columns are shown in the linked appointment widget (LinkObject::ViewMode = "complex"). Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default.' =>
@@ -7915,8 +7915,8 @@ Vaša tehnička podrška
         'ProcessID' => 'ID procesa',
         'Processes & Automation' => 'Procesi & automatizacija',
         'Product News' => 'Novosti o proizvodu',
-        'Protection against CSRF (Cross Site Request Forgery) exploits (for more info see http://en.wikipedia.org/wiki/Cross-site_request_forgery).' =>
-            'Zaštita od CSRF eksploatacije (Cross Site Request Forgery, za više informacija pogledajte http://en.wikipedia.org/wiki/Cross-site_request_forgery).',
+        'Protection against CSRF (Cross Site Request Forgery) exploits (for more info see https://en.wikipedia.org/wiki/Cross-site_request_forgery).' =>
+            '',
         'Provides a matrix overview of the tickets per state per queue' =>
             'Prikazuje matricu pregleda tiketa po njihovom stanju po redovima',
         'Provides customer users access to tickets even if the tickets are not assigned to a customer user of the same customer ID(s), based on permission groups.' =>

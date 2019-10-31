@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-10-31 16:38+0000\n"
+"POT-Creation-Date: 2019-10-31 17:51+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: Dusan Vuckovic, 2019\n"
 "Language-Team: Serbian (https://www.transifex.com/otrs/teams/23435/sr/)\n"
@@ -20205,21 +20205,15 @@ msgstr "Дефиниши први дан у недељи за избор дат�
 msgid ""
 "Define which avatar default image should be used for the article view if no "
 "gravatar is assigned to the mail address. Check "
-"http://gravatar.com/site/implement/images/ for further information."
+"https://gravatar.com/site/implement/images/ for further information."
 msgstr ""
-"Дфинише која сличица ће бити приказана у прегледу чланака уколико оператер "
-"нема одговарајућу повезану са имејл адресом. Погледајте "
-"http://gravatar.com/site/implement/images/ за више информација."
 
 #. SysConfig
 msgid ""
 "Define which avatar default image should be used for the current agent if no"
 " gravatar is assigned to the mail address of the agent. Check "
-"http://gravatar.com/site/implement/images/ for further information."
+"https://gravatar.com/site/implement/images/ for further information."
 msgstr ""
-"Дефинише која сличица ће бити приказана као подразумевана уколико оператер "
-"нема одговарајућу повезану са имејл адресом. Погледајте "
-"http://gravatar.com/site/implement/images/ за више информација."
 
 #. SysConfig
 msgid ""
@@ -26827,11 +26821,8 @@ msgstr "Новости о производу"
 #. SysConfig
 msgid ""
 "Protection against CSRF (Cross Site Request Forgery) exploits (for more info"
-" see http://en.wikipedia.org/wiki/Cross-site_request_forgery)."
+" see https://en.wikipedia.org/wiki/Cross-site_request_forgery)."
 msgstr ""
-"Заштита од CSRF експлоатације (Cross Site Request Forgery, за више "
-"информација погледајте http://en.wikipedia.org/wiki/Cross-"
-"site_request_forgery)."
 
 #. SysConfig
 msgid "Provides a matrix overview of the tickets per state per queue"
