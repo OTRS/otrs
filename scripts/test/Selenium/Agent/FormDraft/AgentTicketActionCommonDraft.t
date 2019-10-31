@@ -407,21 +407,6 @@ $Selenium->RunTest(
                 "${ScriptAlias}index.pl?Action=AgentTicket$Test->{Module};TicketID=$TicketID;LoadFormDraft=1;FormDraftID=$FormDraftID"
             );
 
-            # # Click on test created Draft and switch window.
-            # $Selenium->find_element(
-            #     "//a[contains(\@href, \'Action=AgentTicket$Test->{Module};TicketID=$TicketID;LoadFormDraft=1' )]"
-            # )->click();
-
-            # $Selenium->WaitFor( WindowCount => 2 );
-            # $Handles = $Selenium->get_window_handles();
-            # $Selenium->switch_to_window( $Handles->[1] );
-
-            # # Wait until page has loaded, if necessary.
-            # $Selenium->WaitFor(
-            #     JavaScript =>
-            #         'return typeof($) === "function" && $(".WidgetSimple").length;'
-            # );
-
             # Make sure that draft loaded notification is present.
             $Self->True(
                 index( $Selenium->get_page_source(), "You have loaded the draft \"$Title\"" ) > 0,
