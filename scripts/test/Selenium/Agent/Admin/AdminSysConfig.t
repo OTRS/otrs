@@ -158,11 +158,17 @@ $Selenium->RunTest(
         $Selenium->execute_script(
             "\$('button[value=Update]')[0].scrollIntoView(true);",
         );
+        $Self->True(
+            $Selenium->execute_script(
+                "return \$('button[value=Update]').length;"
+            ),
+            "Update button is found",
+        );
         $Selenium->find_element("//button[\@value='Update']")->VerifiedClick();
 
         $Selenium->WaitFor(
             JavaScript =>
-                "return typeof(\$) === 'function' && \$('input[name=\"Ticket::CustomQueue\"]').length;"
+                "return typeof(\$) === 'function' && \$('input[name=\"Ticket\\:\\:CustomQueue\"]').val() == 'My Queuesedit' && \$('input[name=\"Ticket\\:\\:CustomService\"]').val() == 'My Servicesedit';"
         );
 
         # Check for edited values.
@@ -184,8 +190,34 @@ $Selenium->RunTest(
 
         # Restore edited values back to default.
         for my $ResetDefault (qw(CustomQueue CustomService NewArticleIgnoreSystemSender)) {
-            $Selenium->execute_script("\$('button[name=$ResetDefault]').click();");
-            sleep 1;
+
+            $Selenium->WaitFor(
+                JavaScript =>
+                    "return typeof(\$) === 'function' && \$('button[name=\"ResetTicket\\:\\:$ResetDefault\"]').length;"
+            );
+            $Selenium->execute_script(
+                "\$('button[name=\"ResetTicket\\:\\:$ResetDefault\"]')[0].scrollIntoView(true);",
+            );
+            $Self->True(
+                $Selenium->execute_script(
+                    "return \$('button[name=\"ResetTicket\\:\\:$ResetDefault\"]').length;"
+                ),
+                "'$ResetDefault' restore button is found",
+            );
+
+            $Selenium->find_element("//button[\@name='ResetTicket::$ResetDefault']")->VerifiedClick();
+
+            $Selenium->WaitFor(
+                JavaScript =>
+                    "return typeof(\$) === 'function' && !\$('button[name=\"ResetTicket\\:\\:$ResetDefault\"]').length;"
+            );
+
+            $Self->True(
+                $Selenium->execute_script(
+                    "return !\$('button[name=\"ResetTicket\\:\\:$ResetDefault\"]').length;"
+                ),
+                "'$ResetDefault' restore button is not found",
+            );
         }
     }
 );
