@@ -258,18 +258,7 @@ $Selenium->RunTest(
         );
 
         # Click on 'History' and switch window.
-        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketHistory;TicketID=$TicketID' )]")->click();
-
-        $Selenium->WaitFor( WindowCount => 2 );
-        my $Handles = $Selenium->get_window_handles();
-        $Selenium->switch_to_window( $Handles->[1] );
-
-        # Wait until page has loaded, if necessary.
-        $Selenium->WaitFor(
-            JavaScript =>
-                "return typeof(\$) === 'function' && \$('a[href*=\"AgentTicketZoom;TicketID=$TicketID;ArticleID=$ArticleIDs[1]\"]').length;"
-        );
-        sleep 1;
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketHistory;TicketID=$TicketID");
 
         # Check the history entry for the dynamic field.
         my $PageSource = $Selenium->get_page_source();
@@ -283,12 +272,7 @@ $Selenium->RunTest(
 
         # Click on 'Zoom view' for created second article.
         $Selenium->find_element("//a[contains(\@href, 'AgentTicketZoom;TicketID=$TicketID;ArticleID=$ArticleIDs[1]')]")
-            ->click();
-
-        # Switch window back.
-        $Selenium->WaitFor( WindowCount => 1 );
-        $Selenium->switch_to_window( $Handles->[0] );
-        sleep 2;
+            ->VerifiedClick();
 
         # Verify new URL.
         my $ChangedURL = $Selenium->get_current_url();

@@ -85,13 +85,7 @@ $Selenium->RunTest(
         $Selenium->execute_script("\$('.Cluster ul ul').addClass('ForceVisible');");
 
         # Go to history view to verify results
-        $Selenium->find_element("//*[text()='History']")->click();
-        $Selenium->WaitFor( WindowCount => 2 );
-        my $Handles = $Selenium->get_window_handles();
-        $Selenium->switch_to_window( $Handles->[1] );
-
-        # Wait until page has loaded, if necessary
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".CancelClosePopup").length' );
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketHistory;TicketID=$TicketID");
 
         $Self->True(
             index( $Selenium->get_page_source(), 'Locked ticket.' ) > -1,

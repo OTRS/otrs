@@ -113,13 +113,8 @@ $Selenium->RunTest(
 
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
-        # Navigate to zoom view of created test ticket.
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
-
-        # Wait until screen is loaded completely.
-        $Selenium->WaitFor(
-            ElementMissing => [ '.WidgetIsLoading', 'css' ],
-        );
+        # Navigate to forward view of created test ticket.
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketForward;TicketID=$TicketID");
 
         # Create test fields for FormDraft.
         my $Title         = 'ForwardFormDraft' . $RandomID;
@@ -144,25 +139,6 @@ $Selenium->RunTest(
                 },
             },
         };
-
-        # Wait until page has loaded, if necessary.
-        $Selenium->WaitFor(
-            JavaScript =>
-                'return typeof($) === "function" && $("a.AsPopup:contains(Forward)").length;'
-        );
-
-        # Click on Forward and switch window.
-        $Selenium->find_element( "Forward", 'link_text' )->click();
-
-        $Selenium->WaitFor( WindowCount => 2 );
-        my $Handles = $Selenium->get_window_handles();
-        $Selenium->switch_to_window( $Handles->[1] );
-
-        # Wait until page has loaded, if necessary.
-        $Selenium->WaitFor(
-            JavaScript =>
-                'return typeof($) === "function" && $("#submitRichText").length;'
-        );
 
         # Select FormDraft values.
         for my $Field ( sort keys %{ $FormDraftCase->{Fields} } ) {
@@ -227,23 +203,10 @@ $Selenium->RunTest(
                 'return typeof($) === "function" && $("#FormDraftTitle").length && $("#SaveFormDraft").length;'
         );
         $Selenium->find_element( "#FormDraftTitle", 'css' )->send_keys($Title);
-        $Selenium->find_element( "#SaveFormDraft",  'css' )->click();
+        $Selenium->find_element( "#SaveFormDraft",  'css' )->VerifiedClick();
 
-        # Switch back to main window.
-        $Selenium->WaitFor( WindowCount => 1 );
-        $Selenium->switch_to_window( $Handles->[0] );
-
-        # Wait until page has loaded.
-        $Selenium->WaitFor(
-            JavaScript =>
-                'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete;'
-        );
-
-        # Wait until all AJAX calls finished.
-        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$.active == 0" );
-
-        # Refresh screen.
-        $Selenium->VerifiedRefresh();
+        # Navigate to zoom view of created test ticket.
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
 
         # Wait until page has loaded, if necessary.
         $Selenium->WaitFor(
@@ -257,12 +220,8 @@ $Selenium->RunTest(
             "FormDraft for $FormDraftCase->{Module} $Title is found",
         );
 
-        # Try to create identical FormDraft to check for error.
-        $Selenium->find_element( "Forward", 'link_text' )->click();
-
-        $Selenium->WaitFor( WindowCount => 2 );
-        $Handles = $Selenium->get_window_handles();
-        $Selenium->switch_to_window( $Handles->[1] );
+        # Navigate to forward view and try to create identical FormDraft to check for error.
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketForward;TicketID=$TicketID");
 
         $Selenium->WaitForjQueryEventBound(
             CSSSelector => "#FormDraftSave",
@@ -289,19 +248,6 @@ $Selenium->RunTest(
         $Selenium->accept_alert();
 
         # Close screen and switch back to the main window.
-        $Selenium->close();
-        $Selenium->WaitFor( WindowCount => 1 );
-        $Selenium->switch_to_window( $Handles->[0] );
-
-        # Wait until page has loaded.
-        $Selenium->WaitFor(
-            JavaScript =>
-                'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete;'
-        );
-
-        # Wait until all AJAX calls finished.
-        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$.active == 0" );
-
         my $ArticlePhoneChannelObject = $ArticleObject->BackendForChannel( ChannelName => 'Phone' );
 
         # Create test Article to trigger that draft is outdated.
@@ -322,33 +268,15 @@ $Selenium->RunTest(
             "Article ID $ArticleID is created",
         );
 
-        # Refresh screen.
-        $Selenium->VerifiedRefresh();
+        # Navigate to zoom view of created test ticket and get ID or form draft.
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
 
-        # Wait until screen is loaded completely.
-        $Selenium->WaitFor(
-            ElementMissing => [ '.WidgetIsLoading', 'css' ],
-        );
-
-        # Wait until page has loaded, if necessary.
-        $Selenium->WaitFor(
-            JavaScript =>
-                "return typeof(\$) === 'function' && \$('a[href*=\"Action=AgentTicket$FormDraftCase->{Module};TicketID=$TicketID;LoadFormDraft=1\"]').length;"
-        );
+        my $FormDraftLink = $Selenium->execute_script("return \$('.DraftName .MasterActionLink').attr('href');");
+        my ($FormDraftID) = $FormDraftLink =~ m{FormDraftID=(\d*)};
 
         # Click on test created FormDraft and switch window.
-        $Selenium->find_element(
-            "//a[contains(\@href, \'Action=AgentTicket$FormDraftCase->{Module};TicketID=$TicketID;LoadFormDraft=1' )]"
-        )->click();
-
-        $Selenium->WaitFor( WindowCount => 2 );
-        $Handles = $Selenium->get_window_handles();
-        $Selenium->switch_to_window( $Handles->[1] );
-
-        # Wait until page has loaded, if necessary.
-        $Selenium->WaitFor(
-            JavaScript =>
-                'return typeof($) === "function" && $("#submitRichText").length;'
+        $Selenium->VerifiedGet(
+            "${ScriptAlias}index.pl?Action=AgentTicket$FormDraftCase->{Module};TicketID=$TicketID;LoadFormDraft=1;FormDraftID=$FormDraftID"
         );
 
         # Make sure that draft loaded notification is present.
@@ -440,96 +368,8 @@ $Selenium->RunTest(
             }
         }
 
-        $Selenium->find_element( "#FormDraftUpdate", 'css' )->click();
-
-        # Switch back window.
-        $Selenium->WaitFor( WindowCount => 1 );
-        $Selenium->switch_to_window( $Handles->[0] );
-
-        # Wait until screen is loaded completely.
-        $Selenium->WaitFor(
-            ElementMissing => [ '.WidgetIsLoading', 'css' ],
-        );
-
-        # Wait until page has loaded.
-        $Selenium->WaitFor(
-            JavaScript =>
-                'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete;'
-        );
-
-        # Wait until all AJAX calls finished.
-        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$.active == 0" );
-
-        # Refresh screen.
-        $Selenium->VerifiedRefresh();
-
-        # Wait until page has loaded, if necessary.
-        $Selenium->WaitFor(
-            JavaScript =>
-                "return typeof(\$) === 'function' && \$('a[href*=\"Action=AgentTicket$FormDraftCase->{Module};TicketID=$TicketID;LoadFormDraft=1\"]').length;"
-        );
-
-        # Click on test created FormDraft and switch window.
-        $Selenium->find_element(
-            "//a[contains(\@href, \'Action=AgentTicket$FormDraftCase->{Module};TicketID=$TicketID;LoadFormDraft=1' )]"
-        )->click();
-
-        $Selenium->WaitFor( WindowCount => 2 );
-        $Handles = $Selenium->get_window_handles();
-        $Selenium->switch_to_window( $Handles->[1] );
-
-        # Wait until page has loaded, if necessary.
-        $Selenium->WaitFor(
-            JavaScript =>
-                'return typeof($) === "function" && $("#submitRichText").length;'
-        );
-
-        # Verify updated FormDraft values.
-        for my $FieldValue ( sort keys %{ $FormDraftCase->{Fields} } ) {
-            if ( $FormDraftCase->{Fields}->{$FieldValue}->{Type} eq 'Input' ) {
-
-                my $ID           = $FormDraftCase->{Fields}->{$FieldValue}->{ID};
-                my $UpdatedValue = $FormDraftCase->{Fields}->{$FieldValue}->{Update};
-
-                # Wait until input field has loaded, if necessary.
-                $Selenium->WaitFor(
-                    JavaScript =>
-                        "return typeof(\$) === 'function' && \$('#$ID').val() == '$UpdatedValue';"
-                );
-
-                $Self->Is(
-                    $Selenium->execute_script("return \$('#$ID').val();"),
-                    $UpdatedValue,
-                    "Updated FormDraft value for $FormDraftCase->{Module} field $FieldValue is correct"
-                );
-            }
-            elsif ( $FormDraftCase->{Fields}->{$FieldValue}->{Type} eq 'Attachment' ) {
-
-                # Wait until input field has loaded, if necessary.
-                $Selenium->WaitFor(
-                    JavaScript =>
-                        "return typeof(\$) === 'function' && \$('.AttachmentList tbody tr td.Filename').length === 2;"
-                );
-
-                # there should be two files now
-                $Self->True(
-                    $Selenium->execute_script(
-                        "return \$('.AttachmentList tbody tr td.Filename').length === 2;"
-                    ),
-                    "Uploaded file correctly"
-                );
-            }
-        }
-
-        $Selenium->close();
-        $Selenium->WaitFor( WindowCount => 1 );
-        $Selenium->switch_to_window( $Handles->[0] );
-
-        # Wait until page has loaded.
-        $Selenium->WaitFor(
-            JavaScript =>
-                'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete;'
-        );
+        # Navigate to zoom view of created test ticket.
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
 
         $Selenium->WaitForjQueryEventBound(
             CSSSelector => ".FormDraftDelete",

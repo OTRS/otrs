@@ -60,27 +60,8 @@ $Selenium->RunTest(
 
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
-        # Navigate to zoom view of created test ticket.
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketIDs[0]");
-
-        # Force sub menus to be visible in order to be able to click one of the links.
-        $Selenium->execute_script("\$('.Cluster ul ul').addClass('ForceVisible');");
-        $Selenium->WaitFor(
-            JavaScript =>
-                "return typeof(\$) === 'function' && \$('#nav-Miscellaneous-container').css('opacity') === '1'"
-        );
-
-        # Wait until all AJAX calls finished.
-        $Selenium->WaitFor( JavaScript => "return \$.active == 0" );
-
-        # Click on 'Merge' and switch to merge window.
-        $Selenium->execute_script("\$('#nav-Merge a').click()");
-        $Selenium->WaitFor( WindowCount => 2 );
-        my $Handles = $Selenium->get_window_handles();
-        $Selenium->switch_to_window( $Handles->[1] );
-
-        # Wait until page has loaded, if necessary.
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#MainTicketNumber").length' );
+        # Navigate to ticket merge view of created test ticket.
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketMerge;TicketID=$TicketIDs[0]");
 
         # Check page.
         for my $ID (
@@ -194,33 +175,8 @@ $Selenium->RunTest(
             "Successfully can't merge ticket with itself",
         );
 
-        # Close popup and switch back to the main window.
-        $Selenium->close();
-        $Selenium->WaitFor( WindowCount => 1 );
-        $Selenium->switch_to_window( $Handles->[0] );
-
-        # Refresh screen and wait until page has loaded, if necessary.
-        $Selenium->VerifiedRefresh();
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".Cluster ul ul").length' );
-
-        # Force sub menus to be visible in order to be able to click one of the links.
-        $Selenium->execute_script("\$('.Cluster ul ul').addClass('ForceVisible');");
-        $Selenium->WaitFor(
-            JavaScript =>
-                "return typeof(\$) === 'function' && \$('#nav-Miscellaneous-container').css('opacity') === '1'"
-        );
-
-        # Wait until all AJAX calls finished.
-        $Selenium->WaitFor( JavaScript => "return \$.active == 0" );
-
-        # Click on 'Merge' and switch to merge window.
-        $Selenium->execute_script("\$('#nav-Merge a').click()");
-        $Selenium->WaitFor( WindowCount => 2 );
-        $Handles = $Selenium->get_window_handles();
-        $Selenium->switch_to_window( $Handles->[1] );
-
-        # Wait until page has loaded, if necessary.
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#MainTicketNumber").length' );
+        # Navigate to ticket merge view of created test ticket.
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketMerge;TicketID=$TicketIDs[0]");
 
         # Try to merge with second test ticket.
         $Selenium->find_element( '#MainTicketNumber', 'css' )->clear();
@@ -240,36 +196,10 @@ $Selenium->RunTest(
         $Selenium->find_element( '#MainTicketNumber', 'css' )->send_keys( $TicketNumbers[1] );
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length' );
         $Selenium->execute_script("\$('li.ui-menu-item:contains($TicketNumbers[1])').click()");
-        $Selenium->execute_script("\$('#submitRichText').click();");
+        $Selenium->find_element( '#submitRichText', 'css' )->VerifiedClick();
 
-        # Return back to zoom view and click on history and switch to its view.
-        $Selenium->WaitFor( WindowCount => 1 );
-        $Handles = $Selenium->get_window_handles();
-        $Selenium->switch_to_window( $Handles->[0] );
-
-        # Refresh screen and wait until page has loaded, if necessary.
-        $Selenium->VerifiedRefresh();
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".Cluster ul ul").length' );
-
-        # Force sub menus to be visible in order to be able to click one of the links.
-        $Selenium->execute_script("\$('.Cluster ul ul').addClass('ForceVisible');");
-        $Selenium->WaitFor(
-            JavaScript =>
-                "return typeof(\$) === 'function' && \$('#nav-Miscellaneous-container').css('opacity') === '1'"
-        );
-
-        # Wait until all AJAX calls finished.
-        $Selenium->WaitFor( JavaScript => "return \$.active == 0" );
-
-        # Click on 'History'.
-        $Selenium->execute_script("\$('#nav-History a').click()");
-
-        $Selenium->WaitFor( WindowCount => 2 );
-        $Handles = $Selenium->get_window_handles();
-        $Selenium->switch_to_window( $Handles->[1] );
-
-        # Wait until page has loaded, if necessary.
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".CancelClosePopup").length' );
+        # Navigate to history view of test ticket.
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketHistory;TicketID=$TicketIDs[0]");
 
         # Confirm merge action.
         my $MergeMsg = "Merged Ticket ($TicketNumbers[0]/$TicketIDs[0]) to ($TicketNumbers[1]/$TicketIDs[1])";
@@ -277,10 +207,6 @@ $Selenium->RunTest(
             index( $Selenium->get_page_source(), $MergeMsg ) > -1,
             "Merge action completed",
         );
-
-        # Close popup.
-        $Selenium->close();
-        $Selenium->WaitFor( WindowCount => 1 );
 
         # Delete created test tickets.
         for my $Ticket (@TicketIDs) {

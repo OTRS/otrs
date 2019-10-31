@@ -399,20 +399,28 @@ $Selenium->RunTest(
                 "Article ID $ArticleID is created",
             );
 
-            # Click on test created Draft and switch window.
-            $Selenium->find_element(
-                "//a[contains(\@href, \'Action=AgentTicket$Test->{Module};TicketID=$TicketID;LoadFormDraft=1' )]"
-            )->click();
+            my $FormDraftLink = $Selenium->execute_script("return \$('.DraftName .MasterActionLink').attr('href');");
+            my ($FormDraftID) = $FormDraftLink =~ m{FormDraftID=(\d*)};
 
-            $Selenium->WaitFor( WindowCount => 2 );
-            $Handles = $Selenium->get_window_handles();
-            $Selenium->switch_to_window( $Handles->[1] );
-
-            # Wait until page has loaded, if necessary.
-            $Selenium->WaitFor(
-                JavaScript =>
-                    'return typeof($) === "function" && $(".WidgetSimple").length;'
+            # Click on test created FormDraft and switch window.
+            $Selenium->VerifiedGet(
+                "${ScriptAlias}index.pl?Action=AgentTicket$Test->{Module};TicketID=$TicketID;LoadFormDraft=1;FormDraftID=$FormDraftID"
             );
+
+            # # Click on test created Draft and switch window.
+            # $Selenium->find_element(
+            #     "//a[contains(\@href, \'Action=AgentTicket$Test->{Module};TicketID=$TicketID;LoadFormDraft=1' )]"
+            # )->click();
+
+            # $Selenium->WaitFor( WindowCount => 2 );
+            # $Handles = $Selenium->get_window_handles();
+            # $Selenium->switch_to_window( $Handles->[1] );
+
+            # # Wait until page has loaded, if necessary.
+            # $Selenium->WaitFor(
+            #     JavaScript =>
+            #         'return typeof($) === "function" && $(".WidgetSimple").length;'
+            # );
 
             # Make sure that draft loaded notification is present.
             $Self->True(
@@ -575,110 +583,6 @@ $Selenium->RunTest(
             $Selenium->accept_alert();
 
             $Selenium->find_element( ".CloseDialog", 'css' )->click();
-            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".Dialog.Modal").length;' );
-
-            $Selenium->execute_script("\$('#FormDraftUpdate')[0].scrollIntoView(true);");
-
-            $Selenium->find_element( "#FormDraftUpdate", 'css' )->click();
-
-            # Switch back window.
-            $Selenium->WaitFor( WindowCount => 1 );
-            $Selenium->switch_to_window( $Handles->[0] );
-
-            # Refresh screen.
-            $Selenium->VerifiedRefresh();
-
-            # Verify Draft is updated.
-            $Self->True(
-                $Selenium->execute_script("return \$('#FormDraftTable a:contains(\"$Title\")').length;"),
-                "Draft for $Test->{Module} $Title is found",
-            );
-
-            # Click on test created Draft and switch window.
-            $Selenium->find_element(
-                "//a[contains(\@href, \'Action=AgentTicket$Test->{Module};TicketID=$TicketID;LoadFormDraft=1' )]"
-            )->click();
-
-            $Selenium->WaitFor( WindowCount => 2 );
-            $Handles = $Selenium->get_window_handles();
-            $Selenium->switch_to_window( $Handles->[1] );
-
-            # Wait until page has loaded, if necessary.
-            $Selenium->WaitFor(
-                JavaScript =>
-                    'return typeof($) === "function" && $(".WidgetSimple").length && $(".CancelClosePopup").length;'
-            );
-
-            # Verify updated Draft values.
-            for my $FieldValue ( sort keys %{ $Test->{Fields} } ) {
-
-                if ( $Test->{Fields}->{$FieldValue}->{Type} eq 'DropDown' ) {
-                    my $ID           = $Test->{Fields}->{$FieldValue}->{ID};
-                    my $UpdatedValue = $Test->{Fields}->{$FieldValue}->{Update};
-
-                    $Selenium->WaitFor(
-                        JavaScript =>
-                            "return typeof(\$) === 'function' && \$('#$ID').length && \$('#$ID').val() == '$UpdatedValue';"
-                    );
-
-                    $Self->Is(
-                        $Selenium->execute_script("return \$('#$ID').val();"),
-                        $UpdatedValue,
-                        "Updated Draft value for $Test->{Module} field $FieldValue is correct - $UpdatedValue"
-                    );
-                }
-                elsif ( $Test->{Fields}->{$FieldValue}->{Type} eq 'Attachment' ) {
-
-                    $Selenium->WaitFor(
-                        JavaScript =>
-                            "return typeof(\$) === 'function' && \$('.AttachmentList tbody tr td.Filename').length === 2;"
-                    );
-
-                    # there should be two files now
-                    $Self->Is(
-                        $Selenium->execute_script(
-                            "return \$('.AttachmentList tbody tr td.Filename').length;"
-                        ),
-                        2,
-                        $Test->{Module} . " - Uploaded file correctly"
-                    );
-                }
-                elsif ( $Test->{Fields}->{$FieldValue}->{Type} eq 'RichText' ) {
-
-                    # wait for the CKE to load
-                    $Selenium->WaitFor(
-                        JavaScript =>
-                            "return \$('body.cke_editable', \$('.cke_wysiwyg_frame').contents()).length == 1;"
-                    );
-
-                    $Self->Is(
-                        $Selenium->execute_script('return CKEDITOR.instances.RichText.getData();'),
-                        $Test->{Fields}->{$FieldValue}->{Update},
-                        "Updated Draft value for $Test->{Module} field $FieldValue is correct"
-                    );
-                }
-                else {
-                    my $ID           = $Test->{Fields}->{$FieldValue}->{ID};
-                    my $UpdatedValue = $Test->{Fields}->{$FieldValue}->{Update};
-
-                    $Selenium->WaitFor(
-                        JavaScript =>
-                            "return typeof(\$) === 'function' && \$('#$ID').length && \$('#$ID').val() == '$UpdatedValue';"
-                    );
-
-                    $Self->Is(
-                        $Selenium->execute_script("return \$('#$ID').val();"),
-                        $UpdatedValue,
-                        "Updated Draft value for $Test->{Module} field $FieldValue is correct - $UpdatedValue"
-                    );
-                }
-            }
-
-            $Selenium->find_element( ".CancelClosePopup", 'css' )->click();
-
-            # Switch back window.
-            $Selenium->WaitFor( WindowCount => 1 );
-            $Selenium->switch_to_window( $Handles->[0] );
 
             # Navigate to zoom view of created test ticket.
             $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
