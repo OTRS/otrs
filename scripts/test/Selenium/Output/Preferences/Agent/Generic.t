@@ -13,16 +13,14 @@ use utf8;
 
 use vars (qw($Self));
 
-# get selenium object
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
 
-        # get helper object
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-        # enable TicketOverViewPageShown preference
+        # Enable TicketOverViewPageShown preference.
         for my $View (qw( Small Medium Preview )) {
 
             my %TicketOverViewPageShown = (
@@ -69,10 +67,10 @@ $Selenium->RunTest(
 
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
-        # go to agent preferences
+        # Go to agent preferences.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentPreferences;Subaction=Group;Group=Miscellaneous");
 
-        # create test params
+        # Create test params.
         my @Tests = (
             {
                 Name  => 'Overview Refresh Time',
@@ -104,7 +102,7 @@ $Selenium->RunTest(
 
         my $UpdateMessage = "Preferences updated successfully!";
 
-        # update generic preferences
+        # Update generic preferences.
         for my $Test (@Tests) {
 
             $Selenium->InputFieldValueSet(
@@ -112,21 +110,23 @@ $Selenium->RunTest(
                 Value   => $Test->{Value},
             );
 
-            # save the setting, wait for the ajax call to finish and check if success sign is shown
+            sleep 1;
+
+            # Save the setting, wait for the ajax call to finish and check if success sign is shown.
             $Selenium->execute_script(
                 "\$('#$Test->{ID}').closest('.WidgetSimple').find('.SettingUpdateBox').find('button').trigger('click');"
             );
             $Selenium->WaitFor(
                 JavaScript =>
-                    "return \$('#$Test->{ID}').closest('.WidgetSimple').hasClass('HasOverlay')"
+                    "return \$('#$Test->{ID}').closest('.WidgetSimple').hasClass('HasOverlay');"
             );
             $Selenium->WaitFor(
                 JavaScript =>
-                    "return \$('#$Test->{ID}').closest('.WidgetSimple').find('.fa-check').length"
+                    "return \$('#$Test->{ID}').closest('.WidgetSimple').find('.fa-check').length;"
             );
             $Selenium->WaitFor(
                 JavaScript =>
-                    "return !\$('#$Test->{ID}').closest('.WidgetSimple').hasClass('HasOverlay')"
+                    "return !\$('#$Test->{ID}').closest('.WidgetSimple').hasClass('HasOverlay');"
             );
 
         }
