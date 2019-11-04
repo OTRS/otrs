@@ -17,6 +17,7 @@
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
     <h1>[% Translate("Unauthorized usage of %s detected") | html | ReplacePlaceholders(OTRSBusinessLabel) %]</h1>
 
+[% IF Data.HasPermission %]
     <div class="SidebarColumn">
         <div class="WidgetSimple">
             <div class="Header">
@@ -34,6 +35,7 @@
             <div class="Clear"></div>
         </div>
     </div>
+[% END %]
     <div class="ContentColumn">
         <div class="WidgetSimple">
             <div class="Header">
