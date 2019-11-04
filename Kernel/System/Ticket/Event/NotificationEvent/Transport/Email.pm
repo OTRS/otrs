@@ -119,9 +119,6 @@ sub SendNotification {
 
     return if $IsLocalAddress;
 
-    # create new array to prevent attachment growth (see bug#5114)
-    my @Attachments = @{ $Param{Attachments} };
-
     my %Notification = %{ $Param{Notification} };
 
     # get ticket object
