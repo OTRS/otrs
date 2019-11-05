@@ -5,7 +5,6 @@
         'httpd',
         'perl',
         'perl(Archive::Zip)',
-        'perl(Crypt::SSLeay)',
         'perl(Date::Format)',
         'perl(DateTime)',
         'perl(DBI)',

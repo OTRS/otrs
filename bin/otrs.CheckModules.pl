@@ -198,17 +198,6 @@ my @NeededModules = (
         },
     },
     {
-        Module    => 'Crypt::SSLeay',
-        Required  => 0,
-        Comment   => 'Required for Generic Interface REST transport and SOAP SSL connections.',
-        InstTypes => {
-            aptget => 'libcrypt-ssleay-perl',
-            emerge => 'dev-perl/Crypt-SSLeay',
-            zypper => 'perl-Crypt-SSLeay',
-            ports  => 'security/p5-Crypt-SSLeay',
-        },
-    },
-    {
         Module    => 'Date::Format',
         Required  => 1,
         InstTypes => {

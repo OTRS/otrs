@@ -1,4 +1,5 @@
 #6.0.25 ????-??-??
+ - 2019-11-05 Removed unneeded dependency Crypt::SSLeay.
  - 2019-11-04 Fixed bug#[14842](https://bugs.otrs.org/show_bug.cgi?id=14842) - Downgrade to ((OTRS)) Community Edtion is possible for every agent whether or not the agent is member of admin group.
 
 #6.0.24 2019-11-15
