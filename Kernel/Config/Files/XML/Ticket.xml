@@ -12586,6 +12586,10 @@ Thanks for your help!
         <Navigation>Frontend::Agent::View::TicketSearch</Navigation>
         <Value>
             <Hash>
+                <DefaultItem ValueType="Select">
+                    <Item ValueType="Option" Value="0" Translatable="1">0 - Disabled</Item>
+                    <Item ValueType="Option" Value="1" Translatable="1">1 - Enabled</Item>
+                </DefaultItem>
             </Hash>
         </Value>
     </Setting>
@@ -12618,6 +12622,10 @@ Thanks for your help!
         <Navigation>Frontend::Customer::View::TicketSearch</Navigation>
         <Value>
             <Hash>
+                <DefaultItem ValueType="Select">
+                    <Item ValueType="Option" Value="0" Translatable="1">0 - Disabled</Item>
+                    <Item ValueType="Option" Value="1" Translatable="1">1 - Enabled</Item>
+                </DefaultItem>
             </Hash>
         </Value>
     </Setting>
