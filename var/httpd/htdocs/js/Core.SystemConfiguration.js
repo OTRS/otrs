@@ -141,6 +141,16 @@ var Core = Core || {};
         });
 
         Core.UI.Table.InitTableFilter($("#FilterUsers"), $("#Users"));
+
+        // Define endsWith() method if a browser has no support for it, e.g. IE11 (see bug#14845).
+        if (typeof String.prototype.endsWith === 'undefined') {
+            String.prototype.endsWith = function(search, this_len) {
+                if (this_len === undefined || this_len > this.length) {
+                    this_len = this.length;
+                }
+                return this.substring(this_len - search.length, this_len) === search;
+            };
+        }
     };
 
 
