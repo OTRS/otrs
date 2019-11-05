@@ -1121,26 +1121,37 @@ sub Run {
                 $QueryString = 'Action=' . $Param{Action} . '&Subaction=' . $Param{Subaction};
             }
             my $File = $ConfigObject->Get('PerformanceLog::File');
-            ## no critic
-            if ( open my $Out, '>>', $File ) {
-                ## use critic
-                print $Out time()
-                    . '::Agent::'
-                    . ( time() - $Self->{PerformanceLogStart} )
-                    . "::$UserData{UserLogin}::$QueryString\n";
-                close $Out;
 
-                $Kernel::OM->Get('Kernel::System::Log')->Log(
-                    Priority => 'debug',
-                    Message  => "Response::Agent: "
+            # Write to PerformanceLog file only if it is smaller than size limit (see bug#14747).
+            if ( -s $File < ( 1024 * 1024 * $ConfigObject->Get('PerformanceLog::FileMax') ) ) {
+
+                ## no critic
+                if ( open my $Out, '>>', $File ) {
+                    ## use critic
+                    print $Out time()
+                        . '::Agent::'
                         . ( time() - $Self->{PerformanceLogStart} )
-                        . "s taken (URL:$QueryString:$UserData{UserLogin})",
-                );
+                        . "::$UserData{UserLogin}::$QueryString\n";
+                    close $Out;
+
+                    $Kernel::OM->Get('Kernel::System::Log')->Log(
+                        Priority => 'debug',
+                        Message  => "Response::Agent: "
+                            . ( time() - $Self->{PerformanceLogStart} )
+                            . "s taken (URL:$QueryString:$UserData{UserLogin})",
+                    );
+                }
+                else {
+                    $Kernel::OM->Get('Kernel::System::Log')->Log(
+                        Priority => 'error',
+                        Message  => "Can't write $File: $!",
+                    );
+                }
             }
             else {
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
-                    Message  => "Can't write $File: $!",
+                    Message => "PerformanceLog file '$File' is too large, you need to reset it in PerformanceLog page!",
                 );
             }
         }
