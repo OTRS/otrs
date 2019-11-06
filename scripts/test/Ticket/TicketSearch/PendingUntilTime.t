@@ -279,8 +279,8 @@ for my $Test (@Tests) {
         %{ $Test->{TicketSearchConfig} },
     );
 
-    @FoundTicketIDs = sort { $a <=> $b } @FoundTicketIDs;
-    @{ $Test->{ExpectedResultTicketIDs} } = sort { $a <=> $b } @{ $Test->{ExpectedResultTicketIDs} };
+    @FoundTicketIDs = sort { int $a <=> int $b } @FoundTicketIDs;
+    @{ $Test->{ExpectedResultTicketIDs} } = sort { int $a <=> int $b } @{ $Test->{ExpectedResultTicketIDs} };
 
     $Self->IsDeeply(
         \@FoundTicketIDs,

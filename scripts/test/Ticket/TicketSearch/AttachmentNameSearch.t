@@ -335,7 +335,7 @@ for my $Test (@Tests) {
             Limit => 2,
         );
 
-        @FoundTicketIDs = sort { $a <=> $b } @FoundTicketIDs;
+        @FoundTicketIDs = sort { int $a <=> int $b } @FoundTicketIDs;
         @{ $Test->{"ExpectedResults$StorageBackend"} }
             = sort { $a <=> $b } @{ $Test->{"ExpectedResults$StorageBackend"} };
 

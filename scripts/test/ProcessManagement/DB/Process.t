@@ -1292,7 +1292,7 @@ my $List = $ProcessObject->ProcessList(
 
 # create the list of processes with details manually
 my $ExpectedProcessList;
-for my $ProcessID ( sort { $a <=> $b } keys %{$List} ) {
+for my $ProcessID ( sort { int $a <=> int $b } keys %{$List} ) {
 
     my $ProcessData = $ProcessObject->ProcessGet(
         ID     => $ProcessID,

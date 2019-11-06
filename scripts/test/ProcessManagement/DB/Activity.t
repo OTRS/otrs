@@ -998,7 +998,7 @@ my $List = $ActivityObject->ActivityList(
 
 # create the list of activities with details manually
 my $ExpectedActivityList;
-for my $ActivityID ( sort { $a <=> $b } keys %{$List} ) {
+for my $ActivityID ( sort { int $a <=> int $b } keys %{$List} ) {
 
     my $ActivityData = $ActivityObject->ActivityGet(
         ID     => $ActivityID,

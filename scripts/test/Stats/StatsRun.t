@@ -35,7 +35,7 @@ $Self->True(
 );
 
 STATID:
-for my $StatID ( sort { $a <=> $b } keys %{$Stats} ) {
+for my $StatID ( sort { int $a <=> int $b } keys %{$Stats} ) {
     my $Stat = $StatsObject->StatsGet( StatID => $StatID );
 
     next STATID if ( $Stat->{StatType} eq 'static' );
