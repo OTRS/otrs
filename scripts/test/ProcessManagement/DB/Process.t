@@ -1007,7 +1007,7 @@ $Self->Is(
 );
 
 my $Counter = 0;
-for my $ProcessID ( sort { $a <=> $b } keys %TestProcessListCopy ) {
+for my $ProcessID ( sort { int $a <=> int $b } keys %TestProcessListCopy ) {
     $Self->Is(
         $ProcessID,
         $AddedProcessList[$Counter],
@@ -1214,7 +1214,7 @@ my $List = $ProcessObject->ProcessList(
 
 # create the list of processes with details manually
 my $ExpectedProcessList;
-for my $ProcessID ( sort { $a <=> $b } keys %{$List} ) {
+for my $ProcessID ( sort { int $a <=> int $b } keys %{$List} ) {
 
     my $ProcessData = $ProcessObject->ProcessGet(
         ID     => $ProcessID,

@@ -755,7 +755,7 @@ $Self->Is(
 );
 
 my $Counter = 0;
-for my $TransitionActionID ( sort { $a <=> $b } keys %TestTransitionActionListCopy ) {
+for my $TransitionActionID ( sort { int $a <=> int $b } keys %TestTransitionActionListCopy ) {
     $Self->Is(
         $TransitionActionID,
         $AddedTransitionActionsList[$Counter],
@@ -843,7 +843,7 @@ my $List = $TransitionActionObject->TransitionActionList(
 
 # create the list of TransitionActions with details manually
 my $ExpectedTransitionActionList;
-for my $TransitionActionID ( sort { $a <=> $b } keys %{$List} ) {
+for my $TransitionActionID ( sort { int $a <=> int $b } keys %{$List} ) {
 
     my $TransitionActionData = $TransitionActionObject->TransitionActionGet(
         ID     => $TransitionActionID,
