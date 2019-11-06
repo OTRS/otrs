@@ -168,8 +168,8 @@ for my $Test (@Tests) {
         %{ $Test->{Config} },
     );
 
-    @FoundTicketIDs = sort { $a <=> $b } @FoundTicketIDs;
-    @{ $Test->{ExpectedResults} } = sort { $a <=> $b } @{ $Test->{ExpectedResults} };
+    @FoundTicketIDs = sort { int $a <=> int $b } @FoundTicketIDs;
+    @{ $Test->{ExpectedResults} } = sort { int $a <=> int $b } @{ $Test->{ExpectedResults} };
 
     $Self->IsDeeply(
         \@FoundTicketIDs,
