@@ -1129,6 +1129,14 @@ sub _JobRunTicket {
 
     # set customer id and customer user
     if ( $Param{Config}->{New}->{CustomerID} || $Param{Config}->{New}->{CustomerUserLogin} ) {
+
+        # If CustomerID or CustomerUserID is updated but not both in same call,
+        # keep original values for non updated ones. See bug#14864 (https://bugs.otrs.org/show_bug.cgi?id=14864).
+        my %Ticket = $TicketObject->TicketGet(
+            TicketID      => $Param{TicketID},
+            DynamicFields => 0,
+        );
+
         if ( $Param{Config}->{New}->{CustomerID} ) {
             if ( $Self->{NoticeSTDOUT} ) {
                 print
@@ -1143,8 +1151,8 @@ sub _JobRunTicket {
         }
         $TicketObject->TicketCustomerSet(
             TicketID => $Param{TicketID},
-            No       => $Param{Config}->{New}->{CustomerID} || '',
-            User     => $Param{Config}->{New}->{CustomerUserLogin} || '',
+            No       => $Param{Config}->{New}->{CustomerID} || $Ticket{CustomerID} || '',
+            User     => $Param{Config}->{New}->{CustomerUserLogin} || $Ticket{CustomerUserID} || '',
             UserID   => $Param{UserID},
         );
     }

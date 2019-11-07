@@ -186,7 +186,7 @@ my %NewJob = (
         DynamicField_TicketFreeText1 => 'Test 1',
         NewSendNoNotification        => 0,
         NewDelete                    => 0,
-        NewCustomerID                => '',
+        NewCustomerID                => 'TestCustomerID',
         NewNoteFrom                  => 'From',
         NewNoteBody                  => 'Body',
         NewNoteSubject               => 'Subject',
@@ -378,6 +378,12 @@ $Self->Is(
     $Ticket{DynamicField_TicketFreeText2} || '',
     'Value 2',
     "TicketGet() - DynamicField_TicketFreeText2",
+);
+
+$Self->Is(
+    $Ticket{CustomerUserID} || '',
+    'customerUnitTest@example.com',
+    "TicketGet() - CustomerUserLogin",
 );
 
 my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
