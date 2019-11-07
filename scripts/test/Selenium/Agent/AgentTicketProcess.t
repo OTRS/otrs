@@ -636,6 +636,9 @@ $Selenium->RunTest(
             Value   => $ListReverse{$ProcessName},
         );
 
+        # Wait until form has loaded, if necessary.
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Subject").length;' );
+
         $Selenium->find_element( "#Subject",              'css' )->send_keys($SubjectRandom);
         $Selenium->find_element( "#RichText",             'css' )->send_keys($ContentRandom);
         $Selenium->find_element( "#OwnerSelectionGetAll", 'css' )->click();
