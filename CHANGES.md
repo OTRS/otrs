@@ -1,4 +1,5 @@
 #6.0.25 ????-??-??
+ - 2019-11-07 Fixed bug#[14826](https://bugs.otrs.org/show_bug.cgi?id=14826) - Ticket create for Type entry show incomplete record in ticket history.
  - 2019-11-07 Fixed bug#[14864](https://bugs.otrs.org/show_bug.cgi?id=14864) - When generic agent changes a ticket's CustomerID, CustomerUserID is cleared and is empty.
  - 2019-11-05 Fixed bug#[14851](https://bugs.otrs.org/show_bug.cgi?id=14851) - Predefined values for dynamic fields are missing in the system configuration for TicketSearch screens.
  - 2019-11-05 Fixed bug#[14747](https://bugs.otrs.org/show_bug.cgi?id=14747) - PerformanceLog file increases despite max size reached.

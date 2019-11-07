@@ -25,6 +25,11 @@ $Selenium->RunTest(
             Value => 0,
         );
 
+        $Helper->ConfigSettingChange(
+            Key   => 'Ticket::Type',
+            Value => 1,
+        );
+
         my $TicketObject              = $Kernel::OM->Get('Kernel::System::Ticket');
         my $ArticleObject             = $Kernel::OM->Get('Kernel::System::Ticket::Article');
         my $DynamicFieldObject        = $Kernel::OM->Get('Kernel::System::DynamicField');
@@ -138,6 +143,15 @@ $Selenium->RunTest(
             push @DynamicFieldIDs, $DynamicFieldID;
         }
 
+        # Add TicketType.
+        my $TypeName   = "Type$RandomID";
+        my $TypeObject = $Kernel::OM->Get('Kernel::System::Type');
+        my $TypeID     = $TypeObject->TypeAdd(
+            Name    => $TypeName,
+            ValidID => 1,
+            UserID  => 1,
+        );
+
         # Create test ticket.
         my $TicketID = $TicketObject->TicketCreate(
             Title        => 'Selenium ticket',
@@ -149,6 +163,7 @@ $Selenium->RunTest(
             CustomerUser => 'customer@example.com',
             OwnerID      => 1,
             UserID       => 1,
+            TypeID       => $TypeID,
         );
         $Self->True(
             $TicketID,
@@ -270,6 +285,13 @@ $Selenium->RunTest(
             );
         }
 
+        # Check if Type is shown correctly. See bug#14826.
+        my $TypeExpectedResults = "Changed type from \"\" () to \"$TypeName\" ($TypeID). (TypeUpdate)";
+        $Self->True(
+            index( $PageSource, $TypeExpectedResults ) > -1,
+            "Human readable history entry for Type is found on page.",
+        );
+
         # Click on 'Zoom view' for created second article.
         $Selenium->find_element("//a[contains(\@href, 'AgentTicketZoom;TicketID=$TicketID;ArticleID=$ArticleIDs[1]')]")
             ->VerifiedClick();
@@ -312,6 +334,17 @@ $Selenium->RunTest(
                 "Dynamic field - ID $DynamicFieldID - deleted",
             );
         }
+
+        my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+        # Delete Type.
+        $Success = $DBObject->Do(
+            SQL => "DELETE FROM ticket_type WHERE id = $TypeID",
+        );
+        $Self->True(
+            $Success,
+            "Type with ID $TypeID is deleted!"
+        );
 
         # Make sure the cache is correct.
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => 'Ticket' );
