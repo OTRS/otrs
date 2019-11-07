@@ -4776,7 +4776,7 @@
         </Value>
     </Setting>
     <Setting Name="Ticket::ViewableStateType" Required="1" Valid="1">
-        <Description Translatable="1">Defines the valid state types for a ticket.</Description>
+        <Description Translatable="1">Defines the valid state types for a ticket. If a ticket is in a state which have any state type from this setting, this ticket will be considered as open, otherwise as closed.</Description>
         <Navigation>Core::Ticket</Navigation>
         <Value>
             <Array>
