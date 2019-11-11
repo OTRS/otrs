@@ -1933,7 +1933,7 @@ sub FilterContent {
     if ( $HeaderColumn eq 'CustomerUserID' ) {
         $SelectedColumn = 'CustomerUserLogin';
     }
-    if ( $HeaderColumn eq 'CustomerID' ) {
+    elsif ( $HeaderColumn eq 'CustomerID' ) {
         $SelectedColumn = 'CustomerID';
     }
     elsif ( $HeaderColumn !~ m{ \A DynamicField_ }xms ) {
