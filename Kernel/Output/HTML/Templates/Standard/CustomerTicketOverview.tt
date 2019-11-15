@@ -172,7 +172,7 @@
         <ul class="Tabs Filter">
 [% RenderBlockStart("FilterFooterItem") %]
             <li class="[% Data.ClassLI | html %]">
-                <a class="[% Data.ClassA | html %]" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=[% Env("Subaction") %];Filter=[% Data.Filter | uri %];SortBy=[% Data.SortBy | uri %];OrderBy=[% Data.OrderBy | uri %];">
+                <a class="[% Data.ClassA | html %]" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=[% Env("Subaction") %];Filter=[% Data.Filter | uri %];SortBy=[% Data.SortBy | uri %];OrderBy=[% Data.OrderBy | uri %][% Data.CustomerIDs %];">
                     [% Translate(Data.Name) | html %] ([% Data.Count | html %])
                 </a>
             </li>
@@ -189,6 +189,8 @@
 <script type="text/javascript">
     $('#CustomerIDs').on('change.CustomerIDs', function (Event) {
         var QueryString = '[% Env("Baselink") %]Action=[% Env("Action") %];[% Data.Link %]';
+
+        QueryString = QueryString.split('CustomerIDs=')[0];
 
         // Include customer selection
         if ($(this).val()) {

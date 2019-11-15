@@ -86,10 +86,12 @@ $Selenium->RunTest(
             },
         );
 
+        my $CustomerCompanyID;
+
         # create two tickets and customer companies
         my ( @CustomerIDs, @GroupIDs, @QueueIDs, @TicketNumbers, @TicketIDs );
         for my $Count ( 1 .. 2 ) {
-            my $CustomerCompanyID = $CustomerCompanyObject->CustomerCompanyAdd(
+            $CustomerCompanyID = $CustomerCompanyObject->CustomerCompanyAdd(
                 CustomerID          => "$TestCustomerUserLogin-$Count",
                 CustomerCompanyName => "$TestCustomerUserLogin-$Count",
                 ValidID             => 1,
@@ -256,6 +258,80 @@ $Selenium->RunTest(
                 "Ticket with ticket number $TicketNumbers[!$Count] is not found on screen with $CustomerIDs[$Count] filter",
             );
         }
+
+        # CustomerCompanyFilter resets on next page. See bug#14852.
+        # Create test tickets.
+        for ( 1 .. 35 ) {
+            my $TicketNumber = $TicketObject->TicketCreateNumber();
+            my $TicketID     = $TicketObject->TicketCreate(
+                TN           => $TicketNumber,
+                Title        => $CustomerCompanyID,
+                Queue        => $CustomerCompanyID,
+                Lock         => 'unlock',
+                Priority     => '3 normal',
+                State        => 'open',
+                CustomerUser => '',                   # empty
+                CustomerID   => $CustomerCompanyID,
+                OwnerID      => 1,
+                UserID       => 1,
+            );
+            $Self->True(
+                $TicketID,
+                "Created test ticket $CustomerCompanyID ($TicketID)",
+            );
+            push @TicketIDs, $TicketID;
+        }
+
+        # Go to Company tickets.
+        $Selenium->VerifiedGet("${ScriptAlias}customer.pl?Action=CustomerTicketOverview;Subaction=CompanyTickets");
+
+        # Wait until new screen has loaded.
+        $Selenium->WaitFor(
+            JavaScript => "return typeof(\$) === 'function' && \$('.Overview .MasterAction a').length;"
+        );
+
+        # Select Company.
+        $Selenium->InputFieldValueSet(
+            Element => '#CustomerIDs',
+            Value   => $CustomerCompanyID,
+        );
+
+        $Selenium->find_element( '#CustomerTicketOverviewPage2', 'css' )->VerifiedClick();
+
+        # Wait until new screen has loaded.
+        $Selenium->WaitFor(
+            JavaScript => "return typeof(\$) === 'function' && \$('.Overview .MasterAction a').length;"
+        );
+
+        # Check if on second page.
+        $Self->Is(
+            $Selenium->execute_script("return \$('#CustomerTicketOverviewPage2').hasClass('Selected')"),
+            1,
+            "Correct page is shown.",
+        );
+
+        # Check if company filter preserve previously selected company.
+        $Self->Is(
+            $Selenium->execute_script("return \$('#CustomerIDs').val()[0].trim();"),
+            $CustomerCompanyID,
+            "Correct CustomerCompanyID is selected in filter."
+        );
+
+        # Set filter to All ticket by company.
+        $Selenium->find_element("//div[contains(\@id, \'BottomActionRow')]//ul//li//a[contains(\@href, 'Filter=All' )]")
+            ->VerifiedClick();
+
+        # Wait until new screen has loaded.
+        $Selenium->WaitFor(
+            JavaScript => "return typeof(\$) === 'function' && \$('.Overview .MasterAction a').length;"
+        );
+
+        # Check if company filter preserve previously selected company.
+        $Self->Is(
+            $Selenium->execute_script("return \$('#CustomerIDs').val()[0].trim();"),
+            $CustomerCompanyID,
+            "Correct CustomerCompanyID is selected in filter."
+        );
 
         # clean up test data from the DB
         for my $TicketID (@TicketIDs) {
