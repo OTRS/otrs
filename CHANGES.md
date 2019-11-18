@@ -16,6 +16,7 @@
  - 2019-10-24 Updated welcome ticket text.
  - 2019-10-24 Fixed bug#[14763](https://bugs.otrs.org/show_bug.cgi?id=14763) - Invisible SysConfig settings are not removed on package deinstallation.
  - 2019-10-23 Follow-up fix for bug#[14542](https://bugs.otrs.org/show_bug.cgi?id=14542) - Date values for escalation times are not localized in ticket small overview.
+ - 2019-10-22 Fixed bug#[14810](https://bugs.otrs.org/show_bug.cgi?id=14810) - Attributes are not replaced with OTRS_CURRENT_ tags in Transition Action modules in the process management.
  - 2019-10-21 Fixed bug#[14742](https://bugs.otrs.org/show_bug.cgi?id=14742) - Short and long dynamic field descriptions are not translated in the process management.
  Translation short/long description in a process.
  - 2019-10-21 Fixed bug#[14742](https://bugs.otrs.org/show_bug.cgi?id=14742) - Translation short/long description in a process.
