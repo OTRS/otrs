@@ -379,7 +379,8 @@ $Selenium->RunTest(
 
         for my $QueueID (@QueueIDs) {
             my $Success = $DBObject->Do(
-                SQL => "DELETE FROM queue WHERE id = $QueueID",
+                SQL  => "DELETE FROM queue WHERE id = ?",
+                Bind => [ \$QueueID ],
             );
             if ($Success) {
                 $Self->True(
@@ -391,7 +392,8 @@ $Selenium->RunTest(
 
         for my $GroupID (@GroupIDs) {
             my $Success = $DBObject->Do(
-                SQL => "DELETE FROM group_customer WHERE group_id = $GroupID",
+                SQL  => "DELETE FROM group_customer WHERE group_id = ?",
+                Bind => [ \$GroupID ],
             );
             if ($Success) {
                 $Self->True(
@@ -401,7 +403,8 @@ $Selenium->RunTest(
             }
 
             $Success = $DBObject->Do(
-                SQL => "DELETE FROM groups WHERE id = $GroupID",
+                SQL  => "DELETE FROM groups WHERE id = ?",
+                Bind => [ \$GroupID ],
             );
             $Self->True(
                 $Success,
@@ -409,12 +412,14 @@ $Selenium->RunTest(
             );
         }
 
+        my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+
         # make sure the cache is correct
         for my $Cache (
             qw(Group CustomerGroup CustomerCompany Queue Ticket)
             )
         {
-            $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => $Cache );
+            $CacheObject->CleanUp( Type => $Cache );
         }
     },
 );
