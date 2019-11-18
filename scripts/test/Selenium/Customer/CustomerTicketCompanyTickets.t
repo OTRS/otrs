@@ -287,7 +287,8 @@ $Selenium->RunTest(
 
         # Wait until new screen has loaded.
         $Selenium->WaitFor(
-            JavaScript => "return typeof(\$) === 'function' && \$('.Overview .MasterAction a').length;"
+            JavaScript =>
+                "return typeof(\$) === 'function' && \$('.Overview .MasterAction a').length && \$('#CustomerIDs').length;"
         );
 
         # Select Company.
@@ -296,11 +297,16 @@ $Selenium->RunTest(
             Value   => $CustomerCompanyID,
         );
 
+        $Selenium->WaitFor(
+            JavaScript => "return typeof(\$) === 'function' && \$('#CustomerTicketOverviewPage2').length;"
+        );
+
         $Selenium->find_element( '#CustomerTicketOverviewPage2', 'css' )->VerifiedClick();
 
         # Wait until new screen has loaded.
         $Selenium->WaitFor(
-            JavaScript => "return typeof(\$) === 'function' && \$('.Overview .MasterAction a').length;"
+            JavaScript =>
+                "return typeof(\$) === 'function' && \$('#CustomerTicketOverviewPage2.Selected').length && \$('#CustomerIDs').val()[0] == '$CustomerCompanyID';"
         );
 
         # Check if on second page.
@@ -312,9 +318,13 @@ $Selenium->RunTest(
 
         # Check if company filter preserve previously selected company.
         $Self->Is(
-            $Selenium->execute_script("return \$('#CustomerIDs').val()[0].trim();"),
+            $Selenium->execute_script("return \$('#CustomerIDs').val()[0];"),
             $CustomerCompanyID,
             "Correct CustomerCompanyID is selected in filter."
+        );
+
+        $Selenium->WaitFor(
+            JavaScript => "return \$('#BottomActionRow a[href*=\"Filter=All\"]').length;"
         );
 
         # Set filter to All ticket by company.
@@ -323,12 +333,12 @@ $Selenium->RunTest(
 
         # Wait until new screen has loaded.
         $Selenium->WaitFor(
-            JavaScript => "return typeof(\$) === 'function' && \$('.Overview .MasterAction a').length;"
+            JavaScript => "return typeof(\$) === 'function' && \$('#CustomerIDs').val()[0] == '$CustomerCompanyID';"
         );
 
         # Check if company filter preserve previously selected company.
         $Self->Is(
-            $Selenium->execute_script("return \$('#CustomerIDs').val()[0].trim();"),
+            $Selenium->execute_script("return \$('#CustomerIDs').val()[0];"),
             $CustomerCompanyID,
             "Correct CustomerCompanyID is selected in filter."
         );
