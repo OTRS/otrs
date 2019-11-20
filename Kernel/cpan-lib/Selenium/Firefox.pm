@@ -1,5 +1,5 @@
 package Selenium::Firefox;
-$Selenium::Firefox::VERSION = '1.33';
+$Selenium::Firefox::VERSION = '1.36';
 use strict;
 use warnings;
 
@@ -42,7 +42,7 @@ has '_binary_args' => (
                 ' --port '
               . $self->port
               . ' --marionette-port '
-              . $self->marionette_binary_port
+              . $self->marionette_port
               . ' --binary "'
               . $self->firefox_binary . '"';
 
@@ -139,7 +139,7 @@ Selenium::Firefox - Use FirefoxDriver without a Selenium server
 
 =head1 VERSION
 
-version 1.33
+version 1.36
 
 =head1 SYNOPSIS
 

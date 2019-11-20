@@ -1,5 +1,5 @@
 package Selenium::CanStartBinary::ProbePort;
-$Selenium::CanStartBinary::ProbePort::VERSION = '1.33';
+$Selenium::CanStartBinary::ProbePort::VERSION = '1.36';
 use strict;
 use warnings;
 
@@ -14,19 +14,11 @@ our @EXPORT_OK = qw/find_open_port_above find_open_port probe_port/;
 
 
 sub find_open_port_above {
-    my ($port) = @_;
-
-    my $free_port = wait_until {
-        if ( probe_port($port) ) {
-            $port++;
-            return 0;
-        }
-        else {
-            return $port;
-        }
-    };
-
-    return $free_port;
+    socket(SOCK, PF_INET, SOCK_STREAM, getprotobyname("tcp"));
+    bind(SOCK, sockaddr_in(0, INADDR_ANY));
+    my $port = (sockaddr_in(getsockname(SOCK)))[0];
+    close(SOCK);
+    return $port;
 }
 
 sub find_open_port {
@@ -57,7 +49,7 @@ Selenium::CanStartBinary::ProbePort - Utility functions for finding open ports t
 
 =head1 VERSION
 
-version 1.33
+version 1.36
 
 =for Pod::Coverage *EVERYTHING*
 
