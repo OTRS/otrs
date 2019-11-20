@@ -342,13 +342,17 @@ $Selenium->RunTest(
             Value   => $ListReverse{$ProcessName},
         );
 
+        $Selenium->WaitFor(
+            ElementExists => "//input[contains(\@name,'CustomerUserID')]"
+        );
+
         # Verify form is loaded.
         $Self->True(
             $Selenium->execute_script(
                 "return \$('#CustomerAutoComplete').length;"
             ),
             "Customer field is available."
-        );
+        ) || die;
 
         my $Success;
         for my $TicketID (@DeleteTicketIDs) {
