@@ -291,6 +291,8 @@ $Selenium->RunTest(
                 "return typeof(\$) === 'function' && \$('.Overview .MasterAction a').length && \$('#CustomerIDs').length;"
         );
 
+        $Selenium->execute_script('window.Core.App.PageLoadComplete = false;');
+
         # Select Company.
         $Selenium->InputFieldValueSet(
             Element => '#CustomerIDs',
@@ -298,7 +300,9 @@ $Selenium->RunTest(
         );
 
         $Selenium->WaitFor(
-            JavaScript => "return typeof(\$) === 'function' && \$('#CustomerTicketOverviewPage2').length;"
+            Time => 20,
+            JavaScript =>
+                'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
         );
 
         $Selenium->find_element( '#CustomerTicketOverviewPage2', 'css' )->VerifiedClick();
