@@ -1,5 +1,5 @@
 package Selenium::Remote::Driver::CanSetWebdriverContext;
-$Selenium::Remote::Driver::CanSetWebdriverContext::VERSION = '1.33';
+$Selenium::Remote::Driver::CanSetWebdriverContext::VERSION = '1.36';
 # ABSTRACT: Customize the webdriver context prefix for various drivers
 
 use strict;
@@ -27,7 +27,7 @@ Selenium::Remote::Driver::CanSetWebdriverContext - Customize the webdriver conte
 
 =head1 VERSION
 
-version 1.33
+version 1.36
 
 =head1 DESCRIPTION
 

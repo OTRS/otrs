@@ -155,6 +155,10 @@ sub new {
     # Remember the start system time for the selenium test run.
     $Self->{TestStartSystemTime} = $Kernel::OM->Get('Kernel::System::Time')->SystemTime();
 
+    # Force usage of legacy webdriver methods in Chrome until things are more stable.
+    if ( lc $SeleniumTestsConfig{browser_name} eq 'chrome' ) {
+        $Self->{is_wd3} = 0;
+    }
     return $Self;
 }
 
