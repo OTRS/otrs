@@ -1,5 +1,5 @@
 package Selenium::Remote::Driver;
-$Selenium::Remote::Driver::VERSION = '1.33';
+$Selenium::Remote::Driver::VERSION = '1.36';
 use strict;
 use warnings;
 
@@ -413,9 +413,6 @@ sub new_session {
     my ( $self, $extra_capabilities ) = @_;
     $extra_capabilities ||= {};
 
-    #XXX chromedriver is broken
-    $FORCE_WD2 = 1 if $self->browser_name eq 'chrome';
-
     my $args = {
         'desiredCapabilities' => {
             'browserName'       => $self->browser_name,
@@ -481,7 +478,7 @@ sub _request_new_session {
               if $args->{desiredCapabilities}->{browserName} eq 'firefox';
 
 #XXX the chrome documentation is lies, you can't do this yet
-#$args->{capabilities}->{alwaysMatch}->{'chromeOptions'}      = $args->{capabilities}->{alwaysMatch}->{$cap} if $args->{desiredCapabilities}->{browserName} eq 'chrome';
+#$args->{capabilities}->{alwaysMatch}->{'goog:chromeOptions'}      = $args->{capabilities}->{alwaysMatch}->{$cap} if $args->{desiredCapabilities}->{browserName} eq 'chrome';
 #Does not appear there are any MSIE based options, so let's just let that be
         }
         if (   exists( $args->{desiredCapabilities}->{browserName} )
@@ -524,7 +521,7 @@ sub _request_new_session {
       if $FORCE_WD2; #XXX 'secret' feature to help the legacy unit tests to work
 
     #Delete compatibility layer when using drivers directly
-    if ( $self->isa('Selenium::Firefox') ) {
+    if ( $self->isa('Selenium::Firefox') || $self->isa('Selenium::Chrome') ) {
         if (   exists $args->{capabilities}
             && exists $args->{capabilities}->{alwaysMatch} )
         {
@@ -537,8 +534,8 @@ sub _request_new_session {
     #Fix broken out of the box chrome because they hate the maintainers of their interfaces
     if ( $self->isa('Selenium::Chrome') ) {
         if ( exists $args->{desiredCapabilities} ) {
-            $args->{desiredCapabilities}{chromeOptions}{args} //= [];
-            push(@{$args->{desiredCapabilities}{chromeOptions}{args}}, qw{no-sandbox disable-dev-shm-usage});
+            $args->{desiredCapabilities}{'goog:chromeOptions'}{args} //= [];
+            push(@{$args->{desiredCapabilities}{'goog:chromeOptions'}{args}}, qw{no-sandbox disable-dev-shm-usage});
         }
     }
 
@@ -653,7 +650,7 @@ sub send_keys_to_active_element {
     my ( $self, @strings ) = @_;
 
     if ( $self->{is_wd3}
-        && !( grep { $self->browser_name eq $_ } qw{chrome MicrosoftEdge} ) )
+        && !( grep { $self->browser_name eq $_ } qw{MicrosoftEdge} ) )
     {
         @strings = map { split( '', $_ ) } @strings;
         my @acts = map {
@@ -762,7 +759,7 @@ sub mouse_move_to_location {
     $params{element} = $params{element}{id} if exists $params{element};
 
     if ( $self->{is_wd3}
-        && !( grep { $self->browser_name eq $_ } qw{chrome MicrosoftEdge} ) )
+        && !( grep { $self->browser_name eq $_ } qw{MicrosoftEdge} ) )
     {
         my $origin      = $params{element};
         my $move_action = {
@@ -899,7 +896,7 @@ sub get_window_size {
     $window = ( defined $window ) ? $window : 'current';
     my $res = { 'command' => 'getWindowSize', 'window_handle' => $window };
     $res = { 'command' => 'getWindowRect', handle => $window }
-      if $self->{is_wd3} && $self->browser_name ne 'chrome';
+      if $self->{is_wd3};
     return $self->_execute_command($res);
 }
 
@@ -909,7 +906,7 @@ sub get_window_position {
     $window = ( defined $window ) ? $window : 'current';
     my $res = { 'command' => 'getWindowPosition', 'window_handle' => $window };
     $res = { 'command' => 'getWindowRect', handle => $window }
-      if $self->{is_wd3} && $self->browser_name ne 'chrome';
+      if $self->{is_wd3};
     return $self->_execute_command($res);
 }
 
@@ -990,7 +987,7 @@ sub execute_async_script {
             if ( Scalar::Util::blessed( $args[$i] )
                 and $args[$i]->isa('Selenium::Remote::WebElement') )
             {
-                if ( $self->{is_wd3} && $self->browser_name ne 'chrome' ) {
+                if ( $self->{is_wd3} ) {
                     $args[$i] =
                       { 'element-6066-11e4-a52e-4f735466cecf' =>
                           ( $args[$i] )->{id} };
@@ -1037,7 +1034,7 @@ sub execute_script {
             if ( Scalar::Util::blessed( $args[$i] )
                 and $args[$i]->isa('Selenium::Remote::WebElement') )
             {
-                if ( $self->{is_wd3} && $self->browser_name ne 'chrome' ) {
+                if ( $self->{is_wd3} ) {
                     $args[$i] =
                       { 'element-6066-11e4-a52e-4f735466cecf' =>
                           ( $args[$i] )->{id} };
@@ -1107,7 +1104,7 @@ sub screenshot {
     my ($self, $params) = @_;
     $params //= { full => 0 };
 
-    croak "Full page screenshot only supported on geckodriver" if $params->{full} && ( $self->{browser} ne 'firefox' );
+    croak "Full page screenshot only supported on geckodriver" if $params->{full} && ( $self->{browser_name} ne 'firefox' );
 
     my $res = { 'command' => $params->{'full'} == 1 ? 'mozScreenshotFull' : 'screenshot' };
     return $self->_execute_command($res);
@@ -1145,7 +1142,7 @@ sub switch_to_frame {
 
     my $res = { 'command' => 'switchToFrame' };
     if ( ref $id eq $self->webelement_class ) {
-        if ( $self->{is_wd3} && $self->browser_name ne 'chrome' ) {
+        if ( $self->{is_wd3} ) {
             $params =
               { 'id' =>
                   { 'element-6066-11e4-a52e-4f735466cecf' => $id->{'id'} } };
@@ -1194,7 +1191,7 @@ sub set_window_position {
     $y += 0;
     my $res = { 'command' => 'setWindowPosition', 'window_handle' => $window };
     my $params = { 'x' => $x, 'y' => $y };
-    if ( $self->{is_wd3} && $self->browser_name ne 'chrome' ) {
+    if ( $self->{is_wd3} ) {
         $res = { 'command' => 'setWindowRect', handle => $window };
     }
     my $ret = $self->_execute_command( $res, $params );
@@ -1217,7 +1214,7 @@ sub set_window_size {
     $width += 0;
     my $res = { 'command' => 'setWindowSize', 'window_handle' => $window };
     my $params = { 'height' => $height, 'width' => $width };
-    if ( $self->{is_wd3} && $self->browser_name ne 'chrome' ) {
+    if ( $self->{is_wd3} ) {
         $res = { 'command' => 'setWindowRect', handle => $window };
     }
     my $ret = $self->_execute_command( $res, $params );
@@ -1227,12 +1224,7 @@ sub set_window_size {
 
 sub maximize_window {
     my ( $self, $window ) = @_;
-    if ( $self->{is_wd3} && $self->browser_name eq 'chrome' ) {
-        my $h = $self->execute_script(q{return screen.availHeight});
-        my $w = $self->execute_script(q{return screen.availWidth});
 
-        return $self->set_window_size( $h, $w );
-    }
     $window = ( defined $window ) ? $window : 'current';
     my $res = { 'command' => 'maximizeWindow', 'window_handle' => $window };
     my $ret = $self->_execute_command($res);
@@ -1573,7 +1565,7 @@ sub send_modifier {
     }
 
     if ( $self->{is_wd3}
-        && !( grep { $self->browser_name eq $_ } qw{chrome MicrosoftEdge} ) )
+        && !( grep { $self->browser_name eq $_ } qw{MicrosoftEdge} ) )
     {
         my $acts = [
             {
@@ -1623,7 +1615,7 @@ sub click {
     my $params = { 'button'  => $button };
 
     if ( $self->{is_wd3}
-        && !( grep { $self->browser_name eq $_ } qw{chrome MicrosoftEdge} ) )
+        && !( grep { $self->browser_name eq $_ } qw{MicrosoftEdge} ) )
     {
         $params = {
             actions => [
@@ -1675,7 +1667,7 @@ sub double_click {
     $button = _get_button($button);
 
     if ( $self->{is_wd3}
-        && !( grep { $self->browser_name eq $_ } qw{chrome MicrosoftEdge} ) )
+        && !( grep { $self->browser_name eq $_ } qw{MicrosoftEdge} ) )
     {
         $self->click( $button, 1 );
         $self->click( $button, 1 );
@@ -1691,7 +1683,7 @@ sub button_down {
     my ($self) = @_;
 
     if ( $self->{is_wd3}
-        && !( grep { $self->browser_name eq $_ } qw{chrome MicrosoftEdge} ) )
+        && !( grep { $self->browser_name eq $_ } qw{MicrosoftEdge} ) )
     {
         my $params = {
             actions => [
@@ -1722,7 +1714,7 @@ sub button_up {
     my ($self) = @_;
 
     if ( $self->{is_wd3}
-        && !( grep { $self->browser_name eq $_ } qw{chrome MicrosoftEdge} ) )
+        && !( grep { $self->browser_name eq $_ } qw{MicrosoftEdge} ) )
     {
         my $params = {
             actions => [
@@ -1887,7 +1879,7 @@ Selenium::Remote::Driver - Perl Client for Selenium Remote Driver
 
 =head1 VERSION
 
-version 1.33
+version 1.36
 
 =head1 SYNOPSIS
 
@@ -2077,15 +2069,13 @@ This is because the gecko driver prefers legacy capabilities, both of which are 
 
 =head2 Chrome Notes
 
-extra_capabilities may? not work, because chromedriver considers the chromeOptions parameter to be invalid, despite it's documentation here:
+Use the option goog:chromeOptions instead of chromeOptions, if you are intending to pass extra_capabilities on a
+WD3 enabled server with chromedriver enabled.
 
     https://sites.google.com/a/chromium.org/chromedriver/capabilities
 
-Other bindings get around this by just using the 'old' way of passing desired capabilities.  You can do this too like so:
-
-    $Selenium::Remote::Driver::FORCE_WD2=1;
-
-This is now forced on during construction for chrome.
+Also, if you instantiate the object in WC3 mode (which is the default), the remote driver will throw exceptions you have no choice but to catch,
+rather than falling back to JSONWire methods where applicable like geckodriver does.
 
 =head1 CONSTRUCTOR
 
@@ -2208,7 +2198,7 @@ Usage:
     #or
     my $driver = Selenium::Remote::Driver->new('browser_name' =>'chrome',
                                                'extra_capabilities' => {
-                                                   'chromeOptions' => {
+                                                   'goog:chromeOptions' => {
                                                        'args'  => [
                                                            'window-size=1260,960',
                                                            'incognito'
@@ -2378,7 +2368,7 @@ Print whether the server (or browser) thinks it's implemented webdriver 3.
 If this returns true, webdriver 3 methods will be used in the case an action exists in L<Selenium::Remote::Spec> for the method you are trying to call.
 If a method you are calling has no webdriver 3 equivalent (or browser extension), the legacy commands implemented in L<Selenium::Remote::Commands> will be used.
 
-Note how I said *thinks* above.  In the case you want to force usage of legacy methods, call set_webdriver_3() to work around various browser issues.
+Note how I said *thinks* above.  In the case you want to force usage of legacy methods, set $driver->{is_wd3} to work around various browser issues.
 
 =head2 debug_on
 
@@ -2459,8 +2449,6 @@ Note how I said *thinks* above.  In the case you want to force usage of legacy m
 
     # include the WDKeys module
     use Selenium::Remote::WDKeys;
-    .
-    .
     $driver->send_keys_to_active_element(KEYS->{'space'}, KEYS->{'enter'});
 
 =head2 send_keys_to_alert
@@ -3717,7 +3705,7 @@ Aditya Ivaturi <ivaturi@gmail.com>
 
 =head1 CONTRIBUTORS
 
-=for stopwords Allen Lew A.MacLeay Andy Jack Bas Bloemsaat Brian Horakh Charles Howes Chris Davies Daniel Fackrell Dave Rolsky Dmitry Karasik Doug Bell Eric Johnson Gabor Szabo George S. Baugh Gerhard Jungwirth Gordon Child GreatFlamingFoo Ivan Kurmanov Joe Higton Jon Hermansen Keita Sugama Ken Swanson lembark Luke Closs Martin Gruner Max O'Cull Michael Prokop Peter Mottram (SysPete) Phil Kania Mitchell Prateek Goyal Richard Sailer Robert Utter rouzier Tetsuya Tatsumi Tod Hagan Tom Hukins Vangelis Katsikaros Vishwanath Janmanchi Viťas Strádal Yves Lavoie
+=for stopwords Allen Lew A.MacLeay Andy Jack Bas Bloemsaat Blake GH Brian Horakh Charles Howes Chris Davies Daniel Fackrell Dave Rolsky Dmitry Karasik Doug Bell Eric Johnson Gabor Szabo George S. Baugh Gerhard Jungwirth Gordon Child GreatFlamingFoo Ivan Kurmanov Joe Higton Jon Hermansen Keita Sugama Ken Swanson lembark Luke Closs Martin Gruner Matthew Spahr Max O'Cull Michael Prokop Peter Mottram (SysPete) Phil Kania Mitchell Prateek Goyal Richard Sailer Robert Utter rouzier Tetsuya Tatsumi Tod Hagan Tom Hukins Vangelis Katsikaros Vishwanath Janmanchi Viťas Strádal Yves Lavoie
 
 =over 4
 
@@ -3740,6 +3728,10 @@ Andy Jack <github@veracity.ca>
 =item *
 
 Bas Bloemsaat <bas@bloemsaat.com>
+
+=item *
+
+Blake GH <blake@mobiusconsortium.org>
 
 =item *
 
@@ -3824,6 +3816,10 @@ Luke Closs <lukec@users.noreply.github.com>
 =item *
 
 Martin Gruner <martin.gruner@otrs.com>
+
+=item *
+
+Matthew Spahr <matthew.spahr@cpanel.net>
 
 =item *
 
