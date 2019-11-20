@@ -1,5 +1,5 @@
 package Selenium::Remote::WebElement;
-$Selenium::Remote::WebElement::VERSION = '1.33';
+$Selenium::Remote::WebElement::VERSION = '1.36';
 # ABSTRACT: Representation of an HTML Element used by Selenium Remote Driver
 
 use strict;
@@ -69,7 +69,7 @@ sub submit {
     if (
         $self->driver->{is_wd3}
         && !(
-            grep { $self->driver->browser_name eq $_ } qw{chrome MicrosoftEdge}
+            grep { $self->driver->browser_name eq $_ } qw{MicrosoftEdge}
         )
       )
     {
@@ -222,7 +222,7 @@ sub get_element_location_in_view {
     }, { 'element-6066-11e4-a52e-4f735466cecf' => $self->{id} }
       )
       if $self->driver->{is_wd3} && grep { $self->driver->browser_name eq $_ }
-      ( 'firefox', 'internet explorer' );
+      ( 'firefox', 'internet explorer', 'chrome' );
     my $res = { 'command' => 'getElementLocationInView', 'id' => $self->id };
     return $self->_execute_command($res);
 }
@@ -395,7 +395,7 @@ Selenium::Remote::WebElement - Representation of an HTML Element used by Seleniu
 
 =head1 VERSION
 
-version 1.33
+version 1.36
 
 =head1 DESCRIPTION
 

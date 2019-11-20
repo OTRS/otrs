@@ -110,6 +110,10 @@ sub new {
 
     $Self->{BaseURL} = $Self->{UnitTestObject}->{ConfigObject}->Get('HttpType') . '://' . $Self->{BaseURL};
 
+    # Force usage of legacy webdriver methods in Chrome until things are more stable.
+    if ( lc $SeleniumTestsConfig{browser_name} eq 'chrome' ) {
+        $Self->{is_wd3} = 0;
+    }
     return $Self;
 }
 
