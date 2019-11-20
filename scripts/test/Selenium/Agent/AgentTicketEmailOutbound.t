@@ -161,6 +161,13 @@ $Selenium->RunTest(
             $Element->is_displayed();
         }
 
+        my $Message = 'Article subject will be empty if the subject contains only the ticket hook!';
+
+        $Self->True(
+            $Selenium->execute_script("return \$('.MessageBox.Notice:contains(\"$Message\")').length;"),
+            "Notification about empty subject is found",
+        );
+
         # get state ID for 'open' state
         my $StateObject = $Kernel::OM->Get('Kernel::System::State');
         my $StateID     = $StateObject->StateLookup(

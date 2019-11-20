@@ -881,6 +881,17 @@ sub Run {
                 Type      => 'Small',
                 BodyClass => 'Popup',
             );
+
+            # When a draft is loaded, inform a user that article subject will be empty
+            # if contains only the ticket hook (if nothing is modified).
+            if ( $Error{LoadedFormDraft} ) {
+                $Output .= $LayoutObject->Notify(
+                    Data => $LayoutObject->{LanguageObject}->Translate(
+                        'Article subject will be empty if the subject contains only the ticket hook!'
+                    ),
+                );
+            }
+
             $GetParam{StandardResponse} = $GetParam{Body};
             $Output .= $Self->_Mask(
                 TicketID   => $Self->{TicketID},
@@ -1274,6 +1285,13 @@ sub Run {
             Value     => $Ticket{TicketNumber},
             Type      => 'Small',
             BodyClass => 'Popup',
+        );
+
+        # Inform a user that article subject will be empty if contains only the ticket hook (if nothing is modified).
+        $Output .= $LayoutObject->Notify(
+            Data => $LayoutObject->{LanguageObject}->Translate(
+                'Article subject will be empty if the subject contains only the ticket hook!'
+            ),
         );
 
         # get std attachment object
