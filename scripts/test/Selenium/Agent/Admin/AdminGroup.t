@@ -12,7 +12,6 @@ use utf8;
 
 use vars (qw($Self));
 
-# get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 my $Selenium     = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
@@ -44,16 +43,20 @@ $Selenium->RunTest(
         $Selenium->find_element( "table tbody tr td", 'css' );
 
         # Click 'Add group' link, it should not be a form link. See bug#14148.
-        $Selenium->find_element("//a[contains(\@href, \'Action=AdminGroup;Subaction=Add' )]")->VerifiedClick();
+        $Selenium->find_element("//span[contains(.,'Add Group')]")->VerifiedClick();
 
-        # check add page
+        $Selenium->WaitFor(
+            ElementExists => [ '#GroupName', 'css' ]
+        );
+
+        # Check add page.
         my $Element = $Selenium->find_element( "#GroupName", 'css' );
         $Element->is_displayed();
         $Element->is_enabled();
         $Selenium->find_element( "#Comment", 'css' );
         $Selenium->find_element( "#ValidID", 'css' );
 
-        # check client side validation
+        # Check client side validation.
         $Selenium->find_element( "#GroupName", 'css' )->clear();
         $Selenium->find_element( "#Submit",    'css' )->VerifiedClick();
         $Self->Is(
@@ -64,15 +67,15 @@ $Selenium->RunTest(
             'Client side validation correctly detected missing input value',
         );
 
-        # create a real test group
+        # Create a real test group.
         my $RandomID = 'TestGroup' . $Helper->GetRandomID();
         $Selenium->find_element( "#GroupName", 'css' )->send_keys($RandomID);
         $Selenium->execute_script("\$('#ValidID').val('1').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#Comment", 'css' )->send_keys('Selenium test group');
         $Selenium->find_element( "#Submit",  'css' )->VerifiedClick();
 
-        # after add group followed screen is AddUserGroup(Subaction=Group),
-        # there is posible to set permission for added group
+        # After add group followed screen is AddUserGroup(Subaction=Group),
+        #   there is posible to set permission for added group.
         $Self->True(
             index( $Selenium->get_page_source(), $RandomID ) > -1,
             "$RandomID found on page",
@@ -81,7 +84,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "table thead tr th", 'css' );
         $Selenium->find_element( "table tbody tr td", 'css' );
 
-        # give full read and write access to the tickets in test group for test user
+        # Give full read and write access to the tickets in test group for test user.
         my $UserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
             UserLogin => $TestUserLogin,
         );
@@ -89,17 +92,17 @@ $Selenium->RunTest(
         $Selenium->find_element("//input[\@value='$UserID'][\@name='rw']")->VerifiedClick();
         $Selenium->find_element("//button[\@value='Submit'][\@type='submit']")->VerifiedClick();
 
-        # check if test group is present in AdminUserGroup
+        # Check if test group is present in AdminUserGroup.
         $Self->True(
             index( $Selenium->get_page_source(), $RandomID ) > -1,
             "$RandomID found on page",
         );
 
-        # check overview AdminUserGroup
+        # Check overview AdminUserGroup.
         $Selenium->find_element( "div.Size1of2 #Users",  'css' );
         $Selenium->find_element( "div.Size1of2 #Groups", 'css' );
 
-        # edit test group permissions
+        # Edit test group permissions.
         $Selenium->find_element( $RandomID, 'link_text' )->VerifiedClick();
         $Selenium->find_element("//input[\@value='$UserID'][\@name='rw']")->VerifiedClick();
         $Selenium->find_element("//input[\@value='$UserID'][\@name='ro']")->VerifiedClick();
@@ -107,7 +110,7 @@ $Selenium->RunTest(
         $Selenium->find_element("//input[\@value='$UserID'][\@name='owner']")->VerifiedClick();
         $Selenium->find_element("//button[\@value='Submit'][\@type='submit']")->VerifiedClick();
 
-        # check edited test group permissions
+        # Check edited test group permissions.
         $Selenium->find_element( $RandomID, 'link_text' )->VerifiedClick();
 
         $Self->Is(
@@ -126,10 +129,10 @@ $Selenium->RunTest(
             "rw permission for group $RandomID is disabled",
         );
 
-        # check link to AdminGroup from AdminUserGroup
+        # Check link to AdminGroup from AdminUserGroup.
         $Selenium->find_element( $RandomID, 'link_text' )->VerifiedClick();
 
-        # check test group values
+        # Check test group values.
         $Self->Is(
             $Selenium->find_element( '#GroupName', 'css' )->get_value(),
             $RandomID,
@@ -146,12 +149,12 @@ $Selenium->RunTest(
             "#Comment stored value",
         );
 
-        # set test group to invalid
+        # Set test group to invalid.
         $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#Comment", 'css' )->clear();
         $Selenium->find_element( "#Submit",  'css' )->VerifiedClick();
 
-        # chack class of invalid Group in the overview table
+        # Check class of invalid Group in the overview table.
         $Self->True(
             $Selenium->execute_script(
                 "return \$('tr.Invalid td a:contains($RandomID)').length"
@@ -159,8 +162,8 @@ $Selenium->RunTest(
             "There is a class 'Invalid' for test Group",
         );
 
-        # since there are no tickets that rely on our test group, we can remove them again
-        # from the DB.
+        # Since there are no tickets that rely on our test group, we can remove them again
+        #   from the DB.
         if ($RandomID) {
             my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
             my $GroupID  = $Kernel::OM->Get('Kernel::System::Group')->GroupLookup(
@@ -188,7 +191,7 @@ $Selenium->RunTest(
             );
         }
 
-        # make sure the cache is correct.
+        # Make sure the cache is correct.
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => 'Group' );
 
     }
