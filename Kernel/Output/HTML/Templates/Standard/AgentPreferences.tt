@@ -101,15 +101,19 @@
                                 <fieldset class="TableLike">
     [% RenderBlockStart("Block") %]
     [% RenderBlockStart("InputKey") %]
-                                    <label for="[% Data.Name | html %]">[% Translate(Data.Key) | html %]:</label>
-                                    <div class="Field">
+                                    [% IF Data.Key %]
+                                        <label for="[% Data.Name | html %]">[% Translate(Data.Key) | html %]:</label>
+                                    [% END %]
+                                    <div class="Field[% IF !Data.Key %] NoMargin[% END %]">
                                         <input type="text" name="[% Data.Name | html %]" id="[% Data.Name | html %]" value="[% Data.SelectedID | html %]" />
                                     </div>
                                     <div class="Clear"></div>
     [% RenderBlockEnd("InputKey") %]
     [% RenderBlockStart("Input") %]
-                                    <label for="[% Data.Name | html %]">[% Translate(Data.Key) | html %]:</label>
-                                    <div class="Field">
+                                    [% IF Data.Key %]
+                                        <label for="[% Data.Name | html %]">[% Translate(Data.Key) | html %]:</label>
+                                    [% END %]
+                                    <div class="Field[% IF !Data.Key %] NoMargin[% END %]">
                                         <input type="text" name="[% Data.Name | html %]" id="[% Data.Name | html %]" value="[% Data.SelectedID | html %]" />
                                     </div>
                                     <div class="Clear"></div>
