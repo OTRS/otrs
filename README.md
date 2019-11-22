@@ -1,6 +1,6 @@
-What is OTRS?
-=============
-OTRS (the former Open Ticket Request System now stands for Open Technology
+What is ((OTRS)) Community Edition?
+===================================
+((OTRS)) Community Edition (the former Open Ticket Request System now stands for Open Technology
  – Real Service) is an open source ticket request system with many features
 to manage customer telephone calls and e-mails. It is distributed under the
 GNU General Public License (GPL) and tested on various Linux platforms.
