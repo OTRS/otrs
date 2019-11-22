@@ -102,6 +102,10 @@ $Selenium->RunTest(
             $Selenium->find_element( "#CustomerRegExErrorMessage_1", 'css' )->send_keys($RegExErrorTxt);
             $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
 
+            $Selenium->WaitFor(
+                ElementExists => "//a[contains(\@title,'$RandomID')]"
+            );
+
             # check for test DynamicFieldTextArea on AdminDynamicField screen
             $Self->True(
                 index( $Selenium->get_page_source(), $RandomID ) > -1,
