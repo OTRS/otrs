@@ -58,6 +58,11 @@ $Selenium->RunTest(
         $Selenium->find_element( "#SQL", 'css' )->clear();
         $Selenium->find_element( "#SQL", 'css' )->send_keys("SELECT * FROM");
         $Selenium->find_element( "#Run", 'css' )->VerifiedClick();
+
+        $Selenium->WaitFor(
+            ElementExists => "//textarea[contains(\@class,'ServerError')]"
+        );
+
         $Self->Is(
             $Selenium->execute_script(
                 "return \$('#SQL').hasClass('ServerError')"
