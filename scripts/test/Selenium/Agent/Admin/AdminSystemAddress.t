@@ -136,6 +136,10 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Comment", 'css' )->send_keys($SysAddComment);
         $Selenium->find_element( "#Submit",  'css' )->VerifiedClick();
 
+        $Selenium->WaitFor(
+            ElementExists => " //a[contains(.,'$SysAddRandom')]"
+        );
+
         # Check for created test SystemAddress.
         $Self->True(
             index( $Selenium->get_page_source(), $SysAddRandom ) > -1,
