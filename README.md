@@ -1,10 +1,11 @@
 What is ((OTRS)) Community Edition?
 ===================================
-((OTRS)) Community Edition (the former Open Ticket Request System now stands for Open Technology
- – Real Service) is an open source ticket request system with many features
-to manage customer telephone calls and e-mails. It is distributed under the
-GNU General Public License (GPL) and tested on various Linux platforms.
-Do you receive many e-mails and want to answer them with a team of agents? You're going to love OTRS!
+((OTRS)) Community Edition is one of the most flexible web-based ticketing
+systems used for Customer Service, Help Desk, IT Service Management.
+With a fast implementation and easy customization to your needs it
+helps you reducing costs and increasing the efficiency and transparency
+of your business communication. Please note that ((OTRS)) Community Edition
+offers limited [**OTRS**](https://www.otrs.com) functionality.
 
 You can find a list of features in the
 [online documentation](http://otrs.github.io/doc/manual/admin/5.0/en/html/otrs.html#features-of-otrs).
