@@ -140,12 +140,12 @@ $Selenium->RunTest(
         );
         $Selenium->WaitFor(
             JavaScript =>
-                "return typeof(\$) === 'function' && !\$('a[href*=\"Action=AgentStatistics;Subaction=Edit;StatID=$StatsIDLast\"]').length;"
+                "return typeof(\$) === 'function' && !\$('a[href*=\"Action=AgentStatistics;Subaction=Edit;StatID=$StatsIDLast;\"]').length;"
         );
 
         $Self->True(
             $Selenium->execute_script(
-                "return !\$('a[href*=\"Action=AgentStatistics;Subaction=Edit;StatID=$StatsIDLast\"]').length;"
+                "return !\$('a[href*=\"Action=AgentStatistics;Subaction=Edit;StatID=$StatsIDLast;\"]').length;"
             ),
             "Test statistic is deleted - $StatsIDLast "
         );
