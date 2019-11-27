@@ -16,6 +16,23 @@ use Kernel::Language;
 
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
+my $PostMasterFilterSubmit = sub {
+    $Selenium->execute_script(
+        "\$('#Submit')[0].scrollIntoView(true);",
+    );
+
+    $Self->True(
+        $Selenium->execute_script(
+            "return \$('#Submit').length;"
+        ),
+        "Element '#Submit' is found in screen"
+    );
+    $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
+
+    $Selenium->WaitFor( ElementExists => "//input[contains(\@name,\'FilterPostMasterFilters\')]" );
+    $Selenium->VerifiedRefresh();
+};
+
 $Selenium->RunTest(
     sub {
 
@@ -148,10 +165,9 @@ $Selenium->RunTest(
             Element => '#SetHeader1',
             Value   => 'X-OTRS-Priority',
         );
-
         $Selenium->find_element( "#SetValue1", 'css' )->send_keys($PostMasterPriority);
-        $Selenium->execute_script("\$('#Submit').click();");
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#PostMasterFilters").length;' );
+
+        $PostMasterFilterSubmit->();
 
         # Check for created first test PostMasterFilter on screen.
         $Self->True(
@@ -160,7 +176,6 @@ $Selenium->RunTest(
         );
 
         # Check new test PostMasterFilter values.
-        $Selenium->VerifiedRefresh();
         $Selenium->find_element( $PostMasterName, 'link_text' )->VerifiedClick();
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#EditName").length;' );
 
@@ -219,11 +234,10 @@ $Selenium->RunTest(
         $Selenium->find_element( "#MatchNot1", 'css' )->click();
         $Selenium->find_element( "#SetValue1", 'css' )->clear();
         $Selenium->find_element( "#SetValue1", 'css' )->send_keys($EditPostMasterPriority);
-        $Selenium->execute_script("\$('#Submit').click();");
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#PostMasterFilters").length;' );
+
+        $PostMasterFilterSubmit->();
 
         # Check edited test PostMasterFilter values.
-        $Selenium->VerifiedRefresh();
         $Selenium->find_element( $PostMasterName, 'link_text' )->click();
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#StopAfterMatch").length;' );
 
@@ -291,16 +305,14 @@ $Selenium->RunTest(
         my $PostMasterName2 = $PostMasterName . '2';
         $Selenium->find_element( "#EditName", 'css' )->clear();
         $Selenium->find_element( "#EditName", 'css' )->send_keys($PostMasterName2);
-        $Selenium->execute_script("\$('#Submit').click();");
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#PostMasterFilters").length;' );
+
+        $PostMasterFilterSubmit->();
 
         # Verify second PostMasterFilter is created.
         $Self->True(
             index( $Selenium->get_page_source(), $PostMasterName2 ) > -1,
             "$PostMasterName2 second PostMasterFilter found on page",
         );
-
-        $Selenium->VerifiedRefresh();
 
         # Click to edit second PostMasterFilter.
         $Selenium->find_element( $PostMasterName2, 'link_text' )->VerifiedClick();
@@ -337,8 +349,8 @@ $Selenium->RunTest(
         my $PostMasterName3 = $PostMasterName . '3';
         $Selenium->find_element( "#EditName", 'css' )->clear();
         $Selenium->find_element( "#EditName", 'css' )->send_keys($PostMasterName3);
-        $Selenium->execute_script("\$('#Submit').click();");
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#PostMasterFilters").length;' );
+
+        $PostMasterFilterSubmit->();
 
         $Self->True(
             index( $Selenium->get_page_source(), $PostMasterName2 ) == -1,
