@@ -134,13 +134,18 @@ JAVASCRIPT
         # delete test stats
         # click on delete icon
         $Selenium->find_element(
-            "//a[contains(\@href, \'Action=AgentStatistics;Subaction=DeleteAction;StatID=$StatsIDLast\' )]"
+            "//a[contains(\@href, \'Action=AgentStatistics;Subaction=DeleteAction;StatID=$StatsIDLast;\' )]"
         )->VerifiedClick();
 
-        $Self->True(
-            index( $Selenium->get_page_source(), "Action=AgentStatistics;Subaction=Edit;StatID=$StatsIDLast" ) == -1,
-            "Test statistic is deleted - $StatsIDLast "
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return typeof(\$) === 'function' && \$('a[href*=\"DeleteAction;StatID=$StatsIDLast;\"]').length == 0;"
         );
+
+        $Self->True(
+            index( $Selenium->get_page_source(), "Action=AgentStatistics;Subaction=Edit;StatID=$StatsIDLast;" ) == -1,
+            "Test statistic is deleted - $StatsIDLast "
+        ) || die;
 
         # make sure the cache is correct.
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => "Stats" );
