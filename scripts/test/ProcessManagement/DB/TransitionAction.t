@@ -849,7 +849,7 @@ my $List = $TransitionActionObject->TransitionActionList(
 
 # create the list of TransitionActions with details manually
 my $ExpectedTransitionActionList;
-for my $TransitionActionID ( sort { $a <=> $b } keys %{$List} ) {
+for my $TransitionActionID ( sort { int $a <=> int $b } keys %{$List} ) {
 
     my $TransitionActionData = $TransitionActionObject->TransitionActionGet(
         ID     => $TransitionActionID,
