@@ -19,6 +19,7 @@ my @BlacklistPerlVersions = (
     v5.28.1,
     v5.28.2,
     v5.30.0,
+    v5.30.1,
 );
 
 if ( grep { $^V eq $_ } @BlacklistPerlVersions ) {
