@@ -8,8 +8,11 @@
 
 <div>
 	<div id="DialogDeployment" class="InnerContent">
-
-		<textarea id="DeploymentComment" class="DialogComment" style="display: none;" placeholder="{{ "Deployment comment..." | Translate }}"></textarea>
+	    <form class="Validate">
+            <textarea id="DeploymentComment" class="DialogComment Validate_MaxLength" data-maxlength="250" placeholder="{{ "Deployment comment..." | Translate }}"></textarea>
+            <div id="DeploymentCommentError" class="TooltipErrorMessage"><p>{{ "This field can have no more than 250 characters." | Translate }}</p></div>
+            <div id="DeploymentCommentServerError" class="TooltipErrorMessage"><p>{{ "This field can have no more than 250 characters." | Translate }}</p></div>
+        </form>
 
 		<div class="Overlay Deploying">
 			<span>
