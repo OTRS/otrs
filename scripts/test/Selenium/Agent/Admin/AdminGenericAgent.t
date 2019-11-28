@@ -317,6 +317,7 @@ $Selenium->RunTest(
 
         # save job
         $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
+        $Selenium->WaitFor( ElementExists => "//a[contains(.,\'$GenericAgentJob\')]" );
 
         # check if test job show on AdminGenericAgent
         $Self->True(
@@ -391,6 +392,7 @@ $Selenium->RunTest(
             Value   => 1,
         );
         $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
+        $Selenium->WaitFor( ElementExists => "//a[contains(.,\'$GenericAgentJob\')]" );
 
         # run test job
         $Selenium->find_element("//a[contains(\@href, \'Subaction=Run;Profile=$GenericAgentJob' )]")->VerifiedClick();
@@ -472,7 +474,9 @@ $Selenium->RunTest(
             Element => '#Valid',
             Value   => 0,
         );
+
         $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
+        $Selenium->WaitFor( ElementExists => "//a[contains(.,\'$GenericAgentJob\')]" );
 
         # check class of invalid generic job in the overview table
         $Self->True(
