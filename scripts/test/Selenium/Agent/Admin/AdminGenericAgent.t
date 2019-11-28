@@ -188,6 +188,7 @@ $Selenium->RunTest(
 
         # save job
         $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
+        $Selenium->WaitFor( ElementExists => "//a[contains(.,\'$GenericAgentJob\')]" );
 
         # check if test job show on AdminGenericAgent
         $Self->True(
@@ -202,6 +203,7 @@ $Selenium->RunTest(
         $Selenium->execute_script('$(".WidgetSimple.Collapsed .WidgetAction.Toggle a").click();');
         $Selenium->execute_script("\$('#NewDelete').val('1').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
+        $Selenium->WaitFor( ElementExists => "//a[contains(.,\'$GenericAgentJob\')]" );
 
         # run test job
         $Selenium->find_element("//a[contains(\@href, \'Subaction=Run;Profile=$GenericAgentJob' )]")->VerifiedClick();
@@ -275,6 +277,7 @@ $Selenium->RunTest(
         );
 
         $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
+        $Selenium->WaitFor( ElementExists => "//a[contains(.,\'$GenericAgentJob\')]" );
 
         # check class of invalid generic job in the overview table
         $Self->True(
