@@ -133,6 +133,8 @@ $Selenium->RunTest(
         $Selenium->find_element( "#CustomerUserSearch", 'css' )->send_keys($UserRandomID);
         $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
 
+        $Selenium->WaitFor( ElementExists => "//input[\@value='$UserRandomID'][\@name='rw']" );
+
         $Selenium->find_element("//input[\@value='$UserRandomID'][\@name='rw']")->VerifiedClick();
         $Selenium->find_element("//button[\@value='Submit'][\@type='submit']")->VerifiedClick();
 
