@@ -1,4 +1,5 @@
 #6.0.25 ????-??-??
+ - 2019-11-28 Follow-up fix for bug#[14761](https://bugs.otrs.org/show_bug.cgi?id=14761) - It's not possible to create article with attachment named '0'.
  - 2019-11-20 Fixed bug#[14659](https://bugs.otrs.org/show_bug.cgi?id=14659) - Composing a new mail message with a blank subject causes no warning to appear.
  - 2019-11-15 Fixed bug#[14852](https://bugs.otrs.org/show_bug.cgi?id=14852) - Customer company filter is reset after going to the other page.
  - 2019-11-07 Fixed bug#[14846](https://bugs.otrs.org/show_bug.cgi?id=14846) - Improved config 'Ticket::ViewableStateType' description.

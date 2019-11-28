@@ -1143,21 +1143,13 @@ sub _CheckAttachment {
     my $Attachment = $Param{Attachment};
 
     # check attachment item internally
-    for my $Needed (qw(Content ContentType)) {
-        if ( !$Attachment->{$Needed} ) {
+    for my $Needed (qw(Content ContentType Filename)) {
+        if ( !IsStringWithData( $Attachment->{$Needed} ) ) {
             return {
                 ErrorCode    => 'TicketCreate.MissingParameter',
                 ErrorMessage => "TicketCreate: Attachment->$Needed  parameter is missing!",
             };
         }
-    }
-
-    # Check Filename separately because it can be '0'. See bug#14761.
-    if ( !IsStringWithData( $Attachment->{Filename} ) ) {
-        return {
-            ErrorCode    => 'TicketCreate.MissingParameter',
-            ErrorMessage => "TicketCreate: Attachment->Filename  parameter is missing!",
-        };
     }
 
     # check Article->ContentType
