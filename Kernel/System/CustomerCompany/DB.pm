@@ -135,7 +135,7 @@ sub CustomerCompanyList {
     my @Bind;
     my @Conditions;
 
-    if ($Valid) {
+    if ( $Valid && $Self->{CustomerCompanyValid} ) {
 
         # get valid object
         my $ValidObject = $Kernel::OM->Get('Kernel::System::Valid');
