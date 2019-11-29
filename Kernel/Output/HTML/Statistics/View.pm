@@ -24,6 +24,7 @@ our @ObjectDependencies = (
     'Kernel::Output::HTML::Layout',
     'Kernel::Output::PDF::Statistics',
     'Kernel::System::CSV',
+    'Kernel::System::CustomerCompany',
     'Kernel::System::DateTime',
     'Kernel::System::Group',
     'Kernel::System::Log',
@@ -31,6 +32,7 @@ our @ObjectDependencies = (
     'Kernel::System::PDF',
     'Kernel::System::Stats',
     'Kernel::System::Ticket::Article',
+    'Kernel::System::Ticket',
     'Kernel::System::User',
     'Kernel::System::Web::Request',
 );
@@ -1098,6 +1100,21 @@ sub RestrictionsWidget {
         {
             my $DFTreeClass = ( $ObjectAttribute->{ShowAsTree} && $ObjectAttribute->{IsDynamicField} )
                 ? 'DynamicFieldWithTreeView' : '';
+
+            # Take into account config 'IncludeUnknownTicketCustomers' for CustomerID restriction field.
+            # See bug#14869 (https://bugs.otrs.org/show_bug.cgi?id=14869).
+            if (
+                $ObjectAttribute->{Element} eq 'CustomerID'
+                && !$ConfigObject->Get('Ticket::IncludeUnknownTicketCustomers')
+                )
+            {
+                my %CustomerCompanyList
+                    = $Kernel::OM->Get('Kernel::System::CustomerCompany')->CustomerCompanyList( Valid => 1 );
+                %CustomerCompanyList
+                    = map { $_ => $_ } grep { defined $ObjectAttribute->{Values}->{$_} } sort keys %CustomerCompanyList;
+
+                $ObjectAttribute->{Values} = \%CustomerCompanyList;
+            }
 
             $BlockData{SelectField} = $LayoutObject->BuildSelection(
                 Data           => $ObjectAttribute->{Values},
