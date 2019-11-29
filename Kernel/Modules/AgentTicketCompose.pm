@@ -191,7 +191,7 @@ sub Run {
     my %GetParam;
     for (
         qw(
-        From To Cc Bcc Subject Body InReplyTo References ResponseID ReplyArticleID StateID ArticleID
+        To Cc Bcc Subject Body InReplyTo References ResponseID ReplyArticleID StateID ArticleID
         IsVisibleForCustomerPresent IsVisibleForCustomer TimeUnits Year Month Day Hour Minute FormID ReplyAll
         FormDraftID Title
         )
@@ -993,6 +993,11 @@ sub Run {
             $IsVisibleForCustomer = $GetParam{IsVisibleForCustomer} ? 1 : 0;
         }
 
+        my $From = $Kernel::OM->Get('Kernel::System::TemplateGenerator')->Sender(
+            QueueID => $Ticket{QueueID},
+            UserID  => $Self->{UserID},
+        );
+
         # send email
         my $ArticleID = $ArticleBackendObject->ArticleSend(
             IsVisibleForCustomer => $IsVisibleForCustomer,
@@ -1000,7 +1005,7 @@ sub Run {
             TicketID             => $Self->{TicketID},
             HistoryType          => 'SendAnswer',
             HistoryComment       => "\%\%$Recipients",
-            From                 => $GetParam{From},
+            From                 => $From,
             To                   => $GetParam{To},
             Cc                   => $GetParam{Cc},
             Bcc                  => $GetParam{Bcc},

@@ -1375,6 +1375,11 @@ sub SendEmail {
         $To .= $GetParam{$Key};
     }
 
+    my $From = $Kernel::OM->Get('Kernel::System::TemplateGenerator')->Sender(
+        QueueID => $Ticket{QueueID},
+        UserID  => $Self->{UserID},
+    );
+
     my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
     my $ArticleID     = $ArticleObject->BackendForChannel( ChannelName => 'Email' )->ArticleSend(
         SenderType           => 'agent',
@@ -1382,7 +1387,7 @@ sub SendEmail {
         TicketID             => $Self->{TicketID},
         HistoryType          => 'EmailAgent',
         HistoryComment       => "\%\%$To",
-        From                 => $GetParam{From},
+        From                 => $From,
         To                   => $GetParam{To},
         Cc                   => $GetParam{Cc},
         Bcc                  => $GetParam{Bcc},
@@ -2174,7 +2179,7 @@ sub _GetExtendedParams {
     # get params
     my %GetParam;
     for my $Key (
-        qw(From To Cc Bcc Subject Body ComposeStateID IsVisibleForCustomer IsVisibleForCustomerPresent
+        qw(To Cc Bcc Subject Body ComposeStateID IsVisibleForCustomer IsVisibleForCustomerPresent
         ArticleID TimeUnits Year Month Day Hour Minute FormID FormDraftID Title)
         )
     {

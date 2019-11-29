@@ -78,7 +78,6 @@
 
                 <label>[% Translate("From") | html %]:</label>
                 <div class="Field">
-                    <input type="hidden" name="From" value="[% Data.From | html %]"/>
                     [% Data.From | html %]
                 </div>
                 <div class="Clear"></div>
