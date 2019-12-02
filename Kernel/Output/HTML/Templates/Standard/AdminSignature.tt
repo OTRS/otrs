@@ -139,10 +139,16 @@
                         </div>
                         <div class="Clear"></div>
 
-                        <label for="RichText">[% Translate("Signature") | html %]:</label>
+                        <label class="Mandatory" for="RichText"><span class="Marker">*</span> [% Translate("Signature") | html %]:</label>
                         <div class="RichTextField">
                             [%# Textareas always swallow the first newline from their data, therefore we must prepend one since we want to preserve white space. %]
-                            <textarea id="RichText" class="RichText" rows="10" cols="60" name="Text">[% "\n" _ Data.Text | html %]</textarea>
+                            <textarea id="RichText" class="RichText Validate_Required" rows="10" cols="60" name="Text">[% "\n" _ Data.Text | html %]</textarea>
+                            <div id="RichTextError" class="TooltipErrorMessage">
+                                <p>[% Translate("This field is required.") | html %]</p>
+                            </div>
+                            <div id="RichTextServerError" class="TooltipErrorMessage">
+                                <p>[% Translate("This field is required.") | html %]</p>
+                            </div>
                         </div>
                         <div class="Clear"></div>
 

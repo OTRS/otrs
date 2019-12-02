@@ -1,4 +1,5 @@
 #6.0.25 ????-??-??
+ - 2019-12-02 Fixed bug#[14881](https://bugs.otrs.org/show_bug.cgi?id=14881) - Signature and Salutation text fields are not marked as mandatory in add and edit screens.
  - 2019-11-29 Improved article sending via email communication channel.
  - 2019-11-29 Fixed bug#[14869](https://bugs.otrs.org/show_bug.cgi?id=14869) - Ticket::IncludeUnknownTicketCustomers is not used in statistic.
  - 2019-11-29 Fixed bug#[14861](https://bugs.otrs.org/show_bug.cgi?id=14861) - Foreign Customer Company DB validation is wrong.

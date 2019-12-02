@@ -144,9 +144,15 @@
                         </div>
                         <div class="Clear"></div>
 
-                        <label for="RichText">[% Translate("Salutation") | html %]:</label>
+                        <label class="Mandatory" for="RichText"><span class="Marker">*</span> [% Translate("Salutation") | html %]:</label>
                         <div class="RichTextField">
-                            <textarea id="RichText" class="RichText" rows="10" cols="74" name="Text">[% Data.Text | html %]</textarea>
+                            <textarea id="RichText" class="RichText Validate_Required" rows="10" cols="74" name="Text">[% Data.Text | html %]</textarea>
+                            <div id="RichTextError" class="TooltipErrorMessage">
+                                <p>[% Translate("This field is required.") | html %]</p>
+                            </div>
+                            <div id="RichTextServerError" class="TooltipErrorMessage">
+                                <p>[% Translate("This field is required.") | html %]</p>
+                            </div>
                         </div>
                         <div class="Clear"></div>
 

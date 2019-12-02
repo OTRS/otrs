@@ -83,7 +83,7 @@ sub Run {
         }
 
         # check needed data
-        for my $Needed (qw(Name ValidID)) {
+        for my $Needed (qw(Name ValidID Text)) {
             if ( !$GetParam{$Needed} ) {
                 $Errors{ $Needed . 'Invalid' } = 'ServerError';
             }
@@ -180,7 +180,7 @@ sub Run {
         }
 
         # check needed data
-        for my $Needed (qw(Name ValidID)) {
+        for my $Needed (qw(Name ValidID Text)) {
             if ( !$GetParam{$Needed} ) {
                 $Errors{ $Needed . 'Invalid' } = 'ServerError';
             }

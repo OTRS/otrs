@@ -76,21 +76,24 @@ $Selenium->RunTest(
             $Count++;
         }
 
+        # Check if Signature field has validation. See bug#14881.
         # Check client side validation.
-        my $Element = $Selenium->find_element( "#Name", 'css' );
-        $Element->send_keys("");
-        $Selenium->find_element("//button[\@type='submit']")->click();
-        $Selenium->WaitFor(
-            JavaScript => "return typeof(\$) === 'function' && \$('#Name.Error').length"
-        );
+        for my $HTMLElement (qw(Name RichText)) {
+            my $Element = $Selenium->find_element( "#$HTMLElement", 'css' );
+            $Element->send_keys("");
+            $Selenium->find_element("//button[\@type='submit']")->click();
+            $Selenium->WaitFor(
+                JavaScript => "return typeof(\$) === 'function' && \$('#$HTMLElement.Error').length"
+            );
 
-        $Self->Is(
-            $Selenium->execute_script(
-                "return \$('#Name').hasClass('Error')"
-            ),
-            '1',
-            'Client side validation correctly detected missing input value',
-        );
+            $Self->Is(
+                $Selenium->execute_script(
+                    "return \$('#$HTMLElement').hasClass('Error')"
+                ),
+                '1',
+                "Client side validation correctly detected missing input value for Element $HTMLElement",
+            );
+        }
 
         # Create real test Salutation.
         my $SalutationRandomID = "Salutation" . $Helper->GetRandomID();
