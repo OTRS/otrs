@@ -171,7 +171,7 @@ my $ExclusiveLockGUID = $SysConfigDBObject->DefaultSettingLock(
 my %Result = $SysConfigObject->SettingUpdate(
     Name              => $SettingName1,
     IsValid           => 1,
-    EffectiveValue    => 'Modified 1 Setting 1',
+    EffectiveValue    => 'ConfigurationDeploymentSettingListGet.t Modified 1 Setting 1',
     ExclusiveLockGUID => $ExclusiveLockGUID,
     UserID            => 1,
 );
@@ -183,7 +183,7 @@ $Self->True(
 %Result = $SysConfigObject->SettingUpdate(
     Name              => $SettingName3,
     IsValid           => 1,
-    EffectiveValue    => 'Modified 1 Setting 3',
+    EffectiveValue    => 'ConfigurationDeploymentSettingListGet.t Modified 1 Setting 3',
     ExclusiveLockGUID => $ExclusiveLockGUID,
     UserID            => 1,
 );
@@ -214,15 +214,15 @@ my @List = $SysConfigObject->ConfigurationDeploySettingsListGet(
 );
 
 # There are some settings deployed in Selenium tests, skip them.
-@List = grep { $_->{Name} !~ m{^Example.*} } @List;
+@List = grep { $_->{EffectiveValue} =~ m{^ConfigurationDeploymentSettingListGet.t} } @List;
 
 my %SettingsResult = map { $_->{Name} => $_->{EffectiveValue} } @List;
 
 $Self->IsDeeply(
     \%SettingsResult,
     {
-        $SettingName1 => 'Modified 1 Setting 1',
-        $SettingName3 => 'Modified 1 Setting 3',
+        $SettingName1 => 'ConfigurationDeploymentSettingListGet.t Modified 1 Setting 1',
+        $SettingName3 => 'ConfigurationDeploymentSettingListGet.t Modified 1 Setting 3',
     },
     "ConfigurationDeployGetLast() Deployment 1",
 );
@@ -236,7 +236,7 @@ $ExclusiveLockGUID = $SysConfigDBObject->DefaultSettingLock(
 %Result = $SysConfigObject->SettingUpdate(
     Name              => $SettingName1,
     IsValid           => 1,
-    EffectiveValue    => 'Modified 2 Setting 1',
+    EffectiveValue    => 'ConfigurationDeploymentSettingListGet.t Modified 2 Setting 1',
     ExclusiveLockGUID => $ExclusiveLockGUID,
     UserID            => 1,
 );
@@ -248,7 +248,7 @@ $Self->True(
 %Result = $SysConfigObject->SettingUpdate(
     Name              => $SettingName2,
     IsValid           => 1,
-    EffectiveValue    => 'Modified 1 Setting 2',
+    EffectiveValue    => 'ConfigurationDeploymentSettingListGet.t Modified 1 Setting 2',
     ExclusiveLockGUID => $ExclusiveLockGUID,
     UserID            => 1,
 );
@@ -260,7 +260,7 @@ $Self->True(
 %Result = $SysConfigObject->SettingUpdate(
     Name              => $SettingName4,
     IsValid           => 1,
-    EffectiveValue    => 'Modified 1 Setting 4',
+    EffectiveValue    => 'ConfigurationDeploymentSettingListGet.t Modified 1 Setting 4',
     ExclusiveLockGUID => $ExclusiveLockGUID,
     UserID            => 1,
 );
@@ -300,9 +300,9 @@ $Self->True(
 $Self->IsDeeply(
     \%SettingsResult,
     {
-        $SettingName1 => 'Modified 2 Setting 1',
-        $SettingName2 => 'Modified 1 Setting 2',
-        $SettingName4 => 'Modified 1 Setting 4',
+        $SettingName1 => 'ConfigurationDeploymentSettingListGet.t Modified 2 Setting 1',
+        $SettingName2 => 'ConfigurationDeploymentSettingListGet.t Modified 1 Setting 2',
+        $SettingName4 => 'ConfigurationDeploymentSettingListGet.t Modified 1 Setting 4',
     },
     "ConfigurationDeployGetLast() Deployment 2",
 );
