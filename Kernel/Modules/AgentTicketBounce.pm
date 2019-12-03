@@ -327,7 +327,7 @@ $Param{Signature}";
         $LayoutObject->ChallengeTokenCheck();
 
         # get params
-        for my $Parameter (qw(From BounceTo To Subject Body InformSender BounceStateID)) {
+        for my $Parameter (qw(BounceTo To Subject Body InformSender BounceStateID)) {
             $Param{$Parameter}
                 = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => $Parameter ) || '';
         }
@@ -454,12 +454,17 @@ $Param{Signature}";
             return $Output;
         }
 
+        my $From = $Kernel::OM->Get('Kernel::System::TemplateGenerator')->Sender(
+            QueueID => $Ticket{QueueID},
+            UserID  => $Self->{UserID},
+        );
+
         my $Bounce = $TicketObject->ArticleBounce(
             TicketID    => $Self->{TicketID},
             ArticleID   => $Self->{ArticleID},
             UserID      => $Self->{UserID},
             To          => $Param{BounceTo},
-            From        => $Param{From},
+            From        => $From,
             HistoryType => 'Bounce',
         );
 
@@ -496,7 +501,7 @@ $Param{Signature}";
                 TicketID       => $Self->{TicketID},
                 HistoryType    => 'Bounce',
                 HistoryComment => "Bounced info to '$Param{To}'.",
-                From           => $Param{From},
+                From           => $From,
                 Email          => $Param{Email},
                 To             => $Param{To},
                 Subject        => $Param{Subject},

@@ -165,7 +165,7 @@ sub Run {
     my %GetParam;
     for (
         qw(
-        From To Cc Bcc Subject Body InReplyTo References ResponseID ReplyArticleID StateID
+        To Cc Bcc Subject Body InReplyTo References ResponseID ReplyArticleID StateID
         ArticleID ArticleTypeID TimeUnits Year Month Day Hour Minute FormID ReplyAll
         )
         )
@@ -849,6 +849,11 @@ sub Run {
             );
         }
 
+        my $From = $Kernel::OM->Get('Kernel::System::TemplateGenerator')->Sender(
+            QueueID => $Ticket{QueueID},
+            UserID  => $Self->{UserID},
+        );
+
         # send email
         my $ArticleID = $TicketObject->ArticleSend(
             ArticleTypeID  => $ArticleTypeID,
@@ -856,7 +861,7 @@ sub Run {
             TicketID       => $Self->{TicketID},
             HistoryType    => 'SendAnswer',
             HistoryComment => "\%\%$Recipients",
-            From           => $GetParam{From},
+            From           => $From,
             To             => $GetParam{To},
             Cc             => $GetParam{Cc},
             Bcc            => $GetParam{Bcc},

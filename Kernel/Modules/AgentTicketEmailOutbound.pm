@@ -1167,13 +1167,18 @@ sub SendEmail {
     # get article type ID param
     my $ArticleTypeID = $ParamObject->GetParam( Param => 'ArticleTypeID' );
 
+    my $From = $Kernel::OM->Get('Kernel::System::TemplateGenerator')->Sender(
+        QueueID => $Ticket{QueueID},
+        UserID  => $Self->{UserID},
+    );
+
     my $ArticleID = $TicketObject->ArticleSend(
         ArticleTypeID  => $ArticleTypeID,
         SenderType     => 'agent',
         TicketID       => $Self->{TicketID},
         HistoryType    => 'EmailAgent',
         HistoryComment => "\%\%$To",
-        From           => $GetParam{From},
+        From           => $From,
         To             => $GetParam{To},
         Cc             => $GetParam{Cc},
         Bcc            => $GetParam{Bcc},
@@ -1930,7 +1935,7 @@ sub _GetExtendedParams {
     # get params
     my %GetParam;
     for my $Key (
-        qw(From To Cc Bcc Subject Body ComposeStateID ArticleTypeID
+        qw(To Cc Bcc Subject Body ComposeStateID ArticleTypeID
         ArticleID TimeUnits Year Month Day Hour Minute FormID)
         )
     {
