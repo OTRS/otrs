@@ -119,6 +119,7 @@ sub new {
     eval {
         $Self = $Class->SUPER::new(
             webelement_class => 'Kernel::System::UnitTest::Selenium::WebElement',
+            error_handler    => \&SeleniumErrorHandler,
             %SeleniumTestsConfig
         );
     };
@@ -160,6 +161,45 @@ sub new {
         $Self->{is_wd3} = 0;
     }
     return $Self;
+}
+
+sub SeleniumErrorHandler {
+    my ( $Self, $Error ) = @_;
+
+    my $Caller     = 0;
+    my $StackTrace = "Selenium stack trace: ($$): \n";
+
+    COUNT:
+    for ( my $Count = 0; $Count < 30; $Count++ ) {
+
+        my ( $Package1, $Filename1, $Line1, $Subroutine1 ) = caller( $Caller + $Count );
+
+        last COUNT if !$Line1;
+
+        my ( $Package2, $Filename2, $Line2, $Subroutine2 ) = caller( $Caller + 1 + $Count );
+
+        # if there is no caller module use the file name
+        $Subroutine2 ||= $0;
+
+        # print line if upper caller module exists
+        my $VersionString = '';
+
+        eval { $VersionString = $Package1->VERSION || ''; };    ## no critic
+
+        # version is present
+        if ($VersionString) {
+            $VersionString = ' (v' . $VersionString . ')';
+        }
+
+        $StackTrace .= "   Module: $Subroutine2$VersionString Line: $Line1\n";
+
+        last COUNT if !$Line2;
+    }
+
+    $Self->{_SeleniumStackTrace} = $StackTrace;
+    $Self->{_SeleniumException}  = $Error;
+
+    die $Error;
 }
 
 =item RunTest()
@@ -445,6 +485,7 @@ sub WaitFor {
         elsif ( $Param{ElementExists} ) {
             my @Arguments
                 = ref( $Param{ElementExists} ) eq 'ARRAY' ? @{ $Param{ElementExists} } : $Param{ElementExists};
+
             if ( eval { $Self->find_element(@Arguments) } ) {
                 Time::HiRes::sleep($WaitSeconds);
                 return 1;
@@ -453,6 +494,7 @@ sub WaitFor {
         elsif ( $Param{ElementMissing} ) {
             my @Arguments
                 = ref( $Param{ElementMissing} ) eq 'ARRAY' ? @{ $Param{ElementMissing} } : $Param{ElementMissing};
+
             if ( !eval { $Self->find_element(@Arguments) } ) {
                 Time::HiRes::sleep($WaitSeconds);
                 return 1;
@@ -584,9 +626,13 @@ for analysis (in folder /var/otrs-unittest if it exists, in $Home/var/httpd/htdo
 sub HandleError {
     my ( $Self, $Error ) = @_;
 
-    $Self->{UnitTestDriverObject}->False( 1, "Exception in Selenium': $Error" );
+    $Self->{UnitTestDriverObject}->False( 1, $Error );
 
-    #eval {
+    # If we really have a selenium error, get the stack trace for it.
+    if ( $Error eq $Self->{_SeleniumException} && $Self->{_SeleniumStackTrace} ) {
+        $Self->{UnitTestDriverObject}->False( 1, $Self->{_SeleniumStackTrace} );
+    }
+
     my $Data = $Self->screenshot();
     return if !$Data;
     $Data = MIME::Base64::decode_base64($Data);
