@@ -631,27 +631,29 @@ for analysis (in folder /var/otrs-unittest if it exists, in $Home/var/httpd/htdo
 sub HandleError {
     my ( $Self, $Error ) = @_;
 
-    $Self->{UnitTestDriverObject}->False( 1, $Error );
-
     # If we really have a selenium error, get the stack trace for it.
     if ( $Error eq $Self->{_SeleniumException} && $Self->{_SeleniumStackTrace} ) {
-        $Self->{UnitTestDriverObject}->False( 1, $Self->{_SeleniumStackTrace} );
+        $Error .= "\n" . $Self->{_SeleniumStackTrace};
     }
+
+    $Self->{UnitTestDriverObject}->False( 1, $Error );
 
     my $Data = $Self->screenshot();
     return if !$Data;
     $Data = MIME::Base64::decode_base64($Data);
+
+    # Attach the screenshot to the actual error entry.
+    my $Filename = $Kernel::OM->Get('Kernel::System::UnitTest::Helper')->GetRandomNumber() . '.png';
+    $Self->{UnitTestDriverObject}->AttachSeleniumScreenshot(
+        Filename => $Filename,
+        Content  => $Data
+    );
 
     #
     # Store screenshots in a local folder from where they can be opened directly in the browser.
     #
     my $LocalScreenshotDir = $Kernel::OM->Get('Kernel::Config')->Get('Home') . '/var/httpd/htdocs/SeleniumScreenshots';
     mkdir $LocalScreenshotDir || return $Self->False( 1, "Could not create $LocalScreenshotDir." );
-
-    my $DateTimeObj = $Kernel::OM->Create('Kernel::System::DateTime');
-    my $Filename    = $DateTimeObj->ToString();
-    $Filename .= '-' . ( int rand 100_000_000 ) . '.png';
-    $Filename =~ s{[ :]}{-}smxg;
 
     my $HttpType = $Kernel::OM->Get('Kernel::Config')->Get('HttpType');
     my $Hostname = $Kernel::OM->Get('Kernel::System::UnitTest::Helper')->GetTestHTTPHostname();
@@ -681,11 +683,7 @@ sub HandleError {
             || return $Self->{UnitTestDriverObject}->False( 1, "Could not write file $SharedScreenshotDir/$Filename" );
     }
 
-    $Self->{UnitTestDriverObject}->False( 1, "Saved screenshot in $URL" );
-    $Self->{UnitTestDriverObject}->AttachSeleniumScreenshot(
-        Filename => $Filename,
-        Content  => $Data
-    );
+    $Self->{UnitTestDriverObject}->True( 1, "Saved screenshot in $URL" );
 
     return;
 }
@@ -725,7 +723,7 @@ sub DEMOLISH {
             }
         }
 
-        # Cleanup all sessions, which was created after the selenium test start time.
+        # Cleanup all sessions which were created after the selenium test start time.
         my $AuthSessionObject = $Kernel::OM->Get('Kernel::System::AuthSession');
 
         my @Sessions = $AuthSessionObject->GetAllSessionIDs();
