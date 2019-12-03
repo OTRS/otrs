@@ -191,31 +191,6 @@ $Selenium->RunTest(
         $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
 
-        # Wait until page has loaded, if necessary.
-        $Selenium->WaitFor(
-            JavaScript => 'return typeof($) === "function" && $("#Row2 td.Channel span i.Warning").length;'
-        );
-
-        # Verify transmission status is shown as processing.
-        $Self->Is(
-            $Selenium->execute_script("return \$('#Row2 td.Channel span i.Warning').length;"),
-            1,
-            'Transmission status is shown as processing'
-        );
-
-        # Check if transmission processing message is shown.
-        my $DisplayedTransmissionMessage = $Selenium->find_element( '.WidgetMessage.Top.Warning', 'css' )->get_text();
-        $Self->True(
-            ( $DisplayedTransmissionMessage =~ /This message has been queued for sending./ ) || 0,
-            'Transmission processing message displayed correctly (1)'
-        );
-
-        # Verify css is correct for collapsed article widget.
-        $Self->False(
-            $Selenium->execute_script("return \$('.WidgetMenu').hasClass('SpacingBottom');"),
-            "CSS is correct for collapsed article widget."
-        ) || die;
-
         $Selenium->WaitForjQueryEventBound(
             CSSSelector => '.WidgetAction.Expand',
         );
@@ -224,12 +199,9 @@ $Selenium->RunTest(
         $Selenium->execute_script("\$('.WidgetAction.Expand').click();");
 
         $Selenium->WaitFor(
-            JavaScript => 'return typeof($) === "function" && $(".WidgetMenu").hasClass("SpacingBottom");'
+            JavaScript =>
+                'return typeof($) === "function" && $(".WidgetSimple.agent.Outgoing.VisibleForCustomer").hasClass("Expanded");'
         );
-        $Self->True(
-            $Selenium->execute_script("return \$('.WidgetMenu').hasClass('SpacingBottom');"),
-            "CSS is correct for expanded article widget."
-        ) || die;
 
         # Get article ID of last message.
         my $ComposeArticleID = int $Selenium->execute_script("return \$('#Row2 td.No input.ArticleID').val();");
@@ -257,11 +229,8 @@ $Selenium->RunTest(
 
         $Selenium->VerifiedRefresh();
 
-        # Verify transmission status is still shown as processing.
-        $Self->Is(
-            $Selenium->execute_script("return \$('#Row2 td.Channel span i.Warning').length;"),
-            1,
-            'Transmission status is still shown as processing'
+        $Selenium->WaitFor(
+            JavaScript => 'return typeof($) === "function" && $(".Avatar").length;'
         );
 
         # Check if transmission processing message contains information about temporary error.
@@ -290,11 +259,8 @@ $Selenium->RunTest(
 
         $Selenium->VerifiedRefresh();
 
-        # Verify transmission status is shown as error.
-        $Self->Is(
-            $Selenium->execute_script("return \$('#Row2 td.Channel span i.Error').length;"),
-            1,
-            'Transmission status is shown as error'
+        $Selenium->WaitFor(
+            JavaScript => 'return typeof($) === "function" && $(".Avatar").length;'
         );
 
         # Check if transmission error message is shown.
@@ -385,23 +351,8 @@ $Selenium->RunTest(
         $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
 
-        # Wait until page has loaded, if necessary.
         $Selenium->WaitFor(
-            JavaScript => 'return typeof($) === "function" && $("#Row3 td.Channel span i.Warning").length;'
-        );
-
-        # Verify transmission status is shown as processing.
-        $Self->Is(
-            $Selenium->execute_script("return \$('#Row3 td.Channel span i.Warning').length;"),
-            1,
-            'Transmission status is shown as processing'
-        );
-
-        # Check if transmission processing message is shown.
-        $DisplayedTransmissionMessage = $Selenium->find_element( '.WidgetMessage.Top.Warning', 'css' )->get_text();
-        $Self->True(
-            ( $DisplayedTransmissionMessage =~ /This message has been queued for sending./ ) || 0,
-            'Transmission processing message displayed correctly (2)'
+            JavaScript => 'return typeof($) === "function" && $(".Avatar").length;'
         );
 
         # Verify message log details button is shown.
