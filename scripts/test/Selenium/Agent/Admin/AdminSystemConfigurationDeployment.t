@@ -107,14 +107,17 @@ $Selenium->RunTest(
         $Selenium->find_element( "#DeploymentStart", 'css' )->click();
 
         $Selenium->WaitFor(
-            JavaScript => "return \$('#DeploymentComment').length;",
+            JavaScript => "return \$('#DeploymentComment:visible').length == 1;",
+        );
+        $Selenium->find_element( "#DeploymentComment", 'css' )->send_keys( 'A' x 251 );
+
+        $Selenium->WaitFor(
+            JavaScript => "return \$('#DialogDeployment .Overlay.Preparing:visible').length == 0;",
         );
         $Selenium->WaitForjQueryEventBound(
             CSSSelector => ".ButtonsRegular #Deploy",
         );
-
-        $Selenium->find_element( "#DeploymentComment", 'css' )->send_keys( 'A' x 251 );
-        $Selenium->find_element( "#Deploy",            'css' )->click();
+        $Selenium->find_element( "#Deploy", 'css' )->click();
 
         $Selenium->WaitFor(
             JavaScript => "return \$('#DeploymentComment.Error').length;",
