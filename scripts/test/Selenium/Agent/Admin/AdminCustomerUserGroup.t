@@ -102,6 +102,11 @@ $Selenium->RunTest(
             }
         }
 
+        # Test CustomerUser filter.
+        $Selenium->find_element( "#CustomerUserSearch", 'css' )->clear();
+        $Selenium->find_element( "#CustomerUserSearch", 'css' )->send_keys($UserRandomID);
+        $Selenium->find_element("//button[\@value='Search'][\@type='submit']")->VerifiedClick();
+
         # Check for created test CustomerUser and Group on screen.
         $Self->True(
             index( $Selenium->get_page_source(), $UserRandomID ) > -1,
@@ -110,16 +115,6 @@ $Selenium->RunTest(
         $Self->True(
             index( $Selenium->get_page_source(), $GroupRandomID ) > -1,
             "$GroupRandomID group found on page",
-        );
-
-        # Test CustomerUser filter.
-        $Selenium->find_element( "#CustomerUserSearch", 'css' )->clear();
-        $Selenium->find_element( "#CustomerUserSearch", 'css' )->send_keys($UserRandomID);
-        $Selenium->find_element("//button[\@value='Search'][\@type='submit']")->VerifiedClick();
-
-        $Self->True(
-            index( $Selenium->get_page_source(), $UserRandomID ) > -1,
-            "$UserRandomID user found on page",
         );
 
         # Clear CustomerUser filter.
@@ -156,6 +151,10 @@ $Selenium->RunTest(
 
             $Count++;
         }
+
+        $Selenium->find_element( "#CustomerUserSearch", 'css' )->clear();
+        $Selenium->find_element( "#CustomerUserSearch", 'css' )->send_keys($UserRandomID);
+        $Selenium->find_element("//button[\@value='Search'][\@type='submit']")->VerifiedClick();
 
         $Selenium->find_element("//input[\@value='$UserRandomID'][\@name='rw']")->click();
         $Selenium->find_element("//button[\@value='Save'][\@type='submit']")->VerifiedClick();
