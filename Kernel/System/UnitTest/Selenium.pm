@@ -638,6 +638,10 @@ sub HandleError {
 
     $Self->{UnitTestDriverObject}->False( 1, $Error );
 
+    # Don't create a test entry for the screenshot command,
+    #   to make sure it gets attached to the previous error entry.
+    local $Self->{SuppressCommandRecording} = 1;
+
     my $Data = $Self->screenshot();
     return if !$Data;
     $Data = MIME::Base64::decode_base64($Data);
