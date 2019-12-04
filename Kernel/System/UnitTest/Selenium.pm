@@ -462,7 +462,7 @@ sub WaitFor {
         && !$Param{ElementMissing}
         )
     {
-        die "Need JavaScript, WindowCount, ElementExists, ElementMissing or AlertPresent.";
+        die "Need JavaScript, WindowCount, ElementExists, ElementMissing, Callback or AlertPresent.";
     }
 
     local $Self->{SuppressCommandRecording} = 1;
@@ -516,7 +516,8 @@ sub WaitFor {
     }
     $Argument = "Callback" if $Param{Callback};
 
-    die "WaitFor($Argument) failed.";
+    # Use the selenium error handler to generate a stack trace.
+    die $Self->SeleniumErrorHandler("WaitFor($Argument) failed.\n");
 }
 
 =head2 SwitchToFrame()
