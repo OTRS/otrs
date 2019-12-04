@@ -184,6 +184,9 @@ sub SeleniumErrorHandler {
         # if there is no caller module use the file name
         $Subroutine2 ||= $0;
 
+        # Cut limit stack trace to test evaluation itself.
+        last COUNT if $Subroutine2 eq 'Kernel::System::UnitTest::Driver::Run';
+
         # print line if upper caller module exists
         my $VersionString = '';
 
