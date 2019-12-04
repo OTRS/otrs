@@ -103,6 +103,9 @@ sub Import {
 
     my $UntilLimitedTimestamp = $Param{UntilLimit} || '';
 
+    # Prevent line ending type errors (see bug#14791).
+    $Param{ICal} =~ s/\r/\n/g;
+
     if ( !$UntilLimitedTimestamp ) {
 
         # Calculate until time which will be used if there is any recurring Appointment without end

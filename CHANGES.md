@@ -1,4 +1,5 @@
 #6.0.25 ????-??-??
+ - 2019-12-04 Fixed bug#[14791](https://bugs.otrs.org/show_bug.cgi?id=14791) - ICS files with carriage return character cannot be imported to calendar.
  - 2019-12-03 Fixed bug#[14883](https://bugs.otrs.org/show_bug.cgi?id=14883) - AgentTicketZoom remove 'This message has been queued for sending' feature.
  - 2019-12-02 Fixed bug#[14881](https://bugs.otrs.org/show_bug.cgi?id=14881) - Signature and Salutation text fields are not marked as mandatory in add and edit screens.
  - 2019-11-29 Improved article sending via email communication channel.
