@@ -925,6 +925,11 @@ sub SendEmail {
         FormID => $GetParam{FormID},
     );
 
+    my $From = $Kernel::OM->Get('Kernel::System::TemplateGenerator')->Sender(
+        QueueID => $Ticket{QueueID},
+        UserID  => $Self->{UserID},
+    );
+
     # check if there is an error
     if (%Error) {
 
@@ -1036,11 +1041,6 @@ sub SendEmail {
             Comment => Translatable('Please contact the administrator.'),
         );
     }
-
-    my $From = $Kernel::OM->Get('Kernel::System::TemplateGenerator')->Sender(
-        QueueID => $Ticket{QueueID},
-        UserID  => $Self->{UserID},
-    );
 
     my $ArticleID = $TicketObject->ArticleSend(
         ArticleTypeID  => $ArticleTypeID,

@@ -733,6 +733,11 @@ sub Run {
                 );
         }
 
+        my $From = $Kernel::OM->Get('Kernel::System::TemplateGenerator')->Sender(
+            QueueID => $Ticket{QueueID},
+            UserID  => $Self->{UserID},
+        );
+
         # check if there is an error
         if (%Error) {
 
@@ -758,6 +763,7 @@ sub Run {
                 %Ticket,
                 DynamicFieldHTML => \%DynamicFieldHTML,
                 %GetParam,
+                From => $From,
             );
             $Output .= $LayoutObject->Footer(
                 Type => 'Small',
@@ -848,11 +854,6 @@ sub Run {
                 Comment => Translatable('Please contact the administrator.'),
             );
         }
-
-        my $From = $Kernel::OM->Get('Kernel::System::TemplateGenerator')->Sender(
-            QueueID => $Ticket{QueueID},
-            UserID  => $Self->{UserID},
-        );
 
         # send email
         my $ArticleID = $TicketObject->ArticleSend(
