@@ -39,6 +39,13 @@ $Selenium->RunTest(
             Value => 1,
         );
 
+        # Change EmailFrom in messages to AgentName.
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'Ticket::DefineEmailFrom',
+            Value => 'AgentName',
+        );
+
         my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
         my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
@@ -367,6 +374,45 @@ $Selenium->RunTest(
                 );
             }
         }
+
+        # Verify current test user name as From.
+        $Self->True(
+            $Selenium->execute_script(
+                "return \$('.TableLike .Field:contains(\"$TestUserLogin\")').length === 1;"
+            ),
+            "From correct is '$TestUserLogin'."
+        );
+
+        # Unlock ticket.
+        $TicketObject->TicketLockSet(
+            Lock     => 'unlock',
+            TicketID => $TicketID,
+            UserID   => 1,
+        );
+
+        # Create second test user login.
+        my $TestUserLogin2 = $Helper->TestUserCreate(
+            Groups => [ 'admin', 'users' ],
+        ) || die "Did not get test user";
+
+        $Selenium->Login(
+            Type     => 'Agent',
+            User     => $TestUserLogin2,
+            Password => $TestUserLogin2,
+        );
+
+        # Navigate to created FormDraft.
+        $Selenium->VerifiedGet(
+            "${ScriptAlias}index.pl?Action=AgentTicket$FormDraftCase->{Module};TicketID=$TicketID;LoadFormDraft=1;FormDraftID=$FormDraftID"
+        );
+
+        # Verify current second test user name as From.
+        $Self->True(
+            $Selenium->execute_script(
+                "return \$('.TableLike .Field:contains(\"$TestUserLogin2\")').length === 1;"
+            ),
+            "From correct is '$TestUserLogin2'."
+        );
 
         # Navigate to zoom view of created test ticket.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");

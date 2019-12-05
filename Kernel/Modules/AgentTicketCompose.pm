@@ -868,8 +868,15 @@ sub Run {
                 );
         }
 
-        # Make sure we don't save form if a draft was loaded.
+        # Make sure sender is correct one. See bug#14872 ( https://bugs.otrs.org/show_bug.cgi?id=14872 ).
+        $GetParam{From} = $Kernel::OM->Get('Kernel::System::TemplateGenerator')->Sender(
+            QueueID => $Ticket{QueueID},
+            UserID  => $Self->{UserID},
+        );
+
         if ( $Self->{LoadedFormDraftID} ) {
+
+            # Make sure we don't save form if a draft was loaded.
             %Error = ( LoadedFormDraft => 1 );
         }
 
