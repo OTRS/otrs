@@ -34,6 +34,7 @@ sub Run {
     # get needed objects
     my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
     my $Config = $ConfigObject->Get("Ticket::Frontend::$Self->{Action}");
 
@@ -110,8 +111,6 @@ sub Run {
             Text => $Search,
             From => 'utf-8',
         );
-
-        my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
         my @TicketIDs;
 
@@ -637,7 +636,6 @@ sub Run {
             }
         }
 
-        my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
         my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 
         # Special behavior for the fulltext search toolbar module:
@@ -1767,9 +1765,6 @@ sub Run {
                     my %AclData = %{$Data};
                     @AclData{ keys %AclData } = keys %AclData;
 
-                    # get ticket object
-                    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
-
                     # set possible values filter from ACLs
                     my $ACL = $TicketObject->TicketAcl(
                         Action        => $Self->{Action},
@@ -2048,7 +2043,7 @@ sub Run {
         );
         $Param{PrioritiesStrg} = $LayoutObject->BuildSelection(
             Data => {
-                $Kernel::OM->Get('Kernel::System::Priority')->PriorityList(
+                $TicketObject->TicketPriorityList(
                     UserID => $Self->{UserID},
                     Action => $Self->{Action},
                 ),
@@ -2375,8 +2370,11 @@ sub Run {
 
         # build type string
         if ( $ConfigObject->Get('Ticket::Type') ) {
-            my %Type = $Kernel::OM->Get('Kernel::System::Type')->TypeList(
+
+            # get ticket object
+            my %Type = $TicketObject->TicketTypeList(
                 UserID => $Self->{UserID},
+                Action => $Self->{Action},
             );
             $Param{TypesStrg} = $LayoutObject->BuildSelection(
                 Data        => \%Type,
