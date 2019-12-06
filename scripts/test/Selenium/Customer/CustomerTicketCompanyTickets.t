@@ -233,6 +233,8 @@ $Selenium->RunTest(
         # check customer filter selection on Company Tickets screen
         for my $Count ( 0 .. 1 ) {
 
+            $Selenium->execute_script('window.Core.App.PageLoadComplete = false;');
+
             # select customer company
             $Selenium->InputFieldValueSet(
                 Element => '#CustomerIDs',
@@ -241,9 +243,9 @@ $Selenium->RunTest(
 
             # Wait until new screen has loaded.
             $Selenium->WaitFor(
-                JavaScript => "return typeof(\$) === 'function' && \$('.Overview .MasterAction a').length;"
+                JavaScript =>
+                    'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
             );
-            sleep 1;
 
             $Self->True(
                 $Selenium->find_element(
