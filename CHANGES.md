@@ -1,5 +1,5 @@
 #6.0.25 ????-??-??
- - 2019-12-05 Fixed bug#[14886](https://bugs.otrs.org/show_bug.cgi?id=14886) - When ExternalFrontend::TicketCreate###Queue is disabled, customer user can create a ticket in default queue without sufficient permission.
+ - 2019-12-06 Fixed bug#[14886](https://bugs.otrs.org/show_bug.cgi?id=14886) - When ExternalFrontend::TicketCreate###Queue is disabled, customer user can create a ticket in default queue without sufficient permission.
  - 2019-12-05 Fixed bug#[14233](https://bugs.otrs.org/show_bug.cgi?id=14233) - Not possible to disable ticket type via ACL in AgentTicketSearch.
  - 2019-12-05 Fixed bug#[14872](https://bugs.otrs.org/show_bug.cgi?id=14872) - Use Draft to write in someone else's Name.
  - 2019-12-04 Fixed bug#[14791](https://bugs.otrs.org/show_bug.cgi?id=14791) - ICS files with carriage return character cannot be imported to calendar.
