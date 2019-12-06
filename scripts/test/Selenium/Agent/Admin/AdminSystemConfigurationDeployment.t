@@ -30,10 +30,30 @@ $Selenium->RunTest(
             Force     => 1,
             CleanUp   => 0,
         );
-
         $Self->True(
             $XMLLoaded,
             "ExampleComplex XML loaded.",
+        );
+
+        my $SettingName       = 'DeployTestCheckbox';
+        my $ExclusiveLockGUID = $SysConfigObject->SettingLock(
+            Name   => $SettingName,
+            Force  => 1,
+            UserID => 1,
+        );
+        $Self->True(
+            $ExclusiveLockGUID,
+            "Setting $SettingName is locked successfully.",
+        );
+
+        my $SettingReset = $SysConfigObject->SettingReset(
+            Name              => $SettingName,
+            ExclusiveLockGUID => $ExclusiveLockGUID,
+            UserID            => 1,
+        );
+        $Self->True(
+            $SettingReset,
+            "Setting $SettingName is resetted successfully.",
         );
 
         my %DeploymentResult = $SysConfigObject->ConfigurationDeploy(
@@ -42,13 +62,10 @@ $Selenium->RunTest(
             Force       => 1,
             AllSettings => 1,
         );
-
         $Self->True(
             $DeploymentResult{Success},
             "Deployment successful.",
         );
-
-        my $SettingName = 'DeployTestCheckbox';
 
         # Create test user and login.
         my $TestUserLogin = $Helper->TestUserCreate(
@@ -104,6 +121,7 @@ $Selenium->RunTest(
         );
 
         # Open the deployment dialog, exceeding its maximum length and check for the error.
+        $Selenium->execute_script('window.Core.App.PageLoadComplete = false;');
         $Selenium->find_element( "#DeploymentStart", 'css' )->click();
 
         $Selenium->WaitFor(
@@ -132,71 +150,20 @@ $Selenium->RunTest(
         $Selenium->find_element( "#DeploymentComment", 'css' )->send_keys( 'A' x 250 );
         $Selenium->find_element( "#Deploy",            'css' )->click();
 
-        $Selenium->WaitFor(
-            JavaScript => "return \$('.Dialog .InnerContent .Overlay i.Success:visible').length;",
-        );
-        $Self->True(
-            $Selenium->execute_script("return \$('.Dialog .InnerContent .Overlay i.Success:visible').length;"),
-            "Deployment successful.",
-        );
-
-        # Wait until the animation has been finished.
-        sleep 2;
-
         # Wait until redirect has been finished.
         $Selenium->WaitFor(
             JavaScript =>
                 'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete;'
         );
 
+        # Verify setting is correctly deployed.
         my %Setting = $SysConfigObject->SettingGet(
             Name => $SettingName,
         );
-
         $Self->Is(
-            $Setting{EffectiveValue},
-            1,
-            "'DeployTestCheckbox' setting is changed and deployed successfully.",
-        );
-
-        # Set value back to 'unchecked'.
-        my $ExclusiveLockGUID = $SysConfigObject->SettingLock(
-            Name   => $SettingName,
-            Force  => 1,
-            UserID => 1,
-        );
-        $Self->True(
-            $ExclusiveLockGUID,
-            "Setting 'DeployTestCheckbox' is locked successfully.",
-        );
-
-        my %Result = $SysConfigObject->SettingUpdate(
-            Name              => $SettingName,
-            EffectiveValue    => 0,
-            ExclusiveLockGUID => $ExclusiveLockGUID,
-            UserID            => 1,
-        );
-        $Self->True(
-            $Result{Success},
-            "Setting 'DeployTestCheckbox' is updated successfully.",
-        );
-
-        my $Success = $SysConfigObject->SettingUnlock(
-            Name => $SettingName,
-        );
-        $Self->True(
-            $Success,
-            "Setting 'DeployTestCheckbox' is unlocked successfully.",
-        );
-
-        %Setting = $SysConfigObject->SettingGet(
-            Name => $SettingName,
-        );
-
-        $Self->Is(
-            $Setting{EffectiveValue},
+            $Setting{IsDirty},
             0,
-            "'DeployTestCheckbox' setting is resetted successfully.",
+            "$SettingName setting is changed and deployed successfully.",
         );
     }
 );
