@@ -439,7 +439,14 @@ sub Run {
             # check if current selected QueueID exists in the list of queues,\
             # otherwise rise an error
             if ( !$Tos->{$NewQueueID} ) {
-                $Error{QueueInvalid} = 'ServerError';
+
+                # Check if queue is accessible by customer user (see bug#14886).
+                if ( $ConfigObject->Get('Ticket::Frontend::CustomerTicketMessage')->{Queue} == 0 ) {
+                    $Error{QueueDisabled} = 'ServerError';
+                }
+                else {
+                    $Error{QueueInvalid} = 'ServerError';
+                }
             }
 
             # set the correct queue name in $To if it was altered
@@ -498,6 +505,12 @@ sub Run {
 
             # html output
             my $Output = $LayoutObject->CustomerHeader();
+            if ( $Error{QueueDisabled} ) {
+                $Output .= $LayoutObject->Notify(
+                    Priority => 'Error',
+                    Info => Translatable("You don't have sufficient permissions for ticket creation in default queue."),
+                );
+            }
             $Output .= $LayoutObject->CustomerNavigationBar();
             $Output .= $Self->_MaskNew(
                 Attachments => \@Attachments,
