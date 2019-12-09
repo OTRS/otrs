@@ -1,5 +1,3 @@
-#6.0.26 ????-??-??
-
 #6.0.25 2020-01-10
  - 2019-12-06 Fixed bug#[14886](https://bugs.otrs.org/show_bug.cgi?id=14886) - When ExternalFrontend::TicketCreate###Queue is disabled, customer user can create a ticket in default queue without sufficient permission.
  - 2019-12-05 Fixed bug#[14233](https://bugs.otrs.org/show_bug.cgi?id=14233) - Not possible to disable ticket type via ACL in AgentTicketSearch.
