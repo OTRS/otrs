@@ -1,5 +1,3 @@
-#5.0.41 ????-??-??
-
 #5.0.40 2020-01-10
 - 2019-12-03 Improved article sending via email communication channel.
 
