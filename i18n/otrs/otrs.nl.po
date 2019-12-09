@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-08-09 08:43+0000\n"
+"POT-Creation-Date: 2019-12-07 19:57+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2900,7 +2900,7 @@ msgstr "Geef aan wat u wilt dat gebeurt als de activatie-criteria kloppen."
 
 #. Template: AdminACLEdit
 msgid "Check the official %sdocumentation%s."
-msgstr ""
+msgstr "Bekijk de officiële %sdocumentatie%s"
 
 #. Template: AdminACLEdit
 msgid "Show or hide the content"
@@ -5268,7 +5268,7 @@ msgstr "Verstuur naar deze gebruikers"
 
 #. Template: AdminNotificationEvent
 msgid "Send to all group members (agents only)"
-msgstr ""
+msgstr "Verstuur naar alle groepsleden (alleen behandelaars)"
 
 #. Template: AdminNotificationEvent
 msgid "Send to all role members"

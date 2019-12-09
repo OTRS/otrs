@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-08-09 08:43+0000\n"
+"POT-Creation-Date: 2019-12-07 19:57+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1804,7 +1804,7 @@ msgstr "Másolat"
 
 #. Template: AAATicket
 msgid "Bcc"
-msgstr "Titkos másolat"
+msgstr "Rejtett másolat"
 
 #. Template: AAATicket
 msgid "Subject"
@@ -2864,7 +2864,7 @@ msgstr "Másolás"
 
 #. Template: AdminACL
 msgid "No data found."
-msgstr "Nem található adat"
+msgstr "Nem található adat."
 
 #. Template: AdminACLEdit
 msgid "Edit ACL %s"
@@ -3324,7 +3324,7 @@ msgstr "A(z) %s jogosultság ki- vagy bekapcsolása ehhez: %s"
 
 #. Template: AdminCustomerUserGroup
 msgid "Customer Default Groups:"
-msgstr "Alapértelmezett ügyfélcsoportok"
+msgstr "Alapértelmezett ügyfélcsoportok:"
 
 #. Template: AdminCustomerUserGroup
 msgid "No changes can be made to these groups."
@@ -3776,7 +3776,7 @@ msgstr "Eseményalapú végrehajtás (egyetlen jegy)"
 
 #. Template: AdminGenericAgent
 msgid "Event Triggers"
-msgstr "Esemény-aktiválók"
+msgstr "Eseményaktiválók"
 
 #. Template: AdminGenericAgent
 msgid "List of all configured events"
@@ -3796,11 +3796,11 @@ msgstr "Ha egy jegyesemény elsül, a jegy szűrő alkalmazásával kerül ellen
 
 #. Template: AdminGenericAgent
 msgid "Do you really want to delete this event trigger?"
-msgstr "Valóban törölni szeretné ezt az esemény-aktiválót?"
+msgstr "Valóban törölni szeretné ezt az eseményaktiválót?"
 
 #. Template: AdminGenericAgent
 msgid "Add Event Trigger"
-msgstr "Esemény-aktiváló hozzáadása"
+msgstr "Eseményaktiváló hozzáadása"
 
 #. Template: AdminGenericAgent
 msgid "Add Event"
@@ -3808,7 +3808,7 @@ msgstr "Esemény hozzáadása"
 
 #. Template: AdminGenericAgent
 msgid "To add a new event select the event object and event name and click on the \"+\" button"
-msgstr "Egy új esemény hozzáadásához válassza ki az eseményobjektumot és az eseménynevet, majd kattintson a „+” gombra."
+msgstr "Egy új esemény hozzáadásához válassza ki az eseményobjektumot és az eseménynevet, majd kattintson a „+” gombra"
 
 #. Template: AdminGenericAgent
 msgid "Duplicate event."
@@ -3820,7 +3820,7 @@ msgstr "Ez az esemény már csatolva van a feladathoz, használjon egy másikat.
 
 #. Template: AdminGenericAgent
 msgid "Delete this Event Trigger"
-msgstr "Esemény-aktiváló törlése"
+msgstr "Eseményaktiváló törlése"
 
 #. Template: AdminGenericAgent
 msgid "Remove selection"
@@ -4104,11 +4104,11 @@ msgstr "Egyéni modul végrehajtása"
 
 #. Template: AdminGenericAgent
 msgid "Param %s key"
-msgstr "%s paraméter kulcs"
+msgstr "%s. paraméter kulcsa"
 
 #. Template: AdminGenericAgent
 msgid "Param %s value"
-msgstr "%s paraméter érték"
+msgstr "%s. paraméter értéke"
 
 #. Template: AdminGenericAgent
 msgid "Save Changes"
@@ -4304,11 +4304,11 @@ msgstr "Ezt a meghívót a beállított események fogják aktiválni."
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Asynchronous event triggers are handled by the OTRS Scheduler Daemon in background (recommended)."
-msgstr "Az aszinkron esemény-aktiválókat az OTRS ütemeződémon kezeli a háttérben (javasolt)."
+msgstr "Az aszinkron eseményaktiválókat az OTRS ütemeződémon kezeli a háttérben (javasolt)."
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Synchronous event triggers would be processed directly during the web request."
-msgstr "A szinkron esemény-aktiválók közvetlenül legyenek feldolgozva a webkérések alatt."
+msgstr "A szinkron eseményaktiválók közvetlenül lehetnek feldolgozva a webkérések közben."
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Save and continue"
@@ -4476,7 +4476,7 @@ msgstr "Ez a leképezés fogja a kérés adatait feldolgozni olyan formára alak
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Operation backend"
-msgstr "Műveleti háttérprogram."
+msgstr "Műveleti háttérprogram"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "This OTRS operation backend module will be called internally to process the request, generating data for the response."
@@ -5048,7 +5048,7 @@ msgstr "Az admin csoport az adminisztrációs területre, a stats csoport a stat
 
 #. Template: AdminGroup
 msgid "Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...). "
-msgstr "Új csoportok létrehozása a hozzáférési jogosultságok kezeléséhez az ügyintézők különböző csoportjainál (például beszerzési részleg, támogató részleg, értékesítési részleg, …)."
+msgstr "Új csoportok létrehozása a hozzáférési jogosultságok kezeléséhez az ügyintézők különböző csoportjainál (például beszerzési részleg, támogató részleg, értékesítési részleg, …). "
 
 #. Template: AdminGroup
 msgid "It's useful for ASP solutions. "
@@ -5864,7 +5864,7 @@ msgstr "Helyi tároló"
 
 #. Template: AdminPackageManager
 msgid "This package is verified by OTRSverify (tm)"
-msgstr "Ezt a csomagot az OTRSverify (tm) ellenőrizte."
+msgstr "Ezt a csomagot az OTRSverify (tm) ellenőrizte"
 
 #. Template: AdminPackageManager
 msgid "Uninstall"
@@ -7612,7 +7612,7 @@ msgstr "Támogatási csomag"
 
 #. Template: AdminSupportDataCollector
 msgid "The mail could not be sent"
-msgstr "A levelet nem sikerült elküldeni."
+msgstr "A levelet nem sikerült elküldeni"
 
 #. Template: AdminSupportDataCollector
 msgid "The support bundle has been generated."
@@ -8768,7 +8768,7 @@ msgstr "Másolat eltávolítása"
 
 #. Template: AgentTicketCompose
 msgid "Remove Bcc"
-msgstr "Titkos másolat eltávolítása"
+msgstr "Rejtett másolat eltávolítása"
 
 #. Template: AgentTicketCompose
 msgid "Address book"
@@ -8928,7 +8928,7 @@ msgstr "Keresési beállítások módosítása"
 
 #. Template: AgentTicketOverviewNavBar
 msgid "Remove active filters for this screen."
-msgstr "Aktív szűrők eltávolítása ennél a képernyőnél"
+msgstr "Aktív szűrők eltávolítása ennél a képernyőnél."
 
 #. Template: AgentTicketOverviewNavBar
 msgid "Tickets per page"
@@ -8956,7 +8956,7 @@ msgstr "Új telefonos jegy létrehozása"
 
 #. Template: AgentTicketPhone
 msgid "Please include at least one customer for the ticket."
-msgstr "Vegyen fel legalább egy ügyfelet a jegyhez!"
+msgstr "Vegyen fel legalább egy ügyfelet a jegyhez."
 
 #. Template: AgentTicketPhone
 msgid "To queue"
@@ -13404,7 +13404,7 @@ msgstr "Probléma"
 
 #. Perl Module: Kernel/System/Ticket.pm
 msgid "Reset of unlock time."
-msgstr "Feloldási idő visszaállítása."
+msgstr "Feloldás idejének átállítása."
 
 #. Perl Module: Kernel/System/Ticket/Event/NotificationEvent/Transport/Email.pm
 msgid "PGP sign only"
@@ -14782,7 +14782,7 @@ msgstr "A rendszer által alapértelmezetten használt várólista azonosító a
 
 #. SysConfig
 msgid "Default skin for the agent interface (slim version)."
-msgstr "Alapértelmezett felszín az ügyintézői felülethez (karcsú változat)"
+msgstr "Alapértelmezett felszín az ügyintézői felülethez (karcsú változat)."
 
 #. SysConfig
 msgid "Default skin for the agent interface."
@@ -15942,7 +15942,7 @@ msgstr "Meghatározza egy jegy következő állapotát egy másik várólistába
 
 #. SysConfig
 msgid "Defines the number of character per line used in case an HTML article preview replacement on TemplateGenerator for EventNotifications."
-msgstr "Meghatározza a soronkénti karakterek számát, amelyet egy sablon-előállítón lévő HTML-bejegyzés előnézet cseréje esetén használnak az esemény-értesítésekhez."
+msgstr "Meghatározza a soronkénti karakterek számát, amelyet egy sablon-előállítón lévő HTML-bejegyzés előnézet cseréje esetén használnak az eseményértesítésekhez."
 
 #. SysConfig
 msgid "Defines the number of days to keep the daemon log files."
@@ -16786,19 +16786,19 @@ msgstr "Első várólista"
 
 #. SysConfig
 msgid "FirstLock"
-msgstr "FirstLock"
+msgstr "Első zárolás"
 
 #. SysConfig
 msgid "FirstResponse"
-msgstr "FirstResponse"
+msgstr "Első válasz"
 
 #. SysConfig
 msgid "FirstResponseDiffInMin"
-msgstr "FirstResponseDiffInMin"
+msgstr "Első válasz különbsége percben"
 
 #. SysConfig
 msgid "FirstResponseInMin"
-msgstr "FirstResponseInMin"
+msgstr "Első válasz percben"
 
 #. SysConfig
 msgid "Firstname Lastname"
@@ -18358,7 +18358,7 @@ msgstr "Csak a tulajdonosnak küld ügyintéző követő értesítést, ha a jeg
 
 #. SysConfig
 msgid "Sends all outgoing email via bcc to the specified address. Please use this only for backup reasons."
-msgstr "Elküld minden kimenő e-mailt titkos másolatként egy megadott címre. Ezt csak biztonsági mentés céljából használja."
+msgstr "Elküld minden kimenő e-mailt rejtett másolatként egy megadott címre. Ezt csak biztonsági mentés céljából használja."
 
 #. SysConfig
 msgid "Sends customer notifications just to the mapped customer."
@@ -19262,11 +19262,11 @@ msgstr "Szoftvercsomag-kezelő."
 
 #. SysConfig
 msgid "SolutionDiffInMin"
-msgstr "SolutionDiffInMin"
+msgstr "Megoldás különbsége percben"
 
 #. SysConfig
 msgid "SolutionInMin"
-msgstr "SolutionInMin"
+msgstr "Megoldás percben"
 
 #. SysConfig
 msgid "Some description!"
@@ -19902,11 +19902,11 @@ msgstr "A választó és automatikusan kiegészítő mezők új típusának hasz
 
 #. SysConfig
 msgid "UserFirstname"
-msgstr "UserFirstname"
+msgstr "Felhasználó keresztneve"
 
 #. SysConfig
 msgid "UserLastname"
-msgstr "UserLastname"
+msgstr "Felhasználó vezetékneve"
 
 #. SysConfig
 msgid "Uses Cc recipients in reply Cc list on compose an email answer in the ticket compose screen of the agent interface."

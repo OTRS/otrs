@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-08-09 08:43+0000\n"
+"POT-Creation-Date: 2019-12-07 19:57+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3188,7 +3188,7 @@ msgstr "Добавить компанию"
 
 #. Template: AdminCustomerUser
 msgid "Customer User Management"
-msgstr "Управление Компаниями"
+msgstr "Управление учётными записями клиентов"
 
 #. Template: AdminCustomerUser
 msgid "Back to search results"
@@ -3216,11 +3216,11 @@ msgstr "Переключиться на клиента"
 
 #. Template: AdminCustomerUser
 msgid "Add Customer User"
-msgstr "Добавить клиента"
+msgstr "Добавить учётную запись клиента"
 
 #. Template: AdminCustomerUser
 msgid "Edit Customer User"
-msgstr "Редактировать клиента"
+msgstr "Редактировать  учётную запись клиента"
 
 #. Template: AdminCustomerUser
 msgid "This field is required and needs to be a valid email address."

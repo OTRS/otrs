@@ -523,7 +523,7 @@ sub Data {
         'From' => 'Feladó',
         'To' => 'Címzett',
         'Cc' => 'Másolat',
-        'Bcc' => 'Titkos másolat',
+        'Bcc' => 'Rejtett másolat',
         'Subject' => 'Tárgy',
         'Move' => 'Áthelyezés',
         'Queue' => 'Várólista',
@@ -808,7 +808,7 @@ sub Data {
         'ACL name' => 'ACL név',
         'Validity' => 'Érvényesség',
         'Copy' => 'Másolás',
-        'No data found.' => 'Nem található adat',
+        'No data found.' => 'Nem található adat.',
 
         # Template: AdminACLEdit
         'Edit ACL %s' => '%s ACL szerkesztése',
@@ -960,7 +960,7 @@ sub Data {
         'Change Customer Relations for Group' => 'Ügyfélkapcsolatok megváltoztatása egy csoportnál',
         'Toggle %s Permission for all' => 'A(z) %s jogosultság ki- vagy bekapcsolása mindenkinek',
         'Toggle %s permission for %s' => 'A(z) %s jogosultság ki- vagy bekapcsolása ehhez: %s',
-        'Customer Default Groups:' => 'Alapértelmezett ügyfélcsoportok',
+        'Customer Default Groups:' => 'Alapértelmezett ügyfélcsoportok:',
         'No changes can be made to these groups.' => 'Nem lehet változtatni ezeken a csoportokon.',
         'ro' => 'csak olvasás',
         'Read only access to the ticket in this group/queue.' => 'Csak olvasható hozzáférés ebben a csoportban/várólistában lévő jegyekhez.',
@@ -1109,22 +1109,22 @@ sub Data {
         'To enable automatic execution select at least one value from minutes, hours and days!' =>
             'Az automatikus végrehajtás engedélyezéséhez válasszon legalább egy értéket a perc, óra és nap közül!',
         'Event based execution (single ticket)' => 'Eseményalapú végrehajtás (egyetlen jegy)',
-        'Event Triggers' => 'Esemény-aktiválók',
+        'Event Triggers' => 'Eseményaktiválók',
         'List of all configured events' => 'Az összes beállított esemény listája',
         'Delete this event' => 'Esemény törlése',
         'Additionally or alternatively to a periodic execution, you can define ticket events that will trigger this job.' =>
             'Egy időszakos végrehajtás mellett vagy helyett meghatározhat olyan jegyeseményeket, amelyek aktiválni fogják ezt a feladatot.',
         'If a ticket event is fired, the ticket filter will be applied to check if the ticket matches. Only then the job is run on that ticket.' =>
             'Ha egy jegyesemény elsül, a jegy szűrő alkalmazásával kerül ellenőrzésre, hogy a jegy illeszkedik-e.',
-        'Do you really want to delete this event trigger?' => 'Valóban törölni szeretné ezt az esemény-aktiválót?',
-        'Add Event Trigger' => 'Esemény-aktiváló hozzáadása',
+        'Do you really want to delete this event trigger?' => 'Valóban törölni szeretné ezt az eseményaktiválót?',
+        'Add Event Trigger' => 'Eseményaktiváló hozzáadása',
         'Add Event' => 'Esemény hozzáadása',
         'To add a new event select the event object and event name and click on the "+" button' =>
-            'Egy új esemény hozzáadásához válassza ki az eseményobjektumot és az eseménynevet, majd kattintson a „+” gombra.',
+            'Egy új esemény hozzáadásához válassza ki az eseményobjektumot és az eseménynevet, majd kattintson a „+” gombra',
         'Duplicate event.' => 'Esemény kettőzése.',
         'This event is already attached to the job, Please use a different one.' =>
             'Ez az esemény már csatolva van a feladathoz, használjon egy másikat.',
-        'Delete this Event Trigger' => 'Esemény-aktiváló törlése',
+        'Delete this Event Trigger' => 'Eseményaktiváló törlése',
         'Remove selection' => 'Kijelölés eltávolítása',
         'Select Tickets' => 'Jegyek kijelölése',
         '(e. g. 10*5155 or 105658*)' => '(például 10*5155 vagy 105658*)',
@@ -1197,8 +1197,8 @@ sub Data {
         'Warning: All affected tickets will be removed from the database and cannot be restored!' =>
             'Figyelem: Minden érintett jegy el lesz távolítva az adatbázisból, és nem lehet visszaállítani!',
         'Execute Custom Module' => 'Egyéni modul végrehajtása',
-        'Param %s key' => '%s paraméter kulcs',
-        'Param %s value' => '%s paraméter érték',
+        'Param %s key' => '%s. paraméter kulcsa',
+        'Param %s value' => '%s. paraméter értéke',
         'Save Changes' => 'Változtatások mentése',
         'Results' => 'Eredmények',
         '%s Tickets affected! What do you want to do?' => '%s jegy érintett! Mit szeretne tenni?',
@@ -1259,9 +1259,9 @@ sub Data {
         'Asynchronous' => 'Aszinkron',
         'This invoker will be triggered by the configured events.' => 'Ezt a meghívót a beállított események fogják aktiválni.',
         'Asynchronous event triggers are handled by the OTRS Scheduler Daemon in background (recommended).' =>
-            'Az aszinkron esemény-aktiválókat az OTRS ütemeződémon kezeli a háttérben (javasolt).',
+            'Az aszinkron eseményaktiválókat az OTRS ütemeződémon kezeli a háttérben (javasolt).',
         'Synchronous event triggers would be processed directly during the web request.' =>
-            'A szinkron esemény-aktiválók közvetlenül legyenek feldolgozva a webkérések alatt.',
+            'A szinkron eseményaktiválók közvetlenül lehetnek feldolgozva a webkérések közben.',
         'Save and continue' => 'Mentés és folytatás',
         'Delete this Invoker' => 'Meghívó törlése',
         'It is not possible to add a new event trigger because the event is not set.' =>
@@ -1312,7 +1312,7 @@ sub Data {
         'Mapping for incoming request data' => 'Leképezés a bejövő kérés adataihoz',
         'The request data will be processed by this mapping, to transform it to the kind of data OTRS expects.' =>
             'Ez a leképezés fogja a kérés adatait feldolgozni olyan formára alakítva át azokat, ahogy az OTRS várja.',
-        'Operation backend' => 'Műveleti háttérprogram.',
+        'Operation backend' => 'Műveleti háttérprogram',
         'This OTRS operation backend module will be called internally to process the request, generating data for the response.' =>
             'Ez az OTRS műveleti háttérprogram modul lesz belsőleg meghívva a kérés feldolgozásához, és az adat előállításához a válasz számára.',
         'Mapping for outgoing response data' => 'Leképezés a kimenő válasz adataihoz',
@@ -1505,7 +1505,7 @@ sub Data {
         'The admin group is to get in the admin area and the stats group to get stats area.' =>
             'Az admin csoport az adminisztrációs területre, a stats csoport a statisztika területre való bejutáshoz van.',
         'Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...). ' =>
-            'Új csoportok létrehozása a hozzáférési jogosultságok kezeléséhez az ügyintézők különböző csoportjainál (például beszerzési részleg, támogató részleg, értékesítési részleg, …).',
+            'Új csoportok létrehozása a hozzáférési jogosultságok kezeléséhez az ügyintézők különböző csoportjainál (például beszerzési részleg, támogató részleg, értékesítési részleg, …). ',
         'It\'s useful for ASP solutions. ' => 'Ez ASP megoldásoknál hasznos. ',
         'total' => 'összesen',
         'Edit Group' => 'Csoport szerkesztése',
@@ -1782,7 +1782,7 @@ sub Data {
         'Module documentation' => 'Modul-dokumentáció',
         'Upgrade' => 'Frissítés',
         'Local Repository' => 'Helyi tároló',
-        'This package is verified by OTRSverify (tm)' => 'Ezt a csomagot az OTRSverify (tm) ellenőrizte.',
+        'This package is verified by OTRSverify (tm)' => 'Ezt a csomagot az OTRSverify (tm) ellenőrizte',
         'Uninstall' => 'Eltávolítás',
         'Reinstall' => 'Újratelepítés',
         'Features for %s customers only' => 'Kizárólag %s ügyfelek számára elérhető funkciók',
@@ -2360,7 +2360,7 @@ sub Data {
         'It was not possible to generate the Support Bundle.' => 'Nem volt lehetséges a támogatási csomag előállítása.',
         'Generate Result' => 'Előállítás eredménye',
         'Support Bundle' => 'Támogatási csomag',
-        'The mail could not be sent' => 'A levelet nem sikerült elküldeni.',
+        'The mail could not be sent' => 'A levelet nem sikerült elküldeni',
         'The support bundle has been generated.' => 'A támogatási csomag előállítva.',
         'Please choose one of the following options.' => 'Válassza a következő lehetőségek egyikét.',
         'Send by Email' => 'Küldés e-mailben',
@@ -2765,7 +2765,7 @@ sub Data {
         'Please remove this entry and enter a new one with the correct value.' =>
             'Távolítsa el ezt a bejegyzést, és adjon meg egy újat a helyes értékkel.',
         'Remove Cc' => 'Másolat eltávolítása',
-        'Remove Bcc' => 'Titkos másolat eltávolítása',
+        'Remove Bcc' => 'Rejtett másolat eltávolítása',
         'Address book' => 'Címjegyzék',
         'Date Invalid!' => 'Érvénytelen dátum!',
 
@@ -2825,7 +2825,7 @@ sub Data {
 
         # Template: AgentTicketOverviewNavBar
         'Change search options' => 'Keresési beállítások módosítása',
-        'Remove active filters for this screen.' => 'Aktív szűrők eltávolítása ennél a képernyőnél',
+        'Remove active filters for this screen.' => 'Aktív szűrők eltávolítása ennél a képernyőnél.',
         'Tickets per page' => 'Jegyek oldalanként',
 
         # Template: AgentTicketOverviewSmall
@@ -2836,7 +2836,7 @@ sub Data {
         'Split Into New Phone Ticket' => 'Felosztás új telefonos jegybe',
         'Save Chat Into New Phone Ticket' => 'Csevegés mentése egy új telefonos jegybe',
         'Create New Phone Ticket' => 'Új telefonos jegy létrehozása',
-        'Please include at least one customer for the ticket.' => 'Vegyen fel legalább egy ügyfelet a jegyhez!',
+        'Please include at least one customer for the ticket.' => 'Vegyen fel legalább egy ügyfelet a jegyhez.',
         'To queue' => 'Várólistába',
         'Chat protocol' => 'Csevegés protokoll',
         'The chat will be appended as a separate article.' => 'A csevegés elkülönített bejegyzésként lesz hozzáfűzve.',
@@ -4527,7 +4527,7 @@ sub Data {
         'Problem' => 'Probléma',
 
         # Perl Module: Kernel/System/Ticket.pm
-        'Reset of unlock time.' => 'Feloldási idő visszaállítása.',
+        'Reset of unlock time.' => 'Feloldás idejének átállítása.',
 
         # Perl Module: Kernel/System/Ticket/Event/NotificationEvent/Transport/Email.pm
         'PGP sign only' => 'Csak PGP aláírás',
@@ -5020,7 +5020,7 @@ Az Ön segélyszolgálat csapata
             'Alapértelmezett megjelenítési típus a küldő (feladó) neveihez az ügyintézői jegynagyítás és az ügyfél jegynagyítás képernyőkön.',
         'Default loop protection module.' => 'Alapértelmezett hurokvédelem modul.',
         'Default queue ID used by the system in the agent interface.' => 'A rendszer által alapértelmezetten használt várólista azonosító az ügyintézői felületen.',
-        'Default skin for the agent interface (slim version).' => 'Alapértelmezett felszín az ügyintézői felülethez (karcsú változat)',
+        'Default skin for the agent interface (slim version).' => 'Alapértelmezett felszín az ügyintézői felülethez (karcsú változat).',
         'Default skin for the agent interface.' => 'Alapértelmezett felszín az ügyintézői felülethez.',
         'Default skin for the customer interface.' => 'Alapértelmezett felszín az ügyfélfelülethez.',
         'Default ticket ID used by the system in the agent interface.' =>
@@ -5561,7 +5561,7 @@ Az Ön segélyszolgálat csapata
         'Defines the next state of a ticket after being moved to another queue, in the move ticket screen of the agent interface.' =>
             'Meghatározza egy jegy következő állapotát egy másik várólistába helyezése után az ügyintézői felület jegyáthelyezés képernyőjén.',
         'Defines the number of character per line used in case an HTML article preview replacement on TemplateGenerator for EventNotifications.' =>
-            'Meghatározza a soronkénti karakterek számát, amelyet egy sablon-előállítón lévő HTML-bejegyzés előnézet cseréje esetén használnak az esemény-értesítésekhez.',
+            'Meghatározza a soronkénti karakterek számát, amelyet egy sablon-előállítón lévő HTML-bejegyzés előnézet cseréje esetén használnak az eseményértesítésekhez.',
         'Defines the number of days to keep the daemon log files.' => 'Meghatározza a napok számát a démon naplófájljainak megtartásához.',
         'Defines the number of header fields in frontend modules for add and update postmaster filters. It can be up to 99 fields.' =>
             'Meghatározza az előtétprogram-modulokban lévő fejlécmezők számát a levelezési szűrők hozzáadásánál és frissítésénél. Akár 99 mező is lehet.',
@@ -5908,10 +5908,10 @@ Az Ön segélyszolgálat csapata
         'Filter incoming emails.' => 'Bejövő e-mailek szűrése.',
         'Finnish' => 'Finn',
         'First Queue' => 'Első várólista',
-        'FirstLock' => 'FirstLock',
-        'FirstResponse' => 'FirstResponse',
-        'FirstResponseDiffInMin' => 'FirstResponseDiffInMin',
-        'FirstResponseInMin' => 'FirstResponseInMin',
+        'FirstLock' => 'Első zárolás',
+        'FirstResponse' => 'Első válasz',
+        'FirstResponseDiffInMin' => 'Első válasz különbsége percben',
+        'FirstResponseInMin' => 'Első válasz percben',
         'Firstname Lastname' => 'Keresztnév Vezetéknév',
         'Firstname Lastname (UserLogin)' => 'Keresztnév Vezetéknév (Felhasználónév)',
         'FollowUp for [%s]. %s' => 'Követő ehhez: [%s]. %s',
@@ -6490,7 +6490,7 @@ Az Ön segélyszolgálat csapata
         'Sends agent follow-up notification only to the owner, if a ticket is unlocked (the default is to send the notification to all agents).' =>
             'Csak a tulajdonosnak küld ügyintéző követő értesítést, ha a jegy fel van oldva (az alapértelmezett, hogy minden ügyintézőnek elküldi az értesítést).',
         'Sends all outgoing email via bcc to the specified address. Please use this only for backup reasons.' =>
-            'Elküld minden kimenő e-mailt titkos másolatként egy megadott címre. Ezt csak biztonsági mentés céljából használja.',
+            'Elküld minden kimenő e-mailt rejtett másolatként egy megadott címre. Ezt csak biztonsági mentés céljából használja.',
         'Sends customer notifications just to the mapped customer.' => 'Az ügyfél értesítéseket csak a leképezett ügyfélnek küldi el.',
         'Sends registration information to OTRS group.' => 'Regisztrációs információkat küld az OTRS csoportnak.',
         'Sends reminder notifications of unlocked ticket after reaching the reminder date (only sent to ticket owner).' =>
@@ -6909,8 +6909,8 @@ Az Ön segélyszolgálat csapata
         'Slovak' => 'Szlovák',
         'Slovenian' => 'Szlovén',
         'Software Package Manager.' => 'Szoftvercsomag-kezelő.',
-        'SolutionDiffInMin' => 'SolutionDiffInMin',
-        'SolutionInMin' => 'SolutionInMin',
+        'SolutionDiffInMin' => 'Megoldás különbsége percben',
+        'SolutionInMin' => 'Megoldás percben',
         'Some description!' => 'Egy kis leírás!',
         'Some picture description!' => 'Egy kis képleírás!',
         'Sorts the tickets (ascendingly or descendingly) when a single queue is selected in the queue view and after the tickets are sorted by priority. Values: 0 = ascending (oldest on top, default), 1 = descending (youngest on top). Use the QueueID for the key and 0 or 1 for value.' =>
@@ -7142,8 +7142,8 @@ Az Ön segélyszolgálat csapata
             'A választó és automatikusan kiegészítő mezők új típusának használata az ügyintézői felületen, ahol alkalmazható (beviteli mezők).',
         'Use new type of select and autocomplete fields in customer interface, where applicable (InputFields).' =>
             'A választó és automatikusan kiegészítő mezők új típusának használata az ügyfélfelületen, ahol alkalmazható (beviteli mezők).',
-        'UserFirstname' => 'UserFirstname',
-        'UserLastname' => 'UserLastname',
+        'UserFirstname' => 'Felhasználó keresztneve',
+        'UserLastname' => 'Felhasználó vezetékneve',
         'Uses Cc recipients in reply Cc list on compose an email answer in the ticket compose screen of the agent interface.' =>
             'Másolati címzetteket használ a válaszlistán egy e-mailre történő válasz írásakor az ügyintézői felület jegyválasz képernyőjén.',
         'Uses richtext for viewing and editing ticket notification.' => 'RichText szöveget használ a jegyértesítések megtekintésénél és szerkesztésénél.',

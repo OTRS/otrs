@@ -922,7 +922,7 @@ sub Data {
         'Add Customer' => 'Добавить компанию',
 
         # Template: AdminCustomerUser
-        'Customer User Management' => 'Управление Компаниями',
+        'Customer User Management' => 'Управление учётными записями клиентов',
         'Back to search results' => 'Назад к результатам поиска',
         'Add customer user' => 'Добавить клиента',
         'Customer user are needed to have a customer history and to login via customer panel.' =>
@@ -930,8 +930,8 @@ sub Data {
         'Last Login' => 'Последний вход',
         'Login as' => 'Зайти данным пользователем',
         'Switch to customer' => 'Переключиться на клиента',
-        'Add Customer User' => 'Добавить клиента',
-        'Edit Customer User' => 'Редактировать клиента',
+        'Add Customer User' => 'Добавить учётную запись клиента',
+        'Edit Customer User' => 'Редактировать  учётную запись клиента',
         'This field is required and needs to be a valid email address.' =>
             'Это поле обязательно, и должно быть корректным адресом электронной почты.',
         'This email address is not allowed due to the system configuration.' =>

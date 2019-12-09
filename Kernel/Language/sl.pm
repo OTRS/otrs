@@ -321,7 +321,7 @@ sub Data {
         'Contract' => 'Ugovor',
         'Online Customer: %s' => 'Uporabnik na vezi: %s',
         'Online Agent: %s' => 'Zaposleni na vezi: %s',
-        'Calendar' => 'kolendar',
+        'Calendar' => 'Koledar',
         'File' => 'Datoteka',
         'Filename' => 'Naziv datoteke',
         'Type' => 'Tip',

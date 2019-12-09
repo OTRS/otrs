@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D-%M-%Y';
     $Self->{DateInputFormat}     = '%D-%M-%Y';
     $Self->{DateInputFormatLong} = '%D-%M-%Y - %T';
-    $Self->{Completeness}        = 0.6588;
+    $Self->{Completeness}        = 0.6592;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -821,7 +821,7 @@ sub Data {
         'Change settings' => 'Verander instellingen',
         'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is a white list, \'PossibleNot\' a black list.' =>
             'Geef aan wat u wilt dat gebeurt als de activatie-criteria kloppen.',
-        'Check the official %sdocumentation%s.' => '',
+        'Check the official %sdocumentation%s.' => 'Bekijk de officiële %sdocumentatie%s',
         'Show or hide the content' => 'Toon of verberg de inhoud',
         'Edit ACL information' => 'Bewerk ACL-informatie',
         'Stop after match' => 'Stop met filters na match',
@@ -1575,7 +1575,7 @@ sub Data {
         'Recipients' => 'Ontvangers',
         'Send to' => 'Versturen naar',
         'Send to these agents' => 'Verstuur naar deze gebruikers',
-        'Send to all group members (agents only)' => '',
+        'Send to all group members (agents only)' => 'Verstuur naar alle groepsleden (alleen behandelaars)',
         'Send to all role members' => 'Verstuur naar alle leden van een rol',
         'Send on out of office' => 'Verstuur ook wanneer afwezigheidsassistent aan staat',
         'Also send if the user is currently out of office.' => 'Verstuur ook wanneer afwezigheidsassistent aan staat',
