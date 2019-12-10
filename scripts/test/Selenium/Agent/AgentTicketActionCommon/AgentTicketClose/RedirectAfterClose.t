@@ -134,6 +134,9 @@ $Selenium->RunTest(
             $Selenium->WaitFor( WindowCount => 1 );
             $Selenium->switch_to_window( $Handles->[0] );
 
+            $Selenium->VerifiedRefresh();
+            $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function'" );
+
             # Confirm close action.
             if ( $TicketID eq $TicketID1 ) {
                 my $CloseMsg = "Dashboard";
