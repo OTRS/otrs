@@ -154,13 +154,17 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Comment", 'css' )->clear();
         $Selenium->find_element( "#Submit",  'css' )->VerifiedClick();
 
+        $Selenium->WaitFor(
+            JavaScript => "return typeof(\$) === 'function' && \$('tr.Invalid td a:contains($RandomID)').length"
+        );
+
         # Check class of invalid Group in the overview table.
         $Self->True(
             $Selenium->execute_script(
                 "return \$('tr.Invalid td a:contains($RandomID)').length"
             ),
             "There is a class 'Invalid' for test Group",
-        );
+        ) || die;
 
         # Since there are no tickets that rely on our test group, we can remove them again
         #   from the DB.
