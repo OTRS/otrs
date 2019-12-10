@@ -4433,6 +4433,9 @@ sub _HumanReadableAgeGet {
         $AgeStrg .= int( ( $Age / 60 ) % 60 ) . ' ';
         $AgeStrg .= $MinuteDsc;
     }
+
+    $AgeStrg =~ s/\s+$//;
+
     return $AgeStrg;
 }
 

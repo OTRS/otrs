@@ -503,47 +503,47 @@ my @Tests = (
             [
                 1,
                 $TicketIDs[8]->{TicketNumber},
-                '355 d 16 h ',
+                '355 d 16 h',
             ],
             [
                 2,
                 $TicketIDs[0]->{TicketNumber},
-                '335 d 20 h ',
+                '335 d 20 h',
             ],
             [
                 3,
                 $TicketIDs[1]->{TicketNumber},
-                '274 d 17 h ',
+                '274 d 17 h',
             ],
             [
                 4,
                 $TicketIDs[2]->{TicketNumber},
-                '41 d 7 h ',
+                '41 d 7 h',
             ],
             [
                 5,
                 $TicketIDs[3]->{TicketNumber},
-                '32 d 9 h ',
+                '32 d 9 h',
             ],
             [
                 6,
                 $TicketIDs[5]->{TicketNumber},
-                '31 d 18 h ',
+                '31 d 18 h',
             ],
             [
                 7,
                 $TicketIDs[4]->{TicketNumber},
-                '31 d 8 h ',
+                '31 d 8 h',
             ],
             [
                 8,
                 $TicketIDs[6]->{TicketNumber},
-                '30 d 16 h ',
+                '30 d 16 h',
             ],
             [
                 9,
                 $TicketIDs[9]->{TicketNumber},
-                '29 d 6 h ',
+                '29 d 6 h',
             ],
             [
                 10,
