@@ -228,6 +228,12 @@ $Selenium->RunTest(
 
         # Check is there notification after group is updated.
         my $Notification = 'Group updated!';
+
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return typeof(\$) === 'function' &&  \$('.MessageBox.Notice p:contains($Notification)').length"
+        );
+
         $Self->True(
             $Selenium->execute_script("return \$('.MessageBox.Notice p:contains($Notification)').length"),
             "$Notification - notification is found."
