@@ -105,13 +105,17 @@ $Selenium->RunTest(
         $Selenium->find_element("//button[\@value='Search'][\@type='submit']")->VerifiedClick();
 
         # assign test customer to test customer user
-        $Selenium->find_element("//a[contains(\@href, \'ID=$CustomerUserID' )]")->VerifiedClick();
+        $Selenium->VerifiedGet(
+            "${ScriptAlias}index.pl?Action=AdminCustomerUserCustomer;Subaction=CustomerUser;ID=$CustomerUserName"
+        );
 
         $Selenium->find_element("//input[\@value='$CustomerID']")->click();
         $Selenium->find_element("//button[\@value='Save'][\@type='submit']")->VerifiedClick();
 
         # check test customer user assignment to test customer
-        $Selenium->find_element("//a[contains(\@href, \'ID=$CustomerID' )]")->VerifiedClick();
+        $Selenium->VerifiedGet(
+            "${ScriptAlias}index.pl?Action=AdminCustomerUserCustomer;Subaction=Customer;ID=$CustomerID"
+        );
 
         $Self->Is(
             $Selenium->find_element("//input[\@value=\"$CustomerUserID\"]")->is_selected(),
@@ -141,7 +145,9 @@ $Selenium->RunTest(
         $Selenium->find_element("//button[\@value='Save'][\@type='submit']")->VerifiedClick();
 
         # check if there is any test customer assignment to test customer user
-        $Selenium->find_element("//a[contains(\@href, \'ID=$CustomerUserID' )]")->VerifiedClick();
+        $Selenium->VerifiedGet(
+            "${ScriptAlias}index.pl?Action=AdminCustomerUserCustomer;Subaction=CustomerUser;ID=$CustomerUserID"
+        );
 
         $Self->Is(
             $Selenium->find_element("//input[\@value='$CustomerID']")->is_selected(),
