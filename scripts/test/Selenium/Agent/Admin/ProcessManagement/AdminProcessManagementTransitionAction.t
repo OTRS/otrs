@@ -36,8 +36,9 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
-        my $ProcessRandom          = 'Process' . $Helper->GetRandomID();
-        my $TransitionActionRandom = 'TransitionAction' . $Helper->GetRandomID();
+        my $RandomID               = $Helper->GetRandomID();
+        my $ProcessRandom          = 'Process' . $RandomID;
+        my $TransitionActionRandom = 'TransitionAction' . $RandomID;
 
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
@@ -85,8 +86,8 @@ $Selenium->RunTest(
 
         # Input fields and submit.
         my $TransitionActionModule = "Kernel::System::ProcessManagement::TransitionAction::TicketArticleCreate";
-        my $TransitionActionKey    = "Key" . $Helper->GetRandomID();
-        my $TransitionActionValue  = "Value" . $Helper->GetRandomID();
+        my $TransitionActionKey    = "Key" . $RandomID;
+        my $TransitionActionValue  = "Value" . $RandomID;
 
         $Selenium->find_element( "#Name", 'css' )->send_keys($TransitionActionRandom);
         $Selenium->InputFieldValueSet(
@@ -101,14 +102,33 @@ $Selenium->RunTest(
         $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
 
-        # Check for created test TransitionAction using filter on AdminProcessManagement screen.
-        $Selenium->WaitFor(
-            JavaScript =>
-                "return typeof(\$) === 'function' && \$('ul#TransitionActions li:contains($TransitionActionRandom)').length"
+        # Get test ProcesID.
+        my $DBObject            = $Kernel::OM->Get('Kernel::System::DB');
+        my $ProcessRandomQuoted = $DBObject->Quote($ProcessRandom);
+        $DBObject->Prepare(
+            SQL  => "SELECT id, entity_id FROM pm_process WHERE name = ?",
+            Bind => [ \$ProcessRandomQuoted ]
+        );
+        my $ProcessID;
+        my $ProcesEntityID;
+        while ( my @Row = $DBObject->FetchrowArray() ) {
+            $ProcessID      = $Row[0];
+            $ProcesEntityID = $Row[1];
+        }
+
+        # Navigate to AdminProcessManagement to edit test process.
+        $Selenium->VerifiedGet(
+            "${ScriptAlias}index.pl?Action=AdminProcessManagement;Subaction=ProcessEdit;ID=$ProcessID;EntityID=$ProcesEntityID"
+        );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Canvas").length' );
+        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#TransitionActionFilter').length" );
+        $Selenium->WaitForjQueryEventBound(
+            CSSSelector => '#ProcessElements .AccordionElement:eq(3) a.AsBlock',
         );
 
         # Click on Transition Actions accordion element.
-        $Selenium->execute_script('$("#ProcessElements .AccordionElement:eq(3) a.AsBlock").click();');
+        $Selenium->find_element(" //a[contains(.,\'Transition Actions\')]")->click();
+
         $Selenium->WaitFor(
             JavaScript => 'return typeof($) === "function" && $("#TransitionActionFilter:visible").length'
         );
@@ -118,7 +138,11 @@ $Selenium->RunTest(
         # Wait for filter to kick in.
         $Selenium->WaitFor(
             JavaScript =>
-                'return typeof($) === "function" && $(".OneRow[data-entity*=\'TransitionAction\']:visible").length === 1 && $.active == 0'
+                'return typeof($) === "function" && $(".OneRow[data-entity*=\'TransitionAction\']:visible").length === 1 && $.active == 0;',
+        );
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return  \$('#TransitionActions li:visible div').length === 1;",
         );
 
         $Self->True(
@@ -126,21 +150,29 @@ $Selenium->RunTest(
             "$TransitionActionRandom transition action found on page",
         );
 
+        $Self->Is(
+            $Selenium->execute_script("return  \$('#TransitionActions li:visible div').text();"),
+            $TransitionActionRandom,
+            "$TransitionActionRandom transition action dialog found on page",
+        );
+
         # Get test TransitionActionID.
-        my $DBObject               = $Kernel::OM->Get('Kernel::System::DB');
         my $TransitionActionQuoted = $DBObject->Quote($TransitionActionRandom);
         $DBObject->Prepare(
-            SQL  => "SELECT id FROM pm_transition_action WHERE name = ?",
+            SQL  => "SELECT id, entity_id FROM pm_transition_action WHERE name = ?",
             Bind => [ \$TransitionActionQuoted ]
         );
         my $TransitionActionID;
+        my $TransitionActionEntityID;
         while ( my @Row = $DBObject->FetchrowArray() ) {
-            $TransitionActionID = $Row[0];
+            $TransitionActionID       = $Row[0];
+            $TransitionActionEntityID = $Row[1];
         }
 
         # Go to edit test TransitionAction screen.
-        $Selenium->find_element("//a[contains(\@href, \'Subaction=TransitionActionEdit;ID=$TransitionActionID' )]")
-            ->click();
+        $Selenium->execute_script(
+            "\$('a[href*=\"Subaction=TransitionActionEdit;ID=$TransitionActionID;EntityID=$TransitionActionEntityID\"]').click()"
+        );
 
         $Selenium->WaitFor( WindowCount => 2 );
         $Handles = $Selenium->get_window_handles();
@@ -219,10 +251,18 @@ $Selenium->RunTest(
         $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
 
+        # Navigate to AdminProcessManagement to edit test process.
+        $Selenium->VerifiedGet(
+            "${ScriptAlias}index.pl?Action=AdminProcessManagement;Subaction=ProcessEdit;ID=$ProcessID;EntityID=$ProcesEntityID"
+        );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Canvas").length' );
         $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#TransitionActionFilter').length" );
+        $Selenium->WaitForjQueryEventBound(
+            CSSSelector => '#ProcessElements .AccordionElement:eq(3) a.AsBlock',
+        );
 
         # Click on Transition Actions accordion element.
-        $Selenium->execute_script('$("#ProcessElements .AccordionElement:eq(3) a.AsBlock").click();');
+        $Selenium->find_element(" //a[contains(.,\'Transition Actions\')]")->click();
         $Selenium->WaitFor(
             JavaScript => 'return typeof($) === "function" && $("#TransitionActionFilter:visible").length'
         );
@@ -249,9 +289,10 @@ $Selenium->RunTest(
             "Edited $TransitionActionRandomEdit transition action dialog found on page",
         );
 
-        # Go to edit test TransitionAction screen again.
-        $Selenium->find_element("//a[contains(\@href, \'Subaction=TransitionActionEdit;ID=$TransitionActionID' )]")
-            ->click();
+        # Go to edit test TransitionAction screen.
+        $Selenium->execute_script(
+            "\$('a[href*=\"Subaction=TransitionActionEdit;ID=$TransitionActionID;EntityID=$TransitionActionEntityID\"]').click()"
+        );
 
         $Selenium->WaitFor( WindowCount => 2 );
         $Handles = $Selenium->get_window_handles();
@@ -281,9 +322,6 @@ $Selenium->RunTest(
         $Selenium->close();
         $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
-
-        # Get process id and return to overview afterwards.
-        my $ProcessID = $Selenium->execute_script('return $("#ProcessDelete").data("id")') || undef;
 
         # Delete test transition action.
         my $Success
