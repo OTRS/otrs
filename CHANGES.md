@@ -1,4 +1,5 @@
 #5.0.40 2020-01-10
+- 2019-12-11 Improved handling of the uploaded inline images.
 - 2019-12-03 Improved article sending via email communication channel.
 
 #5.0.39 2019-11-15
