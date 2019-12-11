@@ -2,6 +2,7 @@
  - 2019-12-10 Fixed bug#[14903](https://bugs.otrs.org/show_bug.cgi?id=14903) - There is a space after some time values in statistics.
 
 #6.0.25 2020-01-10
+ - 2019-12-11 Improved handling of the uploaded inline images.
  - 2019-12-06 Fixed bug#[14886](https://bugs.otrs.org/show_bug.cgi?id=14886) - When config ExternalFrontend::TicketCreate###Queue is disabled, customer user can create a ticket in default queue without sufficient permission.
  - 2019-12-05 Fixed bug#[14233](https://bugs.otrs.org/show_bug.cgi?id=14233) - It's not possible to disable ticket type via ACL in the AgentTicketSearch.
  - Improved the draft feature in the agent frontend.
