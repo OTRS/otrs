@@ -94,6 +94,15 @@ $Selenium->RunTest(
         # Go to AgentTicketEmail screen.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketEmail");
 
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return typeof(\$) === 'function' && \$('#OptionCustomerUserAddressBookToCustomer').length === 1;"
+        );
+
+        $Selenium->WaitForjQueryEventBound(
+            CSSSelector => '#OptionCustomerUserAddressBookToCustomer',
+        );
+
         # Open customer user address book search.
         $Selenium->find_element( "#OptionCustomerUserAddressBookToCustomer", 'css' )->click();
 
