@@ -91,7 +91,7 @@ $Selenium->RunTest(
             $Selenium->execute_script("\$('.fc-now-indicator.fc-now-indicator-line').hide();");
             $Selenium->WaitFor(
                 JavaScript =>
-                    'return typeof($) === "function" && $(".fc-now-indicator.fc-now-indicator-line").is(":hidden");'
+                    'return typeof($) === "function" &&  $(".fc-now-indicator.fc-now-indicator-line:visible").length === 0;'
             );
         }
 
