@@ -13,22 +13,30 @@ use utf8;
 
 use vars (qw($Self));
 
-# get config object
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
 my $Home   = $ConfigObject->Get('Home');
 my $Daemon = $Home . '/bin/otrs.Daemon.pl';
 
-# get current daemon status
+# Get current daemon status.
 my $PreviousDaemonStatus = `$Daemon status`;
 
-# stop daemon if it was already running before this test
+# Check if there is permissions for daemon commands.
+if ( !defined $PreviousDaemonStatus ) {
+    $Self->False(
+        0,
+        'Permission denied for deamon commands, skipping test',
+    );
+    return 1;
+}
+
+# Stop daemon if it was already running before this test.
 if ( $PreviousDaemonStatus =~ m{Daemon running}i ) {
     `$^X $Daemon stop`;
 
     my $SleepTime = 2;
 
-    # wait to get daemon fully stopped before test continues
+    # Wait to get daemon fully stopped before test continues.
     print "A running Daemon was detected and need to be stopped...\n";
     print 'Sleeping ' . $SleepTime . "s\n";
     sleep $SleepTime;
@@ -41,11 +49,12 @@ my $RunTasks = sub {
 
     local $SIG{CHLD} = "IGNORE";
 
-    # wait until task is executed
+    # Wait until task is executed.
+    my $AllTaskIsDone = 1;
     ACTIVESLEEP:
     for my $Sec ( 1 .. 120 ) {
 
-        # run the worker
+        # Run the worker
         $TaskWorkerObject->Run();
         $TaskWorkerObject->_WorkerPIDsCheck();
 
@@ -56,12 +65,25 @@ my $RunTasks = sub {
         sleep 1;
 
         print "Waiting $Sec secs for scheduler tasks to be executed\n";
+
+        if ( $Sec == 120 && scalar @List ) {
+            $AllTaskIsDone = 0;
+        }
     }
+
+    return $AllTaskIsDone;
 };
 
-$RunTasks->();
+my $AllTaskIsDone = $RunTasks->();
+if ( !$AllTaskIsDone ) {
+    $Self->False(
+        0,
+        'There are active tasks, skipping test',
+    );
+    return 1;
+}
 
-# remove all Cron jobs from config
+# Remove all Cron jobs from config
 $ConfigObject->Set(
     Key   => 'Daemon::SchedulerCronTaskManager::Task',
     Value => {},
