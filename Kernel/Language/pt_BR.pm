@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.939466077197755;
+    $Self->{Completeness}        = 0.938806731259561;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -2758,7 +2758,6 @@ sub Data {
         'Outgoing message' => 'Mensagem de Saída',
         'Internal message' => 'Mensagem Interna',
         'Sending of this message has failed.' => 'O envio desta mensagem falhou.',
-        'This message has been queued for sending.' => 'Esta mensagem foi adicionada à fila de envio.',
         'Resize' => 'Redimensionar',
         'Mark this article as read' => 'Marcar este artigo como lido',
         'Show Full Text' => 'Mostrar Texto completo',
@@ -3326,6 +3325,7 @@ sub Data {
 
         # JS Template: DialogDeployment
         'Deployment comment...' => 'Comentário de implantação...',
+        'This field can have no more than 250 characters.' => '',
         'Deploying, please wait...' => 'Implantando, favor esperar...',
         'Preparing to deploy, please wait...' => 'Preparando para implantar, favor esperar...',
         'Deploy now' => 'Implantar agora',
@@ -4129,6 +4129,8 @@ sub Data {
         'The following tickets were locked: %s.' => 'Os Tickets a seguir foram bloqueados: %s',
 
         # Perl Module: Kernel/Modules/AgentTicketCompose.pm
+        'Article subject will be empty if the subject contains only the ticket hook!' =>
+            '',
         'Address %s replaced with registered customer address.' => 'Endereço %s substituído pelo endereço cadastrado do cliente.',
         'Customer user automatically added in Cc.' => 'Cliente automaticamente adicionado no Cc.',
 
@@ -4370,6 +4372,8 @@ sub Data {
         # Perl Module: Kernel/Modules/CustomerTicketMessage.pm
         'Check SysConfig setting for %s::QueueDefault.' => 'Valide configuração no SysConfig para %s::QueueDefault.',
         'Check SysConfig setting for %s::TicketTypeDefault.' => 'Valide configuração no SysConfig para %s::TicketTypeDefault.',
+        'You don\'t have sufficient permissions for ticket creation in default queue.' =>
+            '',
 
         # Perl Module: Kernel/Modules/CustomerTicketOverview.pm
         'Need CustomerID!' => 'ID do Cliente é necessário.',
@@ -7062,7 +7066,8 @@ Obrigado pela ajuda!
             '',
         'Defines the users avatar. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
             'Define o avatar do usuário. Favor observar: definindo \'Active\' como 0 só irá prevenir agentes de editar definições deste grupo em suas preferências pessoais, mas ainda irá permitir que administradores editem definições em nome de outros usuários. Utilize \'PreferenceGroup\' para controlar em quais áreas estas definições deveriam ser exibidas na interface de usuário.',
-        'Defines the valid state types for a ticket.' => 'Define os tipos de estado válidos para um ticket.',
+        'Defines the valid state types for a ticket. If a ticket is in a state which have any state type from this setting, this ticket will be considered as open, otherwise as closed.' =>
+            '',
         'Defines the valid states for unlocked tickets. To unlock tickets the script "bin/otrs.Console.pl Maint::Ticket::UnlockTimeout" can be used.' =>
             'Define os estados válidos para tickets desbloqueados. Para desbloquear tickets, o script "bin/otrs.Console.pl Maint::Ticket::UnlockTimeout" pode ser utilizado.',
         'Defines the viewable locks of a ticket. NOTE: When you change this setting, make sure to delete the cache in order to use the new value. Default: unlock, tmp_lock.' =>
@@ -9114,6 +9119,7 @@ Obrigado pela ajuda!
         'This element has children elements and can currently not be removed.',
         'This event is already attached to the job, Please use a different one.',
         'This feature is part of the %s. Please contact us at %s for an upgrade.',
+        'This field can have no more than 250 characters.',
         'This field is required.',
         'This is %s',
         'This is a repeating appointment',

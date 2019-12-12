@@ -14,7 +14,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-10-31 17:51+0000\n"
+"POT-Creation-Date: 2019-12-12 07:26+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: Anthon Nilsson <superdos@gmail.com>, 2019\n"
 "Language-Team: Swedish (https://www.transifex.com/otrs/teams/23435/sv/)\n"
@@ -8853,10 +8853,6 @@ msgid "Sending of this message has failed."
 msgstr ""
 
 #. Template: AgentTicketZoom
-msgid "This message has been queued for sending."
-msgstr ""
-
-#. Template: AgentTicketZoom
 msgid "Resize"
 msgstr ""
 
@@ -10404,6 +10400,10 @@ msgstr ""
 
 #. JS Template: DialogDeployment
 msgid "Deployment comment..."
+msgstr ""
+
+#. JS Template: DialogDeployment
+msgid "This field can have no more than 250 characters."
 msgstr ""
 
 #. JS Template: DialogDeployment
@@ -12821,6 +12821,11 @@ msgid "The following tickets were locked: %s."
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketCompose.pm
+msgid ""
+"Article subject will be empty if the subject contains only the ticket hook!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketCompose.pm
 msgid "Address %s replaced with registered customer address."
 msgstr "Adress %s utbytt mot registrerad kunds adress."
 
@@ -13509,6 +13514,11 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/CustomerTicketMessage.pm
 msgid "Check SysConfig setting for %s::TicketTypeDefault."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/CustomerTicketMessage.pm
+msgid ""
+"You don't have sufficient permissions for ticket creation in default queue."
 msgstr ""
 
 #. Perl Module: Kernel/Modules/CustomerTicketOverview.pm
@@ -21320,8 +21330,11 @@ msgid ""
 msgstr ""
 
 #. SysConfig
-msgid "Defines the valid state types for a ticket."
-msgstr "Giltiga tillståndstyper för ett ärende. "
+msgid ""
+"Defines the valid state types for a ticket. If a ticket is in a state which "
+"have any state type from this setting, this ticket will be considered as "
+"open, otherwise as closed."
+msgstr ""
 
 #. SysConfig
 msgid ""

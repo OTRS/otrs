@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.99931984356402;
+    $Self->{Completeness}        = 0.999320074791773;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -2759,7 +2759,6 @@ sub Data {
         'Outgoing message' => '发出的消息',
         'Internal message' => '内部消息',
         'Sending of this message has failed.' => '发送这个消息已失败。',
-        'This message has been queued for sending.' => '这个消息已排队等待发送。',
         'Resize' => '调整大小',
         'Mark this article as read' => '标记该信件为已读',
         'Show Full Text' => '显示详细内容',
@@ -2820,7 +2819,7 @@ sub Data {
         # Template: CustomerAccept
         'Dear Customer,' => '尊敬的客户，',
         'thank you for using our services.' => '感谢您使用我们的服务。',
-        'Yes, I accept your license.' => '',
+        'Yes, I accept your license.' => '是，同意许可。',
 
         # Template: TicketCustomerIDSelection
         'The customer ID is not changeable, no other customer ID can be assigned to this ticket.' =>
@@ -3327,6 +3326,7 @@ sub Data {
 
         # JS Template: DialogDeployment
         'Deployment comment...' => '部署注释...',
+        'This field can have no more than 250 characters.' => '',
         'Deploying, please wait...' => '正在部署，请稍候...',
         'Preparing to deploy, please wait...' => '准备部署，请稍候...',
         'Deploy now' => '现在部署',
@@ -4130,6 +4130,8 @@ sub Data {
         'The following tickets were locked: %s.' => '下列工单已被锁定：%s。',
 
         # Perl Module: Kernel/Modules/AgentTicketCompose.pm
+        'Article subject will be empty if the subject contains only the ticket hook!' =>
+            '',
         'Address %s replaced with registered customer address.' => '地址%s已被注册的客户地址所替换。',
         'Customer user automatically added in Cc.' => '客户用户被自动地添加到Cc中.',
 
@@ -4371,6 +4373,8 @@ sub Data {
         # Perl Module: Kernel/Modules/CustomerTicketMessage.pm
         'Check SysConfig setting for %s::QueueDefault.' => '检查系统配置 %s::QueueDefault 的设置。',
         'Check SysConfig setting for %s::TicketTypeDefault.' => '检查系统配置 %s::TicketTypeDefault 的设置。',
+        'You don\'t have sufficient permissions for ticket creation in default queue.' =>
+            '',
 
         # Perl Module: Kernel/Modules/CustomerTicketOverview.pm
         'Need CustomerID!' => '需要客户ID！',
@@ -6380,9 +6384,9 @@ Thanks for your help!
             '为选定的日历定义日期选择器中一周的起始日。',
         'Define the start day of the week for the date picker.' => '定义日期选择器中一周的起始日。',
         'Define which avatar default image should be used for the article view if no gravatar is assigned to the mail address. Check https://gravatar.com/site/implement/images/ for further information.' =>
-            '',
+            '如果没有分配邮件地址的个人全球统一标识头像，则定义信件视图应该使用哪个头像作为默认图像。 查看 https://gravatar.com/site/implement/images/ 以了解更多信息。',
         'Define which avatar default image should be used for the current agent if no gravatar is assigned to the mail address of the agent. Check https://gravatar.com/site/implement/images/ for further information.' =>
-            '',
+            '如果没有分配给服务人员的邮件地址的个人全球统一标识头像，则定义当前服务人员应该使用哪个头像作为默认图像。 查看 https://gravatar.com/site/implement/images/ 以了解更多信息。',
         'Define which avatar engine should be used for the agent avatar on the header and the sender images in AgentTicketZoom. If \'None\' is selected, initials will be displayed instead. Please note that selecting anything other than \'None\' will transfer the encrypted email address of the particular user to an external service.' =>
             '定义服务人员工单详情中的服务人员头像和的发件人图片使用哪个头像引擎。 如果选择“无”，则用缩写替代。 请注意，选择除“无”之外的任何内容都会将特定用户的加密过的电子邮件地址传输到外部服务。',
         'Define which columns are shown in the linked appointment widget (LinkObject::ViewMode = "complex"). Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default.' =>
@@ -7061,7 +7065,8 @@ Thanks for your help!
             '定义访问SOAP句柄(bin/cgi-bin/rpc.pl)的用户名。',
         'Defines the users avatar. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
             '定义用户头像。 请注意：将\'Active（激活）\'设置为0只会阻止服务人员在个人偏好设置中编辑此组的设置，但仍然允许管理员以其他用户的名义编辑这些设置。 使用\'PreferenceGroup\'来控制这些设置应该显示在用户界面的哪个区域。',
-        'Defines the valid state types for a ticket.' => '定义一个工单有效的状态类型。',
+        'Defines the valid state types for a ticket. If a ticket is in a state which have any state type from this setting, this ticket will be considered as open, otherwise as closed.' =>
+            '',
         'Defines the valid states for unlocked tickets. To unlock tickets the script "bin/otrs.Console.pl Maint::Ticket::UnlockTimeout" can be used.' =>
             '定义解锁的工单有效的状态。为解锁工单，可以使用脚本"bin/otrs.Console.pl Maint::Ticket::UnlockTimeout"。',
         'Defines the viewable locks of a ticket. NOTE: When you change this setting, make sure to delete the cache in order to use the new value. Default: unlock, tmp_lock.' =>
@@ -7914,7 +7919,7 @@ Thanks for your help!
         'Processes & Automation' => '流程和自动化',
         'Product News' => '产品新闻',
         'Protection against CSRF (Cross Site Request Forgery) exploits (for more info see https://en.wikipedia.org/wiki/Cross-site_request_forgery).' =>
-            '',
+            '针对CSRF(跨站请求伪造)漏洞利用的保护(参阅 https://en.wikipedia.org/wiki/Cross-site_request_forgery 获取更多信息)。',
         'Provides a matrix overview of the tickets per state per queue' =>
             '提供每个队列每个状态的工单的矩阵概览',
         'Provides customer users access to tickets even if the tickets are not assigned to a customer user of the same customer ID(s), based on permission groups.' =>
@@ -9113,6 +9118,7 @@ Thanks for your help!
         'This element has children elements and can currently not be removed.',
         'This event is already attached to the job, Please use a different one.',
         'This feature is part of the %s. Please contact us at %s for an upgrade.',
+        'This field can have no more than 250 characters.',
         'This field is required.',
         'This is %s',
         'This is a repeating appointment',

@@ -19,7 +19,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-10-31 17:51+0000\n"
+"POT-Creation-Date: 2019-12-12 07:26+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: 汇民 王 <whuim@qq.com>, 2019\n"
 "Language-Team: Chinese (China) (https://www.transifex.com/otrs/teams/23435/zh_CN/)\n"
@@ -8771,10 +8771,6 @@ msgid "Sending of this message has failed."
 msgstr "发送这个消息已失败。"
 
 #. Template: AgentTicketZoom
-msgid "This message has been queued for sending."
-msgstr "这个消息已排队等待发送。"
-
-#. Template: AgentTicketZoom
 msgid "Resize"
 msgstr "调整大小"
 
@@ -8927,7 +8923,7 @@ msgstr "感谢您使用我们的服务。"
 
 #. Template: CustomerAccept
 msgid "Yes, I accept your license."
-msgstr ""
+msgstr "是，同意许可。"
 
 #. Template: TicketCustomerIDSelection
 msgid ""
@@ -10308,6 +10304,10 @@ msgstr "添加键"
 #. JS Template: DialogDeployment
 msgid "Deployment comment..."
 msgstr "部署注释..."
+
+#. JS Template: DialogDeployment
+msgid "This field can have no more than 250 characters."
+msgstr ""
 
 #. JS Template: DialogDeployment
 msgid "Deploying, please wait..."
@@ -12717,6 +12717,11 @@ msgid "The following tickets were locked: %s."
 msgstr "下列工单已被锁定：%s。"
 
 #. Perl Module: Kernel/Modules/AgentTicketCompose.pm
+msgid ""
+"Article subject will be empty if the subject contains only the ticket hook!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketCompose.pm
 msgid "Address %s replaced with registered customer address."
 msgstr "地址%s已被注册的客户地址所替换。"
 
@@ -13408,6 +13413,11 @@ msgstr "检查系统配置 %s::QueueDefault 的设置。"
 #. Perl Module: Kernel/Modules/CustomerTicketMessage.pm
 msgid "Check SysConfig setting for %s::TicketTypeDefault."
 msgstr "检查系统配置 %s::TicketTypeDefault 的设置。"
+
+#. Perl Module: Kernel/Modules/CustomerTicketMessage.pm
+msgid ""
+"You don't have sufficient permissions for ticket creation in default queue."
+msgstr ""
 
 #. Perl Module: Kernel/Modules/CustomerTicketOverview.pm
 msgid "Need CustomerID!"
@@ -19038,6 +19048,8 @@ msgid ""
 "gravatar is assigned to the mail address. Check "
 "https://gravatar.com/site/implement/images/ for further information."
 msgstr ""
+"如果没有分配邮件地址的个人全球统一标识头像，则定义信件视图应该使用哪个头像作为默认图像。 查看 "
+"https://gravatar.com/site/implement/images/ 以了解更多信息。"
 
 #. SysConfig
 msgid ""
@@ -19045,6 +19057,8 @@ msgid ""
 " gravatar is assigned to the mail address of the agent. Check "
 "https://gravatar.com/site/implement/images/ for further information."
 msgstr ""
+"如果没有分配给服务人员的邮件地址的个人全球统一标识头像，则定义当前服务人员应该使用哪个头像作为默认图像。 查看 "
+"https://gravatar.com/site/implement/images/ 以了解更多信息。"
 
 #. SysConfig
 msgid ""
@@ -21305,8 +21319,11 @@ msgstr ""
 " 使用'PreferenceGroup'来控制这些设置应该显示在用户界面的哪个区域。"
 
 #. SysConfig
-msgid "Defines the valid state types for a ticket."
-msgstr "定义一个工单有效的状态类型。"
+msgid ""
+"Defines the valid state types for a ticket. If a ticket is in a state which "
+"have any state type from this setting, this ticket will be considered as "
+"open, otherwise as closed."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -24423,6 +24440,8 @@ msgid ""
 "Protection against CSRF (Cross Site Request Forgery) exploits (for more info"
 " see https://en.wikipedia.org/wiki/Cross-site_request_forgery)."
 msgstr ""
+"针对CSRF(跨站请求伪造)漏洞利用的保护(参阅 https://en.wikipedia.org/wiki/Cross-"
+"site_request_forgery 获取更多信息)。"
 
 #. SysConfig
 msgid "Provides a matrix overview of the tickets per state per queue"

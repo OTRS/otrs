@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.67964631865329;
+    $Self->{Completeness}        = 0.679245283018868;
 
     # csv separator
     $Self->{Separator}         = ',';
@@ -2755,7 +2755,6 @@ bin/otrs.Daemon.pl status\').',
         'Outgoing message' => 'Pesan yang keluar',
         'Internal message' => 'Pesan yang internal',
         'Sending of this message has failed.' => '',
-        'This message has been queued for sending.' => '',
         'Resize' => 'Mengubah ukuran',
         'Mark this article as read' => 'Tandakan artikel ini sebagai telah dibaca',
         'Show Full Text' => 'Tampikan teks penuh',
@@ -3323,6 +3322,7 @@ bin/otrs.Daemon.pl status\').',
 
         # JS Template: DialogDeployment
         'Deployment comment...' => '',
+        'This field can have no more than 250 characters.' => '',
         'Deploying, please wait...' => '',
         'Preparing to deploy, please wait...' => '',
         'Deploy now' => '',
@@ -4126,6 +4126,8 @@ bin/otrs.Daemon.pl status\').',
         'The following tickets were locked: %s.' => '',
 
         # Perl Module: Kernel/Modules/AgentTicketCompose.pm
+        'Article subject will be empty if the subject contains only the ticket hook!' =>
+            '',
         'Address %s replaced with registered customer address.' => 'Alamat %s ditukar dengan alamat pelanggan yang terdaftar',
         'Customer user automatically added in Cc.' => 'Pelanggan pengguna ditambahkan ke Cc secara otomatis.',
 
@@ -4367,6 +4369,8 @@ bin/otrs.Daemon.pl status\').',
         # Perl Module: Kernel/Modules/CustomerTicketMessage.pm
         'Check SysConfig setting for %s::QueueDefault.' => 'Periksa SysConfig untuk pengaturan %s::QueueDefault.',
         'Check SysConfig setting for %s::TicketTypeDefault.' => 'Periksa SysConfig pengaturan untul %s::TicketTypeDefault.',
+        'You don\'t have sufficient permissions for ticket creation in default queue.' =>
+            '',
 
         # Perl Module: Kernel/Modules/CustomerTicketOverview.pm
         'Need CustomerID!' => 'Perlu CustomerID!',
@@ -7060,7 +7064,8 @@ Helpdesk Team Anda
             'Mendefinisikan nama pengguna untuk mengakses SOAP pegangan (bin/cgi-bin/rpc.pl).',
         'Defines the users avatar. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
             '',
-        'Defines the valid state types for a ticket.' => 'Mendefinisikan jenis state yang berlaku untuk tiket.',
+        'Defines the valid state types for a ticket. If a ticket is in a state which have any state type from this setting, this ticket will be considered as open, otherwise as closed.' =>
+            '',
         'Defines the valid states for unlocked tickets. To unlock tickets the script "bin/otrs.Console.pl Maint::Ticket::UnlockTimeout" can be used.' =>
             'Mendefinisikan negara berlaku untuk tiket dibuka. Untuk membuka tiket script "bin/otrs.Console.pl Maint::Ticket::UnlockTimeout" dapat digunakan',
         'Defines the viewable locks of a ticket. NOTE: When you change this setting, make sure to delete the cache in order to use the new value. Default: unlock, tmp_lock.' =>
@@ -9112,6 +9117,7 @@ Helpdesk Team Anda
         'This element has children elements and can currently not be removed.',
         'This event is already attached to the job, Please use a different one.',
         'This feature is part of the %s. Please contact us at %s for an upgrade.',
+        'This field can have no more than 250 characters.',
         'This field is required.',
         'This is %s',
         'This is a repeating appointment',

@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.418296208127869;
+    $Self->{Completeness}        = 0.418154003059663;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -2761,7 +2761,6 @@ sub Data {
         'Outgoing message' => 'Utgående melding',
         'Internal message' => 'Intern melding',
         'Sending of this message has failed.' => '',
-        'This message has been queued for sending.' => '',
         'Resize' => 'Gjør om størrelse.',
         'Mark this article as read' => 'Marker denne artikkelen som lest',
         'Show Full Text' => 'Vis fulltekst',
@@ -3329,6 +3328,7 @@ sub Data {
 
         # JS Template: DialogDeployment
         'Deployment comment...' => '',
+        'This field can have no more than 250 characters.' => '',
         'Deploying, please wait...' => '',
         'Preparing to deploy, please wait...' => '',
         'Deploy now' => '',
@@ -4132,6 +4132,8 @@ sub Data {
         'The following tickets were locked: %s.' => '',
 
         # Perl Module: Kernel/Modules/AgentTicketCompose.pm
+        'Article subject will be empty if the subject contains only the ticket hook!' =>
+            '',
         'Address %s replaced with registered customer address.' => 'Adressen %s er byttet ut med adressen som er registrert på kunde',
         'Customer user automatically added in Cc.' => 'Kundebrukeren ble automatisk lagt til Kopi-feltet',
 
@@ -4373,6 +4375,8 @@ sub Data {
         # Perl Module: Kernel/Modules/CustomerTicketMessage.pm
         'Check SysConfig setting for %s::QueueDefault.' => '',
         'Check SysConfig setting for %s::TicketTypeDefault.' => '',
+        'You don\'t have sufficient permissions for ticket creation in default queue.' =>
+            '',
 
         # Perl Module: Kernel/Modules/CustomerTicketOverview.pm
         'Need CustomerID!' => '',
@@ -7054,7 +7058,8 @@ Thanks for your help!
             '',
         'Defines the users avatar. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
             '',
-        'Defines the valid state types for a ticket.' => '',
+        'Defines the valid state types for a ticket. If a ticket is in a state which have any state type from this setting, this ticket will be considered as open, otherwise as closed.' =>
+            '',
         'Defines the valid states for unlocked tickets. To unlock tickets the script "bin/otrs.Console.pl Maint::Ticket::UnlockTimeout" can be used.' =>
             '',
         'Defines the viewable locks of a ticket. NOTE: When you change this setting, make sure to delete the cache in order to use the new value. Default: unlock, tmp_lock.' =>
@@ -9106,6 +9111,7 @@ Thanks for your help!
         'This element has children elements and can currently not be removed.',
         'This event is already attached to the job, Please use a different one.',
         'This feature is part of the %s. Please contact us at %s for an upgrade.',
+        'This field can have no more than 250 characters.',
         'This field is required.',
         'This is %s',
         'This is a repeating appointment',

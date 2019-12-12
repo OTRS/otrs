@@ -35,7 +35,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.934194864818908;
+    $Self->{Completeness}        = 0.933537310895801;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -2764,7 +2764,6 @@ sub Data {
         'Outgoing message' => 'Исходящее сообщение',
         'Internal message' => 'Внутреннее сообщение',
         'Sending of this message has failed.' => 'Передача сообщения не удалась.',
-        'This message has been queued for sending.' => 'Это сообщение поставлено в очередь для передачи.',
         'Resize' => 'Изменить размер',
         'Mark this article as read' => 'Пометить это сообщение как прочитанное',
         'Show Full Text' => 'Показать текст полностью',
@@ -3332,6 +3331,7 @@ sub Data {
 
         # JS Template: DialogDeployment
         'Deployment comment...' => 'Пояснения по применению...',
+        'This field can have no more than 250 characters.' => '',
         'Deploying, please wait...' => 'Подождите, идет применение...',
         'Preparing to deploy, please wait...' => 'Подождите, идет подготовка к развертыванию...',
         'Deploy now' => 'Применить сейчас',
@@ -4135,6 +4135,8 @@ sub Data {
         'The following tickets were locked: %s.' => 'Текущие заявки были заблокированы: %s.',
 
         # Perl Module: Kernel/Modules/AgentTicketCompose.pm
+        'Article subject will be empty if the subject contains only the ticket hook!' =>
+            '',
         'Address %s replaced with registered customer address.' => 'Адрес %s заменен зарегистрированным адресом клиента',
         'Customer user automatically added in Cc.' => 'Клиент автоматически добавлен в поле Сс',
 
@@ -4376,6 +4378,8 @@ sub Data {
         # Perl Module: Kernel/Modules/CustomerTicketMessage.pm
         'Check SysConfig setting for %s::QueueDefault.' => 'Проверьте настройки SysConfig для %s::QueueDefault.',
         'Check SysConfig setting for %s::TicketTypeDefault.' => 'Проверьте настройки SysConfig setting для %s::TicketTypeDefault.',
+        'You don\'t have sufficient permissions for ticket creation in default queue.' =>
+            '',
 
         # Perl Module: Kernel/Modules/CustomerTicketOverview.pm
         'Need CustomerID!' => 'Требуется CustomerID!',
@@ -7068,7 +7072,8 @@ Thanks for your help!
             'Задает username для доступа к обработчику SOAP (bin/cgi-bin/rpc.pl).',
         'Defines the users avatar. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
             '',
-        'Defines the valid state types for a ticket.' => 'Задает действительные типы состояний для заявки',
+        'Defines the valid state types for a ticket. If a ticket is in a state which have any state type from this setting, this ticket will be considered as open, otherwise as closed.' =>
+            '',
         'Defines the valid states for unlocked tickets. To unlock tickets the script "bin/otrs.Console.pl Maint::Ticket::UnlockTimeout" can be used.' =>
             'Задает действительные состояния для разблокированных заявок. Для разблокирования заявок используйте скрипт "bin/otrs.Console.pl Maint::Ticket::UnlockTimeout".',
         'Defines the viewable locks of a ticket. NOTE: When you change this setting, make sure to delete the cache in order to use the new value. Default: unlock, tmp_lock.' =>
@@ -9120,6 +9125,7 @@ Thanks for your help!
         'This element has children elements and can currently not be removed.',
         'This event is already attached to the job, Please use a different one.',
         'This feature is part of the %s. Please contact us at %s for an upgrade.',
+        'This field can have no more than 250 characters.',
         'This field is required.',
         'This is %s',
         'This is a repeating appointment',

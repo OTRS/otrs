@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.999829960891005;
+    $Self->{Completeness}        = 1;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -653,15 +653,15 @@ sub Data {
         'To enable automatic execution select at least one value from minutes, hours and days!' =>
             'Az automatikus végrehajtás engedélyezéséhez válasszon legalább egy értéket a perc, óra és nap közül!',
         'Event Based Execution (Single Ticket)' => 'Eseményalapú végrehajtás (egyetlen jegy)',
-        'Event Triggers' => 'Esemény-aktiválók',
+        'Event Triggers' => 'Eseményaktiválók',
         'List of all configured events' => 'Az összes beállított esemény listája',
         'Delete this event' => 'Esemény törlése',
         'Additionally or alternatively to a periodic execution, you can define ticket events that will trigger this job.' =>
             'Egy időszakos végrehajtás mellett vagy helyett meghatározhat olyan jegyeseményeket, amelyek aktiválni fogják ezt a feladatot.',
         'If a ticket event is fired, the ticket filter will be applied to check if the ticket matches. Only then the job is run on that ticket.' =>
             'Ha egy jegyesemény elsül, a jegy szűrő alkalmazásával kerül ellenőrzésre, hogy a jegy illeszkedik-e.',
-        'Do you really want to delete this event trigger?' => 'Valóban törölni szeretné ezt az esemény-aktiválót?',
-        'Add Event Trigger' => 'Esemény-aktiváló hozzáadása',
+        'Do you really want to delete this event trigger?' => 'Valóban törölni szeretné ezt az eseményaktiválót?',
+        'Add Event Trigger' => 'Eseményaktiváló hozzáadása',
         'To add a new event select the event object and event name' => 'Egy új esemény hozzáadásához válassza ki az eseményobjektumot és az eseménynevet',
         'Select Tickets' => 'Jegyek kijelölése',
         '(e. g. 10*5155 or 105658*)' => '(például 10*5155 vagy 105658*)',
@@ -743,8 +743,8 @@ sub Data {
         'Warning: All affected tickets will be removed from the database and cannot be restored!' =>
             'Figyelem: Minden érintett jegy el lesz távolítva az adatbázisból, és nem lehet visszaállítani!',
         'Execute Custom Module' => 'Egyéni modul végrehajtása',
-        'Param %s key' => '%s paraméter kulcs',
-        'Param %s value' => '%s paraméter érték',
+        'Param %s key' => '%s. paraméter kulcsa',
+        'Param %s value' => '%s. paraméter értéke',
         'Results' => 'Eredmények',
         '%s Tickets affected! What do you want to do?' => '%s jegy érintett! Mit szeretne tenni?',
         'Warning: You used the DELETE option. All deleted tickets will be lost!' =>
@@ -894,9 +894,9 @@ sub Data {
         'To add a new event select the event object and event name and click on the "+" button' =>
             'Egy új esemény hozzáadásához válassza ki az eseményobjektumot és az eseménynevet, majd kattintson a „+” gombra',
         'Asynchronous event triggers are handled by the OTRS Scheduler Daemon in background (recommended).' =>
-            'Az aszinkron esemény-aktiválókat az OTRS ütemeződémon kezeli a háttérben (javasolt).',
+            'Az aszinkron eseményaktiválókat az OTRS ütemeződémon kezeli a háttérben (javasolt).',
         'Synchronous event triggers would be processed directly during the web request.' =>
-            'A szinkron esemény-aktiválók közvetlenül legyenek feldolgozva a webkérések alatt.',
+            'A szinkron eseményaktiválók közvetlenül lehetnek feldolgozva a webkérések közben.',
 
         # Template: AdminGenericInterfaceInvokerEvent
         'GenericInterface Invoker Event Settings for Web Service %s' => 'Általános felület meghívóesemény beállításai a webszolgáltatásnál: %s',
@@ -1512,8 +1512,8 @@ sub Data {
         'A postmaster filter with this name already exists!' => 'Már létezik ilyen nevű levelezési szűrő!',
         'Filter Condition' => 'Szűrőfeltétel',
         'AND Condition' => 'ÉS feltétel',
-        'Search header field' => 'Fejlécmező keresése',
-        'for value' => 'ezt az értéket',
+        'Search header field' => 'Keresés a fejlécmezőben',
+        'for value' => 'erre az értékre',
         'The field needs to be a valid regular expression or a literal word.' =>
             'Ennek a mezőnek érvényes reguláris kifejezésnek vagy szóliterálnak kell lennie.',
         'Negate' => 'Tagadás',
@@ -2456,9 +2456,9 @@ sub Data {
         'Filter for settings' => 'Szűrő a beállításokhoz',
         'Save all settings' => 'Összes beállítás mentése',
         'Avatars have been disabled by the system administrator. You\'ll see your initials instead.' =>
-            'Az avatárokat letiltotta a rendszer adminisztrátora. Helyette a monogramját fogja látni.',
+            'A profilképeket letiltotta a rendszer adminisztrátora. Helyette a monogramját fogja látni.',
         'You can change your avatar image by registering with your email address %s at %s. Please note that it can take some time until your new avatar becomes available because of caching.' =>
-            'Megváltoztathatja az avatárképét, ha regisztrálja az e-mail címét (%s) a következő oldalon: %s. Ne feledje, hogy a gyorsítótárazás miatt eltarthat egy ideig, amíg az új avatárja elérhetővé válik.',
+            'Megváltoztathatja a profilképét, ha regisztrálja az e-mail címét (%s) a következő oldalon: %s. Ne feledje, hogy a gyorsítótárazás miatt eltarthat egy ideig, amíg az új profilképe elérhetővé válik.',
         'Off' => 'Ki',
         'End' => 'Befejezés',
         'This setting can currently not be saved.' => 'Ezt a beállítás jelenleg nem lehet elmenteni.',
@@ -2474,7 +2474,7 @@ sub Data {
             'Válasszon a jobb oldali csoportok közül azon beállítások megtalálásához, amelyeket meg szeretne változtatni.',
         'Did you know?' => 'Tudta?',
         'You can change your avatar by registering with your email address %s on %s' =>
-            'Megváltoztathatja az avatárját, ha regisztrálja az e-mail címét (%s) a következő oldalon: %s',
+            'Megváltoztathatja a profilképét, ha regisztrálja az e-mail címét (%s) a következő oldalon: %s',
 
         # Template: AgentSplitSelection
         'Target' => 'Cél',
@@ -2596,8 +2596,8 @@ sub Data {
             'Távolítsa el ezt a bejegyzést, és adjon meg egy újat a helyes értékkel.',
         'This address already exists on the address list.' => 'Ez a cím már létezik a címlistában.',
         'Remove Cc' => 'Másolat eltávolítása',
-        'Bcc' => 'Titkos másolat',
-        'Remove Bcc' => 'Titkos másolat eltávolítása',
+        'Bcc' => 'Rejtett másolat',
+        'Remove Bcc' => 'Rejtett másolat eltávolítása',
         'Date Invalid!' => 'Érvénytelen dátum!',
 
         # Template: AgentTicketCustomer
@@ -2758,7 +2758,6 @@ sub Data {
         'Outgoing message' => 'Kimenő üzenet',
         'Internal message' => 'Belső üzenet',
         'Sending of this message has failed.' => 'Az üzenet küldése nem sikerült.',
-        'This message has been queued for sending.' => 'Az üzenet sorba lett állítva a küldéshez.',
         'Resize' => 'Átméretezés',
         'Mark this article as read' => 'Bejegyzés megjelölése olvasottként',
         'Show Full Text' => 'Teljes szöveg megjelenítése',
@@ -2819,7 +2818,7 @@ sub Data {
         # Template: CustomerAccept
         'Dear Customer,' => 'Kedves Ügyfelünk!',
         'thank you for using our services.' => 'Köszönjük, hogy a szolgáltatásainkat használta.',
-        'Yes, I accept your license.' => '',
+        'Yes, I accept your license.' => 'Igen, elfogadom a licencet.',
 
         # Template: TicketCustomerIDSelection
         'The customer ID is not changeable, no other customer ID can be assigned to this ticket.' =>
@@ -3326,6 +3325,7 @@ sub Data {
 
         # JS Template: DialogDeployment
         'Deployment comment...' => 'Üzembe állítás megjegyzése…',
+        'This field can have no more than 250 characters.' => 'Ez a mező nem tartalmazhat 250 karakternél többet.',
         'Deploying, please wait...' => 'Üzembe állítás, kérem várjon…',
         'Preparing to deploy, please wait...' => 'Előkészítés az üzembe állításhoz, kérem várjon…',
         'Deploy now' => 'Üzembe állítás most',
@@ -4129,6 +4129,8 @@ sub Data {
         'The following tickets were locked: %s.' => 'A következő jegyek zárolva lettek: %s.',
 
         # Perl Module: Kernel/Modules/AgentTicketCompose.pm
+        'Article subject will be empty if the subject contains only the ticket hook!' =>
+            'A bejegyzés tárgya üres lesz, ha a tárgy csak a jegyhorgot tartalmazza!',
         'Address %s replaced with registered customer address.' => 'A(z) %s cím kicserélve a regisztrált ügyfél címével.',
         'Customer user automatically added in Cc.' => 'Az ügyfél-felhasználó automatikusan hozzáadva a másolati mezőhöz.',
 
@@ -4370,6 +4372,8 @@ sub Data {
         # Perl Module: Kernel/Modules/CustomerTicketMessage.pm
         'Check SysConfig setting for %s::QueueDefault.' => 'Rendszerbeállítás ellenőrzése ennél: %s::QueueDefault.',
         'Check SysConfig setting for %s::TicketTypeDefault.' => 'Rendszerbeállítás ellenőrzése ennél: %s::TicketTypeDefault.',
+        'You don\'t have sufficient permissions for ticket creation in default queue.' =>
+            'Nincs elegendő jogosultsága a jegy létrehozásához az alapértelmezett várólistában.',
 
         # Perl Module: Kernel/Modules/CustomerTicketOverview.pm
         'Need CustomerID!' => 'Ügyfél-azonosító szükséges!',
@@ -4474,7 +4478,7 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
         'Contact us at sales@otrs.com' => 'Vegye fel velünk a kapcsolatot a sales@otrs.com címen',
-        'Get Help' => 'Kérjen segítséget',
+        'Get Help' => 'Segítségkérés',
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/MarkAsImportant.pm
         'Mark' => 'Megjelölés',
@@ -5320,7 +5324,7 @@ sub Data {
             'Az érték nem helyes! Érdemes lenne frissíteni ezt a beállítást.',
 
         # Perl Module: Kernel/System/Ticket.pm
-        'Reset of unlock time.' => 'Feloldási idő visszaállítása.',
+        'Reset of unlock time.' => 'Feloldás idejének átállítása.',
 
         # Perl Module: Kernel/System/Ticket/Article/Backend/Chat.pm
         'Chat Participant' => 'Csevegés résztvevője',
@@ -5501,7 +5505,7 @@ sub Data {
         # JS File: Core.Agent.Admin.GenericAgent
         'Remove selection' => 'Kijelölés eltávolítása',
         'Do you really want to delete this generic agent job?' => 'Valóban törölni szeretné ezt az általános ügyintéző feladatot?',
-        'Delete this Event Trigger' => 'Esemény-aktiváló törlése',
+        'Delete this Event Trigger' => 'Eseményaktiváló törlése',
         'Duplicate event.' => 'Esemény kettőzése.',
         'This event is already attached to the job, Please use a different one.' =>
             'Ez az esemény már csatolva van a feladathoz, használjon egy másikat.',
@@ -6125,7 +6129,7 @@ Az Ön segélyszolgálat csapata
             'Automatikusan beállítja a jegy tulajdonosát annak felelőseként (ha a jegyfelelős szolgáltatás engedélyezve van). Ez csak a bejelentkezett felhasználó kézi műveleteinél fog működni. Nem működik olyan automatizált műveleteknél, mint például az általános ügyintéző, a levelezés és az általános felület.',
         'Automatically sets the responsible of a ticket (if it is not set yet) after the first owner update.' =>
             'Automatikusan beállítja a jegy felelősét (ha még nincs beállítva) az első tulajdonos-frissítés után.',
-        'Avatar' => 'Avatár',
+        'Avatar' => 'Profilkép',
         'Balanced white skin by Felix Niklas (slim version).' => 'Kiegyenlített fehér felszín Felix Niklas-tól (karcsú változat).',
         'Balanced white skin by Felix Niklas.' => 'Kiegyenlített fehér felszín Felix Niklas-tól.',
         'Based on global RichText setting' => 'Globális RichText beállítás alapján',
@@ -6158,7 +6162,7 @@ Az Ön segélyszolgálat csapata
         'Change the owner for this ticket' => 'Tulajdonos módosítása ennél a jegynél',
         'Change the priority for this ticket' => 'Prioritás módosítása ennél a jegynél',
         'Change the responsible for this ticket' => 'Felelős módosítása ennél a jegynél',
-        'Change your avatar image.' => 'Az avatárkép megváltoztatása.',
+        'Change your avatar image.' => 'A profilkép megváltoztatása.',
         'Change your password and more.' => 'Jelszó és egyebek megváltoztatása.',
         'Changed SLA to "%s" (%s).' => 'SLA megváltoztatva erre: „%s” (%s).',
         'Changed archive state to "%s".' => 'Archívumállapot megváltoztatva erre: „%s”.',
@@ -6381,11 +6385,11 @@ Az Ön segélyszolgálat csapata
             'A hét kezdőnapjának meghatározása a jelzett naptár dátumválasztójánál.',
         'Define the start day of the week for the date picker.' => 'A hét kezdőnapjának meghatározása a dátumválasztónál.',
         'Define which avatar default image should be used for the article view if no gravatar is assigned to the mail address. Check https://gravatar.com/site/implement/images/ for further information.' =>
-            'Annak meghatározása, hogy melyik alapértelmezett avatárképet kell használni a bejegyzésnézetnél, ha nincs gravatar hozzárendelve az e-mail címhez. További információkért nézze meg a https://gravatar.com/site/implement/images/ oldalt.',
+            'Annak meghatározása, hogy melyik alapértelmezett profilképet kell használni a bejegyzésnézetnél, ha nincs gravatar hozzárendelve az e-mail címhez. További információkért nézze meg a https://gravatar.com/site/implement/images/ oldalt.',
         'Define which avatar default image should be used for the current agent if no gravatar is assigned to the mail address of the agent. Check https://gravatar.com/site/implement/images/ for further information.' =>
-            'Annak meghatározása, hogy melyik alapértelmezett avatárképet kell használni az aktuális ügyintézőnél, ha nincs gravatar hozzárendelve az ügyintéző e-mail címéhez. További információkért nézze meg a https://gravatar.com/site/implement/images/ oldalt.',
+            'Annak meghatározása, hogy melyik alapértelmezett profilképet kell használni az aktuális ügyintézőnél, ha nincs gravatar hozzárendelve az ügyintéző e-mail címéhez. További információkért nézze meg a https://gravatar.com/site/implement/images/ oldalt.',
         'Define which avatar engine should be used for the agent avatar on the header and the sender images in AgentTicketZoom. If \'None\' is selected, initials will be displayed instead. Please note that selecting anything other than \'None\' will transfer the encrypted email address of the particular user to an external service.' =>
-            'Annak meghatározása, hogy mely avatármotort kell használni a fejlécben lévő ügyintézői avatárnál és a küldő képénél az ügyintézői jegynagyításban. Ha „nincs” lett kiválasztva, akkor a kezdőbetűk lesznek megjelenítve helyette. Ne feledje, hogy a „nincs” helyett bármi más lesz kiválasztva, az át fogja küldeni az adott felhasználó titkosított e-mail címét egy külső szolgáltatásnak.',
+            'Annak meghatározása, hogy mely profilképmotort kell használni a fejlécben lévő ügyintézői profilképnél és a küldő képénél az ügyintézői jegynagyításban. Ha „Nincs” lett kiválasztva, akkor a kezdőbetűk lesznek megjelenítve helyette. Ne feledje, hogy a „Nincs” helyett bármi más lesz kiválasztva, az át fogja küldeni az adott felhasználó titkosított e-mail címét egy külső szolgáltatásnak.',
         'Define which columns are shown in the linked appointment widget (LinkObject::ViewMode = "complex"). Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default.' =>
             'Annak meghatározása, hogy mely oszlopok legyenek láthatók a kapcsolt időpont felületi elemen (LinkObject::ViewMode = „összetett”). Lehetséges beállítások: 0 = letiltva, 1 = elérhető, 2 = alapértelmezetten engedélyezett.',
         'Define which columns are shown in the linked tickets widget (LinkObject::ViewMode = "complex"). Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns.' =>
@@ -6947,7 +6951,7 @@ Az Ön segélyszolgálat csapata
         'Defines the next state of a ticket, in the ticket bulk screen of the agent interface.' =>
             'Meghatározza egy jegy következő állapotát az ügyintézői felület jegy tömeges képernyőjén.',
         'Defines the number of character per line used in case an HTML article preview replacement on TemplateGenerator for EventNotifications.' =>
-            'Meghatározza a soronkénti karakterek számát, amelyet egy sablon-előállítón lévő HTML-bejegyzés előnézet cseréje esetén használnak az esemény-értesítésekhez.',
+            'Meghatározza a soronkénti karakterek számát, amelyet egy sablon-előállítón lévő HTML-bejegyzés előnézet cseréje esetén használnak az eseményértesítésekhez.',
         'Defines the number of days to keep the daemon log files.' => 'Meghatározza a napok számát a démon naplófájljainak megtartásához.',
         'Defines the number of header fields in frontend modules for add and update postmaster filters. It can be up to 99 fields.' =>
             'Meghatározza az előtétprogram-modulokban lévő fejlécmezők számát a levelezési szűrők hozzáadásánál és frissítésénél. Akár 99 mező is lehet.',
@@ -7061,8 +7065,9 @@ Az Ön segélyszolgálat csapata
         'Defines the username to access the SOAP handle (bin/cgi-bin/rpc.pl).' =>
             'Meghatározza a SOAP leíróhoz való hozzáférés felhasználónevét (bin/cgi-bin/rpc.pl).',
         'Defines the users avatar. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
-            'Meghatározza a felhasználók avatárját. Ne feledje: az „Active” 0-ra állításával csak az ügyintézőknek akadályozza meg ezen csoport beállításainak szerkesztését a személyes beállításaikban, de az adminisztrátoroknak továbbra is lehetővé teszi a beállítások szerkesztését egy másik felhasználó nevében. Használja a „PreferenceGroup” kulcsot annak szabályozásához, hogy ezeknek a beállításoknak mely területen kell megjelenniük a felhasználói felületen.',
-        'Defines the valid state types for a ticket.' => 'Meghatározza egy jegy érvényes állapotának típusait.',
+            'Meghatározza a felhasználók profilképét. Ne feledje: az „Active” 0-ra állításával csak az ügyintézőknek akadályozza meg ezen csoport beállításainak szerkesztését a személyes beállításaikban, de az adminisztrátoroknak továbbra is lehetővé teszi a beállítások szerkesztését egy másik felhasználó nevében. Használja a „PreferenceGroup” kulcsot annak szabályozásához, hogy ezeknek a beállításoknak mely területen kell megjelenniük a felhasználói felületen.',
+        'Defines the valid state types for a ticket. If a ticket is in a state which have any state type from this setting, this ticket will be considered as open, otherwise as closed.' =>
+            'Meghatározza egy jegy érvényes állapottípusait. Ha a jegy olyan állapotban van, amelynek van valamilyen állapottípusa ebből a beállításból, akkor a jegy nyitottként lesz figyelembe véve, egyébként lezártként.',
         'Defines the valid states for unlocked tickets. To unlock tickets the script "bin/otrs.Console.pl Maint::Ticket::UnlockTimeout" can be used.' =>
             'Meghatározza a zárolatlan jegyek érvényes állapotait. A jegyek feloldásához a „bin/otrs.Console.pl Maint::Ticket::UnlockTimeout” parancsfájl használható.',
         'Defines the viewable locks of a ticket. NOTE: When you change this setting, make sure to delete the cache in order to use the new value. Default: unlock, tmp_lock.' =>
@@ -7915,7 +7920,7 @@ Az Ön segélyszolgálat csapata
         'Processes & Automation' => 'Folyamatok és automatizálás',
         'Product News' => 'Termék hírek',
         'Protection against CSRF (Cross Site Request Forgery) exploits (for more info see https://en.wikipedia.org/wiki/Cross-site_request_forgery).' =>
-            'CSRF (Cross Site Request Forgery – oldalon-keresztüli kéréshamisítás) exploitok elleni védelem (további információkért nézze meg a https://hu.wikipedia.org/wiki/Cross-site_request_forgery oldalt).',
+            'Védelem a CSRF (oldalon-keresztüli kéréshamisítás) kihasználása ellen (további információkért nézze meg a https://hu.wikipedia.org/wiki/Cross-site_request_forgery Wikipédia szócikket).',
         'Provides a matrix overview of the tickets per state per queue' =>
             'Egy mátrix áttekintőt biztosít a jegyekhez állapotonként és várólistánként',
         'Provides customer users access to tickets even if the tickets are not assigned to a customer user of the same customer ID(s), based on permission groups.' =>
@@ -8044,7 +8049,7 @@ Az Ön segélyszolgálat csapata
         'Sends agent follow-up notification only to the owner, if a ticket is unlocked (the default is to send the notification to all agents).' =>
             'Csak a tulajdonosnak küld ügyintéző követő értesítést, ha a jegy fel van oldva (az alapértelmezett, hogy minden ügyintézőnek elküldi az értesítést).',
         'Sends all outgoing email via bcc to the specified address. Please use this only for backup reasons.' =>
-            'Elküld minden kimenő e-mailt titkos másolatként egy megadott címre. Ezt csak biztonsági mentés céljából használja.',
+            'Elküld minden kimenő e-mailt rejtett másolatként egy megadott címre. Ezt csak biztonsági mentés céljából használja.',
         'Sends customer notifications just to the mapped customer.' => 'Az ügyfél értesítéseket csak a leképezett ügyfélnek küldi el.',
         'Sends registration information to OTRS group.' => 'Regisztrációs információkat küld az OTRS csoportnak.',
         'Sends reminder notifications of unlocked ticket after reaching the reminder date (only sent to ticket owner).' =>
@@ -9114,6 +9119,7 @@ Az Ön segélyszolgálat csapata
         'This element has children elements and can currently not be removed.',
         'This event is already attached to the job, Please use a different one.',
         'This feature is part of the %s. Please contact us at %s for an upgrade.',
+        'This field can have no more than 250 characters.',
         'This field is required.',
         'This is %s',
         'This is a repeating appointment',

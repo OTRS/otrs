@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '';
     $Self->{DateInputFormat}     = '';
     $Self->{DateInputFormatLong} = '';
-    $Self->{Completeness}        = 0.972623703451794;
+    $Self->{Completeness}        = 0.971953085160632;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -2753,7 +2753,6 @@ sub Data {
         'Outgoing message' => '보내는 메시지',
         'Internal message' => '내부 메시지',
         'Sending of this message has failed.' => '이 메시지를 보내지 못했습니다.',
-        'This message has been queued for sending.' => '이 메시지는 전송 대기중입니다.',
         'Resize' => '크기 조정',
         'Mark this article as read' => '이 기사를 읽음으로 표시 하십시오.',
         'Show Full Text' => '전체 텍스트 보기',
@@ -3321,6 +3320,7 @@ sub Data {
 
         # JS Template: DialogDeployment
         'Deployment comment...' => '배포 설명...',
+        'This field can have no more than 250 characters.' => '',
         'Deploying, please wait...' => '배포 중입니다. 잠시 기다려주십시오...',
         'Preparing to deploy, please wait...' => '배포 준비 중입니다, 기다려주세요...',
         'Deploy now' => '지금 배포',
@@ -4124,6 +4124,8 @@ sub Data {
         'The following tickets were locked: %s.' => '다음 티켓이 잠겼습니다 : %s.',
 
         # Perl Module: Kernel/Modules/AgentTicketCompose.pm
+        'Article subject will be empty if the subject contains only the ticket hook!' =>
+            '',
         'Address %s replaced with registered customer address.' => '주소 %s는 등록 된 고객 주소로 바뀝니다.',
         'Customer user automatically added in Cc.' => 'Cc에 고객 사용자가 자동으로 추가되었습니다.',
 
@@ -4365,6 +4367,8 @@ sub Data {
         # Perl Module: Kernel/Modules/CustomerTicketMessage.pm
         'Check SysConfig setting for %s::QueueDefault.' => '%s::QueueDefault에 대한 SysConfig 설정을 확인하십시오.',
         'Check SysConfig setting for %s::TicketTypeDefault.' => '%s::TicketTypeDefault에 대한 SysConfig 설정을 확인하십시오.',
+        'You don\'t have sufficient permissions for ticket creation in default queue.' =>
+            '',
 
         # Perl Module: Kernel/Modules/CustomerTicketOverview.pm
         'Need CustomerID!' => '고객 ID가 필요합니다!',
@@ -7057,7 +7061,8 @@ Thanks for your help!
             'SOAP 핸들 (bin / cgi-bin / rpc.pl)에 액세스하기위한 사용자 이름을 정의합니다.',
         'Defines the users avatar. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
             '사용자 아바타를 정의합니다. 참고 : \'활성\'을 0으로 설정하면 상담원이이 그룹의 개인 환경 설정에서 설정을 편집하지 못하게되지만 관리자가 다른 사용자를 대신하여 설정을 편집 할 수 있습니다. \'PreferenceGroup\'을 사용하여 이러한 설정을 사용자 인터페이스에 표시 할 영역을 제어하십시오.',
-        'Defines the valid state types for a ticket.' => '티켓의 유효한 상태 유형을 정의합니다.',
+        'Defines the valid state types for a ticket. If a ticket is in a state which have any state type from this setting, this ticket will be considered as open, otherwise as closed.' =>
+            '',
         'Defines the valid states for unlocked tickets. To unlock tickets the script "bin/otrs.Console.pl Maint::Ticket::UnlockTimeout" can be used.' =>
             '잠금 해제 된 티켓의 유효한 상태를 정의합니다. 티켓의 잠금을 해제하려면 "bin / otrs.Console.pl Maint :: Ticket :: UnlockTimeout"스크립트를 사용할 수 있습니다.',
         'Defines the viewable locks of a ticket. NOTE: When you change this setting, make sure to delete the cache in order to use the new value. Default: unlock, tmp_lock.' =>
@@ -9109,6 +9114,7 @@ Thanks for your help!
         'This element has children elements and can currently not be removed.',
         'This event is already attached to the job, Please use a different one.',
         'This feature is part of the %s. Please contact us at %s for an upgrade.',
+        'This field can have no more than 250 characters.',
         'This field is required.',
         'This is %s',
         'This is a repeating appointment',

@@ -13,7 +13,7 @@
 # Guillaume MIGNOTTE <accrocom@gmail.com>, 2018
 # Raphaël Doursenaud <rdoursenaud@gpcsolutions.fr>, 2018
 # osallou <olivier.sallou@irisa.fr>, 2018
-# Thomas Imbreckx <zinks@linux.com>, 2018
+# Thomas, 2018
 # Gaudin vincent <vincent.gaudin@cprpsncf.fr>, 2018
 # Vincent SAOUT <v.saout@atool-dev.fr>, 2018
 # Patrick Lentz, 2018
@@ -28,13 +28,14 @@
 # ines ines <ines@kopi.org>, 2019
 # Martin Gruner <martin.gruner@otrs.com>, 2019
 # remidoc <Remi.seguy@gmail.com>, 2019
+# Jens Bechtel <jens.bechtel@otrs.com>, 2019
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-10-31 17:51+0000\n"
+"POT-Creation-Date: 2019-12-12 07:26+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
-"Last-Translator: remidoc <Remi.seguy@gmail.com>, 2019\n"
+"Last-Translator: Jens Bechtel <jens.bechtel@otrs.com>, 2019\n"
 "Language-Team: French (https://www.transifex.com/otrs/teams/23435/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -9085,10 +9086,6 @@ msgid "Sending of this message has failed."
 msgstr "L'envoi du message a échoué."
 
 #. Template: AgentTicketZoom
-msgid "This message has been queued for sending."
-msgstr "Ce message a été mis dans la file d'attente pour envoi."
-
-#. Template: AgentTicketZoom
 msgid "Resize"
 msgstr "Redimensionner"
 
@@ -9214,7 +9211,7 @@ msgstr "Charger le contenu bloqué"
 
 #. Template: Breadcrumb
 msgid "Home"
-msgstr "Maison"
+msgstr "Accueil"
 
 #. Template: Breadcrumb
 msgid "Back to admin overview"
@@ -10669,6 +10666,10 @@ msgstr "Ajouter une clé"
 #. JS Template: DialogDeployment
 msgid "Deployment comment..."
 msgstr "Commentaire de déploiement..."
+
+#. JS Template: DialogDeployment
+msgid "This field can have no more than 250 characters."
+msgstr ""
 
 #. JS Template: DialogDeployment
 msgid "Deploying, please wait..."
@@ -13094,6 +13095,11 @@ msgid "The following tickets were locked: %s."
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketCompose.pm
+msgid ""
+"Article subject will be empty if the subject contains only the ticket hook!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketCompose.pm
 msgid "Address %s replaced with registered customer address."
 msgstr "Adresse %s remplacée par celle du client enregistré."
 
@@ -13786,6 +13792,11 @@ msgstr ""
 msgid "Check SysConfig setting for %s::TicketTypeDefault."
 msgstr ""
 
+#. Perl Module: Kernel/Modules/CustomerTicketMessage.pm
+msgid ""
+"You don't have sufficient permissions for ticket creation in default queue."
+msgstr ""
+
 #. Perl Module: Kernel/Modules/CustomerTicketOverview.pm
 msgid "Need CustomerID!"
 msgstr ""
@@ -14155,7 +14166,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Security.pm
 msgid "Email security"
-msgstr ""
+msgstr "courriel sécurité"
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Security.pm
 msgid "PGP sign"
@@ -18689,7 +18700,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Changed state from \"%s\" to \"%s\"."
-msgstr ""
+msgstr "Changer l´état de \"%s\" á \"%s\"."
 
 #. SysConfig
 msgid "Changed title from \"%s\" to \"%s\"."
@@ -21675,7 +21686,10 @@ msgid ""
 msgstr ""
 
 #. SysConfig
-msgid "Defines the valid state types for a ticket."
+msgid ""
+"Defines the valid state types for a ticket. If a ticket is in a state which "
+"have any state type from this setting, this ticket will be considered as "
+"open, otherwise as closed."
 msgstr ""
 
 #. SysConfig

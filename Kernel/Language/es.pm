@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.673184832511478;
+    $Self->{Completeness}        = 0.674655787863335;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -1371,7 +1371,7 @@ sub Data {
         'You are about to downgrade to ((OTRS)) Community Edition and will lose the following features and all data related to these:' =>
             '',
         'Chat' => 'Chat',
-        'Report Generator' => 'Generador de Reportes',
+        'Report Generator' => 'Generador de Informes',
         'Timeline view in ticket zoom' => 'Vista LineaTiempo en ticket zoom',
         'DynamicField ContactWithData' => 'CampoDinamico ContactoConDatos',
         'DynamicField Database' => 'CampoDinamico BaseDatos',
@@ -2442,13 +2442,13 @@ sub Data {
 
         # Template: AgentPreferences
         'Edit your preferences' => 'Editar sus preferencias',
-        'Personal Preferences' => '',
+        'Personal Preferences' => 'Preferencias pesonales',
         'Preferences' => 'Preferencias',
         'Please note: you\'re currently editing the preferences of %s.' =>
             '',
         'Go back to editing this agent' => '',
         'Set up your personal preferences. Save each setting by clicking the checkmark on the right.' =>
-            '',
+            'Configura tus preferencias personales. Guarda cada configuración haciendo clic en el botón de verificación a la derecha.',
         'You can use the navigation tree below to only show settings from certain groups.' =>
             '',
         'Dynamic Actions' => '',
@@ -2482,7 +2482,7 @@ sub Data {
         'Split' => 'Dividir',
 
         # Template: AgentStatisticsAdd
-        'Statistics Management' => '',
+        'Statistics Management' => 'Gestor de estadísticas',
         'Add Statistics' => '',
         'Read more about statistics in OTRS' => '',
         'Dynamic Matrix' => 'Matriz Dinámica',
@@ -2758,7 +2758,6 @@ sub Data {
         'Outgoing message' => 'Mensaje saliente',
         'Internal message' => 'Mensaje interno',
         'Sending of this message has failed.' => '',
-        'This message has been queued for sending.' => '',
         'Resize' => 'Redimensionar',
         'Mark this article as read' => 'Marcar este artículo como leído',
         'Show Full Text' => 'Mostrar Texto Completo',
@@ -2960,7 +2959,7 @@ sub Data {
         'View notifications' => 'Ver notificiaciones',
         'Notifications' => '',
         'Notifications (OTRS Business Solution™)' => '',
-        'Personal preferences' => '',
+        'Personal preferences' => 'Preferencias personales',
         'Logout' => 'Cerrar la sesión',
         'You are logged in as' => 'Ha iniciado sesión como',
 
@@ -3326,6 +3325,7 @@ sub Data {
 
         # JS Template: DialogDeployment
         'Deployment comment...' => '',
+        'This field can have no more than 250 characters.' => '',
         'Deploying, please wait...' => '',
         'Preparing to deploy, please wait...' => '',
         'Deploy now' => '',
@@ -3423,9 +3423,9 @@ sub Data {
         'Notifications could not be Imported due to a unknown error, please check OTRS logs for more information' =>
             'Los notificaciones no se pudieron importarse debido a un error desconocido, favor, compruebe los registros de OTRS para más información.',
         'The following Notifications have been added successfully: %s' =>
-            'Los siguientes Notificaciones se han agregado exitosamente: %s',
+            'Los siguientes Notificaciones se han agregado correctamente: %s',
         'The following Notifications have been updated successfully: %s' =>
-            'Los siguientes Notificaciones se han actualizado exitosamente:%s',
+            'Los siguientes Notificaciones se han actualizado correctamente:%s',
         'There where errors adding/updating the following Notifications: %s. Please check the log file for more information.' =>
             'Hubo errores al añadir/actualizar las siguientes Notificaciones: %s. Por favor, compruebe el archivo de registros para más información.',
         'Notification updated!' => '¡Notificación actualizada!',
@@ -4129,6 +4129,8 @@ sub Data {
         'The following tickets were locked: %s.' => 'Los siguientes tickets fueron bloqueados: %s.',
 
         # Perl Module: Kernel/Modules/AgentTicketCompose.pm
+        'Article subject will be empty if the subject contains only the ticket hook!' =>
+            '',
         'Address %s replaced with registered customer address.' => 'Dirección %s reemplaza con la del cliente registrado.',
         'Customer user automatically added in Cc.' => 'Usuario Cliente añadido automáticamente en Cc.',
 
@@ -4370,6 +4372,8 @@ sub Data {
         # Perl Module: Kernel/Modules/CustomerTicketMessage.pm
         'Check SysConfig setting for %s::QueueDefault.' => 'Revise los ajustes de la Configuración del Sistema para %s::FilaPredeterminada.',
         'Check SysConfig setting for %s::TicketTypeDefault.' => 'Revise los ajustes de la Configuración del Sistema para %s::TipodeTicketPredeterminado.',
+        'You don\'t have sufficient permissions for ticket creation in default queue.' =>
+            '',
 
         # Perl Module: Kernel/Modules/CustomerTicketOverview.pm
         'Need CustomerID!' => '¡Se necesita la ID del cliente!',
@@ -7069,7 +7073,8 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
             '',
         'Defines the users avatar. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
             '',
-        'Defines the valid state types for a ticket.' => '',
+        'Defines the valid state types for a ticket. If a ticket is in a state which have any state type from this setting, this ticket will be considered as open, otherwise as closed.' =>
+            '',
         'Defines the valid states for unlocked tickets. To unlock tickets the script "bin/otrs.Console.pl Maint::Ticket::UnlockTimeout" can be used.' =>
             '',
         'Defines the viewable locks of a ticket. NOTE: When you change this setting, make sure to delete the cache in order to use the new value. Default: unlock, tmp_lock.' =>
@@ -7591,13 +7596,13 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'Link Object.' => 'Enlazar objeto.',
         'Link agents to groups.' => 'Crea enlace de Agentes a Grupos',
         'Link agents to roles.' => 'Crea enlace de Agentes a Roles',
-        'Link customer users to customers.' => '',
-        'Link customer users to groups.' => '',
-        'Link customer users to services.' => '',
-        'Link customers to groups.' => '',
-        'Link queues to auto responses.' => 'Crea enlace de Colas a Respuestas Automáticas',
+        'Link customer users to customers.' => 'Relacionar clientes con empresas',
+        'Link customer users to groups.' => 'Relacionar grupos de clientes',
+        'Link customer users to services.' => 'Relacionar clientes con servicios',
+        'Link customers to groups.' => 'Relacionar grupos de empresas',
+        'Link queues to auto responses.' => 'Relacionar Colas con Respuestas Automáticas',
         'Link roles to groups.' => 'Crea enlace de Roles a Grupos.',
-        'Link templates to attachments.' => '',
+        'Link templates to attachments.' => 'Relacionar plantillas con adjuntos',
         'Link templates to queues.' => 'Crea enlace de Plantillas a Colas.',
         'Link this ticket to other objects' => 'Enlazar este ticket a otros objetos',
         'Links 2 tickets with a "Normal" type link.' => 'Enlaza 2 tickets con un enlace tipo "Normal".',
@@ -7930,7 +7935,7 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'Public Calendar' => 'Calendario Púplico',
         'Public calendar.' => 'Calendario público.',
         'Queue view' => 'Vista por colas',
-        'Queues ↔ Auto Responses' => '',
+        'Queues ↔ Auto Responses' => 'Colas ↔ Auto Respuestas',
         'Rebuild the ticket index for AgentTicketQueue.' => '',
         'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number. Note: the first capturing group from the \'NumberRegExp\' expression will be used as the ticket number value.' =>
             '',
@@ -7950,7 +7955,7 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
             '',
         'Replaces the original sender with current customer\'s email address on compose answer in the ticket compose screen of the agent interface.' =>
             '',
-        'Reports' => 'Reportes',
+        'Reports' => 'Informes',
         'Reports (OTRS Business Solution™)' => 'Reportes (OTRS Business Solution™)',
         'Reprocess mails from spool directory that could not be imported in the first place.' =>
             '',
@@ -9121,6 +9126,7 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'This element has children elements and can currently not be removed.',
         'This event is already attached to the job, Please use a different one.',
         'This feature is part of the %s. Please contact us at %s for an upgrade.',
+        'This field can have no more than 250 characters.',
         'This field is required.',
         'This is %s',
         'This is a repeating appointment',
