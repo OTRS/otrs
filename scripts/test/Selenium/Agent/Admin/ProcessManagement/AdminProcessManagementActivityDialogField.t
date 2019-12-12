@@ -195,7 +195,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#ActivityDialogFilter", 'css' )->send_keys('Make order');
         $Selenium->WaitFor(
             JavaScript =>
-                "return typeof(\$) === 'function' && \$('#ActivityDialogs li:visible').length === 1;"
+                "return typeof(\$) === 'function' && \$('#ActivityDialogs li:visible').length;"
         );
 
         # Go to edit test ActivityDialog screen.
