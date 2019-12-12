@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.99931984356402;
+    $Self->{Completeness}        = 0.999320074791773;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -2753,7 +2753,6 @@ sub Data {
         'Outgoing message' => 'Одлазна порука',
         'Internal message' => 'Интерна порука',
         'Sending of this message has failed.' => 'Слање ове поруке није успело.',
-        'This message has been queued for sending.' => 'Ова порука је заказана за слање.',
         'Resize' => 'Промена величине',
         'Mark this article as read' => 'Означи овај чланак као прочитан',
         'Show Full Text' => 'Прикажи цео текст',
@@ -2814,7 +2813,7 @@ sub Data {
         # Template: CustomerAccept
         'Dear Customer,' => 'Драги клијенте,',
         'thank you for using our services.' => 'хвала вам на коришћењу наших услуга.',
-        'Yes, I accept your license.' => '',
+        'Yes, I accept your license.' => 'Да, прихватам вашу лиценцу.',
 
         # Template: TicketCustomerIDSelection
         'The customer ID is not changeable, no other customer ID can be assigned to this ticket.' =>
@@ -3321,6 +3320,7 @@ sub Data {
 
         # JS Template: DialogDeployment
         'Deployment comment...' => 'Коментар распоређувања...',
+        'This field can have no more than 250 characters.' => '',
         'Deploying, please wait...' => 'Распоређивање у току, молимо сачекајте...',
         'Preparing to deploy, please wait...' => 'Припрема за распоређивање, молимо сачекајте...',
         'Deploy now' => 'Распореди сад',
@@ -4124,6 +4124,8 @@ sub Data {
         'The following tickets were locked: %s.' => 'Следећи тикети су били закључани: %s.',
 
         # Perl Module: Kernel/Modules/AgentTicketCompose.pm
+        'Article subject will be empty if the subject contains only the ticket hook!' =>
+            '',
         'Address %s replaced with registered customer address.' => 'Адреса %s је замењена регистровном адресом клијента.',
         'Customer user automatically added in Cc.' => 'Клијент клијент се аутоматски додаје у Cc.',
 
@@ -4365,6 +4367,8 @@ sub Data {
         # Perl Module: Kernel/Modules/CustomerTicketMessage.pm
         'Check SysConfig setting for %s::QueueDefault.' => 'Проверите подешавања за %s::QueueDefault.',
         'Check SysConfig setting for %s::TicketTypeDefault.' => 'Проверите подешавања за %s::TicketTypeDefault.',
+        'You don\'t have sufficient permissions for ticket creation in default queue.' =>
+            '',
 
         # Perl Module: Kernel/Modules/CustomerTicketOverview.pm
         'Need CustomerID!' => 'Неопходан CustomerID!',
@@ -6376,9 +6380,9 @@ Thanks for your help!
             'Дефиниши први дан у недељи за избор датума за наведени календар.',
         'Define the start day of the week for the date picker.' => 'Дефиниши први дан у недељи за избор датума.',
         'Define which avatar default image should be used for the article view if no gravatar is assigned to the mail address. Check https://gravatar.com/site/implement/images/ for further information.' =>
-            '',
+            'Одређује која сличица ће бити приказана у прегледу чланака уколико оператер нема одговарајућу повезану са имејл адресом. Погледајте https://gravatar.com/site/implement/images/ за више информација.',
         'Define which avatar default image should be used for the current agent if no gravatar is assigned to the mail address of the agent. Check https://gravatar.com/site/implement/images/ for further information.' =>
-            '',
+            'Одређује која сличица ће бити приказана као подразумевана уколико оператер нема одговарајућу повезану са имејл адресом. Погледајте https://gravatar.com/site/implement/images/ за више информација.',
         'Define which avatar engine should be used for the agent avatar on the header and the sender images in AgentTicketZoom. If \'None\' is selected, initials will be displayed instead. Please note that selecting anything other than \'None\' will transfer the encrypted email address of the particular user to an external service.' =>
             'Дефинише који сервис ће бити коришћен за аватар сличице оператера у заглављу и детаљном приказу тикета. Ако је одабран \'Ни један\', биће приказани иницијали оператера. Молимо обратите пажњу да ће одабиром једне од опција, шифрована имејл адреса корисника бити прослеђена екстерном сервису.',
         'Define which columns are shown in the linked appointment widget (LinkObject::ViewMode = "complex"). Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default.' =>
@@ -7057,7 +7061,8 @@ Thanks for your help!
             'Дефинише корисничко име за приступ SOAP руковању (bin/cgi-bin/rpc.pl).',
         'Defines the users avatar. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
             'Дефинише корисникову аватар сличицу. Напомена: подешавање \'Active\' на 0 ће само онемогућити оператерима да мењају своја лична подешавања из ове групе, али ће администратори и даље моћи да их мењају у њихово име. Подесите \'PreferenceGroup\' да бисте одредили у ком делу интерфејса ова подешавања треба да буду приказана.',
-        'Defines the valid state types for a ticket.' => 'Дефинише важеће типове статуса за тикет.',
+        'Defines the valid state types for a ticket. If a ticket is in a state which have any state type from this setting, this ticket will be considered as open, otherwise as closed.' =>
+            '',
         'Defines the valid states for unlocked tickets. To unlock tickets the script "bin/otrs.Console.pl Maint::Ticket::UnlockTimeout" can be used.' =>
             'Одређује важеће статусе за откључане тикете. За откључавање тикета може се користити скрипт "bin/otrs.Console.pl Maint::Ticket::UnlockTimeout".',
         'Defines the viewable locks of a ticket. NOTE: When you change this setting, make sure to delete the cache in order to use the new value. Default: unlock, tmp_lock.' =>
@@ -7910,7 +7915,7 @@ Thanks for your help!
         'Processes & Automation' => 'Процеси & аутоматизација',
         'Product News' => 'Новости о производу',
         'Protection against CSRF (Cross Site Request Forgery) exploits (for more info see https://en.wikipedia.org/wiki/Cross-site_request_forgery).' =>
-            '',
+            'Заштита од CSRF експлоатације (Cross Site Request Forgery, за више информација погледајте https://en.wikipedia.org/wiki/Cross-site_request_forgery).',
         'Provides a matrix overview of the tickets per state per queue' =>
             'Приказује матрицу прегледа тикета по њиховом стању по редовима',
         'Provides customer users access to tickets even if the tickets are not assigned to a customer user of the same customer ID(s), based on permission groups.' =>
@@ -9109,6 +9114,7 @@ Thanks for your help!
         'This element has children elements and can currently not be removed.',
         'This event is already attached to the job, Please use a different one.',
         'This feature is part of the %s. Please contact us at %s for an upgrade.',
+        'This field can have no more than 250 characters.',
         'This field is required.',
         'This is %s',
         'This is a repeating appointment',

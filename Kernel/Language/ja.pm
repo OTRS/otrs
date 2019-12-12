@@ -27,7 +27,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y/%M/%D';
     $Self->{DateInputFormat}     = '%Y/%M/%D';
     $Self->{DateInputFormatLong} = '%Y/%M/%D - %T';
-    $Self->{Completeness}        = 0.764325794932835;
+    $Self->{Completeness}        = 0.763725990141084;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -2759,7 +2759,6 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Outgoing message' => '送信メッセージ',
         'Internal message' => '内部メッセージ',
         'Sending of this message has failed.' => 'このメッセージの送信に失敗しました。',
-        'This message has been queued for sending.' => 'このメッセージは送信のためにキューに格納させられています。',
         'Resize' => 'リサイズ',
         'Mark this article as read' => 'この記事を既読にして下さい。',
         'Show Full Text' => '全文を表示する',
@@ -3327,6 +3326,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
 
         # JS Template: DialogDeployment
         'Deployment comment...' => 'デプロイ・コメント...',
+        'This field can have no more than 250 characters.' => '',
         'Deploying, please wait...' => 'デプロイしています。暫くお待ち下さい...',
         'Preparing to deploy, please wait...' => 'デプロイ中です。お待ち下さい...',
         'Deploy now' => '今すぐデプロイ',
@@ -4131,6 +4131,8 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'The following tickets were locked: %s.' => '',
 
         # Perl Module: Kernel/Modules/AgentTicketCompose.pm
+        'Article subject will be empty if the subject contains only the ticket hook!' =>
+            '',
         'Address %s replaced with registered customer address.' => 'アドレス %s は登録された顧客のアドレスに置換されました。',
         'Customer user automatically added in Cc.' => '顧客ユーザーが自動的にCcに追加されました。',
 
@@ -4372,6 +4374,8 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         # Perl Module: Kernel/Modules/CustomerTicketMessage.pm
         'Check SysConfig setting for %s::QueueDefault.' => '%s::QueueDefault の設定値をご確認ください。',
         'Check SysConfig setting for %s::TicketTypeDefault.' => '%s::TicketTypeDefault の設定値をご確認ください。',
+        'You don\'t have sufficient permissions for ticket creation in default queue.' =>
+            '',
 
         # Perl Module: Kernel/Modules/CustomerTicketOverview.pm
         'Need CustomerID!' => '顧客IDの入力が必要です！',
@@ -7071,7 +7075,8 @@ Contentはダイナミック・フィールドの形式によって設定内容�
             'SOAPハンドルにアクセスするためのユーザ名を定義します(bin/cgi-bin/rpc.pl)。',
         'Defines the users avatar. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
             '',
-        'Defines the valid state types for a ticket.' => 'チケットについて有効な状態タイプを定義します。',
+        'Defines the valid state types for a ticket. If a ticket is in a state which have any state type from this setting, this ticket will be considered as open, otherwise as closed.' =>
+            '',
         'Defines the valid states for unlocked tickets. To unlock tickets the script "bin/otrs.Console.pl Maint::Ticket::UnlockTimeout" can be used.' =>
             '',
         'Defines the viewable locks of a ticket. NOTE: When you change this setting, make sure to delete the cache in order to use the new value. Default: unlock, tmp_lock.' =>
@@ -9124,6 +9129,7 @@ Contentはダイナミック・フィールドの形式によって設定内容�
         'This element has children elements and can currently not be removed.',
         'This event is already attached to the job, Please use a different one.',
         'This feature is part of the %s. Please contact us at %s for an upgrade.',
+        'This field can have no more than 250 characters.',
         'This field is required.',
         'This is %s',
         'This is a repeating appointment',

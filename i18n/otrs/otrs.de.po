@@ -28,7 +28,6 @@
 # Felix Schäfer <web.otrs@yorfeix.de>, 2018
 # Sebastian Hellwig <sebastian@furufuru.cc>, 2018
 # sb_otrs <stefan.bedorf@otrs.com>, 2018
-# Harald Eisenmenger <harald.eisenmenger@otrs.com>, 2018
 # Stefan Hagl <stefan.hagl@gmx.at>, 2018
 # Ettore Atalan <atalanttore@googlemail.com>, 2018
 # bce0ba3cf0737f4654586bd1fe5e7d63, 2018
@@ -39,12 +38,13 @@
 # Marc A. Bonsels, 2019
 # Martin Gruner <martin.gruner@otrs.com>, 2019
 # Jens Bechtel <jens.bechtel@otrs.com>, 2019
+# Harald Eisenmenger <harald.eisenmenger@otrs.com>, 2019
 # Michael Reuther <michael.reuther@otrs.com>, 2019
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-10-31 17:51+0000\n"
+"POT-Creation-Date: 2019-12-12 07:26+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: Michael Reuther <michael.reuther@otrs.com>, 2019\n"
 "Language-Team: German (https://www.transifex.com/otrs/teams/23435/de/)\n"
@@ -9554,10 +9554,6 @@ msgid "Sending of this message has failed."
 msgstr "Senden der Nachricht fehlgeschlagen."
 
 #. Template: AgentTicketZoom
-msgid "This message has been queued for sending."
-msgstr "Diese Nachricht wird demnächst gesendet."
-
-#. Template: AgentTicketZoom
 msgid "Resize"
 msgstr "Größe anpassen"
 
@@ -9722,7 +9718,7 @@ msgstr "Danke, dass Sie unsere Services nutzen."
 
 #. Template: CustomerAccept
 msgid "Yes, I accept your license."
-msgstr ""
+msgstr "Ja, ich akzeptiere Ihre Lizenz."
 
 #. Template: TicketCustomerIDSelection
 msgid ""
@@ -11191,6 +11187,10 @@ msgstr "Schlüssel hinzufügen"
 #. JS Template: DialogDeployment
 msgid "Deployment comment..."
 msgstr "Kommentar zur Inbetriebnahme..."
+
+#. JS Template: DialogDeployment
+msgid "This field can have no more than 250 characters."
+msgstr "Dieses Feld darf nicht mehr als 250 Zeichen lang sein."
 
 #. JS Template: DialogDeployment
 msgid "Deploying, please wait..."
@@ -13699,6 +13699,13 @@ msgid "The following tickets were locked: %s."
 msgstr "Die folgenden Tickets wurden gesperrt: %s."
 
 #. Perl Module: Kernel/Modules/AgentTicketCompose.pm
+msgid ""
+"Article subject will be empty if the subject contains only the ticket hook!"
+msgstr ""
+"Der Betreff des Artikels ist leer, wenn der Betreff nur den Ticket-Hook "
+"enthält!"
+
+#. Perl Module: Kernel/Modules/AgentTicketCompose.pm
 msgid "Address %s replaced with registered customer address."
 msgstr "Adresse %s wurde durch die Adresse des eingetragenen Kunden ersetzt."
 
@@ -14420,6 +14427,12 @@ msgstr "Prüfen Sie die Sysconfig-Einstellungen für %s::QueueDefault."
 #. Perl Module: Kernel/Modules/CustomerTicketMessage.pm
 msgid "Check SysConfig setting for %s::TicketTypeDefault."
 msgstr "Prüfen Sie die Sysconfig-Einstellungen für %s::TicketTypeDefault."
+
+#. Perl Module: Kernel/Modules/CustomerTicketMessage.pm
+msgid ""
+"You don't have sufficient permissions for ticket creation in default queue."
+msgstr ""
+"Sie haben keine ausreichenden Rechte zur Ticket-Anlage in der Default-Queue"
 
 #. Perl Module: Kernel/Modules/CustomerTicketOverview.pm
 msgid "Need CustomerID!"
@@ -23686,8 +23699,14 @@ msgstr ""
 "settings should be shown in the user interface."
 
 #. SysConfig
-msgid "Defines the valid state types for a ticket."
-msgstr "Definiert die gültigen Statustypen für ein Ticket."
+msgid ""
+"Defines the valid state types for a ticket. If a ticket is in a state which "
+"have any state type from this setting, this ticket will be considered as "
+"open, otherwise as closed."
+msgstr ""
+"Definiert die gültigen Statustypen für ein Ticket. Wenn sich ein Ticket in "
+"einem Status befindet, der einen Statustyp aus dieser Einstellung hat, gilt "
+"dieses Ticket als offen, ansonsten als geschlossen."
 
 #. SysConfig
 msgid ""

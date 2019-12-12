@@ -27,7 +27,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.667913620132631;
+    $Self->{Completeness}        = 0.669386367499575;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -79,7 +79,7 @@ sub Data {
         'Change settings' => 'Zmień ustawienia',
         'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is a white list, \'PossibleNot\' a black list.' =>
             'Ustaw co chcesz zmienić jeśli kryteria zostaną spełnione. Prosze zapamiętaj, że \'możliwe\' jest białą listą, \'Niemożliwe\' jest czarną listą',
-        'Check the official %sdocumentation%s.' => '',
+        'Check the official %sdocumentation%s.' => 'Sprawdź oficjalną %sdokumentację%s',
         'Show or hide the content' => 'Pokaż lub ukryj treść',
         'Edit ACL Information' => 'Edytuj informację ACL',
         'Name' => 'Nazwa',
@@ -571,7 +571,7 @@ sub Data {
         'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
             'Tutaj możesz ustalić opcjonalny odnośnik HTTP dla wartości pola, który będzie wyświetlany na ekranach przeglądów i szczegółów.',
         'If special characters (&, @, :, /, etc.) should not be encoded, use \'url\' instead of \'uri\' filter.' =>
-            '',
+            'Jeżeli znaki specjalne (&, @, :, /, etc.) nie mogą zostać zakodowane, użyj filtra \'url\' zamiast \'uri\'.',
         'Example' => 'Przykład',
         'Link for preview' => 'Link do podglądu',
         'If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too.' =>
@@ -906,7 +906,7 @@ sub Data {
         'General Settings' => 'Główne ustawienia',
         'Event type' => 'Typ wydarzenia',
         'Conditions' => 'Warunki',
-        'Conditions can only operate on non-empty fields.' => '',
+        'Conditions can only operate on non-empty fields.' => 'Wyrażenia warunkowe mogą operować tylko na polach niepustych.',
         'Type of Linking between Conditions' => 'Typ połączenia pomiędzy warunkami',
         'Remove this Condition' => 'Usuń ten warunek',
         'Type of Linking' => 'Typ połączenia',
@@ -944,16 +944,16 @@ sub Data {
         'Comment code' => '',
         'Uncomment code' => '',
         'Auto format code' => '',
-        'Expand/Collapse code block' => '',
+        'Expand/Collapse code block' => 'Zwiń/Rozwiń blok kodu',
         'Find' => 'Znajdź',
         'Find next' => 'Znajdź następny',
         'Find previous' => 'Znajdź poprzedni',
         'Find and replace' => 'Znajdź i zamień',
         'Find and replace all' => 'Znajdź i zamień wszystko',
-        'XSLT Mapping' => '',
-        'XSLT stylesheet' => '',
-        'The entered data is not a valid XSLT style sheet.' => '',
-        'Here you can add or modify your XSLT mapping code.' => '',
+        'XSLT Mapping' => 'Mapowanie XSLT',
+        'XSLT stylesheet' => 'Arkusz stylu XSLT',
+        'The entered data is not a valid XSLT style sheet.' => 'Wprowadzone dane nie są prawidłowym arkuszem stylu XSLT.',
+        'Here you can add or modify your XSLT mapping code.' => 'Tutaj możesz dodać lub zmodyfikować kod mapujący XSLT.',
         'The editing field allows you to use different functions like automatic formatting, window resize as well as tag- and bracket-completion.' =>
             '',
         'Data includes' => '',
@@ -965,8 +965,8 @@ sub Data {
         'Data key regex filters (after mapping)' => '',
         'Regular expressions' => 'Regularne wyrażenia',
         'Replace' => 'Zamień',
-        'Remove regex' => '',
-        'Add regex' => '',
+        'Remove regex' => 'Usuń regex',
+        'Add regex' => 'Dodaj regex',
         'These filters can be used to transform keys using regular expressions.' =>
             '',
         'The data structure will be traversed recursively and all configured regexes will be applied to all keys.' =>
@@ -981,7 +981,7 @@ sub Data {
             '',
         'For information about regular expressions in Perl please see here:' =>
             '',
-        'Perl regular expressions tutorial' => '',
+        'Perl regular expressions tutorial' => 'Przewodnik wyrażeń regularnych Perla',
         'If modifiers are desired they have to be specified within the regexes themselves.' =>
             '',
         'Regular expressions defined here will be applied before the XSLT mapping.' =>
@@ -2757,7 +2757,6 @@ sub Data {
         'Outgoing message' => 'Wiadomość wychodząca',
         'Internal message' => 'Wiadomość wewnętrzna',
         'Sending of this message has failed.' => '',
-        'This message has been queued for sending.' => '',
         'Resize' => 'Zmień rozmiar',
         'Mark this article as read' => 'Oznacz wiadomość jako przeczytaną',
         'Show Full Text' => 'Pokaż pełną treść',
@@ -3325,6 +3324,7 @@ sub Data {
 
         # JS Template: DialogDeployment
         'Deployment comment...' => 'Komentarz do wdrożenia...',
+        'This field can have no more than 250 characters.' => '',
         'Deploying, please wait...' => 'Wdrażanie, proszę czekać...',
         'Preparing to deploy, please wait...' => 'Przygotowanie do wdrożenia, proszę czekać...',
         'Deploy now' => 'Wdróż teraz',
@@ -4128,6 +4128,8 @@ sub Data {
         'The following tickets were locked: %s.' => '',
 
         # Perl Module: Kernel/Modules/AgentTicketCompose.pm
+        'Article subject will be empty if the subject contains only the ticket hook!' =>
+            '',
         'Address %s replaced with registered customer address.' => 'Adres %s zastąpiony zarejestrowanym adresem klienta.',
         'Customer user automatically added in Cc.' => 'Użytkownik automatycznie dodany jako DW (Cc).',
 
@@ -4369,6 +4371,8 @@ sub Data {
         # Perl Module: Kernel/Modules/CustomerTicketMessage.pm
         'Check SysConfig setting for %s::QueueDefault.' => '',
         'Check SysConfig setting for %s::TicketTypeDefault.' => '',
+        'You don\'t have sufficient permissions for ticket creation in default queue.' =>
+            '',
 
         # Perl Module: Kernel/Modules/CustomerTicketOverview.pm
         'Need CustomerID!' => 'Potrzebne ID Klienta!',
@@ -7050,7 +7054,8 @@ Thanks for your help!
             'Definiuje uzytkownika do wykorzystania SOAP (bin/cgi-bin/rpc.pl).',
         'Defines the users avatar. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
             '',
-        'Defines the valid state types for a ticket.' => 'Określa aktualne stany widocznych zgłoszeń.',
+        'Defines the valid state types for a ticket. If a ticket is in a state which have any state type from this setting, this ticket will be considered as open, otherwise as closed.' =>
+            '',
         'Defines the valid states for unlocked tickets. To unlock tickets the script "bin/otrs.Console.pl Maint::Ticket::UnlockTimeout" can be used.' =>
             '',
         'Defines the viewable locks of a ticket. NOTE: When you change this setting, make sure to delete the cache in order to use the new value. Default: unlock, tmp_lock.' =>
@@ -9102,6 +9107,7 @@ Thanks for your help!
         'This element has children elements and can currently not be removed.',
         'This event is already attached to the job, Please use a different one.',
         'This feature is part of the %s. Please contact us at %s for an upgrade.',
+        'This field can have no more than 250 characters.',
         'This field is required.',
         'This is %s',
         'This is a repeating appointment',

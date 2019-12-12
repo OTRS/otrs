@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-10-31 17:51+0000\n"
+"POT-Creation-Date: 2019-12-12 07:26+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: Dusan Vuckovic, 2019\n"
 "Language-Team: Serbian (https://www.transifex.com/otrs/teams/23435/sr/)\n"
@@ -9323,10 +9323,6 @@ msgid "Sending of this message has failed."
 msgstr "Слање ове поруке није успело."
 
 #. Template: AgentTicketZoom
-msgid "This message has been queued for sending."
-msgstr "Ова порука је заказана за слање."
-
-#. Template: AgentTicketZoom
 msgid "Resize"
 msgstr "Промена величине"
 
@@ -9485,7 +9481,7 @@ msgstr "хвала вам на коришћењу наших услуга."
 
 #. Template: CustomerAccept
 msgid "Yes, I accept your license."
-msgstr ""
+msgstr "Да, прихватам вашу лиценцу."
 
 #. Template: TicketCustomerIDSelection
 msgid ""
@@ -10937,6 +10933,10 @@ msgstr "Додај кључ"
 #. JS Template: DialogDeployment
 msgid "Deployment comment..."
 msgstr "Коментар распоређувања..."
+
+#. JS Template: DialogDeployment
+msgid "This field can have no more than 250 characters."
+msgstr ""
 
 #. JS Template: DialogDeployment
 msgid "Deploying, please wait..."
@@ -13414,6 +13414,11 @@ msgid "The following tickets were locked: %s."
 msgstr "Следећи тикети су били закључани: %s."
 
 #. Perl Module: Kernel/Modules/AgentTicketCompose.pm
+msgid ""
+"Article subject will be empty if the subject contains only the ticket hook!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketCompose.pm
 msgid "Address %s replaced with registered customer address."
 msgstr "Адреса %s је замењена регистровном адресом клијента."
 
@@ -14128,6 +14133,11 @@ msgstr "Проверите подешавања за %s::QueueDefault."
 #. Perl Module: Kernel/Modules/CustomerTicketMessage.pm
 msgid "Check SysConfig setting for %s::TicketTypeDefault."
 msgstr "Проверите подешавања за %s::TicketTypeDefault."
+
+#. Perl Module: Kernel/Modules/CustomerTicketMessage.pm
+msgid ""
+"You don't have sufficient permissions for ticket creation in default queue."
+msgstr ""
 
 #. Perl Module: Kernel/Modules/CustomerTicketOverview.pm
 msgid "Need CustomerID!"
@@ -20207,6 +20217,9 @@ msgid ""
 "gravatar is assigned to the mail address. Check "
 "https://gravatar.com/site/implement/images/ for further information."
 msgstr ""
+"Одређује која сличица ће бити приказана у прегледу чланака уколико оператер "
+"нема одговарајућу повезану са имејл адресом. Погледајте "
+"https://gravatar.com/site/implement/images/ за више информација."
 
 #. SysConfig
 msgid ""
@@ -20214,6 +20227,9 @@ msgid ""
 " gravatar is assigned to the mail address of the agent. Check "
 "https://gravatar.com/site/implement/images/ for further information."
 msgstr ""
+"Одређује која сличица ће бити приказана као подразумевана уколико оператер "
+"нема одговарајућу повезану са имејл адресом. Погледајте "
+"https://gravatar.com/site/implement/images/ за више информација."
 
 #. SysConfig
 msgid ""
@@ -23136,8 +23152,11 @@ msgstr ""
 "треба да буду приказана."
 
 #. SysConfig
-msgid "Defines the valid state types for a ticket."
-msgstr "Дефинише важеће типове статуса за тикет."
+msgid ""
+"Defines the valid state types for a ticket. If a ticket is in a state which "
+"have any state type from this setting, this ticket will be considered as "
+"open, otherwise as closed."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -26823,6 +26842,9 @@ msgid ""
 "Protection against CSRF (Cross Site Request Forgery) exploits (for more info"
 " see https://en.wikipedia.org/wiki/Cross-site_request_forgery)."
 msgstr ""
+"Заштита од CSRF експлоатације (Cross Site Request Forgery, за више "
+"информација погледајте https://en.wikipedia.org/wiki/Cross-"
+"site_request_forgery)."
 
 #. SysConfig
 msgid "Provides a matrix overview of the tickets per state per queue"

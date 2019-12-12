@@ -21,7 +21,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-10-31 17:51+0000\n"
+"POT-Creation-Date: 2019-12-12 07:26+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: Nick van der Burg <nickvdburg.nvdb@gmail.com>, 2019\n"
 "Language-Team: Dutch (https://www.transifex.com/otrs/teams/23435/nl/)\n"
@@ -594,6 +594,9 @@ msgid ""
 "additional appointment filter can be applied below to only send for "
 "appointments with certain criteria."
 msgstr ""
+"Hier kun je kiezen welke gebeurtenissen deze notificatie inschakelen. Een "
+"extra ticket filter kan worden toegepast om de notificatie alleen te "
+"versturen als het ticket voldoet aan bepaalde criteria."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Appointment Filter"
@@ -617,7 +620,7 @@ msgstr "Team"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Resource"
-msgstr ""
+msgstr "Middel"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Recipients"
@@ -769,7 +772,7 @@ msgstr ""
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "To get the appointment attribute"
-msgstr ""
+msgstr "Om de afspraak eigenschap te krijgen"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid " e. g."
@@ -832,11 +835,11 @@ msgstr "Niveau van email beveiliging"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "If signing key/certificate is missing"
-msgstr ""
+msgstr "Als signeer sleutel/certificaat ontbreekt"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "If encryption key/certificate is missing"
-msgstr ""
+msgstr "Als encryptie sleutel/certificaat ontbreekt"
 
 #. Template: AdminAttachment
 msgid "Attachment Management"
@@ -1190,7 +1193,7 @@ msgstr "Geen communicatie gevonden."
 
 #. Template: AdminCommunicationLog
 msgid "%s s"
-msgstr ""
+msgstr "%s s"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Account Status"
@@ -1633,6 +1636,8 @@ msgid ""
 "Just use this feature if you want to define group permissions for customer "
 "users."
 msgstr ""
+"Gebruik deze functie alleen als u groepsrechten voor klantgebruikers wilt "
+"definiëren."
 
 #. Template: AdminCustomerUserGroup
 msgid "Edit Customer User Default Groups"
@@ -1670,7 +1675,7 @@ msgstr "Klant Gebruiker Standaard Groepen:"
 
 #. Template: AdminCustomerUserService
 msgid "Manage Customer User-Service Relations"
-msgstr ""
+msgstr "Beheer Klantgebruiker-Service relaties"
 
 #. Template: AdminCustomerUserService
 msgid "Edit default services"
@@ -1706,7 +1711,7 @@ msgstr "Filter op dynamische velden"
 
 #. Template: AdminDynamicField
 msgid "More Business Fields"
-msgstr ""
+msgstr "Meer Zakelijke Velden"
 
 #. Template: AdminDynamicField
 msgid ""
@@ -1737,11 +1742,13 @@ msgstr ""
 
 #. Template: AdminDynamicField
 msgid "Contact with data"
-msgstr ""
+msgstr "Contact met gegevens"
 
 #. Template: AdminDynamicField
 msgid "This feature allows to add (multiple) contacts with data to tickets."
 msgstr ""
+"Met deze functie kunt u (meerdere) contacten met gegevens toevoegen aan "
+"tickets."
 
 #. Template: AdminDynamicField
 msgid ""
@@ -1850,6 +1857,7 @@ msgstr "Dit veld is beschermd en kan niet worden verwijderd."
 #. Template: AdminDynamicFieldCheckbox
 msgid "This dynamic field is used in the following config settings:"
 msgstr ""
+"Dit dynamische veld wordt gebruikt in de volgende configuratie-instellingen:"
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Field Settings"
@@ -1931,7 +1939,7 @@ msgstr "Voorbeeld"
 
 #. Template: AdminDynamicFieldDateTime
 msgid "Link for preview"
-msgstr ""
+msgstr "Link voor voorvertoning"
 
 #. Template: AdminDynamicFieldDateTime
 msgid ""
@@ -2056,7 +2064,7 @@ msgstr "Regex toevoegen"
 
 #. Template: AdminEmail
 msgid "Admin Message"
-msgstr ""
+msgstr "Admin Bericht"
 
 #. Template: AdminEmail
 msgid ""
@@ -2107,7 +2115,7 @@ msgstr "Verstuur"
 
 #. Template: AdminGenericAgent
 msgid "Generic Agent Job Management"
-msgstr ""
+msgstr "Generieke Agent Taakbeheer"
 
 #. Template: AdminGenericAgent
 msgid "Edit Job"
@@ -2159,7 +2167,7 @@ msgstr "De naam die u hebt opgegeven bestaat al."
 
 #. Template: AdminGenericAgent
 msgid "Automatic Execution (Multiple Tickets)"
-msgstr ""
+msgstr "Automatische Uitvoering (Meerder Tickets)"
 
 #. Template: AdminGenericAgent
 msgid "Execution Schedule"
@@ -2180,6 +2188,7 @@ msgstr "dagen"
 #. Template: AdminGenericAgent
 msgid "Automatic execution values are in the system timezone."
 msgstr ""
+"Automatische uitvoering waardes bevinden zich binnen de systeemtijdzone."
 
 #. Template: AdminGenericAgent
 msgid "Currently this generic agent job will not run automatically."
@@ -2195,7 +2204,7 @@ msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Event Based Execution (Single Ticket)"
-msgstr ""
+msgstr "Gebeurtenis gebaseerde uitvoering (één ticket)"
 
 #. Template: AdminGenericAgent
 msgid "Event Triggers"
@@ -2685,7 +2694,7 @@ msgstr "Alle configuratiedata gaat verloren."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "General options"
-msgstr ""
+msgstr "Algemene opties"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid ""
@@ -2745,7 +2754,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Error message content filter"
-msgstr ""
+msgstr "Foutmelding inhoud filter"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid ""
@@ -3040,7 +3049,7 @@ msgstr "Conditie"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Edit this event"
-msgstr ""
+msgstr "Bewerk deze gebeurtenis"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "This invoker will be triggered by the configured events."
@@ -3096,7 +3105,7 @@ msgstr "Algemene Instellingen"
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "Event type"
-msgstr ""
+msgstr "Gebeurtenis type"
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "Conditions"
@@ -3224,7 +3233,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "MacOS Shortcuts"
-msgstr ""
+msgstr "MacOS Sneltoetsen"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Comment code"
@@ -3268,7 +3277,7 @@ msgstr "XSLT-toewijzing"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "XSLT stylesheet"
-msgstr ""
+msgstr "XSLT stylesheet"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "The entered data is not a valid XSLT style sheet."
@@ -3451,7 +3460,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Network Transport"
-msgstr ""
+msgstr "Netwerk Transport"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Properties"
@@ -3549,7 +3558,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "BasicAuth User"
-msgstr ""
+msgstr "BasicAuth Gebruiker"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "The user name to be used to access the remote system."
@@ -3557,7 +3566,7 @@ msgstr "De gebruikersnaam om toegang te krijgen tot het andere systeem."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "BasicAuth Password"
-msgstr ""
+msgstr "BasicAuth Wachtwoord"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "The password for the privileged user."
@@ -3565,7 +3574,7 @@ msgstr "Wachtwoord"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Use Proxy Options"
-msgstr ""
+msgstr "Gebruik Proxy Opties"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Show or hide Proxy options to connect to the remote system."
@@ -3601,7 +3610,7 @@ msgstr "Het wachtwoord voor de proxy-gebruiker."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Skip Proxy"
-msgstr ""
+msgstr "Proxy overslaan"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Skip proxy servers that might be configured globally?"
@@ -3617,7 +3626,7 @@ msgstr "Toon of verberg SSL opties om te verbinden naar het andere systeem"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Client Certificate"
-msgstr ""
+msgstr "Client Certificaat"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid ""
@@ -3627,11 +3636,11 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "e.g. /opt/otrs/var/certificates/SOAP/certificate.pem"
-msgstr ""
+msgstr "bv. /opt/otrs/var/certificates/SOAP/certificate.pem"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Client Certificate Key"
-msgstr ""
+msgstr "Client Certificaatsleutel"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid ""
@@ -3645,7 +3654,7 @@ msgstr "bv. /opt/otrs/var/certificates/SOAP/key.pem"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Client Certificate Key Password"
-msgstr ""
+msgstr "Client Certificaatsleutel wachtwoord"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "The password to open the SSL certificate if the key is encrypted."
@@ -3720,7 +3729,7 @@ msgstr "De standaard HTTP opdracht die gebruikt wordt bij verzoeken."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "e.g. https://local.otrs.com:8000/Webservice/Example"
-msgstr ""
+msgstr "bv. https://local.otrs.com:8000/Webservice/Example"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Set SOAPAction"
@@ -4188,7 +4197,7 @@ msgstr ""
 
 #. Template: AdminMailAccount
 msgid "and user account"
-msgstr ""
+msgstr "en gebruikersaccount"
 
 #. Template: AdminMailAccount
 msgid "Filter for Mail Accounts"
@@ -4217,7 +4226,7 @@ msgstr ""
 
 #. Template: AdminMailAccount
 msgid "System Configuration"
-msgstr ""
+msgstr "Systeemconfiguratie"
 
 #. Template: AdminMailAccount
 msgid "Host"
@@ -4268,7 +4277,7 @@ msgstr "Bewerk mail account"
 
 #. Template: AdminNavigationBar
 msgid "Administration Overview"
-msgstr ""
+msgstr "Administratieoverzicht"
 
 #. Template: AdminNavigationBar
 msgid "Filter for Items"
@@ -4298,7 +4307,7 @@ msgstr ""
 
 #. Template: AdminNavigationBar
 msgid "No Matches"
-msgstr ""
+msgstr "Geen overeenkomsten"
 
 #. Template: AdminNavigationBar
 msgid "Sorry, your search didn't match any items."
@@ -4372,11 +4381,11 @@ msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "Customer visibility"
-msgstr ""
+msgstr "Klant zichtbaarheid"
 
 #. Template: AdminNotificationEvent
 msgid "Communication channel"
-msgstr ""
+msgstr "Communicatiekanaal"
 
 #. Template: AdminNotificationEvent
 msgid "Include attachments to notification"
@@ -4738,7 +4747,7 @@ msgstr ""
 
 #. Template: AdminPGP
 msgid "Configure it here!"
-msgstr ""
+msgstr "Configureer het hier!"
 
 #. Template: AdminPGP
 msgid "Check PGP configuration"
@@ -5002,7 +5011,7 @@ msgstr "Primaire Sleutel"
 
 #. Template: AdminPackageManager
 msgid "Auto Increment"
-msgstr ""
+msgstr "Automatisch ophogen"
 
 #. Template: AdminPackageManager
 msgid "SQL"
@@ -5220,11 +5229,11 @@ msgstr "Bewerk prioriteit"
 
 #. Template: AdminPriority
 msgid "Filter for Priorities"
-msgstr ""
+msgstr "Filter voor Prioriteiten"
 
 #. Template: AdminPriority
 msgid "Filter for priorities"
-msgstr ""
+msgstr "Filter voor prioriteiten"
 
 #. Template: AdminPriority
 msgid ""
@@ -5235,6 +5244,7 @@ msgstr ""
 #. Template: AdminPriority
 msgid "This priority is used in the following config settings:"
 msgstr ""
+"Deze prioriteit wordt gebruikt in de volgende configuratieinstellingen:"
 
 #. Template: AdminProcessManagement
 msgid "Process Management"
@@ -5246,7 +5256,7 @@ msgstr "Filter op processen"
 
 #. Template: AdminProcessManagement
 msgid "Filter for processes"
-msgstr ""
+msgstr "Filter voor processen"
 
 #. Template: AdminProcessManagement
 msgid "Create New Process"
@@ -5292,7 +5302,7 @@ msgstr ""
 
 #. Template: AdminProcessManagement
 msgid "Import Ready2Adopt process"
-msgstr ""
+msgstr "Importeer Ready2Adopt proces"
 
 #. Template: AdminProcessManagement
 msgid ""
@@ -5823,6 +5833,8 @@ msgid ""
 "This queue is present in a SysConfig setting, confirmation for updating "
 "settings to point to the new queue is needed!"
 msgstr ""
+"Deze wachtrij is beschikbaar in een SysConfig instelling, bevestiging voor "
+"het updaten van instellingen naar de nieuwe wachtrij is nodig!"
 
 #. Template: AdminQueue
 msgid "Sub-queue of"
@@ -5951,7 +5963,7 @@ msgstr "De ondertekening voor beantwoording van berichten per e-mail."
 
 #. Template: AdminQueue
 msgid "This queue is used in the following config settings:"
-msgstr ""
+msgstr "Deze wachtrij wordt gebruikt in de volgende configuratieinstellingen:"
 
 #. Template: AdminQueueAutoResponse
 msgid "Manage Queue-Auto Response Relations"
@@ -6013,7 +6025,7 @@ msgstr ""
 
 #. Template: AdminRegistration
 msgid "Register System"
-msgstr ""
+msgstr "Registreer Systeem"
 
 #. Template: AdminRegistration
 msgid "Validate OTRS-ID"
@@ -6592,7 +6604,7 @@ msgstr "Sluit venster"
 
 #. Template: AdminSMIMECertRead
 msgid "Certificate Details"
-msgstr ""
+msgstr "Certificaat details"
 
 #. Template: AdminSalutation
 msgid "Salutation Management"
@@ -6854,7 +6866,7 @@ msgstr ""
 
 #. Template: AdminState
 msgid "This state is used in the following config settings:"
-msgstr ""
+msgstr "Deze status wordt gebruikt in de volgende configuratieinstellingen:"
 
 #. Template: AdminSupportDataCollector
 msgid "Sending support data to OTRS Group is not possible!"
@@ -6973,7 +6985,7 @@ msgstr "Bewerk e-mailadres"
 
 #. Template: AdminSystemAddress
 msgid "Add System Address"
-msgstr ""
+msgstr "Nieuw systeem adres"
 
 #. Template: AdminSystemAddress
 msgid "Filter for System Addresses"
@@ -7020,7 +7032,7 @@ msgstr ""
 
 #. Template: AdminSystemConfiguration
 msgid "online administrator documentation"
-msgstr ""
+msgstr "online administrator documentatie"
 
 #. Template: AdminSystemConfiguration
 msgid "System configuration"
@@ -7058,7 +7070,7 @@ msgstr ""
 
 #. Template: AdminSystemConfigurationDeployment
 msgid "Help"
-msgstr ""
+msgstr "Help"
 
 #. Template: AdminSystemConfigurationDeployment
 msgid ""
@@ -7128,7 +7140,7 @@ msgstr ""
 
 #. Template: AdminSystemConfigurationDeployment
 msgid "Deploy selected changes"
-msgstr ""
+msgstr "Geselecteerde wijzigingen uitrollen"
 
 #. Template: AdminSystemConfigurationGroup
 msgid ""
@@ -7138,7 +7150,7 @@ msgstr ""
 
 #. Template: AdminSystemConfigurationImportExport
 msgid "Import & Export"
-msgstr ""
+msgstr "Importeren & Exporteren"
 
 #. Template: AdminSystemConfigurationImportExport
 msgid ""
@@ -7392,11 +7404,11 @@ msgstr "Bewerk type"
 
 #. Template: AdminType
 msgid "Filter for Types"
-msgstr ""
+msgstr "Filter voor Types"
 
 #. Template: AdminType
 msgid "Filter for types"
-msgstr ""
+msgstr "Filter voor types"
 
 #. Template: AdminType
 msgid "A type with this name already exists!"
@@ -7422,7 +7434,7 @@ msgstr "Bewerk behandelaar"
 
 #. Template: AdminUser
 msgid "Edit personal preferences for this agent"
-msgstr ""
+msgstr "Persoonlijke instellingen voor deze behandelaar bewerken"
 
 #. Template: AdminUser
 msgid "Agents will be needed to handle tickets."
@@ -7474,7 +7486,7 @@ msgstr ""
 
 #. Template: AdminUser
 msgid "This agent has no group permissions."
-msgstr ""
+msgstr "Deze behandelaar heeft geen groepsrechten"
 
 #. Template: AdminUser
 msgid ""
@@ -7492,11 +7504,11 @@ msgstr ""
 
 #. Template: AgentAppointmentAgendaOverview
 msgid "Manage Calendars"
-msgstr ""
+msgstr "Kalenders beheren"
 
 #. Template: AgentAppointmentAgendaOverview
 msgid "Add Appointment"
-msgstr ""
+msgstr "Nieuwe Afspraak"
 
 #. Template: AgentAppointmentAgendaOverview
 msgid "Today"
@@ -7530,7 +7542,7 @@ msgstr ""
 
 #. Template: AgentAppointmentCalendarOverview
 msgid "Add new Appointment"
-msgstr ""
+msgstr "Nieuwe afspraak toevoegen"
 
 #. Template: AgentAppointmentCalendarOverview
 msgid "Calendars"
@@ -7538,7 +7550,7 @@ msgstr "Kalenders"
 
 #. Template: AgentAppointmentEdit
 msgid "Basic information"
-msgstr ""
+msgstr "Basis informatie"
 
 #. Template: AgentAppointmentEdit
 msgid "Date/Time"
@@ -8150,7 +8162,7 @@ msgstr ""
 
 #. Template: AgentLinkObject
 msgid "Manage existing links"
-msgstr ""
+msgstr "Bestaande koppelingen beheren"
 
 #. Template: AgentLinkObject
 msgid "Link with"
@@ -8158,7 +8170,7 @@ msgstr "Koppel met"
 
 #. Template: AgentLinkObject
 msgid "Start search"
-msgstr ""
+msgstr "Begin met zoeken"
 
 #. Template: AgentLinkObject
 msgid ""
@@ -8216,7 +8228,7 @@ msgstr "Dynamische Acties"
 
 #. Template: AgentPreferences
 msgid "Filter settings..."
-msgstr ""
+msgstr "Filter instellingen..."
 
 #. Template: AgentPreferences
 msgid "Filter for settings"
@@ -8231,6 +8243,8 @@ msgid ""
 "Avatars have been disabled by the system administrator. You'll see your "
 "initials instead."
 msgstr ""
+"Avatars zijn uitgeschakeld door de systeembeheerder. Uw initialen worden "
+"gebruikt."
 
 #. Template: AgentPreferences
 msgid ""
@@ -8299,7 +8313,7 @@ msgstr "Splits"
 
 #. Template: AgentStatisticsAdd
 msgid "Statistics Management"
-msgstr ""
+msgstr "Statistiekbeheer"
 
 #. Template: AgentStatisticsAdd
 msgid "Add Statistics"
@@ -8307,7 +8321,7 @@ msgstr "Statistieken toevoegen"
 
 #. Template: AgentStatisticsAdd
 msgid "Read more about statistics in OTRS"
-msgstr ""
+msgstr "Lees meer over statistieken in OTRS"
 
 #. Template: AgentStatisticsAdd
 msgid "Dynamic Matrix"
@@ -8399,7 +8413,7 @@ msgstr "Statistieken overzicht"
 
 #. Template: AgentStatisticsView
 msgid "View Statistics"
-msgstr ""
+msgstr "Statistieken bekijken"
 
 #. Template: AgentStatisticsView
 msgid "Statistics Information"
@@ -8440,15 +8454,15 @@ msgstr ""
 
 #. Template: AgentTicketActionCommon
 msgid "Change Owner of %s%s%s"
-msgstr ""
+msgstr "Verander de eigenaar van %s %s %s"
 
 #. Template: AgentTicketActionCommon
 msgid "Close %s%s%s"
-msgstr ""
+msgstr "Sluit %s%s%s"
 
 #. Template: AgentTicketActionCommon
 msgid "Add Note to %s%s%s"
-msgstr ""
+msgstr "Voeg notitie aan %s%s%s"
 
 #. Template: AgentTicketActionCommon
 msgid "Set Pending Time for %s%s%s"
@@ -8456,11 +8470,11 @@ msgstr ""
 
 #. Template: AgentTicketActionCommon
 msgid "Change Priority of %s%s%s"
-msgstr ""
+msgstr "Wijzig de prioriteit van %s%s%s"
 
 #. Template: AgentTicketActionCommon
 msgid "Change Responsible of %s%s%s"
-msgstr ""
+msgstr "Wijzig de verantwoordelijke van %s%s%s"
 
 #. Template: AgentTicketActionCommon
 msgid "All fields marked with an asterisk (*) are mandatory."
@@ -8480,7 +8494,7 @@ msgstr "Ticket instellingen"
 
 #. Template: AgentTicketActionCommon
 msgid "Queue invalid."
-msgstr ""
+msgstr "Wachtrij ongeldig"
 
 #. Template: AgentTicketActionCommon
 msgid "Service invalid."
@@ -8488,7 +8502,7 @@ msgstr "Service is ongeldig."
 
 #. Template: AgentTicketActionCommon
 msgid "SLA invalid."
-msgstr ""
+msgstr "SLA ongeldig"
 
 #. Template: AgentTicketActionCommon
 msgid "New Owner"
@@ -8500,7 +8514,7 @@ msgstr "Kies een nieuwe eigenaar."
 
 #. Template: AgentTicketActionCommon
 msgid "Owner invalid."
-msgstr ""
+msgstr "Eigenaar ongeldig"
 
 #. Template: AgentTicketActionCommon
 msgid "New Responsible"
@@ -8508,11 +8522,11 @@ msgstr "Nieuwe verantwoordelijke"
 
 #. Template: AgentTicketActionCommon
 msgid "Please set a new responsible!"
-msgstr ""
+msgstr "Kies een nieuwe verantwoordelijke!"
 
 #. Template: AgentTicketActionCommon
 msgid "Responsible invalid."
-msgstr ""
+msgstr "Verantwoordelijke ongeldig"
 
 #. Template: AgentTicketActionCommon
 msgid "Next state"
@@ -8520,7 +8534,7 @@ msgstr "Status"
 
 #. Template: AgentTicketActionCommon
 msgid "State invalid."
-msgstr ""
+msgstr "Status ongeldig"
 
 #. Template: AgentTicketActionCommon
 msgid "For all pending* states."
@@ -8632,7 +8646,7 @@ msgstr "Ontgrendel tickets"
 
 #. Template: AgentTicketBulk
 msgid "Execute Bulk Action"
-msgstr ""
+msgstr "Bulkactie uitvoeren"
 
 #. Template: AgentTicketCompose
 msgid "Compose Answer for %s%s%s"
@@ -8653,7 +8667,7 @@ msgstr ""
 
 #. Template: AgentTicketCompose
 msgid "Customer user address book"
-msgstr ""
+msgstr "Klantgebruiker adresboek"
 
 #. Template: AgentTicketCompose
 msgid "Remove Ticket Customer"
@@ -8685,7 +8699,7 @@ msgstr "Datum ongeldig."
 
 #. Template: AgentTicketCustomer
 msgid "Change Customer of %s%s%s"
-msgstr ""
+msgstr "Wijzig klant van %s%s%s"
 
 #. Template: AgentTicketCustomer
 msgid "Customer Information"
@@ -8785,7 +8799,7 @@ msgstr "Interactie"
 
 #. Template: AgentTicketMerge
 msgid "Merge %s%s%s"
-msgstr ""
+msgstr "Samenvoegen %s%s%s"
 
 #. Template: AgentTicketMerge
 msgid "Merge Settings"
@@ -8874,7 +8888,7 @@ msgstr "Tickets per pagina"
 
 #. Template: AgentTicketOverviewPreview
 msgid "Missing channel"
-msgstr ""
+msgstr "Kanaal ontbreekt"
 
 #. Template: AgentTicketOverviewSmall
 msgid "Reset overview"
@@ -8954,7 +8968,7 @@ msgstr "Klantcode (complexe zoekopdracht)"
 
 #. Template: AgentTicketSearch
 msgid "(e. g. 234*)"
-msgstr ""
+msgstr "(bv. 234*)"
 
 #. Template: AgentTicketSearch
 msgid "Customer ID (exact match)"
@@ -8966,7 +8980,7 @@ msgstr ""
 
 #. Template: AgentTicketSearch
 msgid "(e. g. U51*)"
-msgstr ""
+msgstr "(bv. U51*)"
 
 #. Template: AgentTicketSearch
 msgid "Assigned to Customer User Login (exact match)"
@@ -9074,7 +9088,7 @@ msgstr "Opslaan als standaard"
 
 #. Template: AgentTicketZoom
 msgid "Drafts"
-msgstr ""
+msgstr "Concepten"
 
 #. Template: AgentTicketZoom
 msgid "by"
@@ -9126,7 +9140,7 @@ msgstr "Ongelezen interacties"
 
 #. Template: AgentTicketZoom
 msgid "Via"
-msgstr ""
+msgstr "Via"
 
 #. Template: AgentTicketZoom
 msgid "Important"
@@ -9150,11 +9164,7 @@ msgstr "Intern bericht"
 
 #. Template: AgentTicketZoom
 msgid "Sending of this message has failed."
-msgstr ""
-
-#. Template: AgentTicketZoom
-msgid "This message has been queued for sending."
-msgstr ""
+msgstr "Versturen van dit bericht is mislukt."
 
 #. Template: AgentTicketZoom
 msgid "Resize"
@@ -9179,11 +9189,11 @@ msgstr ""
 
 #. Template: Chat
 msgid "#%s"
-msgstr ""
+msgstr "#%s"
 
 #. Template: Chat
 msgid "via %s"
-msgstr ""
+msgstr "via %s"
 
 #. Template: Chat
 msgid "by %s"
@@ -9214,7 +9224,7 @@ msgstr "Sluit dit bericht"
 
 #. Template: MIMEBase
 msgid "Image"
-msgstr ""
+msgstr "Afbeelding"
 
 #. Template: MIMEBase
 msgid "PDF"
@@ -9313,7 +9323,7 @@ msgstr ""
 
 #. Template: CustomerAccept
 msgid "Yes, I accept your license."
-msgstr ""
+msgstr "Ja, ik accepteer de licentie."
 
 #. Template: TicketCustomerIDSelection
 msgid ""
@@ -9561,11 +9571,11 @@ msgstr "Alleen tickets aangemaakt tussen"
 
 #. Template: CustomerTicketSearch
 msgid "Ticket Archive System"
-msgstr ""
+msgstr "Ticket archievering"
 
 #. Template: CustomerTicketSearch
 msgid "Save Search as Template?"
-msgstr ""
+msgstr "Zoekopdracht opslaan als sjabloon?"
 
 #. Template: CustomerTicketSearch
 msgid "Save as Template?"
@@ -9667,7 +9677,7 @@ msgstr ""
 
 #. Template: DraftButtons
 msgid "Update draft"
-msgstr ""
+msgstr "Concept bijwerken"
 
 #. Template: DraftButtons
 msgid "Save as new draft"
@@ -9745,7 +9755,7 @@ msgstr "Welkom bij %s"
 
 #. Template: Installer
 msgid "Germany"
-msgstr ""
+msgstr "Duitsland"
 
 #. Template: Installer
 msgid "Phone"
@@ -9753,27 +9763,27 @@ msgstr "Telefoon"
 
 #. Template: Installer
 msgid "United States"
-msgstr ""
+msgstr "Verenigde Staten"
 
 #. Template: Installer
 msgid "Mexico"
-msgstr ""
+msgstr "Mexico"
 
 #. Template: Installer
 msgid "Hungary"
-msgstr ""
+msgstr "Hongarije"
 
 #. Template: Installer
 msgid "Brazil"
-msgstr ""
+msgstr "Brazilië"
 
 #. Template: Installer
 msgid "Singapore"
-msgstr ""
+msgstr "Singapore"
 
 #. Template: Installer
 msgid "Hong Kong"
-msgstr ""
+msgstr "Hong Kong"
 
 #. Template: Installer
 msgid "Web site"
@@ -10069,11 +10079,11 @@ msgstr ""
 
 #. Template: LinkObject
 msgid "Delete link"
-msgstr ""
+msgstr "Koppeling verwijderen"
 
 #. Template: LinkObject
 msgid "Delete Link"
-msgstr ""
+msgstr "Koppeling verwijderen"
 
 #. Template: LinkObject
 msgid "Object#"
@@ -10101,11 +10111,11 @@ msgstr ""
 
 #. Template: MetaFloater
 msgid "Open URL in new tab"
-msgstr ""
+msgstr "Open URL in nieuw tabblad"
 
 #. Template: MetaFloater
 msgid "Close preview"
-msgstr ""
+msgstr "Voorvertoning sluiten"
 
 #. Template: MetaFloater
 msgid ""
@@ -10115,7 +10125,7 @@ msgstr "Een preview is niet beschikbaar omdat het geen embedding toestaat. "
 
 #. Template: MobileNotAvailableWidget
 msgid "Feature not Available"
-msgstr ""
+msgstr "Functionaliteit niet beschikbaar"
 
 #. Template: MobileNotAvailableWidget
 msgid ""
@@ -10381,11 +10391,11 @@ msgstr "Schaal"
 
 #. Template: StatsParamsWidget
 msgid "show more"
-msgstr ""
+msgstr "Toon meer"
 
 #. Template: StatsParamsWidget
 msgid "show less"
-msgstr ""
+msgstr "Toon minder"
 
 #. Template: D3
 msgid "Download SVG"
@@ -10421,7 +10431,7 @@ msgstr ""
 
 #. Template: SettingsList
 msgid "This setting is disabled."
-msgstr ""
+msgstr "Deze instelling is uitgeschakeld"
 
 #. Template: SettingsList
 msgid "This setting is fixed but not deployed yet!"
@@ -10451,15 +10461,15 @@ msgstr ""
 
 #. Template: SettingsList
 msgid "Disable"
-msgstr ""
+msgstr "Uitschakelen"
 
 #. Template: SettingsList
 msgid "Enable this setting, so it becomes effective"
-msgstr ""
+msgstr "Schakel deze instellin in, zodat deze actief wordt."
 
 #. Template: SettingsList
 msgid "Enable"
-msgstr ""
+msgstr "Inschakelen"
 
 #. Template: SettingsList
 msgid "Reset this setting to its default state"
@@ -10504,7 +10514,7 @@ msgstr ""
 
 #. Template: SettingsList
 msgid "Copy direct link"
-msgstr ""
+msgstr "Directe link kopieren"
 
 #. Template: SettingsList
 msgid "Remove this setting from your favorites setting"
@@ -10512,7 +10522,7 @@ msgstr ""
 
 #. Template: SettingsList
 msgid "Remove from favourites"
-msgstr ""
+msgstr "Verwijder van favorieten"
 
 #. Template: SettingsList
 msgid "Add this setting to your favorites"
@@ -10520,7 +10530,7 @@ msgstr ""
 
 #. Template: SettingsList
 msgid "Add to favourites"
-msgstr ""
+msgstr "Toevoegen aan favorieten"
 
 #. Template: SettingsList
 msgid "Cancel editing this setting"
@@ -10532,11 +10542,11 @@ msgstr "Sla wijzigingen van deze instelling op"
 
 #. Template: SettingsList
 msgid "Edit this setting"
-msgstr ""
+msgstr "Instelling bewerken"
 
 #. Template: SettingsList
 msgid "Enable this setting"
-msgstr ""
+msgstr "Instelling inschakelen"
 
 #. Template: SettingsList
 msgid ""
@@ -10546,7 +10556,7 @@ msgstr ""
 
 #. Template: SettingsListCompare
 msgid "Now"
-msgstr ""
+msgstr "Nu"
 
 #. Template: SettingsListCompare
 msgid "User modification"
@@ -10554,11 +10564,11 @@ msgstr ""
 
 #. Template: SettingsListCompare
 msgid "enabled"
-msgstr ""
+msgstr "ingeschakeld"
 
 #. Template: SettingsListCompare
 msgid "disabled"
-msgstr ""
+msgstr "uitgeschakeld"
 
 #. Template: SettingsListCompare
 msgid "Setting state"
@@ -10566,11 +10576,11 @@ msgstr ""
 
 #. Template: Actions
 msgid "Edit search"
-msgstr ""
+msgstr "Bewerk zoekopdracht"
 
 #. Template: Actions
 msgid "Go back to admin: "
-msgstr ""
+msgstr "Ga terug naar admin:"
 
 #. Template: Actions
 msgid "Deployment"
@@ -10582,7 +10592,7 @@ msgstr ""
 
 #. Template: Actions
 msgid "Invalid settings"
-msgstr ""
+msgstr "Ongeldige instellingen"
 
 #. Template: DynamicActions
 msgid "Filter visible settings..."
@@ -10594,11 +10604,11 @@ msgstr ""
 
 #. Template: DynamicActions
 msgid "Save all edited settings"
-msgstr ""
+msgstr "Alle gewijzigde instellingen opslaan"
 
 #. Template: DynamicActions
 msgid "Cancel editing for all settings"
-msgstr ""
+msgstr "Annuleer wijzigingen voor alle instellingen"
 
 #. Template: DynamicActions
 msgid ""
@@ -10608,7 +10618,7 @@ msgstr ""
 
 #. Template: Help
 msgid "Currently edited by me."
-msgstr ""
+msgstr "Momenteel bewerkt door mij."
 
 #. Template: Help
 msgid "Modified but not yet deployed."
@@ -10624,7 +10634,7 @@ msgstr ""
 
 #. Template: Help
 msgid "Save current setting."
-msgstr ""
+msgstr "Huidige instelling opslaan"
 
 #. Template: Help
 msgid "Cancel editing current setting."
@@ -10632,7 +10642,7 @@ msgstr ""
 
 #. Template: Navigation
 msgid "Navigation"
-msgstr ""
+msgstr "Navigatie"
 
 #. Template: OTRSBusinessTeaser
 msgid ""
@@ -10666,7 +10676,7 @@ msgstr ""
 
 #. JS Template: FormDraftAddDialog
 msgid "Draft title"
-msgstr ""
+msgstr "Concept titel"
 
 #. JS Template: ArticleViewSettingsDialog
 msgid "Article display"
@@ -10722,10 +10732,14 @@ msgstr "Nieuwe sleutel toevoegen"
 
 #. JS Template: AddHashKey
 msgid "Add key"
-msgstr ""
+msgstr "Sleutel toevoegen"
 
 #. JS Template: DialogDeployment
 msgid "Deployment comment..."
+msgstr ""
+
+#. JS Template: DialogDeployment
+msgid "This field can have no more than 250 characters."
 msgstr ""
 
 #. JS Template: DialogDeployment
@@ -10738,7 +10752,7 @@ msgstr ""
 
 #. JS Template: DialogDeployment
 msgid "Deploy now"
-msgstr ""
+msgstr "Nu uitrollen"
 
 #. JS Template: DialogDeployment
 msgid "Try again"
@@ -10917,7 +10931,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "Exact match"
-msgstr ""
+msgstr "Exacte overeenkomst"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "Negated exact match"
@@ -10925,7 +10939,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "Regular expression"
-msgstr ""
+msgstr "Reguliere expressie"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "Regular expression (ignore case)"
@@ -10989,23 +11003,23 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminAppointmentCalendarManage.pm
 msgid "+5 minutes"
-msgstr ""
+msgstr "+5 minuten"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentCalendarManage.pm
 msgid "+15 minutes"
-msgstr ""
+msgstr "+15 minuten"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentCalendarManage.pm
 msgid "+30 minutes"
-msgstr ""
+msgstr "+30 minuten"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentCalendarManage.pm
 msgid "+1 hour"
-msgstr ""
+msgstr "+1 uur"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentImport.pm
 msgid "No permissions"
-msgstr ""
+msgstr "Geen rechten"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentImport.pm
 msgid "System was unable to import file!"
@@ -11134,7 +11148,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Successful"
-msgstr ""
+msgstr "Succesvol"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Processing"
@@ -11142,7 +11156,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Failed"
-msgstr ""
+msgstr "Mislukt"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Invalid Filter: %s!"
@@ -11150,7 +11164,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Less than a second"
-msgstr ""
+msgstr "Minder dan een seconde"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "sorted descending"
@@ -11206,7 +11220,7 @@ msgstr "Bedrijf bijgewerkt!"
 
 #. Perl Module: Kernel/Modules/AdminCustomerCompany.pm
 msgid "Dynamic field %s not found!"
-msgstr ""
+msgstr "Dynamisch veld %s niet gevonden!"
 
 #. Perl Module: Kernel/Modules/AdminCustomerCompany.pm
 msgid "Unable to set value for dynamic field %s!"
@@ -11290,11 +11304,11 @@ msgstr "Object configuratie is niet geldig"
 
 #. Perl Module: Kernel/Modules/AdminDynamicField.pm
 msgid "Database (%s)"
-msgstr ""
+msgstr "Database (%s)"
 
 #. Perl Module: Kernel/Modules/AdminDynamicField.pm
 msgid "Web service (%s)"
-msgstr ""
+msgstr "Web service (%s)"
 
 #. Perl Module: Kernel/Modules/AdminDynamicField.pm
 msgid "Contact with data (%s)"
@@ -11417,15 +11431,15 @@ msgstr "Ongearchiveerde tickets"
 
 #. Perl Module: Kernel/Modules/AdminGenericAgent.pm
 msgid "archive tickets"
-msgstr ""
+msgstr "archiveer tickets"
 
 #. Perl Module: Kernel/Modules/AdminGenericAgent.pm
 msgid "restore tickets from archive"
-msgstr ""
+msgstr "tickets van archief herstellen"
 
 #. Perl Module: Kernel/Modules/AdminGenericAgent.pm
 msgid "Need Profile!"
-msgstr ""
+msgstr "Profiel vereist!"
 
 #. Perl Module: Kernel/Modules/AdminGenericAgent.pm
 msgid "Got no values to check."
@@ -11457,7 +11471,7 @@ msgstr "oplopend"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "Need communication type!"
-msgstr ""
+msgstr "Communicatie type vereist!"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "Communication type needs to be 'Requester' or 'Provider'!"
@@ -11533,7 +11547,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "skip all modules"
-msgstr ""
+msgstr "alle modules overslaan"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "Operation deleted"
@@ -11546,47 +11560,47 @@ msgstr ""
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "0 seconds"
-msgstr ""
+msgstr "0 seconden"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "15 seconds"
-msgstr ""
+msgstr "15 seconden"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "30 seconds"
-msgstr ""
+msgstr "30 seconden"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "45 seconds"
-msgstr ""
+msgstr "45 seconden"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "1 minute"
-msgstr ""
+msgstr "1 minuut"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "2 minutes"
-msgstr ""
+msgstr "2 minuten"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "3 minutes"
-msgstr ""
+msgstr "3 minuten"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "4 minutes"
-msgstr ""
+msgstr "4 minuten"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "5 minutes"
-msgstr ""
+msgstr "5 minuten"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
@@ -11601,77 +11615,77 @@ msgstr "15 minuten"
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "30 minutes"
-msgstr ""
+msgstr "30 minuten"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "1 hour"
-msgstr ""
+msgstr "1 uur"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "2 hours"
-msgstr ""
+msgstr "2 uu"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "3 hours"
-msgstr ""
+msgstr "3 uur"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "4 hours"
-msgstr ""
+msgstr "4 uur"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "5 hours"
-msgstr ""
+msgstr "5 uur"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "6 hours"
-msgstr ""
+msgstr "6 uur"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "12 hours"
-msgstr ""
+msgstr "12 uur"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "18 hours"
-msgstr ""
+msgstr "18 uu"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "1 day"
-msgstr ""
+msgstr "1 dag"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "2 days"
-msgstr ""
+msgstr "2 dagen"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "3 days"
-msgstr ""
+msgstr "3 dagen"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "4 days"
-msgstr ""
+msgstr "4 dagen"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "6 days"
-msgstr ""
+msgstr "6 dagen"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "1 week"
-msgstr ""
+msgstr "1 week"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerDefault.pm
 msgid "Could not determine config for invoker %s"
@@ -11687,11 +11701,11 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
 msgid "Need Invoker!"
-msgstr ""
+msgstr "Invoker vereist!"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
 msgid "Need Event!"
-msgstr ""
+msgstr "Gebeurtenis vereist!"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
 msgid "Could not get registered modules for Invoker"
@@ -11716,15 +11730,15 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
 msgid "xor"
-msgstr ""
+msgstr "xor"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
 msgid "String"
-msgstr ""
+msgstr "String"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
 msgid "Regexp"
-msgstr ""
+msgstr "Regexp"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
 msgid "Validation Module"
@@ -11830,7 +11844,7 @@ msgstr "OperatieType %s is niet geregistreerd"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceTransportHTTPREST.pm
 msgid "Need valid Subaction!"
-msgstr ""
+msgstr "Geldige subactie vereist!"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceTransportHTTPREST.pm
 msgid "This field should be an integer."
@@ -11902,7 +11916,7 @@ msgstr "OTRS als requester"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Invokers"
-msgstr ""
+msgstr "Invokers"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebserviceHistory.pm
 msgid "Got no WebserviceHistoryID!"
@@ -11970,23 +11984,23 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "Customer user of the ticket"
-msgstr ""
+msgstr "Klantgebruiker van het ticket"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "All recipients of the first article"
-msgstr ""
+msgstr "Alle ontvangers van het eerste artikel"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "All recipients of the last article"
-msgstr ""
+msgstr "Alle ontvangers van het laatste artikel"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "Invisible to customer"
-msgstr ""
+msgstr "Onzichtbaar voor klant"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "Visible to customer"
-msgstr ""
+msgstr "Zichtbaar voor klant"
 
 #. Perl Module: Kernel/Modules/AdminOTRSBusiness.pm
 msgid "Your system was successfully upgraded to %s."
@@ -12081,7 +12095,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Updated"
-msgstr ""
+msgstr "Bijgewerkt"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Already up-to-date"
@@ -12089,7 +12103,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Installed"
-msgstr ""
+msgstr "Geïnstalleerd"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Not correctly deployed"
@@ -12236,7 +12250,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Could not delete %s:%s"
-msgstr ""
+msgstr "Kan %s:%s niet verwijderen"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "There was an error setting the entity sync status for %s entity: %s"
@@ -12349,11 +12363,11 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "Agent Interface"
-msgstr ""
+msgstr "Behandelaar interface"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "Customer Interface"
-msgstr ""
+msgstr "Klant interface"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "Agent and Customer Interface"
@@ -12488,7 +12502,7 @@ msgstr "Produktie"
 
 #. Perl Module: Kernel/Modules/AdminRegistration.pm
 msgid "Test"
-msgstr ""
+msgstr "Test"
 
 #. Perl Module: Kernel/Modules/AdminRegistration.pm
 msgid "Training"
@@ -12693,11 +12707,11 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
 msgid "Setting not found."
-msgstr ""
+msgstr "Instelling niet gevonden."
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
 msgid "Missing Settings!"
-msgstr ""
+msgstr "Ontbrekende Instellingen!"
 
 #. Perl Module: Kernel/Modules/AdminSystemMaintenance.pm
 msgid "Start date shouldn't be defined after Stop date!"
@@ -13186,6 +13200,11 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid "The following tickets were locked: %s."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentTicketCompose.pm
+msgid ""
+"Article subject will be empty if the subject contains only the ticket hook!"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketCompose.pm
@@ -13890,6 +13909,11 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/CustomerTicketMessage.pm
 msgid "Check SysConfig setting for %s::TicketTypeDefault."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/CustomerTicketMessage.pm
+msgid ""
+"You don't have sufficient permissions for ticket creation in default queue."
 msgstr ""
 
 #. Perl Module: Kernel/Modules/CustomerTicketOverview.pm
@@ -21867,7 +21891,10 @@ msgid ""
 msgstr ""
 
 #. SysConfig
-msgid "Defines the valid state types for a ticket."
+msgid ""
+"Defines the valid state types for a ticket. If a ticket is in a state which "
+"have any state type from this setting, this ticket will be considered as "
+"open, otherwise as closed."
 msgstr ""
 
 #. SysConfig
@@ -27828,7 +27855,7 @@ msgstr "Inhoud"
 
 #. SysConfig
 msgid "attachment"
-msgstr ""
+msgstr "bijlage"
 
 #. SysConfig
 msgid "bounce"
@@ -27836,7 +27863,7 @@ msgstr ""
 
 #. SysConfig
 msgid "compose"
-msgstr ""
+msgstr "opstellen"
 
 #. SysConfig
 msgid "debug"
@@ -27876,7 +27903,7 @@ msgstr "telefoon"
 
 #. SysConfig
 msgid "responsible"
-msgstr ""
+msgstr "verantwoordelijke"
 
 #. SysConfig
 msgid "reverse"

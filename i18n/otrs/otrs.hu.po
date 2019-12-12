@@ -9,7 +9,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-10-31 17:51+0000\n"
+"POT-Creation-Date: 2019-12-12 07:26+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: Balázs Úr, 2019\n"
 "Language-Team: Hungarian (https://www.transifex.com/otrs/teams/23435/hu/)\n"
@@ -2232,7 +2232,7 @@ msgstr "Eseményalapú végrehajtás (egyetlen jegy)"
 
 #. Template: AdminGenericAgent
 msgid "Event Triggers"
-msgstr "Esemény-aktiválók"
+msgstr "Eseményaktiválók"
 
 #. Template: AdminGenericAgent
 msgid "List of all configured events"
@@ -2260,11 +2260,11 @@ msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Do you really want to delete this event trigger?"
-msgstr "Valóban törölni szeretné ezt az esemény-aktiválót?"
+msgstr "Valóban törölni szeretné ezt az eseményaktiválót?"
 
 #. Template: AdminGenericAgent
 msgid "Add Event Trigger"
-msgstr "Esemény-aktiváló hozzáadása"
+msgstr "Eseményaktiváló hozzáadása"
 
 #. Template: AdminGenericAgent
 msgid "To add a new event select the event object and event name"
@@ -2594,11 +2594,11 @@ msgstr "Egyéni modul végrehajtása"
 
 #. Template: AdminGenericAgent
 msgid "Param %s key"
-msgstr "%s paraméter kulcs"
+msgstr "%s. paraméter kulcsa"
 
 #. Template: AdminGenericAgent
 msgid "Param %s value"
-msgstr "%s paraméter érték"
+msgstr "%s. paraméter értéke"
 
 #. Template: AdminGenericAgent
 msgid "Results"
@@ -3178,7 +3178,7 @@ msgid ""
 "Asynchronous event triggers are handled by the OTRS Scheduler Daemon in "
 "background (recommended)."
 msgstr ""
-"Az aszinkron esemény-aktiválókat az OTRS ütemeződémon kezeli a háttérben "
+"Az aszinkron eseményaktiválókat az OTRS ütemeződémon kezeli a háttérben "
 "(javasolt)."
 
 #. Template: AdminGenericInterfaceInvokerDefault
@@ -3186,8 +3186,8 @@ msgid ""
 "Synchronous event triggers would be processed directly during the web "
 "request."
 msgstr ""
-"A szinkron esemény-aktiválók közvetlenül legyenek feldolgozva a webkérések "
-"alatt."
+"A szinkron eseményaktiválók közvetlenül lehetnek feldolgozva a webkérések "
+"közben."
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "GenericInterface Invoker Event Settings for Web Service %s"
@@ -5396,11 +5396,11 @@ msgstr "ÉS feltétel"
 
 #. Template: AdminPostMasterFilter
 msgid "Search header field"
-msgstr "Fejlécmező keresése"
+msgstr "Keresés a fejlécmezőben"
 
 #. Template: AdminPostMasterFilter
 msgid "for value"
-msgstr "ezt az értéket"
+msgstr "erre az értékre"
 
 #. Template: AdminPostMasterFilter
 msgid "The field needs to be a valid regular expression or a literal word."
@@ -8558,8 +8558,8 @@ msgid ""
 "Avatars have been disabled by the system administrator. You'll see your "
 "initials instead."
 msgstr ""
-"Az avatárokat letiltotta a rendszer adminisztrátora. Helyette a monogramját "
-"fogja látni."
+"A profilképeket letiltotta a rendszer adminisztrátora. Helyette a "
+"monogramját fogja látni."
 
 #. Template: AgentPreferences
 msgid ""
@@ -8567,9 +8567,9 @@ msgid ""
 "at %s. Please note that it can take some time until your new avatar becomes "
 "available because of caching."
 msgstr ""
-"Megváltoztathatja az avatárképét, ha regisztrálja az e-mail címét (%s) a "
+"Megváltoztathatja a profilképét, ha regisztrálja az e-mail címét (%s) a "
 "következő oldalon: %s. Ne feledje, hogy a gyorsítótárazás miatt eltarthat "
-"egy ideig, amíg az új avatárja elérhetővé válik."
+"egy ideig, amíg az új profilképe elérhetővé válik."
 
 #. Template: AgentPreferences
 msgid "Off"
@@ -8615,7 +8615,7 @@ msgstr "Tudta?"
 msgid ""
 "You can change your avatar by registering with your email address %s on %s"
 msgstr ""
-"Megváltoztathatja az avatárját, ha regisztrálja az e-mail címét (%s) a "
+"Megváltoztathatja a profilképét, ha regisztrálja az e-mail címét (%s) a "
 "következő oldalon: %s"
 
 #. Template: AgentSplitSelection
@@ -9010,11 +9010,11 @@ msgstr "Másolat eltávolítása"
 
 #. Template: AgentTicketCompose
 msgid "Bcc"
-msgstr "Titkos másolat"
+msgstr "Rejtett másolat"
 
 #. Template: AgentTicketCompose
 msgid "Remove Bcc"
-msgstr "Titkos másolat eltávolítása"
+msgstr "Rejtett másolat eltávolítása"
 
 #. Template: AgentTicketCompose
 msgid "Date Invalid!"
@@ -9491,10 +9491,6 @@ msgid "Sending of this message has failed."
 msgstr "Az üzenet küldése nem sikerült."
 
 #. Template: AgentTicketZoom
-msgid "This message has been queued for sending."
-msgstr "Az üzenet sorba lett állítva a küldéshez."
-
-#. Template: AgentTicketZoom
 msgid "Resize"
 msgstr "Átméretezés"
 
@@ -9659,7 +9655,7 @@ msgstr "Köszönjük, hogy a szolgáltatásainkat használta."
 
 #. Template: CustomerAccept
 msgid "Yes, I accept your license."
-msgstr ""
+msgstr "Igen, elfogadom a licencet."
 
 #. Template: TicketCustomerIDSelection
 msgid ""
@@ -11126,6 +11122,10 @@ msgstr "Kulcs hozzáadása"
 #. JS Template: DialogDeployment
 msgid "Deployment comment..."
 msgstr "Üzembe állítás megjegyzése…"
+
+#. JS Template: DialogDeployment
+msgid "This field can have no more than 250 characters."
+msgstr "Ez a mező nem tartalmazhat 250 karakternél többet."
 
 #. JS Template: DialogDeployment
 msgid "Deploying, please wait..."
@@ -13634,6 +13634,12 @@ msgid "The following tickets were locked: %s."
 msgstr "A következő jegyek zárolva lettek: %s."
 
 #. Perl Module: Kernel/Modules/AgentTicketCompose.pm
+msgid ""
+"Article subject will be empty if the subject contains only the ticket hook!"
+msgstr ""
+"A bejegyzés tárgya üres lesz, ha a tárgy csak a jegyhorgot tartalmazza!"
+
+#. Perl Module: Kernel/Modules/AgentTicketCompose.pm
 msgid "Address %s replaced with registered customer address."
 msgstr "A(z) %s cím kicserélve a regisztrált ügyfél címével."
 
@@ -14380,6 +14386,13 @@ msgstr "Rendszerbeállítás ellenőrzése ennél: %s::QueueDefault."
 msgid "Check SysConfig setting for %s::TicketTypeDefault."
 msgstr "Rendszerbeállítás ellenőrzése ennél: %s::TicketTypeDefault."
 
+#. Perl Module: Kernel/Modules/CustomerTicketMessage.pm
+msgid ""
+"You don't have sufficient permissions for ticket creation in default queue."
+msgstr ""
+"Nincs elegendő jogosultsága a jegy létrehozásához az alapértelmezett "
+"várólistában."
+
 #. Perl Module: Kernel/Modules/CustomerTicketOverview.pm
 msgid "Need CustomerID!"
 msgstr "Ügyfél-azonosító szükséges!"
@@ -14677,7 +14690,7 @@ msgstr "Vegye fel velünk a kapcsolatot a sales@otrs.com címen"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
 msgid "Get Help"
-msgstr "Kérjen segítséget"
+msgstr "Segítségkérés"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/MarkAsImportant.pm
 msgid "Mark"
@@ -16969,7 +16982,7 @@ msgstr "Az érték nem helyes! Érdemes lenne frissíteni ezt a beállítást."
 
 #. Perl Module: Kernel/System/Ticket.pm
 msgid "Reset of unlock time."
-msgstr "Feloldási idő visszaállítása."
+msgstr "Feloldás idejének átállítása."
 
 #. Perl Module: Kernel/System/Ticket/Article/Backend/Chat.pm
 msgid "Chat Participant"
@@ -17596,7 +17609,7 @@ msgstr "Valóban törölni szeretné ezt az általános ügyintéző feladatot?"
 
 #. JS File: Core.Agent.Admin.GenericAgent
 msgid "Delete this Event Trigger"
-msgstr "Esemény-aktiváló törlése"
+msgstr "Eseményaktiváló törlése"
 
 #. JS File: Core.Agent.Admin.GenericAgent
 msgid "Duplicate event."
@@ -19526,7 +19539,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Avatar"
-msgstr "Avatár"
+msgstr "Profilkép"
 
 #. SysConfig
 msgid "Balanced white skin by Felix Niklas (slim version)."
@@ -19659,7 +19672,7 @@ msgstr "Felelős módosítása ennél a jegynél"
 
 #. SysConfig
 msgid "Change your avatar image."
-msgstr "Az avatárkép megváltoztatása."
+msgstr "A profilkép megváltoztatása."
 
 #. SysConfig
 msgid "Change your password and more."
@@ -20602,7 +20615,7 @@ msgid ""
 "gravatar is assigned to the mail address. Check "
 "https://gravatar.com/site/implement/images/ for further information."
 msgstr ""
-"Annak meghatározása, hogy melyik alapértelmezett avatárképet kell használni "
+"Annak meghatározása, hogy melyik alapértelmezett profilképet kell használni "
 "a bejegyzésnézetnél, ha nincs gravatar hozzárendelve az e-mail címhez. "
 "További információkért nézze meg a "
 "https://gravatar.com/site/implement/images/ oldalt."
@@ -20613,7 +20626,7 @@ msgid ""
 " gravatar is assigned to the mail address of the agent. Check "
 "https://gravatar.com/site/implement/images/ for further information."
 msgstr ""
-"Annak meghatározása, hogy melyik alapértelmezett avatárképet kell használni "
+"Annak meghatározása, hogy melyik alapértelmezett profilképet kell használni "
 "az aktuális ügyintézőnél, ha nincs gravatar hozzárendelve az ügyintéző "
 "e-mail címéhez. További információkért nézze meg a "
 "https://gravatar.com/site/implement/images/ oldalt."
@@ -20626,12 +20639,12 @@ msgid ""
 "'None' will transfer the encrypted email address of the particular user to "
 "an external service."
 msgstr ""
-"Annak meghatározása, hogy mely avatármotort kell használni a fejlécben lévő "
-"ügyintézői avatárnál és a küldő képénél az ügyintézői jegynagyításban. Ha "
-"„nincs” lett kiválasztva, akkor a kezdőbetűk lesznek megjelenítve helyette. "
-"Ne feledje, hogy a „nincs” helyett bármi más lesz kiválasztva, az át fogja "
-"küldeni az adott felhasználó titkosított e-mail címét egy külső "
-"szolgáltatásnak."
+"Annak meghatározása, hogy mely profilképmotort kell használni a fejlécben "
+"lévő ügyintézői profilképnél és a küldő képénél az ügyintézői "
+"jegynagyításban. Ha „Nincs” lett kiválasztva, akkor a kezdőbetűk lesznek "
+"megjelenítve helyette. Ne feledje, hogy a „Nincs” helyett bármi más lesz "
+"kiválasztva, az át fogja küldeni az adott felhasználó titkosított e-mail "
+"címét egy külső szolgáltatásnak."
 
 #. SysConfig
 msgid ""
@@ -23112,8 +23125,8 @@ msgid ""
 "preview replacement on TemplateGenerator for EventNotifications."
 msgstr ""
 "Meghatározza a soronkénti karakterek számát, amelyet egy sablon-előállítón "
-"lévő HTML-bejegyzés előnézet cseréje esetén használnak az esemény-"
-"értesítésekhez."
+"lévő HTML-bejegyzés előnézet cseréje esetén használnak az "
+"eseményértesítésekhez."
 
 #. SysConfig
 msgid "Defines the number of days to keep the daemon log files."
@@ -23650,7 +23663,7 @@ msgid ""
 "another user's behalf. Use 'PreferenceGroup' to control in which area these "
 "settings should be shown in the user interface."
 msgstr ""
-"Meghatározza a felhasználók avatárját. Ne feledje: az „Active” 0-ra "
+"Meghatározza a felhasználók profilképét. Ne feledje: az „Active” 0-ra "
 "állításával csak az ügyintézőknek akadályozza meg ezen csoport "
 "beállításainak szerkesztését a személyes beállításaikban, de az "
 "adminisztrátoroknak továbbra is lehetővé teszi a beállítások szerkesztését "
@@ -23659,8 +23672,14 @@ msgstr ""
 "megjelenniük a felhasználói felületen."
 
 #. SysConfig
-msgid "Defines the valid state types for a ticket."
-msgstr "Meghatározza egy jegy érvényes állapotának típusait."
+msgid ""
+"Defines the valid state types for a ticket. If a ticket is in a state which "
+"have any state type from this setting, this ticket will be considered as "
+"open, otherwise as closed."
+msgstr ""
+"Meghatározza egy jegy érvényes állapottípusait. Ha a jegy olyan állapotban "
+"van, amelynek van valamilyen állapottípusa ebből a beállításból, akkor a "
+"jegy nyitottként lesz figyelembe véve, egyébként lezártként."
 
 #. SysConfig
 msgid ""
@@ -27496,9 +27515,9 @@ msgid ""
 "Protection against CSRF (Cross Site Request Forgery) exploits (for more info"
 " see https://en.wikipedia.org/wiki/Cross-site_request_forgery)."
 msgstr ""
-"CSRF (Cross Site Request Forgery – oldalon-keresztüli kéréshamisítás) "
-"exploitok elleni védelem (további információkért nézze meg a "
-"https://hu.wikipedia.org/wiki/Cross-site_request_forgery oldalt)."
+"Védelem a CSRF (oldalon-keresztüli kéréshamisítás) kihasználása ellen "
+"(további információkért nézze meg a https://hu.wikipedia.org/wiki/Cross-"
+"site_request_forgery Wikipédia szócikket)."
 
 #. SysConfig
 msgid "Provides a matrix overview of the tickets per state per queue"
@@ -28038,8 +28057,8 @@ msgid ""
 "Sends all outgoing email via bcc to the specified address. Please use this "
 "only for backup reasons."
 msgstr ""
-"Elküld minden kimenő e-mailt titkos másolatként egy megadott címre. Ezt csak"
-" biztonsági mentés céljából használja."
+"Elküld minden kimenő e-mailt rejtett másolatként egy megadott címre. Ezt "
+"csak biztonsági mentés céljából használja."
 
 #. SysConfig
 msgid "Sends customer notifications just to the mapped customer."
