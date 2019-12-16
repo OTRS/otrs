@@ -68,7 +68,7 @@ sub new {
     # get home directory
     $Self->{Home} = $Self->{ConfigObject}->Get('Home');
 
-    # set utf8 if used
+    # set utf-8 if used
     $Self->{utf8}     = 1;
     $Self->{FileMode} = ':utf8';
 
@@ -1183,7 +1183,7 @@ Wrapper for Kernel::Output::HTML::SysConfig::SettingRender() - Returns the speci
             XMLContentParsed => $XMLParsedToPerl,
             EffectiveValue   => "Product 6",        # or a complex structure
             DefaultValue     => "Product 5",        # or a complex structure
-            IsAjax           => 1,                  # (optional) is ajax request. Default 0.
+            IsAjax           => 1,                  # (optional) is AJAX request. Default 0.
             # ...
         },
         RW => 1,                                    # (optional) Allow editing. Default 0.
@@ -2929,7 +2929,7 @@ sub ConfigurationNavigationTree {
         );
     }
 
- # Until now we have strucure of the Navigation tree without sub-node count. We need this number to disable
+ # Until now we have structure of the Navigation tree without sub-node count. We need this number to disable
  # click on empty nodes. We could implement that in the _NavigationTree, but it's not efficient(loop of 1800+ settings).
  # Instead, we extend result in the _NavigationTreeNodeCount.
     %Result = $Self->_NavigationTreeNodeCount(
@@ -3184,7 +3184,7 @@ Returns list of enabled settings that have invalid effective value.
                             #                 If there is no cache yet, system will return empty list, but
                             #                 it will also trigger async call to generate cache.
         Undeployed  => 1,   # (optional) Default 0. Check settings that are not deployed as well.
-        NoCache     => 1,   # (optional) Default 0. If enabled, system won't check the cached valuue.
+        NoCache     => 1,   # (optional) Default 0. If enabled, system won't check the cached value.
     );
 
 Returns:
@@ -3466,7 +3466,7 @@ sub ConfigurationDeploy {
 
         next SETTING if $EffectiveValueCheck{Success};
 
-        # Check if setting is overridden, in this case allow deployemnt.
+        # Check if setting is overridden, in this case allow deployment.
         my $OverriddenFileName = $Self->OverriddenFileNameGet(
             SettingName    => $CurrentSetting->{Name},
             UserID         => $Param{UserID},
@@ -3546,7 +3546,7 @@ sub ConfigurationDeploy {
             return %Result;
         }
 
-        # Get system time stamp (string formated).
+        # Get system time stamp (string formatted).
         my $DateTimeObject = $Kernel::OM->Create(
             'Kernel::System::DateTime'
         );
@@ -4816,7 +4816,7 @@ sub OverriddenFileNameGet {
         $File =~ m{^.*/(.*?)\.pm$};
         my $FileName = $1;
 
-        # Skip the file that was regulary deployed.
+        # Skip the file that was regularly deployed.
         next FILE if $FileName eq 'ZZZAAuto';
 
         push @Modules, {
@@ -4829,17 +4829,41 @@ sub OverriddenFileNameGet {
         'Kernel::Config' => 'Kernel/Config.pm',
     };
 
-    # Read EffectiveValues from DB (they are stored in ZZZAAuto file).
-    my $Loaded = $MainObject->Require(
-        'Kernel::Config::Files::ZZZAAuto',
-        Silent => 1,
-    );
-
-    # If module couldn't be loaded, there is no user specific setting.
-    return if !$Loaded;
-
+    # Get effective values. Try cached version first.
     my $ConfigFromDB = {};
-    Kernel::Config::Files::ZZZAAuto->Load($ConfigFromDB);
+    if ( $Self->{ConfigFromDB} ) {
+        $ConfigFromDB = $Self->{ConfigFromDB};
+    }
+
+    # Check if we have a valid ZZZAAuto.pm. It is regarded as a reliable source of information.
+    elsif (
+        -f $Self->{Home} . '/Kernel/Config/Files/ZZZAAuto.pm'
+        && $MainObject->Require('Kernel::Config::Files::ZZZAAuto')
+        )
+    {
+        Kernel::Config::Files::ZZZAAuto->Load($ConfigFromDB);
+
+        return if !$ConfigFromDB;
+        $Self->{ConfigFromDB} = $ConfigFromDB;
+    }
+
+    # Try retrieving data from DB.
+    elsif ( my %LastDeployment = $Kernel::OM->Get('Kernel::System::SysConfig::DB')->DeploymentGetLast() ) {
+        return if !$LastDeployment{EffectiveValueStrg};
+
+        {
+            eval $LastDeployment{EffectiveValueStrg};
+            Kernel::Config::Files::ZZZAAuto->Load($ConfigFromDB);
+        }
+
+        return if !$ConfigFromDB;
+        $Self->{ConfigFromDB} = $ConfigFromDB;
+    }
+
+    # No usable data found. This should only happen during initial setup before the initial deployment.
+    else {
+        return;
+    }
 
     for my $Module (@Modules) {
         my $ModuleName = ( keys %{$Module} )[0];
@@ -4968,7 +4992,7 @@ sub _IsOverriddenInModule {
         $Param{Module}->Load($OverriddenSettings);
     }
 
-    # OverridenSettings contains EffectiveValues from DB, overridden by provided Module,
+    # OverriddenSettings contains EffectiveValues from DB, overridden by provided Module,
     # so we can compare if setting was changed in this file.
 
     # Loaded hash is empty, return.
@@ -5613,7 +5637,7 @@ sub _EffectiveValues2PerlFile {
 
     chomp $PerlHashStrg;
 
-    # Convert TartgetPath to Package.
+    # Convert TargetPath to Package.
     my $TargetPath = $Param{TargetPath};
     $TargetPath =~ s{(.*)\.(?:.*)}{$1}msx;
     $TargetPath =~ s{ / }{::}msxg;
