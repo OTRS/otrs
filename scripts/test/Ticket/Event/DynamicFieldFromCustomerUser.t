@@ -10,6 +10,8 @@ use strict;
 use warnings;
 use utf8;
 
+use Kernel::System::VariableCheck qw(IsHashRefWithData);
+
 use vars (qw($Self));
 
 # Get needed objects.
@@ -83,6 +85,7 @@ my @DynamicFields = (
 );
 
 my @AddedDynamicFieldNames;
+my @AddedDynamicFieldIDs;
 for my $DynamicFieldConfig (@DynamicFields) {
 
     my $ID = $DynamicFieldObject->DynamicFieldAdd(
@@ -107,6 +110,7 @@ for my $DynamicFieldConfig (@DynamicFields) {
 
     # Remember the DynamicFieldName.
     push @AddedDynamicFieldNames, $DynamicFieldConfig->{Name};
+    push @AddedDynamicFieldIDs,   $ID;
 }
 
 # Create a customer company.
@@ -144,6 +148,18 @@ my $TestUserLogin = $CustomerUserObject->CustomerUserAdd(
 my %TestUserData = $CustomerUserObject->CustomerUserDataGet(
     User => $TestUserLogin,
 );
+
+# Run HistoricalValueGet on all dynamic fields to create a cache.
+my $DynamicFieldValueObject = $Kernel::OM->Get('Kernel::System::DynamicFieldValue');
+for my $DynamicFieldID (@AddedDynamicFieldIDs) {
+    my $HistoricalValues = $DynamicFieldValueObject->HistoricalValueGet(
+        FieldID => $DynamicFieldID,
+    );
+    $Self->True(
+        !IsHashRefWithData($HistoricalValues),
+        "HistoricalValues for DynamicFieldID $DynamicFieldID are correct before ValueSet."
+    );
+}
 
 # Create a new ticket with the test user information.
 my $TicketID = $TicketObject->TicketCreate(
@@ -201,6 +217,18 @@ $Self->Is(
     $TestCustomerCompany{CustomerCompanyName},
     "DynamicField 'CustomerCompanyName$RandomID' for Ticket ID:'$TicketID' match TestCompany Name",
 );
+
+# Run HistoricalValueGet on all dynamic fields again, to check updated values are correct and cache is cleaned on ValueSet.
+# See bug#14895 (https://bugs.otrs.org/show_bug.cgi?id=14895) for more details.
+for my $DynamicFieldID (@AddedDynamicFieldIDs) {
+    my $HistoricalValues = $DynamicFieldValueObject->HistoricalValueGet(
+        FieldID => $DynamicFieldID,
+    );
+    $Self->False(
+        !IsHashRefWithData($HistoricalValues),
+        "HistoricalValues for DynamicFieldID $DynamicFieldID are correct after ValueSet."
+    );
+}
 
 # Cleanup is done by RestoreDatabase.
 

@@ -757,6 +757,22 @@ sub _DeleteFromCache {
         Type => 'DynamicFieldValue',
         Key  => 'HistoricalValueGet::FieldID::' . $Param{FieldID} . '::ValueType::Integer',
     );
+
+    # Make sure to clear appropriate cache according to data value type.
+    if ( IsArrayRefWithData( $Param{Value} ) ) {
+        my $ValueType = 'value_text';
+        if ( $Param{Value}->[0]->{ValueDateTime} ) {
+            $ValueType = 'value_date';
+        }
+        elsif ( $Param{Value}->[0]->{ValueInt} ) {
+            $ValueType = 'value_int';
+        }
+        $CacheObject->Delete(
+            Type => 'DynamicFieldValue',
+            Key  => 'HistoricalValueGet::FieldID::' . $Param{FieldID} . '::ValueType::' . $ValueType,
+        );
+    }
+
     $CacheObject->Delete(
         Type => 'DynamicFieldValue',
         Key  => 'ValueSearch::' . $Param{FieldID},
