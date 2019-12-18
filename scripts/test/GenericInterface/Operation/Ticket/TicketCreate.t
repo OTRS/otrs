@@ -596,6 +596,28 @@ my $CustomerPassword  = $CustomerUserLogin;
 my $CustomerUserLogin2 = $Helper->TestCustomerUserCreate();
 my $CustomerPassword2  = $CustomerUserLogin2;
 
+# disable email checks to create new user
+$ConfigObject->Set(
+    Key   => 'CheckEmailAddresses',
+    Value => 0,
+);
+
+# Create a customer with email address.
+my $EmailCustomerRand  = 'email-customer-' . $Helper->GetRandomID();
+my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
+
+my $TestCustomerUserID = $CustomerUserObject->CustomerUserAdd(
+    Source         => 'CustomerUser',
+    UserFirstname  => 'Firstname Test',
+    UserLastname   => 'Lastname Test',
+    UserCustomerID => $EmailCustomerRand,
+    UserLogin      => $EmailCustomerRand,
+    UserEmail      => $EmailCustomerRand . '@example.com',
+    UserPassword   => $EmailCustomerRand,
+    ValidID        => 1,
+    UserID         => 1,
+);
+
 # start requester with our web service
 my $RequesterSessionResult = $RequesterSessionObject->Run(
     WebserviceID => $WebserviceID,
@@ -3143,6 +3165,45 @@ my @Tests        = (
         Operation => 'TicketCreate',
     },
     {
+        Name           => 'Ticket with Customer User by email.',
+        Type           => 'EmailCustomerUser',
+        SuccessRequest => 1,
+        SuccessCreate  => 1,
+        RequestData    => {
+            Ticket => {
+                Title         => 'Ticket Title',
+                CustomerUser  => $EmailCustomerRand . '@example.com',
+                QueueID       => $Queues[0]->{QueueID},
+                TypeID        => $TypeID,
+                StateID       => $StateID,
+                PriorityID    => $PriorityID,
+                OwnerID       => $OwnerID,
+                ResponsibleID => $ResponsibleID,
+            },
+            Article => {
+                SenderTypeID         => 1,
+                Subject              => 'Article subject',
+                Body                 => 'Article body',
+                AutoResponseType     => 'auto reply',
+                From                 => $EmailCustomerRand . '@example.com',
+                ContentType          => 'text/plain; charset=utf8',
+                IsVisibleForCustomer => '1',
+                TimeUnit             => 25,
+            },
+            DynamicField => {
+                Name  => $DynamicFieldDateTimeConfig{Name},
+                Value => '2012-01-17 12:40:00',
+            },
+            Attachment => {
+                Content     => 'VGhpcyBpcyBhIHRlc3QgdGV4dC4=',
+                ContentType => 'text/plain; charset=utf8',
+                Filename    => 'Test.txt',
+                Disposition => 'attachment',
+            },
+        },
+        Operation => 'TicketCreate',
+    },
+    {
         Name           => 'Ticket with IDs PendingTime Diff',
         SuccessRequest => 1,
         SuccessCreate  => 1,
@@ -3752,7 +3813,6 @@ my @Tests        = (
         },
         Operation => 'TicketCreate',
     },
-
     {
         Name           => 'Create DynamicFields (with not empty value)',
         SuccessRequest => 1,
@@ -3815,7 +3875,6 @@ my @Tests        = (
         },
         Operation => 'TicketCreate',
     },
-
     {
         Name           => 'Create DynamicFields (with wrong value type)',
         SuccessRequest => 1,
@@ -3882,7 +3941,6 @@ my @Tests        = (
         },
         Operation => 'TicketCreate',
     },
-
     {
         Name           => 'Create DynamicFields (with invalid value)',
         SuccessRequest => 1,
@@ -3945,7 +4003,6 @@ my @Tests        = (
         },
         Operation => 'TicketCreate',
     },
-
     {
         Name           => 'Ticket with Alias Charsets attachment',
         SuccessRequest => 1,
@@ -4051,7 +4108,6 @@ my @Tests        = (
         },
         Operation => 'TicketCreate',
     },
-
     {
         Name           => 'Article with Internal communication channel',
         SuccessRequest => 1,
@@ -4461,9 +4517,15 @@ for my $Test (@Tests) {
             );
         }
         else {
+            my $ExpectedCustomerUserID = $Test->{RequestData}->{Ticket}->{CustomerUser};
+
+            if ( $Test->{Type} eq 'EmailCustomerUser' ) {
+                $ExpectedCustomerUserID = $EmailCustomerRand;
+            }
+
             $Self->Is(
                 $LocalTicketData{CustomerUserID},
-                $Test->{RequestData}->{Ticket}->{CustomerUser},
+                $ExpectedCustomerUserID,
                 "$Test->{Name} - local Ticket->CustomerUser match test definition."
             );
         }
