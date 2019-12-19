@@ -11,9 +11,6 @@ package Kernel::GenericInterface::Operation::Ticket::TicketCreate;
 use strict;
 use warnings;
 
-use MIME::Base64;
-use Email::Valid;
-
 use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData IsString IsStringWithData);
 
 use parent qw(
@@ -1234,24 +1231,12 @@ sub _TicketCreate {
     my $Article          = $Param{Article};
     my $DynamicFieldList = $Param{DynamicFieldList};
     my $AttachmentList   = $Param{AttachmentList};
-    my $CustomerUser     = $Ticket->{CustomerUser};
-
-    if ( Email::Valid->address($CustomerUser) ) {
-        my %CustomerSearch = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerSearch(
-            PostMasterSearch => $CustomerUser,
-            Limit            => 1,
-        );
-
-        for my $CustomerKey ( sort keys %CustomerSearch ) {
-            $CustomerUser = $CustomerKey;
-        }
-    }
 
     # get customer information
     # with information will be used to create the ticket if customer is not defined in the
     # database, customer ticket information need to be empty strings
     my %CustomerUserData = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserDataGet(
-        User => $CustomerUser,
+        User => $Ticket->{CustomerUser},
     );
 
     my $CustomerID = $CustomerUserData{UserCustomerID} || '';
@@ -1421,7 +1406,7 @@ sub _TicketCreate {
 
     # otherwise use customer user as sent from the request (it should be an email)
     else {
-        $From = $CustomerUser;
+        $From = $Ticket->{CustomerUser};
     }
 
     # set Article To
@@ -1434,7 +1419,9 @@ sub _TicketCreate {
             QueueID => $Ticket->{QueueID},
         );
     }
+
     if ( !$Article->{CommunicationChannel} ) {
+
         my %CommunicationChannel = $Kernel::OM->Get('Kernel::System::CommunicationChannel')->ChannelGet(
             ChannelID => $Article->{CommunicationChannelID},
         );
