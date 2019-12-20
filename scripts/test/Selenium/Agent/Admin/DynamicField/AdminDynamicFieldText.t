@@ -124,13 +124,21 @@ $Selenium->RunTest(
             $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
             # Check for test DynamicFieldText on AdminDynamicField screen.
+            $Selenium->WaitFor(
+                JavaScript =>
+                    "return typeof(\$) === 'function' && \$('#DynamicFieldsTable tr:contains($RandomID)').length;"
+            );
             $Self->True(
-                index( $Selenium->get_page_source(), $RandomID ) > -1,
-                "DynamicFieldText $RandomID found on table"
-            ) || die;
+                $Selenium->execute_script("return \$('#DynamicFieldsTable tr:contains($RandomID)').length;"),
+                "DynamicFieldText $RandomID found on table",
+            );
 
             # Edit test DynamicFieldText default value and set it to invalid.
             $Selenium->find_element( $RandomID, 'link_text' )->VerifiedClick();
+
+            $Selenium->WaitFor(
+                JavaScript => "return typeof(\$) === 'function' && \$('#DefaultValue').length;"
+            );
 
             $Selenium->find_element( "#DefaultValue", 'css' )->send_keys("Default");
             $Selenium->InputFieldValueSet(
@@ -138,6 +146,11 @@ $Selenium->RunTest(
                 Value   => 2,
             );
             $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
+
+            $Selenium->WaitFor(
+                JavaScript =>
+                    "return typeof(\$) === 'function' && \$('#DynamicFieldsTable tr:contains($RandomID)').length;"
+            );
 
             # Check new and edited DynamicFieldText values.
             $Selenium->find_element( $RandomID, 'link_text' )->VerifiedClick();
