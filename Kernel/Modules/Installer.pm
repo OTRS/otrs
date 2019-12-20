@@ -1248,7 +1248,7 @@ sub CheckDBRequirements {
                     $MySQLInnoDBLogFileSizeMinimum,
                     $MySQLInnoDBLogFileSize,
                     $MySQLInnoDBLogFileSizeRecommended,
-                    'http://dev.mysql.com/doc/refman/5.6/en/innodb-data-log-reconfiguration.html',
+                    'https://dev.mysql.com/doc/refman/5.6/en/innodb-parameters.html',
                 );
             }
         }

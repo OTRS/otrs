@@ -1,4 +1,5 @@
 #6.0.26 ????-??-??
+ - 2019-12-20 Fixed bug#[14912](https://bugs.otrs.org/show_bug.cgi?id=14912) - Installer refers to non-existing documentation.
  - 2019-12-18 Fixed bug#[14896](https://bugs.otrs.org/show_bug.cgi?id=14896) - Process print action in process overview screen does not open in pop-up window.
  - 2019-12-16 Fixed bug#[14895](https://bugs.otrs.org/show_bug.cgi?id=14895) - Caching issues with dropdown and multiselect dynamic fields when they are filled by 'DynamicFieldFromCustomerUser::Mapping'.
  - 2019-12-16 Fixed bug#[14910](https://bugs.otrs.org/show_bug.cgi?id=14910) - Missing ZZZAAuto.pm prevents deployment of overridden invalid entity type database settings.
