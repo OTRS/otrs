@@ -160,6 +160,8 @@ $Selenium->RunTest(
                     Element => '#ValidID',
                     Value   => 1,
                 );
+
+                $Selenium->WaitFor( JavaScript => 'return $("button[type=submit]").length;' );
                 $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
 
                 $Selenium->WaitFor(
