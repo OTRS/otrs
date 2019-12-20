@@ -15,7 +15,7 @@ production systems, and destruction of data.
 - Be patient. Make a good faith effort to clarify and support on
 arising questions. Keep information about any vulnerabilities you’ve
 discovered confidential between yourself and OTRS Group until we
-resolved the issue with a public OTRS Security Announcement (typically
+resolved the issue with a public OTRS Group Security Announcement (typically
 within 90 days)
 - Do no harm. Act for the common good through the prompt reporting of
 all found vulnerabilities. Never willfully exploit others without their
@@ -37,7 +37,7 @@ configuration change based on the issue.
 ## Scope
 
 - OTRS and Features created by the OTRS Group
-- Managed OTRS and created by the OTRS Group
+- Managed OTRS and automation tools created and operated by the OTRS Group
 - ((otrs)) Community Edition and features created by the OTRS Group
 
 ### Out of scope
