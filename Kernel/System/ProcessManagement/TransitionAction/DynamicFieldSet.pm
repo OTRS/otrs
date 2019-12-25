@@ -130,6 +130,17 @@ sub Run {
             return;
         }
 
+        # Transform value from string to array for multiselect field (see bug#14900).
+        if (
+            $DynamicFieldConfig->{FieldType} eq 'Multiselect'
+            && IsStringWithData( $Param{Config}->{$CurrentDynamicField} )
+            )
+        {
+            $Param{Config}->{$CurrentDynamicField} = $Self->_ConvertScalar2ArrayRef(
+                Data => $Param{Config}->{$CurrentDynamicField},
+            );
+        }
+
         # try to set the configured value
         my $Success = $DynamicFieldBackendObject->ValueSet(
             DynamicFieldConfig => $DynamicFieldConfig,

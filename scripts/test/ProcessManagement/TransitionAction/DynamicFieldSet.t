@@ -30,6 +30,7 @@ my $RandomID   = $Helper->GetRandomID();
 my $DFName1    = 'Test1' . $RandomID;
 my $DFName2    = 'Test2' . $RandomID;
 my $DFName3    = 'Test3' . $RandomID;
+my $DFName4    = 'Test4' . $RandomID;
 
 # set user details
 my ( $TestUserLogin, $TestUserID ) = $Helper->TestUserCreate();
@@ -69,6 +70,20 @@ my @NewDynamicFieldConfig = (
         ObjectType => 'Ticket',
         Config     => {
             DefaultValue => '',
+        },
+    },
+    {
+        Name       => $DFName4,
+        Label      => $DFName4,
+        FieldType  => 'Multiselect',
+        ObjectType => 'Ticket',
+        Config     => {
+            TranslatableValues => '0',
+            PossibleValues     => {
+                'a' => 'A',
+                'b' => 'B',
+                'c' => 'C',
+            },
         },
     },
 );
@@ -313,6 +328,19 @@ my @Tests = (
         Success => 1,
     },
     {
+        Name   => 'Correct multiple values set for Multiselect',
+        Config => {
+            UserID => $UserID,
+            Ticket => \%Ticket,
+            Config => {
+                $DFName4 => 'a, b',
+            },
+        },
+        Multiselect    => 1,
+        ExpectedResult => [ 'a', 'b' ],
+        Success        => 1,
+    },
+    {
         Name   => 'Correct Using OTRS Customer Data tag',
         Config => {
             UserID => $UserID,
@@ -367,6 +395,17 @@ for my $Test (@Tests) {
                 defined $Ticket{ 'DynamicField_' . $Attribute },
                 "$ModuleName - Test:'$Test->{Name}' | Attribute: DynamicField_" . $Attribute
                     . " for TicketID: $TicketID exists with True",
+            );
+            next TEST;
+        }
+
+        # Check set value for multiple selected values of multiselect dynamic field (see bug#14900).
+        if ( $Test->{Multiselect} ) {
+            $Self->IsDeeply(
+                $Ticket{ 'DynamicField_' . $Attribute },
+                $Test->{ExpectedResult},
+                "$ModuleName - Test:'$Test->{Name}' | Attribute: DynamicField_" . $Attribute
+                    . " for TicketID: $TicketID match expected value",
             );
             next TEST;
         }

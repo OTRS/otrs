@@ -1,4 +1,5 @@
 #6.0.26 ????-??-??
+ - 2019-12-25 Fixed bug#[14900](https://bugs.otrs.org/show_bug.cgi?id=14900) - Transition action / Sequence flow DynamicFieldSet can't handle multiselect field value set.
  - 2019-12-25 Fixed bug#[14288](https://bugs.otrs.org/show_bug.cgi?id=14288) - CustomerUser Validation does not work in Web Service.
  - 2019-12-20 Fixed bug#[14912](https://bugs.otrs.org/show_bug.cgi?id=14912) - Installer refers to non-existing documentation.
  - 2019-12-18 Fixed bug#[14896](https://bugs.otrs.org/show_bug.cgi?id=14896) - Process print action in process overview screen does not open in pop-up window.
