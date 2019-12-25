@@ -141,7 +141,8 @@ sub Run {
     };
 
     # Check if there are errors.
-    if ($ErrorMessage) {
+    # Do not log debug messages as Daemon errors. See bug#14722 (https://bugs.otrs.org/show_bug.cgi?id=14722).
+    if ( $ErrorMessage && $ErrorMessage !~ /Debug: /g ) {
 
         $Self->_HandleError(
             TaskName     => $Param{TaskName},
