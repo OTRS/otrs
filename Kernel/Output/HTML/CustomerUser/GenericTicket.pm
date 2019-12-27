@@ -13,7 +13,7 @@ use parent 'Kernel::Output::HTML::Base';
 use strict;
 use warnings;
 
-use Kernel::System::VariableCheck qw(IsArrayRefWithData);
+use Kernel::System::VariableCheck qw(:all);
 
 our $ObjectManagerDisabled = 1;
 
@@ -74,9 +74,14 @@ sub Run {
         },
     );
 
+    my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
+    my $BackendObject      = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
+
     # get all attributes
     my %TicketSearch = ();
     my @Params       = split /;/, $Param{Config}->{Attributes};
+    my %AttributeLookup;
+    my %DynamicFields;
     STRING:
     for my $String (@Params) {
         next STRING if !$String;
@@ -99,6 +104,38 @@ sub Run {
             else {
                 push @{ $TicketSearch{$Key} }, $Value;
             }
+        }
+        elsif ( $Key =~ m/Search_DynamicField_(.*)/smx ) {
+            my $DynamicFieldName = $1;
+            if ( $DynamicFieldName =~ m/(.+) Time (Point | Slot) (.*)/smx ) {
+                $DynamicFieldName = $1;
+            }
+
+            if ( !IsHashRefWithData( $DynamicFields{$DynamicFieldName} ) ) {
+                my $DynamicFieldConfig = $DynamicFieldObject->DynamicFieldGet(
+                    Name => $DynamicFieldName,
+                );
+                $DynamicFields{$DynamicFieldName} = $DynamicFieldConfig;
+            }
+
+            # If there are values with the same key, set an array with these values.
+            if ( defined $TicketSearch{$Key} ) {
+                if ( ref $TicketSearch{$Key} eq 'ARRAY' ) {
+                    push @{ $TicketSearch{$Key} }, $Value;
+                }
+                elsif ( ref $TicketSearch{$Key} eq '' ) {
+                    my $ValueTmp = $TicketSearch{$Key};
+                    $TicketSearch{$Key} = [$ValueTmp];
+                    push @{ $TicketSearch{$Key} }, $Value;
+                }
+            }
+            else {
+                $TicketSearch{$Key} = $Value;
+            }
+        }
+        elsif ( $Key eq 'ShownAttributes' ) {
+            push @{ $TicketSearch{$Key} }, $Value;
+            $AttributeLookup{$Value} = 1;
         }
         elsif ( !defined $TicketSearch{$Key} ) {
             $TicketSearch{$Key} = $Value;
@@ -277,6 +314,45 @@ sub Run {
                     $TicketSearch{ $TimeType . 'TimeOlderMinutes' } = 0;
                     $TicketSearch{ $TimeType . 'TimeNewerMinutes' } = $Time;
                 }
+            }
+        }
+    }
+
+    # Set search parameters for dynamic fields.
+    DYNAMICFIELD:
+    for my $DynamicFieldConfig ( sort values %DynamicFields ) {
+        next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+
+        # Get search field preferences.
+        my $SearchFieldPreferences = $BackendObject->SearchFieldPreferences(
+            DynamicFieldConfig => $DynamicFieldConfig,
+        );
+
+        next DYNAMICFIELD if !IsArrayRefWithData($SearchFieldPreferences);
+
+        PREFERENCE:
+        for my $Preference ( @{$SearchFieldPreferences} ) {
+
+            if (
+                !$AttributeLookup{
+                    'LabelSearch_DynamicField_'
+                        . $DynamicFieldConfig->{Name}
+                        . $Preference->{Type}
+                }
+                )
+            {
+                next PREFERENCE;
+            }
+
+            my $SearchParameter = $BackendObject->SearchFieldParameterBuild(
+                DynamicFieldConfig => $DynamicFieldConfig,
+                Profile            => \%TicketSearch,
+                LayoutObject       => $LayoutObject,
+                Type               => $Preference->{Type},
+            );
+
+            if ( defined $SearchParameter ) {
+                $TicketSearch{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = $SearchParameter->{Parameter};
             }
         }
     }

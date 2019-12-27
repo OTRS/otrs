@@ -1,4 +1,5 @@
 #6.0.26 ????-??-??
+ - 2019-12-27 Fixed bug#[14882](https://bugs.otrs.org/show_bug.cgi?id=14882) - Number of tickets in link to tickets in customer information not correct if dynamic fields are used.
  - 2019-12-25 Fixed bug#[14722](https://bugs.otrs.org/show_bug.cgi?id=14722) - Debug messages are shown as Daemon errors.
  - 2019-12-25 Fixed bug#[14900](https://bugs.otrs.org/show_bug.cgi?id=14900) - Transition action / Sequence flow DynamicFieldSet can't handle multiselect field value set.
  - 2019-12-25 Fixed bug#[14288](https://bugs.otrs.org/show_bug.cgi?id=14288) - CustomerUser Validation does not work in Web Service.
