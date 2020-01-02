@@ -1,6 +1,6 @@
 #!/usr/bin/perl -X
 # --
-# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
 # --
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -33,7 +33,7 @@ use Fcntl qw(:flock);
 use Kernel::System::ObjectManager;
 
 print STDOUT "otrs.Daemon.pl - the OTRS daemon\n";
-print STDOUT "Copyright (C) 2001-2019 OTRS AG, https://otrs.com/\n\n";
+print STDOUT "Copyright (C) 2001-2020 OTRS AG, https://otrs.com/\n\n";
 
 local $Kernel::OM = Kernel::System::ObjectManager->new(
     'Kernel::System::Log' => {
