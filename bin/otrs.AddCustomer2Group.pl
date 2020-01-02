@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 # --
-# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
 # --
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -42,7 +42,7 @@ getopt( 'gup', \%Opts );
 
 if ( $Opts{h} || !$Opts{g} || !$Opts{u} || !$Opts{p} ) {
     print "otrs.AddCustomer2Group.pl - add customer to a group\n";
-    print "Copyright (C) 2001-2019 OTRS AG, https://otrs.com/\n";
+    print "Copyright (C) 2001-2020 OTRS AG, https://otrs.com/\n";
     print "usage: otrs.AddCustomer2Group.pl -u customerlogin -g groupname -p ro|rw\n";
     exit 1;
 }

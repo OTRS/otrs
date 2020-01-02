@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 # --
-# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
 # --
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -36,7 +36,7 @@ otrs.LoaderCache.pl - Commandline interface to the
 
 Usage: otrs.LoaderCache.pl -o delete|generate
 
-Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
 EOF
 }
 

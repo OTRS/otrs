@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 # --
-# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
 # --
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -35,7 +35,7 @@ local $Kernel::OM = Kernel::System::ObjectManager->new(
 );
 
 print "otrs.ExecuteDatabaseXML.pl - Execute XML DDL in the OTRS database\n";
-print "Copyright (C) 2001-2019 OTRS AG, https://otrs.com/\n\n";
+print "Copyright (C) 2001-2020 OTRS AG, https://otrs.com/\n\n";
 
 if ( !$ARGV[0] ) {
     print "USAGE: $0 <filename.xml>\n";

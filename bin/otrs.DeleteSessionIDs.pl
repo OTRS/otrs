@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 # --
-# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
 # --
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -37,7 +37,7 @@ local $Kernel::OM = Kernel::System::ObjectManager->new(
 # check args
 my $Command = shift || '--help';
 print "otrs.DeleteSessionIDs.pl - delete all existing or expired session ids\n";
-print "Copyright (C) 2001-2019 OTRS AG, https://otrs.com/\n";
+print "Copyright (C) 2001-2020 OTRS AG, https://otrs.com/\n";
 
 # show/delete all session ids
 if ( ( $Command eq '--all' ) || ( $Command eq '--showall' ) ) {
