@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 # --
-# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
 # --
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -42,7 +42,7 @@ getopt( 'hdf', \%Opts );
 if ( $Opts{h} ) {
     print "otrs.RefreshSMIMEKeys.pl - fix SMIME certificates private keys and"
         . " secrets filenames\n";
-    print "Copyright (C) 2001-2019 OTRS AG, https://otrs.com/\n";
+    print "Copyright (C) 2001-2020 OTRS AG, https://otrs.com/\n";
     print "usage: otrs.RefreshSMIMEKeys.pl -d <DETAILS> (short|long) [-f (force to execute even"
         . " if SMIME is not enabled in SysConfig)]  \n";
     exit 1;

@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 # --
-# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
 # --
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -82,7 +82,7 @@ GetOptions(
 
 if ( $Opts{h} || !$Opts{n} ) {
     print "otrs.GenerateStats.pl - OTRS cmd stats\n";
-    print "Copyright (C) 2001-2019 OTRS AG, https://otrs.com/\n";
+    print "Copyright (C) 2001-2020 OTRS AG, https://otrs.com/\n";
     print
         "usage: otrs.GenerateStats.pl -n <StatNumber> [-p <PARAM_STRING>] [-o <DIRECTORY>] [-r <RECIPIENT> -r ... -s <SENDER>] [-m <MESSAGE>] [-l <LANGUAGE>] [-f CSV|Print] [-S <SEPARATOR>] [-F <FILENAME> [-R]\n";
     print

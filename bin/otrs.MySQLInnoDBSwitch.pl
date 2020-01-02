@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 # --
-# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
 # --
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -40,7 +40,7 @@ getopt( 'f', \%Opts );
 if ( $Opts{h} ) {
     print <<EOF;
 otrs.MySQLInnoDBSwitch.pl - convert all MyISAM tables to InnoDB
-Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
 
 usage: otrs.MySQLInnoDBSwitch.pl [-f force]
 EOF

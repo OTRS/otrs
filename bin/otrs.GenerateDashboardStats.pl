@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 # --
-# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
 # --
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -44,7 +44,7 @@ getopt( 'hn', \%Opts );
 if ( $Opts{h} ) {
     print <<EOF;
 $0 - generate caches for dashboard stats widgets
-Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
 
 Usage: $0 [-n number] [-f force] [-d debug]
 EOF
