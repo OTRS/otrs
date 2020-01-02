@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 # --
-# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
 # --
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -39,7 +39,7 @@ my %Opts = ();
 getopts( 'ha', \%Opts );
 if ( $Opts{h} ) {
     print "otrs.MarkTicketAsSeen.pl - mark tickets as seen by the agent\n";
-    print "Copyright (C) 2001-2019 OTRS AG, https://otrs.com/\n\n";
+    print "Copyright (C) 2001-2020 OTRS AG, https://otrs.com/\n\n";
     print "usage: otrs.MarkTicketAsSeen.pl [-a]\n\n";
     print "If you pass '-a' it will update ALL tickets, otherwise only non-closed\n";
     print "tickets will be updated.\n";

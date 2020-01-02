@@ -1,7 +1,7 @@
 #!/bin/sh
 # --
 # auto_build.sh - build automatically OTRS tar, rpm and src-rpm
-# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
 # --
 # $Id: auto_build.sh,v 1.108.2.3 2013-01-24 11:18:23 mg Exp $
 # --
@@ -20,7 +20,7 @@
 # --
 
 echo "auto_build.sh - build automatically OTRS tar, rpm and src-rpm <\$Revision: 1.108.2.3 $>"
-echo "Copyright (C) 2001-2019 OTRS AG, https://otrs.com/\n";
+echo "Copyright (C) 2001-2020 OTRS AG, https://otrs.com/\n";
 
 PATH_TO_CVS_SRC=$1
 PRODUCT=OTRS
