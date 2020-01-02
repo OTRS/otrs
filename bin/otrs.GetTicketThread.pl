@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 # --
-# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
 # --
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -51,7 +51,7 @@ if ( !$ARGV[0] ) {
     print "$0 \n";
     print "Prints out a ticket with all its articles.\n";
     print "Usage: $0 <TicketID>\n";
-    print "Copyright (C) 2001-2019 OTRS AG, https://otrs.com/\n";
+    print "Copyright (C) 2001-2020 OTRS AG, https://otrs.com/\n";
     exit 1;
 }
 

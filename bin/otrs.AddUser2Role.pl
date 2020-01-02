@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 # --
-# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
 # --
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -40,7 +40,7 @@ my %Opts;
 getopt( 'ur', \%Opts );
 if ( !$Opts{r} || !$Opts{u} ) {
     print "otrs.AddUser2Role - assign Users to Roles\n";
-    print "Copyright (C) 2001-2019 OTRS AG, https://otrs.com/\n";
+    print "Copyright (C) 2001-2020 OTRS AG, https://otrs.com/\n";
     print "usage: $FindBin::Script -u <USER> -r <ROLE> \n";
     exit 1;
 }
