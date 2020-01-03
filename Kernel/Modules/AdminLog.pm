@@ -33,10 +33,12 @@ sub Run {
     $Output .= $LayoutObject->NavigationBar();
 
     # Get log data.
-    my $Log = $Kernel::OM->Get('Kernel::System::Log')->GetLog( Limit => 400 ) || '';
+    my $Log = $Kernel::OM->Get('Kernel::System::Log')->GetLog() || '';
 
     # Split data to lines.
-    my @Message = split /\n/, $Log;
+    my $Limit    = 400;
+    my @Messages = split /\n/, $Log;
+    splice @Messages, $Limit;
 
     # Create months map.
     my %MonthMap;
@@ -48,7 +50,7 @@ sub Run {
 
     # Create table.
     ROW:
-    for my $Row (@Message) {
+    for my $Row (@Messages) {
 
         my @Parts = split /;;/, $Row;
 
@@ -86,7 +88,7 @@ sub Run {
     }
 
     # Print no data found message.
-    if ( !@Message ) {
+    if ( !@Messages ) {
         $LayoutObject->Block(
             Name => 'AdminLogNoDataRow',
             Data => {},
