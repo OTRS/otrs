@@ -83,7 +83,32 @@ sub new {
     $Param{UnitTestObject}->{MainObject}->RequireBaseClass('Selenium::Remote::Driver')
         || die "Could not load Selenium::Remote::Driver";
 
-    my $Self = $Class->SUPER::new(%SeleniumTestsConfig);
+    my $Self;
+
+    # TEMPORARY WORKAROUND FOR GECKODRIVER BUG https://github.com/mozilla/geckodriver/issues/1470:
+    #   If marionette handshake fails, wait and try again. Can be removed after the bug is fixed
+    #   in a new geckodriver version.
+    eval {
+        $Self = $Class->SUPER::new(
+            %SeleniumTestsConfig
+        );
+    };
+    if ($@) {
+        my $Exception = $@;
+
+        # Only handle this specific geckodriver exception.
+        die $Exception if $Exception !~ m{Socket timeout reading Marionette handshake data};
+
+        # Sleep and try again, bail out if it fails a second time.
+        #   A long sleep of 10 seconds is acceptable here, as it occurs only very rarely.
+        sleep 10;
+
+        $Self = $Class->SUPER::new(
+            webelement_class => 'Kernel::System::UnitTest::Selenium::WebElement',
+            %SeleniumTestsConfig
+        );
+    }
+
     $Self->{UnitTestObject}      = $Param{UnitTestObject};
     $Self->{SeleniumTestsActive} = 1;
 
