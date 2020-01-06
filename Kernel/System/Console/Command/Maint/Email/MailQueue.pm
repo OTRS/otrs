@@ -251,8 +251,8 @@ sub List {
 
     for my $Item ( @{$List} ) {
 
-        my $ArticleID = $Item->{ArticleID} ? $Item->{ArticleID} : '-';
-        my $Attempts = $Item->{Attempts} ? "<yellow>$Item->{Attempts}</yellow>" : $Item->{Attempts};
+        my $ArticleID = $Item->{ArticleID} ? $Item->{ArticleID}                   : '-';
+        my $Attempts  = $Item->{Attempts}  ? "<yellow>$Item->{Attempts}</yellow>" : $Item->{Attempts};
 
         my $Recipient = '-';
 

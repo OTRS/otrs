@@ -257,9 +257,9 @@ sub _Fetch {
     };
 
     # read folder from MailAccount configuration
-    my $IMAPFolder = $Param{IMAPFolder} || 'INBOX';
-    my $NOM      = $IMAPOperation->( 'select', $IMAPFolder, ) || 0;
-    my $AuthType = $Connect{Type};
+    my $IMAPFolder = $Param{IMAPFolder}                         || 'INBOX';
+    my $NOM        = $IMAPOperation->( 'select', $IMAPFolder, ) || 0;
+    my $AuthType   = $Connect{Type};
 
     my $ConnectionWithErrors = 0;
     my $MessagesWithError    = 0;

@@ -1139,7 +1139,7 @@ sub Run {
 
             KEY:
             for my $Key ( sort keys %{$NavigationConfig} ) {
-                next KEY if $Key !~ m/^\d+/i;
+                next KEY if $Key                 !~ m/^\d+/i;
                 next KEY if $Param{RequestedURL} !~ m/Subaction/i;
 
                 my @ModuleNavigationConfigs;

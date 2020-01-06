@@ -554,7 +554,7 @@ sub _Change {
             TYPE:
             for my $Type ( @{ $ConfigObject->Get('System::Customer::Permission') } ) {
                 next TYPE if !$Type;
-                my $Mark = $Type eq 'rw' ? "Highlight" : '';
+                my $Mark     = $Type eq 'rw'                    ? "Highlight"          : '';
                 my $Selected = $Param{$Context}->{$Type}->{$ID} ? ' checked="checked"' : '';
                 $LayoutObject->Block(
                     Name => 'ChangeRowItem',

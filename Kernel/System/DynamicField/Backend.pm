@@ -423,7 +423,7 @@ sub ValueSet {
 
     # Either ObjectID or ObjectName has to be given
     if (
-        ( !$Param{ObjectID}   && !$Param{ObjectName} )
+        ( !$Param{ObjectID} && !$Param{ObjectName} )
         || ( $Param{ObjectID} && $Param{ObjectName} )
         )
     {
@@ -926,7 +926,7 @@ sub ValueGet {
 
     # Either ObjectID or ObjectName has to be given
     if (
-        ( !$Param{ObjectID}   && !$Param{ObjectName} )
+        ( !$Param{ObjectID} && !$Param{ObjectName} )
         || ( $Param{ObjectID} && $Param{ObjectName} )
         )
     {

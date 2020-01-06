@@ -194,7 +194,7 @@ sub _CleanupFlags {
                 Key      => 'Seen',
                 UserID   => $User->{UserID},
             );
-            $Count++ if $Delete;
+            $Count++                                  if $Delete;
             Time::HiRes::usleep( $Param{MicroSleep} ) if $Param{MicroSleep};
         }
 
@@ -231,7 +231,7 @@ sub _CleanupFlags {
                 Key       => 'Seen',
                 UserID    => $User->{UserID},
             );
-            $Count++ if $Delete;
+            $Count++                                  if $Delete;
             Time::HiRes::usleep( $Param{MicroSleep} ) if $Param{MicroSleep};
         }
 
@@ -266,7 +266,7 @@ sub _CleanupFlags {
                     WatchUserID => $User->{UserID},
                     UserID      => 1,
                 );
-                $Count++ if $Unsubscribe;
+                $Count++                                  if $Unsubscribe;
                 Time::HiRes::usleep( $Param{MicroSleep} ) if $Param{MicroSleep};
             }
 

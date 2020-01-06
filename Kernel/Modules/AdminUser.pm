@@ -676,8 +676,8 @@ sub _EffectivePermissions {
 
         # show permission marks
         for my $Type (@Types) {
-            my $PermissionMark = $Permissions{$GroupID}{$Type} ? 'On' : 'Off';
-            my $HighlightMark = $Type eq 'rw' ? 'Highlight' : '';
+            my $PermissionMark = $Permissions{$GroupID}{$Type} ? 'On'        : 'Off';
+            my $HighlightMark  = $Type eq 'rw'                 ? 'Highlight' : '';
             $LayoutObject->Block(
                 Name => 'GroupPermissionMark',
             );

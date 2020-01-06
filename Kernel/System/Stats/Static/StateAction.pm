@@ -48,7 +48,7 @@ sub Param {
     my $DateTimeSettings = $DateTimeObject->Get();
 
     # create possible time selections
-    my %Year = map { $_ => $_; } ( $DateTimeSettings->{Year} - 10 .. $DateTimeSettings->{Year} );
+    my %Year  = map { $_ => $_; } ( $DateTimeSettings->{Year} - 10 .. $DateTimeSettings->{Year} );
     my %Month = map { $_ => sprintf( "%02d", $_ ); } ( 1 .. 12 );
 
     my @Params = (

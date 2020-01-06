@@ -46,7 +46,7 @@ sub Run {
         my $UploadCacheObject = $Kernel::OM->Get('Kernel::System::Web::UploadCache');
 
         my $UpdateExisting = $ParamObject->GetParam( Param => 'UpdateExistingAppointments' ) || '';
-        my $CalendarID = $ParamObject->GetParam( Param => 'CalendarID' ) || '';
+        my $CalendarID     = $ParamObject->GetParam( Param => 'CalendarID' )                 || '';
 
         my %Errors;
 

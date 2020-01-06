@@ -53,7 +53,7 @@ sub Run {
 
         # Queue, OwnerIDs and ResponsibleIDs are multiple selection fields, get array instead.
         if (
-            $Key =~ /^QueueID_/
+            $Key    =~ /^QueueID_/
             || $Key =~ /^SearchParam_[0-9a-f]+_OwnerIDs$/
             || $Key =~ /^SearchParam_[0-9a-f]+_ResponsibleIDs$/
             )

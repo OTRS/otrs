@@ -493,7 +493,7 @@ sub Update {
         }
 
         push @SQLSet, sprintf( '%s = ?', $DBNames{$Col} );
-        push @Binds, \$Value;
+        push @Binds,  \$Value;
     }
     push @SQL, 'SET', join( q{, }, @SQLSet );
 
@@ -1219,7 +1219,7 @@ sub _FiltersSQLAndBinds {
         }
 
         push @FilterFields, sprintf( '(%s = ?)', $FilterDBName );
-        push @Bind, \$Value;
+        push @Bind,         \$Value;
     }
 
     my $FinalFilterSQL = join ' AND ', @FilterFields;

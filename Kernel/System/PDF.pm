@@ -350,7 +350,7 @@ sub PageNew {
         defined( $Param{LogoFile} )
         && -e $Param{LogoFile}
         && (
-            $Param{LogoFile} =~ /^.*\.gif$/i
+            $Param{LogoFile}    =~ /^.*\.gif$/i
             || $Param{LogoFile} =~ /^.*\.jpg$/i
             || $Param{LogoFile} =~ /^.*\.png$/i
         )
@@ -1280,7 +1280,7 @@ sub Image {
         %Dim = $Self->_CurContentDimGet();
     }
 
-    $Param{Width}  = $Param{Width} /  ( 300 / 72 );
+    $Param{Width}  = $Param{Width} / ( 300 / 72 );
     $Param{Height} = $Param{Height} / ( 300 / 72 );
 
     my $Image = $Self->{Page}->gfx();
@@ -2500,7 +2500,7 @@ sub _TableCellOutput {
     my $TextY = $Position{Y} - $Param{Border} - $Param{PaddingTop} + 1;
 
     # calculate width and height of text
-    my $TextWidth  = $Param{Width} - $Param{PaddingLeft} - $Param{PaddingRight} -  ( 2 * $Param{Border} );
+    my $TextWidth  = $Param{Width} - $Param{PaddingLeft} - $Param{PaddingRight} - ( 2 * $Param{Border} );
     my $TextHeight = $Param{Height} - $Param{PaddingTop} - $Param{PaddingBottom} - ( 2 * $Param{Border} );
 
     # set new position

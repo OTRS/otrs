@@ -817,7 +817,7 @@ sub ObjectLogList {
         my $Value = $Param{ $PossibleFilter->{Param} };
         if ($Value) {
             push @FilterFields, sprintf( ' (%s = ?) ', $PossibleFilter->{DBName} );
-            push @Bind, \$Value;
+            push @Bind,         \$Value;
         }
     }
 
@@ -1010,7 +1010,7 @@ sub ObjectLogGet {
         ObjectLogID => $Param{ObjectLogID},
     );
 
-    return if !$Result;
+    return              if !$Result;
     return $Result->[0] if IsArrayRefWithData($Result);
     return {};
 }
@@ -1170,7 +1170,7 @@ sub ObjectLogEntryList {
         my $Value = $Param{ $PossibleFilter->{Param} };
         if ($Value) {
             push @FilterFields, sprintf( ' (%s = ?) ', $PossibleFilter->{DBName} );
-            push @Bind, \$Value;
+            push @Bind,         \$Value;
         }
     }
 
@@ -1417,7 +1417,7 @@ sub ObjectLookupSearch {
         my $FilterDBName = $PossibleFilters{$PossibleFilter};
 
         push @FilterFields, sprintf( '(%s = ?)', $FilterDBName );
-        push @Bind, \$Value;
+        push @Bind,         \$Value;
     }
 
     if (@FilterFields) {

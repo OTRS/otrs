@@ -276,7 +276,7 @@ sub RepositoryGet {
         Type => 'RepositoryGet',
         Key  => $CacheKey,
     );
-    return $Cache if $Cache && $Param{Result} && $Param{Result} eq 'SCALAR';
+    return $Cache    if $Cache && $Param{Result} && $Param{Result} eq 'SCALAR';
     return ${$Cache} if $Cache;
 
     # get database object

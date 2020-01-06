@@ -65,7 +65,7 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    $Self->{Email} = $Param{Email} || die "Got no Email!";
+    $Self->{Email}                  = $Param{Email}                  || die "Got no Email!";
     $Self->{CommunicationLogObject} = $Param{CommunicationLogObject} || die "Got no CommunicationLogObject!";
 
     $Self->{ParserObject} = Kernel::System::EmailParser->new(
