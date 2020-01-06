@@ -142,7 +142,7 @@ sub Run {
             );
 
             $SystemTimeStart = $SystemTimeStart - ( $Self->{UserTimeZone} * 3600 );
-            $SystemTimeStop  = $SystemTimeStop -  ( $Self->{UserTimeZone} * 3600 );
+            $SystemTimeStop  = $SystemTimeStop - ( $Self->{UserTimeZone} * 3600 );
 
             $TimeStart = $TimeObject->SystemTime2TimeStamp(
                 SystemTime => $SystemTimeStart,

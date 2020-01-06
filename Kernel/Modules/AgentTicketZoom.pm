@@ -2110,7 +2110,7 @@ sub _ArticleTree {
 
         # build article filter reset link only if filter is set
         if (
-            ( !$Self->{ZoomTimeline}   && $Self->{ArticleFilter} )
+            ( !$Self->{ZoomTimeline} && $Self->{ArticleFilter} )
             || ( $Self->{ZoomTimeline} && $Self->{EventTypeFilter} )
             )
         {

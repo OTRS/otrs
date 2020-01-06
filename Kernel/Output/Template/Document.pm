@@ -76,7 +76,7 @@ sub _InstallOTRSExtensions {
             $_tt_args{'BlockName'} = shift;
             $_tt_params            = shift;
             $_tt_params            = {} if ref $_tt_params ne 'HASH';
-            $_tt_params = { %_tt_args, %$_tt_params };
+            $_tt_params            = { %_tt_args, %$_tt_params };
 
             my $stash = $Context->localise($_tt_params);
             eval {

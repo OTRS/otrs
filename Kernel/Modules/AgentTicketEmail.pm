@@ -100,7 +100,7 @@ sub Run {
     # MultipleCustomer To-field
     my @MultipleCustomer;
     my $CustomersNumber = $ParamObject->GetParam( Param => 'CustomerTicketCounterToCustomer' ) || 0;
-    my $Selected = $ParamObject->GetParam( Param => 'CustomerSelected' ) || '';
+    my $Selected        = $ParamObject->GetParam( Param => 'CustomerSelected' )                || '';
 
     # get check item object
     my $CheckItemObject = $Kernel::OM->Get('Kernel::System::CheckItem');

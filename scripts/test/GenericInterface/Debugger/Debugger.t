@@ -333,7 +333,7 @@ for my $Test (@Tests) {
 
     my $Counter = 0;
     for my $DebugLevel (qw( Debug Info Notice Error )) {
-        my $AuxData        = $Test->{Data} . $DebugLevel,
+        my $AuxData = $Test->{Data} . $DebugLevel,
             my $AuxSummary = $Test->{Summary} . $DebugLevel;
         my $AuxDebugLevel = $DebugLevel;
         for my $DataFromDB ( @{ $LogData->{Data} } ) {

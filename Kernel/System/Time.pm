@@ -487,7 +487,7 @@ sub WorkingTime {
             );
             my $Zone = $ConfigObject->Get( "TimeZone::Calendar" . $Param{Calendar} );
             if ($Zone) {
-                $Zone *= 3600;
+                $Zone             *= 3600;
                 $Param{StartTime} += $Zone;
                 $Param{StopTime}  += $Zone;
             }

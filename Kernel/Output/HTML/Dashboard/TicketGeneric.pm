@@ -1266,7 +1266,7 @@ sub Run {
                     Name => 'ContentLargeTicketGenericHeaderColumn',
                     Data => {
                         HeaderColumnName => $DynamicFieldName || '',
-                        CSS => $CSS || '',
+                        CSS              => $CSS              || '',
                     },
                 );
 
@@ -1360,7 +1360,7 @@ sub Run {
                     Name => 'ContentLargeTicketGenericHeaderColumn',
                     Data => {
                         HeaderColumnName => $DynamicFieldName || '',
-                        CSS => $CSS || '',
+                        CSS              => $CSS              || '',
                     },
                 );
 

@@ -56,7 +56,7 @@ sub Param {
     my $SelectedMonth = $M == 1 ? 12     : $M - 1;
 
     # create possible time selections
-    my %Year = map { $_ => $_; } ( $Y - 10 .. $Y );
+    my %Year  = map { $_ => $_; } ( $Y - 10 .. $Y );
     my %Month = map { $_ => sprintf( "%02d", $_ ); } ( 1 .. 12 );
 
     my @Params = (

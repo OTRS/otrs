@@ -1436,8 +1436,8 @@ sub _Mask {
     }
 
     # Expand option
-    my $ExpandOption = ( $ZoomExpand ? 'One' : 'All' );
-    my $ExpandText = ( $ZoomExpand ? 'Show one article' : 'Show all articles' );
+    my $ExpandOption = ( $ZoomExpand ? 'One'              : 'All' );
+    my $ExpandText   = ( $ZoomExpand ? 'Show one article' : 'Show all articles' );
     $LayoutObject->Block(
         Name => 'Expand',
         Data => {

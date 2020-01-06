@@ -1045,11 +1045,11 @@ sub UserList {
 
     # get configuration for the full name order
     my $FirstnameLastNameOrder = $ConfigObject->Get('FirstnameLastnameOrder') || 0;
-    my $NoOutOfOffice = $Param{NoOutOfOffice} || 0;
+    my $NoOutOfOffice          = $Param{NoOutOfOffice}                        || 0;
 
     # check cache
     my $CacheKey = join '::', 'UserList', $Type, $Valid, $FirstnameLastNameOrder, $NoOutOfOffice;
-    my $Cache    = $Kernel::OM->Get('Kernel::System::Cache')->Get(
+    my $Cache = $Kernel::OM->Get('Kernel::System::Cache')->Get(
         Type => $Self->{CacheType},
         Key  => $CacheKey,
     );
