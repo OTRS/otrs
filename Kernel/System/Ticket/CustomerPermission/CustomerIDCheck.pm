@@ -67,7 +67,7 @@ sub Run {
 
     # check customer ids, return access if customer id is the same
     for my $CustomerID (@CustomerIDs) {
-        next if !$Ticket{CustomerID};
+        next     if !$Ticket{CustomerID};
         return 1 if ( lc $Ticket{CustomerID} eq lc $CustomerID );
     }
 

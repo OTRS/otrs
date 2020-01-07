@@ -1297,7 +1297,7 @@ sub _StoreActivityDialog {
         else {
 
             # skip if we've already checked ID or Name
-            next if !$Self->{NameToID}->{$CurrentField};
+            next             if !$Self->{NameToID}->{$CurrentField};
             next DIALOGFIELD if $CheckedFields{ $Self->{NameToID}->{$CurrentField} };
 
             if ( $ActivityDialog->{Fields}{$CurrentField}{Display} == 2 ) {

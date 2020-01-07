@@ -685,12 +685,12 @@ sub DestinationTime {
                     if ( $Param{Time} > 60 * 60 ) {
                         if ( $Minute != 0 && $FirstTurn ) {
                             my $Max = 60 - $Minute;
-                            $Param{Time} = $Param{Time} - ( $Max * 60 );
+                            $Param{Time}     = $Param{Time} - ( $Max * 60 );
                             $DestinationTime = $DestinationTime + ( $Max * 60 );
                             $FirstTurn       = 0;
                         }
                         else {
-                            $Param{Time} = $Param{Time} - ( 60 * 60 );
+                            $Param{Time}     = $Param{Time} - ( 60 * 60 );
                             $DestinationTime = $DestinationTime + ( 60 * 60 );
                             $FirstTurn       = 0;
                         }
