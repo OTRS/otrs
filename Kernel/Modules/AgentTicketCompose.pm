@@ -180,7 +180,7 @@ sub Run {
 
     my @MultipleCustomer;
     my $CustomersNumber = $Self->{ParamObject}->GetParam( Param => 'CustomerTicketCounterToCustomer' ) || 0;
-    my $Selected = $Self->{ParamObject}->GetParam( Param => 'CustomerSelected' ) || '';
+    my $Selected        = $Self->{ParamObject}->GetParam( Param => 'CustomerSelected' )                || '';
 
     if ($CustomersNumber) {
 

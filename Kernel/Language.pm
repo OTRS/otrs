@@ -236,7 +236,7 @@ sub Get {
     my ( $Self, $What ) = @_;
 
     # check
-    return if !defined $What;
+    return    if !defined $What;
     return '' if $What eq '';
 
     # check dyn spaces

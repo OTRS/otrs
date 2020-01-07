@@ -23,7 +23,7 @@ if ( open( $TmpSumString, "perl $Home/bin/otrs.CheckModules.pl |" ) ) {
         my $TmpLine = $_;
         $TmpLine =~ s/\n//g;
         if (
-            $TmpLine =~ m{Not \s installed! (.+?) \(Required}smx
+            $TmpLine    =~ m{Not \s installed! (.+?) \(Required}smx
             || $TmpLine =~ m{Not \s supported}smx
             || $TmpLine =~ m{failed!}smx
             )
