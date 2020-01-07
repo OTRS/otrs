@@ -105,8 +105,8 @@ sub Run {
     my %Param;
 
     # get session id
-    $Param{SessionName} = $Self->{ConfigObject}->Get('SessionName') || 'SessionID';
-    $Param{SessionID} = $Self->{ParamObject}->GetParam( Param => $Param{SessionName} ) || '';
+    $Param{SessionName} = $Self->{ConfigObject}->Get('SessionName')                      || 'SessionID';
+    $Param{SessionID}   = $Self->{ParamObject}->GetParam( Param => $Param{SessionName} ) || '';
 
     # drop old session id (if exists)
     my $QueryString = $ENV{QUERY_STRING} || '';

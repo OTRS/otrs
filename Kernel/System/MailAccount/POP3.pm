@@ -83,7 +83,7 @@ sub _Fetch {
     # fetch again if still messages on the account
     MESSAGE:
     while (1) {
-        return if !$Self->_Fetch(%Param);
+        return       if !$Self->_Fetch(%Param);
         last MESSAGE if $Self->{Reconnect};
     }
     return 1;

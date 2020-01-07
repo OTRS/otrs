@@ -101,7 +101,7 @@ sub Run {
     # MultipleCustomer From-field
     my @MultipleCustomer;
     my $CustomersNumber = $Self->{ParamObject}->GetParam( Param => 'CustomerTicketCounterFromCustomer' ) || 0;
-    my $Selected = $Self->{ParamObject}->GetParam( Param => 'CustomerSelected' ) || '';
+    my $Selected        = $Self->{ParamObject}->GetParam( Param => 'CustomerSelected' )                  || '';
 
     # hash for check duplicated entries
     my %AddressesList;
@@ -689,8 +689,8 @@ sub Run {
                 ID => $GetParam{NextStateID},
             );
         }
-        my $NextState = $StateData{Name} || '';
-        my $Dest = $Self->{ParamObject}->GetParam( Param => 'Dest' ) || '';
+        my $NextState = $StateData{Name}                                  || '';
+        my $Dest      = $Self->{ParamObject}->GetParam( Param => 'Dest' ) || '';
 
         # see if only a name has been passed
         if ( $Dest && $Dest !~ m{ \A (\d+)? \| \| .+ \z }xms ) {

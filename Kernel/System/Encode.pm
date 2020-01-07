@@ -99,7 +99,7 @@ sub Convert {
     my ( $Self, %Param ) = @_;
 
     # return if no text is given
-    return if !defined $Param{Text};
+    return    if !defined $Param{Text};
     return '' if $Param{Text} eq '';
 
     # check needed stuff

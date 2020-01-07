@@ -869,14 +869,14 @@ sub ACLDump {
         my $Properties;
         my $PropertiesDatabase;
         if ( IsHashRefWithData( $ACLData->{ConfigMatch} ) ) {
-            $Properties             = $ACLData->{ConfigMatch}->{Properties},
+            $Properties = $ACLData->{ConfigMatch}->{Properties},
                 $PropertiesDatabase = $ACLData->{ConfigMatch}->{PropertiesDatabase};
         }
 
         my $Possible;
         my $PossibleNot;
         if ( IsHashRefWithData( $ACLData->{ConfigChange} ) ) {
-            $Possible        = $ACLData->{ConfigChange}->{Possible},
+            $Possible = $ACLData->{ConfigChange}->{Possible},
                 $PossibleNot = $ACLData->{ConfigChange}->{PossibleNot};
         }
 

@@ -775,7 +775,7 @@ sub CertificateRemove {
     # remove certificate
     my $Cert = unlink "$Self->{CertPath}/$Param{Filename}";
     if ( !$Cert ) {
-        $Message     = "Impossible to remove certificate: $Self->{CertPath}/$Param{Filename}: $!!",
+        $Message = "Impossible to remove certificate: $Self->{CertPath}/$Param{Filename}: $!!",
             $Success = 0;
     }
 
