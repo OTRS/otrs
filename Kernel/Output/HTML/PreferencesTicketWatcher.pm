@@ -57,7 +57,7 @@ sub Param {
 
     my $SelectedID = $Param{UserData}->{UserSendWatcherNotification};
     $SelectedID = $Self->{ConfigItem}->{DataSelected} if !defined $SelectedID;
-    $SelectedID = 0 if !defined $SelectedID;
+    $SelectedID = 0                                   if !defined $SelectedID;
 
     my @Params = (
         {

@@ -990,8 +990,8 @@ sub _HandleLog {
         my $Message = $Line;
 
         $ComputableLog{$Tag} = {
-            Log => $LogDictionary->{$Tag} || $Line,
-            MessageLong => $Line || $LogDictionary->{$Tag},
+            Log         => $LogDictionary->{$Tag} || $Line,
+            MessageLong => $Line                  || $LogDictionary->{$Tag},
         };
     }
 

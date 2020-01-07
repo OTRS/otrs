@@ -70,7 +70,7 @@ sub Run {
     CUSTOMERID:
     for my $CustomerID (@CustomerIDs) {
         next CUSTOMERID if !$Ticket{CustomerID};
-        return 1 if ( lc $Ticket{CustomerID} eq lc $CustomerID );
+        return 1        if ( lc $Ticket{CustomerID} eq lc $CustomerID );
     }
 
     # return no access

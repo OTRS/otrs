@@ -199,7 +199,7 @@ sub Run {
                     Sort    => $Sort,
                 },
             );
-            $RowTotal += $Results{$Queue}->[$Counter] || 0;
+            $RowTotal                   += $Results{$Queue}->[$Counter] || 0;
             $StatusTotal[$StateOrderID] += $Results{$Queue}->[$Counter] || 0;
             $Counter++;
         }
