@@ -3303,7 +3303,7 @@ for my $Backend (qw(DB FS)) {
 }
 
 my $TicketSearchTicketNumber = substr $Ticket{TicketNumber}, 0, 10;
-my %TicketIDs                = $TicketObject->TicketSearch(
+my %TicketIDs = $TicketObject->TicketSearch(
 
     # result (required)
     Result => 'HASH',

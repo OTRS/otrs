@@ -453,8 +453,8 @@ sub Run {
                 ID => $GetParam{NextStateID},
             );
         }
-        my $NextState = $StateData{Name} || '';
-        my $Dest = $Self->{ParamObject}->GetParam( Param => 'Dest' ) || '';
+        my $NextState = $StateData{Name}                                  || '';
+        my $Dest      = $Self->{ParamObject}->GetParam( Param => 'Dest' ) || '';
         my ( $NewQueueID, $To ) = split( /\|\|/, $Dest );
         my $CustomerUser = $Self->{ParamObject}->GetParam( Param => 'CustomerUser' )
             || $Self->{ParamObject}->GetParam( Param => 'PreSelectedCustomerUser' )

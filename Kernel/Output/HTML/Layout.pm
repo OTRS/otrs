@@ -2458,10 +2458,10 @@ sub PageNavBar {
     my $Limit = $Param{Limit} || 0;
     $Param{AllHits}  = 0 if ( !$Param{AllHits} );
     $Param{StartHit} = 0 if ( !$Param{AllHits} );
-    my $Pages = int( ( $Param{AllHits} / $Param{PageShown} ) + 0.99999 );
-    my $Page  = int( ( $Param{StartHit} / $Param{PageShown} ) + 0.99999 );
+    my $Pages      = int( ( $Param{AllHits} / $Param{PageShown} ) + 0.99999 );
+    my $Page       = int( ( $Param{StartHit} / $Param{PageShown} ) + 0.99999 );
     my $WindowSize = $Param{WindowSize} || 5;
-    my $IDPrefix   = $Param{IDPrefix}   || 'Generic';
+    my $IDPrefix   = $Param{IDPrefix} || 'Generic';
 
     # build Results (1-5 or 16-30)
     if ( $Param{AllHits} >= ( $Param{StartHit} + $Param{PageShown} ) ) {
@@ -3518,7 +3518,7 @@ sub CustomerNavigationBar {
             if (
                 !$SelectedFlag
                 && $NavBarModule{$Item}->{Link} =~ /Action=$Self->{Action}/
-                && $NavBarModule{$Item}->{Link} =~ /$Self->{Subaction}/    # Subaction can be empty
+                && $NavBarModule{$Item}->{Link} =~ /$Self->{Subaction}/       # Subaction can be empty
                 )
             {
                 $NavBarModule{$Item}->{Class} .= ' Selected';
