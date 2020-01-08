@@ -360,6 +360,112 @@ sub Run {
     }
 
     # ---------------------------------------------------------- #
+    # Update dynamic fields for generic agent job by AJAX
+    # ---------------------------------------------------------- #
+    if ( $Self->{Subaction} eq 'AddDynamicField' ) {
+        my $DynamicFieldID = $ParamObject->GetParam( Param => 'DynamicFieldID' );
+        my $Type           = $ParamObject->GetParam( Param => 'Type' ) || '';
+        my $SelectedValue  = $ParamObject->GetParam( Param => 'SelectedValue' );
+        my $Widget         = $ParamObject->GetParam( Param => 'Widget' );
+
+        my $DynamicFieldConfig = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet(
+            ID => $DynamicFieldID,
+        );
+
+        my %JobData;
+        if ( $Self->{Profile} ) {
+            %JobData = $Kernel::OM->Get('Kernel::System::GenericAgent')->JobGet(
+                Name => $Self->{Profile},
+            );
+        }
+        $JobData{Profile}   = $Self->{Profile};
+        $JobData{Subaction} = $Self->{Subaction};
+
+        my $DynamicFieldHTML;
+        my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
+
+        # Get field HTML.
+        if ( $Widget eq 'Select' ) {
+            $DynamicFieldHTML = $DynamicFieldBackendObject->SearchFieldRender(
+                DynamicFieldConfig     => $DynamicFieldConfig,
+                Profile                => \%JobData,
+                LayoutObject           => $LayoutObject,
+                ConfirmationCheckboxes => 1,
+                Type                   => $Type,
+            );
+        }
+        elsif ( $Widget eq 'Update' ) {
+            my $PossibleValuesFilter;
+
+            my $IsACLReducible = $DynamicFieldBackendObject->HasBehavior(
+                DynamicFieldConfig => $DynamicFieldConfig,
+                Behavior           => 'IsACLReducible',
+            );
+
+            if ($IsACLReducible) {
+
+                # Get PossibleValues.
+                my $PossibleValues = $DynamicFieldBackendObject->PossibleValuesGet(
+                    DynamicFieldConfig => $DynamicFieldConfig,
+                );
+
+                # Check if field has PossibleValues property in its configuration.
+                if ( IsHashRefWithData($PossibleValues) ) {
+
+                    # Convert possible values key => value to key => key for ACLs using a Hash slice.
+                    my %AclData = %{$PossibleValues};
+                    @AclData{ keys %AclData } = keys %AclData;
+
+                    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+
+                    # Set possible values filter from ACLs.
+                    my $ACL = $TicketObject->TicketAcl(
+                        Action        => $Self->{Action},
+                        Type          => 'DynamicField_' . $DynamicFieldConfig->{Name},
+                        ReturnType    => 'Ticket',
+                        ReturnSubType => 'DynamicField_' . $DynamicFieldConfig->{Name},
+                        Data          => \%AclData,
+                        UserID        => $Self->{UserID},
+                    );
+                    if ($ACL) {
+                        my %Filter = $TicketObject->TicketAclData();
+
+                        # Convert Filer key => key back to key => value using map.
+                        %{$PossibleValuesFilter} = map { $_ => $PossibleValues->{$_} }
+                            keys %Filter;
+                    }
+                }
+            }
+            $DynamicFieldHTML = $DynamicFieldBackendObject->EditFieldRender(
+                DynamicFieldConfig   => $DynamicFieldConfig,
+                PossibleValuesFilter => $PossibleValuesFilter,
+                LayoutObject         => $LayoutObject,
+                ParamObject          => $ParamObject,
+                UseDefaultValue      => 0,
+                OverridePossibleNone => 1,
+                ConfirmationNeeded   => 1,
+                NoIgnoreField        => 1,
+                Template             => \%JobData,
+                MaxLength            => 200,
+            );
+        }
+
+        $DynamicFieldHTML->{ID} = $SelectedValue;
+
+        my $Output = $LayoutObject->JSONEncode(
+            Data => $DynamicFieldHTML,
+        );
+
+        # Send JSON response.
+        return $LayoutObject->Attachment(
+            ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
+            Content     => $Output,
+            Type        => 'inline',
+            NoCache     => 1,
+        );
+    }
+
+    # ---------------------------------------------------------- #
     # delete an generic agent job
     # ---------------------------------------------------------- #
     if ( $Self->{Subaction} eq 'Delete' && $Self->{Profile} ) {
@@ -1001,7 +1107,10 @@ sub _MaskUpdate {
     # get dynamic field backend object
     my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 
-    # cycle trough the activated Dynamic Fields for this screen
+    my @AddDynamicFields;
+    my %DynamicFieldsJS;
+
+    # cycle through the activated Dynamic Fields for this screen
     DYNAMICFIELD:
     for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
@@ -1013,45 +1122,88 @@ sub _MaskUpdate {
 
         next DYNAMICFIELD if !IsArrayRefWithData($SearchFieldPreferences);
 
+        # Translate dynamic field label.
+        my $TranslatedDynamicFieldLabel = $LayoutObject->{LanguageObject}->Translate(
+            $DynamicFieldConfig->{Label},
+        );
+
         PREFERENCE:
         for my $Preference ( @{$SearchFieldPreferences} ) {
 
-            # get field HTML
-            my $DynamicFieldHTML = $DynamicFieldBackendObject->SearchFieldRender(
-                DynamicFieldConfig => $DynamicFieldConfig,
-                Profile            => \%JobData,
-                DefaultValue =>
-                    $Self->{Config}->{Defaults}->{DynamicField}->{ $DynamicFieldConfig->{Name} },
-                LayoutObject           => $LayoutObject,
-                ConfirmationCheckboxes => 1,
-                Type                   => $Preference->{Type},
-            );
+            # Translate the suffix.
+            my $TranslatedSuffix = $LayoutObject->{LanguageObject}->Translate(
+                $Preference->{LabelSuffix},
+            ) || '';
 
-            next PREFERENCE if !IsHashRefWithData($DynamicFieldHTML);
-
-            if ($PrintDynamicFieldsSearchHeader) {
-                $LayoutObject->Block(
-                    Name => 'DynamicField',
-                );
-                $PrintDynamicFieldsSearchHeader = 0;
+            if ($TranslatedSuffix) {
+                $TranslatedSuffix = ' (' . $TranslatedSuffix . ')';
             }
 
-            # output dynamic field
-            $LayoutObject->Block(
-                Name => 'DynamicFieldElement',
-                Data => {
-                    Label => $DynamicFieldHTML->{Label},
-                    Field => $DynamicFieldHTML->{Field},
-                },
-            );
+            my $Key  = 'Search_DynamicField_' . $DynamicFieldConfig->{Name} . $Preference->{Type};
+            my $Text = $TranslatedDynamicFieldLabel . $TranslatedSuffix;
+
+            # Save all dynamic fields for JS.
+            $DynamicFieldsJS{$Key} = {
+                ID   => $DynamicFieldConfig->{ID},
+                Type => $Preference->{Type},
+                Text => $Text,
+            };
+
+            # Decide if dynamic field go to add fields dropdown or selected fields area.
+            if ( defined $JobData{$Key} ) {
+
+                # Get field HTML.
+                my $DynamicFieldHTML = $DynamicFieldBackendObject->SearchFieldRender(
+                    DynamicFieldConfig => $DynamicFieldConfig,
+                    Profile            => \%JobData,
+                    DefaultValue =>
+                        $Self->{Config}->{Defaults}->{DynamicField}->{ $DynamicFieldConfig->{Name} },
+                    LayoutObject           => $LayoutObject,
+                    ConfirmationCheckboxes => 1,
+                    Type                   => $Preference->{Type},
+                );
+
+                next PREFERENCE if !IsHashRefWithData($DynamicFieldHTML);
+
+                $LayoutObject->Block(
+                    Name => 'SelectedDynamicFields',
+                    Data => {
+                        Label => $DynamicFieldHTML->{Label},
+                        Field => $DynamicFieldHTML->{Field},
+                        ID    => $Key,
+                    },
+                );
+            }
+            else {
+                push @AddDynamicFields, {
+                    Key   => $Key,
+                    Value => $Text,
+                };
+            }
         }
     }
+
+    my $DynamicFieldsStrg = $LayoutObject->BuildSelection(
+        PossibleNone => 1,
+        Data         => \@AddDynamicFields,
+        Name         => 'AddDynamicFields',
+        Multiple     => 0,
+        Class        => 'Modernize',
+    );
+    $LayoutObject->Block(
+        Name => 'AddDynamicFields',
+        Data => {
+            DynamicFieldsStrg => $DynamicFieldsStrg,
+        },
+    );
 
     # create dynamic field HTML for set with historical data options
     my $PrintDynamicFieldsEditHeader = 1;
 
     # get param object
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
+
+    my @AddNewDynamicFields;
 
     # cycle trough the activated Dynamic Fields for this screen
     DYNAMICFIELD:
@@ -1109,37 +1261,90 @@ sub _MaskUpdate {
             }
         }
 
-        # get field HTML
-        my $DynamicFieldHTML = $DynamicFieldBackendObject->EditFieldRender(
-            DynamicFieldConfig   => $DynamicFieldConfig,
-            PossibleValuesFilter => $PossibleValuesFilter,
-            LayoutObject         => $LayoutObject,
-            ParamObject          => $ParamObject,
-            UseDefaultValue      => 0,
-            OverridePossibleNone => 1,
-            ConfirmationNeeded   => 1,
-            Template             => \%JobData,
-            MaxLength            => 200,
-        );
-
-        next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldHTML);
-
-        if ($PrintDynamicFieldsEditHeader) {
-            $LayoutObject->Block(
-                Name => 'NewDynamicField',
-            );
-            $PrintDynamicFieldsEditHeader = 0;
+        my $Key  = 'DynamicField_' . $DynamicFieldConfig->{Name};
+        my $Used = 0;
+        if ( defined $JobData{ $Key . 'Used' } ) {
+            $Key .= 'Used';
+            $Used = 1;
         }
 
-        # output dynamic field
-        $LayoutObject->Block(
-            Name => 'NewDynamicFieldElement',
-            Data => {
-                Label => $DynamicFieldHTML->{Label},
-                Field => $DynamicFieldHTML->{Field},
-            },
-        );
+        # Save all new dynamic fields for JS.
+        $DynamicFieldsJS{$Key} = {
+            ID   => $DynamicFieldConfig->{ID},
+            Text => $DynamicFieldConfig->{Name},
+        };
+
+        # Decide if dynamic field go to add fields dropdown or selected fields area.
+        #
+        # First statement part - if we have a defined value.
+        #
+        # Second statement part - if we have empty value which can be valid if
+        # current dynamic field has empty value in its configuration (PossibleNone).
+        #
+        # Third statement part - it is for Date, DateTime and similar fields which has
+        # a checkbox "flag" for including its value to GA config. It must return
+        # false if checkbox is unchecked (in DB value is 0, not empty string or undef),
+        # otherwise must be true (for other dynamic fields or checked checkbox).
+        if (
+            defined $JobData{$Key}
+            && (
+                $DynamicFieldConfig->{Config}->{PossibleNone}
+                || $JobData{$Key} ne ''
+            )
+            && ( !$Used || $JobData{$Key} )
+            )
+        {
+
+            # Get field HTML.
+            my $DynamicFieldHTML = $DynamicFieldBackendObject->EditFieldRender(
+                DynamicFieldConfig   => $DynamicFieldConfig,
+                PossibleValuesFilter => $PossibleValuesFilter,
+                LayoutObject         => $LayoutObject,
+                ParamObject          => $ParamObject,
+                UseDefaultValue      => 0,
+                OverridePossibleNone => 1,
+                ConfirmationNeeded   => 1,
+                NoIgnoreField        => 1,
+                Template             => \%JobData,
+                MaxLength            => 200,
+            );
+
+            next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldHTML);
+
+            $LayoutObject->Block(
+                Name => 'SelectedNewDynamicFields',
+                Data => {
+                    Label => $DynamicFieldHTML->{Label},
+                    Field => $DynamicFieldHTML->{Field},
+                    ID    => $Key,
+                },
+            );
+        }
+        else {
+            push @AddNewDynamicFields, {
+                Key   => $Key,
+                Value => $DynamicFieldConfig->{Name},
+            };
+        }
     }
+
+    my $NewDynamicFieldsStrg = $LayoutObject->BuildSelection(
+        PossibleNone => 1,
+        Data         => \@AddNewDynamicFields,
+        Name         => 'AddNewDynamicFields',
+        Multiple     => 0,
+        Class        => 'Modernize',
+    );
+    $LayoutObject->Block(
+        Name => 'AddNewDynamicFields',
+        Data => {
+            NewDynamicFieldsStrg => $NewDynamicFieldsStrg,
+        },
+    );
+    $LayoutObject->AddJSData(
+        Key   => 'DynamicFieldsJS',
+        Value => \%DynamicFieldsJS,
+    );
 
     # get event object
     my $EventObject = $Kernel::OM->Get('Kernel::System::Event');
