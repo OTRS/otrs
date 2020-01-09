@@ -209,7 +209,7 @@
                                 <div class="SettingDescription">
                                     [% Translate(Data.Desc) | html %]
                                 [% IF Data.Label == 'Language' %]
-                                    [% Translate("Did you know? You can help translating OTRS at %s.") | html | ReplacePlaceholders('<a href="https://www.transifex.com/otrs/OTRS/" target="_blank">Transifex</a>') %]
+                                    [% Translate("Did you know? You can help translating OTRS at %s.") | html | ReplacePlaceholders('<a href="https://translate.otrs.com" target="_blank">translate.otrs.com</a>') %]
                                 [% END %]
                                 </div>
                             </div>
