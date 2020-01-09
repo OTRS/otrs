@@ -74,7 +74,7 @@
                                     <div class="Clear"></div>
                                 [% IF Data.Label == 'Language' %]
                                     <div class="FieldExplanation Language Center">
-                                        [% Translate("Did you know? You can help translating OTRS at %s.", '<a href="https://www.transifex.com/otrs/OTRS/" target="_blank">Transifex</a>') %]
+                                        [% Translate("Did you know? You can help translating OTRS at %s.", '<a href="https://translate.otrs.com" target="_blank">translate.otrs.com</a>') %]
                                     </div>
                                 [% END %]
 [% RenderBlockStart("OptionSingleBlock") %]
