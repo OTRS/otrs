@@ -555,6 +555,10 @@ sub LoadPOFile {
 
     ENTRY:
     for my $Entry ( @{$POEntries} ) {
+
+        # Skip entries marked as "fuzzy" for now, as they may be very different than the source string.
+        next ENTRY if $Entry->fuzzy();
+
         if ( $Entry->msgstr() ) {
             my $Source = $Entry->dequote( $Entry->msgid() );
             $Source =~ s/\\{2}/\\/g;
