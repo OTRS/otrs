@@ -288,6 +288,41 @@ $Selenium->RunTest(
                 "return typeof(\$) === 'function' && \$('a[href*=\"Subaction=TransitionEdit;ID=$TransitionID\"]:visible').length && \$.active == 0"
         );
 
+        # Get test ProcesID.
+        my $ProcessRandomQuoted = $DBObject->Quote($ProcessRandom);
+        $DBObject->Prepare(
+            SQL  => "SELECT id, entity_id FROM pm_process WHERE name = ?",
+            Bind => [ \$ProcessRandomQuoted ]
+        );
+        my $ProcessID;
+        my $ProcesEntityID;
+        while ( my @Row = $DBObject->FetchrowArray() ) {
+            $ProcessID      = $Row[0];
+            $ProcesEntityID = $Row[1];
+        }
+
+        # Navigate to AdminProcessManagement to edit test process.
+        $Selenium->VerifiedGet(
+            "${ScriptAlias}index.pl?Action=AdminProcessManagement;Subaction=ProcessEdit;ID=$ProcessID;EntityID=$ProcesEntityID"
+        );
+
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Canvas").length' );
+        $Selenium->WaitFor(
+            JavaScript => "return typeof(\$) === 'function' && \$('#TransitionFilter').length"
+        );
+        $Selenium->WaitForjQueryEventBound(
+            CSSSelector => '#ProcessElements .AccordionElement:eq(2) a.AsBlock',
+        );
+
+        # Click on Transition accordion element.
+        $Selenium->find_element(" //a[contains(.,\'Transition\')]")->click();
+
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof($) === "function" && $("#TransitionFilter").closest(".AccordionElement").hasClass("Active") === true;'
+        );
+        sleep 1;
+
         $Selenium->find_element( "#TransitionFilter", 'css' )->clear();
         $Selenium->find_element( "#TransitionFilter", 'css' )->send_keys($TransitionRandom);
 
@@ -335,9 +370,6 @@ $Selenium->RunTest(
         $Selenium->switch_to_window( $Handles->[0] );
 
         $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#ProcessDelete').length" );
-
-        # Get process id and return to overview afterwards.
-        my $ProcessID = $Selenium->execute_script('return $("#ProcessDelete").data("id")') || undef;
 
         # Delete test transition.
         my $Success = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Transition')->TransitionDelete(
