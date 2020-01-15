@@ -158,4 +158,8 @@ fieldset label {
     margin: -1px 6px 0 0 !important;
 }
 
+.DescriptionLong {
+    white-space: pre-line;
+}
+
 } /* end @media */

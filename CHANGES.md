@@ -1,4 +1,5 @@
 #6.0.26 ????-??-??
+ - 2020-01-15 Fixed bug#[14908](https://bugs.otrs.org/show_bug.cgi?id=14908) - Activity Dialog long descriptions ignore line brakes.
  - 2020-01-08 Fixed bug#[14367](https://bugs.otrs.org/show_bug.cgi?id=14367) - Generic agent edit screen slows due to many dynamic fields.
  - 2020-01-08 Fixed bug#[13159](https://bugs.otrs.org/show_bug.cgi?id=13159) - Generic agent deletes the content of dropdown type dynamic field if empty value is added.
  - 2019-12-27 Fixed bug#[14882](https://bugs.otrs.org/show_bug.cgi?id=14882) - Number of tickets in link to tickets in customer information not correct if dynamic fields are used.

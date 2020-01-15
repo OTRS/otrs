@@ -183,4 +183,8 @@ textarea {
     opacity: 0.8;
 }
 
+.DescriptionLong {
+    white-space: pre-line;
+}
+
 } /* end @media */

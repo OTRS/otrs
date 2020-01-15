@@ -28,7 +28,7 @@
 [% RenderBlockEnd("DescriptionShort") %]
                     </h1>
 [% RenderBlockStart("DescriptionLong") %]
-                    <p>[% Translate(Data.DescriptionLong) | html %]</p>
+                    <p class="DescriptionLong">[% Translate(Data.DescriptionLong) | html %]</p>
 [% RenderBlockEnd("DescriptionLong") %]
 [% RenderBlockStart("CancelLink") %]
                     <p>
@@ -43,5 +43,5 @@
                         <h2>[% Data.DescriptionShort | html %]</h2>
 [% RenderBlockEnd("DescriptionShortAlt") %]
 [% RenderBlockStart("DescriptionLongAlt") %]
-                        <p class="Description">[% Data.DescriptionLong | html %]</p>
+                        <p class="Description DescriptionLong">[% Data.DescriptionLong | html %]</p>
 [% RenderBlockEnd("DescriptionLongAlt") %]
