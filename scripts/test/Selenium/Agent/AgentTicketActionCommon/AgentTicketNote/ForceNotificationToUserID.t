@@ -20,6 +20,8 @@ $Selenium->RunTest(
 
         my $Helper          = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
         my $MailQueueObject = $Kernel::OM->Get('Kernel::System::MailQueue');
+        my $GroupObject     = $Kernel::OM->Get('Kernel::System::Group');
+        my $QueueObject     = $Kernel::OM->Get('Kernel::System::Queue');
 
         my %MailQueueCurrentItems = map { $_->{ID} => $_ } @{ $MailQueueObject->List() || [] };
 
@@ -175,26 +177,8 @@ $Selenium->RunTest(
 
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
-        # Navigate to zoom view of created test ticket.
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
-
-        # Wait until page has loaded.
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function";' );
-
-        # Force sub menus to be visible in order to be able to click one of the links.
-        $Selenium->execute_script("\$('#nav-Communication ul').css('height', 'auto');");
-        $Selenium->execute_script("\$('#nav-Communication ul').css('opacity', '1');");
-        $Selenium->WaitFor(
-            JavaScript =>
-                "return \$('#nav-Communication ul').css('height') !== '0px' && \$('#nav-Communication ul').css('opacity') == '1';"
-        );
-
-        # Click on 'Note' and switch window.
-        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketNote;TicketID=$TicketID' )]")->click();
-
-        $Selenium->WaitFor( WindowCount => 2 );
-        my $Handles = $Selenium->get_window_handles();
-        $Selenium->switch_to_window( $Handles->[1] );
+        # Navigate to AgentTicketNote view of created test ticket.
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketNote;TicketID=$TicketID");
 
         # Wait until page has loaded, if necessary.
         $Selenium->WaitFor(
@@ -224,9 +208,6 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Subject",        'css' )->send_keys('Test');
         $Selenium->find_element( "#RichText",       'css' )->send_keys('Test');
         $Selenium->find_element( "#submitRichText", 'css' )->click();
-
-        $Selenium->WaitFor( WindowCount => 1 );
-        $Selenium->switch_to_window( $Handles->[0] );
 
         # Process mail queue items.
         $MailQueueProcess->();
@@ -326,23 +307,301 @@ $Selenium->RunTest(
             "InformAgent are in Article 'To' correctly "
         );
 
-        # Delete created test tickets.
-        $Success = $TicketObject->TicketDelete(
-            TicketID => $TicketID,
+        my $NewTicketID;
+        my $RandomID = $Helper->GetRandomID();
+
+        # Add new groups and queues.
+        my $Group0 = $GroupObject->GroupAdd(
+            Name    => 'Group0-' . $RandomID,
+            ValidID => 1,
+            UserID  => $UserID[0],
+        );
+        $Self->True(
+            $Group0,
+            "Group Group0-$RandomID is created."
+        );
+        my $Group1 = $GroupObject->GroupAdd(
+            Name    => 'Group1-' . $RandomID,
+            ValidID => 1,
+            UserID  => $UserID[1],
+        );
+        $Self->True(
+            $Group1,
+            "Group Group1-$RandomID is created."
+        );
+        my $Queue0 = $QueueObject->QueueAdd(
+            Name            => 'Queue0-' . $RandomID,
+            ValidID         => 1,
+            GroupID         => $Group0,
+            SystemAddressID => 1,
+            SalutationID    => 1,
+            SignatureID     => 1,
+            UserID          => $UserID[0],
+            Comment         => 'Some Comment',
+        );
+        $Self->True(
+            $Queue0,
+            "Queue Queue0-$RandomID is created.",
+        );
+        my $Queue1 = $QueueObject->QueueAdd(
+            Name            => 'Queue1-' . $RandomID,
+            ValidID         => 1,
+            GroupID         => $Group1,
+            SystemAddressID => 1,
+            SalutationID    => 1,
+            SignatureID     => 1,
+            UserID          => $UserID[1],
+            Comment         => 'Some Comment',
+        );
+        $Self->True(
+            $Queue1,
+            "Queue Queue1-$RandomID is created.",
+        );
+
+        my @Permissions = (
+            {
+                UID        => $UserID[0],
+                GID        => $Group0,
+                Permission => {
+                    ro        => 1,
+                    move_into => 1,
+                    create    => 1,
+                    note      => 1,
+                    owner     => 1,
+                    priority  => 1,
+                    rw        => 1,
+                },
+            },
+            {
+                UID        => $UserID[1],
+                GID        => $Group1,
+                Permission => {
+                    ro        => 1,
+                    move_into => 1,
+                    create    => 1,
+                    note      => 1,
+                    owner     => 1,
+                    priority  => 1,
+                    rw        => 1,
+                },
+            },
+            {
+                UID        => $UserID[0],
+                GID        => $Group1,
+                Permission => {
+                    ro        => 0,
+                    move_into => 1,
+                    create    => 0,
+                    note      => 1,
+                    owner     => 0,
+                    priority  => 0,
+                    rw        => 0,
+                },
+            },
+            {
+                UID        => $UserID[1],
+                GID        => $Group0,
+                Permission => {
+                    ro        => 0,
+                    move_into => 1,
+                    create    => 0,
+                    note      => 1,
+                    owner     => 0,
+                    priority  => 0,
+                    rw        => 0,
+                },
+            }
+        );
+
+        for my $Permission (@Permissions) {
+
+            # Add user group permissions.
+            $Success = $GroupObject->PermissionGroupUserAdd(
+                %{$Permission},
+                UserID => $UserID[2],
+            );
+            $Self->True(
+                $Success,
+                "UserID $Permission->{UID} set permissions for group ID $Permission->{GID}."
+            );
+        }
+
+        # Create new test ticket in Queue0.
+        $NewTicketID = $TicketObject->TicketCreate(
+            Title        => 'Selenium Group Test Ticket',
+            Queue        => 'Queue0-' . $RandomID,
+            Lock         => 'unlock',
+            Priority     => '3 normal',
+            State        => 'new',
+            CustomerID   => 'SeleniumCustomer',
+            CustomerUser => 'SeleniumCustomer@localhost.com',
+            OwnerID      => $UserID[0],
+            UserID       => $UserID[0],
+        );
+        $Self->True(
+            $NewTicketID,
+            "Ticket is created - ID $NewTicketID",
+        );
+
+        # Move the test ticket to Queue1.
+        $Success = $TicketObject->TicketQueueSet(
+            QueueID  => $Queue1,
+            TicketID => $NewTicketID,
             UserID   => $UserID[0],
         );
 
-        # Ticket deletion could fail if apache still writes to ticket history. Try again in this case.
-        if ( !$Success ) {
-            sleep 3;
-            $Success = $TicketObject->TicketDelete(
-                TicketID => $TicketID,
-                UserID   => $UserID[0],
-            );
-        }
+        # Change ticket owner.
+        $Success = $TicketObject->TicketOwnerSet(
+            TicketID  => $NewTicketID,
+            NewUserID => $UserID[1],
+            UserID    => $UserID[0],
+        );
+
+        # Lock the test ticket with User 1.
+        $TicketObject->TicketLockSet(
+            Lock     => 'lock',
+            TicketID => $NewTicketID,
+            UserID   => $UserID[1],
+        );
+
+        # Make sure we start with a clean mail queue.
+        $MailQueueClean->();
+
+        $Success = $TestEmailObject->CleanUp();
         $Self->True(
             $Success,
-            "TicketID $TicketID is deleted",
+            'Cleanup Email backend.',
+        );
+
+        # Login as the second created test user.
+        $Selenium->Login(
+            Type     => 'Agent',
+            User     => $TestUser[1],
+            Password => $TestUser[1],
+        );
+
+        # Navigate to AgentTicketNote view of created test ticket.
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketNote;TicketID=$NewTicketID");
+
+        # Wait until page has loaded, if necessary.
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof($) === "function" && $(".WidgetSimple").length;'
+        );
+
+        # Select involved user, fill necessary fields and save the note.
+        $Selenium->InputFieldValueSet(
+            Element => '#InvolvedUserID',
+            Value   => $UserID[0],
+        );
+        $Selenium->find_element( "#Subject",        'css' )->send_keys('Test');
+        $Selenium->find_element( "#RichText",       'css' )->send_keys('Test');
+        $Selenium->find_element( "#submitRichText", 'css' )->click();
+
+        # Process mail queue items.
+        $MailQueueProcess->();
+
+        # Check that emailS was sent.
+        $Emails = $TestEmailObject->EmailsGet();
+
+        # There should be 3 emails, one for the inform user, one for the involved user and one for the owner.
+        $Self->Is(
+            scalar @{$Emails},
+            2,
+            'EmailsGet()',
+        );
+
+        # Extract recipients from emails and compare to the expected results, the emails are sent in
+        #   order with the UserID.
+        my @NewRecipients;
+        for my $Email ( @{$Emails} ) {
+            push @NewRecipients, $Email->{ToArray}->[0];
+        }
+        @Ordered = sort @NewRecipients;
+        $Self->IsDeeply(
+            \@Ordered,
+            [
+                $TestUser[0] . '@localunittest.com',
+                $TestUser[1] . '@localunittest.com',
+            ],
+            'Email recipients',
+        );
+
+        # Delete created test ticket.
+        for my $TicketDelete ( $NewTicketID, $TicketID ) {
+            $Success = $TicketObject->TicketDelete(
+                TicketID => $TicketDelete,
+                UserID   => $UserID[0],
+            );
+
+            # Ticket deletion could fail if apache still writes to ticket history. Try again in this case.
+            if ( !$Success ) {
+                sleep 3;
+                $Success = $TicketObject->TicketDelete(
+                    TicketID => $TicketDelete,
+                    UserID   => $UserID[0],
+                );
+            }
+            $Self->True(
+                $Success,
+                "TicketID $TicketDelete is deleted.",
+            );
+        }
+
+        my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+        # Delete group-user relation.
+        $Success = $DBObject->Do(
+            SQL  => "DELETE FROM group_user WHERE user_id = ?",
+            Bind => [ \$UserID[0] ],
+        );
+        $Self->True(
+            $Success,
+            "Relation for UserID $UserID[0] is deleted.",
+        );
+        $Success = $DBObject->Do(
+            SQL  => "DELETE FROM group_user WHERE user_id = ?",
+            Bind => [ \$UserID[1] ],
+        );
+        $Self->True(
+            $Success,
+            "Relation for UserID $UserID[1] is deleted.",
+        );
+
+        # Delete test queues.
+        $Success = $DBObject->Do(
+            SQL  => "DELETE FROM queue WHERE id = ?",
+            Bind => [ \$Queue0 ],
+        );
+        $Self->True(
+            $Success,
+            "Queue is deleted - ID $Queue0",
+        );
+        $Success = $DBObject->Do(
+            SQL  => "DELETE FROM queue WHERE id = ?",
+            Bind => [ \$Queue1 ],
+        );
+        $Self->True(
+            $Success,
+            "Queue is deleted - ID $Queue1",
+        );
+
+        # Delete test groups.
+        $Success = $DBObject->Do(
+            SQL  => "DELETE FROM groups WHERE id = ?",
+            Bind => [ \$Group0 ],
+        );
+        $Self->True(
+            $Success,
+            "Group is deleted - ID $Group0",
+        );
+        $Success = $DBObject->Do(
+            SQL  => "DELETE FROM groups WHERE id = ?",
+            Bind => [ \$Group1 ],
+        );
+        $Self->True(
+            $Success,
+            "Group is deleted - ID $Group1",
         );
 
         # Make sure the cache is correct.

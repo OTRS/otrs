@@ -1116,6 +1116,16 @@ sub _RecipientsGet {
             UserID   => $User{UserID}
         );
 
+        # Additional permissions for notes.
+        # Please see bug#14917 for more information.
+        if ( !$Permission && $Param{Event} eq 'NotificationAddNote' ) {
+            $Permission = $TicketObject->TicketPermission(
+                Type     => 'note',
+                TicketID => $Ticket{TicketID},
+                UserID   => $User{UserID}
+            );
+        }
+
         next RECIPIENT if !$Permission;
 
         # skip PostMasterUserID
