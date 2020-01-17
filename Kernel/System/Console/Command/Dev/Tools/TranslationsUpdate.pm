@@ -638,7 +638,8 @@ sub HandleLanguage {
 
         # transliterate word from existing translation if language supports it
         if ( $TranslitLanguagesMap{$Language} ) {
-            $Translation = ( $IsSubTranslation ? $TranslitLanguageObject : $TranslitLanguageCoreObject )->{Translation}
+            $Translation = $POTranslations{$String}
+                || ( $IsSubTranslation ? $TranslitLanguageObject : $TranslitLanguageCoreObject )->{Translation}
                 ->{$String};
             $Translation = $TranslitObject->translit($Translation) || '';
         }
@@ -668,7 +669,7 @@ sub HandleLanguage {
             Module             => $Module,
         );
     }
-    if ( $Param{WritePO} ) {
+    if ( $Param{WritePO} && !$TranslitLanguagesMap{$Language} ) {
         $Self->WritePOFile(
             TranslationStrings => \@TranslationStrings,
             TargetPOTFile      => $TargetPOTFile,
