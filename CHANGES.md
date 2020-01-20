@@ -1,18 +1,23 @@
 #6.0.27 ????-??-??
 
 #6.0.26 2020-02-07
- - 2020-01-16 Fixed bug#[14917](https://bugs.otrs.org/show_bug.cgi?id=14917) - Problem with Notification and Group (NOTE/RO) rights together with 'InvolvedAgent'.
- - 2020-01-15 Fixed bug#[14908](https://bugs.otrs.org/show_bug.cgi?id=14908) - Activity Dialog long descriptions ignore line brakes.
- - 2020-01-08 Fixed bug#[14367](https://bugs.otrs.org/show_bug.cgi?id=14367) - Generic agent edit screen slows due to many dynamic fields.
- - 2020-01-08 Fixed bug#[13159](https://bugs.otrs.org/show_bug.cgi?id=13159) - Generic agent deletes the content of dropdown type dynamic field if empty value is added.
- - 2019-12-27 Fixed bug#[14882](https://bugs.otrs.org/show_bug.cgi?id=14882) - Number of tickets in link to tickets in customer information not correct if dynamic fields are used.
+ - 2020-01-16 Fixed bug#[14917](https://bugs.otrs.org/show_bug.cgi?id=14917) - Permission problem with Notification and Group rights (NOTE/RO).
+  When user sends a note to the 'InvolvedAgent', target user doesn't receive notification if he doesn't have the 'RO' permission (even if he has other permissions, like NOTE).
+ - 2020-01-15 Fixed bug#[14908](https://bugs.otrs.org/show_bug.cgi?id=14908) - Line brakes are ignored in the long descriptions (Activity Dialog).
+ - 2020-01-08 Fixed bug#[14367](https://bugs.otrs.org/show_bug.cgi?id=14367) - Generic agent edit screen is slow when there are many dynamic fields.
+ - 2020-01-08 Fixed bug#[13159](https://bugs.otrs.org/show_bug.cgi?id=13159) - Generic agent deletes the content of dropdown dynamic field if empty value is added.
+  It only happens when 'Add empty value' is set.
+ - 2019-12-27 Fixed bug#[14882](https://bugs.otrs.org/show_bug.cgi?id=14882) - Number of tickets is wrong in the customer information center if dynamic fields are used.
+  If dynamic fields are used as attributes in Frontend::CustomerUser::Item###15-OpenTickets the number of tickets for the link in the customer information center is not displayed correctly.
  - 2019-12-25 Fixed bug#[14722](https://bugs.otrs.org/show_bug.cgi?id=14722) - Debug messages are shown as Daemon errors.
  - 2019-12-25 Fixed bug#[14900](https://bugs.otrs.org/show_bug.cgi?id=14900) - Transition action / Sequence flow DynamicFieldSet can't handle multiselect field value set.
- - 2019-12-25 Fixed bug#[14288](https://bugs.otrs.org/show_bug.cgi?id=14288) - CustomerUser Validation does not work in Web Service.
+ - 2019-12-25 Fixed bug#[14288](https://bugs.otrs.org/show_bug.cgi?id=14288) - CustomerUser is not set when ticket is created via Web Service.
+  CustomerUser parameter expects customer user login, so when email is provided it didn't worked out.
  - 2019-12-20 Fixed bug#[14912](https://bugs.otrs.org/show_bug.cgi?id=14912) - Installer refers to non-existing documentation.
  - 2019-12-18 Fixed bug#[14896](https://bugs.otrs.org/show_bug.cgi?id=14896) - Process print action in process overview screen does not open in pop-up window.
- - 2019-12-16 Fixed bug#[14895](https://bugs.otrs.org/show_bug.cgi?id=14895) - Caching issues with dropdown and multiselect dynamic fields when they are filled by 'DynamicFieldFromCustomerUser::Mapping'.
+ - 2019-12-16 Fixed bug#[14895](https://bugs.otrs.org/show_bug.cgi?id=14895) - Caching issues with dropdown and multiselect dynamic fields when they are filled by 'DynamicFieldFromCustomerUser::Mapping' (Agent interface).
  - 2019-12-16 Fixed bug#[14910](https://bugs.otrs.org/show_bug.cgi?id=14910) - Missing ZZZAAuto.pm prevents deployment of overridden invalid entity type database settings.
+  If system has invalid setting stored in the SysConfig database which is overridden via ZZZ*pm files, rebuild fails and therefore machines can't be deployed when upgrading the system.
  - 2019-12-10 Fixed bug#[14903](https://bugs.otrs.org/show_bug.cgi?id=14903) - There is a space after some time values in statistics.
 
 #6.0.25 2020-01-10
