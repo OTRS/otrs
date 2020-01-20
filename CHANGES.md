@@ -1,5 +1,3 @@
-#6.0.27 ????-??-??
-
 #6.0.26 2020-02-07
  - 2020-01-16 Fixed bug#[14917](https://bugs.otrs.org/show_bug.cgi?id=14917) - Problem with Notification and Group (NOTE/RO) rights together with 'InvolvedAgent'.
  - 2020-01-15 Fixed bug#[14908](https://bugs.otrs.org/show_bug.cgi?id=14908) - Activity Dialog long descriptions ignore line brakes.
