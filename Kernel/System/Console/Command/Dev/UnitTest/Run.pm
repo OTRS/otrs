@@ -45,6 +45,13 @@ sub Configure {
         HasValue    => 0,
     );
     $Self->AddOption(
+        Name        => 'data-diff-type',
+        Description => "Choose which diff type to use for the data diff (table or unified).",
+        Required    => 0,
+        HasValue    => 1,
+        ValueRegex  => qr/^(table|unified)$/ismx,
+    );
+    $Self->AddOption(
         Name        => 'submit-url',
         Description => "Send unit test results to a server (URL).",
         Required    => 0,
@@ -146,6 +153,7 @@ sub Run {
         SubmitAuth             => $Self->GetOption('submit-auth'),
         SubmitResultAsExitCode => $Self->GetOption('submit-result-as-exit-code') || '',
         Verbose                => $Self->GetOption('verbose'),
+        DataDiffType           => $Self->GetOption('data-diff-type'),
         AttachmentPath         => $Self->GetOption('attachment-path'),
         PostTestScripts        => $Self->GetOption('post-test-script'),
         PreSubmitScripts       => $Self->GetOption('pre-submit-script'),

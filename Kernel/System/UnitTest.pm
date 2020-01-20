@@ -158,6 +158,7 @@ sub Run {
             $Self->_HandleFile(
                 PostTestScripts => $Param{PostTestScripts},
                 File            => $File,
+                DataDiffType    => $Param{DataDiffType},
             );
         }
     }
@@ -186,7 +187,7 @@ sub Run {
         for my $FailedFile ( @{ $Self->{NotOkInfo} || [] } ) {
             my ( $File, @Tests ) = @{ $FailedFile || [] };
             next FAILEDFILE if !@Tests;
-            print sprintf "  %s #%s\n", $File, join ", ", @Tests;
+            print sprintf "  %s %s\n", $File, join ", ", @Tests;
         }
     }
     elsif ( $Self->{TestCountOk} ) {
@@ -244,8 +245,9 @@ sub _HandleFile {
         my $Driver = $Kernel::OM->Create(
             'Kernel::System::UnitTest::Driver',
             ObjectParams => {
-                Verbose => $Self->{Verbose},
-                ANSI    => $Self->{ANSI},
+                Verbose      => $Self->{Verbose},
+                ANSI         => $Self->{ANSI},
+                DataDiffType => $Param{DataDiffType},
             },
         );
 

@@ -13,6 +13,7 @@ use warnings;
 
 use Storable();
 use Term::ANSIColor();
+use Text::Diff;
 
 # UnitTest helper must be loaded to override the builtin time functions!
 use Kernel::System::UnitTest::Helper;
@@ -52,8 +53,9 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    $Self->{ANSI}    = $Param{ANSI};
-    $Self->{Verbose} = $Param{Verbose};
+    $Self->{ANSI}         = $Param{ANSI};
+    $Self->{Verbose}      = $Param{Verbose};
+    $Self->{DataDiffType} = ucfirst( lc( $Param{DataDiffType} ) ) || 'Table';
 
     # We use an output buffering mechanism if Verbose is not set. Only failed tests will be output in this case.
 
@@ -182,21 +184,14 @@ sub True {
     my ( $Self, $True, $Name ) = @_;
 
     if ( !$Name ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => 'Need Name! E. g. True(\$A, \'Test Name\')!'
-        );
-        $Self->_Print( 0, 'ERROR: Need Name! E. g. True(\$A, \'Test Name\')' );
-        return;
+        return $Self->_Print( 0, 'Error: test name was not provided.' );
     }
 
     if ($True) {
-        $Self->_Print( 1, $Name );
-        return 1;
+        return $Self->_Print( 1, $Name );
     }
     else {
-        $Self->_Print( 0, $Name );
-        return;
+        return $Self->_Print( 0, $Name );
     }
 }
 
@@ -213,21 +208,14 @@ sub False {
     my ( $Self, $False, $Name ) = @_;
 
     if ( !$Name ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => 'Need Name! E. g. False(\$A, \'Test Name\')!'
-        );
-        $Self->_Print( 0, 'ERROR: Need Name! E. g. False(\$A, \'Test Name\')' );
-        return;
+        return $Self->_Print( 0, 'Error: test name was not provided.' );
     }
 
     if ( !$False ) {
-        $Self->_Print( 1, $Name );
-        return 1;
+        return $Self->_Print( 1, $Name );
     }
     else {
-        $Self->_Print( 0, $Name );
-        return;
+        return $Self->_Print( 0, $Name );
     }
 }
 
@@ -255,33 +243,23 @@ sub Is {
     my ( $Self, $Test, $ShouldBe, $Name ) = @_;
 
     if ( !$Name ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => 'Need Name! E. g. Is(\$A, \$B, \'Test Name\')!'
-        );
-        $Self->_Print( 0, 'ERROR: Need Name! E. g. Is(\$A, \$B, \'Test Name\')' );
-        return;
+        return $Self->_Print( 0, 'Error: test name was not provided.' );
     }
 
     if ( !defined $Test && !defined $ShouldBe ) {
-        $Self->_Print( 1, "$Name (is 'undef')" );
-        return 1;
+        return $Self->_Print( 1, $Name );
     }
     elsif ( !defined $Test && defined $ShouldBe ) {
-        $Self->_Print( 0, "$Name (is 'undef' should be '$ShouldBe')" );
-        return;
+        return $Self->_Print( 0, "$Name (is 'undef' should be '$ShouldBe')" );
     }
     elsif ( defined $Test && !defined $ShouldBe ) {
-        $Self->_Print( 0, "$Name (is '$Test' should be 'undef')" );
-        return;
+        return $Self->_Print( 0, "$Name (is '$Test' should be 'undef')" );
     }
     elsif ( $Test eq $ShouldBe ) {
-        $Self->_Print( 1, "$Name (is '$ShouldBe')" );
-        return 1;
+        return $Self->_Print( 1, $Name );
     }
     else {
-        $Self->_Print( 0, "$Name (is '$Test' should be '$ShouldBe')" );
-        return;
+        return $Self->_Print( 0, "$Name (is '$Test' should be '$ShouldBe')" );
     }
 }
 
@@ -298,33 +276,23 @@ sub IsNot {
     my ( $Self, $Test, $ShouldBe, $Name ) = @_;
 
     if ( !$Name ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => 'Need Name! E. g. IsNot(\$A, \$B, \'Test Name\')!'
-        );
-        $Self->_Print( 0, 'ERROR: Need Name! E. g. IsNot(\$A, \$B, \'Test Name\')' );
-        return;
+        return $Self->_Print( 0, 'Error: test name was not provided.' );
     }
 
     if ( !defined $Test && !defined $ShouldBe ) {
-        $Self->_Print( 0, "$Name (is 'undef')" );
-        return;
+        return $Self->_Print( 0, "$Name (is 'undef')" );
     }
     elsif ( !defined $Test && defined $ShouldBe ) {
-        $Self->_Print( 1, "$Name (is 'undef')" );
-        return 1;
+        return $Self->_Print( 1, $Name );
     }
     elsif ( defined $Test && !defined $ShouldBe ) {
-        $Self->_Print( 1, "$Name (is '$Test')" );
-        return 1;
+        return $Self->_Print( 1, $Name );
     }
     if ( $Test ne $ShouldBe ) {
-        $Self->_Print( 1, "$Name (is '$Test')" );
-        return 1;
+        return $Self->_Print( 1, $Name );
     }
     else {
-        $Self->_Print( 0, "$Name (is '$Test' should not be '$ShouldBe')" );
-        return;
+        return $Self->_Print( 0, "$Name (is '$Test' should not be '$ShouldBe')" );
     }
 }
 
@@ -354,11 +322,7 @@ sub IsDeeply {
     my ( $Self, $Test, $ShouldBe, $Name ) = @_;
 
     if ( !$Name ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => 'Need Name! E. g. Is(\$A, \$B, \'Test Name\')!'
-        );
-        $Self->_Print( 0, 'ERROR: Need Name! E. g. Is(\$A, \$B, \'Test Name\')' );
+        $Self->_Print( 0, 'Error: test name was not provided.' );
         return;
     }
 
@@ -368,26 +332,37 @@ sub IsDeeply {
     );
 
     if ( !defined $Test && !defined $ShouldBe ) {
-        $Self->_Print( 1, "$Name (is 'undef')" );
-        return 1;
+        return $Self->_Print( 1, $Name );
     }
     elsif ( !defined $Test && defined $ShouldBe ) {
-        $Self->_Print( 0, "$Name (is 'undef' should be defined)" );
-        return;
+        return $Self->_Print( 0, "$Name (is 'undef' should be defined)" );
     }
     elsif ( defined $Test && !defined $ShouldBe ) {
-        $Self->_Print( 0, "$Name (is defined should be 'undef')" );
-        return;
+        return $Self->_Print( 0, "$Name (is defined should be 'undef')" );
     }
     elsif ( !$Diff ) {
-        $Self->_Print( 1, "$Name matches expected value" );
-        return 1;
+        return $Self->_Print( 1, $Name );
     }
     else {
-        my $ShouldBeDump = $Kernel::OM->Get('Kernel::System::Main')->Dump($ShouldBe);
         my $TestDump     = $Kernel::OM->Get('Kernel::System::Main')->Dump($Test);
-        $Self->_Print( 0, "$Name (is '$TestDump' should be '$ShouldBeDump')" );
-        return;
+        my $ShouldBeDump = $Kernel::OM->Get('Kernel::System::Main')->Dump($ShouldBe);
+        local $ENV{DIFF_OUTPUT_UNICODE} = 1;
+        my $Diff = Text::Diff::diff(
+            \$TestDump,
+            \$ShouldBeDump,
+            {
+                STYLE      => $Self->{DataDiffType},
+                FILENAME_A => 'Actual data',
+                FILENAME_B => 'Expected data',
+            }
+        );
+
+        my $Output;
+        $Output .= $Self->_Color( 'yellow', "Diff" ) . ":\n$Diff\n";
+        $Output .= $Self->_Color( 'yellow', "Actual data" ) . ":\n$TestDump\n";
+        $Output .= $Self->_Color( 'yellow', "Expected data" ) . ":\n$ShouldBeDump\n";
+
+        return $Self->_Print( 0, "$Name (is not equal, see below)\n$Output" );
     }
 }
 
@@ -404,11 +379,7 @@ sub IsNotDeeply {
     my ( $Self, $Test, $ShouldBe, $Name ) = @_;
 
     if ( !$Name ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => 'Need Name! E. g. IsNot(\$A, \$B, \'Test Name\')!'
-        );
-        $Self->_Print( 0, 'ERROR: Need Name! E. g. IsNot(\$A, \$B, \'Test Name\')' );
+        $Self->_Print( 0, 'Error: test name was not provided.' );
         return;
     }
 
@@ -418,29 +389,22 @@ sub IsNotDeeply {
     );
 
     if ( !defined $Test && !defined $ShouldBe ) {
-        $Self->_Print( 0, "$Name (is 'undef')" );
-        return;
+        return $Self->_Print( 0, "$Name (is 'undef')" );
     }
     elsif ( !defined $Test && defined $ShouldBe ) {
-        $Self->_Print( 1, "$Name (is 'undef')" );
-        return 1;
+        return $Self->_Print( 1, $Name );
     }
     elsif ( defined $Test && !defined $ShouldBe ) {
-        $Self->_Print( 1, "$Name (differs from expected value)" );
-        return 1;
+        return $Self->_Print( 1, $Name );
     }
 
     if ($Diff) {
-        $Self->_Print( 1, "$Name (The structures are not equal.)" );
-        return 1;
+        return $Self->_Print( 1, $Name );
     }
     else {
-
-        #        $Self->_Print( 0, "$Name (matches the expected value)" );
         my $TestDump = $Kernel::OM->Get('Kernel::System::Main')->Dump($Test);
-        $Self->_Print( 0, "$Name (The structures are equal: '$TestDump')" );
-
-        return;
+        my $Output   = $Self->_Color( 'yellow', "Actual data" ) . ":\n$TestDump\n";
+        return $Self->_Print( 0, "$Name (the structures are wrongly equal, see below)\n$Output" );
     }
 }
 
@@ -494,8 +458,8 @@ sub _Print {
     $Message ||= '->>No Name!<<-';
 
     my $ShortMessage = $Message;
-    if ( length $ShortMessage > 1000 && !$Self->{Verbose} ) {
-        $ShortMessage = substr( $ShortMessage, 0, 1000 ) . "...";
+    if ( length $ShortMessage > 2_000 && !$Self->{Verbose} ) {
+        $ShortMessage = substr( $ShortMessage, 0, 2_000 ) . "[...]";
     }
 
     if ( $Self->{Verbose} || !$ResultOk ) {
@@ -528,15 +492,18 @@ sub _Print {
         $Self->{ResultData}->{Results}->{ $Self->{TestCount} }->{Status}  = 'not ok';
         $Self->{ResultData}->{Results}->{ $Self->{TestCount} }->{Message} = $Message;
 
-        my $TestFailureDetails = $Message;
-        $TestFailureDetails =~ s{\(.+\)$}{};
-        if ( length $TestFailureDetails > 200 ) {
-            $TestFailureDetails = substr( $TestFailureDetails, 0, 200 ) . "...";
+        # Failure summary: only the first line
+        my $TestFailureDetails = ( split m/\r?\n/, $Message )[0];
+
+        # And only without details
+        $TestFailureDetails =~ s{\s*\(.+\Z}{};
+        if ( length $TestFailureDetails > 100 ) {
+            $TestFailureDetails = substr( $TestFailureDetails, 0, 100 ) . "[...]";
         }
 
         # Store information about failed tests, but only if we are running in a toplevel unit test object
         #   that is actually processing files, and not in an embedded object that just runs individual tests.
-        push @{ $Self->{ResultData}->{NotOkInfo} }, sprintf "%s - %s", $Self->{TestCount},
+        push @{ $Self->{ResultData}->{NotOkInfo} }, sprintf "#%s - %s", $Self->{TestCount},
             $TestFailureDetails;
 
         return;
