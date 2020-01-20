@@ -1,4 +1,4 @@
-#5.0.41 ????-??-??
+#5.0.41 2020-02-07
  - 2019-12-20 Fixed bug#[14912](https://bugs.otrs.org/show_bug.cgi?id=14912) - Installer refers to non-existing documentation.
 
 #5.0.40 2020-01-10
