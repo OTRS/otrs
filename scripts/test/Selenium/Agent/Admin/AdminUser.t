@@ -248,8 +248,8 @@ $Selenium->RunTest(
 
         # Wait for the AJAX call to finish.
         $Selenium->WaitFor(
-            JavaScript =>
-                "return typeof(\$) === 'function' && \$('#QueueID').closest('.WidgetSimple').hasClass('HasOverlay')"
+            ElementMissing =>
+                "//i[contains(\@class,\'fa fa-circle-o-notch fa-spin\')]"
         );
         $Selenium->WaitFor(
             JavaScript =>
@@ -267,8 +267,8 @@ $Selenium->RunTest(
 
         # Wait for the AJAX call to finish.
         $Selenium->WaitFor(
-            JavaScript =>
-                "return typeof(\$) === 'function' && \$('#ServiceID').closest('.WidgetSimple').hasClass('HasOverlay')"
+            ElementMissing =>
+                "//i[contains(\@class,\'fa fa-circle-o-notch fa-spin\')]"
         );
         $Selenium->WaitFor(
             JavaScript =>
