@@ -55,7 +55,7 @@ sub new {
 
     $Self->{ANSI}         = $Param{ANSI};
     $Self->{Verbose}      = $Param{Verbose};
-    $Self->{DataDiffType} = ucfirst( lc( $Param{DataDiffType} ) ) || 'Table';
+    $Self->{DataDiffType} = ucfirst( lc( $Param{DataDiffType} || 'Table' ) );
 
     # We use an output buffering mechanism if Verbose is not set. Only failed tests will be output in this case.
 
