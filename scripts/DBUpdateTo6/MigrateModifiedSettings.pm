@@ -154,10 +154,11 @@ sub SettingsToMigrate {
     return (
         'Loader::Agent::CommonJS###000-Framework' => {
             'thirdparty/jquery-jstree-3.3.4/jquery.jstree.js' => 'thirdparty/jquery-jstree-3.3.7/jquery.jstree.js',
+            'thirdparty/jquery-3.2.1/jquery.js'               => 'thirdparty/jquery-3.4.1/jquery.js',
         },
-
         'Loader::Customer::CommonJS###000-Framework' => {
             'thirdparty/jquery-jstree-3.3.4/jquery.jstree.js' => 'thirdparty/jquery-jstree-3.3.7/jquery.jstree.js',
+            'thirdparty/jquery-3.2.1/jquery.js'               => 'thirdparty/jquery-3.4.1/jquery.js',
         },
     );
 }
