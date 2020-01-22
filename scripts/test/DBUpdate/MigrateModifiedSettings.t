@@ -72,6 +72,16 @@ my @Tests = (
         OldValue    => 'thirdparty/jquery-jstree-3.3.4/jquery.jstree.js',
         NewValue    => 'thirdparty/jquery-jstree-3.3.7/jquery.jstree.js',
     },
+    {
+        SettingName => 'Loader::Agent::CommonJS###000-Framework',
+        OldValue    => 'thirdparty/jquery-3.2.1/jquery.js',
+        NewValue    => 'thirdparty/jquery-3.4.1/jquery.js',
+    },
+    {
+        SettingName => 'Loader::Customer::CommonJS###000-Framework',
+        OldValue    => 'thirdparty/jquery-3.2.1/jquery.js',
+        NewValue    => 'thirdparty/jquery-3.4.1/jquery.js',
+    },
 );
 
 # Test it in 'eval' block in order to avoid crash the system after failing the test.

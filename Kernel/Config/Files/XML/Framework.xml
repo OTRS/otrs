@@ -8065,7 +8065,7 @@ via the Preferences button after logging in.
         <Navigation>Frontend::Base::Loader</Navigation>
         <Value>
             <Array>
-                <Item>thirdparty/jquery-3.2.1/jquery.js</Item>
+                <Item>thirdparty/jquery-3.4.1/jquery.js</Item>
                 <Item>thirdparty/jquery-browser-detection/jquery-browser-detection.js</Item>
                 <Item>thirdparty/jquery-ui-1.12.1/jquery-ui.js</Item>
                 <Item>thirdparty/jquery-ui-touch-punch-0.2.3/jquery.ui.touch-punch.js</Item>
@@ -8166,7 +8166,7 @@ via the Preferences button after logging in.
         <Navigation>Frontend::Base::Loader</Navigation>
         <Value>
             <Array>
-                <Item>thirdparty/jquery-3.2.1/jquery.js</Item>
+                <Item>thirdparty/jquery-3.4.1/jquery.js</Item>
                 <Item>thirdparty/jquery-browser-detection/jquery-browser-detection.js</Item>
                 <Item>thirdparty/jquery-validate-1.16.0/jquery.validate.js</Item>
                 <Item>thirdparty/jquery-ui-1.12.1/jquery-ui.js</Item>
