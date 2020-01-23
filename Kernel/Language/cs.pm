@@ -31,7 +31,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.3444;
+    $Self->{Completeness}        = 0.3448;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -816,13 +816,13 @@ sub Data {
         'Go to overview' => 'Přejít na přehled',
         'Delete ACL' => 'Smazat ACL',
         'Delete Invalid ACL' => 'Smazat neplatná ACL',
-        'Match settings' => '',
+        'Match settings' => 'Nastavení shody',
         'Set up matching criteria for this ACL. Use \'Properties\' to match the current screen or \'PropertiesDatabase\' to match attributes of the current ticket that are in the database.' =>
             'Nastavit odpovídající kritérium pro toto ACL. Pro srovnání současného zobrazení použijte \'Vlastnosti\' nebo pro srovnání atributů současných tiketů v databázi použijte \'VlastnostiDatabáze\'.',
         'Change settings' => 'Změna nastavení',
         'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is a white list, \'PossibleNot\' a black list.' =>
             '',
-        'Check the official %sdocumentation%s.' => '',
+        'Check the official %sdocumentation%s.' => 'Zkontrolovat oficiální %sdokumentaci%s.',
         'Show or hide the content' => 'Zobrazit nebo skrýt obsah',
         'Edit ACL information' => '',
         'Stop after match' => 'Stop po shodě',

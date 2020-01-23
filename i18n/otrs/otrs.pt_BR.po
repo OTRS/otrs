@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-12-07 19:57+0000\n"
+"POT-Creation-Date: 2020-01-23 08:56+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -9956,31 +9956,31 @@ msgstr "Bem-vindo a %s"
 
 #. Template: Installer
 msgid "Germany"
-msgstr ""
+msgstr "Alemanha"
 
 #. Template: Installer
 msgid "United States"
-msgstr ""
+msgstr "Estados Unidos"
 
 #. Template: Installer
 msgid "Mexico"
-msgstr ""
+msgstr "México"
 
 #. Template: Installer
 msgid "Hungary"
-msgstr ""
+msgstr "Hungria"
 
 #. Template: Installer
 msgid "Brazil"
-msgstr ""
+msgstr "Brasil"
 
 #. Template: Installer
 msgid "Singapore"
-msgstr ""
+msgstr "Singapura"
 
 #. Template: Installer
 msgid "Hong Kong"
-msgstr ""
+msgstr "Hong Kong"
 
 #. Template: Installer
 msgid "Web site"
@@ -13488,7 +13488,7 @@ msgstr "Não foi possível enviar informações da conta!"
 
 #. Perl Module: Kernel/System/Web/InterfaceInstaller.pm
 msgid "Action \"%s\" not found!"
-msgstr ""
+msgstr "Ação \"%s\" não encontrada!"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Group for default access."

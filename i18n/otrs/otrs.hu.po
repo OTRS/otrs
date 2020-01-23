@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-12-07 19:57+0000\n"
+"POT-Creation-Date: 2020-01-23 08:56+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3548,7 +3548,7 @@ msgstr "Hivatkozás az előnézethez"
 
 #. Template: AdminDynamicFieldDateTime
 msgid "If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too."
-msgstr "Ha ki van töltve, akkor ez az URL lesz használva egy olyan előnézethez, amely akkor jelenik meg, amikor erre a hivatkozásra rámutatnak a jegynagyításban. Ne feledje, hogy ahhoz, hogy ez működjön, a fenti szabályos URL-mezőt is ki kell tölteni."
+msgstr "Ha ki van töltve, akkor ez az URL lesz használva egy olyan előnézethez, amely akkor jelenik meg, ha erre a hivatkozásra rámutatnak a jegynagyításban. Ne feledje, hogy ahhoz, hogy ez működjön, a fenti szabályos URL-mezőt is ki kell tölteni."
 
 #. Template: AdminDynamicFieldDateTime
 msgid "Restrict entering of dates"
@@ -11364,11 +11364,11 @@ msgstr "Teszt"
 
 #. Perl Module: Kernel/Modules/AdminRegistration.pm
 msgid "Training"
-msgstr "Oktatási"
+msgstr "Oktatás"
 
 #. Perl Module: Kernel/Modules/AdminRegistration.pm
 msgid "Development"
-msgstr "Fejlesztői"
+msgstr "Fejlesztés"
 
 #. Perl Module: Kernel/Modules/AdminRoleUser.pm
 msgid "Role"
@@ -12828,7 +12828,7 @@ msgstr "Jegyek száma (az eszkalációs beállítás által érintett)"
 
 #. Perl Module: Kernel/System/Stats/Static/StateAction.pm
 msgid "Days"
-msgstr "Napok"
+msgstr "Nap"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/TablePresence.pm
 msgid "Table Presence"
@@ -13216,7 +13216,7 @@ msgstr "A beállított alapértelmezett jegytípus érvénytelen vagy hiányzik.
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/IndexModule.pm
 msgid "Ticket Index Module"
-msgstr "Jegy indexelő modul"
+msgstr "Jegyindexelő modul"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/IndexModule.pm
 msgid "You have more than 60,000 tickets and should use the StaticDB backend. See admin manual (Performance Tuning) for more information."
@@ -14286,7 +14286,7 @@ msgstr "Jelszó megváltoztatása"
 
 #. SysConfig
 msgid "Change queue!"
-msgstr "Várólista módosítása"
+msgstr "Várólista módosítása!"
 
 #. SysConfig
 msgid "Change the customer for this ticket"

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-12-07 19:57+0000\n"
+"POT-Creation-Date: 2020-01-23 08:56+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2900,7 +2900,7 @@ msgstr "Ustaw co chcesz zmienić jeśli kryteria zostaną spełnione. Prosze zap
 
 #. Template: AdminACLEdit
 msgid "Check the official %sdocumentation%s."
-msgstr ""
+msgstr "Sprawdź oficjalną %sdokumentację%s"
 
 #. Template: AdminACLEdit
 msgid "Show or hide the content"
@@ -6624,7 +6624,7 @@ msgstr "Nazwa przejścia"
 
 #. Template: AdminProcessManagementTransition
 msgid "Conditions can only operate on non-empty fields."
-msgstr ""
+msgstr "Wyrażenia warunkowe mogą operować tylko na polach niepustych."
 
 #. Template: AdminProcessManagementTransition
 msgid "Type of Linking between Conditions"

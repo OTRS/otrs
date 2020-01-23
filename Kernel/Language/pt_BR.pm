@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.916;
+    $Self->{Completeness}        = 0.9176;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -3159,13 +3159,13 @@ sub Data {
         'General Specifications and Mail Settings' => 'Especificações Gerais e Configurações de E-mail',
         'Finish' => 'Finalizar',
         'Welcome to %s' => 'Bem-vindo a %s',
-        'Germany' => '',
-        'United States' => '',
-        'Mexico' => '',
-        'Hungary' => '',
-        'Brazil' => '',
-        'Singapore' => '',
-        'Hong Kong' => '',
+        'Germany' => 'Alemanha',
+        'United States' => 'Estados Unidos',
+        'Mexico' => 'México',
+        'Hungary' => 'Hungria',
+        'Brazil' => 'Brasil',
+        'Singapore' => 'Singapura',
+        'Hong Kong' => 'Hong Kong',
         'Web site' => 'Website',
         'Mail check successful.' => 'Êxito na verificação de e-mail.',
         'Error in the mail settings. Please correct and try again.' => 'Erro nas configurações de e-mail. Por favor, corrija e tente novamente.',
@@ -4558,7 +4558,7 @@ sub Data {
         'Can\'t send account info!' => 'Não foi possível enviar informações da conta!',
 
         # Perl Module: Kernel/System/Web/InterfaceInstaller.pm
-        'Action "%s" not found!' => '',
+        'Action "%s" not found!' => 'Ação "%s" não encontrada!',
 
         # Database XML Definition: scripts/database/otrs-initial_insert.xml
         'Group for default access.' => 'Grupo de acesso padrão',

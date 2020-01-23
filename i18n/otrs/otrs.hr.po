@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-12-07 19:57+0000\n"
+"POT-Creation-Date: 2020-01-23 08:56+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1356,11 +1356,11 @@ msgstr ""
 
 #. Template: AAABase
 msgid "Mark"
-msgstr ""
+msgstr "Označi"
 
 #. Template: AAABase
 msgid "Unmark"
-msgstr ""
+msgstr "Odznači"
 
 #. Template: AAABase
 msgid "Bold"
@@ -2240,7 +2240,7 @@ msgstr "Napravi"
 
 #. Template: AAATicket
 msgid "Answer"
-msgstr ""
+msgstr "Odgovor"
 
 #. Template: AAATicket
 msgid "Phone call"
@@ -2472,7 +2472,7 @@ msgstr ""
 
 #. Template: AAATicket
 msgid "Close this ticket"
-msgstr ""
+msgstr "Zatvori karticu"
 
 #. Template: AAATicket
 msgid "Look into a ticket!"
@@ -2780,11 +2780,11 @@ msgstr "sub"
 
 #. Template: AdminACL
 msgid "ACL Management"
-msgstr ""
+msgstr "Upravljanje ACL-ovima"
 
 #. Template: AdminACL
 msgid "Filter for ACLs"
-msgstr ""
+msgstr "Filter ACL-ove"
 
 #. Template: AdminACL
 msgid "Filter"
@@ -2800,15 +2800,15 @@ msgstr "Akcije"
 
 #. Template: AdminACL
 msgid "Create New ACL"
-msgstr ""
+msgstr "Kreiraj novi ACL"
 
 #. Template: AdminACL
 msgid "Deploy ACLs"
-msgstr ""
+msgstr "Primjeni ACL-ove"
 
 #. Template: AdminACL
 msgid "Export ACLs"
-msgstr ""
+msgstr "Izvezi ACL-ove"
 
 #. Template: AdminACL
 msgid "Configuration import"
@@ -2816,7 +2816,7 @@ msgstr ""
 
 #. Template: AdminACL
 msgid "Here you can upload a configuration file to import ACLs to your system. The file needs to be in .yml format as exported by the ACL editor module."
-msgstr ""
+msgstr "Ovdje možete prenijeti konfiguracijsku datoteku za uvoz ACL-ova u vaš sustav. Datoteka mora biti u .yml formatu kao što je izveo modul za uređivanje ACL-a."
 
 #. Template: AdminACL
 msgid "This field is required."
@@ -2824,43 +2824,43 @@ msgstr "Ovo polje je obavezno."
 
 #. Template: AdminACL
 msgid "Overwrite existing ACLs?"
-msgstr ""
+msgstr "Prepisati postojeće ACL-ove?"
 
 #. Template: AdminACL
 msgid "Upload ACL configuration"
-msgstr ""
+msgstr "Upload ACL konfiguracije"
 
 #. Template: AdminACL
 msgid "Import ACL configuration(s)"
-msgstr ""
+msgstr "Uvoz ACL konfiguracija(e)"
 
 #. Template: AdminACL
 msgid "To create a new ACL you can either import ACLs which were exported from another system or create a complete new one."
-msgstr ""
+msgstr "Da biste stvorili novi ACL, možete uvesti ACL-ove koji su izvezeni iz drugog sustava ili stvoriti potpuno novi."
 
 #. Template: AdminACL
 msgid "Changes to the ACLs here only affect the behavior of the system, if you deploy the ACL data afterwards. By deploying the ACL data, the newly made changes will be written to the configuration."
-msgstr ""
+msgstr "Promjene ACL-ova ovdje utječu samo na ponašanje sustava, ako nakon toga implementirate ACL podatke. Primjenom ACL podataka, novoiznesene promjene će se zapisati u konfiguraciju."
 
 #. Template: AdminACL
 msgid "ACLs"
-msgstr ""
+msgstr "ACL-ovi"
 
 #. Template: AdminACL
 msgid "Please note: This table represents the execution order of the ACLs. If you need to change the order in which ACLs are executed, please change the names of the affected ACLs."
-msgstr ""
+msgstr "Napomena: Ova tablica predstavlja redoslijed izvršenja ACL-ova. Ako trebate promijeniti redoslijed izvršenja ACL-ova, promijenite imena ACL-ova na koje se to odnosi."
 
 #. Template: AdminACL
 msgid "ACL name"
-msgstr ""
+msgstr "Naziv ACL-a"
 
 #. Template: AdminACL
 msgid "Validity"
-msgstr ""
+msgstr "Valjanost"
 
 #. Template: AdminACL
 msgid "Copy"
-msgstr ""
+msgstr "Kopiraj"
 
 #. Template: AdminACL
 msgid "No data found."
@@ -2868,7 +2868,7 @@ msgstr "Ništa nije pronađeno."
 
 #. Template: AdminACLEdit
 msgid "Edit ACL %s"
-msgstr ""
+msgstr "Uredi ACL %s"
 
 #. Template: AdminACLEdit
 msgid "Go to overview"
@@ -2876,11 +2876,11 @@ msgstr "Idi na pregled"
 
 #. Template: AdminACLEdit
 msgid "Delete ACL"
-msgstr ""
+msgstr "Obriši ACL"
 
 #. Template: AdminACLEdit
 msgid "Delete Invalid ACL"
-msgstr ""
+msgstr "Obriši neispravan ACL"
 
 #. Template: AdminACLEdit
 msgid "Match settings"
@@ -2892,7 +2892,7 @@ msgstr ""
 
 #. Template: AdminACLEdit
 msgid "Change settings"
-msgstr ""
+msgstr "Promjeni postavke"
 
 #. Template: AdminACLEdit
 msgid "Set up what you want to change if the criteria match. Keep in mind that 'Possible' is a white list, 'PossibleNot' a black list."
@@ -2900,7 +2900,7 @@ msgstr ""
 
 #. Template: AdminACLEdit
 msgid "Check the official %sdocumentation%s."
-msgstr ""
+msgstr "Provjeri službenu %s dokumentaciju %s."
 
 #. Template: AdminACLEdit
 msgid "Show or hide the content"
@@ -2920,7 +2920,7 @@ msgstr ""
 
 #. Template: AdminACLEdit
 msgid "Save ACL"
-msgstr ""
+msgstr "Spremi ACL"
 
 #. Template: AdminACLEdit
 msgid "Save"
@@ -2936,7 +2936,7 @@ msgstr "Spremi i završi"
 
 #. Template: AdminACLEdit
 msgid "Do you really want to delete this ACL?"
-msgstr ""
+msgstr "Sigurno želie obrisati ovaj ACL?"
 
 #. Template: AdminACLEdit
 msgid "This item still contains sub items. Are you sure you want to remove this item including its sub items?"
@@ -2956,7 +2956,7 @@ msgstr ""
 
 #. Template: AdminACLNew
 msgid "Create a new ACL by submitting the form data. After creating the ACL, you will be able to add configuration items in edit mode."
-msgstr ""
+msgstr "Stvorite novi ACL slanjem podataka obrasca. Nakon stvaranja ACL-a, bit ćete u mogućnosti za dodavanje konfiguracijskih stavki u načinu uređivanja."
 
 #. Template: AdminAttachment
 msgid "Attachment Management"
@@ -3152,7 +3152,7 @@ msgstr ""
 
 #. Template: AdminCloudServices
 msgid "Upgrade to %s"
-msgstr ""
+msgstr "Upgradeaj na %s"
 
 #. Template: AdminCustomerCompany
 msgid "Customer Management"
@@ -3280,7 +3280,7 @@ msgstr "Filtar za grupe"
 
 #. Template: AdminCustomerUserGroup
 msgid "Just start typing to filter..."
-msgstr ""
+msgstr "Počmi tipkati za filtriranje..."
 
 #. Template: AdminCustomerUserGroup
 msgid "Select the customer:group permissions."
@@ -3420,7 +3420,7 @@ msgstr ""
 
 #. Template: AdminDynamicField
 msgid "Delete field"
-msgstr ""
+msgstr "Obriši polje"
 
 #. Template: AdminDynamicField
 msgid "Deleting the field and its data. This may take a while..."
@@ -3824,7 +3824,7 @@ msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Remove selection"
-msgstr ""
+msgstr "Ukloni odabir"
 
 #. Template: AdminGenericAgent
 msgid "Select Tickets"
@@ -4228,7 +4228,7 @@ msgstr "Prikaži ili sakrij sadržaj."
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Clear debug log"
-msgstr ""
+msgstr "Očisti debug log"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Add new Invoker to Web Service %s"
@@ -5164,11 +5164,11 @@ msgstr "Dodaj obavijest"
 
 #. Template: AdminNotificationEvent
 msgid "Export Notifications"
-msgstr ""
+msgstr "Izvezi obavijesti"
 
 #. Template: AdminNotificationEvent
 msgid "Configuration Import"
-msgstr ""
+msgstr "Uvoz konfiguracije"
 
 #. Template: AdminNotificationEvent
 msgid "Here you can upload a configuration file to import Ticket Notifications to your system. The file needs to be in .yml format as exported by the Ticket Notification module."
@@ -5284,7 +5284,7 @@ msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "Once per day"
-msgstr ""
+msgstr "Jednom dnevno"
 
 #. Template: AdminNotificationEvent
 msgid "Notify user just once per day about a single ticket using a selected transport."
@@ -5316,7 +5316,7 @@ msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "This is the default value for assigned recipient agents who didn't make a choice for this notification in their preferences yet. If the box is enabled, the notification will be sent to such agents."
-msgstr ""
+msgstr "vo je zadana vrijednost za dodijeljene agente primatelja koji se još nisu odlučili za ovu obavijest u svojim preferencijama. Ako je okvir omogućen, obavijest će biti poslana takvim agentima."
 
 #. Template: AdminNotificationEvent
 msgid "This feature is currently not available."
@@ -5324,7 +5324,7 @@ msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "No data found"
-msgstr ""
+msgstr "Nema pronađenih podataka"
 
 #. Template: AdminNotificationEvent
 msgid "No notification method found."
@@ -5332,7 +5332,7 @@ msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "Notification Text"
-msgstr ""
+msgstr "Tekst obavijesti"
 
 #. Template: AdminNotificationEvent
 msgid "This language is not present or enabled on the system. This notification text could be deleted if it is not needed anymore."
@@ -5344,7 +5344,7 @@ msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "Message body"
-msgstr ""
+msgstr "Tijelo poruke"
 
 #. Template: AdminNotificationEvent
 msgid "This field is required and must have less than 4000 characters."
@@ -7972,7 +7972,7 @@ msgstr ""
 
 #. Template: AdminTemplate
 msgid "A template is a default text which helps your agents to write faster tickets, answers or forwards."
-msgstr ""
+msgstr "Predložak je zadani tekst koji vašim agentima pomaže pisati brže kartice, odgovore ili prosljeđivanja."
 
 #. Template: AdminTemplate
 msgid "Don't forget to add new templates to queues."
@@ -7980,7 +7980,7 @@ msgstr ""
 
 #. Template: AdminTemplate
 msgid "Do you really want to delete this template?"
-msgstr ""
+msgstr "Sigurno želite obrisati ovaj predložak?"
 
 #. Template: AdminTemplate
 msgid "Add Template"
@@ -7992,11 +7992,11 @@ msgstr ""
 
 #. Template: AdminTemplate
 msgid "A standard template with this name already exists!"
-msgstr ""
+msgstr "Predložak sa tim imenom već postoji!"
 
 #. Template: AdminTemplate
 msgid "Create type templates only supports this smart tags"
-msgstr ""
+msgstr "Predlošci tipa Napravi, podržavaju samo ove pametne oznake"
 
 #. Template: AdminTemplate
 msgid "Example template"
@@ -9428,7 +9428,7 @@ msgstr ""
 
 #. Template: CustomerFooterJS
 msgid "Clear all"
-msgstr ""
+msgstr "Obriši sve"
 
 #. Template: CustomerFooterJS
 msgid "Clear search"
@@ -9444,7 +9444,7 @@ msgstr ""
 
 #. Template: CustomerFooterJS
 msgid "Filters"
-msgstr ""
+msgstr "Filteri"
 
 #. Template: CustomerFooterJS
 msgid "Confirm"
@@ -9472,7 +9472,7 @@ msgstr ""
 
 #. Template: CustomerFooterJS
 msgid "Reload page"
-msgstr ""
+msgstr "Ponovo učitaj stranicu"
 
 #. Template: CustomerFooterJS
 msgid "Your browser was not able to communicate with OTRS properly, there seems to be something wrong with your network connection. You could either try reloading this page manually or wait until your browser has re-established the connection on its own."
@@ -13791,11 +13791,11 @@ msgstr ""
 
 #. SysConfig
 msgid "100 (Expert)"
-msgstr ""
+msgstr "100 (Expert)"
 
 #. SysConfig
 msgid "200 (Advanced)"
-msgstr ""
+msgstr "200 (Napredno)"
 
 #. SysConfig
 msgid "300 (Beginner)"
@@ -14571,7 +14571,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Create new Ticket."
-msgstr ""
+msgstr "Kreiraj novu karticu."
 
 #. SysConfig
 msgid "Create new email ticket and send this out (outbound)."
