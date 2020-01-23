@@ -182,3 +182,5 @@ $Self->True(
     $QueueUpdateSuccess,
     "QueueUpdate() ID ($QueueID) invalidated successfully"
 );
+
+1;
