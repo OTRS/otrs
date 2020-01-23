@@ -674,6 +674,8 @@ sub Data {
         'Owner' => 'Besitzer',
         'Responsible' => 'Verantwortlicher',
         'Ticket lock' => 'Ticketsperre',
+        'Dynamic fields' => 'Dynamische Felder',
+        'Add dynamic field' => 'Dynamisches Feld hinzufügen',
         'Create times' => 'Erstellzeiten',
         'No create time settings.' => 'Keine Erstellzeit-Einstellungen.',
         'Ticket created' => 'Ticket erstellt',
@@ -724,7 +726,6 @@ sub Data {
         'New customer ID' => 'Neue Kundennummer',
         'New title' => 'Neuer Titel',
         'New type' => 'Neuer Typ',
-        'New Dynamic Field Values' => 'Neue Werte für Dynamische Felder',
         'Archive selected tickets' => 'Ausgewählte Tickets archivieren',
         'Add Note' => 'Notiz hinzufügen',
         'Visible for customer' => 'Sichtbar für Kunde',
@@ -2924,7 +2925,6 @@ sub Data {
         # Template: DashboardEventsTicketCalendar
         'Event Information' => 'Ereignisinformation',
         'Ticket fields' => 'Ticket-Felder',
-        'Dynamic fields' => 'Dynamische Felder',
 
         # Template: Error
         'Really a bug? 5 out of 10 bug reports result from a wrong or incomplete installation of OTRS.' =>
@@ -5498,6 +5498,7 @@ sub Data {
         'Deleting the field and its data. This may take a while...' => 'Lösche das Feld und die zugehörigen Daten. Dies kann etwas dauern...',
 
         # JS File: Core.Agent.Admin.GenericAgent
+        'Remove this dynamic field' => 'Dieses dynamische Feld entfernen',
         'Remove selection' => 'Auswahl entfernen',
         'Do you really want to delete this generic agent job?' => 'Wollen Sie diesen GenericAgent-Job wirklich löschen?',
         'Delete this Event Trigger' => 'Diesen Event-Trigger löschen',
@@ -9030,6 +9031,7 @@ Ihr Helpdesk-Team
         'Remove selection',
         'Remove the Transition from this Process',
         'Remove the filter',
+        'Remove this dynamic field',
         'Remove this entry',
         'Repeat',
         'Request Details',

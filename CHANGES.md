@@ -1,4 +1,5 @@
 #6.0.26 2020-02-07
+ - 2020-01-23 Updated translations, thanks to all translators.
  - 2020-01-22 Update jquery to 3.4.1.
  - 2020-01-16 Fixed bug#[14917](https://bugs.otrs.org/show_bug.cgi?id=14917) - Permission problem with Notification and Group rights (NOTE/RO).
   When user sends a note to the 'InvolvedAgent', target user doesn't receive notification if he doesn't have the 'RO' permission (even if he has other permissions, like NOTE).

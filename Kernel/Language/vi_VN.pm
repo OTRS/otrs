@@ -23,7 +23,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.157402685704572;
+    $Self->{Completeness}        = 0.157375934738273;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -673,6 +673,8 @@ sub Data {
         'Owner' => 'Phụ trách',
         'Responsible' => 'Chịu trách nhiệm',
         'Ticket lock' => 'Khóa vé',
+        'Dynamic fields' => '',
+        'Add dynamic field' => '',
         'Create times' => 'Tạo lần cập nhật',
         'No create time settings.' => 'Không có thiết đặt lần khởi tạo',
         'Ticket created' => 'Thẻ đã tạo',
@@ -723,7 +725,6 @@ sub Data {
         'New customer ID' => '',
         'New title' => 'Danh hiệu mới',
         'New type' => 'Loại mới',
-        'New Dynamic Field Values' => '',
         'Archive selected tickets' => '',
         'Add Note' => 'Thêm lưu ý',
         'Visible for customer' => '',
@@ -2923,7 +2924,6 @@ sub Data {
         # Template: DashboardEventsTicketCalendar
         'Event Information' => '',
         'Ticket fields' => '',
-        'Dynamic fields' => '',
 
         # Template: Error
         'Really a bug? 5 out of 10 bug reports result from a wrong or incomplete installation of OTRS.' =>
@@ -5497,6 +5497,7 @@ sub Data {
         'Deleting the field and its data. This may take a while...' => '',
 
         # JS File: Core.Agent.Admin.GenericAgent
+        'Remove this dynamic field' => '',
         'Remove selection' => '',
         'Do you really want to delete this generic agent job?' => '',
         'Delete this Event Trigger' => 'Xóa Kích hoạt sự kiện này',
@@ -9019,6 +9020,7 @@ Thanks for your help!
         'Remove selection',
         'Remove the Transition from this Process',
         'Remove the filter',
+        'Remove this dynamic field',
         'Remove this entry',
         'Repeat',
         'Request Details',

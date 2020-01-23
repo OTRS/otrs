@@ -14,7 +14,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-12-12 07:26+0000\n"
+"POT-Creation-Date: 2020-01-23 07:21+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: Anthon Nilsson <superdos@gmail.com>, 2019\n"
 "Language-Team: Swedish (https://www.transifex.com/otrs/teams/23435/sv/)\n"
@@ -2218,6 +2218,14 @@ msgid "Ticket lock"
 msgstr "Ärendelås"
 
 #. Template: AdminGenericAgent
+msgid "Dynamic fields"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Add dynamic field"
+msgstr ""
+
+#. Template: AdminGenericAgent
 msgid "Create times"
 msgstr "Skapat-tider"
 
@@ -2416,10 +2424,6 @@ msgstr "Ny rubrik"
 #. Template: AdminGenericAgent
 msgid "New type"
 msgstr "Ny typ"
-
-#. Template: AdminGenericAgent
-msgid "New Dynamic Field Values"
-msgstr "Nytt värde för dynamiskt fält"
 
 #. Template: AdminGenericAgent
 msgid "Archive selected tickets"
@@ -9326,10 +9330,6 @@ msgstr "Händelseinformation"
 #. Template: DashboardEventsTicketCalendar
 msgid "Ticket fields"
 msgstr "Ärendefält"
-
-#. Template: DashboardEventsTicketCalendar
-msgid "Dynamic fields"
-msgstr ""
 
 #. Template: Error
 msgid ""
@@ -16522,6 +16522,10 @@ msgstr "Radera fält"
 
 #. JS File: Core.Agent.Admin.DynamicField
 msgid "Deleting the field and its data. This may take a while..."
+msgstr ""
+
+#. JS File: Core.Agent.Admin.GenericAgent
+msgid "Remove this dynamic field"
 msgstr ""
 
 #. JS File: Core.Agent.Admin.GenericAgent

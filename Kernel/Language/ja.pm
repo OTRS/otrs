@@ -27,7 +27,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y/%M/%D';
     $Self->{DateInputFormat}     = '%Y/%M/%D';
     $Self->{DateInputFormatLong} = '%Y/%M/%D - %T';
-    $Self->{Completeness}        = 0.763725990141084;
+    $Self->{Completeness}        = 0.763426240652617;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -677,6 +677,8 @@ sub Data {
         'Owner' => '所有者',
         'Responsible' => '責任者',
         'Ticket lock' => 'チケットロック',
+        'Dynamic fields' => 'ダイナミック・フィールド',
+        'Add dynamic field' => '',
         'Create times' => '作成日時',
         'No create time settings.' => '作成日時を指定しない',
         'Ticket created' => 'チケットを作成したのが',
@@ -727,7 +729,6 @@ sub Data {
         'New customer ID' => '新しい顧客ID',
         'New title' => '新しいタイトル',
         'New type' => '新しいタイプ',
-        'New Dynamic Field Values' => 'ダイナミック・フィールドの値を設定',
         'Archive selected tickets' => '選択されたアーカイブ・チケット',
         'Add Note' => 'メモを追加',
         'Visible for customer' => '顧客が閲覧可能な記事',
@@ -2930,7 +2931,6 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         # Template: DashboardEventsTicketCalendar
         'Event Information' => 'イベント情報',
         'Ticket fields' => 'チケット・フィールド',
-        'Dynamic fields' => 'ダイナミック・フィールド',
 
         # Template: Error
         'Really a bug? 5 out of 10 bug reports result from a wrong or incomplete installation of OTRS.' =>
@@ -5505,6 +5505,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Deleting the field and its data. This may take a while...' => 'フィールドとそれに属するデータを削除します。これには少々時間が掛かることがあります。',
 
         # JS File: Core.Agent.Admin.GenericAgent
+        'Remove this dynamic field' => '',
         'Remove selection' => '選択項目を削除',
         'Do you really want to delete this generic agent job?' => '',
         'Delete this Event Trigger' => 'このイベントトリガーを削除',
@@ -9046,6 +9047,7 @@ Contentはダイナミック・フィールドの形式によって設定内容�
         'Remove selection',
         'Remove the Transition from this Process',
         'Remove the filter',
+        'Remove this dynamic field',
         'Remove this entry',
         'Repeat',
         'Request Details',

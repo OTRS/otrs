@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-12-12 07:26+0000\n"
+"POT-Creation-Date: 2020-01-23 07:21+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: Kim Sandbladh <kim.sandbladh@otrs.com>, 2018\n"
 "Language-Team: Vietnamese (Viet Nam) (https://www.transifex.com/otrs/teams/23435/vi_VN/)\n"
@@ -2223,6 +2223,14 @@ msgid "Ticket lock"
 msgstr "Khóa vé"
 
 #. Template: AdminGenericAgent
+msgid "Dynamic fields"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Add dynamic field"
+msgstr ""
+
+#. Template: AdminGenericAgent
 msgid "Create times"
 msgstr "Tạo lần cập nhật"
 
@@ -2421,10 +2429,6 @@ msgstr "Danh hiệu mới"
 #. Template: AdminGenericAgent
 msgid "New type"
 msgstr "Loại mới"
-
-#. Template: AdminGenericAgent
-msgid "New Dynamic Field Values"
-msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Archive selected tickets"
@@ -9268,10 +9272,6 @@ msgstr ""
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Ticket fields"
-msgstr ""
-
-#. Template: DashboardEventsTicketCalendar
-msgid "Dynamic fields"
 msgstr ""
 
 #. Template: Error
@@ -16445,6 +16445,10 @@ msgstr "Xóa lĩnh vực"
 
 #. JS File: Core.Agent.Admin.DynamicField
 msgid "Deleting the field and its data. This may take a while..."
+msgstr ""
+
+#. JS File: Core.Agent.Admin.GenericAgent
+msgid "Remove this dynamic field"
 msgstr ""
 
 #. JS File: Core.Agent.Admin.GenericAgent

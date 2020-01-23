@@ -4,13 +4,14 @@
 # Martin Gruner <martin.gruner@otrs.com>, 2019
 # Милорад Јовановић <j.milorad@gmail.com>, 2019
 # Dusan Vuckovic, 2019
+# Iorek Byrnison <bojanmaksimovic@gmail.com>, 2019
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-12-12 07:26+0000\n"
+"POT-Creation-Date: 2020-01-23 07:21+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
-"Last-Translator: Dusan Vuckovic, 2019\n"
+"Last-Translator: Iorek Byrnison <bojanmaksimovic@gmail.com>, 2019\n"
 "Language-Team: Serbian (https://www.transifex.com/otrs/teams/23435/sr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2299,6 +2300,14 @@ msgid "Ticket lock"
 msgstr "Тикет закључан"
 
 #. Template: AdminGenericAgent
+msgid "Dynamic fields"
+msgstr "Динамичка поља"
+
+#. Template: AdminGenericAgent
+msgid "Add dynamic field"
+msgstr ""
+
+#. Template: AdminGenericAgent
 msgid "Create times"
 msgstr "Времена отварања"
 
@@ -2497,10 +2506,6 @@ msgstr "Нови наслов"
 #. Template: AdminGenericAgent
 msgid "New type"
 msgstr "Нови тип"
-
-#. Template: AdminGenericAgent
-msgid "New Dynamic Field Values"
-msgstr "Нове вредности динамичких поља"
 
 #. Template: AdminGenericAgent
 msgid "Archive selected tickets"
@@ -9816,10 +9821,6 @@ msgstr "Информације о догађају"
 msgid "Ticket fields"
 msgstr "Поља тикета"
 
-#. Template: DashboardEventsTicketCalendar
-msgid "Dynamic fields"
-msgstr "Динамичка поља"
-
 #. Template: Error
 msgid ""
 "Really a bug? 5 out of 10 bug reports result from a wrong or incomplete "
@@ -10936,7 +10937,7 @@ msgstr "Коментар распоређувања..."
 
 #. JS Template: DialogDeployment
 msgid "This field can have no more than 250 characters."
-msgstr ""
+msgstr "Ово поље не може садржати више од 250 карактера."
 
 #. JS Template: DialogDeployment
 msgid "Deploying, please wait..."
@@ -14137,7 +14138,7 @@ msgstr "Проверите подешавања за %s::TicketTypeDefault."
 #. Perl Module: Kernel/Modules/CustomerTicketMessage.pm
 msgid ""
 "You don't have sufficient permissions for ticket creation in default queue."
-msgstr ""
+msgstr "Немаш одговарајуће дозволе за креирање тикета у подразумеваном реду."
 
 #. Perl Module: Kernel/Modules/CustomerTicketOverview.pm
 msgid "Need CustomerID!"
@@ -17290,6 +17291,10 @@ msgstr "Обриши поље"
 #. JS File: Core.Agent.Admin.DynamicField
 msgid "Deleting the field and its data. This may take a while..."
 msgstr "Брисање поља и конфигурације. Ово може мало потрајати..."
+
+#. JS File: Core.Agent.Admin.GenericAgent
+msgid "Remove this dynamic field"
+msgstr ""
 
 #. JS File: Core.Agent.Admin.GenericAgent
 msgid "Remove selection"
@@ -23157,6 +23162,9 @@ msgid ""
 "have any state type from this setting, this ticket will be considered as "
 "open, otherwise as closed."
 msgstr ""
+"Дефинише исправне типове стања тикета. Ако је тикет у стању који садржи било"
+" који тип стања из овог подешавања, овај тикет ће се сматрати отвореним, у "
+"супротном као затворен."
 
 #. SysConfig
 msgid ""

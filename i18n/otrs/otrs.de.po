@@ -39,14 +39,14 @@
 # Martin Gruner <martin.gruner@otrs.com>, 2019
 # Jens Bechtel <jens.bechtel@otrs.com>, 2019
 # Harald Eisenmenger <harald.eisenmenger@otrs.com>, 2019
-# Michael Reuther <michael.reuther@otrs.com>, 2019
+# Michael Reuther <michael.reuther@otrs.com>, 2020
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-12-12 07:26+0000\n"
+"POT-Creation-Date: 2020-01-23 07:21+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
-"Last-Translator: Michael Reuther <michael.reuther@otrs.com>, 2019\n"
+"Last-Translator: Michael Reuther <michael.reuther@otrs.com>, 2020\n"
 "Language-Team: German (https://www.transifex.com/otrs/teams/23435/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2378,6 +2378,14 @@ msgid "Ticket lock"
 msgstr "Ticketsperre"
 
 #. Template: AdminGenericAgent
+msgid "Dynamic fields"
+msgstr "Dynamische Felder"
+
+#. Template: AdminGenericAgent
+msgid "Add dynamic field"
+msgstr "Dynamisches Feld hinzufügen"
+
+#. Template: AdminGenericAgent
 msgid "Create times"
 msgstr "Erstellzeiten"
 
@@ -2576,10 +2584,6 @@ msgstr "Neuer Titel"
 #. Template: AdminGenericAgent
 msgid "New type"
 msgstr "Neuer Typ"
-
-#. Template: AdminGenericAgent
-msgid "New Dynamic Field Values"
-msgstr "Neue Werte für Dynamische Felder"
 
 #. Template: AdminGenericAgent
 msgid "Archive selected tickets"
@@ -10056,10 +10060,6 @@ msgstr "Ereignisinformation"
 #. Template: DashboardEventsTicketCalendar
 msgid "Ticket fields"
 msgstr "Ticket-Felder"
-
-#. Template: DashboardEventsTicketCalendar
-msgid "Dynamic fields"
-msgstr "Dynamische Felder"
 
 #. Template: Error
 msgid ""
@@ -17669,6 +17669,10 @@ msgstr "Feld löschen"
 #. JS File: Core.Agent.Admin.DynamicField
 msgid "Deleting the field and its data. This may take a while..."
 msgstr "Lösche das Feld und die zugehörigen Daten. Dies kann etwas dauern..."
+
+#. JS File: Core.Agent.Admin.GenericAgent
+msgid "Remove this dynamic field"
+msgstr "Dieses dynamische Feld entfernen"
 
 #. JS File: Core.Agent.Admin.GenericAgent
 msgid "Remove selection"

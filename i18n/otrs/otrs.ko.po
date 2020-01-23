@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-12-12 07:26+0000\n"
+"POT-Creation-Date: 2020-01-23 07:21+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>, 2018\n"
 "Language-Team: Korean (https://www.transifex.com/otrs/teams/23435/ko/)\n"
@@ -2193,6 +2193,14 @@ msgid "Ticket lock"
 msgstr "티켓 잠금"
 
 #. Template: AdminGenericAgent
+msgid "Dynamic fields"
+msgstr "동적 필드"
+
+#. Template: AdminGenericAgent
+msgid "Add dynamic field"
+msgstr ""
+
+#. Template: AdminGenericAgent
 msgid "Create times"
 msgstr "생성시간"
 
@@ -2391,10 +2399,6 @@ msgstr "새 직함"
 #. Template: AdminGenericAgent
 msgid "New type"
 msgstr "새로운 유형"
-
-#. Template: AdminGenericAgent
-msgid "New Dynamic Field Values"
-msgstr "새로운 동적 필드 값"
 
 #. Template: AdminGenericAgent
 msgid "Archive selected tickets"
@@ -9307,10 +9311,6 @@ msgstr "이벤트 정보"
 #. Template: DashboardEventsTicketCalendar
 msgid "Ticket fields"
 msgstr "타켓 필드"
-
-#. Template: DashboardEventsTicketCalendar
-msgid "Dynamic fields"
-msgstr "동적 필드"
 
 #. Template: Error
 msgid ""
@@ -16501,6 +16501,10 @@ msgstr "입력란 삭제"
 #. JS File: Core.Agent.Admin.DynamicField
 msgid "Deleting the field and its data. This may take a while..."
 msgstr "필드 및 해당 데이터 삭제. 이 작업은 다소 시간이 걸릴 수 있습니다..."
+
+#. JS File: Core.Agent.Admin.GenericAgent
+msgid "Remove this dynamic field"
+msgstr ""
 
 #. JS File: Core.Agent.Admin.GenericAgent
 msgid "Remove selection"

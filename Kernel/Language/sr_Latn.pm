@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.998640149583546;
+    $Self->{Completeness}        = 0.999490142760027;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -680,6 +680,8 @@ sub Data {
         'Owner' => 'Vlasnik',
         'Responsible' => 'Odgovoran',
         'Ticket lock' => 'Tiket zaključan',
+        'Dynamic fields' => 'Dinamička polja',
+        'Add dynamic field' => '',
         'Create times' => 'Vremena otvaranja',
         'No create time settings.' => 'Nema podešavanja vremena otvaranja.',
         'Ticket created' => 'Tiket otvoren',
@@ -730,7 +732,6 @@ sub Data {
         'New customer ID' => 'Novi ID klijenta',
         'New title' => 'Novi naslov',
         'New type' => 'Novi tip',
-        'New Dynamic Field Values' => 'Nove vrednosti dinamičkih polja',
         'Archive selected tickets' => 'Arhiviraj izabrane tikete',
         'Add Note' => 'Dodaj napomenu',
         'Visible for customer' => 'Vidljivo klijentu',
@@ -2819,7 +2820,7 @@ sub Data {
         # Template: CustomerAccept
         'Dear Customer,' => 'Dragi klijente,',
         'thank you for using our services.' => 'hvala vam na korišćenju naših usluga.',
-        'Yes, I accept your license.' => '',
+        'Yes, I accept your license.' => 'Da, prihvatam vašu licencu.',
 
         # Template: TicketCustomerIDSelection
         'The customer ID is not changeable, no other customer ID can be assigned to this ticket.' =>
@@ -2930,7 +2931,6 @@ sub Data {
         # Template: DashboardEventsTicketCalendar
         'Event Information' => 'Informacije o događaju',
         'Ticket fields' => 'Polja tiketa',
-        'Dynamic fields' => 'Dinamička polja',
 
         # Template: Error
         'Really a bug? 5 out of 10 bug reports result from a wrong or incomplete installation of OTRS.' =>
@@ -3326,7 +3326,7 @@ sub Data {
 
         # JS Template: DialogDeployment
         'Deployment comment...' => 'Komentar raspoređuvanja...',
-        'This field can have no more than 250 characters.' => '',
+        'This field can have no more than 250 characters.' => 'Ovo polje ne može sadržati više od 250 karaktera.',
         'Deploying, please wait...' => 'Raspoređivanje u toku, molimo sačekajte...',
         'Preparing to deploy, please wait...' => 'Priprema za raspoređivanje, molimo sačekajte...',
         'Deploy now' => 'Rasporedi sad',
@@ -4374,7 +4374,7 @@ sub Data {
         'Check SysConfig setting for %s::QueueDefault.' => 'Proverite podešavanja za %s::QueueDefault.',
         'Check SysConfig setting for %s::TicketTypeDefault.' => 'Proverite podešavanja za %s::TicketTypeDefault.',
         'You don\'t have sufficient permissions for ticket creation in default queue.' =>
-            '',
+            'Nemaš odgovarajuće dozvole za kreiranje tiketa u podrazumevanom redu.',
 
         # Perl Module: Kernel/Modules/CustomerTicketOverview.pm
         'Need CustomerID!' => 'Neophodan CustomerID!',
@@ -5504,6 +5504,7 @@ sub Data {
         'Deleting the field and its data. This may take a while...' => 'Brisanje polja i konfiguracije. Ovo može malo potrajati...',
 
         # JS File: Core.Agent.Admin.GenericAgent
+        'Remove this dynamic field' => '',
         'Remove selection' => 'Ukloni izbor',
         'Do you really want to delete this generic agent job?' => 'Da li stvarno želite da obrišete ovaj posao generičkog operatera?',
         'Delete this Event Trigger' => 'Obriši ovaj okidač događaja',
@@ -6386,9 +6387,9 @@ Vaša tehnička podrška
             'Definiši prvi dan u nedelji za izbor datuma za navedeni kalendar.',
         'Define the start day of the week for the date picker.' => 'Definiši prvi dan u nedelji za izbor datuma.',
         'Define which avatar default image should be used for the article view if no gravatar is assigned to the mail address. Check https://gravatar.com/site/implement/images/ for further information.' =>
-            '',
+            'Određuje koja sličica će biti prikazana u pregledu članaka ukoliko operater nema odgovarajuću povezanu sa imejl adresom. Pogledajte https://gravatar.com/site/implement/images/ za više informacija.',
         'Define which avatar default image should be used for the current agent if no gravatar is assigned to the mail address of the agent. Check https://gravatar.com/site/implement/images/ for further information.' =>
-            '',
+            'Određuje koja sličica će biti prikazana kao podrazumevana ukoliko operater nema odgovarajuću povezanu sa imejl adresom. Pogledajte https://gravatar.com/site/implement/images/ za više informacija.',
         'Define which avatar engine should be used for the agent avatar on the header and the sender images in AgentTicketZoom. If \'None\' is selected, initials will be displayed instead. Please note that selecting anything other than \'None\' will transfer the encrypted email address of the particular user to an external service.' =>
             'Definiše koji servis će biti korišćen za avatar sličice operatera u zaglavlju i detaljnom prikazu tiketa. Ako je odabran \'Ni jedan\', biće prikazani inicijali operatera. Molimo obratite pažnju da će odabirom jedne od opcija, šifrovana imejl adresa korisnika biti prosleđena eksternom servisu.',
         'Define which columns are shown in the linked appointment widget (LinkObject::ViewMode = "complex"). Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default.' =>
@@ -7068,7 +7069,7 @@ Vaša tehnička podrška
         'Defines the users avatar. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
             'Definiše korisnikovu avatar sličicu. Napomena: podešavanje \'Active\' na 0 će samo onemogućiti operaterima da menjaju svoja lična podešavanja iz ove grupe, ali će administratori i dalje moći da ih menjaju u njihovo ime. Podesite \'PreferenceGroup\' da biste odredili u kom delu interfejsa ova podešavanja treba da budu prikazana.',
         'Defines the valid state types for a ticket. If a ticket is in a state which have any state type from this setting, this ticket will be considered as open, otherwise as closed.' =>
-            '',
+            'Definiše ispravne tipove stanja tiketa. Ako je tiket u stanju koji sadrži bilo koji tip stanja iz ovog podešavanja, ovaj tiket će se smatrati otvorenim, u suprotnom kao zatvoren.',
         'Defines the valid states for unlocked tickets. To unlock tickets the script "bin/otrs.Console.pl Maint::Ticket::UnlockTimeout" can be used.' =>
             'Određuje važeće statuse za otključane tikete. Za otključavanje tiketa može se koristiti skript "bin/otrs.Console.pl Maint::Ticket::UnlockTimeout".',
         'Defines the viewable locks of a ticket. NOTE: When you change this setting, make sure to delete the cache in order to use the new value. Default: unlock, tmp_lock.' =>
@@ -7921,7 +7922,7 @@ Vaša tehnička podrška
         'Processes & Automation' => 'Procesi & automatizacija',
         'Product News' => 'Novosti o proizvodu',
         'Protection against CSRF (Cross Site Request Forgery) exploits (for more info see https://en.wikipedia.org/wiki/Cross-site_request_forgery).' =>
-            '',
+            'Zaštita od CSRF eksploatacije (Cross Site Request Forgery, za više informacija pogledajte https://en.wikipedia.org/wiki/Cross-site_request_forgery).',
         'Provides a matrix overview of the tickets per state per queue' =>
             'Prikazuje matricu pregleda tiketa po njihovom stanju po redovima',
         'Provides customer users access to tickets even if the tickets are not assigned to a customer user of the same customer ID(s), based on permission groups.' =>
@@ -9037,6 +9038,7 @@ Vaša tehnička podrška
         'Remove selection',
         'Remove the Transition from this Process',
         'Remove the filter',
+        'Remove this dynamic field',
         'Remove this entry',
         'Repeat',
         'Request Details',

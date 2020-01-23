@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.218255991840898;
+    $Self->{Completeness}        = 0.218048946295037;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -674,6 +674,8 @@ sub Data {
         'Owner' => 'Propietari',
         'Responsible' => 'Responsable',
         'Ticket lock' => 'Bloqueig de tiquet',
+        'Dynamic fields' => '',
+        'Add dynamic field' => '',
         'Create times' => 'Temps de creació',
         'No create time settings.' => 'No hi ha valors per a temps de creació',
         'Ticket created' => 'Tiquet creat',
@@ -724,7 +726,6 @@ sub Data {
         'New customer ID' => 'Nou ID de client',
         'New title' => 'Nou títol',
         'New type' => 'Nou tipus',
-        'New Dynamic Field Values' => 'Nous valors de camp dinàmic',
         'Archive selected tickets' => 'Guardar tiquets seleccionats',
         'Add Note' => 'Afegir Nota',
         'Visible for customer' => '',
@@ -2924,7 +2925,6 @@ sub Data {
         # Template: DashboardEventsTicketCalendar
         'Event Information' => '',
         'Ticket fields' => '',
-        'Dynamic fields' => '',
 
         # Template: Error
         'Really a bug? 5 out of 10 bug reports result from a wrong or incomplete installation of OTRS.' =>
@@ -5498,6 +5498,7 @@ sub Data {
         'Deleting the field and its data. This may take a while...' => '',
 
         # JS File: Core.Agent.Admin.GenericAgent
+        'Remove this dynamic field' => '',
         'Remove selection' => '',
         'Do you really want to delete this generic agent job?' => '',
         'Delete this Event Trigger' => 'Esborrar aquest gallet d\'esdeveniment',
@@ -9020,6 +9021,7 @@ Thanks for your help!
         'Remove selection',
         'Remove the Transition from this Process',
         'Remove the filter',
+        'Remove this dynamic field',
         'Remove this entry',
         'Repeat',
         'Request Details',

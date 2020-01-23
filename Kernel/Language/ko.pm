@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '';
     $Self->{DateInputFormat}     = '';
     $Self->{DateInputFormatLong} = '';
-    $Self->{Completeness}        = 0.971953085160632;
+    $Self->{Completeness}        = 0.971617946974847;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -674,6 +674,8 @@ sub Data {
         'Owner' => '소유자',
         'Responsible' => '책임있는',
         'Ticket lock' => '티켓 잠금',
+        'Dynamic fields' => '동적 필드',
+        'Add dynamic field' => '',
         'Create times' => '생성시간',
         'No create time settings.' => '생성 시간이 설정되지 않았습니다.',
         'Ticket created' => '티켓이 생성되었습니다.',
@@ -724,7 +726,6 @@ sub Data {
         'New customer ID' => '신규 고객 ID',
         'New title' => '새 직함',
         'New type' => '새로운 유형',
-        'New Dynamic Field Values' => '새로운 동적 필드 값',
         'Archive selected tickets' => '선택한 티켓 보관 처리',
         'Add Note' => '메모 추가',
         'Visible for customer' => '고객에게 공개',
@@ -2924,7 +2925,6 @@ sub Data {
         # Template: DashboardEventsTicketCalendar
         'Event Information' => '이벤트 정보',
         'Ticket fields' => '타켓 필드',
-        'Dynamic fields' => '동적 필드',
 
         # Template: Error
         'Really a bug? 5 out of 10 bug reports result from a wrong or incomplete installation of OTRS.' =>
@@ -5498,6 +5498,7 @@ sub Data {
         'Deleting the field and its data. This may take a while...' => '필드 및 해당 데이터 삭제. 이 작업은 다소 시간이 걸릴 수 있습니다...',
 
         # JS File: Core.Agent.Admin.GenericAgent
+        'Remove this dynamic field' => '',
         'Remove selection' => '선택 항목 삭제',
         'Do you really want to delete this generic agent job?' => '',
         'Delete this Event Trigger' => '이 이벤트 트리거 삭제',
@@ -9031,6 +9032,7 @@ Thanks for your help!
         'Remove selection',
         'Remove the Transition from this Process',
         'Remove the filter',
+        'Remove this dynamic field',
         'Remove this entry',
         'Repeat',
         'Request Details',

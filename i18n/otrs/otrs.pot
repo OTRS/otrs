@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-12-12 16:21+0000\n"
+"POT-Creation-Date: 2020-01-23 15:38+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2027,6 +2027,14 @@ msgid "Ticket lock"
 msgstr ""
 
 #. Template: AdminGenericAgent
+msgid "Dynamic fields"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Add dynamic field"
+msgstr ""
+
+#. Template: AdminGenericAgent
 msgid "Create times"
 msgstr ""
 
@@ -2224,10 +2232,6 @@ msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "New type"
-msgstr ""
-
-#. Template: AdminGenericAgent
-msgid "New Dynamic Field Values"
 msgstr ""
 
 #. Template: AdminGenericAgent
@@ -8596,10 +8600,6 @@ msgstr ""
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Ticket fields"
-msgstr ""
-
-#. Template: DashboardEventsTicketCalendar
-msgid "Dynamic fields"
 msgstr ""
 
 #. Template: Error
@@ -15280,6 +15280,10 @@ msgstr ""
 
 #. JS File: Core.Agent.Admin.DynamicField
 msgid "Deleting the field and its data. This may take a while..."
+msgstr ""
+
+#. JS File: Core.Agent.Admin.GenericAgent
+msgid "Remove this dynamic field"
 msgstr ""
 
 #. JS File: Core.Agent.Admin.GenericAgent

@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.58796532381438;
+    $Self->{Completeness}        = 0.587695445275323;
 
     # csv separator
     $Self->{Separator}         = ',';
@@ -674,6 +674,8 @@ sub Data {
         'Owner' => 'เจ้าของ',
         'Responsible' => 'การตอบสนอง',
         'Ticket lock' => 'ตั๋วล็อค',
+        'Dynamic fields' => 'ไดมานิคฟิลด์',
+        'Add dynamic field' => '',
         'Create times' => 'เวลาที่สร้าง',
         'No create time settings.' => 'ไม่มีการตั้งค่าเวลาที่สร้าง',
         'Ticket created' => 'ตั๋วที่สร้างขึ้น',
@@ -724,7 +726,6 @@ sub Data {
         'New customer ID' => 'ไอดีลูกค้าใหม่',
         'New title' => 'หัวข้อใหม่',
         'New type' => 'ประเภทใหม่',
-        'New Dynamic Field Values' => 'ค่าไดนามิกฟิลด์ใหม่ ',
         'Archive selected tickets' => 'การเก็บถาวรของตั๋วที่ถูกเลือก',
         'Add Note' => 'เพิ่มโน้ต',
         'Visible for customer' => '',
@@ -2927,7 +2928,6 @@ sub Data {
         # Template: DashboardEventsTicketCalendar
         'Event Information' => 'ข้อมูลกิจกรรม',
         'Ticket fields' => 'ช่องข้อมูลตั๋ว',
-        'Dynamic fields' => 'ไดมานิคฟิลด์',
 
         # Template: Error
         'Really a bug? 5 out of 10 bug reports result from a wrong or incomplete installation of OTRS.' =>
@@ -5501,6 +5501,7 @@ sub Data {
         'Deleting the field and its data. This may take a while...' => 'การลบฟิลด์และข้อมูล อาจจะใช้เวลาสักครู่ ...',
 
         # JS File: Core.Agent.Admin.GenericAgent
+        'Remove this dynamic field' => '',
         'Remove selection' => 'ลบการคัดเลือก',
         'Do you really want to delete this generic agent job?' => '',
         'Delete this Event Trigger' => 'ลบกระตุ้นกิจกรรมนี้',
@@ -9037,6 +9038,7 @@ Thanks for your help!
         'Remove selection',
         'Remove the Transition from this Process',
         'Remove the filter',
+        'Remove this dynamic field',
         'Remove this entry',
         'Repeat',
         'Request Details',

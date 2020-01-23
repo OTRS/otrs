@@ -576,7 +576,7 @@ sub Data {
         'Example' => 'Példa',
         'Link for preview' => 'Hivatkozás az előnézethez',
         'If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too.' =>
-            'Ha ki van töltve, akkor ez az URL lesz használva egy olyan előnézethez, amely akkor jelenik meg, amikor erre a hivatkozásra rámutatnak a jegynagyításban. Ne feledje, hogy ahhoz, hogy ez működjön, a fenti szabályos URL-mezőt is ki kell tölteni.',
+            'Ha ki van töltve, akkor ez az URL lesz használva egy olyan előnézethez, amely akkor jelenik meg, ha erre a hivatkozásra rámutatnak a jegynagyításban. Ne feledje, hogy ahhoz, hogy ez működjön, a fenti szabályos URL-mezőt is ki kell tölteni.',
         'Restrict entering of dates' => 'Korlátozás dátumok bevitelére',
         'Here you can restrict the entering of dates of tickets.' => 'Itt korlátozható a jegyek dátumának bevitele.',
 
@@ -679,6 +679,8 @@ sub Data {
         'Owner' => 'Tulajdonos',
         'Responsible' => 'Felelős',
         'Ticket lock' => 'Jegyzár',
+        'Dynamic fields' => 'Dinamikus mezők',
+        'Add dynamic field' => 'Dinamikus mező hozzáadása',
         'Create times' => 'Létrehozási idők',
         'No create time settings.' => 'Nincsenek létrehozási idő beállítások.',
         'Ticket created' => 'Jegy létrehozva',
@@ -729,7 +731,6 @@ sub Data {
         'New customer ID' => 'Új ügyfél-azonosító',
         'New title' => 'Új cím',
         'New type' => 'Új típus',
-        'New Dynamic Field Values' => 'Új dinamikus mező értékek',
         'Archive selected tickets' => 'Kijelölt jegyek archiválása',
         'Add Note' => 'Jegyzet hozzáadása',
         'Visible for customer' => 'Látható az ügyfélnek',
@@ -2929,7 +2930,6 @@ sub Data {
         # Template: DashboardEventsTicketCalendar
         'Event Information' => 'Esemény információk',
         'Ticket fields' => 'Jegymezők',
-        'Dynamic fields' => 'Dinamikus mezők',
 
         # Template: Error
         'Really a bug? 5 out of 10 bug reports result from a wrong or incomplete installation of OTRS.' =>
@@ -3884,8 +3884,8 @@ sub Data {
         # Perl Module: Kernel/Modules/AdminRegistration.pm
         'Production' => 'Produktív',
         'Test' => 'Teszt',
-        'Training' => 'Oktatási',
-        'Development' => 'Fejlesztői',
+        'Training' => 'Oktatás',
+        'Development' => 'Fejlesztés',
 
         # Perl Module: Kernel/Modules/AdminRole.pm
         'Role updated!' => 'Szerep frissítve!',
@@ -4956,7 +4956,7 @@ sub Data {
         'Number of Tickets (affected by escalation configuration)' => 'Jegyek száma (az eszkalációs beállítás által érintett)',
 
         # Perl Module: Kernel/System/Stats/Static/StateAction.pm
-        'Days' => 'Napok',
+        'Days' => 'Nap',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/OutdatedTables.pm
         'Outdated Tables' => 'Elavult táblák',
@@ -5196,7 +5196,7 @@ sub Data {
             'A beállított alapértelmezett jegytípus érvénytelen vagy hiányzik. Változtassa meg a Ticket::Type::Default beállításait, és válasszon egy érvényes jegytípust.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/IndexModule.pm
-        'Ticket Index Module' => 'Jegy indexelő modul',
+        'Ticket Index Module' => 'Jegyindexelő modul',
         'You have more than 60,000 tickets and should use the StaticDB backend. See admin manual (Performance Tuning) for more information.' =>
             'Több mint 60.000 jegye van, ezért a StaticDB háttérprogramot kellene használnia. További információkért nézze meg az adminisztrátori kézikönyvet (Teljesítmény finomhangolás).',
 
@@ -5503,6 +5503,7 @@ sub Data {
         'Deleting the field and its data. This may take a while...' => 'A mező és az adatainak törlése folyamatban van. Ez eltarthat egy ideig…',
 
         # JS File: Core.Agent.Admin.GenericAgent
+        'Remove this dynamic field' => 'Dinamikus mező eltávolítása',
         'Remove selection' => 'Kijelölés eltávolítása',
         'Do you really want to delete this generic agent job?' => 'Valóban törölni szeretné ezt az általános ügyintéző feladatot?',
         'Delete this Event Trigger' => 'Eseményaktiváló törlése',
@@ -6156,7 +6157,7 @@ Az Ön segélyszolgálat csapata
         'Calendar manage screen.' => 'Naptárkezelés képernyő.',
         'Catalan' => 'Katalán',
         'Change password' => 'Jelszó megváltoztatása',
-        'Change queue!' => 'Várólista módosítása',
+        'Change queue!' => 'Várólista módosítása!',
         'Change the customer for this ticket' => 'Ügyfél módosítása ennél a jegynél',
         'Change the free fields for this ticket' => 'A szabad mezők módosítása ennél a jegynél',
         'Change the owner for this ticket' => 'Tulajdonos módosítása ennél a jegynél',
@@ -9036,6 +9037,7 @@ Az Ön segélyszolgálat csapata
         'Remove selection',
         'Remove the Transition from this Process',
         'Remove the filter',
+        'Remove this dynamic field',
         'Remove this entry',
         'Repeat',
         'Request Details',

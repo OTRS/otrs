@@ -50,13 +50,14 @@
 # José Ribeiro <joserribeiro26@gmail.com>, 2019
 # Ricardo von Staa <ricardo.von.staa@otrs.com>, 2019
 # Lucas Trombim <ltrombim1@gmail.com>, 2019
+# possebon <possebon@gmail.com>, 2020
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-12-12 07:26+0000\n"
+"POT-Creation-Date: 2020-01-23 07:21+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
-"Last-Translator: Lucas Trombim <ltrombim1@gmail.com>, 2019\n"
+"Last-Translator: possebon <possebon@gmail.com>, 2020\n"
 "Language-Team: Portuguese (Brazil) (https://www.transifex.com/otrs/teams/23435/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2375,6 +2376,14 @@ msgid "Ticket lock"
 msgstr "Bloqueio de Chamado"
 
 #. Template: AdminGenericAgent
+msgid "Dynamic fields"
+msgstr "Campos dinâmicos"
+
+#. Template: AdminGenericAgent
+msgid "Add dynamic field"
+msgstr ""
+
+#. Template: AdminGenericAgent
 msgid "Create times"
 msgstr "Horários de criação"
 
@@ -2573,10 +2582,6 @@ msgstr "Novo Título"
 #. Template: AdminGenericAgent
 msgid "New type"
 msgstr "Novo Tipo"
-
-#. Template: AdminGenericAgent
-msgid "New Dynamic Field Values"
-msgstr "Novos Valores de Campo Dinâmico"
 
 #. Template: AdminGenericAgent
 msgid "Archive selected tickets"
@@ -8617,7 +8622,7 @@ msgstr "Dividir"
 
 #. Template: AgentStatisticsAdd
 msgid "Statistics Management"
-msgstr ""
+msgstr "Gestão de Estatísticas"
 
 #. Template: AgentStatisticsAdd
 msgid "Add Statistics"
@@ -9640,7 +9645,7 @@ msgstr "obrigado por utilizar nossos serviços."
 
 #. Template: CustomerAccept
 msgid "Yes, I accept your license."
-msgstr ""
+msgstr "Sim, eu aceito a sua licença."
 
 #. Template: TicketCustomerIDSelection
 msgid ""
@@ -9839,7 +9844,7 @@ msgstr "Editar preferências pessoais"
 
 #. Template: CustomerNavigationBar
 msgid "Logout %s"
-msgstr ""
+msgstr "Fechar sessão %s"
 
 #. Template: CustomerTicketMessage
 msgid "Service level agreement"
@@ -9977,10 +9982,6 @@ msgstr "Informação do Evento"
 msgid "Ticket fields"
 msgstr "Campos de chamado"
 
-#. Template: DashboardEventsTicketCalendar
-msgid "Dynamic fields"
-msgstr "Campos dinâmicos"
-
 #. Template: Error
 msgid ""
 "Really a bug? 5 out of 10 bug reports result from a wrong or incomplete "
@@ -10095,7 +10096,7 @@ msgstr "Bem-vindo a %s"
 
 #. Template: Installer
 msgid "Germany"
-msgstr ""
+msgstr "Alemanha"
 
 #. Template: Installer
 msgid "Phone"
@@ -10103,27 +10104,27 @@ msgstr "Telefone"
 
 #. Template: Installer
 msgid "United States"
-msgstr ""
+msgstr "Estados Unidos"
 
 #. Template: Installer
 msgid "Mexico"
-msgstr ""
+msgstr "México"
 
 #. Template: Installer
 msgid "Hungary"
-msgstr ""
+msgstr "Hungria"
 
 #. Template: Installer
 msgid "Brazil"
-msgstr ""
+msgstr "Brasil"
 
 #. Template: Installer
 msgid "Singapore"
-msgstr ""
+msgstr "Singapura"
 
 #. Template: Installer
 msgid "Hong Kong"
-msgstr ""
+msgstr "Hong Kong"
 
 #. Template: Installer
 msgid "Web site"
@@ -10801,6 +10802,8 @@ msgstr ""
 #. Template: SettingsList
 msgid "Changing this setting is only available in a higher config level!"
 msgstr ""
+"A alteração dessa configuração está disponível somente em um nível de "
+"configuração mais elevado!"
 
 #. Template: SettingsList
 msgid "%s (%s) is currently working on this setting."
@@ -11103,7 +11106,7 @@ msgstr "Comentário de implantação..."
 
 #. JS Template: DialogDeployment
 msgid "This field can have no more than 250 characters."
-msgstr ""
+msgstr "Este campo não pode ter mais de 250 caracteres."
 
 #. JS Template: DialogDeployment
 msgid "Deploying, please wait..."
@@ -11676,15 +11679,15 @@ msgstr "Configuração dos objetos não são válidas"
 
 #. Perl Module: Kernel/Modules/AdminDynamicField.pm
 msgid "Database (%s)"
-msgstr ""
+msgstr "Base de dados (%s)"
 
 #. Perl Module: Kernel/Modules/AdminDynamicField.pm
 msgid "Web service (%s)"
-msgstr ""
+msgstr "Web service (%s)"
 
 #. Perl Module: Kernel/Modules/AdminDynamicField.pm
 msgid "Contact with data (%s)"
-msgstr ""
+msgstr "Contato com dados (%s)"
 
 #. Perl Module: Kernel/Modules/AdminDynamicField.pm
 msgid ""
@@ -12251,7 +12254,7 @@ msgstr "Necessário ExampleWebService!"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Could not load %s."
-msgstr ""
+msgstr "Não foi possível carregar %s."
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Could not read %s!"
@@ -12367,11 +12370,11 @@ msgstr "Todos os destinatários do último artigo"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "Invisible to customer"
-msgstr ""
+msgstr "Não visível para o cliente"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "Visible to customer"
-msgstr ""
+msgstr "Visível para o cliente"
 
 #. Perl Module: Kernel/Modules/AdminOTRSBusiness.pm
 msgid "Your system was successfully upgraded to %s."
@@ -14879,7 +14882,7 @@ msgstr "Padrão"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "The following tickets are not updated: %s."
-msgstr ""
+msgstr "Os tickets a seguir não foram atualizados: %s."
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "h"
@@ -16994,7 +16997,7 @@ msgstr ""
 
 #. Perl Module: Kernel/System/Web/InterfaceInstaller.pm
 msgid "Action \"%s\" not found!"
-msgstr ""
+msgstr "Ação \"%s\" não encontrada!"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "invalid-temporarily"
@@ -17481,6 +17484,10 @@ msgstr "Removar campo"
 #. JS File: Core.Agent.Admin.DynamicField
 msgid "Deleting the field and its data. This may take a while..."
 msgstr "Delindo o campo e seus dados.  Isto pode levar um tempo…"
+
+#. JS File: Core.Agent.Admin.GenericAgent
+msgid "Remove this dynamic field"
+msgstr ""
 
 #. JS File: Core.Agent.Admin.GenericAgent
 msgid "Remove selection"

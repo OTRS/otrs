@@ -19,7 +19,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-12-12 07:26+0000\n"
+"POT-Creation-Date: 2020-01-23 07:21+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: 汇民 王 <whuim@qq.com>, 2019\n"
 "Language-Team: Chinese (China) (https://www.transifex.com/otrs/teams/23435/zh_CN/)\n"
@@ -2189,6 +2189,14 @@ msgid "Ticket lock"
 msgstr "工单锁定"
 
 #. Template: AdminGenericAgent
+msgid "Dynamic fields"
+msgstr "动态字段"
+
+#. Template: AdminGenericAgent
+msgid "Add dynamic field"
+msgstr ""
+
+#. Template: AdminGenericAgent
 msgid "Create times"
 msgstr "创建时间"
 
@@ -2387,10 +2395,6 @@ msgstr "指定标题"
 #. Template: AdminGenericAgent
 msgid "New type"
 msgstr "指定类型"
-
-#. Template: AdminGenericAgent
-msgid "New Dynamic Field Values"
-msgstr "指定动态字段值"
 
 #. Template: AdminGenericAgent
 msgid "Archive selected tickets"
@@ -9241,10 +9245,6 @@ msgstr "事件信息"
 msgid "Ticket fields"
 msgstr "工单字段"
 
-#. Template: DashboardEventsTicketCalendar
-msgid "Dynamic fields"
-msgstr "动态字段"
-
 #. Template: Error
 msgid ""
 "Really a bug? 5 out of 10 bug reports result from a wrong or incomplete "
@@ -10307,7 +10307,7 @@ msgstr "部署注释..."
 
 #. JS Template: DialogDeployment
 msgid "This field can have no more than 250 characters."
-msgstr ""
+msgstr "此字段不能超过250个字符。"
 
 #. JS Template: DialogDeployment
 msgid "Deploying, please wait..."
@@ -12719,7 +12719,7 @@ msgstr "下列工单已被锁定：%s。"
 #. Perl Module: Kernel/Modules/AgentTicketCompose.pm
 msgid ""
 "Article subject will be empty if the subject contains only the ticket hook!"
-msgstr ""
+msgstr "如果主题只包含工单钩子，则信件主题将为空！"
 
 #. Perl Module: Kernel/Modules/AgentTicketCompose.pm
 msgid "Address %s replaced with registered customer address."
@@ -13417,7 +13417,7 @@ msgstr "检查系统配置 %s::TicketTypeDefault 的设置。"
 #. Perl Module: Kernel/Modules/CustomerTicketMessage.pm
 msgid ""
 "You don't have sufficient permissions for ticket creation in default queue."
-msgstr ""
+msgstr "您没有足够的权限在默认队列中创建工单。"
 
 #. Perl Module: Kernel/Modules/CustomerTicketOverview.pm
 msgid "Need CustomerID!"
@@ -16405,6 +16405,10 @@ msgstr "删除字段"
 #. JS File: Core.Agent.Admin.DynamicField
 msgid "Deleting the field and its data. This may take a while..."
 msgstr "正在删除这个动态字段及其相关数据，可能还要等一会儿..."
+
+#. JS File: Core.Agent.Admin.GenericAgent
+msgid "Remove this dynamic field"
+msgstr ""
 
 #. JS File: Core.Agent.Admin.GenericAgent
 msgid "Remove selection"
@@ -21323,7 +21327,7 @@ msgid ""
 "Defines the valid state types for a ticket. If a ticket is in a state which "
 "have any state type from this setting, this ticket will be considered as "
 "open, otherwise as closed."
-msgstr ""
+msgstr "定义工单的有效状态类型。如果一个工单处于此设置中任一状态类型的状态，则该工单将被视为打开，否则将被视为关闭。"
 
 #. SysConfig
 msgid ""

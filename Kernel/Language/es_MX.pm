@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.571817100118987;
+    $Self->{Completeness}        = 0.571549966009517;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -674,6 +674,8 @@ sub Data {
         'Owner' => 'Propietario',
         'Responsible' => 'Responsable',
         'Ticket lock' => 'Bloqueo de ticket',
+        'Dynamic fields' => 'Campos Dinámicos',
+        'Add dynamic field' => '',
         'Create times' => 'Tiempos de creación',
         'No create time settings.' => 'No existen configuraciones para tiempo de creación.',
         'Ticket created' => 'Ticket creado',
@@ -724,7 +726,6 @@ sub Data {
         'New customer ID' => 'ID de cliente nuevo',
         'New title' => 'Título nuevo',
         'New type' => 'Tipo nuevo',
-        'New Dynamic Field Values' => 'Nuevos valores de campo dinámico',
         'Archive selected tickets' => 'Tickets seleccionados del archivo',
         'Add Note' => 'Añadir Nota',
         'Visible for customer' => 'Visible para el cliente',
@@ -2924,7 +2925,6 @@ sub Data {
         # Template: DashboardEventsTicketCalendar
         'Event Information' => 'Información del Evento',
         'Ticket fields' => 'Campos del ticket',
-        'Dynamic fields' => 'Campos Dinámicos',
 
         # Template: Error
         'Really a bug? 5 out of 10 bug reports result from a wrong or incomplete installation of OTRS.' =>
@@ -5498,6 +5498,7 @@ sub Data {
         'Deleting the field and its data. This may take a while...' => 'Eliminando el campo y su información. Esto puede tomar un tiempo...',
 
         # JS File: Core.Agent.Admin.GenericAgent
+        'Remove this dynamic field' => '',
         'Remove selection' => 'Quitar selección',
         'Do you really want to delete this generic agent job?' => '',
         'Delete this Event Trigger' => 'Eliminar este Disparador de Evento',
@@ -9020,6 +9021,7 @@ Thanks for your help!
         'Remove selection',
         'Remove the Transition from this Process',
         'Remove the filter',
+        'Remove this dynamic field',
         'Remove this entry',
         'Repeat',
         'Request Details',
