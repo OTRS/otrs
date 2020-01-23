@@ -11,7 +11,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-12-12 07:26+0000\n"
+"POT-Creation-Date: 2020-01-23 07:21+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: Ann Li <dn.annli@gmail.com>, 2019\n"
 "Language-Team: Chinese (Taiwan) (https://www.transifex.com/otrs/teams/23435/zh_TW/)\n"
@@ -2178,6 +2178,14 @@ msgid "Ticket lock"
 msgstr "工單鎖定"
 
 #. Template: AdminGenericAgent
+msgid "Dynamic fields"
+msgstr "動態字段"
+
+#. Template: AdminGenericAgent
+msgid "Add dynamic field"
+msgstr ""
+
+#. Template: AdminGenericAgent
 msgid "Create times"
 msgstr "創建時間"
 
@@ -2376,10 +2384,6 @@ msgstr "指定稱謂"
 #. Template: AdminGenericAgent
 msgid "New type"
 msgstr "指定類型"
-
-#. Template: AdminGenericAgent
-msgid "New Dynamic Field Values"
-msgstr "新的動態字段值"
 
 #. Template: AdminGenericAgent
 msgid "Archive selected tickets"
@@ -9218,10 +9222,6 @@ msgstr "事件信息"
 #. Template: DashboardEventsTicketCalendar
 msgid "Ticket fields"
 msgstr "工單字段"
-
-#. Template: DashboardEventsTicketCalendar
-msgid "Dynamic fields"
-msgstr "動態字段"
 
 #. Template: Error
 msgid ""
@@ -16366,6 +16366,10 @@ msgstr "刪除字段"
 
 #. JS File: Core.Agent.Admin.DynamicField
 msgid "Deleting the field and its data. This may take a while..."
+msgstr ""
+
+#. JS File: Core.Agent.Admin.GenericAgent
+msgid "Remove this dynamic field"
 msgstr ""
 
 #. JS File: Core.Agent.Admin.GenericAgent

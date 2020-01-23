@@ -1,17 +1,18 @@
 # Translators:
 # Udo Bretz, 2018
 # Mirjana Gabriel <mirjana.gabriel2@gmail.com>, 2018
-# S7 Design d.o.o. <otrs@s7designcreative.com>, 2018
+# S7 Design <otrs@s7designcreative.com>, 2018
 # Martin Gruner <martin.gruner@otrs.com>, 2018
 # Dubravko Cvikl <dcvikl@cvikl.hr>, 2019
 # Krešimir Raič, 2019
+# Edvard Jelusic <edvard.jelusic@mai.hr>, 2019
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-12-12 07:26+0000\n"
+"POT-Creation-Date: 2020-01-23 07:21+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
-"Last-Translator: Krešimir Raič, 2019\n"
+"Last-Translator: Edvard Jelusic <edvard.jelusic@mai.hr>, 2019\n"
 "Language-Team: Croatian (https://www.transifex.com/otrs/teams/23435/hr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,7 +22,7 @@ msgstr ""
 
 #. Template: AdminACL
 msgid "ACL Management"
-msgstr ""
+msgstr "Upravljanje ACL-ovima"
 
 #. Template: AdminACL
 msgid "Actions"
@@ -29,33 +30,36 @@ msgstr "Akcije"
 
 #. Template: AdminACL
 msgid "Create New ACL"
-msgstr ""
+msgstr "Kreiraj novi ACL"
 
 #. Template: AdminACL
 msgid "Deploy ACLs"
-msgstr ""
+msgstr "Primjeni ACL-ove"
 
 #. Template: AdminACL
 msgid "Export ACLs"
-msgstr ""
+msgstr "Izvezi ACL-ove"
 
 #. Template: AdminACL
 msgid "Filter for ACLs"
-msgstr ""
+msgstr "Filter ACL-ove"
 
 #. Template: AdminACL
 msgid "Just start typing to filter..."
-msgstr ""
+msgstr "Počmi tipkati za filtriranje..."
 
 #. Template: AdminACL
 msgid "Configuration Import"
-msgstr ""
+msgstr "Uvoz konfiguracije"
 
 #. Template: AdminACL
 msgid ""
 "Here you can upload a configuration file to import ACLs to your system. The "
 "file needs to be in .yml format as exported by the ACL editor module."
 msgstr ""
+"Ovdje možete prenijeti konfiguracijsku datoteku za uvoz ACL-ova u vaš "
+"sustav. Datoteka mora biti u .yml formatu kao što je izveo modul za "
+"uređivanje ACL-a."
 
 #. Template: AdminACL
 msgid "This field is required."
@@ -63,15 +67,15 @@ msgstr "Ovo polje je obavezno."
 
 #. Template: AdminACL
 msgid "Overwrite existing ACLs?"
-msgstr ""
+msgstr "Prepisati postojeće ACL-ove?"
 
 #. Template: AdminACL
 msgid "Upload ACL configuration"
-msgstr ""
+msgstr "Upload ACL konfiguracije"
 
 #. Template: AdminACL
 msgid "Import ACL configuration(s)"
-msgstr ""
+msgstr "Uvoz ACL konfiguracija(e)"
 
 #. Template: AdminACL
 msgid "Description"
@@ -82,6 +86,8 @@ msgid ""
 "To create a new ACL you can either import ACLs which were exported from "
 "another system or create a complete new one."
 msgstr ""
+"Da biste stvorili novi ACL, možete uvesti ACL-ove koji su izvezeni iz drugog"
+" sustava ili stvoriti potpuno novi."
 
 #. Template: AdminACL
 msgid ""
@@ -89,10 +95,13 @@ msgid ""
 "deploy the ACL data afterwards. By deploying the ACL data, the newly made "
 "changes will be written to the configuration."
 msgstr ""
+"Promjene ACL-ova ovdje utječu samo na ponašanje sustava, ako nakon toga "
+"implementirate ACL podatke. Primjenom ACL podataka, novoiznesene promjene će"
+" se zapisati u konfiguraciju."
 
 #. Template: AdminACL
 msgid "ACLs"
-msgstr ""
+msgstr "ACL-ovi"
 
 #. Template: AdminACL
 msgid ""
@@ -100,10 +109,13 @@ msgid ""
 "need to change the order in which ACLs are executed, please change the names"
 " of the affected ACLs."
 msgstr ""
+"Napomena: Ova tablica predstavlja redoslijed izvršenja ACL-ova. Ako trebate "
+"promijeniti redoslijed izvršenja ACL-ova, promijenite imena ACL-ova na koje "
+"se to odnosi."
 
 #. Template: AdminACL
 msgid "ACL name"
-msgstr ""
+msgstr "Naziv ACL-a"
 
 #. Template: AdminACL
 msgid "Comment"
@@ -111,7 +123,7 @@ msgstr "Komentar"
 
 #. Template: AdminACL
 msgid "Validity"
-msgstr ""
+msgstr "Valjanost"
 
 #. Template: AdminACL
 msgid "Export"
@@ -119,7 +131,7 @@ msgstr "Izvoz"
 
 #. Template: AdminACL
 msgid "Copy"
-msgstr ""
+msgstr "Kopiraj"
 
 #. Template: AdminACL
 msgid "No data found."
@@ -131,11 +143,11 @@ msgstr "Ništa nije pronađeno."
 
 #. Template: AdminACLEdit
 msgid "Edit ACL %s"
-msgstr ""
+msgstr "Uredi ACL %s"
 
 #. Template: AdminACLEdit
 msgid "Edit ACL"
-msgstr ""
+msgstr "Uredi ACL"
 
 #. Template: AdminACLEdit
 msgid "Go to overview"
@@ -143,11 +155,11 @@ msgstr "Idi na pregled"
 
 #. Template: AdminACLEdit
 msgid "Delete ACL"
-msgstr ""
+msgstr "Obriši ACL"
 
 #. Template: AdminACLEdit
 msgid "Delete Invalid ACL"
-msgstr ""
+msgstr "Obriši neispravan ACL"
 
 #. Template: AdminACLEdit
 msgid "Match settings"
@@ -162,7 +174,7 @@ msgstr ""
 
 #. Template: AdminACLEdit
 msgid "Change settings"
-msgstr ""
+msgstr "Promjeni postavke"
 
 #. Template: AdminACLEdit
 msgid ""
@@ -172,7 +184,7 @@ msgstr ""
 
 #. Template: AdminACLEdit
 msgid "Check the official %sdocumentation%s."
-msgstr ""
+msgstr "Provjeri službenu %s dokumentaciju %s."
 
 #. Template: AdminACLEdit
 msgid "Show or hide the content"
@@ -180,7 +192,7 @@ msgstr "Prikaži ili sakrij sadržaj"
 
 #. Template: AdminACLEdit
 msgid "Edit ACL Information"
-msgstr ""
+msgstr "Uredi ACL informacije"
 
 #. Template: AdminACLEdit
 msgid "Name"
@@ -192,11 +204,11 @@ msgstr "Zaustavi poslije uparivanja"
 
 #. Template: AdminACLEdit
 msgid "Edit ACL Structure"
-msgstr ""
+msgstr "Uredi ACL strukturu"
 
 #. Template: AdminACLEdit
 msgid "Save ACL"
-msgstr ""
+msgstr "Spremi ACL"
 
 #. Template: AdminACLEdit
 msgid "Save"
@@ -216,13 +228,15 @@ msgstr "Odustani"
 
 #. Template: AdminACLEdit
 msgid "Do you really want to delete this ACL?"
-msgstr ""
+msgstr "Sigurno želie obrisati ovaj ACL?"
 
 #. Template: AdminACLNew
 msgid ""
 "Create a new ACL by submitting the form data. After creating the ACL, you "
 "will be able to add configuration items in edit mode."
 msgstr ""
+"Stvorite novi ACL slanjem podataka obrasca. Nakon stvaranja ACL-a, bit ćete "
+"u mogućnosti za dodavanje konfiguracijskih stavki u načinu uređivanja."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Calendar Management"
@@ -258,6 +272,9 @@ msgid ""
 "system. The file needs to be in .yml format as exported by calendar "
 "management module."
 msgstr ""
+"Ovdje možete prenijeti konfiguracijsku datoteku za uvoz kalendara u vaš "
+"sustav. Datoteka mora biti u .yml formatu kao što ju je izveo modul za "
+"upravljanje kalendarom."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Overwrite existing entities"
@@ -329,7 +346,7 @@ msgstr "Preuzimanje"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Export calendar"
@@ -488,15 +505,15 @@ msgstr "Uredi Obavijest"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Export Notifications"
-msgstr ""
+msgstr "Izvezi obavijesti"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Filter for Notifications"
-msgstr ""
+msgstr "Filter obavijesti"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Filter for notifications"
-msgstr ""
+msgstr "Filter obavjesti"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid ""
@@ -616,7 +633,7 @@ msgstr ""
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Once per day"
-msgstr ""
+msgstr "Jednom dnevno"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid ""
@@ -656,6 +673,9 @@ msgid ""
 "choice for this notification in their preferences yet. If the box is "
 "enabled, the notification will be sent to such agents."
 msgstr ""
+"vo je zadana vrijednost za dodijeljene agente primatelja koji se još nisu "
+"odlučili za ovu obavijest u svojim preferencijama. Ako je okvir omogućen, "
+"obavijest će biti poslana takvim agentima."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "This feature is currently not available."
@@ -663,7 +683,7 @@ msgstr ""
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Upgrade to %s"
-msgstr ""
+msgstr "Upgradeaj na %s"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Please activate this transport in order to use it."
@@ -671,7 +691,7 @@ msgstr ""
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "No data found"
-msgstr ""
+msgstr "Nema pronađenih podataka"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "No notification method found."
@@ -679,7 +699,7 @@ msgstr ""
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Notification Text"
-msgstr ""
+msgstr "Tekst obavijesti"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid ""
@@ -701,7 +721,7 @@ msgstr "Tekst"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Message body"
-msgstr ""
+msgstr "Tijelo poruke"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Add new notification language"
@@ -2197,6 +2217,14 @@ msgid "Ticket lock"
 msgstr "Kartica zaključana"
 
 #. Template: AdminGenericAgent
+msgid "Dynamic fields"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Add dynamic field"
+msgstr ""
+
+#. Template: AdminGenericAgent
 msgid "Create times"
 msgstr "Vremena otvaranja"
 
@@ -2395,10 +2423,6 @@ msgstr "Novi naslov"
 #. Template: AdminGenericAgent
 msgid "New type"
 msgstr "Novi tip"
-
-#. Template: AdminGenericAgent
-msgid "New Dynamic Field Values"
-msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Archive selected tickets"
@@ -6708,16 +6732,21 @@ msgid ""
 "Navigate through the available settings by using the tree in the navigation "
 "box on the left side."
 msgstr ""
+"Krećite se kroz dostupne postavke koristiteći stablo u navigacijskom okviru "
+"s lijeve strane."
 
 #. Template: AdminSystemConfiguration
 msgid ""
 "Find certain settings by using the search field below or from search icon "
 "from the top navigation."
 msgstr ""
+"Pronađite određene postavke pomoću polja za pretraživanje dolje ili pomoću "
+"ikone za pretraživanje s gornje navigacije."
 
 #. Template: AdminSystemConfiguration
 msgid "Find out how to use the system configuration by reading the %s."
 msgstr ""
+"Saznajte kako koristiti konfiguraciju sustava tako što ćete pročitati %s."
 
 #. Template: AdminSystemConfiguration
 msgid "Search in all settings..."
@@ -6743,12 +6772,17 @@ msgid ""
 "you start it now. You can compare each setting to its former state by "
 "clicking the icon on the top right."
 msgstr ""
+"Ovo je pregled svih postavki koje će biti dio implementacije ako ga sada "
+"pokrenete. Svaku postavku možete usporediti s njezinim prijašnjim stanjem "
+"klikom na ikonu u gornjem desnom kutu."
 
 #. Template: AdminSystemConfigurationDeployment
 msgid ""
 "To exclude certain settings from a deployment, click the checkbox on the "
 "header bar of a setting."
 msgstr ""
+"Da biste izuzeli određene postavke iz implementacije, kliknite potvrdni "
+"okvir na zaglavlju trake postavke."
 
 #. Template: AdminSystemConfigurationDeployment
 msgid ""
@@ -6756,6 +6790,9 @@ msgid ""
 "you'd like to deploy settings changed by other users, too, please click the "
 "link on top of the screen to enter the advanced deployment mode."
 msgstr ""
+"Po zadanom ćete implementirati samo postavke koje ste sami promijenili. Ako "
+"želite implementirati i postavke koje su promijenili drugi korisnici, "
+"kliknite vezu na vrhu ekrana za ulazak u napredni način implementacije."
 
 #. Template: AdminSystemConfigurationDeployment
 msgid ""
@@ -6802,6 +6839,7 @@ msgstr ""
 msgid ""
 "Switch to advanced mode to see deployable settings changed by other users."
 msgstr ""
+"Prebaci u napredni mod za prikaz postavki za implementaciju svih korisnika."
 
 #. Template: AdminSystemConfigurationDeployment
 msgid "Deploy selected changes"
@@ -6996,6 +7034,8 @@ msgid ""
 "A template is a default text which helps your agents to write faster "
 "tickets, answers or forwards."
 msgstr ""
+"Predložak je zadani tekst koji vašim agentima pomaže pisati brže kartice, "
+"odgovore ili prosljeđivanja."
 
 #. Template: AdminTemplate
 msgid "Don't forget to add new templates to queues."
@@ -7011,11 +7051,11 @@ msgstr "Obriši ovaj unos"
 
 #. Template: AdminTemplate
 msgid "Do you really want to delete this template?"
-msgstr ""
+msgstr "Sigurno želite obrisati ovaj predložak?"
 
 #. Template: AdminTemplate
 msgid "A standard template with this name already exists!"
-msgstr ""
+msgstr "Predložak sa tim imenom već postoji!"
 
 #. Template: AdminTemplate
 msgid "Template"
@@ -7023,7 +7063,7 @@ msgstr ""
 
 #. Template: AdminTemplate
 msgid "Create type templates only supports this smart tags"
-msgstr ""
+msgstr "Predlošci tipa Napravi, podržavaju samo ove pametne oznake"
 
 #. Template: AdminTemplate
 msgid "Example template"
@@ -7198,6 +7238,8 @@ msgid ""
 "No calendars found. Please add a calendar first by using Manage Calendars "
 "page."
 msgstr ""
+"Nije pronađen nijedan kalendar. Prvo dodajte kalendar pomoću stranice "
+"Upravljanje kalendarima"
 
 #. Template: AgentAppointmentCalendarOverview
 msgid "Add new Appointment"
@@ -9268,10 +9310,6 @@ msgstr ""
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Ticket fields"
-msgstr ""
-
-#. Template: DashboardEventsTicketCalendar
-msgid "Dynamic fields"
 msgstr ""
 
 #. Template: Error
@@ -13662,11 +13700,11 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/PublicCalendar.pm
 msgid "No %s!"
-msgstr ""
+msgstr "Broj %s!"
 
 #. Perl Module: Kernel/Modules/PublicCalendar.pm
 msgid "No such user!"
-msgstr ""
+msgstr "Nepostojeći korisnik!"
 
 #. Perl Module: Kernel/Modules/PublicCalendar.pm
 msgid "Invalid calendar!"
@@ -13674,7 +13712,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/PublicCalendar.pm
 msgid "Invalid URL!"
-msgstr ""
+msgstr "Neispravan URL!"
 
 #. Perl Module: Kernel/Modules/PublicCalendar.pm
 msgid "There was an error exporting the calendar!"
@@ -13706,7 +13744,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/AgentTicketEmailResend.pm
 msgid "Resend"
-msgstr ""
+msgstr "Pošalji ponovo"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/AgentTicketMessageLog.pm
 msgid "View message log details for this article"
@@ -13746,11 +13784,11 @@ msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/MarkAsImportant.pm
 msgid "Mark"
-msgstr ""
+msgstr "Označi"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/MarkAsImportant.pm
 msgid "Unmark"
-msgstr ""
+msgstr "Odznači"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/ReinstallPackageLink.pm
 msgid "Upgrade to OTRS Business Solution™"
@@ -13758,7 +13796,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/ReinstallPackageLink.pm
 msgid "Re-install Package"
-msgstr ""
+msgstr "Reinstaliraj paket"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/ReinstallPackageLink.pm
 msgid "Upgrade"
@@ -13766,7 +13804,7 @@ msgstr "Ažuriranje"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/ReinstallPackageLink.pm
 msgid "Re-install"
-msgstr ""
+msgstr "Reinstaliraj"
 
 #. Perl Module: Kernel/Output/HTML/ArticleCheck/PGP.pm
 msgid "Crypted"
@@ -16402,11 +16440,11 @@ msgstr ""
 
 #. JS File: Core.Agent.Admin.AppointmentCalendar.Manage
 msgid "More"
-msgstr ""
+msgstr "Više"
 
 #. JS File: Core.Agent.Admin.AppointmentCalendar.Manage
 msgid "Less"
-msgstr ""
+msgstr "Manje"
 
 #. JS File: Core.Agent.Admin.AppointmentCalendar.Manage
 msgid "Press Ctrl+C (Cmd+C) to copy to clipboard"
@@ -16414,11 +16452,11 @@ msgstr ""
 
 #. JS File: Core.Agent.Admin.Attachment
 msgid "Delete this Attachment"
-msgstr ""
+msgstr "Obriši ovaj privitak"
 
 #. JS File: Core.Agent.Admin.Attachment
 msgid "Deleting attachment..."
-msgstr ""
+msgstr "Privitak se briše..."
 
 #. JS File: Core.Agent.Admin.Attachment
 msgid ""
@@ -16428,7 +16466,7 @@ msgstr ""
 
 #. JS File: Core.Agent.Admin.Attachment
 msgid "Attachment was deleted successfully."
-msgstr ""
+msgstr "Privitak uspješno obrisan"
 
 #. JS File: Core.Agent.Admin.DynamicField
 msgid ""
@@ -16438,15 +16476,19 @@ msgstr ""
 
 #. JS File: Core.Agent.Admin.DynamicField
 msgid "Delete field"
-msgstr ""
+msgstr "Obriši polje"
 
 #. JS File: Core.Agent.Admin.DynamicField
 msgid "Deleting the field and its data. This may take a while..."
 msgstr ""
 
 #. JS File: Core.Agent.Admin.GenericAgent
-msgid "Remove selection"
+msgid "Remove this dynamic field"
 msgstr ""
+
+#. JS File: Core.Agent.Admin.GenericAgent
+msgid "Remove selection"
+msgstr "Ukloni odabir"
 
 #. JS File: Core.Agent.Admin.GenericAgent
 msgid "Do you really want to delete this generic agent job?"
@@ -16482,7 +16524,7 @@ msgstr "Prikaži ili sakrij sadržaj."
 
 #. JS File: Core.Agent.Admin.GenericInterfaceDebugger
 msgid "Clear debug log"
-msgstr ""
+msgstr "Očisti debug log"
 
 #. JS File: Core.Agent.Admin.GenericInterfaceErrorHandling
 msgid "Delete error handling module"
@@ -16507,7 +16549,7 @@ msgstr ""
 
 #. JS File: Core.Agent.Admin.GenericInterfaceInvokerEvent
 msgid "Delete conditions"
-msgstr ""
+msgstr "Obriši uvjete"
 
 #. JS File: Core.Agent.Admin.GenericInterfaceMapping
 msgid "Mapping for Key %s"
@@ -16622,7 +16664,7 @@ msgstr ""
 
 #. JS File: Core.Agent.Admin.PostMasterFilter
 msgid "Delete this PostMasterFilter"
-msgstr ""
+msgstr "Obriši ovaj PostMaster Filter"
 
 #. JS File: Core.Agent.Admin.PostMasterFilter
 msgid "Deleting the postmaster filter and its data. This may take a while..."
@@ -16666,7 +16708,7 @@ msgstr ""
 
 #. JS File: Core.Agent.Admin.ProcessManagement
 msgid "Error during AJAX communication"
-msgstr ""
+msgstr "Pogreška prilikom AJAX komunikacije"
 
 #. JS File: Core.Agent.Admin.ProcessManagement
 msgid ""
@@ -17046,7 +17088,7 @@ msgstr ""
 
 #. JS File: Core.Agent.TicketBulk
 msgid " ...show less"
-msgstr ""
+msgstr "...prikaži manje"
 
 #. JS File: Core.Agent.TicketFormDraft
 msgid "Add new draft"
@@ -17098,11 +17140,11 @@ msgstr ""
 
 #. JS File: Core.App
 msgid "Reload page"
-msgstr ""
+msgstr "Ponovo učitaj stranicu"
 
 #. JS File: Core.App
 msgid "Reload page (%ss)"
-msgstr ""
+msgstr "Ponovo učitaj stranicu (%s)"
 
 #. JS File: Core.Debug
 msgid "Namespace %s could not be initialized, because %s could not be found."
@@ -17131,7 +17173,7 @@ msgstr ""
 
 #. JS File: Core.SystemConfiguration
 msgid "Please add values for all keys before saving the setting."
-msgstr ""
+msgstr "Unesite vrijednosti za sve ključeve prije spremanja postavke."
 
 #. JS File: Core.SystemConfiguration
 msgid "The key must not be empty."
@@ -17171,15 +17213,15 @@ msgstr ""
 
 #. JS File: Core.UI.InputFields
 msgid "Current selection"
-msgstr ""
+msgstr "Trenutni odabir"
 
 #. JS File: Core.UI.InputFields
 msgid "Clear all"
-msgstr ""
+msgstr "Obriši sve"
 
 #. JS File: Core.UI.InputFields
 msgid "Filters"
-msgstr ""
+msgstr "Filteri"
 
 #. JS File: Core.UI.InputFields
 msgid "Clear search"
@@ -17236,7 +17278,7 @@ msgstr ""
 
 #. JS File: Core.UI.Table
 msgid "Remove the filter"
-msgstr ""
+msgstr "Ukloni filter"
 
 #. JS File: Core.UI.TreeSelection
 msgid "There are currently no elements available to select from."
@@ -17302,7 +17344,7 @@ msgstr "ne"
 
 #. JS File: Core.Language.UnitTest
 msgid "This is %s"
-msgstr ""
+msgstr "Ovo je %s"
 
 #. JS File: Core.Language.UnitTest
 msgid "Complex %s with %s arguments"
@@ -17385,51 +17427,51 @@ msgstr ""
 
 #. SysConfig
 msgid "0 - Disabled"
-msgstr ""
+msgstr "0 - Onemogućeno"
 
 #. SysConfig
 msgid "1 - Available"
-msgstr ""
+msgstr "1 - Dostupno"
 
 #. SysConfig
 msgid "1 - Enabled"
-msgstr ""
+msgstr "1 - Omogućeno"
 
 #. SysConfig
 msgid "10 Minutes"
-msgstr ""
+msgstr "10 minuta"
 
 #. SysConfig
 msgid "100 (Expert)"
-msgstr ""
+msgstr "100 (Expert)"
 
 #. SysConfig
 msgid "15 Minutes"
-msgstr ""
+msgstr "15 minuta"
 
 #. SysConfig
 msgid "2 - Enabled and required"
-msgstr ""
+msgstr "2 - Omogućeno i obavezno"
 
 #. SysConfig
 msgid "2 - Enabled and shown by default"
-msgstr ""
+msgstr "2 - Omogućeno i prikazano "
 
 #. SysConfig
 msgid "2 - Enabled by default"
-msgstr ""
+msgstr "2 - Omogućeno kao zadano"
 
 #. SysConfig
 msgid "2 Minutes"
-msgstr ""
+msgstr " 2 minute"
 
 #. SysConfig
 msgid "200 (Advanced)"
-msgstr ""
+msgstr "200 (Napredno)"
 
 #. SysConfig
 msgid "30 Minutes"
-msgstr ""
+msgstr "30 minuta"
 
 #. SysConfig
 msgid "300 (Beginner)"
@@ -17437,7 +17479,7 @@ msgstr ""
 
 #. SysConfig
 msgid "5 Minutes"
-msgstr ""
+msgstr "5 minuta"
 
 #. SysConfig
 msgid "A TicketWatcher Module."
@@ -17756,11 +17798,11 @@ msgstr ""
 
 #. SysConfig
 msgid "Agents ↔ Groups"
-msgstr ""
+msgstr "Operateri <-> Grupe"
 
 #. SysConfig
 msgid "Agents ↔ Roles"
-msgstr ""
+msgstr "Operateri <-> Uloge"
 
 #. SysConfig
 msgid "All CustomerIDs of a customer user."
@@ -18050,7 +18092,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Answer"
-msgstr ""
+msgstr "Odgovor"
 
 #. SysConfig
 msgid "Appointment Calendar overview page."
@@ -18405,7 +18447,7 @@ msgstr "Zatvori"
 
 #. SysConfig
 msgid "Close this ticket"
-msgstr ""
+msgstr "Zatvori karticu"
 
 #. SysConfig
 msgid "Closed tickets (customer user)"
@@ -18729,7 +18771,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Create new Ticket."
-msgstr ""
+msgstr "Kreiraj novu karticu."
 
 #. SysConfig
 msgid "Create new appointment."

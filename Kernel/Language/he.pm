@@ -26,7 +26,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.241373448920619;
+    $Self->{Completeness}        = 0.241162474507138;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -680,6 +680,8 @@ sub Data {
         'Owner' => 'בעלים',
         'Responsible' => 'אחראי',
         'Ticket lock' => 'נעילת פניה',
+        'Dynamic fields' => 'שדות דינמיים',
+        'Add dynamic field' => '',
         'Create times' => 'זמני יצירה',
         'No create time settings.' => '',
         'Ticket created' => 'הפניה נוצרה',
@@ -730,7 +732,6 @@ sub Data {
         'New customer ID' => 'מספר זיהוי לקוח חדש',
         'New title' => 'כותרת חדשה',
         'New type' => 'סוג חדש',
-        'New Dynamic Field Values' => 'ערכי שדות דינמיים חדשים',
         'Archive selected tickets' => 'העבר פניות שנבחרו לארכיון',
         'Add Note' => 'הוסף הודעה',
         'Visible for customer' => '',
@@ -2930,7 +2931,6 @@ sub Data {
         # Template: DashboardEventsTicketCalendar
         'Event Information' => 'פרטי האירוע',
         'Ticket fields' => 'שדות הפניה',
-        'Dynamic fields' => 'שדות דינמיים',
 
         # Template: Error
         'Really a bug? 5 out of 10 bug reports result from a wrong or incomplete installation of OTRS.' =>
@@ -5504,6 +5504,7 @@ sub Data {
         'Deleting the field and its data. This may take a while...' => '',
 
         # JS File: Core.Agent.Admin.GenericAgent
+        'Remove this dynamic field' => '',
         'Remove selection' => '',
         'Do you really want to delete this generic agent job?' => '',
         'Delete this Event Trigger' => 'מחק את טריגר האירוע',
@@ -9026,6 +9027,7 @@ Thanks for your help!
         'Remove selection',
         'Remove the Transition from this Process',
         'Remove the filter',
+        'Remove this dynamic field',
         'Remove this entry',
         'Repeat',
         'Request Details',

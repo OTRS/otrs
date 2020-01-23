@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.999320074791773;
+    $Self->{Completeness}        = 0.999660095173351;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -680,6 +680,8 @@ sub Data {
         'Owner' => '所有者',
         'Responsible' => '负责人',
         'Ticket lock' => '工单锁定',
+        'Dynamic fields' => '动态字段',
+        'Add dynamic field' => '',
         'Create times' => '创建时间',
         'No create time settings.' => '没有创建时间。',
         'Ticket created' => '工单创建时间',
@@ -730,7 +732,6 @@ sub Data {
         'New customer ID' => '指定客户ID',
         'New title' => '指定标题',
         'New type' => '指定类型',
-        'New Dynamic Field Values' => '指定动态字段值',
         'Archive selected tickets' => '归档选中的工单',
         'Add Note' => '添加备注',
         'Visible for customer' => '对客户的可见性',
@@ -2930,7 +2931,6 @@ sub Data {
         # Template: DashboardEventsTicketCalendar
         'Event Information' => '事件信息',
         'Ticket fields' => '工单字段',
-        'Dynamic fields' => '动态字段',
 
         # Template: Error
         'Really a bug? 5 out of 10 bug reports result from a wrong or incomplete installation of OTRS.' =>
@@ -3326,7 +3326,7 @@ sub Data {
 
         # JS Template: DialogDeployment
         'Deployment comment...' => '部署注释...',
-        'This field can have no more than 250 characters.' => '',
+        'This field can have no more than 250 characters.' => '此字段不能超过250个字符。',
         'Deploying, please wait...' => '正在部署，请稍候...',
         'Preparing to deploy, please wait...' => '准备部署，请稍候...',
         'Deploy now' => '现在部署',
@@ -4131,7 +4131,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AgentTicketCompose.pm
         'Article subject will be empty if the subject contains only the ticket hook!' =>
-            '',
+            '如果主题只包含工单钩子，则信件主题将为空！',
         'Address %s replaced with registered customer address.' => '地址%s已被注册的客户地址所替换。',
         'Customer user automatically added in Cc.' => '客户用户被自动地添加到Cc中.',
 
@@ -4374,7 +4374,7 @@ sub Data {
         'Check SysConfig setting for %s::QueueDefault.' => '检查系统配置 %s::QueueDefault 的设置。',
         'Check SysConfig setting for %s::TicketTypeDefault.' => '检查系统配置 %s::TicketTypeDefault 的设置。',
         'You don\'t have sufficient permissions for ticket creation in default queue.' =>
-            '',
+            '您没有足够的权限在默认队列中创建工单。',
 
         # Perl Module: Kernel/Modules/CustomerTicketOverview.pm
         'Need CustomerID!' => '需要客户ID！',
@@ -5504,6 +5504,7 @@ sub Data {
         'Deleting the field and its data. This may take a while...' => '正在删除这个动态字段及其相关数据，可能还要等一会儿...',
 
         # JS File: Core.Agent.Admin.GenericAgent
+        'Remove this dynamic field' => '',
         'Remove selection' => '删除选择',
         'Do you really want to delete this generic agent job?' => '您真的想要删除这个自动任务吗？',
         'Delete this Event Trigger' => '删除这个事件触发器',
@@ -7066,7 +7067,7 @@ Thanks for your help!
         'Defines the users avatar. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
             '定义用户头像。 请注意：将\'Active（激活）\'设置为0只会阻止服务人员在个人偏好设置中编辑此组的设置，但仍然允许管理员以其他用户的名义编辑这些设置。 使用\'PreferenceGroup\'来控制这些设置应该显示在用户界面的哪个区域。',
         'Defines the valid state types for a ticket. If a ticket is in a state which have any state type from this setting, this ticket will be considered as open, otherwise as closed.' =>
-            '',
+            '定义工单的有效状态类型。如果一个工单处于此设置中任一状态类型的状态，则该工单将被视为打开，否则将被视为关闭。',
         'Defines the valid states for unlocked tickets. To unlock tickets the script "bin/otrs.Console.pl Maint::Ticket::UnlockTimeout" can be used.' =>
             '定义解锁的工单有效的状态。为解锁工单，可以使用脚本"bin/otrs.Console.pl Maint::Ticket::UnlockTimeout"。',
         'Defines the viewable locks of a ticket. NOTE: When you change this setting, make sure to delete the cache in order to use the new value. Default: unlock, tmp_lock.' =>
@@ -9035,6 +9036,7 @@ Thanks for your help!
         'Remove selection',
         'Remove the Transition from this Process',
         'Remove the filter',
+        'Remove this dynamic field',
         'Remove this entry',
         'Repeat',
         'Request Details',

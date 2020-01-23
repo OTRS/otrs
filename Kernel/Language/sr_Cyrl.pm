@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.999320074791773;
+    $Self->{Completeness}        = 0.999490142760027;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -674,6 +674,8 @@ sub Data {
         'Owner' => 'Власник',
         'Responsible' => 'Одговоран',
         'Ticket lock' => 'Тикет закључан',
+        'Dynamic fields' => 'Динамичка поља',
+        'Add dynamic field' => '',
         'Create times' => 'Времена отварања',
         'No create time settings.' => 'Нема подешавања времена отварања.',
         'Ticket created' => 'Тикет отворен',
@@ -724,7 +726,6 @@ sub Data {
         'New customer ID' => 'Нови ID клијента',
         'New title' => 'Нови наслов',
         'New type' => 'Нови тип',
-        'New Dynamic Field Values' => 'Нове вредности динамичких поља',
         'Archive selected tickets' => 'Архивирај изабране тикете',
         'Add Note' => 'Додај напомену',
         'Visible for customer' => 'Видљиво клијенту',
@@ -2924,7 +2925,6 @@ sub Data {
         # Template: DashboardEventsTicketCalendar
         'Event Information' => 'Информације о догађају',
         'Ticket fields' => 'Поља тикета',
-        'Dynamic fields' => 'Динамичка поља',
 
         # Template: Error
         'Really a bug? 5 out of 10 bug reports result from a wrong or incomplete installation of OTRS.' =>
@@ -3320,7 +3320,7 @@ sub Data {
 
         # JS Template: DialogDeployment
         'Deployment comment...' => 'Коментар распоређувања...',
-        'This field can have no more than 250 characters.' => '',
+        'This field can have no more than 250 characters.' => 'Ово поље не може садржати више од 250 карактера.',
         'Deploying, please wait...' => 'Распоређивање у току, молимо сачекајте...',
         'Preparing to deploy, please wait...' => 'Припрема за распоређивање, молимо сачекајте...',
         'Deploy now' => 'Распореди сад',
@@ -4368,7 +4368,7 @@ sub Data {
         'Check SysConfig setting for %s::QueueDefault.' => 'Проверите подешавања за %s::QueueDefault.',
         'Check SysConfig setting for %s::TicketTypeDefault.' => 'Проверите подешавања за %s::TicketTypeDefault.',
         'You don\'t have sufficient permissions for ticket creation in default queue.' =>
-            '',
+            'Немаш одговарајуће дозволе за креирање тикета у подразумеваном реду.',
 
         # Perl Module: Kernel/Modules/CustomerTicketOverview.pm
         'Need CustomerID!' => 'Неопходан CustomerID!',
@@ -5498,6 +5498,7 @@ sub Data {
         'Deleting the field and its data. This may take a while...' => 'Брисање поља и конфигурације. Ово може мало потрајати...',
 
         # JS File: Core.Agent.Admin.GenericAgent
+        'Remove this dynamic field' => '',
         'Remove selection' => 'Уклони избор',
         'Do you really want to delete this generic agent job?' => 'Да ли стварно желите да обришете овај посао генеричког оператера?',
         'Delete this Event Trigger' => 'Obriši ovaj okidač događaja',
@@ -7062,7 +7063,7 @@ Thanks for your help!
         'Defines the users avatar. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
             'Дефинише корисникову аватар сличицу. Напомена: подешавање \'Active\' на 0 ће само онемогућити оператерима да мењају своја лична подешавања из ове групе, али ће администратори и даље моћи да их мењају у њихово име. Подесите \'PreferenceGroup\' да бисте одредили у ком делу интерфејса ова подешавања треба да буду приказана.',
         'Defines the valid state types for a ticket. If a ticket is in a state which have any state type from this setting, this ticket will be considered as open, otherwise as closed.' =>
-            '',
+            'Дефинише исправне типове стања тикета. Ако је тикет у стању који садржи било који тип стања из овог подешавања, овај тикет ће се сматрати отвореним, у супротном као затворен.',
         'Defines the valid states for unlocked tickets. To unlock tickets the script "bin/otrs.Console.pl Maint::Ticket::UnlockTimeout" can be used.' =>
             'Одређује важеће статусе за откључане тикете. За откључавање тикета може се користити скрипт "bin/otrs.Console.pl Maint::Ticket::UnlockTimeout".',
         'Defines the viewable locks of a ticket. NOTE: When you change this setting, make sure to delete the cache in order to use the new value. Default: unlock, tmp_lock.' =>
@@ -9031,6 +9032,7 @@ Thanks for your help!
         'Remove selection',
         'Remove the Transition from this Process',
         'Remove the filter',
+        'Remove this dynamic field',
         'Remove this entry',
         'Repeat',
         'Request Details',

@@ -26,7 +26,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.273329933707292;
+    $Self->{Completeness}        = 0.273283480625425;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -676,6 +676,8 @@ sub Data {
         'Owner' => 'स्वामी',
         'Responsible' => 'उत्तरदायी',
         'Ticket lock' => 'टिकट लॉक',
+        'Dynamic fields' => '',
+        'Add dynamic field' => '',
         'Create times' => 'समय बनाएँ',
         'No create time settings.' => 'कोई समय बनाने की व्यवस्थाऐं नहीं।',
         'Ticket created' => 'टिकट बनाया',
@@ -726,7 +728,6 @@ sub Data {
         'New customer ID' => 'नया ग्राहक ID',
         'New title' => 'नया शीर्षक',
         'New type' => 'नए प्रकार',
-        'New Dynamic Field Values' => '',
         'Archive selected tickets' => 'संग्रह टिकट चयनित',
         'Add Note' => 'टिप्पणी जोड़ें',
         'Visible for customer' => '',
@@ -2926,7 +2927,6 @@ sub Data {
         # Template: DashboardEventsTicketCalendar
         'Event Information' => '',
         'Ticket fields' => '',
-        'Dynamic fields' => '',
 
         # Template: Error
         'Really a bug? 5 out of 10 bug reports result from a wrong or incomplete installation of OTRS.' =>
@@ -5500,6 +5500,7 @@ sub Data {
         'Deleting the field and its data. This may take a while...' => '',
 
         # JS File: Core.Agent.Admin.GenericAgent
+        'Remove this dynamic field' => '',
         'Remove selection' => '',
         'Do you really want to delete this generic agent job?' => '',
         'Delete this Event Trigger' => '',
@@ -9022,6 +9023,7 @@ Thanks for your help!
         'Remove selection',
         'Remove the Transition from this Process',
         'Remove the filter',
+        'Remove this dynamic field',
         'Remove this entry',
         'Repeat',
         'Request Details',

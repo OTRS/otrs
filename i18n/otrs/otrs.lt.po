@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-12-12 07:26+0000\n"
+"POT-Creation-Date: 2020-01-23 07:21+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: Martin Gruner <martin.gruner@otrs.com>, 2018\n"
 "Language-Team: Lithuanian (https://www.transifex.com/otrs/teams/23435/lt/)\n"
@@ -2183,6 +2183,14 @@ msgid "Ticket lock"
 msgstr "Trikčių užraktas"
 
 #. Template: AdminGenericAgent
+msgid "Dynamic fields"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Add dynamic field"
+msgstr ""
+
+#. Template: AdminGenericAgent
 msgid "Create times"
 msgstr "Sukūrimo datos"
 
@@ -2381,10 +2389,6 @@ msgstr "Naujas pavadinimas"
 #. Template: AdminGenericAgent
 msgid "New type"
 msgstr "Naujas tipas"
-
-#. Template: AdminGenericAgent
-msgid "New Dynamic Field Values"
-msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Archive selected tickets"
@@ -9273,10 +9277,6 @@ msgstr ""
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Ticket fields"
-msgstr ""
-
-#. Template: DashboardEventsTicketCalendar
-msgid "Dynamic fields"
 msgstr ""
 
 #. Template: Error
@@ -16449,6 +16449,10 @@ msgstr ""
 
 #. JS File: Core.Agent.Admin.DynamicField
 msgid "Deleting the field and its data. This may take a while..."
+msgstr ""
+
+#. JS File: Core.Agent.Admin.GenericAgent
+msgid "Remove this dynamic field"
 msgstr ""
 
 #. JS File: Core.Agent.Admin.GenericAgent

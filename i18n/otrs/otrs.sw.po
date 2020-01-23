@@ -9,7 +9,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-12-12 07:26+0000\n"
+"POT-Creation-Date: 2020-01-23 07:21+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: Macbethana Wilfred <mwi@nrd.no>, 2019\n"
 "Language-Team: Swahili (https://www.transifex.com/otrs/teams/23435/sw/)\n"
@@ -2236,6 +2236,14 @@ msgid "Ticket lock"
 msgstr "Kifungo cha tiketi"
 
 #. Template: AdminGenericAgent
+msgid "Dynamic fields"
+msgstr "Uga wenye nguvu"
+
+#. Template: AdminGenericAgent
+msgid "Add dynamic field"
+msgstr ""
+
+#. Template: AdminGenericAgent
 msgid "Create times"
 msgstr "Tengeneza muda"
 
@@ -2434,10 +2442,6 @@ msgstr "Kichwa cha habari kipya"
 #. Template: AdminGenericAgent
 msgid "New type"
 msgstr "Aina mpya"
-
-#. Template: AdminGenericAgent
-msgid "New Dynamic Field Values"
-msgstr "Thamani mpya za uga wenye nguvu"
 
 #. Template: AdminGenericAgent
 msgid "Archive selected tickets"
@@ -9513,10 +9517,6 @@ msgstr "Taarifa kuhusu tukio"
 #. Template: DashboardEventsTicketCalendar
 msgid "Ticket fields"
 msgstr "Uga wa tiketi"
-
-#. Template: DashboardEventsTicketCalendar
-msgid "Dynamic fields"
-msgstr "Uga wenye nguvu"
 
 #. Template: Error
 msgid ""
@@ -16725,6 +16725,10 @@ msgstr "Futa uga"
 
 #. JS File: Core.Agent.Admin.DynamicField
 msgid "Deleting the field and its data. This may take a while..."
+msgstr ""
+
+#. JS File: Core.Agent.Admin.GenericAgent
+msgid "Remove this dynamic field"
 msgstr ""
 
 #. JS File: Core.Agent.Admin.GenericAgent

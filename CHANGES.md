@@ -1,6 +1,7 @@
 #6.0.27 ????-??-??
 
 #6.0.26 2020-02-07
+ - 2020-01-23 Updated translations, thanks to all translators.
  - 2020-01-22 Update jquery to 3.4.1.
  - 2020-01-16 Fixed bug#[14917](https://bugs.otrs.org/show_bug.cgi?id=14917) - Permission problem with Notification and Group rights (NOTE/RO).
   When user sends a note to the 'InvolvedAgent', target user doesn't receive notification if he doesn't have the 'RO' permission (even if he has other permissions, like NOTE).
@@ -11,8 +12,7 @@
  - 2019-12-27 Fixed bug#[14882](https://bugs.otrs.org/show_bug.cgi?id=14882) - Number of tickets is wrong in the customer information center if dynamic fields are used.
   If dynamic fields are used as attributes in Frontend::CustomerUser::Item###15-OpenTickets the number of tickets for the link in the customer information center is not displayed correctly.
  - 2019-12-25 Fixed bug#[14722](https://bugs.otrs.org/show_bug.cgi?id=14722) - Debug messages are shown as Daemon errors.
- - 2019-12-25 Fixed bug#[14900](https://bugs.otrs.org/show_bug.cgi?id=14900) - Multiselect dynamic field values are not handled properly in Transition action and Sequence flow screens.
- DynamicFieldSet module received string of coma separated values, but was expecting array.
+ - 2019-12-25 Fixed bug#[14900](https://bugs.otrs.org/show_bug.cgi?id=14900) - Transition action / Sequence flow DynamicFieldSet can't handle multiselect field value set.
  - 2019-12-25 Fixed bug#[14288](https://bugs.otrs.org/show_bug.cgi?id=14288) - CustomerUser is not set when ticket is created via Web Service.
   CustomerUser parameter expects customer user login, so when email is provided it didn't worked out.
  - 2019-12-20 Fixed bug#[14912](https://bugs.otrs.org/show_bug.cgi?id=14912) - Installer refers to non-existing documentation.

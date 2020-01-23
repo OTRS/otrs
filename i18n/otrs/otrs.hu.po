@@ -4,14 +4,14 @@
 # Gergely Baranyai <baranyai.gergely@alohainformatika.hu>, 2018
 # Peter Matyas <mr.peter.matyas@gmail.com>, 2018
 # Martin Gruner <martin.gruner@otrs.com>, 2018
-# Balázs Úr, 2019
+# Balázs Úr, 2020
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-12-12 07:26+0000\n"
+"POT-Creation-Date: 2020-01-23 07:21+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
-"Last-Translator: Balázs Úr, 2019\n"
+"Last-Translator: Balázs Úr, 2020\n"
 "Language-Team: Hungarian (https://www.transifex.com/otrs/teams/23435/hu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1967,7 +1967,7 @@ msgid ""
 "regular URL field above needs to be filled in, too."
 msgstr ""
 "Ha ki van töltve, akkor ez az URL lesz használva egy olyan előnézethez, "
-"amely akkor jelenik meg, amikor erre a hivatkozásra rámutatnak a "
+"amely akkor jelenik meg, ha erre a hivatkozásra rámutatnak a "
 "jegynagyításban. Ne feledje, hogy ahhoz, hogy ez működjön, a fenti szabályos"
 " URL-mezőt is ki kell tölteni."
 
@@ -2337,6 +2337,14 @@ msgid "Ticket lock"
 msgstr "Jegyzár"
 
 #. Template: AdminGenericAgent
+msgid "Dynamic fields"
+msgstr "Dinamikus mezők"
+
+#. Template: AdminGenericAgent
+msgid "Add dynamic field"
+msgstr "Dinamikus mező hozzáadása"
+
+#. Template: AdminGenericAgent
 msgid "Create times"
 msgstr "Létrehozási idők"
 
@@ -2535,10 +2543,6 @@ msgstr "Új cím"
 #. Template: AdminGenericAgent
 msgid "New type"
 msgstr "Új típus"
-
-#. Template: AdminGenericAgent
-msgid "New Dynamic Field Values"
-msgstr "Új dinamikus mező értékek"
 
 #. Template: AdminGenericAgent
 msgid "Archive selected tickets"
@@ -9990,10 +9994,6 @@ msgstr "Esemény információk"
 msgid "Ticket fields"
 msgstr "Jegymezők"
 
-#. Template: DashboardEventsTicketCalendar
-msgid "Dynamic fields"
-msgstr "Dinamikus mezők"
-
 #. Template: Error
 msgid ""
 "Really a bug? 5 out of 10 bug reports result from a wrong or incomplete "
@@ -12925,11 +12925,11 @@ msgstr "Teszt"
 
 #. Perl Module: Kernel/Modules/AdminRegistration.pm
 msgid "Training"
-msgstr "Oktatási"
+msgstr "Oktatás"
 
 #. Perl Module: Kernel/Modules/AdminRegistration.pm
 msgid "Development"
-msgstr "Fejlesztői"
+msgstr "Fejlesztés"
 
 #. Perl Module: Kernel/Modules/AdminRole.pm
 msgid "Role updated!"
@@ -15945,7 +15945,7 @@ msgstr "Jegyek száma (az eszkalációs beállítás által érintett)"
 
 #. Perl Module: Kernel/System/Stats/Static/StateAction.pm
 msgid "Days"
-msgstr "Napok"
+msgstr "Nap"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/OutdatedTables.pm
@@ -16628,7 +16628,7 @@ msgstr ""
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/IndexModule.pm
 msgid "Ticket Index Module"
-msgstr "Jegy indexelő modul"
+msgstr "Jegyindexelő modul"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/IndexModule.pm
@@ -17598,6 +17598,10 @@ msgstr "Mező törlése"
 msgid "Deleting the field and its data. This may take a while..."
 msgstr ""
 "A mező és az adatainak törlése folyamatban van. Ez eltarthat egy ideig…"
+
+#. JS File: Core.Agent.Admin.GenericAgent
+msgid "Remove this dynamic field"
+msgstr "Dinamikus mező eltávolítása"
 
 #. JS File: Core.Agent.Admin.GenericAgent
 msgid "Remove selection"
@@ -19648,7 +19652,7 @@ msgstr "Jelszó megváltoztatása"
 
 #. SysConfig
 msgid "Change queue!"
-msgstr "Várólista módosítása"
+msgstr "Várólista módosítása!"
 
 #. SysConfig
 msgid "Change the customer for this ticket"

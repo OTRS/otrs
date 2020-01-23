@@ -23,7 +23,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.165561788203298;
+    $Self->{Completeness}        = 0.165533650577838;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -673,6 +673,8 @@ sub Data {
         'Owner' => 'Īpašnieks',
         'Responsible' => 'Atbildīgais',
         'Ticket lock' => 'Pieteikuma bloķēšana',
+        'Dynamic fields' => '',
+        'Add dynamic field' => '',
         'Create times' => '',
         'No create time settings.' => 'Nav izveidošanas laika iestatījumu',
         'Ticket created' => 'Pieteikums izveidots',
@@ -723,7 +725,6 @@ sub Data {
         'New customer ID' => '',
         'New title' => '',
         'New type' => '',
-        'New Dynamic Field Values' => '',
         'Archive selected tickets' => '',
         'Add Note' => 'Pievienot piezīmi',
         'Visible for customer' => '',
@@ -2923,7 +2924,6 @@ sub Data {
         # Template: DashboardEventsTicketCalendar
         'Event Information' => '',
         'Ticket fields' => '',
-        'Dynamic fields' => '',
 
         # Template: Error
         'Really a bug? 5 out of 10 bug reports result from a wrong or incomplete installation of OTRS.' =>
@@ -5497,6 +5497,7 @@ sub Data {
         'Deleting the field and its data. This may take a while...' => '',
 
         # JS File: Core.Agent.Admin.GenericAgent
+        'Remove this dynamic field' => '',
         'Remove selection' => 'Noņemt atlasi',
         'Do you really want to delete this generic agent job?' => '',
         'Delete this Event Trigger' => '',
@@ -9019,6 +9020,7 @@ Thanks for your help!
         'Remove selection',
         'Remove the Transition from this Process',
         'Remove the filter',
+        'Remove this dynamic field',
         'Remove this entry',
         'Repeat',
         'Request Details',

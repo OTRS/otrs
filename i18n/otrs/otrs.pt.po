@@ -21,7 +21,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-12-12 07:26+0000\n"
+"POT-Creation-Date: 2020-01-23 07:21+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: José Anjos <jose.anjos@regiaodeaveiro.pt>, 2019\n"
 "Language-Team: Portuguese (https://www.transifex.com/otrs/teams/23435/pt/)\n"
@@ -2231,6 +2231,14 @@ msgid "Ticket lock"
 msgstr "Ticket bloqueado"
 
 #. Template: AdminGenericAgent
+msgid "Dynamic fields"
+msgstr "Campos dinâmicos"
+
+#. Template: AdminGenericAgent
+msgid "Add dynamic field"
+msgstr ""
+
+#. Template: AdminGenericAgent
 msgid "Create times"
 msgstr "Criar tempo"
 
@@ -2429,10 +2437,6 @@ msgstr "Novo título"
 #. Template: AdminGenericAgent
 msgid "New type"
 msgstr "Novo tipo"
-
-#. Template: AdminGenericAgent
-msgid "New Dynamic Field Values"
-msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Archive selected tickets"
@@ -9323,10 +9327,6 @@ msgstr ""
 #. Template: DashboardEventsTicketCalendar
 msgid "Ticket fields"
 msgstr "Campos do ticket"
-
-#. Template: DashboardEventsTicketCalendar
-msgid "Dynamic fields"
-msgstr "Campos dinâmicos"
 
 #. Template: Error
 msgid ""
@@ -16530,6 +16530,10 @@ msgstr "Apagar campo"
 msgid "Deleting the field and its data. This may take a while..."
 msgstr ""
 "Apagar este campo e respetiva informação. Pode demorar algum tempo ..."
+
+#. JS File: Core.Agent.Admin.GenericAgent
+msgid "Remove this dynamic field"
+msgstr ""
 
 #. JS File: Core.Agent.Admin.GenericAgent
 msgid "Remove selection"
