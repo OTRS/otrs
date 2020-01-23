@@ -1709,7 +1709,7 @@ sub Data {
         'You are about to downgrade to ((OTRS)) Community Edition and will lose the following features and all data related to these:' =>
             '',
         'Chat' => 'Chat',
-        'Report Generator' => 'Generador de Reportes',
+        'Report Generator' => 'Generador de Informes',
         'Timeline view in ticket zoom' => 'Vista LineaTiempo en ticket zoom',
         'DynamicField ContactWithData' => 'CampoDinamico ContactoConDatos',
         'DynamicField Database' => 'CampoDinamico BaseDatos',
@@ -3548,9 +3548,9 @@ sub Data {
         'Notifications could not be Imported due to a unknown error, please check OTRS logs for more information' =>
             'Los notificaciones no se pudieron importarse debido a un error desconocido, favor, compruebe los registros de OTRS para más información.',
         'The following Notifications have been added successfully: %s' =>
-            'Los siguientes Notificaciones se han agregado exitosamente: %s',
+            'Los siguientes Notificaciones se han agregado correctamente: %s',
         'The following Notifications have been updated successfully: %s' =>
-            'Los siguientes Notificaciones se han actualizado exitosamente:%s',
+            'Los siguientes Notificaciones se han actualizado correctamente:%s',
         'There where errors adding/updating the following Notifications: %s. Please check the log file for more information.' =>
             'Hubo errores al añadir/actualizar las siguientes Notificaciones: %s. Por favor, compruebe el archivo de registros para más información.',
         'Agent who owns the ticket' => 'Agente que es propietario del ticket',
@@ -6144,7 +6144,7 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'Link attachments to templates.' => 'Crea enlace de Adjuntos a Plantillas',
         'Link customer user to groups.' => 'Crea enlace de Usuarios Clientes a Grupos',
         'Link customer user to services.' => 'Crea enlace de Usuarios Clientes a Servicios.',
-        'Link queues to auto responses.' => 'Crea enlace de Colas a Respuestas Automáticas',
+        'Link queues to auto responses.' => 'Relacionar Colas con Respuestas Automáticas',
         'Link roles to groups.' => 'Crea enlace de Roles a Grupos.',
         'Link templates to queues.' => 'Crea enlace de Plantillas a Colas.',
         'Links 2 tickets with a "Normal" type link.' => 'Enlaza 2 tickets con un enlace tipo "Normal".',
@@ -6407,7 +6407,7 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
             '',
         'Replaces the original sender with current customer\'s email address on compose answer in the ticket compose screen of the agent interface.' =>
             '',
-        'Reports' => 'Reportes',
+        'Reports' => 'Informes',
         'Reports (OTRS Business Solution™)' => 'Reportes (OTRS Business Solution™)',
         'Reprocess mails from spool directory that could not be imported in the first place.' =>
             '',

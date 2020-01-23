@@ -28,7 +28,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.3148;
+    $Self->{Completeness}        = 0.3248;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -390,8 +390,8 @@ sub Data {
             '',
         '<br>If you continue to install this package, the following issues may occur!<br><br>&nbsp;-Security problems<br>&nbsp;-Stability problems<br>&nbsp;-Performance problems<br><br>Please note that issues that are caused by working with this package are not covered by OTRS service contracts!<br><br>' =>
             '',
-        'Mark' => '',
-        'Unmark' => '',
+        'Mark' => 'Označi',
+        'Unmark' => 'Odznači',
         'Bold' => 'Podebljano',
         'Italic' => 'Kurziv',
         'Underline' => 'Podvučeno',
@@ -631,7 +631,7 @@ sub Data {
         'auto reply' => '',
         'auto reply/new ticket' => '',
         'Create' => 'Napravi',
-        'Answer' => '',
+        'Answer' => 'Odgovor',
         'Phone call' => 'Telefonski poziv',
         'Ticket "%s" created!' => 'Kartica "%s" kreirana!',
         'Ticket Number' => 'Broj kartice',
@@ -690,7 +690,7 @@ sub Data {
         'Add a note to this ticket' => '',
         'Merge into a different ticket' => '',
         'Set this ticket to pending' => '',
-        'Close this ticket' => '',
+        'Close this ticket' => 'Zatvori karticu',
         'Look into a ticket!' => 'Pogledaj sadržaj kartice!',
         'Delete this ticket' => '',
         'Mark as Spam!' => 'Označi kao Spam!',
@@ -781,54 +781,54 @@ sub Data {
         'Sat' => 'sub',
 
         # Template: AdminACL
-        'ACL Management' => '',
-        'Filter for ACLs' => '',
+        'ACL Management' => 'Upravljanje ACL-ovima',
+        'Filter for ACLs' => 'Filter ACL-ove',
         'Filter' => 'Filtar',
         'ACL Name' => '',
         'Actions' => 'Akcije',
-        'Create New ACL' => '',
-        'Deploy ACLs' => '',
-        'Export ACLs' => '',
+        'Create New ACL' => 'Kreiraj novi ACL',
+        'Deploy ACLs' => 'Primjeni ACL-ove',
+        'Export ACLs' => 'Izvezi ACL-ove',
         'Configuration import' => '',
         'Here you can upload a configuration file to import ACLs to your system. The file needs to be in .yml format as exported by the ACL editor module.' =>
-            '',
+            'Ovdje možete prenijeti konfiguracijsku datoteku za uvoz ACL-ova u vaš sustav. Datoteka mora biti u .yml formatu kao što je izveo modul za uređivanje ACL-a.',
         'This field is required.' => 'Ovo polje je obavezno.',
-        'Overwrite existing ACLs?' => '',
-        'Upload ACL configuration' => '',
-        'Import ACL configuration(s)' => '',
+        'Overwrite existing ACLs?' => 'Prepisati postojeće ACL-ove?',
+        'Upload ACL configuration' => 'Upload ACL konfiguracije',
+        'Import ACL configuration(s)' => 'Uvoz ACL konfiguracija(e)',
         'To create a new ACL you can either import ACLs which were exported from another system or create a complete new one.' =>
-            '',
+            'Da biste stvorili novi ACL, možete uvesti ACL-ove koji su izvezeni iz drugog sustava ili stvoriti potpuno novi.',
         'Changes to the ACLs here only affect the behavior of the system, if you deploy the ACL data afterwards. By deploying the ACL data, the newly made changes will be written to the configuration.' =>
-            '',
-        'ACLs' => '',
+            'Promjene ACL-ova ovdje utječu samo na ponašanje sustava, ako nakon toga implementirate ACL podatke. Primjenom ACL podataka, novoiznesene promjene će se zapisati u konfiguraciju.',
+        'ACLs' => 'ACL-ovi',
         'Please note: This table represents the execution order of the ACLs. If you need to change the order in which ACLs are executed, please change the names of the affected ACLs.' =>
-            '',
-        'ACL name' => '',
-        'Validity' => '',
-        'Copy' => '',
+            'Napomena: Ova tablica predstavlja redoslijed izvršenja ACL-ova. Ako trebate promijeniti redoslijed izvršenja ACL-ova, promijenite imena ACL-ova na koje se to odnosi.',
+        'ACL name' => 'Naziv ACL-a',
+        'Validity' => 'Valjanost',
+        'Copy' => 'Kopiraj',
         'No data found.' => 'Ništa nije pronađeno.',
 
         # Template: AdminACLEdit
-        'Edit ACL %s' => '',
+        'Edit ACL %s' => 'Uredi ACL %s',
         'Go to overview' => 'Idi na pregled',
-        'Delete ACL' => '',
-        'Delete Invalid ACL' => '',
+        'Delete ACL' => 'Obriši ACL',
+        'Delete Invalid ACL' => 'Obriši neispravan ACL',
         'Match settings' => '',
         'Set up matching criteria for this ACL. Use \'Properties\' to match the current screen or \'PropertiesDatabase\' to match attributes of the current ticket that are in the database.' =>
             '',
-        'Change settings' => '',
+        'Change settings' => 'Promjeni postavke',
         'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is a white list, \'PossibleNot\' a black list.' =>
             '',
-        'Check the official %sdocumentation%s.' => '',
+        'Check the official %sdocumentation%s.' => 'Provjeri službenu %s dokumentaciju %s.',
         'Show or hide the content' => 'Prikaži ili sakrij sadržaj',
         'Edit ACL information' => '',
         'Stop after match' => 'Zaustavi poslije uparivanja',
         'Edit ACL structure' => '',
-        'Save ACL' => '',
+        'Save ACL' => 'Spremi ACL',
         'Save' => 'Spremi',
         'or' => 'ili',
         'Save and finish' => 'Spremi i završi',
-        'Do you really want to delete this ACL?' => '',
+        'Do you really want to delete this ACL?' => 'Sigurno želie obrisati ovaj ACL?',
         'This item still contains sub items. Are you sure you want to remove this item including its sub items?' =>
             '',
         'An item with this name is already present.' => '',
@@ -837,7 +837,7 @@ sub Data {
 
         # Template: AdminACLNew
         'Create a new ACL by submitting the form data. After creating the ACL, you will be able to add configuration items in edit mode.' =>
-            '',
+            'Stvorite novi ACL slanjem podataka obrasca. Nakon stvaranja ACL-a, bit ćete u mogućnosti za dodavanje konfiguracijskih stavki u načinu uređivanja.',
 
         # Template: AdminAttachment
         'Attachment Management' => 'Upravljanje prilozima',
@@ -902,7 +902,7 @@ sub Data {
         'Here you can configure available cloud services that communicate securely with %s.' =>
             '',
         'Available Cloud Services' => '',
-        'Upgrade to %s' => '',
+        'Upgrade to %s' => 'Upgradeaj na %s',
 
         # Template: AdminCustomerCompany
         'Customer Management' => 'Upravljanje korisnicima',
@@ -946,7 +946,7 @@ sub Data {
         'You can manage these groups via the configuration setting "CustomerGroupAlwaysGroups".' =>
             'Možete upravljati ovim grupama preko konfiguracijskih postavki "CustomerGroupAlwaysGroups".',
         'Filter for Groups' => 'Filtar za grupe',
-        'Just start typing to filter...' => '',
+        'Just start typing to filter...' => 'Počmi tipkati za filtriranje...',
         'Select the customer:group permissions.' => 'Izaberi dozvole za korisnik:grupa',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer).' =>
             'Ako ništa nije izabrano, onda nema dozvola u ovoj grupi (kartice neće biti dostupne korisniku).',
@@ -989,7 +989,7 @@ sub Data {
         'Delete this field' => '',
         'Do you really want to delete this dynamic field? ALL associated data will be LOST!' =>
             '',
-        'Delete field' => '',
+        'Delete field' => 'Obriši polje',
         'Deleting the field and its data. This may take a while...' => '',
 
         # Template: AdminDynamicFieldCheckbox
@@ -1123,7 +1123,7 @@ sub Data {
         'This event is already attached to the job, Please use a different one.' =>
             '',
         'Delete this Event Trigger' => '',
-        'Remove selection' => '',
+        'Remove selection' => 'Ukloni odabir',
         'Select Tickets' => '',
         '(e. g. 10*5155 or 105658*)' => 'npr. 10*5144 ili 105658*',
         '(e. g. 234321)' => 'npr. 234321',
@@ -1231,7 +1231,7 @@ sub Data {
         'Request Details' => 'Zahtjevi podrobnije',
         'An error occurred during communication.' => '',
         'Show or hide the content.' => 'Prikaži ili sakrij sadržaj.',
-        'Clear debug log' => '',
+        'Clear debug log' => 'Očisti debug log',
 
         # Template: AdminGenericInterfaceInvokerDefault
         'Add new Invoker to Web Service %s' => '',
@@ -1543,8 +1543,8 @@ sub Data {
         # Template: AdminNotificationEvent
         'Ticket Notification Management' => '',
         'Add notification' => 'Dodaj obavijest',
-        'Export Notifications' => '',
-        'Configuration Import' => '',
+        'Export Notifications' => 'Izvezi obavijesti',
+        'Configuration Import' => 'Uvoz konfiguracije',
         'Here you can upload a configuration file to import Ticket Notifications to your system. The file needs to be in .yml format as exported by the Ticket Notification module.' =>
             '',
         'Overwrite existing notifications?' => '',
@@ -1577,7 +1577,7 @@ sub Data {
         'Send to all role members' => '',
         'Send on out of office' => '',
         'Also send if the user is currently out of office.' => '',
-        'Once per day' => '',
+        'Once per day' => 'Jednom dnevno',
         'Notify user just once per day about a single ticket using a selected transport.' =>
             '',
         'Notification Methods' => '',
@@ -1588,15 +1588,15 @@ sub Data {
         'At least one method is needed per notification.' => '',
         'Active by default in agent preferences' => '',
         'This is the default value for assigned recipient agents who didn\'t make a choice for this notification in their preferences yet. If the box is enabled, the notification will be sent to such agents.' =>
-            '',
+            'vo je zadana vrijednost za dodijeljene agente primatelja koji se još nisu odlučili za ovu obavijest u svojim preferencijama. Ako je okvir omogućen, obavijest će biti poslana takvim agentima.',
         'This feature is currently not available.' => '',
-        'No data found' => '',
+        'No data found' => 'Nema pronađenih podataka',
         'No notification method found.' => '',
-        'Notification Text' => '',
+        'Notification Text' => 'Tekst obavijesti',
         'This language is not present or enabled on the system. This notification text could be deleted if it is not needed anymore.' =>
             '',
         'Remove Notification Language' => '',
-        'Message body' => '',
+        'Message body' => 'Tijelo poruke',
         'This field is required and must have less than 4000 characters.' =>
             '',
         'Add new notification language' => '',
@@ -2472,13 +2472,13 @@ sub Data {
         'Manage Templates' => '',
         'Add template' => '',
         'A template is a default text which helps your agents to write faster tickets, answers or forwards.' =>
-            '',
+            'Predložak je zadani tekst koji vašim agentima pomaže pisati brže kartice, odgovore ili prosljeđivanja.',
         'Don\'t forget to add new templates to queues.' => '',
-        'Do you really want to delete this template?' => '',
+        'Do you really want to delete this template?' => 'Sigurno želite obrisati ovaj predložak?',
         'Add Template' => '',
         'Edit Template' => '',
-        'A standard template with this name already exists!' => '',
-        'Create type templates only supports this smart tags' => '',
+        'A standard template with this name already exists!' => 'Predložak sa tim imenom već postoji!',
+        'Create type templates only supports this smart tags' => 'Predlošci tipa Napravi, podržavaju samo ove pametne oznake',
         'Example template' => '',
         'The current ticket state is' => 'Trenutni status kartice je',
         'Your email address is' => 'Vaša adresa E-pošte je',
@@ -2988,18 +2988,18 @@ sub Data {
         'Switch to mobile mode' => '',
         'Switch to desktop mode' => '',
         'Not available' => '',
-        'Clear all' => '',
+        'Clear all' => 'Obriši sve',
         'Clear search' => '',
         '%s selection(s)...' => '',
         'and %s more...' => '',
-        'Filters' => '',
+        'Filters' => 'Filteri',
         'Confirm' => '',
         'You have unanswered chat requests' => '',
         'Accept' => '',
         'Decline' => '',
         'An internal error occurred.' => '',
         'Connection error' => '',
-        'Reload page' => '',
+        'Reload page' => 'Ponovo učitaj stranicu',
         'Your browser was not able to communicate with OTRS properly, there seems to be something wrong with your network connection. You could either try reloading this page manually or wait until your browser has re-established the connection on its own.' =>
             '',
         'There was an error in communication with the server. Server might be experiencing some temporary problems, please reload this page to check if they have been resolved.' =>
@@ -4662,8 +4662,8 @@ Thanks for your help!
         '(UserLogin) Lastname Firstname' => '',
         '(UserLogin) Lastname, Firstname' => '',
         '*** out of office until %s (%s d left) ***' => '',
-        '100 (Expert)' => '',
-        '200 (Advanced)' => '',
+        '100 (Expert)' => '100 (Expert)',
+        '200 (Advanced)' => '200 (Napredno)',
         '300 (Beginner)' => '',
         'A TicketWatcher Module.' => '',
         'A Website' => '',
@@ -4946,7 +4946,7 @@ Thanks for your help!
         'Create and manage ticket states.' => 'Kreiranje i upravljanje statusima kartice.',
         'Create and manage ticket types.' => 'Kreiranje i upravljanje tipovima kartice.',
         'Create and manage web services.' => '',
-        'Create new Ticket.' => '',
+        'Create new Ticket.' => 'Kreiraj novu karticu.',
         'Create new email ticket and send this out (outbound).' => '',
         'Create new email ticket.' => '',
         'Create new phone ticket (inbound).' => '',

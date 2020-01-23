@@ -1036,7 +1036,7 @@ sub Data {
             'Itt határozható meg egy opcionális HTTP hivatkozás a mező értékéhez az áttekintőben és a nagyítási képernyőkön.',
         'Link for preview' => 'Hivatkozás az előnézethez',
         'If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too.' =>
-            'Ha ki van töltve, akkor ez az URL lesz használva egy olyan előnézethez, amely akkor jelenik meg, amikor erre a hivatkozásra rámutatnak a jegynagyításban. Ne feledje, hogy ahhoz, hogy ez működjön, a fenti szabályos URL-mezőt is ki kell tölteni.',
+            'Ha ki van töltve, akkor ez az URL lesz használva egy olyan előnézethez, amely akkor jelenik meg, ha erre a hivatkozásra rámutatnak a jegynagyításban. Ne feledje, hogy ahhoz, hogy ez működjön, a fenti szabályos URL-mezőt is ki kell tölteni.',
         'Restrict entering of dates' => 'Korlátozás dátumok bevitelére',
         'Here you can restrict the entering of dates of tickets.' => 'Itt korlátozható a jegyek dátumának bevitele.',
 
@@ -3692,8 +3692,8 @@ sub Data {
         # Perl Module: Kernel/Modules/AdminRegistration.pm
         'Production' => 'Produktív',
         'Test' => 'Teszt',
-        'Training' => 'Oktatási',
-        'Development' => 'Fejlesztői',
+        'Training' => 'Oktatás',
+        'Development' => 'Fejlesztés',
 
         # Perl Module: Kernel/Modules/AdminRoleUser.pm
         'Role' => 'Szerep',
@@ -4259,7 +4259,7 @@ sub Data {
         'Number of Tickets (affected by escalation configuration)' => 'Jegyek száma (az eszkalációs beállítás által érintett)',
 
         # Perl Module: Kernel/System/Stats/Static/StateAction.pm
-        'Days' => 'Napok',
+        'Days' => 'Nap',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/TablePresence.pm
         'Table Presence' => 'Tábla jelenlét',
@@ -4438,7 +4438,7 @@ sub Data {
             'A beállított alapértelmezett jegytípus érvénytelen vagy hiányzik. Változtassa meg a Ticket::Type::Default beállításait, és válasszon egy érvényes jegytípust.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/IndexModule.pm
-        'Ticket Index Module' => 'Jegy indexelő modul',
+        'Ticket Index Module' => 'Jegyindexelő modul',
         'You have more than 60,000 tickets and should use the StaticDB backend. See admin manual (Performance Tuning) for more information.' =>
             'Több mint 60.000 jegye van, ezért a StaticDB háttérprogramot kellene használnia. További információkért nézze meg az adminisztrátori kézikönyvet (Teljesítmény finomhangolás).',
 
@@ -4859,7 +4859,7 @@ Az Ön segélyszolgálat csapata
         'Cache time in seconds for the web service config backend.' => 'Gyorsítótárazás ideje másodpercben a webszolgáltatás beállításának háttérprogramjánál.',
         'Catalan' => 'Katalán',
         'Change password' => 'Jelszó megváltoztatása',
-        'Change queue!' => 'Várólista módosítása',
+        'Change queue!' => 'Várólista módosítása!',
         'Change the customer for this ticket' => 'Ügyfél módosítása ennél a jegynél',
         'Change the free fields for this ticket' => 'A szabad mezők módosítása ennél a jegynél',
         'Change the priority for this ticket' => 'Prioritás módosítása ennél a jegynél',

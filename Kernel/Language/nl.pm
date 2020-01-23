@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D-%M-%Y';
     $Self->{DateInputFormat}     = '%D-%M-%Y';
     $Self->{DateInputFormatLong} = '%D-%M-%Y - %T';
-    $Self->{Completeness}        = 0.6592;
+    $Self->{Completeness}        = 0.6674;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -1034,7 +1034,7 @@ sub Data {
         'Show link' => 'Toon koppeling',
         'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
             'Hier kunt u een optionele hyperlink opgeven die getoond wordt in de overzichten en zoom-schermen.',
-        'Link for preview' => '',
+        'Link for preview' => 'Link voor voorvertoning',
         'If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too.' =>
             '',
         'Restrict entering of dates' => 'Beperk het invoeren van datumgegevens',
@@ -1637,8 +1637,8 @@ sub Data {
             'Gebruik deze template om de complete mail te genereren (alleen voor HTML email).',
         'Enable email security' => 'Email beveiliging inschakelen',
         'Email security level' => 'Niveau van email beveiliging',
-        'If signing key/certificate is missing' => '',
-        'If encryption key/certificate is missing' => '',
+        'If signing key/certificate is missing' => 'Als signeer sleutel/certificaat ontbreekt',
+        'If encryption key/certificate is missing' => 'Als encryptie sleutel/certificaat ontbreekt',
 
         # Template: AdminOTRSBusinessInstalled
         'Manage %s' => 'Beheer %s',
@@ -1726,7 +1726,7 @@ sub Data {
         'Faulty PGP configuration' => '',
         'PGP support is enabled, but the relevant configuration contains errors. Please check the configuration using the button below.' =>
             '',
-        'Configure it here!' => '',
+        'Configure it here!' => 'Configureer het hier!',
         'Check PGP configuration' => '',
         'Add PGP key' => 'PGP sleutel toevoegen',
         'In this way you can directly edit the keyring configured in SysConfig.' =>
@@ -1799,7 +1799,7 @@ sub Data {
         'Download file from package!' => 'Download bestand van pakket.',
         'Required' => 'Verplicht',
         'Primary Key' => 'Primaire Sleutel',
-        'Auto Increment' => '',
+        'Auto Increment' => 'Automatisch ophogen',
         'SQL' => 'SQL statement',
         'File differences for file %s' => 'Verschillen in bestand %s',
 
@@ -2710,12 +2710,12 @@ sub Data {
 
         # Template: AgentTicketActionCommon
         'Change Free Text of %s%s%s' => '',
-        'Change Owner of %s%s%s' => '',
-        'Close %s%s%s' => '',
-        'Add Note to %s%s%s' => '',
+        'Change Owner of %s%s%s' => 'Verander de eigenaar van %s %s %s',
+        'Close %s%s%s' => 'Sluit %s%s%s',
+        'Add Note to %s%s%s' => 'Voeg notitie aan %s%s%s',
         'Set Pending Time for %s%s%s' => '',
-        'Change Priority of %s%s%s' => '',
-        'Change Responsible of %s%s%s' => '',
+        'Change Priority of %s%s%s' => 'Wijzig de prioriteit van %s%s%s',
+        'Change Responsible of %s%s%s' => 'Wijzig de verantwoordelijke van %s%s%s',
         'All fields marked with an asterisk (*) are mandatory.' => 'Alle velden met een asterisk (*) zijn verplicht.',
         'Service invalid.' => 'Service is ongeldig.',
         'New Owner' => 'Nieuwe eigenaar',
@@ -2754,7 +2754,7 @@ sub Data {
         'Link together' => 'Koppelen',
         'Link to parent' => 'Koppel aan vader',
         'Unlock tickets' => 'Ontgrendel tickets',
-        'Execute Bulk Action' => '',
+        'Execute Bulk Action' => 'Bulkactie uitvoeren',
 
         # Template: AgentTicketCompose
         'Compose Answer for %s%s%s' => '',
@@ -2770,7 +2770,7 @@ sub Data {
         'Date Invalid!' => 'Datum ongeldig.',
 
         # Template: AgentTicketCustomer
-        'Change Customer of %s%s%s' => '',
+        'Change Customer of %s%s%s' => 'Wijzig klant van %s%s%s',
 
         # Template: AgentTicketEmail
         'Create New Email Ticket' => 'Maak nieuw e-mail ticket',
@@ -2802,7 +2802,7 @@ sub Data {
         'Zoom view' => 'Detailoverzicht',
 
         # Template: AgentTicketMerge
-        'Merge %s%s%s' => '',
+        'Merge %s%s%s' => 'Samenvoegen %s%s%s',
         'Merge Settings' => 'Samenvoegingsinstellingen',
         'You need to use a ticket number!' => 'Gebruik een ticketnummer.',
         'A valid ticket number is required.' => 'Een geldig ticketnummer is verplicht.',
@@ -2871,10 +2871,10 @@ sub Data {
         'Searches in the attributes From, To, Cc, Subject and the article body, overriding other attributes with the same name.' =>
             'Doorzoek de velden Van, Aan, Cc, Onderwerp en de berichttekst, vervangt deze zoekvelden.',
         'CustomerID (complex search)' => '',
-        '(e. g. 234*)' => '',
+        '(e. g. 234*)' => '(bv. 234*)',
         'CustomerID (exact match)' => '',
         'Customer User Login (complex search)' => '',
-        '(e. g. U51*)' => '',
+        '(e. g. U51*)' => '(bv. U51*)',
         'Customer User Login (exact match)' => '',
         'Attachment Name' => 'Bijlage naam',
         '(e. g. m*file or myfi*)' => '(b.v. m*bestand of mijnbe*)',
@@ -3160,13 +3160,13 @@ sub Data {
         'General Specifications and Mail Settings' => 'Algemene instellingen en mailconfiguratie',
         'Finish' => 'Voltooien',
         'Welcome to %s' => 'Welkom bij %s',
-        'Germany' => '',
-        'United States' => '',
-        'Mexico' => '',
-        'Hungary' => '',
-        'Brazil' => '',
-        'Singapore' => '',
-        'Hong Kong' => '',
+        'Germany' => 'Duitsland',
+        'United States' => 'Verenigde Staten',
+        'Mexico' => 'Mexico',
+        'Hungary' => 'Hongarije',
+        'Brazil' => 'Brazilië',
+        'Singapore' => 'Singapore',
+        'Hong Kong' => 'Hong Kong',
         'Web site' => 'Website',
         'Mail check successful.' => 'Mail controle gelukt.',
         'Error in the mail settings. Please correct and try again.' => 'Fout in de mailinstellingen. Corrigeer ze en probeer nog eens.',
@@ -3269,8 +3269,8 @@ sub Data {
 
         # Template: MetaFloater
         'Scale preview content' => '',
-        'Open URL in new tab' => '',
-        'Close preview' => '',
+        'Open URL in new tab' => 'Open URL in nieuw tabblad',
+        'Close preview' => 'Voorvertoning sluiten',
         'A preview of this website can\'t be provided because it didn\'t allow to be embedded.' =>
             'Een preview is niet beschikbaar omdat het geen embedding toestaat. ',
 
@@ -3380,8 +3380,8 @@ sub Data {
         'Configurable params of static stat' => 'Configureerbare parameters voor rapport',
         'No element selected.' => 'Geen element geselecteerd.',
         'Scale' => 'Schaal',
-        'show more' => '',
-        'show less' => '',
+        'show more' => 'Toon meer',
+        'show less' => 'Toon minder',
 
         # Template: D3
         'Download SVG' => 'Download SVG',
@@ -3426,9 +3426,9 @@ sub Data {
         'There was an error synchronizing the ACLs.' => 'Er is een fout opgetreden met het synchroniseren van de ACL\'s.',
         'ACL %s could not be deleted' => 'ACL %s kon niet worden verwijderd',
         'There was an error getting data for ACL with ID %s' => 'Er is een fout opgetreden met het ophalen van de gegevens voor ACL met ID %s',
-        'Exact match' => '',
+        'Exact match' => 'Exacte overeenkomst',
         'Negated exact match' => '',
-        'Regular expression' => '',
+        'Regular expression' => 'Reguliere expressie',
         'Regular expression (ignore case)' => '',
         'Negated regular expression' => '',
         'Negated regular expression (ignore case)' => '',
@@ -3473,9 +3473,9 @@ sub Data {
         'Select at least one recipient.' => 'Selecteer minimaal één ontvanger.',
 
         # Perl Module: Kernel/Modules/AdminGenericAgent.pm
-        'archive tickets' => '',
-        'restore tickets from archive' => '',
-        'Need Profile!' => '',
+        'archive tickets' => 'archiveer tickets',
+        'restore tickets from archive' => 'tickets van archief herstellen',
+        'Need Profile!' => 'Profiel vereist!',
         'Got no values to check.' => 'Had geen waarden om te controleren',
         'Please remove the following words because they cannot be used for the ticket selection:' =>
             'Verwijder de volgende woorden omdat ze niet kunnen worden gebruikt voor het selecteren van een ticket:',
@@ -3529,7 +3529,7 @@ sub Data {
         'Web service "%s" deleted!' => 'Webservice "%s" verwijderd!',
         'New Web service' => '',
         'Operations' => '',
-        'Invokers' => '',
+        'Invokers' => 'Invokers',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceWebserviceHistory.pm
         'Got no WebserviceHistoryID!' => 'Heb geen WebserviceHistoryID!',
@@ -3609,7 +3609,7 @@ sub Data {
         'There was an error synchronizing the processes.' => '',
         'The %s:%s is still in use' => '',
         'The %s:%s has a different EntityID' => '',
-        'Could not delete %s:%s' => '',
+        'Could not delete %s:%s' => 'Kan %s:%s niet verwijderen',
         'There was an error setting the entity sync status for %s entity: %s' =>
             '',
         'Could not get %s' => '',
@@ -3644,8 +3644,8 @@ sub Data {
         'Could not get data for ActivityDialogID %s' => 'Gegevens van ActiviteitDialoogID %s konden niet worden opgehaald',
         'There was an error updating the ActivityDialog' => '',
         'Edit Activity Dialog "%s"' => '',
-        'Agent Interface' => '',
-        'Customer Interface' => '',
+        'Agent Interface' => 'Behandelaar interface',
+        'Customer Interface' => 'Klant interface',
         'Agent and Customer Interface' => '',
         'Do not show Field' => '',
         'Show Field' => '',
@@ -3665,8 +3665,8 @@ sub Data {
         'Could not get data for TransitionID %s' => 'Kon gegevens voor TansitiID %s niet ophalen',
         'There was an error updating the Transition' => 'Er is een fout opgetreden bij het bijwerken van de Transitie',
         'Edit Transition "%s"' => '',
-        'xor' => '',
-        'String' => '',
+        'xor' => 'xor',
+        'String' => 'String',
         'Transition validation module' => '',
 
         # Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
@@ -3691,7 +3691,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminRegistration.pm
         'Production' => 'Produktie',
-        'Test' => '',
+        'Test' => 'Test',
         'Training' => 'Training',
         'Development' => 'Ontwikkeling',
 
@@ -7174,9 +7174,9 @@ Het Helpdesk Team
             '',
         'Your service selection of your preferred services. You also get notified about those services via email if enabled.' =>
             '',
-        'attachment' => '',
+        'attachment' => 'bijlage',
         'bounce' => '',
-        'compose' => '',
+        'compose' => 'opstellen',
         'debug' => '',
         'error' => '',
         'forward' => '',
@@ -7184,7 +7184,7 @@ Het Helpdesk Team
         'inline' => '',
         'notice' => '',
         'pending' => '',
-        'responsible' => '',
+        'responsible' => 'verantwoordelijke',
         'stats' => '',
 
     };

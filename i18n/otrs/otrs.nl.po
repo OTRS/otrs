@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-12-07 19:57+0000\n"
+"POT-Creation-Date: 2020-01-23 08:56+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3544,7 +3544,7 @@ msgstr "Hier kunt u een optionele hyperlink opgeven die getoond wordt in de over
 
 #. Template: AdminDynamicFieldDateTime
 msgid "Link for preview"
-msgstr ""
+msgstr "Link voor voorvertoning"
 
 #. Template: AdminDynamicFieldDateTime
 msgid "If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too."
@@ -5452,11 +5452,11 @@ msgstr "Niveau van email beveiliging"
 
 #. Template: AdminNotificationEventTransportEmailSettings
 msgid "If signing key/certificate is missing"
-msgstr ""
+msgstr "Als signeer sleutel/certificaat ontbreekt"
 
 #. Template: AdminNotificationEventTransportEmailSettings
 msgid "If encryption key/certificate is missing"
-msgstr ""
+msgstr "Als encryptie sleutel/certificaat ontbreekt"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Manage %s"
@@ -5692,7 +5692,7 @@ msgstr ""
 
 #. Template: AdminPGP
 msgid "Configure it here!"
-msgstr ""
+msgstr "Configureer het hier!"
 
 #. Template: AdminPGP
 msgid "Check PGP configuration"
@@ -5928,7 +5928,7 @@ msgstr "Primaire Sleutel"
 
 #. Template: AdminPackageManager
 msgid "Auto Increment"
-msgstr ""
+msgstr "Automatisch ophogen"
 
 #. Template: AdminPackageManager
 msgid "SQL"
@@ -8588,15 +8588,15 @@ msgstr ""
 
 #. Template: AgentTicketActionCommon
 msgid "Change Owner of %s%s%s"
-msgstr ""
+msgstr "Verander de eigenaar van %s %s %s"
 
 #. Template: AgentTicketActionCommon
 msgid "Close %s%s%s"
-msgstr ""
+msgstr "Sluit %s%s%s"
 
 #. Template: AgentTicketActionCommon
 msgid "Add Note to %s%s%s"
-msgstr ""
+msgstr "Voeg notitie aan %s%s%s"
 
 #. Template: AgentTicketActionCommon
 msgid "Set Pending Time for %s%s%s"
@@ -8604,11 +8604,11 @@ msgstr ""
 
 #. Template: AgentTicketActionCommon
 msgid "Change Priority of %s%s%s"
-msgstr ""
+msgstr "Wijzig de prioriteit van %s%s%s"
 
 #. Template: AgentTicketActionCommon
 msgid "Change Responsible of %s%s%s"
-msgstr ""
+msgstr "Wijzig de verantwoordelijke van %s%s%s"
 
 #. Template: AgentTicketActionCommon
 msgid "All fields marked with an asterisk (*) are mandatory."
@@ -8740,7 +8740,7 @@ msgstr "Ontgrendel tickets"
 
 #. Template: AgentTicketBulk
 msgid "Execute Bulk Action"
-msgstr ""
+msgstr "Bulkactie uitvoeren"
 
 #. Template: AgentTicketCompose
 msgid "Compose Answer for %s%s%s"
@@ -8780,7 +8780,7 @@ msgstr "Datum ongeldig."
 
 #. Template: AgentTicketCustomer
 msgid "Change Customer of %s%s%s"
-msgstr ""
+msgstr "Wijzig klant van %s%s%s"
 
 #. Template: AgentTicketEmail
 msgid "Create New Email Ticket"
@@ -8860,7 +8860,7 @@ msgstr "Detailoverzicht"
 
 #. Template: AgentTicketMerge
 msgid "Merge %s%s%s"
-msgstr ""
+msgstr "Samenvoegen %s%s%s"
 
 #. Template: AgentTicketMerge
 msgid "Merge Settings"
@@ -9052,7 +9052,7 @@ msgstr ""
 
 #. Template: AgentTicketSearch
 msgid "(e. g. 234*)"
-msgstr ""
+msgstr "(bv. 234*)"
 
 #. Template: AgentTicketSearch
 msgid "CustomerID (exact match)"
@@ -9064,7 +9064,7 @@ msgstr ""
 
 #. Template: AgentTicketSearch
 msgid "(e. g. U51*)"
-msgstr ""
+msgstr "(bv. U51*)"
 
 #. Template: AgentTicketSearch
 msgid "Customer User Login (exact match)"
@@ -9956,31 +9956,31 @@ msgstr "Welkom bij %s"
 
 #. Template: Installer
 msgid "Germany"
-msgstr ""
+msgstr "Duitsland"
 
 #. Template: Installer
 msgid "United States"
-msgstr ""
+msgstr "Verenigde Staten"
 
 #. Template: Installer
 msgid "Mexico"
-msgstr ""
+msgstr "Mexico"
 
 #. Template: Installer
 msgid "Hungary"
-msgstr ""
+msgstr "Hongarije"
 
 #. Template: Installer
 msgid "Brazil"
-msgstr ""
+msgstr "Brazilië"
 
 #. Template: Installer
 msgid "Singapore"
-msgstr ""
+msgstr "Singapore"
 
 #. Template: Installer
 msgid "Hong Kong"
-msgstr ""
+msgstr "Hong Kong"
 
 #. Template: Installer
 msgid "Web site"
@@ -10280,11 +10280,11 @@ msgstr ""
 
 #. Template: MetaFloater
 msgid "Open URL in new tab"
-msgstr ""
+msgstr "Open URL in nieuw tabblad"
 
 #. Template: MetaFloater
 msgid "Close preview"
-msgstr ""
+msgstr "Voorvertoning sluiten"
 
 #. Template: MetaFloater
 msgid "A preview of this website can't be provided because it didn't allow to be embedded."
@@ -10536,11 +10536,11 @@ msgstr "Schaal"
 
 #. Template: StatsParamsWidget
 msgid "show more"
-msgstr ""
+msgstr "Toon meer"
 
 #. Template: StatsParamsWidget
 msgid "show less"
-msgstr ""
+msgstr "Toon minder"
 
 #. Template: D3
 msgid "Download SVG"
@@ -10644,7 +10644,7 @@ msgstr "Er is een fout opgetreden met het ophalen van de gegevens voor ACL met I
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "Exact match"
-msgstr ""
+msgstr "Exacte overeenkomst"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "Negated exact match"
@@ -10652,7 +10652,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "Regular expression"
-msgstr ""
+msgstr "Reguliere expressie"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "Regular expression (ignore case)"
@@ -10764,15 +10764,15 @@ msgstr "Selecteer minimaal één ontvanger."
 
 #. Perl Module: Kernel/Modules/AdminGenericAgent.pm
 msgid "archive tickets"
-msgstr ""
+msgstr "archiveer tickets"
 
 #. Perl Module: Kernel/Modules/AdminGenericAgent.pm
 msgid "restore tickets from archive"
-msgstr ""
+msgstr "tickets van archief herstellen"
 
 #. Perl Module: Kernel/Modules/AdminGenericAgent.pm
 msgid "Need Profile!"
-msgstr ""
+msgstr "Profiel vereist!"
 
 #. Perl Module: Kernel/Modules/AdminGenericAgent.pm
 msgid "Got no values to check."
@@ -10924,7 +10924,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Invokers"
-msgstr ""
+msgstr "Invokers"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebserviceHistory.pm
 msgid "Got no WebserviceHistoryID!"
@@ -11136,7 +11136,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Could not delete %s:%s"
-msgstr ""
+msgstr "Kan %s:%s niet verwijderen"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "There was an error setting the entity sync status for %s entity: %s"
@@ -11236,11 +11236,11 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "Agent Interface"
-msgstr ""
+msgstr "Behandelaar interface"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "Customer Interface"
-msgstr ""
+msgstr "Klant interface"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "Agent and Customer Interface"
@@ -11296,11 +11296,11 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
 msgid "xor"
-msgstr ""
+msgstr "xor"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
 msgid "String"
-msgstr ""
+msgstr "String"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
 msgid "Transition validation module"
@@ -11360,7 +11360,7 @@ msgstr "Produktie"
 
 #. Perl Module: Kernel/Modules/AdminRegistration.pm
 msgid "Test"
-msgstr ""
+msgstr "Test"
 
 #. Perl Module: Kernel/Modules/AdminRegistration.pm
 msgid "Training"
@@ -19986,7 +19986,7 @@ msgstr ""
 
 #. SysConfig
 msgid "attachment"
-msgstr ""
+msgstr "bijlage"
 
 #. SysConfig
 msgid "bounce"
@@ -19994,7 +19994,7 @@ msgstr ""
 
 #. SysConfig
 msgid "compose"
-msgstr ""
+msgstr "opstellen"
 
 #. SysConfig
 msgid "debug"
@@ -20026,7 +20026,7 @@ msgstr ""
 
 #. SysConfig
 msgid "responsible"
-msgstr ""
+msgstr "verantwoordelijke"
 
 #. SysConfig
 msgid "stats"

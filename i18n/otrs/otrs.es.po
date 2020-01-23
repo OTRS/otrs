@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-12-07 19:57+0000\n"
+"POT-Creation-Date: 2020-01-23 08:56+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -5640,7 +5640,7 @@ msgstr "Chat"
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "Report Generator"
-msgstr "Generador de Reportes"
+msgstr "Generador de Informes"
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "Timeline view in ticket zoom"
@@ -10964,11 +10964,11 @@ msgstr "Los notificaciones no se pudieron importarse debido a un error desconoci
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "The following Notifications have been added successfully: %s"
-msgstr "Los siguientes Notificaciones se han agregado exitosamente: %s"
+msgstr "Los siguientes Notificaciones se han agregado correctamente: %s"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "The following Notifications have been updated successfully: %s"
-msgstr "Los siguientes Notificaciones se han actualizado exitosamente:%s"
+msgstr "Los siguientes Notificaciones se han actualizado correctamente:%s"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "There where errors adding/updating the following Notifications: %s. Please check the log file for more information."
@@ -17397,7 +17397,7 @@ msgstr "Crea enlace de Usuarios Clientes a Servicios."
 
 #. SysConfig
 msgid "Link queues to auto responses."
-msgstr "Crea enlace de Colas a Respuestas Automáticas"
+msgstr "Relacionar Colas con Respuestas Automáticas"
 
 #. SysConfig
 msgid "Link roles to groups."
@@ -18129,7 +18129,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Reports"
-msgstr "Reportes"
+msgstr "Informes"
 
 #. SysConfig
 msgid "Reports (OTRS Business Solution™)"

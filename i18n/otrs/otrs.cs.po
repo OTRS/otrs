@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-12-07 19:57+0000\n"
+"POT-Creation-Date: 2020-01-23 08:56+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2884,7 +2884,7 @@ msgstr "Smazat neplatná ACL"
 
 #. Template: AdminACLEdit
 msgid "Match settings"
-msgstr ""
+msgstr "Nastavení shody"
 
 #. Template: AdminACLEdit
 msgid "Set up matching criteria for this ACL. Use 'Properties' to match the current screen or 'PropertiesDatabase' to match attributes of the current ticket that are in the database."
@@ -2900,7 +2900,7 @@ msgstr ""
 
 #. Template: AdminACLEdit
 msgid "Check the official %sdocumentation%s."
-msgstr ""
+msgstr "Zkontrolovat oficiální %sdokumentaci%s."
 
 #. Template: AdminACLEdit
 msgid "Show or hide the content"
