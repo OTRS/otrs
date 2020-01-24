@@ -1,4 +1,6 @@
-#4.0.34 2018-??-??
+#4.0.35 ????-??-??
+
+#4.0.34 2020-02-07
  - 2019-07-11 Fixed bug#[13900](https://bugs.otrs.org/show_bug.cgi?id=13900) - Password authentication issue in Fedora 28 operating system.
 
 #4.0.33 2018-11-09
