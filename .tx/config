@@ -1,8 +1,0 @@
-[main]
-host = https://www.transifex.com
-
-[OTRS.otrs-community-edition]
-file_filter = i18n/otrs/otrs.<lang>.po
-source_file = i18n/otrs/otrs.pot
-source_lang = en
-type = PO
