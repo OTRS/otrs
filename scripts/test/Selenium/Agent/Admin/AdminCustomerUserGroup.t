@@ -114,10 +114,6 @@ $Selenium->RunTest(
             "$GroupRandomID group found on page",
         );
 
-        # clear CustomerUser filter
-        $Selenium->find_element( "#CustomerUserSearch", 'css' )->clear();
-        $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
-
         # Test Filter for Groups.
         $Selenium->find_element( "#FilterGroups", 'css' )->send_keys($GroupRandomID);
 
@@ -128,12 +124,6 @@ $Selenium->RunTest(
 
         # Change test CustomerUser relations for test Group.
         $Selenium->find_element( $GroupRandomID, 'link_text' )->VerifiedClick();
-
-        $Selenium->find_element( "#CustomerUserSearch", 'css' )->clear();
-        $Selenium->find_element( "#CustomerUserSearch", 'css' )->send_keys($UserRandomID);
-        $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
-
-        $Selenium->WaitFor( ElementExists => "//input[\@value='$UserRandomID'][\@name='rw']" );
 
         $Selenium->find_element("//input[\@value='$UserRandomID'][\@name='rw']")->VerifiedClick();
         $Selenium->find_element("//button[\@value='Submit'][\@type='submit']")->VerifiedClick();
