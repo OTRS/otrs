@@ -125,7 +125,11 @@ $Selenium->RunTest(
         # Change test CustomerUser relations for test Group.
         $Selenium->find_element( $GroupRandomID, 'link_text' )->VerifiedClick();
 
-        $Selenium->find_element("//input[\@value='$UserRandomID'][\@name='rw']")->VerifiedClick();
+        $Selenium->find_element( "#CustomerUserSearch", 'css' )->clear();
+        $Selenium->find_element( "#CustomerUserSearch", 'css' )->send_keys($UserRandomID);
+        $Selenium->find_element("//button[\@value='Search'][\@type='submit']")->VerifiedClick();
+
+        $Selenium->find_element("//input[\@value='$UserRandomID'][\@name='rw']")->click();
         $Selenium->find_element("//button[\@value='Submit'][\@type='submit']")->VerifiedClick();
 
         # Check test Group relation for test CustomerUser.
@@ -144,8 +148,20 @@ $Selenium->RunTest(
         );
 
         # Remove test Group relation for test CustomerUser.
-        $Selenium->find_element("//input[\@value='$GroupID'][\@name='rw']")->VerifiedClick();
-        $Selenium->find_element("//input[\@value='$GroupID'][\@name='ro']")->VerifiedClick();
+        $Selenium->find_element("//input[\@value='$GroupID'][\@name='rw']")->click();
+        $Selenium->find_element("//input[\@value='$GroupID'][\@name='ro']")->click();
+
+        $Self->Is(
+            $Selenium->find_element("//input[\@value='$GroupID'][\@name='rw']")->is_selected(),
+            0,
+            "Full read and write permission for $GroupRandomID is disabled",
+        );
+        $Self->Is(
+            $Selenium->find_element("//input[\@value='$GroupID'][\@name='ro']")->is_selected(),
+            0,
+            "Read only permission for $GroupRandomID is disabled",
+        );
+
         $Selenium->find_element("//button[\@value='Submit'][\@type='submit']")->VerifiedClick();
 
         my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
