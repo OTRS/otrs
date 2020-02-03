@@ -14,6 +14,7 @@ use warnings;
 use Storable();
 use Term::ANSIColor();
 use Text::Diff;
+use Time::HiRes();
 
 # UnitTest helper must be loaded to override the builtin time functions!
 use Kernel::System::UnitTest::Helper;
@@ -105,8 +106,7 @@ sub Run {
     print "$File:\n";
     print "+-------------------------------------------------------------------+\n";
 
-    # Use non-overridden time() function.
-    my $FileStartTime = CORE::time;    ## no critic
+    my $StartTime = [ Time::HiRes::gettimeofday() ];
 
     # Create a new scope to be sure to destroy local object of the test files.
     {
@@ -148,8 +148,7 @@ sub Run {
         }
     }
 
-    # Use non-overridden time() function.
-    $Self->{ResultData}->{Duration} = CORE::time - $FileStartTime;    ## no critic
+    $Self->{ResultData}->{Duration} = sprintf( '%.3f', Time::HiRes::tv_interval($StartTime) );
 
     if ( $Self->{SeleniumData} ) {
         $Self->{ResultData}->{SeleniumData} = $Self->{SeleniumData};
