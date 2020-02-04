@@ -403,7 +403,7 @@ $Selenium->RunTest(
         );
 
         # Hide the first calendar from view.
-        $Selenium->find_element( 'Calendar' . $Calendar1{CalendarID}, 'id' )->click();
+        $Selenium->execute_script("\$('#Calendar$Calendar1{CalendarID}').click();");
         $Selenium->WaitFor(
             JavaScript => 'return typeof($) === "function" && $("#Calendar'
                 . $Calendar1{CalendarID}
@@ -475,7 +475,7 @@ $Selenium->RunTest(
         );
 
         # Hide the second calendar from view.
-        $Selenium->find_element( 'Calendar' . $Calendar2{CalendarID}, 'id' )->click();
+        $Selenium->execute_script("\$('#Calendar$Calendar2{CalendarID}').click();");
         $Selenium->WaitFor(
             JavaScript => 'return typeof($) === "function" && $("#Calendar'
                 . $Calendar2{CalendarID}
