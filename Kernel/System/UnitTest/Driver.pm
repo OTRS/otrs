@@ -356,6 +356,48 @@ sub IsDeeply {
             }
         );
 
+        # Provide colored diff.
+        if ( $Self->{ANSI} ) {
+            my @DiffLines = split( m{\n}, $Diff );
+            $Diff = '';
+
+            for my $DiffLine (@DiffLines) {
+
+                # Diff type "Table"
+                if ( $Self->{DataDiffType} eq 'Table' ) {
+
+                    # Line changed
+                    if ( substr( $DiffLine, 0, 1 ) eq '*' && substr( $DiffLine, -1, 1 ) eq '*' ) {
+                        $DiffLine = $Self->_Color( 'yellow', $DiffLine );
+                    }
+
+                    # Line added
+                    elsif ( substr( $DiffLine, 0, 1 ) eq '|' && substr( $DiffLine, -1, 1 ) eq '*' ) {
+                        $DiffLine = $Self->_Color( 'green', $DiffLine );
+                    }
+
+                    # Line removed
+                    elsif ( substr( $DiffLine, 0, 1 ) eq '*' && substr( $DiffLine, -1, 1 ) eq '|' ) {
+                        $DiffLine = $Self->_Color( 'red', $DiffLine );
+                    }
+                }
+
+                # Diff type "Unified"
+                else {
+                    # Line added
+                    if ( substr( $DiffLine, 0, 1 ) eq '+' && substr( $DiffLine, 0, 4 ) ne '+++ ' ) {
+                        $DiffLine = $Self->_Color( 'green', $DiffLine );
+                    }
+
+                    # Line removed
+                    elsif ( substr( $DiffLine, 0, 1 ) eq '-' && substr( $DiffLine, 0, 4 ) ne '--- ' ) {
+                        $DiffLine = $Self->_Color( 'red', $DiffLine );
+                    }
+                }
+                $Diff .= $DiffLine . "\n";
+            }
+        }
+
         my $Output;
         $Output .= $Self->_Color( 'yellow', "Diff" ) . ":\n$Diff\n";
         $Output .= $Self->_Color( 'yellow', "Actual data" ) . ":\n$TestDump\n";
