@@ -1,4 +1,5 @@
 #5.0.42 ????-??-??
+ - 2020-02-05 Improved From field handling in the Email action screens.
 
 #5.0.41 2020-02-07
  - 2019-12-20 Fixed bug#[14912](https://bugs.otrs.org/show_bug.cgi?id=14912) - Installer refers to non-existing documentation.

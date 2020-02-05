@@ -156,6 +156,12 @@ sub Form {
     my @MultipleCustomerCc  = @{ $GetParamExtended{MultipleCustomerCc} };
     my @MultipleCustomerBcc = @{ $GetParamExtended{MultipleCustomerBcc} };
 
+    # Make sure sender is correct one. See bug#14872 ( https://bugs.otrs.org/show_bug.cgi?id=14872 ).
+    $GetParam{From} = $Kernel::OM->Get('Kernel::System::TemplateGenerator')->Sender(
+        QueueID => $Ticket{QueueID},
+        UserID  => $Self->{UserID},
+    );
+
     # get lock state
     my $Output = '';
     if ( $Config->{RequiredLock} ) {
@@ -925,9 +931,11 @@ sub SendEmail {
         FormID => $GetParam{FormID},
     );
 
-    my $From = $Kernel::OM->Get('Kernel::System::TemplateGenerator')->Sender(
-        QueueID => $Ticket{QueueID},
-        UserID  => $Self->{UserID},
+    # Get attributes like sender address.
+    my %Data = $Kernel::OM->Get('Kernel::System::TemplateGenerator')->Attributes(
+        TicketID => $Self->{TicketID},
+        Data     => {},
+        UserID   => $Self->{UserID},
     );
 
     # check if there is an error
@@ -1048,7 +1056,7 @@ sub SendEmail {
         TicketID       => $Self->{TicketID},
         HistoryType    => 'Forward',
         HistoryComment => "\%\%$To",
-        From           => $From,
+        From           => $Data{From},
         To             => $GetParam{To},
         Cc             => $GetParam{Cc},
         Bcc            => $GetParam{Bcc},

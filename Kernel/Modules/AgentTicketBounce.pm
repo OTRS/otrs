@@ -332,6 +332,12 @@ $Param{Signature}";
                 = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => $Parameter ) || '';
         }
 
+        # Make sure sender is correct one.
+        $Param{From} = $Kernel::OM->Get('Kernel::System::TemplateGenerator')->Sender(
+            QueueID => $Ticket{QueueID},
+            UserID  => $Self->{UserID},
+        );
+
         my %Error;
 
         # check forward email address
@@ -454,9 +460,11 @@ $Param{Signature}";
             return $Output;
         }
 
-        my $From = $Kernel::OM->Get('Kernel::System::TemplateGenerator')->Sender(
-            QueueID => $Ticket{QueueID},
-            UserID  => $Self->{UserID},
+        # Get attributes like sender address.
+        my %Data = $Kernel::OM->Get('Kernel::System::TemplateGenerator')->Attributes(
+            TicketID => $Self->{TicketID},
+            Data     => {},
+            UserID   => $Self->{UserID},
         );
 
         my $Bounce = $TicketObject->ArticleBounce(
@@ -464,7 +472,7 @@ $Param{Signature}";
             ArticleID   => $Self->{ArticleID},
             UserID      => $Self->{UserID},
             To          => $Param{BounceTo},
-            From        => $From,
+            From        => $Data{From},
             HistoryType => 'Bounce',
         );
 
@@ -501,7 +509,7 @@ $Param{Signature}";
                 TicketID       => $Self->{TicketID},
                 HistoryType    => 'Bounce',
                 HistoryComment => "Bounced info to '$Param{To}'.",
-                From           => $From,
+                From           => $Data{From},
                 Email          => $Param{Email},
                 To             => $Param{To},
                 Subject        => $Param{Subject},
