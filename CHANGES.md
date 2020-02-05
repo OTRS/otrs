@@ -1,4 +1,6 @@
 #6.0.27 ????-??-??
+ - 2020-02-05 Follow-up fix for bug#[10825](https://bugs.otrs.org/show_bug.cgi?id=10825) - <OTRS_CUSTOMER_Body> in Reply-Template.
+ Re-added tags which were marked as not supported in previous fix.
 
 #6.0.26 2020-02-07
  - 2020-01-23 Updated translations, thanks to all translators.

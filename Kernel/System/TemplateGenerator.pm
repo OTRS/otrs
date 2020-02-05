@@ -444,10 +444,25 @@ sub Template {
     # get list unsupported tags for standard template
     my @ListOfUnSupportedTag = qw(OTRS_AGENT_SUBJECT OTRS_AGENT_BODY OTRS_CUSTOMER_BODY OTRS_CUSTOMER_SUBJECT);
 
-    my $TemplateText = $Self->_RemoveUnSupportedTag(
-        Text                 => $Template{Template} || '',
-        ListOfUnSupportedTag => \@ListOfUnSupportedTag,
+    my %SupportedTypes = (
+        Answer  => 1,
+        Forward => 1,
+        Note    => 1,
     );
+
+    my $TemplateText = $Template{Template} || '';
+    my $TemplateType = $Template{TemplateType};
+
+    # Remove unsupported tags only for some template types.
+    if ( !$SupportedTypes{ $Template{TemplateType} } ) {
+        $TemplateText = $Self->_RemoveUnSupportedTag(
+            Text                 => $Template{Template} || '',
+            ListOfUnSupportedTag => \@ListOfUnSupportedTag,
+        );
+
+        # Reset template type for unsupported tag.
+        $TemplateType = '';
+    }
 
     # replace place holder stuff
     $TemplateText = $Self->_Replace(
@@ -457,7 +472,16 @@ sub Template {
         Data       => $Param{Data} || {},
         UserID     => $Param{UserID},
         Language   => $Language,
+        Template   => $TemplateType,
     );
+
+    if ( $Self->{RichText} ) {
+        $TemplateText =~ s/&lt;/</g;
+        $TemplateText =~ s/&gt;/>/g;
+        $TemplateText =~ s/&quot;/"/g;
+        $TemplateText =~ s/&apos;/'/g;
+        $TemplateText =~ s/&nbsp;/ /g;
+    }
 
     return $TemplateText;
 }
@@ -1663,6 +1687,65 @@ sub _Replace {
 
     # cleanup
     $Param{Text} =~ s/$Tag.+?$End/-/gi;
+
+    # Follow-up for bug#10825.
+    # Set data for replacing of specific tags in Templates:
+    # - OTRS_AGENT_SUBJECT, OTRS_AGENT_BODY - subject/body of the CURRENT/LATEST agent article
+    # - OTRS_CUSTOMER_SUBJECT, OTRS_CUSTOMER_BODY - subject/body of the CURRENT/LATEST customer article
+    # - OTRS_AGENT_SUBJECT[n]    - first n characters of the subject of the CURRENT/LATEST agent article
+    # - OTRS_AGENT_BODY[n]       - first n lines of the body of the CURRENT/LATEST agent article
+    # - OTRS_CUSTOMER_SUBJECT[n] - first n characters of the subject of the CURRENT/LATEST customer article
+    # - OTRS_CUSTOMER_BODY[n]    - first n lines of the body of the CURRENT/LATEST customer article
+    #
+    # For Note template we need the last article.
+    # For Answer, $Param{Data} has selected or last article data, depends whether ArticleID is sent or not.
+    # For Forward, $Param{Data} has the following article data:
+    # - if ArticleID is sent, data is from selected article.
+    # - if ArticleID is not sent, data is from last customer/agent/any article.
+    if ( $Param{Template} && $Ticket{TicketID} ) {
+        my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+
+        if ( $Param{Template} eq 'Note' ) {
+
+            # Get last article from agent.
+            my @AgentArticles = $ArticleObject->ArticleList(
+                TicketID   => $Param{TicketData}->{TicketID},
+                SenderType => 'agent',
+                OnlyLast   => 1,
+            );
+
+            my %AgentArticle = $ArticleObject->BackendForArticle( %{ $AgentArticles[0] } )->ArticleGet(
+                %{ $AgentArticles[0] },
+                DynamicFields => 0,
+            );
+
+            # Get last article from customer.
+            my @CustomerArticles = $ArticleObject->ArticleList(
+                TicketID   => $Param{TicketData}->{TicketID},
+                SenderType => 'customer',
+                OnlyLast   => 1,
+            );
+
+            my %CustomerArticle = $ArticleObject->BackendForArticle( %{ $CustomerArticles[0] } )->ArticleGet(
+                %{ $CustomerArticles[0] },
+                DynamicFields => 0,
+            );
+
+            $Param{DataAgent}->{Subject} = $AgentArticle{Subject};
+            $Param{DataAgent}->{Body}    = $AgentArticle{Body};
+            $Param{Data}->{Subject}      = $CustomerArticle{Subject};
+            $Param{Data}->{Body}         = $CustomerArticle{Body};
+        }
+        elsif ( $Param{Template} eq 'Answer' || $Param{Template} eq 'Forward' ) {
+
+            # If $Param{Data} has agent article data, we will set subject and body in $Param{DataAgent}
+            # to values from $Param{Data} in order to right replacing of OTRS_AGENT_SUBJECT/BODY tags.
+            if ( $Param{Data}->{SenderType} eq 'agent' ) {
+                $Param{DataAgent}->{Subject} = $Param{Data}->{Subject};
+                $Param{DataAgent}->{Body}    = $Param{Data}->{Body};
+            }
+        }
+    }
 
     # get customer and agent params and replace it with <OTRS_CUSTOMER_... or <OTRS_AGENT_...
     my %ArticleData = (

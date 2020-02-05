@@ -237,6 +237,26 @@
 
                 <p>[% Translate("You can use the following tags") | html %]:</p>
                 <dl>
+                    <dt><code>&lt;OTRS_AGENT_SUBJECT[20]&gt;</code></dt>
+                    <dd>
+                        [% Translate("To get the first 20 characters of the subject of the current/latest agent article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.") | html %]
+                    </dd>
+
+                    <dt><code>&lt;OTRS_AGENT_BODY[5]&gt;</code></dt>
+                    <dd>
+                        [% Translate("To get the first 5 lines of the body of the current/latest agent article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.") | html %]
+                    </dd>
+
+                    <dt><code>&lt;OTRS_CUSTOMER_SUBJECT[20]&gt;</code></dt>
+                    <dd>
+                        [% Translate("To get the first 20 characters of the subject of the current/latest article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.") | html %]
+                    </dd>
+
+                    <dt><code>&lt;OTRS_CUSTOMER_BODY[5]&gt;</code></dt>
+                    <dd>
+                        [% Translate("To get the first 5 lines of the body of the current/latest article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.") | html %]
+                    </dd>
+
                     <dt><code>&lt;OTRS_OWNER_*&gt;</code></dt>
                     <dd>
                         [% Translate("Ticket owner options") | html %] ([% Translate("e. g.") | html %]
