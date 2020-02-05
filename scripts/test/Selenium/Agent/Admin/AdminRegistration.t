@@ -203,4 +203,9 @@ EOS
     }
 );
 
+$Kernel::OM->Get('Kernel::System::Cache')->Delete(
+    Type => 'DaemonRunning',
+    Key  => $NodeID,
+);
+
 1;
