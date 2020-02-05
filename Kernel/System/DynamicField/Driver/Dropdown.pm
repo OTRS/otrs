@@ -122,7 +122,7 @@ sub FieldValueValidate {
 
     # Check if value parameter exists in possible values config.
     if ( length $Param{Value} ) {
-        return if !$Param{DynamicFieldConfig}->{Config}->{PossibleValues}->{ $Param{Value} };
+        return if !defined $Param{DynamicFieldConfig}->{Config}->{PossibleValues}->{ $Param{Value} };
     }
 
     return 1;

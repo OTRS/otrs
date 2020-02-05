@@ -1,4 +1,5 @@
 #6.0.27 ????-??-??
+ - 2020-02-05 Fixed bug#[14858](https://bugs.otrs.org/show_bug.cgi?id=14858) - Not possible to transfer value "0" via web service to dynamic field.
  - 2020-02-05 Fixed bug#[14203](https://bugs.otrs.org/show_bug.cgi?id=14203) - GET method processes entity-body message from request.
  - 2020-02-05 Follow-up fix for bug#[10825](https://bugs.otrs.org/show_bug.cgi?id=10825) - <OTRS_CUSTOMER_Body> in Reply-Template.
  Re-added tags which were marked as not supported in previous fix.
