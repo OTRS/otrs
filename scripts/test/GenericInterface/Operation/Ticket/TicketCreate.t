@@ -634,7 +634,10 @@ my $TestTicketDelete = sub {
     # Allow some time for all history entries to be written to the ticket before deleting it,
     #   otherwise TicketDelete could fail.
     sleep 1;
+    TICKETID:
     for my $TicketID (@TicketIDs) {
+
+        next TICKETID if !$TicketID;
 
         my $TicketDelete = $TicketObject->TicketDelete(
             TicketID => $TicketID,
