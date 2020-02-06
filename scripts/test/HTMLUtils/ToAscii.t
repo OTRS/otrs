@@ -133,6 +133,17 @@ test
     },
     {
         Input =>
+            "<div style=\"border:none;border-left:solid blue 1.5pt;padding:0cm 0cm 0cm 4.0pt\" type=\"cite\">Line 1<br/>
+Line 2<br/>
+Line 3</div>",
+        Result => "> Line 1
+> Line 2
+> Line 3
+",
+        Name => 'ToAscii - Quote using <div type="cite"> with additional parameter.'
+    },
+    {
+        Input =>
             "<pre><a class=\"moz-txt-link-freetext\"\rhref=\"mailto:html\@example.com\">mailto:html\@example.com</a></pre>",
         Result => "\n[1]mailto:html\@example.com\n\n\n\n[1] mailto:html\@example.com\n",
         Name   => 'ToAscii - <a class ... href ..>'
