@@ -123,6 +123,7 @@ one or more ticket entries in one call.
                     Changed            => '2010-10-27 20:15:15',
                     ChangeBy           => 123,
                     ArchiveFlag        => 'y',
+                    TimeUnit           => 123,
 
                     # If DynamicFields => 1 was passed, you'll get an entry like this for each dynamic field:
                     DynamicField => [
@@ -195,6 +196,7 @@ one or more ticket entries in one call.
                             Charset
                             MimeType
                             IncomingTime
+                            TimeUnit
 
                             # If DynamicFields => 1 was passed, you'll get an entry like this for each dynamic field:
                             DynamicField => [

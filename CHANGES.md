@@ -1,4 +1,5 @@
 #6.0.27 ????-??-??
+ - 2020-02-07 Fixed bug#[14967](https://bugs.otrs.org/show_bug.cgi?id=14967) - The accounted time is missing in the generic interface TicketGet documentation of API.
  - 2020-02-06 Fixed bug#[14833](https://bugs.otrs.org/show_bug.cgi?id=14833) - Citation conversion to plain text is broken.
  - 2020-02-05 Improved From field handling in the Email action screens.
  - 2020-02-05 Fixed bug#[14858](https://bugs.otrs.org/show_bug.cgi?id=14858) - Not possible to transfer value "0" via web service to dynamic field.
