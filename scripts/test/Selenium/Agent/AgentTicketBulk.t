@@ -183,6 +183,25 @@ $Selenium->RunTest(
             push @QueueIDs, $QueueID;
         }
 
+        my $QueueID = $QueueObject->QueueLookup( Queue => 'Frontend' );
+        if ( !defined $QueueID ) {
+            $QueueID = $QueueObject->QueueAdd(
+                Name            => 'Frontend',
+                ValidID         => 1,
+                GroupID         => $GroupIDs[0],
+                SystemAddressID => 1,
+                SalutationID    => 1,
+                SignatureID     => 1,
+                Comment         => 'Comment',
+                UserID          => $TestUserID,
+            );
+            $Self->True(
+                $QueueID,
+                "QueueID $QueueID is created",
+            );
+        }
+        push @QueueIDs, $QueueID;
+
         my $TestCustomerUser      = 'User-' . $RandomNumber;
         my $TestCustomerUserEmail = $TestCustomerUser . '@example.com';
         my $TestCustomerUserLogin = $CustomerUserObject->CustomerUserAdd(
@@ -387,6 +406,17 @@ $Selenium->RunTest(
             $Selenium->execute_script("return \$('#TypeID option[value=1]').text();"),
             "Unclassified",
             "After change - Ticket type is not translated",
+        );
+
+        # Check if ticket queue is not translated.
+        # For more information see bug #14968.
+        $Selenium->InputFieldValueSet(
+            Element => '#QueueID',
+            Value   => $QueueID,
+        );
+        $Self->True(
+            $Selenium->find_element('//select[@id="QueueID"]/option[contains(.,"Frontend")]'),
+            "On update - Ticket queue is not translated",
         );
 
         $Selenium->WaitForjQueryEventBound(

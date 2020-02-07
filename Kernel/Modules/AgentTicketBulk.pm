@@ -117,6 +117,7 @@ sub Run {
                 Data         => \%QueueList,
                 SelectedID   => $GetParam{QueueID},
                 TreeView     => $TreeView,
+                Translation  => 0,
                 PossibleNone => 1,
             },
         );
