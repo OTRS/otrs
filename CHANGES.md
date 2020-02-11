@@ -1,5 +1,4 @@
 #6.0.27 ????-??-??
- - 2020-02-11 Fixed bug#[14960](https://bugs.otrs.org/show_bug.cgi?id=14960) - Incorrect language file loading.
  - 2020-02-10 Fixed bug#[14773](https://bugs.otrs.org/show_bug.cgi?id=14773) - Invalid characters in Perl Modules section on AdminSupportDataCollector screen.
  - 2020-02-07 Fixed bug#[14968](https://bugs.otrs.org/show_bug.cgi?id=14968) - Values of the queue field are translated in the bulk view.
  - 2020-02-07 Fixed bug#[14967](https://bugs.otrs.org/show_bug.cgi?id=14967) - The accounted time is missing in the generic interface TicketGet documentation of API.
