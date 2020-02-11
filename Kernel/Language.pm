@@ -143,8 +143,16 @@ sub new {
             $Module =~ s/\/\//\//g;
             $Module =~ s/\//::/g;
 
-            # ignore language translation files like (en_GB, en_CA, ...)
-            next FILE if $Module =~ /.._..$/;
+            # Do we have a toplevel language without country code?
+            if ( length $Self->{UserLanguage} == 2 ) {
+
+                # Ignore sub-language translation files like (en_GB, en_CA, ...).
+                #
+                # This will not work for sr_Cyrl and sr_Latn, but in this case there is no "parent"
+                #   language where this could be problematic.
+                next FILE if $Module =~ /^Kernel::Language::[a-z]{2}_[A-Z]{2}$/;    # en_GB
+                next FILE if $Module =~ /^Kernel::Language::[a-z]{2}_[A-Z]{2}_/;    # en_GB_ITSM*
+            }
 
             # Remember custom files to load at the end.
             if ( $Module =~ /_Custom$/ ) {
