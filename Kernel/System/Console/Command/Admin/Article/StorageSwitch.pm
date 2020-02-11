@@ -13,6 +13,8 @@ use warnings;
 
 use base qw(Kernel::System::Console::BaseCommand);
 
+use Time::HiRes qw(usleep);
+
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::PID',
