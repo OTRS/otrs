@@ -1,4 +1,5 @@
 #5.0.42 ????-??-??
+ - 2020-02-11 Fixed bug#[14960](https://bugs.otrs.org/show_bug.cgi?id=14960) - Incorrect language file loading.
  - 2020-02-05 Improved From field handling in the Email action screens.
 
 #5.0.41 2020-02-07
