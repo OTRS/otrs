@@ -150,14 +150,14 @@ X-OTRS-Login: [% Env("Baselink") %]
                                     <label for="User" class="InvisibleText Mandatory">
                                         <span class="Marker">*</span> [% Translate("Username") | html %]
                                     </label>
-                                    <input autocorrect="off" autocomplete="username" placeholder="[% Translate("Username") | html %]" autocapitalize="off" type="text" id="User" name="User" value="[% Data.User | html %]" class="W75pc Validate_Required" />
+                                    <input autocorrect="off" autocomplete="[% Data.UserNameAutocomplete %]" placeholder="[% Translate("Username") | html %]" autocapitalize="off" type="text" id="User" name="User" value="[% Data.User | html %]" class="W75pc Validate_Required" />
                                     <div id="UserError" class="TooltipErrorMessage" ><p>[% Translate("This field is required.") | html %]</p></div>
                                 </div>
                                 <div>
                                     <label for="Password" class="InvisibleText Mandatory">
                                         <span class="Marker">*</span> [% Translate("Password") | html %]
                                     </label>
-                                    <input type="password" autocomplete="current-password" placeholder="[% Translate("Password") | html %]" id="Password" name="Password" class="W75pc Validate_Required" />
+                                    <input type="password" autocomplete="[% Data.PasswordAutocomplete %]" placeholder="[% Translate("Password") | html %]" id="Password" name="Password" class="W75pc Validate_Required" />
                                     <div id="PasswordError" class="TooltipErrorMessage" ><p>[% Translate("This field is required.") | html %]</p></div>
                                 </div>
                                 <div class="Clear"></div>
