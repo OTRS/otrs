@@ -825,6 +825,10 @@ sub Login {
     # if not in PreLogin mode, show normal login form
     else {
 
+        my $DisableLoginAutocomplete = $ConfigObject->Get('DisableLoginAutocomplete');
+        $Param{UserNameAutocomplete} = $DisableLoginAutocomplete ? 'off' : 'username';
+        $Param{PasswordAutocomplete} = $DisableLoginAutocomplete ? 'off' : 'current-password';
+
         $Self->Block(
             Name => 'LoginBox',
             Data => \%Param,
@@ -3508,6 +3512,10 @@ sub CustomerLogin {
 
     # if not in PreLogin mode, show normal login form
     else {
+
+        my $DisableLoginAutocomplete = $ConfigObject->Get('DisableLoginAutocomplete');
+        $Param{UserNameAutocomplete} = $DisableLoginAutocomplete ? 'off' : 'username';
+        $Param{PasswordAutocomplete} = $DisableLoginAutocomplete ? 'off' : 'current-password';
 
         $Self->Block(
             Name => 'LoginBox',

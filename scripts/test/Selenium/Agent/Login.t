@@ -14,7 +14,6 @@ use vars (qw($Self));
 
 use Kernel::GenericInterface::Operation::Session::Common;
 
-# get selenium object
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 # Cleanup existing settings to make sure session limit calculations are correct.
@@ -26,8 +25,13 @@ for my $SessionID ( $AuthSessionObject->GetAllSessionIDs() ) {
 $Selenium->RunTest(
     sub {
 
-        # get helper object
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
+        # Disable autocomplete in login form.
+        $Helper->ConfigSettingChange(
+            Key   => 'DisableLoginAutocomplete',
+            Value => 1,
+        );
 
         my @TestUserLogins;
 
@@ -77,6 +81,16 @@ $Selenium->RunTest(
                 );
             }
         }
+
+        # Check if autocomplete is disabled in login form.
+        $Self->True(
+            $Selenium->find_element("//input[\@name=\'User\'][\@autocomplete=\'off\']"),
+            'Autocomplete for username input field is disabled.'
+        );
+        $Self->True(
+            $Selenium->find_element("//input[\@name=\'Password\'][\@autocomplete=\'off\']"),
+            'Autocomplete for password input field is disabled.'
+        );
 
         my $Element = $Selenium->find_element( 'input#User', 'css' );
         $Element->is_displayed();
@@ -162,12 +176,28 @@ $Selenium->RunTest(
             "AgentSessionLimitPriorWarning is reached.",
         );
 
+        # Enable autocomplete in login form.
+        $Helper->ConfigSettingChange(
+            Key   => 'DisableLoginAutocomplete',
+            Value => 0,
+        );
+
         $Element = $Selenium->find_element( 'a#LogoutButton', 'css' );
         $Element->VerifiedClick();
 
         $Helper->ConfigSettingChange(
             Key   => 'AgentSessionPerUserLimit',
             Value => 1,
+        );
+
+        # Check if autocomplete is enabled in login form.
+        $Self->True(
+            $Selenium->find_element("//input[\@name=\'User\'][\@autocomplete=\'username\']"),
+            'Autocomplete for username input field is enabled.'
+        );
+        $Self->True(
+            $Selenium->find_element("//input[\@name=\'Password\'][\@autocomplete=\'current-password\']"),
+            'Autocomplete for password input field is enabled.'
         );
 
         $Element = $Selenium->find_element( 'input#User', 'css' );
