@@ -1,4 +1,5 @@
 #6.0.27 ????-??-??
+ - 2020-02-14 Fixed bug#[14963](https://bugs.otrs.org/show_bug.cgi?id=14963) - Mails are not signed in compose screens.
  - 2020-02-14 Fixed bug#[14926](https://bugs.otrs.org/show_bug.cgi?id=14926) - Tag <OTRS_EMAIL_DATE[]> in Templates does not work correctly.
  - 2020-02-14 Fixed bug#[14932](https://bugs.otrs.org/show_bug.cgi?id=14932) - The tag reference does not work in a Generic Agent job if the ticket has no CustomerID.
  - 2020-02-12 Fixed bug#[14960](https://bugs.otrs.org/show_bug.cgi?id=14960) - Incorrect language file loading.

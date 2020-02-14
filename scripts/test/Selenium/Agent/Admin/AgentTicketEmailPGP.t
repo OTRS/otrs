@@ -22,9 +22,9 @@ $Selenium->RunTest(
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
         # Create test user and login.
-        my $TestUserLogin = $Helper->TestUserCreate(
+        my ( $TestUserLogin, $TestUserID ) = $Helper->TestUserCreate(
             Groups => [ 'admin', 'users' ],
-        ) || die "Did not get test user";
+        );
 
         $Selenium->Login(
             Type     => 'Agent',
@@ -211,6 +211,124 @@ $Selenium->RunTest(
             "There is another signing, that is expired",
         );
 
+        my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
+        my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+
+        # create ticket
+        my $TicketID = $TicketObject->TicketCreate(
+            Title        => 'Ticket One Title',
+            QueueID      => $QueueID,
+            Lock         => 'unlock',
+            Priority     => '3 normal',
+            State        => 'new',
+            CustomerID   => 'example.com',
+            CustomerUser => 'customerOne@example.com',
+            OwnerID      => $TestUserID,
+            UserID       => $TestUserID,
+        );
+
+        # sanity check
+        $Self->True(
+            $TicketID,
+            "TicketCreate() successful for Ticket ID $TicketID",
+        );
+
+        my $ArticleID = $Kernel::OM->Get('Kernel::System::Ticket::Article::Backend::Internal')->ArticleCreate(
+            TicketID             => $TicketID,
+            IsVisibleForCustomer => 1,
+            SenderType           => 'customer',
+            From                 => 'customerOne@example.com',
+            To                   => 'Some Agent A <agent-a@example.com>',
+            Subject              => 'some short description',
+            Body                 => 'the message text',
+            Charset              => 'utf8',
+            MimeType             => 'text/plain',
+            HistoryType          => 'OwnerUpdate',
+            HistoryComment       => 'Some free text!',
+            UserID               => $TestUserID,
+        );
+
+        # sanity check
+        $Self->True(
+            $ArticleID,
+            "ArticleCreate() successful for Article ID $ArticleID",
+        );
+
+        my $CheckEmailSecurityOptions = sub {
+            $Selenium->WaitFor(
+                JavaScript =>
+                    'return typeof($) === "function" && $("#EmailSecurityOptions").length && !$(".AJAXLoader:visible").length'
+            );
+
+            # Select EmailSecurityOptions
+            $Selenium->InputFieldValueSet(
+                Element => '#EmailSecurityOptions',
+                Value   => "PGP::Sign::-",
+            );
+
+            $Selenium->WaitFor(
+                JavaScript =>
+                    'return typeof($) === "function" && $("#SignKeyID").length && !$(".AJAXLoader:visible").length'
+            );
+
+            $Selenium->WaitFor(
+                JavaScript =>
+                    "return \$('#SignKeyID option:selected').text();"
+            );
+
+            $Option = $Selenium->execute_script(
+                "return \$('#SignKeyID option:selected').text();"
+            );
+
+            $Self->True(
+                index( $Option, $SystemAddressEmail ) > -1,
+                "Signing key is selected",
+            );
+            return;
+        };
+
+        # Check EmailSecurityOptions, see bug#14963 for more information.
+        # Navigate to AgentTicketForward screen.
+        $Selenium->VerifiedGet(
+            "${ScriptAlias}index.pl?Action=AgentTicketForward;TicketID=$TicketID;ArticleID=$ArticleID"
+        );
+        $CheckEmailSecurityOptions->();
+
+        # Navigate to AgentTicketEmailOutbound screen.
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketEmailOutbound;TicketID=$TicketID");
+        $CheckEmailSecurityOptions->();
+
+        # Navigate to AgentTicketCompose screen.
+        $Selenium->VerifiedGet(
+            "${ScriptAlias}index.pl?Action=AgentTicketCompose;TicketID=$TicketID;ArticleID=$ArticleID;ResponseID=1"
+        );
+        $CheckEmailSecurityOptions->();
+
+        # Select EmailSecurityOptions
+        $Selenium->InputFieldValueSet(
+            Element => '#EmailSecurityOptions',
+            Value   => "PGP::Sign::-",
+        );
+
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof($) === "function" && $("#SignKeyID").length && !$(".AJAXLoader:visible").length'
+        );
+
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return \$('#SignKeyID option:selected').text();"
+        );
+
+        $Option = $Selenium->execute_script(
+            "return \$('#SignKeyID option:selected').text();"
+        );
+
+        $Self->True(
+            index( $Option, $SystemAddressEmail ) > -1,
+            "Signing key is selected",
+        );
+
         # Set test PGP in config so we can delete them.
         $Helper->ConfigSettingChange(
             Key   => 'PGP',
@@ -272,6 +390,25 @@ $Selenium->RunTest(
             "Directory deleted - '$PGPPath'",
         );
 
+        # Clean up test data from the DB.
+        $Success = $TicketObject->TicketDelete(
+            TicketID => $TicketID,
+            UserID   => 1,
+        );
+
+        # Ticket deletion could fail if apache still writes to ticket history. Try again in this case.
+        if ( !$Success ) {
+            sleep 3;
+            $Success = $TicketObject->TicketDelete(
+                TicketID => $TicketID,
+                UserID   => 1,
+            );
+        }
+        $Self->True(
+            $Success,
+            "Ticket is deleted - ID $TicketID"
+        );
+
         my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
         $Success = $DBObject->Do(
             SQL  => "DELETE FROM queue WHERE id = ?",
@@ -291,6 +428,9 @@ $Selenium->RunTest(
                 "Deleted SystemAddress - $SystemAddressID",
             );
         }
+
+        # Make sure the cache is correct.
+        $Kernel::OM->Get('Kernel::System::Cache')->CleanUp();
     }
 
 );
