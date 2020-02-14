@@ -1,4 +1,5 @@
 #6.0.27 ????-??-??
+ - 2020-02-14 Fixed bug#[14932](https://bugs.otrs.org/show_bug.cgi?id=14932) - The tag reference does not work in a Generic Agent job if the ticket has no CustomerID.
  - 2020-02-12 Fixed bug#[14960](https://bugs.otrs.org/show_bug.cgi?id=14960) - Incorrect language file loading.
  - 2020-02-11 Added a new SysConfig setting 'DisableLoginAutocomplete' - when enabled, it disables autocomplete in the login forms.
    System adds autocomplete="off" attribute to the login input fields. Note that some browsers ignore it by default (usually it can be changed in the browser configuration).

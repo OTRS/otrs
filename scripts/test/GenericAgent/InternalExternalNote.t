@@ -27,15 +27,13 @@ my $RandomID = $HelperObject->GetRandomID();
 
 # Create a ticket to test JobRun.
 my $TicketID = $TicketObject->TicketCreate(
-    Title        => 'Testticket for Untittest of the Generic Agent',
-    Queue        => 'Raw',
-    Lock         => 'lock',
-    PriorityID   => 1,
-    StateID      => 1,
-    CustomerNo   => '123465',
-    CustomerUser => 'customerUnitTest@example.com',
-    OwnerID      => 1,
-    UserID       => 1,
+    Title      => 'Testticket for Untittest of the Generic Agent',
+    Queue      => 'Raw',
+    Lock       => 'lock',
+    PriorityID => 1,
+    StateID    => 1,
+    OwnerID    => 1,
+    UserID     => 1,
 );
 
 # Create test article.

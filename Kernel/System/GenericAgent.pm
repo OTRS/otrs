@@ -982,13 +982,14 @@ sub _JobRunTicket {
             DynamicFields => 0,
         );
 
-        my %CustomerUserData;
+        if ( IsHashRefWithData( \%Ticket ) ) {
 
-        # We can only do OTRS Tag replacement if we have a CustomerUserID (langauge settings...)
-        if ( IsHashRefWithData( \%Ticket ) && IsStringWithData( $Ticket{CustomerUserID} ) ) {
-            my %CustomerUserData = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserDataGet(
-                User => $Ticket{CustomerUserID},
-            );
+            my %CustomerUserData = {};
+            if ( IsStringWithData( $Ticket{CustomerUserID} ) ) {
+                %CustomerUserData = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserDataGet(
+                    User => $Ticket{CustomerUserID},
+                );
+            }
 
             my %Notification = (
                 Subject     => $Param{Config}->{New}->{NoteSubject},
@@ -998,7 +999,7 @@ sub _JobRunTicket {
 
             my %GenericAgentArticle = $Kernel::OM->Get('Kernel::System::TemplateGenerator')->GenericAgentArticle(
                 TicketID     => $Param{TicketID},
-                Recipient    => \%CustomerUserData,    # Agent or Customer data get result
+                Recipient    => \%CustomerUserData,
                 Notification => \%Notification,
                 UserID       => $Param{UserID},
             );
