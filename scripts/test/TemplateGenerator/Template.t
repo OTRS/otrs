@@ -14,16 +14,6 @@ use vars (qw($Self));
 
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-# Set Default Language.
-my $Success = $ConfigObject->Set(
-    Key   => 'DefaultLanguage',
-    Value => 'en',
-);
-$Self->True(
-    $Success,
-    "Set default language to English",
-);
-
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
         RestoreDatabase  => 1,
@@ -31,6 +21,14 @@ $Kernel::OM->ObjectParamAdd(
     },
 );
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
+my $DateTimeObject = $Kernel::OM->Create(
+    'Kernel::System::DateTime',
+    ObjectParams => {
+        String => '2020-01-10 16:00:00',
+    },
+);
+$Helper->FixedTimeSet($DateTimeObject);
 
 # Do not check email addresses.
 $Helper->ConfigSettingChange(
@@ -43,6 +41,20 @@ $Helper->ConfigSettingChange(
     Valid => 1,
     Key   => 'Frontend::RichText',
     Value => 0,
+);
+
+# Set DefaultLanguage to UTC.
+$Helper->ConfigSettingChange(
+    Valid => 1,
+    Key   => 'DefaultLanguage',
+    Value => 'en',
+);
+
+# Set OTRSTimeZone to UTC.
+$Helper->ConfigSettingChange(
+    Valid => 1,
+    Key   => 'OTRSTimeZone',
+    Value => 'UTC',
 );
 
 my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
@@ -306,6 +318,23 @@ my @Tests = (
             Unsupported => 'Test: -',
         }
     },
+    {
+        Name => 'Test supported tag - <OTRS_EMAIL_DATE[*]> with time zones',
+        TemplateText =>
+            'Belgrade: <OTRS_EMAIL_DATE[Europe/Belgrade]>; Denver: <OTRS_EMAIL_DATE[America/Denver]>; Tokyo: <OTRS_EMAIL_DATE[Asia/Tokyo]>',
+        ExpectedResult =>
+            "Belgrade: Friday, January 10, 2020 at 17:00:00 (Europe/Belgrade); Denver: Friday, January 10, 2020 at 09:00:00 (America/Denver); Tokyo: Saturday, January 11, 2020 at 01:00:00 (Asia/Tokyo)",
+        Data     => \%TicketData,
+        TicketID => $TicketID,
+    },
+    {
+        Name => 'Test supported tag - <OTRS_EMAIL_DATE> without time zone',
+        TemplateText =>
+            'No TimeZone specified (UTC): <OTRS_EMAIL_DATE>',
+        ExpectedResult => 'No TimeZone specified (UTC): Friday, January 10, 2020 at 16:00:00 (UTC)',
+        Data           => \%TicketData,
+        TicketID       => $TicketID,
+    },
 );
 
 my $StandardTemplateObject  = $Kernel::OM->Get('Kernel::System::StandardTemplate');
@@ -334,7 +363,7 @@ for my $Test (@Tests) {
             my $Template = $TemplateGeneratorObject->Template(
                 TemplateID => $TemplateID,
                 TicketID   => $Test->{TicketID},
-                Data       => {},
+                Data       => $Test->{Data} // {},
                 UserID     => 1,
             );
             $Self->Is(

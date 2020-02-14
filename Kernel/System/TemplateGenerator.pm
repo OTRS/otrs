@@ -1740,7 +1740,7 @@ sub _Replace {
 
             # If $Param{Data} has agent article data, we will set subject and body in $Param{DataAgent}
             # to values from $Param{Data} in order to right replacing of OTRS_AGENT_SUBJECT/BODY tags.
-            if ( $Param{Data}->{SenderType} eq 'agent' ) {
+            if ( $Param{Data}->{SenderType} && $Param{Data}->{SenderType} eq 'agent' ) {
                 $Param{DataAgent}->{Subject} = $Param{Data}->{Subject};
                 $Param{DataAgent}->{Body}    = $Param{Data}->{Body};
             }
@@ -1853,18 +1853,38 @@ sub _Replace {
 
             if ( $DataType eq 'OTRS_CUSTOMER_' ) {
 
-                # Arnold Ligtvoet - otrs@ligtvoet.org
-                # get <OTRS_EMAIL_DATE[]> from body and replace with received date
-                use POSIX qw(strftime);
+                # Get <OTRS_EMAIL_DATE[]> from body and replace with received date.
+                # This tag will be able to use with supported OTRS time zones
+                #   ( e.g. <OTRS_EMAIL_DATE[Europe/Berlin]>, <OTRS_EMAIL_DATE[Asia/Tokyo]>,
+                #   <OTRS_EMAIL_DATE[America/Denver]> , ...).
+                # If you use tag without time in simple format as <OTRS_EMAIL_DATE>,
+                #  time will be transformed into OTRS SystemTimeZone.
                 $Tag = $Start . 'OTRS_EMAIL_DATE';
 
-                if ( $Param{Text} =~ /$Tag\[(.+?)\]$End/g ) {
+                my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
+                my $SystemTimeZone = $DateTimeObject->OTRSTimeZoneGet();
+                while ( $Param{Text} =~ /$Tag\[(.+?)\]$End/g ) {
+                    my $TimeZone      = $1;
+                    my $TimeZoneValid = $DateTimeObject->IsTimeZoneValid( TimeZone => $TimeZone );
+                    if ($TimeZoneValid) {
+                        $DateTimeObject->ToTimeZone( TimeZone => $TimeZone );
+                    }
+                    else {
+                        $TimeZone = $SystemTimeZone;
+                    }
 
-                    my $TimeZone       = $1;
-                    my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
-                    my $EmailDate      = $DateTimeObject->Format( Format => '%A, %B %e, %Y at %T ' );
+                    my $EmailDate = $DateTimeObject->Format( Format => '%A, %B %e, %Y at %T ' );
                     $EmailDate .= "($TimeZone)";
-                    $Param{Text} =~ s/$Tag\[.+?\]$End/$EmailDate/g;
+                    $Param{Text} =~ s/$Tag\[$1\]$End/$EmailDate/g;
+                }
+
+                if ( $Param{Text} =~ /$Tag$End/g ) {
+                    my $TimeZone = $SystemTimeZone;
+                    $DateTimeObject->ToTimeZone( TimeZone => $TimeZone );
+
+                    my $EmailDate = $DateTimeObject->Format( Format => '%A, %B %e, %Y at %T ' );
+                    $EmailDate .= "($TimeZone)";
+                    $Param{Text} =~ s/$Tag$End/$EmailDate/g;
                 }
             }
         }
