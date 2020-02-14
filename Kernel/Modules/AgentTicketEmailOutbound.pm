@@ -86,12 +86,6 @@ sub Run {
         my $CustomerUser = $Ticket{CustomerUserID};
         my $QueueID      = $Ticket{QueueID};
 
-        # Make sure sender is correct one. See bug#14872 ( https://bugs.otrs.org/show_bug.cgi?id=14872 ).
-        $GetParam{From} = $Kernel::OM->Get('Kernel::System::TemplateGenerator')->Sender(
-            QueueID => $Ticket{QueueID},
-            UserID  => $Self->{UserID},
-        );
-
         # get dynamic field values form http request
         my %DynamicFieldValues;
 
@@ -1302,6 +1296,14 @@ sub AjaxUpdate {
     my @MultipleCustomer    = @{ $GetParamExtended{MultipleCustomer} };
     my @MultipleCustomerCc  = @{ $GetParamExtended{MultipleCustomerCc} };
     my @MultipleCustomerBcc = @{ $GetParamExtended{MultipleCustomerBcc} };
+
+    my %Ticket = $Kernel::OM->Get('Kernel::System::Ticket')->TicketGet( TicketID => $Self->{TicketID} );
+
+    # Make sure sender is correct one. See bug#14872 ( https://bugs.otrs.org/show_bug.cgi?id=14872 ).
+    $GetParam{From} = $Kernel::OM->Get('Kernel::System::TemplateGenerator')->Sender(
+        QueueID => $Ticket{QueueID},
+        UserID  => $Self->{UserID},
+    );
 
     my @ExtendedData;
 
