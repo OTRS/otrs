@@ -719,7 +719,7 @@ sub _Check {
             }
 
             if ($NoColors) {
-                print "ok ($OutputVersion)\n" . color('yellow') . "$AdditionalText" . color('reset');
+                print "ok ($OutputVersion)\n$AdditionalText";
             }
             else {
                 print color('green') . 'ok'
