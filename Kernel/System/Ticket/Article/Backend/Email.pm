@@ -13,7 +13,6 @@ use warnings;
 
 use Mail::Address;
 
-use Kernel::Language qw(Translatable);
 use Kernel::System::VariableCheck qw(:all);
 
 use parent 'Kernel::System::Ticket::Article::Backend::MIMEBase';

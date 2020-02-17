@@ -15,7 +15,6 @@ use Digest::MD5;
 use MIME::Base64 ();
 
 use Kernel::System::EventHandler;
-use Kernel::Language qw(Translatable);
 use Kernel::System::VariableCheck qw(:all);
 use vars qw(@ISA);
 

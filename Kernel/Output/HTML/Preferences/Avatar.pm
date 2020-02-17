@@ -13,8 +13,6 @@ use warnings;
 
 use Digest::MD5 qw(md5_hex);
 
-use Kernel::Language qw(Translatable);
-
 our @ObjectDependencies = (
     'Kernel::System::Web::Request',
     'Kernel::Config',

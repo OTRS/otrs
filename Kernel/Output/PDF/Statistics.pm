@@ -23,8 +23,6 @@ our @ObjectDependencies = (
     'Kernel::System::User',
 );
 
-use Kernel::Language qw(Translatable);
-
 sub new {
     my ( $Type, %Param ) = @_;
 
