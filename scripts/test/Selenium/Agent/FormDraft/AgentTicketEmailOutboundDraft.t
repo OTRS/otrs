@@ -439,7 +439,7 @@ $Selenium->RunTest(
                     ),
                     2,
                     "Uploaded file correctly"
-                );
+                ) || die;
             }
         }
 
