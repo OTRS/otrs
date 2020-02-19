@@ -258,8 +258,9 @@ $Selenium->RunTest(
         $Selenium->WaitFor( JavaScript => "return !\$('.Dialog.Modal').length;" );
 
         # Check Restrictions configuration dialog.
-        $Selenium->find_element( ".EditRestrictions", 'css' )->click();
+        $Selenium->find_element("//span[contains(.,\'Filter\')]")->click();
         $Selenium->WaitFor( JavaScript => "return \$('.Dialog.Modal').length;" );
+        $Selenium->WaitFor( JavaScript => "return \$('#EditDialog select').length;" );
 
         $Selenium->InputFieldValueSet(
             Element => '#EditDialog select',
