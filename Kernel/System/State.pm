@@ -217,9 +217,10 @@ sub StateGet {
 
     # no data found...
     if ( !%Data ) {
+        my $Error = $Param{Name} ? "State '$Param{Name}'" : "StateID '$Param{ID}'";
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "State '$Param{Name}' not found!",
+            Message  => $Error . " not found!",
         );
         return;
     }

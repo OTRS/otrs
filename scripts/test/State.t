@@ -114,7 +114,7 @@ $Self->True(
     Result    => 'ID',
 );
 $Self->True(
-    ( grep { $_ ne $StateID } @List ),
+    grep { $_ ne $StateID } @List,
     "StateGetStatesByType() does not contain the state $StateNameUpdate with ID $StateID",
 );
 
@@ -130,6 +130,36 @@ $Self->True(
 $Self->True(
     ( grep { $_ eq 'open' } values %StateTypeList ),
     "StateGetStatesByType() does not contain the state 'open'",
+);
+
+# Check log message if StateGet is not found any data.
+# See PR#2009 for more information ( https://github.com/OTRS/otrs/pull/2009 ).
+my $LogObject = $Kernel::OM->Get('Kernel::System::Log');
+%State = $StateObject->StateGet( ID => '999999' );
+
+my $ErrorMessage = $LogObject->GetLogEntry(
+    Type => 'error',
+    What => 'Message',
+);
+
+$Self->Is(
+    $ErrorMessage,
+    "StateID '999999' not found!",
+    "StateGet() - '999999' not found",
+);
+
+my $NoDataState = 'no_data_state' . $Helper->GetRandomID();
+%State = $StateObject->StateGet( Name => $NoDataState );
+
+$ErrorMessage = $LogObject->GetLogEntry(
+    Type => 'error',
+    What => 'Message',
+);
+
+$Self->Is(
+    $ErrorMessage,
+    "State '$NoDataState' not found!",
+    "StateGet() - $NoDataState not found",
 );
 
 # cleanup is done by RestoreDatabase

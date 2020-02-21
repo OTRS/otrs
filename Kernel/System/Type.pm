@@ -212,9 +212,10 @@ sub TypeGet {
 
     # no data found
     if ( !%Type ) {
+        my $Error = $Param{Name} ? "Type '$Param{Name}'" : "TypeID '$Param{ID}'";
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "TypeID '$Param{ID}' not found!",
+            Message  => $Error . " not found!",
         );
         return;
     }
