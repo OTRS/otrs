@@ -120,10 +120,9 @@ sub CheckEmail {
         $Self->{ErrorType} = 'InvalidSyntax';
     }
 
-    # email address syntax check
     # period (".") may not be used to end the local part,
     # nor may two or more consecutive periods appear
-    if ( $Param{Address} =~ /(\.\.)|(\.@)/ ) {
+    elsif ( $Param{Address} =~ /(\.\.)|(\.@)/ ) {
         $Error = "Invalid syntax";
         $Self->{ErrorType} = 'InvalidSyntax';
     }
