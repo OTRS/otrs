@@ -11685,6 +11685,15 @@ Thanks for your help!
             </Hash>
         </Value>
     </Setting>
+    <Setting Name="PostMaster::CheckFollowUpModule###0600-ExternalTicketNumberRecognition" Required="0" Valid="0">
+        <Description Translatable="1">Checks if an email is a follow-up to an existing ticket with external ticket number which can be found by ExternalTicketNumberRecognition filter module.</Description>
+        <Navigation>Core::Email::PostMaster</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Module">Kernel::System::PostMaster::FollowUpCheck::ExternalTicketNumberRecognition</Item>
+            </Hash>
+        </Value>
+    </Setting>
     <Setting Name="PostMaster::NewTicket::AutoAssignCustomerIDForUnknownCustomers" Required="1" Valid="1">
         <Description Translatable="1">Controls if CustomerID is automatically copied from the sender address for unknown customers.</Description>
         <Navigation>Core::Email::PostMaster</Navigation>

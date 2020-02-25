@@ -1,4 +1,5 @@
 #6.0.27 ????-??-??
+ - 2020-02-25 Fixed bug#[14944](https://bugs.otrs.org/show_bug.cgi?id=14944) - Changing Ticket Number Generator causes ExternalTicketNumberRecognition to fail.
  - 2020-02-14 Fixed bug#[14974](https://bugs.otrs.org/show_bug.cgi?id=14974) - Untranslated string in appointment calendar.
  - 2020-02-14 Fixed bug#[14963](https://bugs.otrs.org/show_bug.cgi?id=14963) - Mails are not signed in compose screens.
  - 2020-02-14 Fixed bug#[14926](https://bugs.otrs.org/show_bug.cgi?id=14926) - Tag <OTRS_EMAIL_DATE[]> in Templates does not work correctly.
