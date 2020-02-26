@@ -125,7 +125,7 @@ sub new {
         $Map{$Key} = 'SCALAR';
     }
     for my $Type (
-        qw(TicketCreate TicketChange TicketClose TicketLastChange TicketPending TicketEscalation TicketEscalationResponse TicketEscalationUpdate TicketEscalationSolution)
+        qw(TicketCreate TicketChange TicketClose TicketLastChange TicketLastClose TicketPending TicketEscalation TicketEscalationResponse TicketEscalationUpdate TicketEscalationSolution)
         )
     {
         for my $Attribute (
@@ -608,6 +608,7 @@ sub JobGet {
         TicketChange             => 'ChangeTime',
         TicketClose              => 'CloseTime',
         TicketLastChange         => 'LastChangeTime',
+        TicketLastClose          => 'LastCloseTime',
         TicketPending            => 'TimePending',
         TicketEscalation         => 'EscalationTime',
         TicketEscalationResponse => 'EscalationResponseTime',
@@ -616,7 +617,7 @@ sub JobGet {
     );
 
     for my $Type (
-        qw(TicketCreate TicketChange TicketClose TicketLastChange TicketPending TicketEscalation TicketEscalationResponse TicketEscalationUpdate TicketEscalationSolution)
+        qw(TicketCreate TicketChange TicketClose TicketLastChange TicketLastClose TicketPending TicketEscalation TicketEscalationResponse TicketEscalationUpdate TicketEscalationSolution)
         )
     {
         my $SearchType = $Map{$Type} . 'SearchType';

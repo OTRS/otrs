@@ -208,6 +208,11 @@ To find tickets in your system.
         # ticket history entries that created less than 120 minutes ago (optional)
         TicketChangeTimeNewerMinutes => 120,
 
+        # ticket history entry create time after ... (ticket history entries newer than this date) (optional)
+        TicketChangeTimeNewerDate => '2006-01-09 00:00:01',
+        # ticket history entry create time before ... (ticket history entries older than this date) (optional)
+        TicketChangeTimeOlderDate => '2006-01-19 23:59:59',
+
         # tickets changed more than 60 minutes ago (optional)
         TicketLastChangeTimeOlderMinutes => 60,
         # tickets changed less than 120 minutes ago (optional)
@@ -218,11 +223,6 @@ To find tickets in your system.
         # tickets with changed time before ... (ticket changed older than this date) (optional)
         TicketLastChangeTimeOlderDate => '2006-01-19 23:59:59',
 
-        # ticket history entry create time after ... (ticket history entries newer than this date) (optional)
-        TicketChangeTimeNewerDate => '2006-01-09 00:00:01',
-        # ticket history entry create time before ... (ticket history entries older than this date) (optional)
-        TicketChangeTimeOlderDate => '2006-01-19 23:59:59',
-
         # tickets closed more than 60 minutes ago (optional)
         TicketCloseTimeOlderMinutes => 60,
         # tickets closed less than 120 minutes ago (optional)
@@ -232,6 +232,16 @@ To find tickets in your system.
         TicketCloseTimeNewerDate => '2006-01-09 00:00:01',
         # tickets with closed time before ... (ticket closed older than this date) (optional)
         TicketCloseTimeOlderDate => '2006-01-19 23:59:59',
+
+        # tickets with last close time more than 60 minutes ago (optional)
+        TicketLastCloseTimeOlderMinutes => 60,
+        # tickets with last close time less than 120 minutes ago (optional)
+        TicketLastCloseTimeNewerMinutes => 120,
+
+        # tickets with last close time after ... (ticket last close newer than this date) (optional)
+        TicketLastCloseTimeNewerDate => '2006-01-09 00:00:01',
+        # tickets with last close time before ... (ticket last close older than this date) (optional)
+        TicketLastCloseTimeOlderDate => '2006-01-19 23:59:59',
 
         # tickets with pending time of more than 60 minutes ago (optional)
         TicketPendingTimeOlderMinutes => 60,
@@ -499,7 +509,11 @@ sub TicketSearch {
     my %TicketHistoryJoins = ();
     ARGUMENT:
     for my $Key ( sort keys %Param ) {
-        if ( $Param{$Key} && $Key =~ /^(Ticket(Close|Change)Time(Newer|Older)(Date|Minutes)|Created.+?)/ ) {
+        if (
+            $Param{$Key}
+            && $Key =~ /^(Ticket(Last)?(Close|Change)Time(Newer|Older)(Date|Minutes)|Created.+?)/
+            )
+        {
             my $THRef = $Self->_TicketHistoryReferenceForSearchArgument(
                 Argument => $Key,
             );
@@ -2172,6 +2186,185 @@ sub TicketSearch {
         }
     }
 
+    # Get tickets last closed older than x minutes.
+    if ( defined $Param{TicketLastCloseTimeOlderMinutes} ) {
+
+        $Param{TicketLastCloseTimeOlderMinutes} ||= 0;
+
+        my $TimeStamp = $DateTimeObject->Clone();
+        $TimeStamp->Subtract( Minutes => $Param{TicketLastCloseTimeOlderMinutes} );
+
+        $Param{TicketLastCloseTimeOlderDate} = $TimeStamp->ToString();
+    }
+
+    # Get tickets last closed newer than x minutes.
+    if ( defined $Param{TicketLastCloseTimeNewerMinutes} ) {
+
+        $Param{TicketLastCloseTimeNewerMinutes} ||= 0;
+
+        my $TimeStamp = $DateTimeObject->Clone();
+        $TimeStamp->Subtract( Minutes => $Param{TicketLastCloseTimeNewerMinutes} );
+
+        $Param{TicketLastCloseTimeNewerDate} = $TimeStamp->ToString();
+    }
+
+    # Get tickets last closed older than xxxx-xx-xx xx:xx date.
+    my $CompareLastCloseTimeOlderNewerDate;
+    if ( $Param{TicketLastCloseTimeOlderDate} ) {
+        my $THRef = $Self->_TicketHistoryReferenceForSearchArgument(
+            Argument => 'TicketLastCloseTimeOlderDate',
+        );
+        return if !$THRef;
+
+        # Check time format.
+        if (
+            $Param{TicketLastCloseTimeOlderDate}
+            !~ /\d\d\d\d-(\d\d|\d)-(\d\d|\d) (\d\d|\d):(\d\d|\d):(\d\d|\d)/
+            )
+        {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Invalid time format '$Param{TicketLastCloseTimeOlderDate}'!",
+            );
+            return;
+        }
+
+        my $Time = $Kernel::OM->Create(
+            'Kernel::System::DateTime',
+            ObjectParams => {
+                String => $Param{TicketLastCloseTimeOlderDate},
+            }
+        );
+
+        if ( !$Time ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message =>
+                    "Search not executed due to invalid time '"
+                    . $Param{TicketLastCloseTimeOlderDate} . "'!",
+            );
+            return;
+        }
+        $CompareLastCloseTimeOlderNewerDate = $Time;
+
+        # Get close state ids.
+        my @List = $Kernel::OM->Get('Kernel::System::State')->StateGetStatesByType(
+            StateType => ['closed'],
+            Result    => 'ID',
+        );
+        my @StateID = ( $Self->HistoryTypeLookup( Type => 'NewTicket' ) );
+        push( @StateID, $Self->HistoryTypeLookup( Type => 'StateUpdate' ) );
+        if (@StateID) {
+            $SQLExt .= sprintf(
+                " AND %s.history_type_id IN (%s) AND %s.state_id IN (%s) AND "
+                    . "%s.create_time <= '%s' AND "
+                    . "%s.create_time IN "
+                    . "("
+                    . "SELECT lco1.create_time "
+                    . "FROM ticket_history lco1 "
+                    . "INNER JOIN "
+                    . "("
+                    . "SELECT ticket_id, MAX(create_time) AS max_time "
+                    . "FROM ticket_history "
+                    . "WHERE history_type_id IN (%s) AND state_id IN (%s) "
+                    . "GROUP BY ticket_id "
+                    . ") lco2 "
+                    . "ON lco1.ticket_id = lco2.ticket_id "
+                    . "AND lco1.create_time = lco2.max_time "
+                    . ") ",
+                $THRef,
+                ( join ', ', sort @StateID ),
+                $THRef,
+                ( join ', ', sort @List ),
+                $THRef,
+                $DBObject->Quote( $Param{TicketLastCloseTimeOlderDate} ),
+                $THRef,
+                ( join ', ', sort @StateID ),
+                ( join ', ', sort @List )
+            );
+        }
+    }
+
+    # Get tickets last closed newer than xxxx-xx-xx xx:xx date.
+    if ( $Param{TicketLastCloseTimeNewerDate} ) {
+        my $THRef = $Self->_TicketHistoryReferenceForSearchArgument(
+            Argument => 'TicketLastCloseTimeNewerDate',
+        );
+        return if !$THRef;
+
+        if (
+            $Param{TicketLastCloseTimeNewerDate}
+            !~ /\d\d\d\d-(\d\d|\d)-(\d\d|\d) (\d\d|\d):(\d\d|\d):(\d\d|\d)/
+            )
+        {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Invalid time format '$Param{TicketLastCloseTimeNewerDate}'!",
+            );
+            return;
+        }
+
+        my $Time = $Kernel::OM->Create(
+            'Kernel::System::DateTime',
+            ObjectParams => {
+                String => $Param{TicketLastCloseTimeNewerDate},
+            }
+        );
+
+        if ( !$Time ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message =>
+                    "Search not executed due to invalid time '"
+                    . $Param{TicketLastCloseTimeNewerDate} . "'!",
+            );
+            return;
+        }
+
+        # Don't execute queries if newer date is after current date.
+        return if $Time > $DateTimeObject;
+
+        # Don't execute queries if older/newer date restriction show now valid timeframe.
+        return if $CompareLastCloseTimeOlderNewerDate && $Time > $CompareLastCloseTimeOlderNewerDate;
+
+        # Get close state ids.
+        my @List = $Kernel::OM->Get('Kernel::System::State')->StateGetStatesByType(
+            StateType => ['closed'],
+            Result    => 'ID',
+        );
+        my @StateID = ( $Self->HistoryTypeLookup( Type => 'NewTicket' ) );
+        push( @StateID, $Self->HistoryTypeLookup( Type => 'StateUpdate' ) );
+        if (@StateID) {
+            $SQLExt .= sprintf(
+                " AND %s.history_type_id IN (%s) AND %s.state_id IN (%s) AND "
+                    . "%s.create_time >= '%s' AND "
+                    . "%s.create_time IN "
+                    . "("
+                    . "SELECT lcn1.create_time "
+                    . "FROM ticket_history lcn1 "
+                    . "INNER JOIN "
+                    . "("
+                    . "SELECT ticket_id, MAX(create_time) AS max_time "
+                    . "FROM ticket_history "
+                    . "WHERE history_type_id IN (%s) AND state_id IN (%s) "
+                    . "GROUP BY ticket_id "
+                    . ") lcn2 "
+                    . "ON lcn1.ticket_id = lcn2.ticket_id "
+                    . "AND lcn1.create_time = lcn2.max_time "
+                    . ") ",
+                $THRef,
+                ( join ', ', sort @StateID ),
+                $THRef,
+                ( join ', ', sort @List ),
+                $THRef,
+                $DBObject->Quote( $Param{TicketLastCloseTimeNewerDate} ),
+                $THRef,
+                ( join ', ', sort @StateID ),
+                ( join ', ', sort @List )
+            );
+        }
+    }
+
     # check if only pending states are used
     if (
         defined $Param{TicketPendingTimeOlderMinutes}
@@ -2728,10 +2921,14 @@ sub _TicketHistoryReferenceForSearchArgument {
         TicketLastChangeTimeOlderMinutes => 'th1',
 
         # Ticket close columns reference.
-        TicketCloseTimeNewerDate    => 'th2',
-        TicketCloseTimeNewerMinutes => 'th2',
-        TicketCloseTimeOlderDate    => 'th2',
-        TicketCloseTimeOlderMinutes => 'th2',
+        TicketCloseTimeNewerDate        => 'th2',
+        TicketCloseTimeNewerMinutes     => 'th2',
+        TicketCloseTimeOlderDate        => 'th2',
+        TicketCloseTimeOlderMinutes     => 'th2',
+        TicketLastCloseTimeNewerDate    => 'th2',
+        TicketLastCloseTimeNewerMinutes => 'th2',
+        TicketLastCloseTimeOlderDate    => 'th2',
+        TicketLastCloseTimeOlderMinutes => 'th2',
     );
 
     my $Argument = $Param{Argument};

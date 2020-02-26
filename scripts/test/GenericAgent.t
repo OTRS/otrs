@@ -607,6 +607,159 @@ for my $DynamicFieldID (@DynamicfieldIDs) {
     );
 }
 
+# Check LastClose functionality (see bug#14774).
+my $TestJobName   = 'Job' . $Helper->GetRandomID();
+my $OldPriorityID = 3;
+my $NewPriorityID = 1;
+
+$Helper->FixedTimeSet();
+
+# Go 7 days to the past.
+$Helper->FixedTimeAddSeconds( -60 * 60 * 24 * 7 );
+
+# Add generic agent job - select a ticket with LastClose in last 3 days and set its priority to very low.
+# At first job run, ticket has not to be found because last close is 4 days ago ('last 3 days' doesn't match this value).
+# At second job run, ticket has to be found because last close is 2 days ago ('last 3 days' matches this value).
+my $TestJobAdd = $GenericAgentObject->JobAdd(
+    Name => $TestJobName,
+    Data => {
+        LastCloseTimeSearchType        => 'TimePoint',
+        TicketLastCloseTimePoint       => 3,
+        TicketLastCloseTimePointFormat => 'day',
+        TicketLastCloseTimePointStart  => 'Last',
+        NewPriorityID                  => $NewPriorityID,
+        Valid                          => 1,
+    },
+    UserID => 1,
+);
+$Self->True(
+    $TestJobAdd,
+    "TestJob '$TestJobName' is created",
+);
+
+# Create test ticket.
+my $TestTicketID = $TicketObject->TicketCreate(
+    Title        => 'Test for LastClose',
+    Queue        => 'Raw',
+    Lock         => 'unlock',
+    PriorityID   => $OldPriorityID,
+    State        => 'open',
+    CustomerNo   => '123465',
+    CustomerUser => 'customerUnitTest@example.com',
+    OwnerID      => 1,
+    UserID       => 1,
+);
+$Self->True(
+    $TestTicketID,
+    "TicketID $TestTicketID is created",
+);
+
+my @Tests = (
+    {
+        State      => 'closed successful',
+        DaysInPast => '6',
+    },
+    {
+        State      => 'open',
+        DaysInPast => '5',
+    },
+    {
+        State      => 'closed successful',
+        DaysInPast => '4',
+    }
+);
+
+for my $Test (@Tests) {
+
+    # Add one day.
+    $Helper->FixedTimeAddSeconds( 60 * 60 * 24 );
+
+    my $Success = $TicketObject->TicketStateSet(
+        State    => $Test->{State},
+        TicketID => $TestTicketID,
+        UserID   => 1,
+    );
+    $Self->True(
+        $Success,
+        "$Test->{DaysInPast} days ago - State '$Test->{State}' is set to TicketID '$TestTicketID' successfully",
+    );
+}
+
+# Unset fixed time because the job has to run in present.
+$Helper->FixedTimeUnset();
+
+# Run the job - test ticket has not to be found.
+$Self->True(
+    $GenericAgentObject->JobRun(
+        Job    => $TestJobName,
+        UserID => 1,
+    ),
+    "Run GenericAgent job '$TestJobName'",
+);
+
+my %TestTicket = $TicketObject->TicketGet(
+    TicketID => $TestTicketID,
+);
+$Self->Is(
+    $TestTicket{PriorityID},
+    $OldPriorityID,
+    "First job run - PriorityID is still '$OldPriorityID'",
+);
+
+$Helper->FixedTimeSet();
+
+# Continue with ticket state changes (go 4 days to the past).
+$Helper->FixedTimeAddSeconds( -60 * 60 * 24 * 4 );
+
+# Open the ticket 3 days ago and close 2 days ago.
+@Tests = (
+    {
+        State      => 'open',
+        DaysInPast => '3',
+    },
+    {
+        State      => 'closed successful',
+        DaysInPast => '2',
+    }
+);
+
+for my $Test (@Tests) {
+
+    # Add one day.
+    $Helper->FixedTimeAddSeconds( 60 * 60 * 24 );
+
+    my $Success = $TicketObject->TicketStateSet(
+        State    => $Test->{State},
+        TicketID => $TestTicketID,
+        UserID   => 1,
+    );
+    $Self->True(
+        $Success,
+        "$Test->{DaysInPast} days ago - State '$Test->{State}' is set to TicketID '$TestTicketID' successfully",
+    );
+}
+
+# Unset fixed time because the job has to run in present.
+$Helper->FixedTimeUnset();
+
+# Run the job again - test ticket has to be found.
+$Self->True(
+    $GenericAgentObject->JobRun(
+        Job    => $TestJobName,
+        UserID => 1,
+    ),
+    "Run GenericAgent job '$TestJobName'",
+);
+
+%TestTicket = $TicketObject->TicketGet(
+    TicketID => $TestTicketID,
+);
+$Self->Is(
+    $TestTicket{PriorityID},
+    $NewPriorityID,
+    "Second job run - PriorityID is changed to '$NewPriorityID'",
+);
+
 # cleanup is done by RestoreDatabase
 
 1;

@@ -532,6 +532,25 @@
                         </div>
                         <div class="Clear"></div>
 
+                        <label for="LastCloseTimeSearchTypeNone">[% Translate("Last close times") | html %]:</label>
+                        <div class="Field">
+                            <input type="radio" name="LastCloseTimeSearchType" id="LastCloseTimeSearchTypeNone" value="" [% Data.item("LastCloseTimeSearchType::None") %]/>
+                            [% Translate("No last close time settings.") | html %]
+                        </div>
+                        <div class="Clear"></div>
+
+                        <div class="Field">
+                            <input type="radio" name="LastCloseTimeSearchType" value="TimePoint" [% Data.item("LastCloseTimeSearchType::TimePoint") %]/>
+                            [% Translate("Ticket last close") | html %] [% Data.TicketLastCloseTimePointStart %] [% Data.TicketLastCloseTimePoint %] [% Data.TicketLastCloseTimePointFormat %].
+                        </div>
+                        <div class="Clear"></div>
+
+                        <div class="Field">
+                            <input type="radio" name="LastCloseTimeSearchType" value="TimeSlot" [% Data.item("LastCloseTimeSearchType::TimeSlot") %]/>
+                            [% Translate("Ticket last close between") | html %] [% Data.TicketLastCloseTimeStart %] [% Translate("and") | html %] [% Data.TicketLastCloseTimeStop %].
+                        </div>
+                        <div class="Clear"></div>
+
                         <label for="CloseTimeSearchTypeNone">[% Translate("Close times") | html %]:</label>
                         <div class="Field">
                             <input type="radio" name="CloseTimeSearchType" id="CloseTimeSearchTypeNone" value="" [% Data.item("CloseTimeSearchType::None") %]/>
