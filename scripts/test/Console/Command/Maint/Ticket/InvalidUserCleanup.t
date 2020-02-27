@@ -49,11 +49,9 @@ $Helper->ConfigSettingChange(
     Value => 1,
 );
 
-my $UserName = $Helper->TestUserCreate();
-my %User     = $UserObject->GetUserData( User => $UserName );
-my $UserID   = $User{UserID};
+my ( $UserName1, $UserID1 ) = $Helper->TestUserCreate();
 
-my $TicketID = $TicketObject->TicketCreate(
+my $TicketID1 = $TicketObject->TicketCreate(
     Title        => 'A test for ticket unlocking',
     Queue        => 'Raw',
     Lock         => 'lock',
@@ -61,12 +59,12 @@ my $TicketID = $TicketObject->TicketCreate(
     State        => 'pending reminder',
     CustomerNo   => '123465',
     CustomerUser => 'customer@example.com',
-    OwnerID      => $UserID,
-    UserID       => $UserID,
+    OwnerID      => $UserID1,
+    UserID       => $UserID1,
 );
 
-my $ArticleID = $ArticleBackendObject->ArticleCreate(
-    TicketID             => $TicketID,
+my $ArticleID1 = $ArticleBackendObject->ArticleCreate(
+    TicketID             => $TicketID1,
     SenderType           => 'agent',
     IsVisibleForCustomer => 0,
     From                 => 'Some Agent <email@example.com>',
@@ -76,27 +74,29 @@ my $ArticleID = $ArticleBackendObject->ArticleCreate(
     ContentType          => 'text/plain; charset=ISO-8859-15',
     HistoryType          => 'OwnerUpdate',
     HistoryComment       => 'Some free text!',
-    UserID               => $UserID,
+    UserID               => $UserID1,
     NoAgentNotify        => 1,
 );
 
 $Self->True(
-    $ArticleID,
-    'ArticleCreate()'
+    $ArticleID1,
+    "ArticleCreate() - $ArticleID1",
 );
 
 my $Set = $ArticleObject->ArticleFlagSet(
-    TicketID  => $TicketID,
-    ArticleID => $ArticleID,
+    TicketID  => $TicketID1,
+    ArticleID => $ArticleID1,
     Key       => 'seen',
     Value     => 1,
-    UserID    => $UserID,
+    UserID    => $UserID1,
 );
 $Self->True(
     $Set,
-    'ArticleFlagSet() article $ArticleID',
+    "ArticleFlagSet() article $ArticleID1",
 );
 
+# Set user as an invalid.
+my %User = $UserObject->GetUserData( User => $UserName1 );
 $Kernel::OM->Get('Kernel::System::User')->UserUpdate(
     %User,
     ValidID      => 2,
@@ -104,18 +104,63 @@ $Kernel::OM->Get('Kernel::System::User')->UserUpdate(
 );
 
 my $Subscribe = $TicketObject->TicketWatchSubscribe(
-    TicketID    => $TicketID,
-    WatchUserID => $UserID,
-    UserID      => $UserID,
+    TicketID    => $TicketID1,
+    WatchUserID => $UserID1,
+    UserID      => $UserID1,
 );
 
 $Self->True(
     $Subscribe,
-    "TicketWatchSubscribe() User:$UserID to Ticket:$TicketID",
+    "TicketWatchSubscribe() User:$UserID1 to Ticket:$TicketID1",
 );
 
-# Set current time.
+# Set current time in order to check InvalidUserCleanup console command.
+# Created test user will be invalid for more than a month.
 $Helper->FixedTimeSet();
+
+my ( $UserName2, $UserID2 ) = $Helper->TestUserCreate();
+my $TicketID2 = $TicketObject->TicketCreate(
+    Title        => 'A test for ticket unlocking',
+    Queue        => 'Raw',
+    Lock         => 'lock',
+    Priority     => '3 normal',
+    State        => 'pending reminder',
+    CustomerNo   => '123465',
+    CustomerUser => 'customer@example.com',
+    OwnerID      => $UserID2,
+    UserID       => $UserID2,
+);
+
+my $ArticleID2 = $ArticleBackendObject->ArticleCreate(
+    TicketID             => $TicketID1,
+    SenderType           => 'agent',
+    IsVisibleForCustomer => 0,
+    From                 => 'Some Agent <email@example.com>',
+    To                   => 'Some Customer <customer-a@example.com>',
+    Subject              => 'some short description',
+    Body                 => 'the message text',
+    ContentType          => 'text/plain; charset=ISO-8859-15',
+    HistoryType          => 'OwnerUpdate',
+    HistoryComment       => 'Some free text!',
+    UserID               => $UserID2,
+    NoAgentNotify        => 1,
+);
+
+$Self->True(
+    $ArticleID2,
+    "ArticleCreate() - $ArticleID2"
+);
+
+$Subscribe = $TicketObject->TicketWatchSubscribe(
+    TicketID    => $TicketID2,
+    WatchUserID => $UserID2,
+    UserID      => $UserID2,
+);
+
+$Self->True(
+    $Subscribe,
+    "TicketWatchSubscribe() User:$UserID2 to Ticket:$TicketID2",
+);
 
 my $ExitCode = $CommandObject->Execute();
 
@@ -128,7 +173,7 @@ $Self->Is(
 
 my %Ticket = $TicketObject->TicketGet(
     UserID   => 1,
-    TicketID => $TicketID,
+    TicketID => $TicketID1,
 
 );
 
@@ -142,6 +187,27 @@ $Self->Is(
     $Ticket{State},
     'open',
     'Ticket from invalid owner was set to "open"',
+);
+
+my @HistoryLines = $TicketObject->HistoryGet(
+    TicketID => $TicketID1,
+    UserID   => 1,
+);
+$Self->True(
+    scalar( grep { $_->{HistoryType} eq 'Unsubscribe' } @HistoryLines ) // 0,
+    "'Unsubscribe' history entry of invalid user - found for UserID $UserID1, TicketID $TicketID1",
+);
+
+# Check if there is Unsubscribe history entry for ticket
+#   that is not subscribed with invalid ticket.
+# See more information in bug#14987.
+@HistoryLines = $TicketObject->HistoryGet(
+    TicketID => $TicketID2,
+    UserID   => 1,
+);
+$Self->False(
+    scalar( grep { $_->{HistoryType} eq 'Unsubscribe' } @HistoryLines ) // 1,
+    "'Unsubscribe' history entry of invalid user - not found for UserID $UserID2, TicketID $TicketID2",
 );
 
 # Cleanup cache is done by RestoreDatabase.
