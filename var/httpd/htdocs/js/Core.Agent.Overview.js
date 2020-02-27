@@ -163,7 +163,8 @@ Core.Agent.Overview = (function (TargetNS) {
                 URL += encodeURIComponent(Key) + '=' + encodeURIComponent(Value) + ';';
             });
             ColumnFilter = $(this)[0].name;
-            NewColumnFilterStrg = $(this)[0].name + '=' + $(this).val() + ';';
+            NewColumnFilterStrg = $(this)[0].name + '=' + encodeURIComponent($(this).val()) + ';';
+
             MyRegEx = new  RegExp(ColumnFilter+"=[^;]*;");
 
             // check for already set parameter and replace

@@ -1,4 +1,5 @@
 #6.0.27 ????-??-??
+ - 2020-02-27 Fixed bug#[14982](https://bugs.otrs.org/show_bug.cgi?id=14982) - Filter for CustomerIDs with special characters break the page.
  - 2020-02-26 Fixed bug#[14774](https://bugs.otrs.org/show_bug.cgi?id=14774) - AdminGenericAgent matches first ticket close time instead of last.
  - 2020-02-25 Fixed bug#[14944](https://bugs.otrs.org/show_bug.cgi?id=14944) - Changing Ticket Number Generator causes ExternalTicketNumberRecognition to fail.
  - 2020-02-14 Fixed bug#[14974](https://bugs.otrs.org/show_bug.cgi?id=14974) - Untranslated string in appointment calendar.

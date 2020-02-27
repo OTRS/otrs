@@ -99,9 +99,11 @@ $Selenium->RunTest(
 
         my $RandomNumber = $Helper->GetRandomNumber();
 
+        # Add special characters to CustomerID. See bug#14982.
         # Create CustomerCompany.
-        my $TestCompany = 'Company' . $RandomNumber;
-        my $CustomerID  = $Kernel::OM->Get('Kernel::System::CustomerCompany')->CustomerCompanyAdd(
+        my $TestCompany        = 'Company#%' . $RandomNumber;
+        my $TestCompanyEncoded = 'Company%23%25' . $RandomNumber;
+        my $CustomerID         = $Kernel::OM->Get('Kernel::System::CustomerCompany')->CustomerCompanyAdd(
             CustomerID             => $TestCompany,
             CustomerCompanyName    => $TestCompany,
             CustomerCompanyStreet  => $TestCompany,
@@ -217,7 +219,29 @@ $Selenium->RunTest(
             JavaScript =>
                 "return typeof(\$) === 'function' && \$('ul.ui-autocomplete li.ui-menu-item:visible').length;"
         );
-        $Selenium->execute_script("\$('li.ui-menu-item:contains($TestCompany)').click()");
+        $Selenium->execute_script("\$('li.ui-menu-item:contains($TestCompany)').click();");
+
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return typeof(\$) === 'function' && \$('.OverviewHeader.CustomerID.FilterActive a[name=OverviewControl]').length;"
+        );
+
+        # Check a link in CustomerID column header.
+        $Self->True(
+            $Selenium->execute_script(
+                "return \$('.OverviewHeader.CustomerID.FilterActive a[name=OverviewControl][href*=\"$TestCompanyEncoded\"]').length;"
+            ),
+            "Link for filter by CustomerID $TestCompany is encoded correctly"
+        );
+
+        # Check if CustomerID column containing special characters.
+        $Self->Is(
+            $Selenium->execute_script(
+                "return \$('a[href*=\"Action=AgentTicketCustomer;TicketID=$TicketIDs[0]\"] span').text().trim();"
+            ),
+            "$TestCompany",
+            "CustomerID $TestCompany is found in the table"
+        );
 
         # TODO: remove limitation to firefox.
         if ( $Selenium->{browser_name} eq 'firefox' ) {
@@ -329,7 +353,7 @@ $Selenium->RunTest(
             }
             $Self->True(
                 $Success,
-                "Delete ticket - $TicketID"
+                "TicketID $TicketID is deleted"
             );
         }
 
@@ -358,7 +382,8 @@ $Selenium->RunTest(
         # Delete test created Queue.
         for my $QueueID (@QueueIDs) {
             $Success = $DBObject->Do(
-                SQL => "DELETE FROM queue WHERE id = $QueueID",
+                SQL  => "DELETE FROM queue WHERE id = ?",
+                Bind => [ \$QueueID ],
             );
             $Self->True(
                 $Success,
