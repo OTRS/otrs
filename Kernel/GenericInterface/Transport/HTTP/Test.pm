@@ -45,7 +45,7 @@ by using Kernel::GenericInterface::Transport->new();
 
 In the config parameter 'Fail' you can tell the transport to simulate
 failed network requests. If 'Fail' is set to 0, the transport will return
-the query string of the requests as return data (see L<RequesterPerformRequest>
+the query string of the requests as return data (see L</RequesterPerformRequest()>
 for an example);
 
 =cut
