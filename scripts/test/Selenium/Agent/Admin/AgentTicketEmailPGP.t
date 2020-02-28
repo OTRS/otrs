@@ -19,52 +19,13 @@ my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 $Selenium->RunTest(
     sub {
 
-        my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-
-        # Create test user and login.
-        my ( $TestUserLogin, $TestUserID ) = $Helper->TestUserCreate(
-            Groups => [ 'admin', 'users' ],
-        );
-
-        $Selenium->Login(
-            Type     => 'Agent',
-            User     => $TestUserLogin,
-            Password => $TestUserLogin,
-        );
-
-        # Disable PGP in config.
-        $Helper->ConfigSettingChange(
-            Valid => 1,
-            Key   => 'PGP',
-            Value => 0,
-        );
-
+        my $Helper       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
         my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
         # Create test PGP path and set it in sysConfig.
-        my $PGPPath = $ConfigObject->Get('Home') . "/var/tmp/pgp" . $Helper->GetRandomID();
+        my $RandomID = $Helper->GetRandomID();
+        my $PGPPath  = $ConfigObject->Get('Home') . "/var/tmp/pgp" . $RandomID;
         mkpath( [$PGPPath], 0, 0770 );    ## no critic
-
-        my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
-
-        # Navigate to AdminPGP screen.
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminPGP");
-
-        # Check breadcrumb on Overview screen.
-        $Self->True(
-            $Selenium->find_element( '.BreadCrumb', 'css' ),
-            "Breadcrumb is found on Overview screen.",
-        );
-
-        # Check widget sidebar when PGP sysconfig is disabled.
-        $Self->True(
-            $Selenium->find_element( 'h3 span.Warning', 'css' ),
-            "Widget sidebar with warning message is displayed.",
-        );
-        $Self->True(
-            $Selenium->find_element("//button[\@value='Enable it here!']"),
-            "Button 'Enable it here!' to the PGP SysConfig is displayed.",
-        );
 
         # Enable PGP in config.
         $Helper->ConfigSettingChange(
@@ -80,8 +41,21 @@ $Selenium->RunTest(
             Value => "--homedir $PGPPath --batch --no-tty --yes",
         );
 
-        # Refresh AdminSPGP screen.
-        $Selenium->VerifiedRefresh();
+        # Create test user and login.
+        my ( $TestUserLogin, $TestUserID ) = $Helper->TestUserCreate(
+            Groups => [ 'admin', 'users' ],
+        );
+
+        $Selenium->Login(
+            Type     => 'Agent',
+            User     => $TestUserLogin,
+            Password => $TestUserLogin,
+        );
+
+        my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
+
+        # Navigate to AdminPGP screen.
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminPGP");
 
         for my $Key ( 4, 5 ) {
 
@@ -94,18 +68,10 @@ $Selenium->RunTest(
             $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
         }
 
-        # Check if test PGP keys show on AdminPGP screen.
-        my $PGPIdentifier = 'pgptest@example.com';
-        $Self->True(
-            index( $Selenium->get_page_source(), $PGPIdentifier ) > -1,
-            "Test PGP key found on page",
-        ) || die;
-
         my $SystemAddressObject = $Kernel::OM->Get('Kernel::System::SystemAddress');
         my $QueueObject         = $Kernel::OM->Get('Kernel::System::Queue');
 
         # Add system address.
-        my $RandomID              = $Helper->GetRandomID();
         my $SystemAddressEmail    = 'pgptest@example.com';
         my $SystemAddressRealname = "$SystemAddressEmail, $RandomID";
 
@@ -329,23 +295,13 @@ $Selenium->RunTest(
             "Signing key is selected",
         );
 
-        # Set test PGP in config so we can delete them.
-        $Helper->ConfigSettingChange(
-            Key   => 'PGP',
-            Value => 1,
-        );
-        $Helper->ConfigSettingChange(
-            Key   => 'PGP::Options',
-            Value => "--homedir $PGPPath --batch --no-tty --yes",
-        );
-
         # Navigate to AdminPGP screen.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminPGP");
 
         # Delete test PGP keys.
         for my $Count ( 1 .. 2 ) {
             my @Keys = $Kernel::OM->Get('Kernel::System::Crypt::PGP')->KeySearch(
-                Search => $PGPIdentifier,
+                Search => $SystemAddressEmail,
             );
 
             for my $Key (@Keys) {

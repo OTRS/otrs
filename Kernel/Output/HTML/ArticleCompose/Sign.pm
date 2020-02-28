@@ -441,34 +441,29 @@ sub _PickSignKeyID {
             Search => $SearchAddress[0]->address(),
         );
 
-        @PrivateKeys = grep { $_->{Status} eq 'good' } @PrivateKeys;
+        @PrivateKeys = sort { $a->{Expires} cmp $b->{Expires} } grep { $_->{Status} eq 'good' } @PrivateKeys;
     }
     else {
         @PrivateKeys = $EncryptObject->PrivateSearch(
             Search => $SearchAddress[0]->address(),
             Valid  => 1,
         );
+        @PrivateKeys = sort { $a->{ShortEndDate} cmp $b->{ShortEndDate} } @PrivateKeys;
     }
 
     # If there are no private keys for this queue, return nothing.
     return if !@PrivateKeys;
 
-    # Use first key for the selected backend.
-    PRIVATEKEY:
-    for my $PrivateKey (@PrivateKeys) {
-
-        my $SignKeyID;
-        if ( $Backend eq 'PGP' ) {
-            $SignKeyID = "PGP::$PrivateKey->{Key}";
-        }
-        else {
-            $SignKeyID = "SMIME::$PrivateKey->{Filename}";
-        }
-
-        return $SignKeyID;
+    # Use the last key for the selected backend.
+    if ( $Backend eq 'PGP' ) {
+        $SignKeyID = "PGP::$PrivateKeys[-1]->{Key}";
+    }
+    else {
+        $SignKeyID = "SMIME::$PrivateKeys[-1]->{Filename}";
     }
 
-    return;
+    return $SignKeyID;
+
 }
 
 sub GetOptionsToRemoveAJAX {

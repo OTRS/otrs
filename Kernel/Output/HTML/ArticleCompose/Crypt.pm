@@ -490,43 +490,35 @@ sub _PickEncryptKeyIDs {
                 @PublicKeys = $EncryptObject->PublicKeySearch(
                     Search => $Address->address(),
                 );
+
+                @PublicKeys = sort { $a->{Expires} cmp $b->{Expires} } grep { $_->{Status} eq 'good' } @PublicKeys;
             }
             else {
                 @PublicKeys = $EncryptObject->CertificateSearch(
                     Search => $Address->address(),
                     Valid  => 1,
                 );
+
+                @PublicKeys = sort { $a->{ShortEndDate} cmp $b->{ShortEndDate} } @PublicKeys;
             }
 
             # If there are no public keys for this recipient, do nothing and check the next one.
             next ADDRESS if !@PublicKeys;
 
-            my @EncryptKeyIDs;
-
-            # Check / store all keys.
-            PUBLICKEY:
-            for my $PublicKey (@PublicKeys) {
-
-                my $EncryptKeyID;
-                if ( $Backend eq 'PGP' ) {
-                    $EncryptKeyID = "PGP::$PublicKey->{Key}::$PublicKey->{Identifier}";
-                }
-                else {
-                    $EncryptKeyID = "SMIME::$PublicKey->{Filename}::$PublicKey->{Email}";
-                }
-
-                # Do nothing if key is already selected, check next address.
-                next ADDRESS if $SelectedEncryptKeyIDs{$EncryptKeyID};
-
-                # Add key to possible encryption keys
-                push @EncryptKeyIDs, $EncryptKeyID;
+            # Check / store key.
+            my $EncryptKeyID;
+            if ( $Backend eq 'PGP' ) {
+                $EncryptKeyID = 'PGP::' . $PublicKeys[-1]->{Key} . '::' . $PublicKeys[-1]->{Identifier};
+            }
+            else {
+                $EncryptKeyID = 'SMIME::' . $PublicKeys[-1]->{Filename} . '::' . $PublicKeys[-1]->{Email};
             }
 
-            for my $EncryptKeyID (@EncryptKeyIDs) {
+            # Do nothing if key is already selected, check next address.
+            if ( !defined $SelectedEncryptKeyIDs{$EncryptKeyID} ) {
 
-                # Select the first key and check the next address.
+                # Select the last key and check the next address.
                 $SelectedEncryptKeyIDs{$EncryptKeyID} = 1;
-                next ADDRESS;
             }
         }
     }
