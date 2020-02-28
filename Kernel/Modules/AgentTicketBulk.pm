@@ -943,7 +943,7 @@ sub Run {
                         TicketID             => $TicketID,
                         SenderType           => 'agent',
                         IsVisibleForCustomer => $GetParam{IsVisibleForCustomer},
-                        From                 => "$Self->{UserFullname} <$Self->{UserEmail}>",
+                        From                 => "\"$Self->{UserFullname}\" <$Self->{UserEmail}>",
                         Subject              => $GetParam{'Subject'},
                         Body                 => $GetParam{'Body'},
                         MimeType             => $MimeType,

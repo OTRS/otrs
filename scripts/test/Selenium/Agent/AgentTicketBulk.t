@@ -70,6 +70,13 @@ $Selenium->RunTest(
             Value => 1,
         );
 
+        # Disable richtext editor.
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'Frontend::RichText',
+            Value => '0'
+        );
+
         my $RandomNumber = $Helper->GetRandomNumber();
         my $Success;
 
@@ -490,6 +497,15 @@ $Selenium->RunTest(
         );
 
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length;' );
+
+        # Create a note to test bug#14952.
+        $Selenium->execute_script('$(".WidgetSimple.Collapsed .WidgetAction.Toggle a").click();');
+        $Selenium->WaitFor(
+            JavaScript => 'return typeof($) === "function" && $("#Subject:visible").length'
+        );
+
+        $Selenium->find_element( "#Subject",        'css' )->send_keys('Test');
+        $Selenium->find_element( "#Body",           'css' )->send_keys('Test');
         $Selenium->find_element( "#submitRichText", 'css' )->click();
 
         # Return to status view.
@@ -498,6 +514,35 @@ $Selenium->RunTest(
 
         # Make sure main window is fully loaded.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketStatusView");
+
+        $Selenium->WaitFor(
+            JavaScript => 'return typeof($) === "function" && $("a[href*=\'Filter=Closed\']").length;'
+        );
+
+        # Clean the article cache, otherwise we'll get the caches result, which are wrong.
+        $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
+            Type => 'Article',
+        );
+
+        # Verify From that is created in Note in Bulk action, see bug#14952.
+        my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+        my @Articles      = $ArticleObject->ArticleList(
+            TicketID => $Tickets[0]->{TicketID},
+            OnlyLast => 1,
+        );
+
+        my %Article;
+        for my $MetaArticle (@Articles) {
+            %Article = $ArticleObject->BackendForArticle( %{$MetaArticle} )->ArticleGet(
+                DynamicFields => 1,
+                %{$MetaArticle},
+            );
+        }
+        $Self->Is(
+            $Article{From},
+            "\"$TestUserLogin $TestUserLogin\" <$TestUserLogin\@localunittest.com>",
+            "Article 'From' is correct."
+        );
 
         # Select closed view to verify ticket bulk functionality.
         $Selenium->find_element("//a[contains(\@href, \'Filter=Closed' )]")->VerifiedClick();

@@ -1,4 +1,5 @@
 #6.0.27 ????-??-??
+ - 2020-02-28 Fixed bug#[14952](https://bugs.otrs.org/show_bug.cgi?id=14952) - Agent name in ticket note is inconsistent if set by AgentTicketNote and AgentTicketBulk.
  - 2020-02-27 Fixed bug#[14988](https://bugs.otrs.org/show_bug.cgi?id=14988) - It is not possible to edit Transition Actions with click in 'Assigned Transition Actions'.
  - 2020-02-27 Fixed bug#[14987](https://bugs.otrs.org/show_bug.cgi?id=14987) - InvalidUserCleanup generates tons of useless data.
  - 2020-02-27 Fixed bug#[14982](https://bugs.otrs.org/show_bug.cgi?id=14982) - Filter for CustomerIDs with special characters break the page.
