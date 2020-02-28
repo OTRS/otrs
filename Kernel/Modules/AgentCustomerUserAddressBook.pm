@@ -416,33 +416,38 @@ sub Run {
             $Self->{Filter} = $ParamObject->GetParam( Param => 'Filter' ) || '';
             $Self->{View}   = $ParamObject->GetParam( Param => 'View' )   || '';
 
-            my $LinkPage = 'RecipientField=' . $Self->{RecipientField}
-                . ';RecipientFieldLabel=' . $Self->{RecipientFieldLabel}
-                . ';RecipientType=' . $Self->{RecipientType}
+            my %LinkEncoded;
+            for my $Attribute (qw(RecipientField RecipientFieldLabel RecipientType Profile)) {
+                $LinkEncoded{$Attribute} = $LayoutObject->LinkEncode( $Self->{$Attribute} );
+            }
+
+            my $LinkPage = 'RecipientField=' . $LinkEncoded{RecipientField}
+                . ';RecipientFieldLabel=' . $LinkEncoded{RecipientFieldLabel}
+                . ';RecipientType=' . $LinkEncoded{RecipientType}
                 . ';Filter=' . $LayoutObject->Ascii2Html( Text => $Self->{Filter} )
                 . ';View=' . $LayoutObject->Ascii2Html( Text => $Self->{View} )
                 . ';SortBy=' . $LayoutObject->Ascii2Html( Text => $Self->{SortBy} )
                 . ';OrderBy=' . $LayoutObject->Ascii2Html( Text => $Self->{OrderBy} )
-                . ';Profile=' . $Self->{Profile}
+                . ';Profile=' . $LinkEncoded{Profile}
                 . ';TakeLastSearch=1;Subaction=Search'
                 . ';';
-            my $LinkSort = 'RecipientField=' . $Self->{RecipientField}
-                . ';RecipientFieldLabel=' . $Self->{RecipientFieldLabel}
-                . ';RecipientType=' . $Self->{RecipientType}
+            my $LinkSort = 'RecipientField=' . $LinkEncoded{RecipientField}
+                . ';RecipientFieldLabel=' . $LinkEncoded{RecipientFieldLabel}
+                . ';RecipientType=' . $LinkEncoded{RecipientType}
                 . ';Filter=' . $LayoutObject->Ascii2Html( Text => $Self->{Filter} )
                 . ';View=' . $LayoutObject->Ascii2Html( Text => $Self->{View} )
-                . ';Profile=' . $Self->{Profile}
+                . ';Profile=' . $LinkEncoded{Profile}
                 . ';TakeLastSearch=1;Subaction=Search'
                 . ';';
-            my $LinkFilter = 'RecipientField=' . $Self->{RecipientField}
-                . ';RecipientFieldLabel=' . $Self->{RecipientFieldLabel}
-                . ';RecipientType=' . $Self->{RecipientType}
+            my $LinkFilter = 'RecipientField=' . $LinkEncoded{RecipientField}
+                . ';RecipientFieldLabel=' . $LinkEncoded{RecipientFieldLabel}
+                . ';RecipientType=' . $LinkEncoded{RecipientType}
                 . ';Profile=' . $LayoutObject->Ascii2Html( Text => $Self->{Profile} )
                 . ';TakeLastSearch=1;Subaction=Search'
                 . ';';
-            my $LinkBack = 'RecipientField=' . $Self->{RecipientField}
-                . ';RecipientFieldLabel=' . $Self->{RecipientFieldLabel}
-                . ';RecipientType=' . $Self->{RecipientType}
+            my $LinkBack = 'RecipientField=' . $LinkEncoded{RecipientField}
+                . ';RecipientFieldLabel=' . $LinkEncoded{RecipientFieldLabel}
+                . ';RecipientType=' . $LinkEncoded{RecipientType}
                 . ';Profile=' . $LayoutObject->Ascii2Html( Text => $Self->{Profile} )
                 . ';TakeLastSearch=1;Subaction=LoadProfile'
                 . ';';
