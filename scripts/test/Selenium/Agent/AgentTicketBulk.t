@@ -531,13 +531,17 @@ $Selenium->RunTest(
             OnlyLast => 1,
         );
 
-        my %Article;
-        for my $MetaArticle (@Articles) {
-            %Article = $ArticleObject->BackendForArticle( %{$MetaArticle} )->ArticleGet(
-                DynamicFields => 1,
-                %{$MetaArticle},
-            );
+        # Use the first result (it should be only 1).
+        my %RawArticle;
+        if ( scalar @Articles ) {
+            %RawArticle = %{ $Articles[0] };
         }
+
+        my %Article = $ArticleObject->BackendForArticle(%RawArticle)->ArticleGet(
+            TicketID  => $RawArticle{TicketID},
+            ArticleID => $RawArticle{ArticleID},
+        );
+
         $Self->Is(
             $Article{From},
             "\"$TestUserLogin $TestUserLogin\" <$TestUserLogin\@localunittest.com>",
