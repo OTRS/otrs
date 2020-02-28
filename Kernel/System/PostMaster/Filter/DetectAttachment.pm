@@ -51,9 +51,24 @@ sub Run {
 
     my $AttachmentCount = 0;
     for my $Attachment (@Attachments) {
+
+        # Do not flag inline images as attachments, see bug#14949 for more information.
+        my $AttachmentInline = 0;
+        if (
+            defined $Attachment->{ContentID}
+            && length $Attachment->{ContentID}
+            )
+        {
+            my ($ImageID) = ( $Attachment->{ContentID} =~ m{^<(.*)>$}ixms );
+            if ( grep { $_->{Content} =~ m{<img.*src=.*['|"]cid:\Q$ImageID\E['|"].*>}ixms } @Attachments ) {
+                $AttachmentInline = 1;
+            }
+        }
+
         if (
             defined $Attachment->{ContentDisposition}
             && length $Attachment->{ContentDisposition}
+            && !$AttachmentInline
             )
         {
             $AttachmentCount++;
