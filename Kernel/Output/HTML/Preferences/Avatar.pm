@@ -17,6 +17,7 @@ our @ObjectDependencies = (
     'Kernel::System::Web::Request',
     'Kernel::Config',
     'Kernel::System::AuthSession',
+    'Kernel::System::Encode',
 );
 
 sub new {
@@ -42,6 +43,7 @@ sub Param {
     };
 
     if ( $AvatarEngine eq 'Gravatar' && $Self->{UserEmail} ) {
+        $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Self->{UserEmail} );
         $Return->{Avatar} = '//www.gravatar.com/avatar/' . md5_hex( lc $Self->{UserEmail} ) . '?s=45&d=mp';
     }
 
