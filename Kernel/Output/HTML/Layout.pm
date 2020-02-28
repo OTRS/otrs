@@ -3149,7 +3149,14 @@ sub NavigationBar {
             Name => 'ItemAreaSub',
             Data => $Item,
         );
-        for my $Key ( sort keys %{$Sub} ) {
+
+        # Sort Admin sub modules (favorites) correctly. See bug#13103 for more details.
+        my @Subs = sort keys %{$Sub};
+        if ( $Item->{NameForID} eq 'Admin' ) {
+            @Subs = sort { $a <=> $b } keys %{$Sub};
+        }
+
+        for my $Key (@Subs) {
             my $ItemSub = $Sub->{$Key};
             $ItemSub->{NameForID} = $ItemSub->{Name};
             $ItemSub->{NameForID} =~ s/[ &;]//ig;

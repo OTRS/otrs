@@ -1,4 +1,5 @@
 #6.0.27 ????-??-??
+ - 2020-02-28 Fixed bug#[13103](https://bugs.otrs.org/show_bug.cgi?id=13103) - Sorting in admin favourites is id based.
  - 2020-02-28 Fixed bug#[14953](https://bugs.otrs.org/show_bug.cgi?id=14953) - Issue when email contains utf-8 characters while trying to create gravatar link.
  - 2020-02-28 Fixed bug#[14952](https://bugs.otrs.org/show_bug.cgi?id=14952) - Agent name in ticket note is inconsistent if set by AgentTicketNote and AgentTicketBulk.
  - 2020-02-27 Fixed bug#[14988](https://bugs.otrs.org/show_bug.cgi?id=14988) - It is not possible to edit Transition Actions with click in 'Assigned Transition Actions'.

@@ -153,6 +153,62 @@ $Selenium->RunTest(
             );
             $Count--;
         }
+
+        # Create new test user and set it's Admin favorites modules in preferences.
+        my ( $SecondTestUserLogin, $SecondTestUserID ) = $Helper->TestUserCreate(
+            Groups => [ 'admin', 'users' ],
+        );
+
+        my $Success = $Kernel::OM->Get('Kernel::System::User')->SetPreferences(
+            UserID => $SecondTestUserID,
+            Key    => 'AdminNavigationBarFavourites',
+            Value =>
+                '["AdminUser","AdminSystemAddress","AdminAppointmentCalendarManage",
+                "AdminCustomerUser","AdminPriority","AdminProcessManagement","AdminRole","AdminSystemConfiguration",
+                "AdminLog","AdminAppointmentNotificationEvent","AdminTemplate","AdminEmail"]',
+        );
+        $Self->True(
+            $Success,
+            "Set AdminNavigationBarFavourites for test user $SecondTestUserLogin."
+        );
+
+        # Login second test created user.
+        $Selenium->Login(
+            Type     => 'Agent',
+            User     => $SecondTestUserLogin,
+            Password => $SecondTestUserLogin,
+        );
+
+        # Verify that admin favorite modules are sorted in correct order in Admin nav bar.
+        # See bug#13103 for more details.
+        my @FavoriteAdminModules = (
+            'Admin Notification',
+            'Agents',
+            'Appointment Notifications',
+            'Calendars',
+            'Customer Users',
+            'Email Addresses',
+            'Priorities',
+            'Process Management',
+            'Roles',
+            'System Configuration',
+            'System Log',
+            'Templates'
+        );
+
+        $Count = 0;
+        for my $Item (@FavoriteAdminModules) {
+
+            # Check order in Admin navigation menu.
+            $Count++;
+            $Self->Is(
+                $Selenium->execute_script(
+                    "return \$('#nav-Admin ul li:eq($Count) a').text()"
+                ),
+                $FavoriteAdminModules[ $Count - 1 ],
+                "$FavoriteAdminModules[$Count-1] - admin navigation item is correctly sorted.",
+            );
+        }
     }
 );
 
