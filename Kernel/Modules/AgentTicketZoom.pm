@@ -770,7 +770,7 @@ sub Run {
         }
 
         # Set article filter with value if it exists.
-        elsif (
+        if (
             $EventTypeFilterSessionString
             && $EventTypeFilterSessionString =~ m{ EventTypeFilter < ( [^<>]+ ) > }xms
             )
