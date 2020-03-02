@@ -886,6 +886,7 @@ sub Run {
         if ( $ConfigObject->Get('Ticket::Type') && $Config->{TicketType} ) {
             if ( $GetParam{TypeID} ) {
                 $TicketObject->TicketTypeSet(
+                    Action   => $Self->{Action},
                     TypeID   => $GetParam{TypeID},
                     TicketID => $Self->{TicketID},
                     UserID   => $Self->{UserID},
@@ -899,6 +900,7 @@ sub Run {
                 $TicketObject->TicketServiceSet(
                     %GetParam,
                     %ACLCompatGetParam,
+                    Action         => $Self->{Action},
                     ServiceID      => $GetParam{ServiceID},
                     TicketID       => $Self->{TicketID},
                     CustomerUserID => $Ticket{CustomerUserID},
@@ -907,6 +909,7 @@ sub Run {
             }
             if ( defined $GetParam{SLAID} ) {
                 $TicketObject->TicketSLASet(
+                    Action   => $Self->{Action},
                     SLAID    => $GetParam{SLAID},
                     TicketID => $Self->{TicketID},
                     UserID   => $Self->{UserID},
@@ -940,6 +943,7 @@ sub Run {
                 TicketID           => $Self->{TicketID},
                 SendNoNotification => $GetParam{NewUserID},
                 Comment            => $BodyAsText,
+                Action             => $Self->{Action},
             );
             if ( !$Move ) {
                 return $LayoutObject->ErrorScreen();
@@ -2233,6 +2237,7 @@ sub _Mask {
         my %PriorityList = $TicketObject->TicketPriorityList(
             UserID   => $Self->{UserID},
             TicketID => $Self->{TicketID},
+            Action   => $Self->{Action},
         );
         if ( !$Config->{PriorityDefault} ) {
             $PriorityList{''} = '-';
