@@ -1,5 +1,3 @@
-#5.0.43 ????-??-??
-
 #5.0.42 2020-03-20
  - 2020-02-14 Fixed bug#[14963](https://bugs.otrs.org/show_bug.cgi?id=14963) - Mails are not signed in compose screens.
  - 2020-02-12 Fixed bug#[14960](https://bugs.otrs.org/show_bug.cgi?id=14960) - Incorrect language file loading.
