@@ -1,4 +1,5 @@
 #6.0.28 ????-??-??
+ - 2020-03-02 Fixed bug#[15005](https://bugs.otrs.org/show_bug.cgi?id=15005) - The service view does not work well with more than 10 000 tickets.
  - 2020-03-02 Fixed bug#[14975](https://bugs.otrs.org/show_bug.cgi?id=14975) - Ticket Timeline View - Event Type Filter 'Save as default' is not a global setting.
  - 2020-03-02 Fixed bug#[14930](https://bugs.otrs.org/show_bug.cgi?id=14930) - ACL Match Setting 'Frontend' causes a problem with changing in Type, Queue, Service or SLA.
 

@@ -513,6 +513,7 @@ sub Run {
         ServiceIDs => \@ServiceIDs,
         Permission => $Permission,
         UserID     => $Self->{UserID},
+        Limit      => 20_000,
         Result     => 'ARRAY',
     );
 
