@@ -110,8 +110,8 @@ $Selenium->RunTest(
             my $CalendarName = $Calendars[$Index]->{CalendarName};
 
             # Wait until checkbox and its change event has been loaded.
-            $Selenium->WaitFor( JavaScript => "return \$('#Calendar$CalendarID:checked').length == $Length;" );
             Time::HiRes::sleep(0.5);
+            $Selenium->WaitFor( JavaScript => "return \$('#Calendar$CalendarID:checked').length == $Length;" );
 
             $Self->Is(
                 $Selenium->execute_script("return \$('#Calendar$CalendarID:checked').length;"),
@@ -178,6 +178,7 @@ $Selenium->RunTest(
             my $CalendarID   = $Calendars[$Index]->{CalendarID};
             my $CalendarName = $Calendars[$Index]->{CalendarName};
 
+            Time::HiRes::sleep(0.5);
             $Selenium->WaitFor( JavaScript => "return \$('#Calendar$CalendarID:checked').length == $Length;" );
 
             $Self->Is(
