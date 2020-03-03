@@ -1,4 +1,5 @@
 #6.0.27 2020-03-20
+ - 2020-03-03 Improved random number generator.
  - 2020-03-03 Improved token handling in the LostPassword requests.
  - 2020-02-28 Fixed bug#[14752](https://bugs.otrs.org/show_bug.cgi?id=14752) - In the ticket create screen, system always preselects first valid certificate for signature/encryption.
   In this case, system should preselect default certificate, or the one with the newest/longest valid certificate.
