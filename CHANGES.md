@@ -1,4 +1,5 @@
 #5.0.42 2020-03-20
+ - 2020-03-03 Improved token handling in the LostPassword requests.
  - 2020-02-14 Fixed bug#[14963](https://bugs.otrs.org/show_bug.cgi?id=14963) - Mails are not signed in compose screens.
  - 2020-02-12 Fixed bug#[14960](https://bugs.otrs.org/show_bug.cgi?id=14960) - Incorrect language file loading.
  - 2020-02-11 Added a new SysConfig setting 'DisableLoginAutocomplete' - when enabled, it disables autocomplete in the login forms.
