@@ -576,6 +576,25 @@ sub Run {
 
         # get user login by token
         if ( !$User && $Token ) {
+
+            # Prevent extracting password reset token character-by-character via wildcard injection
+            # The wild card characters "%" and "_" could be used to match arbitrary character.
+            if ( $Token !~ m{\A (?: [a-zA-Z] | \d )+ \z}xms ) {
+
+                # Security: pretend that password reset instructions were actually sent to
+                #   make sure that users cannot find out valid usernames by
+                #   just trying and checking the result message.
+                $LayoutObject->Print(
+                    Output => \$LayoutObject->Login(
+                        Title       => 'Login',
+                        Message     => Translatable('Sent password reset instructions. Please check your email.'),
+                        MessageType => 'Success',
+                        %Param,
+                    ),
+                );
+                return;
+            }
+
             my %UserList = $UserObject->SearchPreferences(
                 Key   => 'UserToken',
                 Value => $Token,
