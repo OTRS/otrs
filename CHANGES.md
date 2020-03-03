@@ -4,6 +4,7 @@
  - 2020-03-02 Fixed bug#[14930](https://bugs.otrs.org/show_bug.cgi?id=14930) - ACL Match Setting 'Frontend' causes a problem with changing in Type, Queue, Service or SLA.
 
 #6.0.27 2020-03-20
+ - 2020-03-03 Improved token handling in the LostPassword requests.
  - 2020-02-28 Fixed bug#[14752](https://bugs.otrs.org/show_bug.cgi?id=14752) - The first valid certificate is preselected instead of the longest one.
  - 2020-02-28 Fixed bug#[14949](https://bugs.otrs.org/show_bug.cgi?id=14949) - PostMaster X-OTRS-AttachmentExists filter is activated on email with embedded images.
  - 2020-02-28 Fixed bug#[13103](https://bugs.otrs.org/show_bug.cgi?id=13103) - Sorting in admin favourites is id based.
