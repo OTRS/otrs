@@ -20,6 +20,7 @@ use List::Util qw();
 use Storable;
 use Fcntl qw(:flock);
 use Encode;
+use Math::Random::Secure qw(rand);
 
 our @ObjectDependencies = (
     'Kernel::System::Encode',
