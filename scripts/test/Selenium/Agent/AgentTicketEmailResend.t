@@ -120,6 +120,8 @@ $Selenium->RunTest(
         # Navigate to created test ticket in AgentTicketZoom screen.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
 
+        $Selenium->execute_script('window.Core.App.PageLoadComplete = false;');
+
         # Click on Reply, we should try to send an email first.
         $Selenium->InputFieldValueSet(
             Element => "#ResponseID$ArticleID",
@@ -190,6 +192,11 @@ $Selenium->RunTest(
 
         $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
+
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete;'
+        );
 
         $Selenium->WaitForjQueryEventBound(
             CSSSelector => '.WidgetAction.Expand',
