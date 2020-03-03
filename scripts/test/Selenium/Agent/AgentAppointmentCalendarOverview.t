@@ -12,6 +12,12 @@ use utf8;
 
 use vars (qw($Self));
 
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        DisableAsyncCalls => 1,
+    },
+);
+
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 my $ElementReadOnly = sub {
@@ -73,11 +79,6 @@ my $ElementExists = sub {
 
 $Selenium->RunTest(
     sub {
-        $Kernel::OM->ObjectParamAdd(
-            'Kernel::System::UnitTest::Helper' => {
-                DisableAsyncCalls => 1,
-            },
-        );
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
         my $GroupObject    = $Kernel::OM->Get('Kernel::System::Group');
