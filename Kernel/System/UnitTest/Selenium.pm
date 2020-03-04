@@ -636,7 +636,7 @@ sub HandleError {
     my ( $Self, $Error ) = @_;
 
     # If we really have a selenium error, get the stack trace for it.
-    if ( $Error eq $Self->{_SeleniumException} && $Self->{_SeleniumStackTrace} ) {
+    if ( $Self->{_SeleniumStackTrace} && $Error eq $Self->{_SeleniumException} ) {
         $Error .= "\n" . $Self->{_SeleniumStackTrace};
     }
 
