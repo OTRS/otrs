@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2020-01-23 15:38+0000\n"
+"POT-Creation-Date: 2020-03-04 07:48+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2084,6 +2084,22 @@ msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Ticket changed between"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Last close times"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "No last close time settings."
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Ticket last close"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Ticket last close between"
 msgstr ""
 
 #. Template: AdminGenericAgent
@@ -6420,6 +6436,22 @@ msgstr ""
 
 #. Template: AdminTemplate
 msgid "Template"
+msgstr ""
+
+#. Template: AdminTemplate
+msgid "To get the first 20 characters of the subject of the current/latest agent article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types."
+msgstr ""
+
+#. Template: AdminTemplate
+msgid "To get the first 5 lines of the body of the current/latest agent article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types."
+msgstr ""
+
+#. Template: AdminTemplate
+msgid "To get the first 20 characters of the subject of the current/latest article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types."
+msgstr ""
+
+#. Template: AdminTemplate
+msgid "To get the first 5 lines of the body of the current/latest article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types."
 msgstr ""
 
 #. Template: AdminTemplate
@@ -16954,6 +16986,10 @@ msgid "Checks if an E-Mail is a followup to an existing ticket by searching the 
 msgstr ""
 
 #. SysConfig
+msgid "Checks if an email is a follow-up to an existing ticket with external ticket number which can be found by ExternalTicketNumberRecognition filter module."
+msgstr ""
+
+#. SysConfig
 msgid "Checks the SystemID in ticket number detection for follow-ups. If not enabled, SystemID will be changed after using the system."
 msgstr ""
 
@@ -19207,6 +19243,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Disable HTTP header \"X-Frame-Options: SAMEORIGIN\" to allow OTRS to be included as an IFrame in other websites. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!"
+msgstr ""
+
+#. SysConfig
+msgid "Disable autocomplete in the login screen."
 msgstr ""
 
 #. SysConfig
