@@ -158,6 +158,7 @@ textarea {
 }
 
 .FieldHelpContainer > span {
+    white-space: pre-line;
     background: #444444;
     color: #fff;
     font-size: 12px;

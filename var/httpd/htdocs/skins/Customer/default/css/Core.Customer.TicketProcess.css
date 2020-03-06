@@ -81,7 +81,7 @@ did not receive this file, see https://www.gnu.org/licenses/gpl-3.0.txt.
     color: #444444;
 }
 
-fieldset.TableLike > .Field, 
+fieldset.TableLike > .Field,
 fieldset.TableLike > .Row > .Field {
     line-height: 1.2em;
     min-height: 16px;
@@ -124,6 +124,7 @@ fieldset.TableLike > .Row > .Field {
 }
 
 .FieldHelpContainer > span {
+    white-space: pre-line;
     background: #444444;
     color: #fff;
     font-size: 12px;
