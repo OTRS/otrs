@@ -4,7 +4,7 @@
  - 2020-03-02 Fixed bug#[14975](https://bugs.otrs.org/show_bug.cgi?id=14975) - Ticket Timeline View - Event Type Filter 'Save as default' is not a global setting.
  - 2020-03-02 Fixed bug#[14930](https://bugs.otrs.org/show_bug.cgi?id=14930) - ACL Match Setting 'Frontend' causes a problem with changing in Type, Queue, Service or SLA.
 
-#6.0.27 2020-03-20
+#6.0.27 2020-03-27
  - 2020-03-03 Improved random number generator.
  - 2020-03-03 Improved token handling in the LostPassword requests.
  - 2020-02-28 Fixed bug#[14752](https://bugs.otrs.org/show_bug.cgi?id=14752) - In the ticket create screen, system always preselects first valid certificate for signature/encryption.
