@@ -136,6 +136,7 @@ sub new {
 
         $Self = $Class->SUPER::new(
             webelement_class => 'Kernel::System::UnitTest::Selenium::WebElement',
+            error_handler    => \&SeleniumErrorHandler,
             %SeleniumTestsConfig
         );
     }
