@@ -119,7 +119,10 @@ sub new {
     eval {
         $Self = $Class->SUPER::new(
             webelement_class => 'Kernel::System::UnitTest::Selenium::WebElement',
-            error_handler    => \&SeleniumErrorHandler,
+            error_handler    => sub {
+                my $Self = shift;
+                return $Self->SeleniumErrorHandler(@_);
+            },
             %SeleniumTestsConfig
         );
     };
@@ -135,7 +138,10 @@ sub new {
 
         $Self = $Class->SUPER::new(
             webelement_class => 'Kernel::System::UnitTest::Selenium::WebElement',
-            error_handler    => \&SeleniumErrorHandler,
+            error_handler    => sub {
+                my $Self = shift;
+                return $Self->SeleniumErrorHandler(@_);
+            },
             %SeleniumTestsConfig
         );
     }
