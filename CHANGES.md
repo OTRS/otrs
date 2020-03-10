@@ -2,6 +2,16 @@
 
 #5.0.42 2020-03-27
  - 2020-03-03 Improved random number generator.
+  We added new CPAN dependencies, which should already be present on all systems:
+    Crypt::Random::Source
+    Exporter::Tiny
+    Math::Random::ISAAC
+    Math::Random::Secure
+    Module::Find
+    Moo
+    Types::TypeTiny
+    namespace::clean
+
  - 2020-03-03 Improved token handling in the LostPassword requests.
  - 2020-02-14 Fixed bug#[14963](https://bugs.otrs.org/show_bug.cgi?id=14963) - Mails are not signed in compose screens.
   If an S/MIME certificate is set for signing and encrypting outgoing mails, it is not used for signing in Compose answers. For new Email tickets, E-Mail Outbound and Forward the emails are signed correctly. Furthermore, if "sign and encrypt" is chosen, the mail will only be encrypted, but not signed.

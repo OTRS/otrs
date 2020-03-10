@@ -273,6 +273,7 @@ sub PerlInfoGet {
             MIME::Tools
             Module::Find
             Module::Refresh
+            Moo
             Mozilla::CA
             Net::IMAP::Simple
             Net::HTTP
@@ -285,6 +286,7 @@ sub PerlInfoGet {
             Types::TypeTiny
             YAML
             URI
+            namespace::clean
             )
             )
         {
