@@ -783,14 +783,18 @@ Core.Agent.TicketZoom = (function (TargetNS) {
             $(this).next('p.Value').find('.Switch').toggleClass('Hidden');
         });
 
-        // mark all articles as seen
+        // Mark all articles as seen, in case the expanded zoom mode is active.
         if (parseInt(Core.Config.Get('TicketItemMarkAsSeen'), 10) === 1) {
             TargetNS.MarkTicketAsSeen(TicketID);
         }
 
-        // mark an article as seen
-        for (Count in ArticleIDs) {
-            TargetNS.MarkAsSeen(TicketID, ArticleIDs[Count]);
+        // Otherwise, mark just visible articles as seen.
+        //   Do this only in case the expanded zoom mode is inactive, in order to avoid potential race condition with
+        //   the previous action. Please see bug#13657 for more information.
+        else {
+            for (Count in ArticleIDs) {
+                TargetNS.MarkAsSeen(TicketID, ArticleIDs[Count]);
+            }
         }
 
         // event on change queue

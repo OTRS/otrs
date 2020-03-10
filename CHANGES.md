@@ -1,4 +1,5 @@
 #6.0.28 ????-??-??
+ - 2020-03-10 Fixed bug#[13657](https://bugs.otrs.org/show_bug.cgi?id=13657) - Duplicate entry for ticket seen flag.
  - 2020-03-06 Fixed bug#[13761](https://bugs.otrs.org/show_bug.cgi?id=13761) - All long description fields in processes are text fields, but the line break will ignored.
  - 2020-03-02 Fixed bug#[15005](https://bugs.otrs.org/show_bug.cgi?id=15005) - The service view does not work well with more than 10 000 tickets.
  - 2020-03-02 Fixed bug#[14975](https://bugs.otrs.org/show_bug.cgi?id=14975) - Ticket Timeline View - Event Type Filter 'Save as default' is not a global setting.
