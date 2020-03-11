@@ -438,6 +438,26 @@
             </Array>
         </Value>
     </Setting>
+    <Setting Name="ExampleAoHTextarea" Required="0" Valid="1">
+        <Description Translatable="1">Test AoH with Textarea.</Description>
+        <Navigation>SampleComplex</Navigation>
+        <Value>
+            <Array>
+                <DefaultItem>
+                    <Hash>
+                        <Item Key="Text" ValueType="Textarea">123</Item>
+                    </Hash>
+                </DefaultItem>
+                <Item>
+                    <Hash>
+                        <Item Key="ID">1</Item>
+                        <Item Key="Title" Translatable="1">Title</Item>
+                        <Item Key="Text" ValueType="Textarea" Translatable="1">Textarea content.</Item>
+                    </Hash>
+                </Item>
+            </Array>
+        </Value>
+    </Setting>
     <Setting Name="TestAgentTicketOwnerBody" Required="0" Valid="1">
             <Description Translatable="1">Sets the default body text for notes added in the ticket owner screen of a zoomed ticket in the agent interface.</Description>
             <Navigation>TestAgentTicketOwnerBody</Navigation>
