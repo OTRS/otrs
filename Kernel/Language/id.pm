@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.678959891230456;
+    $Self->{Completeness}        = 0.677807940278249;
 
     # csv separator
     $Self->{Separator}         = ',';
@@ -689,6 +689,10 @@ sub Data {
         'No change time settings.' => 'Tidak ada pengaturan waktu pengubahan',
         'Ticket changed' => 'Tiket telah diubah',
         'Ticket changed between' => 'Tiket diubah antara',
+        'Last close times' => '',
+        'No last close time settings.' => '',
+        'Ticket last close' => '',
+        'Ticket last close between' => '',
         'Close times' => 'Waktu tutup',
         'No close time settings.' => 'Tidak ada pengaturan waktu tutup',
         'Ticket closed' => 'Tiket telah ditutup',
@@ -2160,6 +2164,14 @@ EMAILADDRESS:info@example.com dari, kepada atau Cc.',
         'Do you really want to delete this template?' => 'Apakah Anda benar-benar ingin menghapus template ini?',
         'A standard template with this name already exists!' => 'Template standar dengan nama ini sudah ada!',
         'Template' => 'Template',
+        'To get the first 20 characters of the subject of the current/latest agent article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            '',
+        'To get the first 5 lines of the body of the current/latest agent article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            '',
+        'To get the first 20 characters of the subject of the current/latest article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            '',
+        'To get the first 5 lines of the body of the current/latest article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            '',
         'Create type templates only supports this smart tags' => 'Membuat jenis template hanya mendukung smart tag ini',
         'Example template' => 'Contoh template',
         'The current ticket state is' => 'Pilihan tiket saat ini adalah',
@@ -6185,6 +6197,8 @@ Helpdesk Team Anda
         'Checks for queued outgoing emails to be sent.' => '',
         'Checks if an E-Mail is a followup to an existing ticket by searching the subject for a valid ticket number.' =>
             'Cek jika E-Mail merupakan tindak lanjut ke tiket yang ada dengan mencari subjek untuk sejumlah tiket yang sah.',
+        'Checks if an email is a follow-up to an existing ticket with external ticket number which can be found by ExternalTicketNumberRecognition filter module.' =>
+            '',
         'Checks the SystemID in ticket number detection for follow-ups. If not enabled, SystemID will be changed after using the system.' =>
             '',
         'Checks the availability of OTRS Business Solution™ for this system.' =>
@@ -7141,6 +7155,7 @@ Helpdesk Team Anda
             '',
         'Disable HTTP header "X-Frame-Options: SAMEORIGIN" to allow OTRS to be included as an IFrame in other websites. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
             'Nonaktifkan HTTP header "X-Frame-Options: SAMEORIGIN" untuk memungkinkan OTHERS untuk dimasukkan sebagai iFrame di situs-situs lain. Menonaktifkan HTTP header ini bisa menjadi masalah keamanan! Hanya menonaktifkannya, jika Anda tahu apa yang Anda lakukan!',
+        'Disable autocomplete in the login screen.' => '',
         'Disable cloud services' => '',
         'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be enabled).' =>
             '',
@@ -8807,6 +8822,7 @@ Helpdesk Team Anda
         '%s KB',
         '%s MB',
         '%s TB',
+        '+%s more',
         'A key with this name (\'%s\') already exists.',
         'A package upgrade was recently finished. Click here to see the results.',
         'A popup of this screen is already open. Do you want to close it and load this one instead?',

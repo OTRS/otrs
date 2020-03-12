@@ -27,7 +27,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y/%M/%D';
     $Self->{DateInputFormat}     = '%Y/%M/%D';
     $Self->{DateInputFormatLong} = '%Y/%M/%D - %T';
-    $Self->{Completeness}        = 0.763426240652617;
+    $Self->{Completeness}        = 0.76263997285375;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -187,7 +187,7 @@ sub Data {
         'Events' => 'イベント',
         'Event' => 'イベント',
         'Here you can choose which events will trigger this notification. An additional appointment filter can be applied below to only send for appointments with certain criteria.' =>
-            '',
+            'ここで、この通知のトリガーとなるイベントを選択できます。 追加の予約フィルターを以下に適用して、それに適合する予約のみに送信できます。',
         'Appointment Filter' => '予約のフィルター',
         'Type' => 'タイプ',
         'Title' => 'タイトル',
@@ -214,9 +214,9 @@ sub Data {
         'This is the default value for assigned recipient agents who didn\'t make a choice for this notification in their preferences yet. If the box is enabled, the notification will be sent to such agents.' =>
             'これは、全ての担当者の個々の環境設定に通知にチェックが入ります。そして通知されます。',
         'This feature is currently not available.' => 'この機能は現在利用できません。',
-        'Upgrade to %s' => '%s にアップグレードする。',
+        'Upgrade to %s' => '%s にアップグレードする',
         'Please activate this transport in order to use it.' => '使用するには、このトランスポートを有効にしてください。',
-        'No data found' => 'データがありません。',
+        'No data found' => 'データがありません',
         'No notification method found.' => '通知方法が見つかりませんでした。',
         'Notification Text' => '通知文書',
         'This language is not present or enabled on the system. This notification text could be deleted if it is not needed anymore.' =>
@@ -234,7 +234,7 @@ sub Data {
         'To get the appointment attribute' => '予定の属性を取得すること',
         ' e. g.' => '例',
         'To get the calendar attribute' => 'カレンダーの属性を取得すること',
-        'Attributes of the recipient user for the notification' => '',
+        'Attributes of the recipient user for the notification' => '通知する受信者ユーザーの属性',
         'Config options' => '設定オプション',
         'Example notification' => '通知例',
 
@@ -314,7 +314,7 @@ sub Data {
             'OTRS クラウドサービスのご利用には、システムの登録が必要となりますのでご注意ください。',
         'Register this system' => 'このシステムをサポート登録する',
         'Here you can configure available cloud services that communicate securely with %s.' =>
-            '',
+            'ここで、 %s と安全に通信するために利用可能なクラウドサービスを構成できます。',
         'Available Cloud Services' => '利用可能なクラウドサービス',
 
         # Template: AdminCommunicationLog
@@ -692,6 +692,10 @@ sub Data {
         'No change time settings.' => '変更時間設定を指定しない',
         'Ticket changed' => 'チケットを変更しました',
         'Ticket changed between' => 'チケットの変更がこの期間の間',
+        'Last close times' => '',
+        'No last close time settings.' => '',
+        'Ticket last close' => '',
+        'Ticket last close between' => '',
         'Close times' => 'クローズ時間',
         'No close time settings.' => 'クローズ時間を指定しない',
         'Ticket closed' => 'チケットをクローズしたのが',
@@ -2165,6 +2169,14 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Do you really want to delete this template?' => '本当にこのテンプレートを削除してよろしいですか？',
         'A standard template with this name already exists!' => '',
         'Template' => 'テンプレート',
+        'To get the first 20 characters of the subject of the current/latest agent article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            '',
+        'To get the first 5 lines of the body of the current/latest agent article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            '',
+        'To get the first 20 characters of the subject of the current/latest article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            '',
+        'To get the first 5 lines of the body of the current/latest article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            '',
         'Create type templates only supports this smart tags' => '作成するタイプテンプレートはこのスマートタグのみをサポートします。',
         'Example template' => 'テンプレート例',
         'The current ticket state is' => '現在のチケットのステータスは',
@@ -6188,6 +6200,8 @@ Thanks for your help!
         'Checks for queued outgoing emails to be sent.' => '',
         'Checks if an E-Mail is a followup to an existing ticket by searching the subject for a valid ticket number.' =>
             '',
+        'Checks if an email is a follow-up to an existing ticket with external ticket number which can be found by ExternalTicketNumberRecognition filter module.' =>
+            '',
         'Checks the SystemID in ticket number detection for follow-ups. If not enabled, SystemID will be changed after using the system.' =>
             '',
         'Checks the availability of OTRS Business Solution™ for this system.' =>
@@ -7152,6 +7166,7 @@ Contentはダイナミック・フィールドの形式によって設定内容�
             'HTTPヘッダ"Content-Security-Policy”を無効化し、外部のスクリプトコンテンツの読み込みを許可します。 このHTTPヘッダを無効にすることにより、セキュリティ上の問題が生じることがあります! 変更内容をよく理解している場合に限り無効化を実行してください!',
         'Disable HTTP header "X-Frame-Options: SAMEORIGIN" to allow OTRS to be included as an IFrame in other websites. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
             'HTTPヘッダ"X-Frame-Options: SAMEORIGIN”を無効化し、OTRSを外部のWebサイトの一部としてiframeに埋め込むことを許可します。 このHTTPヘッダを無効にすることにより、セキュリティ上の問題が生じることがあります! 変更内容をよく理解している場合に限り無効化を実行してください!',
+        'Disable autocomplete in the login screen.' => '',
         'Disable cloud services' => 'クラウドサービスの無効化',
         'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be enabled).' =>
             'チケットの責任者である担当者への、リマインダー通知の送信を無効にします(Ticket::Responsibleが有効にされる必要があります)。',
@@ -8819,6 +8834,7 @@ Contentはダイナミック・フィールドの形式によって設定内容�
         '%s KB',
         '%s MB',
         '%s TB',
+        '+%s more',
         'A key with this name (\'%s\') already exists.',
         'A package upgrade was recently finished. Click here to see the results.',
         'A popup of this screen is already open. Do you want to close it and load this one instead?',
