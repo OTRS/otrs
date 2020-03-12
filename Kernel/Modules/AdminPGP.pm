@@ -296,7 +296,7 @@ sub Run {
         return $LayoutObject->Attachment(
             ContentType => 'text/plain',
             Content     => $KeyString,
-            Filename    => "$Key.asc",
+            Filename    => $Key . '-' . $Type . '.asc',
             Type        => 'attachment',
         );
     }

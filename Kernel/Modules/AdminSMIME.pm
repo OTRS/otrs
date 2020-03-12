@@ -381,10 +381,11 @@ sub Run {
         else {
             $Download = $SMIMEObject->CertificateGet( Filename => $Filename );
         }
+
         return $LayoutObject->Attachment(
             ContentType => 'text/plain',
             Content     => $Download,
-            Filename    => "$Hash.pem",
+            Filename    => $Hash . '-' . $Type . '.pem',
             Type        => 'attachment',
         );
     }

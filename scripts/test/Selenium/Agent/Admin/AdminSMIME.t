@@ -197,9 +197,36 @@ $Selenium->RunTest(
         $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
 
-        # Check for test created Certificate and Privatekey and delete them.
+        # Check download file name.
+        my $BaseURL = $ConfigObject->Get('HttpType') . '://';
+
+        $BaseURL .= $Helper->GetTestHTTPHostname() . '/';
+        $BaseURL .= $ConfigObject->Get('ScriptAlias') . 'index.pl?';
+
+        my $UserAgent = LWP::UserAgent->new(
+            Timeout => 60,
+        );
+        $UserAgent->cookie_jar( {} );    # keep cookies
+
+        my $ResponseLogin = $UserAgent->get(
+            $BaseURL . "Action=Login;User=$TestUserLogin;Password=$TestUserLogin;"
+        );
+
         for my $TestSMIME (qw(key cert)) {
 
+            # Check for test created Certificate and Private key download file name.
+            my $Response = $UserAgent->get(
+                $BaseURL . "Action=AdminSMIME;Subaction=Download;Type=$TestSMIME;Filename=4d400195.0"
+            );
+            if ( $ResponseLogin->is_success() && $Response->is_success() ) {
+
+                $Self->True(
+                    index( $Response->header('content-disposition'), "4d400195-$TestSMIME.pem" ) > -1,
+                    "Download file name is correct - 4d400195-$TestSMIME.pem",
+                );
+            }
+
+            # Check for test created Certificate and Privatekey and delete them.
             $Self->True(
                 index( $Selenium->get_page_source(), "Type=$TestSMIME;Filename=" ) > -1,
                 "Test $TestSMIME SMIME found on table",
