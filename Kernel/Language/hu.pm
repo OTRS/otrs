@@ -694,6 +694,10 @@ sub Data {
         'No change time settings.' => 'Nincsenek módosítási idő beállítások.',
         'Ticket changed' => 'Jegy módosítva',
         'Ticket changed between' => 'Jegy módosítva a következő időpontok között',
+        'Last close times' => 'Utolsó lezárási idők',
+        'No last close time settings.' => 'Nincsenek utolsó lezárási idő beállítások.',
+        'Ticket last close' => 'Jegy utolsó lezárása',
+        'Ticket last close between' => 'Jegy utolsó lezárása a következő időpontok között',
         'Close times' => 'Lezárási idők',
         'No close time settings.' => 'Nincsenek lezárási idő beállítások.',
         'Ticket closed' => 'Jegy lezárva',
@@ -2164,6 +2168,14 @@ sub Data {
         'Do you really want to delete this template?' => 'Valóban törölni szeretné ezt a sablont?',
         'A standard template with this name already exists!' => 'Már létezik ilyen nevű szabványos sablon!',
         'Template' => 'Sablon',
+        'To get the first 20 characters of the subject of the current/latest agent article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            'A jelenlegi vagy a legfrissebb ügyintézői bejegyzés tárgyának első 20 karakterének lekéréséhez (jelenlegi a válasznál és továbbításnál, a legfrissebb a jegyzet sablontípusnál). Ez a címke nem támogatott más sablontípusoknál.',
+        'To get the first 5 lines of the body of the current/latest agent article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            'A jelenlegi vagy a legfrissebb ügyintézői bejegyzés törzsének első 5 sorának lekéréséhez (jelenlegi a válasznál és továbbításnál, a legfrissebb a jegyzet sablontípusnál). Ez a címke nem támogatott más sablontípusoknál.',
+        'To get the first 20 characters of the subject of the current/latest article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            'A jelenlegi vagy a legfrissebb bejegyzés tárgyának első 20 karakterének lekéréséhez (jelenlegi a válasznál és továbbításnál, a legfrissebb a jegyzet sablontípusnál). Ez a címke nem támogatott más sablontípusoknál.',
+        'To get the first 5 lines of the body of the current/latest article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            'A jelenlegi vagy a legfrissebb bejegyzés törzsének első 5 sorának lekéréséhez (jelenlegi a válasznál és továbbításnál, a legfrissebb a jegyzet sablontípusnál). Ez a címke nem támogatott más sablontípusoknál.',
         'Create type templates only supports this smart tags' => 'Típussablonok létrehozása, amelyek csak ezeket az intelligens címkéket támogatják',
         'Example template' => 'Példa sablon',
         'The current ticket state is' => 'A jegy jelenlegi állapota',
@@ -2553,8 +2565,8 @@ sub Data {
         'For all pending* states.' => 'Minden függőben* állapotnál.',
         'Add Article' => 'Bejegyzés hozzáadása',
         'Create an Article' => 'Egy bejegyzés létrehozása',
-        'Inform agents' => 'Ügyintézők értesítése',
-        'Inform involved agents' => 'Részt vevő ügyintézők értesítése',
+        'Inform agents' => 'Ügyintézők tájékoztatása',
+        'Inform involved agents' => 'Résztvevő ügyintézők tájékoztatása',
         'Here you can select additional agents which should receive a notification regarding the new article.' =>
             'Itt választhat ki további ügyintézőket, akiknek értesítést kell kapniuk az új bejegyzést illetően.',
         'Text will also be received by' => 'A szöveget meg fogja még kapni',
@@ -3128,7 +3140,7 @@ sub Data {
         'Dialog' => 'Párbeszéd',
 
         # Template: Article
-        'Inform Agent' => 'Ügyintéző értesítése',
+        'Inform Agent' => 'Ügyintéző tájékoztatása',
 
         # Template: PublicDefault
         'Welcome' => 'Üdvözöljük',
@@ -6188,6 +6200,8 @@ Az Ön segélyszolgálat csapata
         'Checks for queued outgoing emails to be sent.' => 'Ellenőrzi, hogy a sorba állított kimenő e-mailek el lettek-e küldve.',
         'Checks if an E-Mail is a followup to an existing ticket by searching the subject for a valid ticket number.' =>
             'Azt ellenőrzi a tárgyban történő érvényes jegyszám keresésével, hogy egy e-mail egy meglévő jegy követője-e.',
+        'Checks if an email is a follow-up to an existing ticket with external ticket number which can be found by ExternalTicketNumberRecognition filter module.' =>
+            'Ellenőrzi, hogy egy e-mail egy meglévő jegyre történő követés-e olyan jegyszámmal, amelyet az ExternalTicketNumberRecognition szűrőmodul megtalálhat.',
         'Checks the SystemID in ticket number detection for follow-ups. If not enabled, SystemID will be changed after using the system.' =>
             'Ellenőrzi a rendszer-azonosítót a jegy számának felismeréskor a követéseknél (ha nincs engedélyezve, akkor a rendszer-azonosító meg lesz változtatva a rendszer használata után).',
         'Checks the availability of OTRS Business Solution™ for this system.' =>
@@ -7143,6 +7157,7 @@ Az Ön segélyszolgálat csapata
             'A „Content-Security-Policy” HTTP-fejléc letiltása a külső parancsfájltartalmak betöltésének engedélyezéséhez. Ezen HTTP-fejléc letiltása biztonsági probléma lehet! Csak akkor tiltsa le, ha tudja, hogy mit csinál!',
         'Disable HTTP header "X-Frame-Options: SAMEORIGIN" to allow OTRS to be included as an IFrame in other websites. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
             'Az „X-Frame-Options: SAMEORIGIN” HTTP-fejléc letiltása, hogy lehetővé tegye az OTRS beágyazását IFrame-ként más weboldalakba. Ennek a HTTP-fejlécnek a letiltása biztonsági probléma lehet! Csak akkor tiltsa le, ha tudja, hogy mit csinál!',
+        'Disable autocomplete in the login screen.' => 'Automatikus kiegészítés letiltása a bejelentkező képernyőn.',
         'Disable cloud services' => 'Felhőszolgáltatások letiltása',
         'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be enabled).' =>
             'Letiltja az emlékeztető értesítések küldését egy jegy felelős ügyintézőjének (a Ticket::Responsible modulnak engedélyezve kell lennie).',
@@ -7671,7 +7686,7 @@ Az Ön segélyszolgálat csapata
         'Max size (in rows) of the informed agents box in the agent interface.' =>
             'Az értesített ügyintézők doboz legnagyobb mérete (sorokban) az ügyintézői felületen.',
         'Max size (in rows) of the involved agents box in the agent interface.' =>
-            'A részt vevő ügyintézők doboz legnagyobb mérete (sorokban) az ügyintézői felületen.',
+            'A résztvevő ügyintézők doboz legnagyobb mérete (sorokban) az ügyintézői felületen.',
         'Max size of the subjects in an email reply and in some overview screens.' =>
             'A tárgyak legnagyobb mérete egy e-mail válasznál és néhány áttekintő képernyőnél.',
         'Maximal auto email responses to own email-address a day (Loop-Protection).' =>
@@ -8299,7 +8314,7 @@ Az Ön segélyszolgálat csapata
         'Show queues even when only locked tickets are in.' => 'Várólisták megjelenítése még akkor is, ha csak zárolt jegyek vannak bennük.',
         'Show the current owner in the customer interface.' => 'Az aktuális tulajdonos megjelenítése az ügyfélfelületen.',
         'Show the current queue in the customer interface.' => 'Az aktuális várólista megjelenítése az ügyfélfelületen.',
-        'Show the history for this ticket' => 'Előzmények megjelenítése ennél a jegynél',
+        'Show the history for this ticket' => 'A jegy előzményeinek megjelenítése',
         'Show the ticket history' => 'Jegy előzményeinek megjelenítése',
         'Shows a count of attachments in the ticket zoom, if the article has attachments.' =>
             'Megjeleníti a mellékletek számát a jegynagyításban, ha a bejegyzésnek mellékletei vannak.',
@@ -8809,6 +8824,7 @@ Az Ön segélyszolgálat csapata
         '%s KB',
         '%s MB',
         '%s TB',
+        '+%s more',
         'A key with this name (\'%s\') already exists.',
         'A package upgrade was recently finished. Click here to see the results.',
         'A popup of this screen is already open. Do you want to close it and load this one instead?',

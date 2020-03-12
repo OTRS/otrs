@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.661964649898029;
+    $Self->{Completeness}        = 0.661520190023753;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -422,7 +422,7 @@ sub Data {
         'Filter for Groups' => 'Filtri per gruppi',
         'Select the customer:group permissions.' => 'Seleziona i permessi cliente:gruppo.',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer).' =>
-            'Se non si effettua una selezione, non ci saranno permessi in questo gruppo (i ticket non saranno disponibili al cliente)',
+            'Se non si effettua una selezione, non ci saranno permessi in questo gruppo (i ticket non saranno disponibili al cliente).',
         'Search Results' => 'Risultato della ricerca',
         'Customers' => 'Clienti',
         'Groups' => 'Gruppi',
@@ -683,7 +683,7 @@ sub Data {
         'Responsible' => 'Responsabile',
         'Ticket lock' => 'Blocco ticket',
         'Dynamic fields' => 'Campi dinamici',
-        'Add dynamic field' => '',
+        'Add dynamic field' => 'Aggiungi campo dinamico',
         'Create times' => 'Tempi di creazione',
         'No create time settings.' => 'Data di creazione mancante.',
         'Ticket created' => 'Ticket creato',
@@ -697,14 +697,18 @@ sub Data {
         'No change time settings.' => 'Nessuna modifica tempo.',
         'Ticket changed' => 'Ticket cambiato',
         'Ticket changed between' => 'Ticket cambiato fra',
+        'Last close times' => '',
+        'No last close time settings.' => '',
+        'Ticket last close' => '',
+        'Ticket last close between' => '',
         'Close times' => 'Tempi di chiusura',
         'No close time settings.' => 'Nessuna data di chiusura.',
         'Ticket closed' => 'Ticket chiusi',
         'Ticket closed between' => 'Ticket chiuso tra',
         'Pending times' => 'Tempi di attesa',
-        'No pending time settings.' => 'Tempo di attesa non selezionato',
+        'No pending time settings.' => 'Tempo di attesa non selezionato.',
         'Ticket pending time reached' => 'Tempo di attesa per ticket raggiunto',
-        'Ticket pending time reached between' => 'Tempo di attesa per ticket raggiunto fra ',
+        'Ticket pending time reached between' => 'Tempo di attesa per ticket raggiunto fra',
         'Escalation times' => 'Tempi di escalation',
         'No escalation time settings.' => 'Tempo di gestione non selezionato.',
         'Ticket escalation time reached' => 'Tempo di gestione per ticket superato',
@@ -2167,6 +2171,14 @@ sub Data {
         'Do you really want to delete this template?' => 'Vuoi veramente cancellare questo modello?',
         'A standard template with this name already exists!' => 'Un modello standard con questo nome esiste già!',
         'Template' => 'Modello',
+        'To get the first 20 characters of the subject of the current/latest agent article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            '',
+        'To get the first 5 lines of the body of the current/latest agent article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            '',
+        'To get the first 20 characters of the subject of the current/latest article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            '',
+        'To get the first 5 lines of the body of the current/latest article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            '',
         'Create type templates only supports this smart tags' => 'Crea modelli di tipi supporta solo questi smart tag',
         'Example template' => 'Modello di esempio',
         'The current ticket state is' => 'Lo stato attuale del ticket è',
@@ -2367,7 +2379,7 @@ sub Data {
         'Edit customer ID' => 'Modifica ID cliente',
 
         # Template: AgentDashboardCustomerIDStatus
-        'Escalated tickets' => '',
+        'Escalated tickets' => 'Tickets scaduti',
         'Open tickets' => 'Ticket aperti',
         'Closed tickets' => 'Ticket chiusi',
         'All tickets' => 'Tutti i ticket',
@@ -3746,7 +3758,7 @@ sub Data {
             'Spiacenti, Apache::Reload è necessario come PerlModule e PerlInitHandler nel file di configurazione di Apache. Vedi anche script/apache2-httpd.include.conf. In alternativa, è possibile utilizzare lo strumento da riga di comando bin/otrs.Console.pl per installare i pacchetti!',
         'No such package!' => 'Nessun pacchetto del genere!',
         'No such file %s in package!' => 'Nessun file del genere %s nel pacchetto!',
-        'No such file %s in local file system!' => '',
+        'No such file %s in local file system!' => 'Nessun file %s nel file system locale!',
         'Can\'t read %s!' => 'Impossibile leggere %s!',
         'File is OK' => 'File è OK',
         'Package has locally modified files.' => 'Il pacchetto ha file modificati localmente.',
@@ -3762,7 +3774,7 @@ sub Data {
         'Dependency installed correctly' => 'Dipendenza installata correttamente',
         'The package needs to be reinstalled' => 'Il pacchetto deve essere reinstallato',
         'The package contains cyclic dependencies' => 'Il pacchetto contiene dipendenze cicliche',
-        'Not found in on-line repositories' => '',
+        'Not found in on-line repositories' => 'Non trovato nelle repository on-line',
         'Required version is higher than available' => '',
         'Dependencies fail to upgrade or install' => '',
         'Package could not be installed' => '',
@@ -6180,6 +6192,8 @@ Thanks for your help!
         'Checks for queued outgoing emails to be sent.' => '',
         'Checks if an E-Mail is a followup to an existing ticket by searching the subject for a valid ticket number.' =>
             'Verifica se una email è una prosecuzione a un ticket esistente cercando l\'oggetto di un numero ticket valido.',
+        'Checks if an email is a follow-up to an existing ticket with external ticket number which can be found by ExternalTicketNumberRecognition filter module.' =>
+            '',
         'Checks the SystemID in ticket number detection for follow-ups. If not enabled, SystemID will be changed after using the system.' =>
             '',
         'Checks the availability of OTRS Business Solution™ for this system.' =>
@@ -7135,6 +7149,7 @@ Thanks for your help!
             '',
         'Disable HTTP header "X-Frame-Options: SAMEORIGIN" to allow OTRS to be included as an IFrame in other websites. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
             '',
+        'Disable autocomplete in the login screen.' => '',
         'Disable cloud services' => '',
         'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be enabled).' =>
             '',
@@ -8805,6 +8820,7 @@ NOTA: i sistemi di terze parti richiedono una configurazione a se.',
         '%s KB',
         '%s MB',
         '%s TB',
+        '+%s more',
         'A key with this name (\'%s\') already exists.',
         'A package upgrade was recently finished. Click here to see the results.',
         'A popup of this screen is already open. Do you want to close it and load this one instead?',

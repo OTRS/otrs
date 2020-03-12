@@ -1,4 +1,5 @@
 #6.0.27 2020-03-27
+ - 2020-03-12 Updated translations, thanks to all translators.
  - 2020-03-03 Improved random number generator.
   We added new CPAN dependencies, which should already be present on all systems:
     Crypt::Random::Source

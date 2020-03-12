@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.6743711760707;
+    $Self->{Completeness}        = 0.673227010519172;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -694,6 +694,10 @@ sub Data {
         'No change time settings.' => 'No hay fecha de modificación',
         'Ticket changed' => 'Ticket modificado',
         'Ticket changed between' => 'Ticket modificado entre',
+        'Last close times' => '',
+        'No last close time settings.' => '',
+        'Ticket last close' => '',
+        'Ticket last close between' => '',
         'Close times' => 'Fechas de cierre',
         'No close time settings.' => 'No hay fechas de cierre',
         'Ticket closed' => 'Ticket cerrado',
@@ -2164,6 +2168,14 @@ sub Data {
         'Do you really want to delete this template?' => '¿Realmente desea eliminar esta plantilla?',
         'A standard template with this name already exists!' => '¡Una plantilla estándar con este nombre ya existe!',
         'Template' => 'Plantilla',
+        'To get the first 20 characters of the subject of the current/latest agent article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            '',
+        'To get the first 5 lines of the body of the current/latest agent article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            '',
+        'To get the first 20 characters of the subject of the current/latest article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            '',
+        'To get the first 5 lines of the body of the current/latest article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            '',
         'Create type templates only supports this smart tags' => 'Crear plantillas tipo sólo soporta estas etiquetas inteligentes',
         'Example template' => 'Plantilla Ejemplo',
         'The current ticket state is' => 'El estado actual del ticket es',
@@ -6195,6 +6207,8 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'Checks for queued outgoing emails to be sent.' => '',
         'Checks if an E-Mail is a followup to an existing ticket by searching the subject for a valid ticket number.' =>
             'Comprueba si un E-Mail es un seguimiento a un ticket existente búscando en el tema por un número de ticket válido.',
+        'Checks if an email is a follow-up to an existing ticket with external ticket number which can be found by ExternalTicketNumberRecognition filter module.' =>
+            '',
         'Checks the SystemID in ticket number detection for follow-ups. If not enabled, SystemID will be changed after using the system.' =>
             '',
         'Checks the availability of OTRS Business Solution™ for this system.' =>
@@ -7150,6 +7164,7 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
             '',
         'Disable HTTP header "X-Frame-Options: SAMEORIGIN" to allow OTRS to be included as an IFrame in other websites. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
             '',
+        'Disable autocomplete in the login screen.' => '',
         'Disable cloud services' => 'Deshabilitar servicios en la nube',
         'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be enabled).' =>
             '',
@@ -8816,6 +8831,7 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         '%s KB',
         '%s MB',
         '%s TB',
+        '+%s more',
         'A key with this name (\'%s\') already exists.',
         'A package upgrade was recently finished. Click here to see the results.',
         'A popup of this screen is already open. Do you want to close it and load this one instead?',

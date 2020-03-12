@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '';
     $Self->{DateInputFormat}     = '';
     $Self->{DateInputFormatLong} = '';
-    $Self->{Completeness}        = 0.971617946974847;
+    $Self->{Completeness}        = 0.969969460468273;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -689,6 +689,10 @@ sub Data {
         'No change time settings.' => '변경 시간 설정이 없습니다.',
         'Ticket changed' => '티켓 변경됨',
         'Ticket changed between' => '티켓 변경 사이',
+        'Last close times' => '',
+        'No last close time settings.' => '',
+        'Ticket last close' => '',
+        'Ticket last close between' => '',
         'Close times' => '끝나는 시간',
         'No close time settings.' => '가까운 시간 설정이 없습니다.',
         'Ticket closed' => '티켓이 폐쇄되었습니다.',
@@ -2159,6 +2163,14 @@ sub Data {
         'Do you really want to delete this template?' => '이 템플릿을 정말로 삭제 하시겠습니까?',
         'A standard template with this name already exists!' => '이 이름을 가진 표준 템플릿이 이미 존재합니다!',
         'Template' => '템플릿',
+        'To get the first 20 characters of the subject of the current/latest agent article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            '',
+        'To get the first 5 lines of the body of the current/latest agent article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            '',
+        'To get the first 20 characters of the subject of the current/latest article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            '',
+        'To get the first 5 lines of the body of the current/latest article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
+            '',
         'Create type templates only supports this smart tags' => '만들기 유형 템플릿은 이 스마트 태그만 지원합니다.',
         'Example template' => '템플릿 예제',
         'The current ticket state is' => '현재 티켓 상태는 다음과 같습니다.',
@@ -6183,6 +6195,8 @@ Thanks for your help!
         'Checks for queued outgoing emails to be sent.' => '보낸 대기중인 보내는 전자 메일을 확인합니다.',
         'Checks if an E-Mail is a followup to an existing ticket by searching the subject for a valid ticket number.' =>
             '유효한 티켓 번호를 검색하여 전자 메일이 기존 티켓의 후속 조치인지 확인합니다.',
+        'Checks if an email is a follow-up to an existing ticket with external ticket number which can be found by ExternalTicketNumberRecognition filter module.' =>
+            '',
         'Checks the SystemID in ticket number detection for follow-ups. If not enabled, SystemID will be changed after using the system.' =>
             '후속 조치를 위해 티켓 번호 검색에서 SystemID를 확인합니다. 활성화되지 않은 경우 시스템을 사용한 후 SystemID가 변경됩니다.',
         'Checks the availability of OTRS Business Solution™ for this system.' =>
@@ -7138,6 +7152,7 @@ Thanks for your help!
             '외부 스크립트 내용로드를 허용하려면 HTTP 헤더 "Content-Security-Policy"를 비활성화하십시오. 이 HTTP 헤더를 비활성화하면 보안 문제가 발생할 수 있습니다! 자신이하는 일을 아는 경우에만 사용을 중지하십시오!',
         'Disable HTTP header "X-Frame-Options: SAMEORIGIN" to allow OTRS to be included as an IFrame in other websites. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
             'HTTP 헤더 "X-Frame-Options : SAMEORIGIN"을 사용하지 않도록 설정하여 OTRS를 다른 웹 사이트의 IFrame으로 포함 할 수 있습니다. 이 HTTP 헤더를 비활성화하면 보안 문제가 발생할 수 있습니다! 자신이하는 일을 아는 경우에만 사용을 중지하십시오!',
+        'Disable autocomplete in the login screen.' => '',
         'Disable cloud services' => '클라우드 서비스 사용 중지',
         'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be enabled).' =>
             '책임있는 에이전트에게 티켓 알림을 보내는 것을 비활성화합니다 (Ticket :: Responsible을 활성화해야합니다).',
@@ -8804,6 +8819,7 @@ Thanks for your help!
         '%s KB',
         '%s MB',
         '%s TB',
+        '+%s more',
         'A key with this name (\'%s\') already exists.',
         'A package upgrade was recently finished. Click here to see the results.',
         'A popup of this screen is already open. Do you want to close it and load this one instead?',
