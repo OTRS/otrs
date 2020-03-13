@@ -45,9 +45,9 @@
     [% ELSIF ArticleField.Type == "ArticleOption" %]
                     <!-- show article options like signed, crypted, ...-->
                     <label>[% Translate(ArticleField.Label) | html %]:</label>
-                    <div title="[% ArticleField.Value | html %]" class="[% ArticleField.Class | html %] Value">
+                    <p title="[% ArticleField.Value | html %]" class="[% ArticleField.Class | html %] Value">
                         [% Translate(ArticleField.Value) | html %]
-                    </div>
+                    </p>
                     <div class="Clear"></div>
     [% ELSIF ArticleField.Label == "Subject" %]
                     <!-- Include the full subject so that it can be copied. The one in the title bar is shortened. -->
