@@ -3009,18 +3009,18 @@
         <Navigation>Core::Crypt::PGP</Navigation>
         <Value>
             <Hash>
-                <Item Key="SIG_ID">Signature data.</Item>
-                <Item Key="GOODSIG">Good PGP signature.</Item>
-                <Item Key="VALIDSIG">The PGP signature with the keyid is good.</Item>
-                <Item Key="TRUST_UNDEFINED">This key is not certified with a trusted signature!.</Item>
-                <Item Key="KEYREVOKED">The PGP signature was made by a revoked key, this could mean that the signature is forged.</Item>
-                <Item Key="REVKEYSIG">The PGP signature was made by a revoked key, this could mean that the signature is forged.</Item>
-                <Item Key="BADSIG">The PGP signature with the keyid has not been verified successfully.</Item>
-                <Item Key="ERRSIG">It was not possible to check the PGP signature, this may be caused by a missing public key or an unsupported algorithm.</Item>
-                <Item Key="SIGEXPIRED">The PGP signature is expired.</Item>
-                <Item Key="EXPKEYSIG">The PGP signature was made by an expired key.</Item>
-                <Item Key="NO_PUBKEY">No public key found.</Item>
-                <Item Key="NODATA">No valid OpenPGP data found.</Item>
+                <Item Key="SIG_ID" Translatable="1">Signature data.</Item>
+                <Item Key="GOODSIG" Translatable="1">Good PGP signature.</Item>
+                <Item Key="VALIDSIG" Translatable="1">The PGP signature with the keyid is good.</Item>
+                <Item Key="TRUST_UNDEFINED" Translatable="1">This key is not certified with a trusted signature!</Item>
+                <Item Key="KEYREVOKED" Translatable="1">The PGP signature was made by a revoked key, this could mean that the signature is forged.</Item>
+                <Item Key="REVKEYSIG" Translatable="1">The PGP signature was made by a revoked key, this could mean that the signature is forged.</Item>
+                <Item Key="BADSIG" Translatable="1">The PGP signature with the keyid has not been verified successfully.</Item>
+                <Item Key="ERRSIG" Translatable="1">It was not possible to check the PGP signature, this may be caused by a missing public key or an unsupported algorithm.</Item>
+                <Item Key="SIGEXPIRED" Translatable="1">The PGP signature is expired.</Item>
+                <Item Key="EXPKEYSIG" Translatable="1">The PGP signature was made by an expired key.</Item>
+                <Item Key="NO_PUBKEY" Translatable="1">No public key found.</Item>
+                <Item Key="NODATA" Translatable="1">No valid OpenPGP data found.</Item>
             </Hash>
         </Value>
     </Setting>

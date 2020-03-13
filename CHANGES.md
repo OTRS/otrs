@@ -1,4 +1,5 @@
 #6.0.28 ????-??-??
+ - 2020-03-13 Fixed bug#[15017](https://bugs.otrs.org/show_bug.cgi?id=15017) - Untranslated strings in PGP status information.
  - 2020-03-12 Improved download of the private and public keys and certificates (S/MIME and PGP).
  - 2020-03-11 Fixed bug#[14956](https://bugs.otrs.org/show_bug.cgi?id=14956) - Add new key/value pair to the Hash element doesn't render proper element in SysConfig.
  - 2020-03-10 Fixed bug#[13657](https://bugs.otrs.org/show_bug.cgi?id=13657) - Duplicate entry for ticket seen flag.
