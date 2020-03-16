@@ -698,7 +698,12 @@ sub HandleError {
             || return $Self->{UnitTestDriverObject}->False( 1, "Could not write file $SharedScreenshotDir/$Filename" );
     }
 
-    $Self->{UnitTestDriverObject}->True( 1, "Saved screenshot in $URL" );
+    {
+        # Make sure the screenshot URL is output even in non-verbose mode to make it visible
+        #   for debugging, but don't register it as a test failure to keep the error count more correct.
+        local $Self->{UnitTestDriverObject}->{Verbose} = 1;
+        $Self->{UnitTestDriverObject}->True( 1, "Saved screenshot in $URL" );
+    }
 
     return;
 }
