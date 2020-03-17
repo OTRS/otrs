@@ -504,6 +504,19 @@ sub _Replace {
             $Replacement = $TranslatedString;
         }
 
+        # process description tag
+        elsif (
+            $Attribute eq 'Description'
+            && $Self->{RichText}
+            && $Appointment{$Attribute}
+            )
+        {
+            my $HTMLUtilsObject = $Kernel::OM->Get('Kernel::System::HTMLUtils');
+            $Replacement = $HTMLUtilsObject->ToHTML(
+                String => $Appointment{$Attribute},
+            );
+        }
+
         # process all other single values
         else {
             if ( !$Appointment{$Attribute} ) {
