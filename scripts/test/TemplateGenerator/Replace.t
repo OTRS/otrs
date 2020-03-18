@@ -27,7 +27,11 @@ $Kernel::OM->ObjectParamAdd(
 );
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-my $RandomID             = $Helper->GetRandomID();
+my $RandomID = $Helper->GetRandomID();
+my ( $TestUserLogin, $UserID ) = $Helper->TestUserCreate(
+    Groups => ['users'],
+);
+
 my $NotificationLanguage = 'en';
 my $UserLanguage         = 'de';
 
@@ -847,6 +851,50 @@ for my $Test (@Tests) {
         "$Test->{Name} - _Replace()",
     );
 }
+
+# Test for bug#14948 Appointment description tag replace with line brakes.
+my %Calendar = $Kernel::OM->Get('Kernel::System::Calendar')->CalendarCreate(
+    CalendarName => "My Calendar $RandomID",
+    Color        => '#3A87AD',
+    GroupID      => 1,
+    UserID       => $UserID,
+    ValidID      => 1,
+);
+$Self->True(
+    $Calendar{CalendarID},
+    "CalendarID $Calendar{CalendarID} is created.",
+);
+
+my $AppointmentID = $Kernel::OM->Get('Kernel::System::Calendar::Appointment')->AppointmentCreate(
+    CalendarID  => $Calendar{CalendarID},
+    Title       => "Test Appointment $RandomID",
+    Description => "Test
+description
+$RandomID",
+    Location  => 'Germany',
+    StartTime => '2016-09-01 00:00:00',
+    EndTime   => '2016-09-01 01:00:00',
+    UserID    => $UserID,
+);
+$Self->True(
+    $AppointmentID,
+    "AppointmentID $AppointmentID is created.",
+);
+
+my $Result = $Kernel::OM->Get('Kernel::System::CalendarTemplateGenerator')->_Replace(
+    Text          => 'Description &lt;OTRS_APPOINTMENT_DESCRIPTION&gt;',
+    RichText      => 1,
+    AppointmentID => $AppointmentID,
+    CalendarID    => $Calendar{CalendarID},
+    UserID        => $UserID,
+);
+$Self->Is(
+    $Result,
+    "Description Test<br/>
+description<br/>
+$RandomID",
+    "Appointment description tag correctly replaced.",
+);
 
 # Cleanup is done by RestoreDatabase.
 
