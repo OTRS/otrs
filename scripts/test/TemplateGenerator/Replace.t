@@ -881,6 +881,12 @@ $Self->True(
     "AppointmentID $AppointmentID is created.",
 );
 
+$Helper->ConfigSettingChange(
+    Valid => 1,
+    Key   => 'Frontend::RichText',
+    Value => 1,
+);
+
 my $Result = $Kernel::OM->Get('Kernel::System::CalendarTemplateGenerator')->_Replace(
     Text          => 'Description &lt;OTRS_APPOINTMENT_DESCRIPTION&gt;',
     RichText      => 1,
