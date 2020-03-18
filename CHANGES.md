@@ -1,4 +1,5 @@
 #6.0.28 ????-??-??
+ - 2020-03-18 Fixed bug#[14965](https://bugs.otrs.org/show_bug.cgi?id=14965) - Untranslated string in database charset check.
  - 2020-03-17 Fixed bug#[14948](https://bugs.otrs.org/show_bug.cgi?id=14948) - Line breaks in tag 'OTRS_APPOINTMENT_DESCRIPTION' are not replaced.
  - 2020-03-13 Fixed bug#[15017](https://bugs.otrs.org/show_bug.cgi?id=15017) - Untranslated strings in PGP status information.
  - 2020-03-12 Improved download of the private and public keys and certificates (S/MIME and PGP).
