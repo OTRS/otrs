@@ -103,7 +103,7 @@ sub Run {
     }
 
     print "+-------------------------------------------------------------------+\n";
-    print "$File:\n";
+    print '  ' . $Self->_Color( 'yellow', $File ) . ":\n";
     print "+-------------------------------------------------------------------+\n";
 
     my $StartTime = [ Time::HiRes::gettimeofday() ];
@@ -154,7 +154,17 @@ sub Run {
         $Self->{ResultData}->{SeleniumData} = $Self->{SeleniumData};
     }
 
-    print { $Self->{OriginalSTDOUT} } "\n";
+    print { $Self->{OriginalSTDOUT} } "\n" if !$Self->{Verbose};
+
+    my $TestCountTotal = $Self->{ResultData}->{TestOk} // 0;
+    $TestCountTotal += $Self->{ResultData}->{TestNotOk} // 0;
+
+    printf(
+        "%s ran %s test(s) in %s.\n\n",
+        $File,
+        $Self->_Color( 'yellow', $TestCountTotal ),
+        $Self->_Color( 'yellow', "$Self->{ResultData}->{Duration}s" ),
+    );
 
     return $Self->_SaveResults();
 }

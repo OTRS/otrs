@@ -166,7 +166,8 @@ sub Run {
 
     my $Duration = sprintf( '%.3f', Time::HiRes::tv_interval($StartTimeHiRes) );
 
-    my $Host = $ConfigObject->Get('FQDN');
+    my $Host           = $ConfigObject->Get('FQDN');
+    my $TestCountTotal = $Self->{TestCountOk} + $Self->{TestCountNotOk};
 
     print "=====================================================================\n";
 
@@ -177,8 +178,13 @@ sub Run {
         }
     }
 
-    print $Self->_Color( 'yellow', $Host ) . " ran tests in " . $Self->_Color( 'yellow', "${Duration}s" );
-    print " for " . $Self->_Color( 'yellow', $Product ) . "\n";
+    printf(
+        "%s ran %s test(s) in %s for %s.\n",
+        $Self->_Color( 'yellow', $Host ),
+        $Self->_Color( 'yellow', $TestCountTotal ),
+        $Self->_Color( 'yellow', "${Duration}s" ),
+        $Self->_Color( 'yellow', $Product )
+    );
 
     if ( $Self->{TestCountNotOk} ) {
         print $Self->_Color( 'red', "$Self->{TestCountNotOk} tests failed.\n" );
