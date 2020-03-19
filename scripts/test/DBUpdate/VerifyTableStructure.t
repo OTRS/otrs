@@ -133,7 +133,7 @@ my $TableStructureGet = sub {
                             WHEN p.contype = 'f' THEN p.conkey
                         END AS foreignkey_connnum,
                         CASE
-                            WHEN f.atthasdef = 't' THEN d.adsrc
+                            WHEN f.atthasdef = 't' THEN pg_get_expr(d.adbin, d.adrelid)
                         END AS default
                     FROM pg_attribute f
                         JOIN pg_class c ON c.oid = f.attrelid
