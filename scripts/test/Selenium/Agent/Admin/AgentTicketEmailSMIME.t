@@ -154,6 +154,11 @@ $Selenium->RunTest(
         # Navigate to AgentTicketEmail screen.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketEmail");
 
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof($) === "function" && $("#Dest").length;'
+        );
+
         # Select test queue.
         my $Option = $Selenium->execute_script(
             "return \$('#Dest option').filter(function () { return \$(this).html() == '$QueueName'; }).val();"
@@ -165,7 +170,7 @@ $Selenium->RunTest(
 
         $Selenium->WaitFor(
             JavaScript =>
-                'return typeof($) === "function" && $("#EmailSecurityOptions").length && !$(".AJAXLoader:visible").length'
+                'return $("#EmailSecurityOptions").length && !$(".AJAXLoader:visible").length;'
         );
 
         # Select EmailSecurityOptions.
@@ -176,53 +181,48 @@ $Selenium->RunTest(
 
         $Selenium->WaitFor(
             JavaScript =>
-                'return typeof($) === "function" && $("#SignKeyID").length && !$(".AJAXLoader:visible").length'
+                'return $("#SignKeyID").length && !$(".AJAXLoader:visible").length;'
         );
 
-        $Selenium->WaitFor(
-            JavaScript =>
-                "return \$('#SignKeyID option:selected').text();"
+        my @Options = (
+            {
+                Option   => 'WARNING: EXPIRED KEY',
+                Selected => 0,
+                Comment  => "expired, it is set as default in test queue",
+            },
+            {
+                Option   => 'Feb 28 11:51:14 2030 GMT] SMIMEtest3@example.net',
+                Selected => 0,
+                Comment  => "valid, but not the longest valid certificate",
+            },
+            {
+                Option   => 'Mar  7 11:52:01 2040 GMT] SMIMEtest3@example.net',
+                Selected => 1,
+                Comment  => "valid and the longest valid certificate",
+            }
         );
 
-        $Option = $Selenium->execute_script(
-            "return \$('#SignKeyID option:selected').text();"
-        );
+        OPTION:
+        for my $Option (@Options) {
+            my $Text    = $Option->{Option};
+            my $Comment = $Option->{Comment};
 
-        $Self->False(
-            index( $Option, 'WARNING: EXPIRED KEY' ) > -1,
-            "Selected signing key is not expired",
-        );
+            $Self->True(
+                $Selenium->execute_script(
+                    "return \$('#SignKeyID option:contains(\"$Text\")').length;"
+                ),
+                "Found '$Text' - $Comment",
+            );
 
-        # Check if the longest signing certificate is selected.
-        # See more information bug#14752.
-        $Self->True(
-            index( $Option, 'Mar  7 11:52:01 2040 GMT] SMIMEtest3@example.net' ) > -1,
-            "Selected signing key is the longest valid certificate",
-        );
+            next OPTION if !$Option->{Selected};
 
-        $Self->Is(
-            $Selenium->execute_script("return \$('#SignKeyID option:selected').text();"),
-            $Selenium->execute_script("return \$('#SignKeyID option:selected').text();"),
-            "The second signing key is selected.",
-        );
-
-        $Option = $Selenium->execute_script(
-            "return \$('#SignKeyID option:eq(1)').text();"
-        );
-
-        $Self->True(
-            index( $Option, 'Feb 28 11:51:14 2030 GMT] SMIMEtest3@example.net' ) > -1,
-            "The first signing key is valid, but it is not the longest valid certificate",
-        );
-
-        $Option = $Selenium->execute_script(
-            "return \$('#SignKeyID option:eq(3)').text();"
-        );
-
-        $Self->True(
-            index( $Option, 'WARNING: EXPIRED KEY' ) > -1,
-            "There is another signing key, that is expired. It is set as default in test queue",
-        );
+            $Self->True(
+                $Selenium->execute_script(
+                    "return \$('#SignKeyID option:selected:contains(\"$Text\")').length;"
+                ),
+                "Selected key - '$Text' - $Comment",
+            );
+        }
 
         # Delete needed test directories.
         for my $Directory ( $CertPath, $PrivatePath ) {
