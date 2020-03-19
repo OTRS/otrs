@@ -389,7 +389,7 @@ $Selenium->RunTest(
                 UID        => $UserID[0],
                 GID        => $Group1,
                 Permission => {
-                    ro        => 0,
+                    ro        => 1,
                     move_into => 1,
                     create    => 0,
                     note      => 1,

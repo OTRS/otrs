@@ -2423,11 +2423,17 @@ sub _Mask {
             my @InvolvedAgents;
             my $Counter = 1;
 
-            # get involved user list
             my @InvolvedUserID = $ParamObject->GetArray( Param => 'InvolvedUserID' );
+
+            my %AgentWithPermission = $GroupObject->PermissionGroupGet(
+                GroupID => $GID,
+                Type    => 'ro',
+            );
 
             USER:
             for my $User ( reverse @UserIDs ) {
+
+                next USER if !defined $AgentWithPermission{ $User->{UserID} };
 
                 my $Value = "$Counter: $User->{UserFullname}";
                 if ( $User->{OutOfOfficeMessage} ) {

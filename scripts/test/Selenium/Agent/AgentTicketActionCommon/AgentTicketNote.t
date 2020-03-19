@@ -107,6 +107,13 @@ $Selenium->RunTest(
             Value => 1,
         );
 
+        # Enable 'InvolvedAgent' for AgentTicketNote screen.
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'Ticket::Frontend::AgentTicketNote###InvolvedAgent',
+            Value => 1,
+        );
+
         # Create test user.
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => [ 'admin', 'users', $GroupName ],
@@ -135,6 +142,41 @@ $Selenium->RunTest(
         $Self->True(
             $TicketID,
             "Ticket $TicketID is created",
+        );
+
+        # Update the ticket owner to have an involved user.
+        $TicketObject->TicketOwnerSet(
+            TicketID  => $TicketID,
+            NewUserID => $CreatedUserIDs[0],
+            UserID    => $CreatedUserIDs[0],
+        );
+
+        # Create test user.
+        my ( $TestUserLogin2, $TestUserID2 ) = $Helper->TestUserCreate(
+            Groups => [ 'admin', 'users', $GroupName ],
+        );
+
+        $TicketObject->TicketStateSet(
+            StateID  => 3,
+            TicketID => $TicketID,
+            UserID   => $TestUserID2,
+        );
+
+        # Change permission for test user
+        # See bug#15031.
+        $GroupObject->PermissionGroupUserAdd(
+            GID        => $GroupID,
+            UID        => $TestUserID2,
+            Permission => {
+                ro        => 0,
+                move_into => 0,
+                create    => 0,
+                note      => 1,
+                owner     => 0,
+                priority  => 0,
+                rw        => 0,
+            },
+            UserID => 1,
         );
 
         # Login as test user.
@@ -200,6 +242,21 @@ $Selenium->RunTest(
                 "return \$('#InformUserID option[Value=$CreatedUserIDs[1]]').length"
             ),
             "UserID $CreatedUserIDs[1] with 'note' permission is not available for selection in Inform Agents."
+        );
+
+        # Verify only agent with 'ro' permission is available for Inform Agents selection.
+        # See bug#15031.
+        $Self->True(
+            $Selenium->execute_script(
+                "return \$('#InvolvedUserID option[Value=$CreatedUserIDs[0]]').length"
+            ),
+            "UserID $CreatedUserIDs[0] with 'ro' and 'note' permission is available for selection in Involved Agents."
+        );
+        $Self->False(
+            $Selenium->execute_script(
+                "return \$('#InvolvedUserID option[Value=$TestUserID2]').length"
+            ),
+            "UserID $TestUserID2 without 'ro' permission is not available for selection in Involved Agents."
         );
 
         # Get default subject value from Ticket::Frontend::AgentTicketNote###Subject.
