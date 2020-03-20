@@ -161,21 +161,28 @@ $Selenium->RunTest(
                     Value   => 1,
                 );
 
-                $Selenium->WaitFor( JavaScript => 'return $("button[type=submit]").length;' );
-                $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
+                # Submit form.
+                $Selenium->execute_script(
+                    "\$('#Submit')[0].scrollIntoView(true);",
+                );
+                $Self->True(
+                    $Selenium->execute_script("return \$('#Submit').length;"),
+                    "Element '#Submit' is found in screen"
+                );
+                $Selenium->find_element( '#Submit', 'css' )->VerifiedClick();
 
                 $Selenium->WaitFor(
                     JavaScript =>
                         "return typeof(\$) === 'function' && \$('#DynamicFieldsTable tr:contains($RandomID)').length;"
                 );
 
-                # Check if test DynamicField show on AdminDynamicField screen.
+                # Check if test dynamic field is shown in AdminDynamicField screen.
                 $Self->True(
                     $Selenium->execute_script("return \$('#DynamicFieldsTable tr:contains($RandomID)').length;"),
                     "$RandomID $ID $Type DynamicField found on page",
                 );
 
-                # Go to new DynamicField again.
+                # Go to new dynamic field again.
                 $Selenium->find_element( $RandomID, 'link_text' )->VerifiedClick();
 
                 # Check breadcrumb on Edit screen.
@@ -196,14 +203,23 @@ $Selenium->RunTest(
                     Element => '#ValidID',
                     Value   => 2,
                 );
-                $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
+
+                # Submit form.
+                $Selenium->execute_script(
+                    "\$('#Submit')[0].scrollIntoView(true);",
+                );
+                $Self->True(
+                    $Selenium->execute_script("return \$('#Submit').length;"),
+                    "Element '#Submit' is found in screen"
+                );
+                $Selenium->find_element( '#Submit', 'css' )->VerifiedClick();
 
                 $Selenium->WaitFor(
                     JavaScript =>
                         "return typeof(\$) === 'function' && \$('tr.Invalid td a:contains($RandomID)').length;"
                 );
 
-                # Check class of invalid DynamicField in the overview table.
+                # Check class of invalid dynamic field in the overview table.
                 $Self->True(
                     $Selenium->execute_script(
                         "return \$('tr.Invalid td a:contains($RandomID)').length;"
@@ -211,14 +227,14 @@ $Selenium->RunTest(
                     "There is a class 'Invalid' for test DynamicField",
                 );
 
-                # Go to new DynamicField again after update and check values.
+                # Go to new dynamic field again after update and check values.
                 $Selenium->find_element( $RandomID, 'link_text' )->VerifiedClick();
 
                 $Selenium->WaitFor(
                     JavaScript => "return typeof(\$) === 'function' && \$('#Name').length;"
                 );
 
-                # Check new DynamicField values.
+                # Check new dynamic field values.
                 $Self->Is(
                     $Selenium->find_element( '#Name', 'css' )->get_value(),
                     $RandomID,
@@ -235,9 +251,10 @@ $Selenium->RunTest(
                     "#ValidID stored value",
                 );
 
+                # Navigate to AdminDynamicField screen.
                 $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminDynamicField");
 
-                # Delete DynamicFields, check button for deleting Dynamic Field.
+                # Delete dynamic field.
                 my $DynamicFieldID = $DynamicFieldObject->DynamicFieldGet(
                     Name => $RandomID
                 )->{ID};
@@ -308,9 +325,8 @@ $Selenium->RunTest(
         # Navigate to AdminDynamiField screen.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminDynamicField");
 
-        $Selenium->WaitFor(
-            JavaScript =>
-                "return typeof(\$) === 'function' && \$('#ShowContextSettingsDialog').length;"
+        $Selenium->WaitForjQueryEventBound(
+            CSSSelector => "#ShowContextSettingsDialog",
         );
 
         # Set 10 fields per page.
