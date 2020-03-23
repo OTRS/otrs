@@ -355,6 +355,9 @@ sub GenerateCustomFilesArchive {
         #             UserPw => 'xxx',
         $Content =~ s/((?:Password|Pw)\d*\s*=>\s*)\'.*?\'/$1\'xxx\'/mg;
 
+        # Obfuscate user login data to avoid showing it.
+        $Content =~ s{://\w+:\w+@}{://[user]:[password]@}smxg;
+
         $TarObject->replace_content( $ConfigFile, $Content );
     }
 

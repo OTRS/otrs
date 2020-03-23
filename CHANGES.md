@@ -2,6 +2,7 @@
  - 2020-03-12 Improved download of the private and public keys and certificates (S/MIME and PGP).
 
 #5.0.42 2020-03-27
+ - 2020-03-23 Mask user credentials in the SupportBundle.
  - 2020-03-03 Improved random number generator.
   We added new CPAN dependencies, which should already be present on all systems:
     Crypt::Random::Source
