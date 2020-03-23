@@ -713,6 +713,9 @@ sub _MaskPasswords {
     #             UserPw => 'xxx',
     $StringToMask =~ s/((?:Password|Pw)\d*\s*=>\s*)\'.*?\'/$1\'xxx\'/mg;
 
+    # Obfuscate user login data to avoid showing it.
+    $StringToMask =~ s{://\w+:\w+@}{://[user]:[password]@}smxg;
+
     return $StringToMask;
 
 }

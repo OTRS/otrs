@@ -606,6 +606,14 @@ sub Load {
             UserPw => 'strong-secret-password',
         },
     };
+
+    # HTTP credentials test.
+    \$Self->{'DocumentSearch::Nodes'} = [
+        {
+            DNS  => 'https://elastic:search\@localhost:9200',
+            Name => 'test',
+        },
+    ];
 }
 
 1;
@@ -638,6 +646,10 @@ my @ExpectedResults = (
         Name   => 'UserPw (CustomerUser LDAP backend)',
         Result => "UserPw => 'xxx'",
     },
+    {
+        Name   => 'DNS (Document search nodes)',
+        Result => "DNS  => 'https://[user]:[password]\@localhost:9200'"
+    }
 );
 
 my $MaskPasswordFileLocation = $MainObject->FileWrite(
