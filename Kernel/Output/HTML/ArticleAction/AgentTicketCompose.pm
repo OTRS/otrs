@@ -47,11 +47,6 @@ sub CheckAccess {
         }
     }
 
-    if ( $Param{ChannelName} eq 'Internal' && $Param{Article}->{SenderType} eq 'agent' ) {
-
-        # skip notes
-        return;
-    }
     if ( $Param{ChannelName} eq 'Email' && $Param{Article}->{SenderType} eq 'system' ) {
 
         # skip email notifications

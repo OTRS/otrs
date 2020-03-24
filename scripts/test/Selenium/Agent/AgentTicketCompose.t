@@ -691,6 +691,36 @@ $Selenium->RunTest(
             "After undo - Ticket owner is still test user $UserID"
         ) || die;
 
+        # Create article in OTRS channel.
+        my $InternalArticleBackendObject
+            = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForChannel( ChannelName => 'Internal' );
+        $ArticleID = $InternalArticleBackendObject->ArticleCreate(
+            TicketID             => $TicketID,
+            SenderType           => 'agent',
+            IsVisibleForCustomer => 1,
+            From                 => 'Test Agent <email@example.com>',
+            To                   => 'Customer A <customer-a@example.com>',
+            Cc                   => 'Customert B <customer-b@example.com>',
+            Subject              => 'Test Subject',
+            Body                 => 'Test Body',
+            Charset              => 'ISO-8859-15',
+            MimeType             => 'text/plain',
+            HistoryType          => 'AddNote',
+            HistoryComment       => 'Some free text!',
+            UserID               => 1,
+        );
+        $Self->True(
+            $ArticleID,
+            "Article is created - ID $ArticleID",
+        );
+
+        # Refresh screen and verify there is a reply button for internal type article. See bug#14958 for more details.
+        $Selenium->VerifiedRefresh();
+        $Self->True(
+            $Selenium->execute_script("return \$('#ResponseID$ArticleID').length;"),
+            "Reply for internal article typo found."
+        );
+
         # Delete test ticket.
         $Success = $TicketObject->TicketDelete(
             TicketID => $TicketID,
