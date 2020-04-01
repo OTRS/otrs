@@ -57,6 +57,6 @@ Databases
 Browsers
 - Use a modern web browser.
 - These browsers are not supported:
-  - Internet Explorer before version 11
+  - Internet Explorer before version 11 (OTRS 9 will not support Internet Explorer anymore)
   - Firefox before version 31
   - Safari before version 6
