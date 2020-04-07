@@ -1,5 +1,3 @@
-# 6.0.29 ????-??-??
-
 # 6.0.28 2020-04-20
  - 2020-04-07 Added more debugging information in the error log when system fails to create DateTime object.
  - 2020-03-24 Fixed bug#[14958](https://bugs.otrs.org/show_bug.cgi?id=14958) - Can't reply to an article create via 'OTRS' - Process and Webservice Problem.
