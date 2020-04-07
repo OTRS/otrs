@@ -1,4 +1,5 @@
 # 6.0.28 ????-??-??
+ - 2020-04-07 Added more debugging information in the error log when system fails to create DateTime object.
  - 2020-03-24 Fixed bug#[14958](https://bugs.otrs.org/show_bug.cgi?id=14958) - Can't reply to an article create via 'OTRS' - Process and Webservice Problem.
  - 2020-03-19 Fixed bug#[14965](https://bugs.otrs.org/show_bug.cgi?id=14965) - Inconsistent behaviour in sending AddNote notification to "involved agent" who has no permissions on ticket queue.
  - 2020-03-18 Fixed bug#[14965](https://bugs.otrs.org/show_bug.cgi?id=14965) - Untranslated string in database charset check.

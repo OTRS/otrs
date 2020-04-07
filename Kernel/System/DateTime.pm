@@ -36,6 +36,7 @@ our %ObjectManagerFlags = (
 
 our @ObjectDependencies = (
     'Kernel::Config',
+    'Kernel::System::Main',
     'Kernel::System::Log',
 );
 
@@ -151,9 +152,28 @@ sub new {
     my $CPANDateTimeObject = $Self->_CPANDateTimeObjectCreate(%Param);
 
     if ( ref $CPANDateTimeObject ne 'DateTime' ) {
+
+        # Add debugging information.
+        my $Parameters = $Kernel::OM->Get('Kernel::System::Main')->Dump(
+            \%Param,
+        );
+
+        # Remove $VAR1 =
+        $Parameters =~ s{ \s* \$VAR1 \s* = \s* \{}{}xms;
+
+        # Remove closing brackets.
+        $Parameters =~ s{\}\s+\{}{\{}xms;
+        $Parameters =~ s{\};\s*$}{}xms;
+
+        # Replace new lines with spaces.
+        $Parameters =~ s{\n}{ }gsmx;
+
+        # Replace multiple spaces with one.
+        $Parameters =~ s{\s+}{ }gsmx;
+
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             'Priority' => 'Error',
-            'Message'  => 'Error creating DateTime object.',
+            'Message'  => "Error creating DateTime object ($Parameters).",
         );
 
         return;
