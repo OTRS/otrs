@@ -15,7 +15,7 @@
   With the fix there is a limit of 20000 tickets.
  - 2020-03-02 Fixed bug#[14975](https://bugs.otrs.org/show_bug.cgi?id=14975) - Setting Event Type Filter in the ticket timeline view is applied only to the current ticket.
   Instead, it should be applied to all tickets.
- - 2020-03-02 Fixed bug#[14930](https://bugs.otrs.org/show_bug.cgi?id=14930) - Matching 'Frontend' setting in the ACL's causes problem when changing Type, Queue, Service or SLA.
+ - 2020-03-02 Fixed bug#[14930](https://bugs.otrs.org/show_bug.cgi?id=14930) - Matching 'Frontend' setting in the ACLs causes problem when changing Type, Queue, Service or SLA.
   The issue occurs in combination with PossibleAdd parameter - the forbidden fields are still there (i.e. Free fields), but changes are not saved.
 
 # 6.0.27 2020-03-27
