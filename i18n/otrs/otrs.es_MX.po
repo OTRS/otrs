@@ -21,7 +21,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2020-03-04 07:48+0000\n"
+"POT-Creation-Date: 2020-04-08 06:39+0000\n"
 "PO-Revision-Date: 2020-02-25 16:18+0000\n"
 "Last-Translator: Carlos Vazquez <carlos.vazquez@oslc.com.mx>\n"
 "Language-Team: Spanish (Mexico) <https://translate.app.otrs.com/projects/"
@@ -15280,6 +15280,13 @@ msgid "Server Database Charset"
 msgstr "Juego de Caracteres del Servidor de Base de Datos"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Charset.pm
+msgid ""
+"This character set is not yet supported, please see https://bugs.otrs.org/"
+"show_bug.cgi?id=12361. Please convert your database to the character set "
+"'utf8'."
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Charset.pm
 msgid "The setting character_set_database needs to be 'utf8'."
 msgstr ""
 
@@ -23110,6 +23117,12 @@ msgid "Go to dashboard!"
 msgstr "¡Ir al panel principal!"
 
 #. SysConfig
+#, fuzzy
+#| msgid "Add Signature"
+msgid "Good PGP signature."
+msgstr "Añadir Firma"
+
+#. SysConfig
 msgid "Google Authenticator"
 msgstr "Autenticador de Google"
 
@@ -23740,6 +23753,12 @@ msgstr ""
 "dominio, y \"Content\" tiene que ser una piel válida en el sistema. Por "
 "favor, verifique las entradas de ejemplo para la forma de expresión regular "
 "correcta."
+
+#. SysConfig
+msgid ""
+"It was not possible to check the PGP signature, this may be caused by a "
+"missing public key or an unsupported algorithm."
+msgstr ""
 
 #. SysConfig
 msgid "Italian"
@@ -24477,6 +24496,18 @@ msgstr ""
 "Lista de posibles estados siguientes de ticket, luego de haber añadido una "
 "nota telefónica a un ticket, en la ventana de ticket telefónico slaiente de "
 "la interfaz del agente."
+
+#. SysConfig
+#, fuzzy
+#| msgid "No ticket data found."
+msgid "No public key found."
+msgstr "No se encontraron datos de ticket."
+
+#. SysConfig
+#, fuzzy
+#| msgid "No ticket data found."
+msgid "No valid OpenPGP data found."
+msgstr "No se encontraron datos de ticket."
 
 #. SysConfig
 msgid "None"
@@ -27275,6 +27306,12 @@ msgid ""
 msgstr ""
 
 #. SysConfig
+#, fuzzy
+#| msgid "Signature updated!"
+msgid "Signature data."
+msgstr "¡Firma actualizada!"
+
+#. SysConfig
 msgid "Signatures"
 msgstr "Firmas"
 
@@ -27673,6 +27710,30 @@ msgid "Thai"
 msgstr "Tailandés"
 
 #. SysConfig
+#, fuzzy
+#| msgid "The signature for email answers."
+msgid "The PGP signature is expired."
+msgstr "Firma para respuestas por correo."
+
+#. SysConfig
+msgid ""
+"The PGP signature was made by a revoked key, this could mean that the "
+"signature is forged."
+msgstr ""
+
+#. SysConfig
+msgid "The PGP signature was made by an expired key."
+msgstr ""
+
+#. SysConfig
+msgid "The PGP signature with the keyid has not been verified successfully."
+msgstr ""
+
+#. SysConfig
+msgid "The PGP signature with the keyid is good."
+msgstr ""
+
+#. SysConfig
 msgid ""
 "The agent skin's InternalName which should be used in the agent interface. "
 "Please check the available skins in Frontend::Agent::Skins."
@@ -27860,6 +27921,10 @@ msgstr ""
 
 #. SysConfig
 msgid "This is the default orange - black skin."
+msgstr ""
+
+#. SysConfig
+msgid "This key is not certified with a trusted signature!"
 msgstr ""
 
 #. SysConfig

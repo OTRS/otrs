@@ -9,8 +9,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2020-03-04 07:48+0000\n"
-"PO-Revision-Date: 2020-03-04 21:49+0000\n"
+"POT-Creation-Date: 2020-04-08 06:39+0000\n"
+"PO-Revision-Date: 2020-04-08 16:54+0000\n"
 "Last-Translator: Balázs Úr <balazs.ur@otrs.com>\n"
 "Language-Team: Hungarian <https://translate.app.otrs.com/projects/otrs-6/"
 "otrs/hu/>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.11.2\n"
+"X-Generator: Weblate 3.11.3\n"
 
 #. Template: AdminACL
 msgid "ACL Management"
@@ -15987,6 +15987,16 @@ msgid "Server Database Charset"
 msgstr "Kiszolgáló adatbázis karakterkészlete"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Charset.pm
+msgid ""
+"This character set is not yet supported, please see https://bugs.otrs.org/"
+"show_bug.cgi?id=12361. Please convert your database to the character set "
+"'utf8'."
+msgstr ""
+"Ez a karakterkészlet még nincs támogatva, nézze meg a https://bugs.otrs.org/"
+"show_bug.cgi?id=12361 hibajelentést. Alakítsa át az adatbázisát „utf8” "
+"karakterkészletre."
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Charset.pm
 msgid "The setting character_set_database needs to be 'utf8'."
 msgstr "A character_set_database beállításnak „utf8” értékűnek kell lennie."
 
@@ -19966,7 +19976,7 @@ msgstr "Jegy létrehozása"
 
 #. SysConfig
 msgid "Create a new calendar appointment linked to this ticket"
-msgstr "Ezzel a jeggyel összekapcsolt új naptáridőpont létrehozása"
+msgstr "Ehhez a jegyhez hozzákapcsolt új naptáridőpont létrehozása"
 
 #. SysConfig
 msgid "Create and manage Service Level Agreements (SLAs)."
@@ -24864,6 +24874,10 @@ msgid "Go to dashboard!"
 msgstr "Ugrás a vezérlőpultra!"
 
 #. SysConfig
+msgid "Good PGP signature."
+msgstr "Jó PGP-aláírás."
+
+#. SysConfig
 msgid "Google Authenticator"
 msgstr "Google hitelesítő"
 
@@ -25585,6 +25599,14 @@ msgstr ""
 "illeszkednie a tartományra, és a „Tartalomban” lévő értéknek a rendszeren "
 "lévő érvényes témának kell lennie. Nézze meg a példabejegyzéseket a "
 "reguláris kifejezés megfelelő formájáért."
+
+#. SysConfig
+msgid ""
+"It was not possible to check the PGP signature, this may be caused by a "
+"missing public key or an unsupported algorithm."
+msgstr ""
+"Nem volt lehetséges ellenőrizni a PGP-aláírást. Ezt egy hiányzó nyilvános "
+"kulcs vagy egy nem támogatott algoritmus okozhatja."
 
 #. SysConfig
 msgid "Italian"
@@ -26374,6 +26396,14 @@ msgid ""
 msgstr ""
 "A következő lehetséges jegyállapotok egy új telefonos jegyzet hozzáadása "
 "után az ügyintézői felület kimenő telefonhívás képernyőjén."
+
+#. SysConfig
+msgid "No public key found."
+msgstr "Nem található nyilvános kulcs."
+
+#. SysConfig
+msgid "No valid OpenPGP data found."
+msgstr "Nem található érvényes OpenPGP adat."
 
 #. SysConfig
 msgid "None"
@@ -29779,6 +29809,10 @@ msgstr ""
 "engedélyezve van, vagy csak az első betűt (n, ó, p), ha nincs engedélyezve."
 
 #. SysConfig
+msgid "Signature data."
+msgstr "Aláírási adatok."
+
+#. SysConfig
 msgid "Signatures"
 msgstr "Aláírások"
 
@@ -30214,6 +30248,31 @@ msgid "Thai"
 msgstr "Thai"
 
 #. SysConfig
+msgid "The PGP signature is expired."
+msgstr "A PGP-aláírás lejárt."
+
+#. SysConfig
+msgid ""
+"The PGP signature was made by a revoked key, this could mean that the "
+"signature is forged."
+msgstr ""
+"A PGP-aláírás egy visszavont kulccsal készült. Ez azt jelentheti, hogy az "
+"aláírás hamis."
+
+#. SysConfig
+msgid "The PGP signature was made by an expired key."
+msgstr "A PGP-aláírás egy lejárt kulccsal készült."
+
+#. SysConfig
+msgid "The PGP signature with the keyid has not been verified successfully."
+msgstr ""
+"A kulcsazonosítóval rendelkező PGP-aláírás nem lett sikeresen ellenőrizve."
+
+#. SysConfig
+msgid "The PGP signature with the keyid is good."
+msgstr "A kulcsazonosítóval rendelkező PGP-aláírás jó."
+
+#. SysConfig
 msgid ""
 "The agent skin's InternalName which should be used in the agent interface. "
 "Please check the available skins in Frontend::Agent::Skins."
@@ -30440,6 +30499,10 @@ msgstr "Ez az alapértelmezett narancssárga-fekete felszín az ügyfélfelület
 #. SysConfig
 msgid "This is the default orange - black skin."
 msgstr "Ez az alapértelmezett narancssárga-fekete felszín."
+
+#. SysConfig
+msgid "This key is not certified with a trusted signature!"
+msgstr "Ez a kulcs nincs tanúsítva egy megbízható aláírással!"
 
 #. SysConfig
 msgid ""

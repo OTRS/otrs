@@ -9,7 +9,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2020-03-04 07:48+0000\n"
+"POT-Creation-Date: 2020-04-08 06:39+0000\n"
 "PO-Revision-Date: 2020-01-25 16:27+0000\n"
 "Last-Translator: Dusan Vuckovic <dusan.vuckovic@otrs.com>\n"
 "Language-Team: Serbian <https://translate.app.otrs.com/projects/otrs-6/otrs/"
@@ -15726,6 +15726,13 @@ msgid "Server Database Charset"
 msgstr "Karakterset serverske baze podataka"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Charset.pm
+msgid ""
+"This character set is not yet supported, please see https://bugs.otrs.org/"
+"show_bug.cgi?id=12361. Please convert your database to the character set "
+"'utf8'."
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Charset.pm
 msgid "The setting character_set_database needs to be 'utf8'."
 msgstr "Подешавање character_set_database мора бити 'utf8'."
 
@@ -24304,6 +24311,12 @@ msgid "Go to dashboard!"
 msgstr "Иди на командну таблу!"
 
 #. SysConfig
+#, fuzzy
+#| msgid "Add Signature"
+msgid "Good PGP signature."
+msgstr "Додај Потпис"
+
+#. SysConfig
 msgid "Google Authenticator"
 msgstr "Гугл аутентификација"
 
@@ -24990,6 +25003,12 @@ msgstr ""
 "у Key би требало да препозна домен, а вредност у Content би требало да буде "
 "важећа тема у систему. Молимо консултујте примере за исправан облик "
 "регуларног израза."
+
+#. SysConfig
+msgid ""
+"It was not possible to check the PGP signature, this may be caused by a "
+"missing public key or an unsupported algorithm."
+msgstr ""
 
 #. SysConfig
 msgid "Italian"
@@ -25745,6 +25764,18 @@ msgid ""
 msgstr ""
 "Следећи могући статус тикета након додавања позива у екрану одлазних позива "
 "тикета у интерфејсу оператера."
+
+#. SysConfig
+#, fuzzy
+#| msgid "No ticket data found."
+msgid "No public key found."
+msgstr "Нису нађени подаци о тикету"
+
+#. SysConfig
+#, fuzzy
+#| msgid "No ticket data found."
+msgid "No valid OpenPGP data found."
+msgstr "Нису нађени подаци о тикету"
 
 #. SysConfig
 msgid "None"
@@ -28996,6 +29027,12 @@ msgstr ""
 "или само прво слово (д, ч, м), уколико је искључено. "
 
 #. SysConfig
+#, fuzzy
+#| msgid "Signature updated!"
+msgid "Signature data."
+msgstr "Ажуриран потпис!"
+
+#. SysConfig
 msgid "Signatures"
 msgstr "Потписи"
 
@@ -29416,6 +29453,30 @@ msgid "Thai"
 msgstr "Тајландски"
 
 #. SysConfig
+#, fuzzy
+#| msgid "The signature for email answers."
+msgid "The PGP signature is expired."
+msgstr "Потпис за имејл одговоре."
+
+#. SysConfig
+msgid ""
+"The PGP signature was made by a revoked key, this could mean that the "
+"signature is forged."
+msgstr ""
+
+#. SysConfig
+msgid "The PGP signature was made by an expired key."
+msgstr ""
+
+#. SysConfig
+msgid "The PGP signature with the keyid has not been verified successfully."
+msgstr ""
+
+#. SysConfig
+msgid "The PGP signature with the keyid is good."
+msgstr ""
+
+#. SysConfig
 msgid ""
 "The agent skin's InternalName which should be used in the agent interface. "
 "Please check the available skins in Frontend::Agent::Skins."
@@ -29637,6 +29698,12 @@ msgstr "Ово је подразумевани наранџасто-црни и�
 #. SysConfig
 msgid "This is the default orange - black skin."
 msgstr "Ово је подразумевани наранџасто-црни изглед."
+
+#. SysConfig
+#, fuzzy
+#| msgid "There is another field with the same name."
+msgid "This key is not certified with a trusted signature!"
+msgstr "Постоји друго поље са истим именом."
 
 #. SysConfig
 msgid ""

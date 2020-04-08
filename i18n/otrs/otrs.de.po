@@ -44,15 +44,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2020-03-04 07:48+0000\n"
-"PO-Revision-Date: 2018-09-20 13:03+0000\n"
-"Last-Translator: Michael Reuther <michael.reuther@otrs.com>, 2020\n"
-"Language-Team: German (https://www.transifex.com/otrs/teams/23435/de/)\n"
+"POT-Creation-Date: 2020-04-08 06:39+0000\n"
+"PO-Revision-Date: 2020-04-08 16:54+0000\n"
+"Last-Translator: Michael Reuther <michael.reuther@otrs.com>\n"
+"Language-Team: German <https://translate.app.otrs.com/projects/otrs-6/otrs/"
+"de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 3.11.3\n"
 
 #. Template: AdminACL
 msgid "ACL Management"
@@ -2435,28 +2437,20 @@ msgid "Ticket changed between"
 msgstr "Ticket geändert zwischen"
 
 #. Template: AdminGenericAgent
-#, fuzzy
-#| msgid "Last changed times"
 msgid "Last close times"
-msgstr "Letzte Änderungszeiten"
+msgstr "Letzte Schließungszeiten"
 
 #. Template: AdminGenericAgent
-#, fuzzy
-#| msgid "No close time settings."
 msgid "No last close time settings."
-msgstr "Keine Schließzeit-Einstellungen."
+msgstr "Keine letzten Schließzeit-Einstellungen."
 
 #. Template: AdminGenericAgent
-#, fuzzy
-#| msgid "Ticket closed"
 msgid "Ticket last close"
-msgstr "Ticket geschlossen"
+msgstr "Letztes Schließen des Tickets"
 
 #. Template: AdminGenericAgent
-#, fuzzy
-#| msgid "Ticket closed between"
 msgid "Ticket last close between"
-msgstr "Ticket geschlossen zwischen"
+msgstr "Letztes Schließen des Tickets zwischen"
 
 #. Template: AdminGenericAgent
 msgid "Close times"
@@ -2973,7 +2967,7 @@ msgid ""
 "if a retry is scheduled."
 msgstr ""
 "Sofern für eine Anfrage mehr als ein Modul ausgeführt wird, welches die "
-"Planung von Wiederholungen ermöglicht,  dann ist das zuletzt ausgeführte "
+"Planung von Wiederholungen ermöglicht, dann ist das zuletzt ausgeführte "
 "Modul maßgeblich für die Entscheidung ob eine Wiederholung eingeplant wird."
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
@@ -7725,6 +7719,10 @@ msgid ""
 "article (current for Answer and Forward, latest for Note template type). "
 "This tag is not supported for other template types."
 msgstr ""
+"So erhalten Sie die ersten 20 Zeichen des Betreffs des aktuellen/jüngsten "
+"Agentenartikels (aktuell für Antwort und Weiterleitung, spätestens für den "
+"Vorlagentyp Notiz). Dieses Tag wird für andere Vorlagentypen nicht "
+"unterstützt."
 
 #. Template: AdminTemplate
 msgid ""
@@ -7732,6 +7730,10 @@ msgid ""
 "(current for Answer and Forward, latest for Note template type). This tag is "
 "not supported for other template types."
 msgstr ""
+"So erhalten Sie die ersten 5 Zeilen des Hauptteils des aktuellen/jüngsten "
+"Agentenartikels (aktuell für Antwort und Weiterleitung, spätestens für den "
+"Vorlagentyp Notiz). Dieses Tag wird für andere Vorlagentypen nicht "
+"unterstützt."
 
 #. Template: AdminTemplate
 msgid ""
@@ -7739,6 +7741,9 @@ msgid ""
 "(current for Answer and Forward, latest for Note template type). This tag is "
 "not supported for other template types."
 msgstr ""
+"Um die ersten 20 Zeichen des Betreffs des aktuellen/neuesten Artikels zu "
+"erhalten (aktuell für Antwort und Weiterleitung, spätestens für die Art der "
+"Notizvorlage). Dieser Tag wird für andere Vorlagentypen nicht unterstützt."
 
 #. Template: AdminTemplate
 msgid ""
@@ -7746,6 +7751,9 @@ msgid ""
 "for Answer and Forward, latest for Note template type). This tag is not "
 "supported for other template types."
 msgstr ""
+"So erhalten Sie die ersten 5 Zeilen des Hauptteils des aktuellen/neuesten "
+"Artikels (aktuell für Antwort und Vorwärts, spätestens für den Vorlagentyp "
+"Notiz). Dieses Tag wird für andere Vorlagentypen nicht unterstützt."
 
 #. Template: AdminTemplate
 msgid "Create type templates only supports this smart tags"
@@ -16064,6 +16072,16 @@ msgid "Server Database Charset"
 msgstr "Zeichensatz des Datenbank-Servers"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Charset.pm
+msgid ""
+"This character set is not yet supported, please see https://bugs.otrs.org/"
+"show_bug.cgi?id=12361. Please convert your database to the character set "
+"'utf8'."
+msgstr ""
+"Dieser Zeichensatz wird noch nicht unterstützt, siehe https://bugs.otrs.org/"
+"show_bug.cgi?id=12361. Bitte konvertieren Sie Ihre Datenbank in den "
+"Zeichensatz 'utf8'."
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Charset.pm
 msgid "The setting character_set_database needs to be 'utf8'."
 msgstr "Die Einstellung character_set_database muss 'utf8' sein."
 
@@ -19674,10 +19692,6 @@ msgstr ""
 "der Betreff nach einer gültigen Ticketnummer durchsucht wird."
 
 #. SysConfig
-#, fuzzy
-#| msgid ""
-#| "Checks if an E-Mail is a followup to an existing ticket by searching the "
-#| "subject for a valid ticket number."
 msgid ""
 "Checks if an email is a follow-up to an existing ticket with external ticket "
 "number which can be found by ExternalTicketNumberRecognition filter module."
@@ -23836,7 +23850,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Disable autocomplete in the login screen."
-msgstr ""
+msgstr "Deaktiviert die Autovervollständigung im Anmeldebildschirm."
 
 #. SysConfig
 msgid "Disable cloud services"
@@ -24894,6 +24908,10 @@ msgid "Go to dashboard!"
 msgstr "Zur Übersicht gehen!"
 
 #. SysConfig
+msgid "Good PGP signature."
+msgstr "Gute PGP-Signatur."
+
+#. SysConfig
 msgid "Google Authenticator"
 msgstr "Google Authenticator"
 
@@ -25604,6 +25622,15 @@ msgstr ""
 "sollte die Prüfung auf die Domain beinhalten, der Inhalt von \"Wert\" den "
 "Namen des zu selektierenden Themes für diese Domain. Bitte beachten Sie die "
 "Einträge mit Beispielen für korrekte reguläre Ausdrücke."
+
+#. SysConfig
+msgid ""
+"It was not possible to check the PGP signature, this may be caused by a "
+"missing public key or an unsupported algorithm."
+msgstr ""
+"Es war nicht möglich, die PGP-Signatur zu überprüfen, dies kann durch einen "
+"fehlenden öffentlichen Schlüssel oder einen nicht unterstützten Algorithmus "
+"verursacht werden."
 
 #. SysConfig
 msgid "Italian"
@@ -26411,6 +26438,14 @@ msgid ""
 msgstr ""
 "Mögliche Folgestatus für Tickets, nachdem über den Ausgehender Anruf-"
 "Bildschirm im Agentenbereich eine Telefonnotiz hinzugefügt wurde."
+
+#. SysConfig
+msgid "No public key found."
+msgstr "Kein öffentlicher Schlüssel gefunden."
+
+#. SysConfig
+msgid "No valid OpenPGP data found."
+msgstr "Keine gültigen Open PGP-Daten gefunden."
 
 #. SysConfig
 msgid "None"
@@ -29751,6 +29786,10 @@ msgstr ""
 "wenn dies nicht aktiviert ist."
 
 #. SysConfig
+msgid "Signature data."
+msgstr "Signatur-Daten."
+
+#. SysConfig
 msgid "Signatures"
 msgstr "Signaturen"
 
@@ -30187,6 +30226,31 @@ msgid "Thai"
 msgstr "Thai"
 
 #. SysConfig
+msgid "The PGP signature is expired."
+msgstr "Die PGP-Signatur ist abgelaufen."
+
+#. SysConfig
+msgid ""
+"The PGP signature was made by a revoked key, this could mean that the "
+"signature is forged."
+msgstr ""
+"Die PGP-Signatur wurde mit einem widerrufenen Schlüssel erstellt, dies "
+"könnte bedeuten, dass die Signatur gefälscht ist."
+
+#. SysConfig
+msgid "The PGP signature was made by an expired key."
+msgstr "Die PGP-Signatur wurde mit einem abgelaufenen Schlüssel erstellt."
+
+#. SysConfig
+msgid "The PGP signature with the keyid has not been verified successfully."
+msgstr ""
+"Die PGP-Signatur mit der Schlüssel-ID wurde nicht erfolgreich verifiziert."
+
+#. SysConfig
+msgid "The PGP signature with the keyid is good."
+msgstr "Die PGP-Signatur mit der Schlüssel-ID ist gut."
+
+#. SysConfig
 msgid ""
 "The agent skin's InternalName which should be used in the agent interface. "
 "Please check the available skins in Frontend::Agent::Skins."
@@ -30415,6 +30479,12 @@ msgstr "Der Standard-Skin (grau) für den Kundenbereich."
 #. SysConfig
 msgid "This is the default orange - black skin."
 msgstr "Dies ist die Standard orange-schwarze Farbgebung."
+
+#. SysConfig
+msgid "This key is not certified with a trusted signature!"
+msgstr ""
+"Dieser Schlüssel ist nicht mit einer vertrauenswürdigen Signatur "
+"zertifiziert!"
 
 #. SysConfig
 msgid ""

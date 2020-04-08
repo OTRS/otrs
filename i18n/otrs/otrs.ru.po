@@ -39,7 +39,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2020-03-04 07:48+0000\n"
+"POT-Creation-Date: 2020-04-08 06:39+0000\n"
 "PO-Revision-Date: 2020-03-11 18:03+0000\n"
 "Last-Translator: Yuri Myasoedov <myasoedovys@gmail.com>\n"
 "Language-Team: Russian <https://translate.app.otrs.com/projects/otrs-6/otrs/"
@@ -48,9 +48,9 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
-"n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
-"(n%100>=11 && n%100<=14)? 2 : 3);\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
+"%100>=11 && n%100<=14)? 2 : 3);\n"
 "X-Generator: Weblate 3.11.2\n"
 
 #. Template: AdminACL
@@ -15783,6 +15783,13 @@ msgid "Server Database Charset"
 msgstr "Кодировка для сервера базы данных"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Charset.pm
+msgid ""
+"This character set is not yet supported, please see https://bugs.otrs.org/"
+"show_bug.cgi?id=12361. Please convert your database to the character set "
+"'utf8'."
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Charset.pm
 msgid "The setting character_set_database needs to be 'utf8'."
 msgstr "Значение параметра character_set_database должно быть 'utf8'. "
 
@@ -24193,6 +24200,12 @@ msgid "Go to dashboard!"
 msgstr "Перейти в Дайджест!"
 
 #. SysConfig
+#, fuzzy
+#| msgid "Add Signature"
+msgid "Good PGP signature."
+msgstr "Добавить Подпись"
+
+#. SysConfig
 msgid "Google Authenticator"
 msgstr "Аутентификатор Google "
 
@@ -24841,6 +24854,12 @@ msgstr ""
 "Значение Ключа должно соответствовать домену, а значение Содержания - имя "
 "схемы (skin) в системе. Смотрите пример для правильного построения "
 "регулярного выражения."
+
+#. SysConfig
+msgid ""
+"It was not possible to check the PGP signature, this may be caused by a "
+"missing public key or an unsupported algorithm."
+msgstr ""
 
 #. SysConfig
 msgid "Italian"
@@ -25585,6 +25604,18 @@ msgid ""
 msgstr ""
 "Следующее доступное состояние после добавления заметки при регистрации "
 "исходящего звонка в интерфейсе агента."
+
+#. SysConfig
+#, fuzzy
+#| msgid "No ticket data found."
+msgid "No public key found."
+msgstr "Не найдено данных о заявках."
+
+#. SysConfig
+#, fuzzy
+#| msgid "No ticket data found."
+msgid "No valid OpenPGP data found."
+msgstr "Не найдено данных о заявках."
 
 #. SysConfig
 msgid "None"
@@ -28621,6 +28652,12 @@ msgid ""
 msgstr ""
 
 #. SysConfig
+#, fuzzy
+#| msgid "Signature updated!"
+msgid "Signature data."
+msgstr "Подпись обновлена!"
+
+#. SysConfig
 msgid "Signatures"
 msgstr "Подписи"
 
@@ -29041,6 +29078,30 @@ msgid "Thai"
 msgstr "Тайский"
 
 #. SysConfig
+#, fuzzy
+#| msgid "The signature for email answers."
+msgid "The PGP signature is expired."
+msgstr "Подпись для писем"
+
+#. SysConfig
+msgid ""
+"The PGP signature was made by a revoked key, this could mean that the "
+"signature is forged."
+msgstr ""
+
+#. SysConfig
+msgid "The PGP signature was made by an expired key."
+msgstr ""
+
+#. SysConfig
+msgid "The PGP signature with the keyid has not been verified successfully."
+msgstr ""
+
+#. SysConfig
+msgid "The PGP signature with the keyid is good."
+msgstr ""
+
+#. SysConfig
 msgid ""
 "The agent skin's InternalName which should be used in the agent interface. "
 "Please check the available skins in Frontend::Agent::Skins."
@@ -29258,6 +29319,12 @@ msgstr "Это стандартная оранжево-черная тема д�
 #. SysConfig
 msgid "This is the default orange - black skin."
 msgstr "Это стандартная оранжево-черная тема."
+
+#. SysConfig
+#, fuzzy
+#| msgid "There is another field with the same name."
+msgid "This key is not certified with a trusted signature!"
+msgstr "Существует другое поле с таким же именем."
 
 #. SysConfig
 msgid ""
