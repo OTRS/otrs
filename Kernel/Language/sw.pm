@@ -27,7 +27,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%M/%D/%Y';
     $Self->{DateInputFormat}     = '%M/%D/%Y';
     $Self->{DateInputFormatLong} = '%M/%D/%Y - %T';
-    $Self->{Completeness}        = 0.483881913810655;
+    $Self->{Completeness}        = 0.482898747036912;
 
     # csv separator
     $Self->{Separator}         = ',';
@@ -4992,6 +4992,8 @@ sub Data {
         'Client Connection Charset' => 'Seti ya herufi ya mahusiano ya mteja',
         'Setting character_set_client needs to be utf8.' => 'Mpangilio character_set_client nahitaji kuwa utf8.',
         'Server Database Charset' => 'Seti ya herufi ya hifadhi data ya seva',
+        'This character set is not yet supported, please see https://bugs.otrs.org/show_bug.cgi?id=12361. Please convert your database to the character set \'utf8\'.' =>
+            '',
         'The setting character_set_database needs to be \'utf8\'.' => '',
         'Table Charset' => 'Seti ya herufi ya jedwali',
         'There were tables found which do not have \'utf8\' as charset.' =>
@@ -7417,6 +7419,7 @@ Mfano:
             '',
         'Global Search Module.' => '',
         'Go to dashboard!' => '',
+        'Good PGP signature.' => '',
         'Google Authenticator' => '',
         'Graph: Bar Chart' => '',
         'Graph: Line Chart' => '',
@@ -7572,6 +7575,8 @@ Mfano:
             'Inawezekana kusanidi magamba tofauti, kwa mfano kutofautisha kati wateja tofauti, wataokaotumika katika kila huduma kwenye kikoa katika programu tumizi. Kwa kutumia imizo la kawaida (regex), unaweza kusanidi jozi ya yaliyomo/kibonye kulandanisha kikoa. Thamani katika "Kibonye" ilandane na kikoa, na thamani kwenye "Yaliyomo" iwe gamba batili katika mfumo wako. Tafadhali ona maingizo ya mfano kwa  ajili fomu sahihi ya  imizo la kawaida.',
         'It is possible to configure different themes, for example to distinguish between agents and customers, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in "Key" should match the domain, and the value in "Content" should be a valid theme on your system. Please see the example entries for the proper form of the regex.' =>
             'Inawezekana kusanidi dhima tofauti, kwa mfano kutofautisha kati wakala na wateja, wataokaotumika katika kila huduma kwenye kikoa katika programu tumizi. Kwa kutumia imizo la kawaida (regex), unaweza kusanidi jozi ya yaliyomo/kibonye kulandanisha kikoa. Thamani katika "Kibonye" ilandane na kikoa, na thamani kwenye "Yaliyomo" iwe dhima batili katika mfumo wako. Tafadhali ona maingizo ya mfano kwa  ajili fomu sahihi ya  imizo la kawaida.',
+        'It was not possible to check the PGP signature, this may be caused by a missing public key or an unsupported algorithm.' =>
+            '',
         'Italian' => '',
         'Italian stop words for fulltext index. These words will be removed from the search index.' =>
             '',
@@ -7772,6 +7777,8 @@ Mfano:
             'Hali za tiketi zijazo ziwezekanazo baada ya kuongeza kidokezo cha simu katika skrini iliyofungwa ndani ya simu ya tiketi ya kiolesura cha wakala.',
         'Next possible ticket states after adding a phone note in the ticket phone outbound screen of the agent interface.' =>
             'Hali za tiketi zijazo ziwezekanazo baada ya kuongeza kidokezo cha simu katika skrini iliyofungwa nje ya simu ya tiketi ya kiolesura cha wakala.',
+        'No public key found.' => '',
+        'No valid OpenPGP data found.' => '',
         'None' => '',
         'Norwegian' => '',
         'Notification Settings' => '',
@@ -8479,6 +8486,7 @@ Mfano:
             '',
         'Shows time use complete description (days, hours, minutes), if enabled; or just first letter (d, h, m), if not enabled.' =>
             '',
+        'Signature data.' => '',
         'Signatures' => 'Saini',
         'Simple' => '',
         'Skin' => 'Gamba',
@@ -8583,6 +8591,13 @@ Mfano:
         'Templates ↔ Queues' => '',
         'Textarea' => 'Sehemu ya nakala',
         'Thai' => '',
+        'The PGP signature is expired.' => '',
+        'The PGP signature was made by a revoked key, this could mean that the signature is forged.' =>
+            '',
+        'The PGP signature was made by an expired key.' => '',
+        'The PGP signature with the keyid has not been verified successfully.' =>
+            '',
+        'The PGP signature with the keyid is good.' => '',
         'The agent skin\'s InternalName which should be used in the agent interface. Please check the available skins in Frontend::Agent::Skins.' =>
             'Gamba la wakala la Jina la ndani ambalo linatumika katika kiolesura cha wakala. Tafadhali angali magamba yanayopatikana katika Mazingira ya mbele::wakala::Magamba.',
         'The customer skin\'s InternalName which should be used in the customer interface. Please check the available skins in Frontend::Customer::Skins.' =>
@@ -8642,6 +8657,7 @@ Mfano:
         'This is the default orange - black skin for the customer interface.' =>
             '',
         'This is the default orange - black skin.' => '',
+        'This key is not certified with a trusted signature!' => '',
         'This module and its PreRun() function will be executed, if defined, for every request. This module is useful to check some user options or to display news about new applications.' =>
             'Moduli hii na fomula saidizi yake PreRun() zitatendewa kazi, kama zikikataliwa, kwa kila ombi. Moduli hii iatumika kuangalia michaguo ya mtumiaji au kuonyesha taarifa kuhusu programu-tumizi mpya.',
         'This module is part of the admin area of OTRS.' => '',

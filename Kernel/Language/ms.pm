@@ -23,7 +23,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.603495079742111;
+    $Self->{Completeness}        = 0.602268879105994;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -4988,6 +4988,8 @@ sub Data {
         'Client Connection Charset' => 'Setchar Sambungan Pelanggan',
         'Setting character_set_client needs to be utf8.' => 'Tetapan karakter_set_pelanggan haruslah utf8.',
         'Server Database Charset' => 'Setchar Pangkalan data Pelayan',
+        'This character set is not yet supported, please see https://bugs.otrs.org/show_bug.cgi?id=12361. Please convert your database to the character set \'utf8\'.' =>
+            '',
         'The setting character_set_database needs to be \'utf8\'.' => '',
         'Table Charset' => 'Setchar Jadual',
         'There were tables found which do not have \'utf8\' as charset.' =>
@@ -7424,6 +7426,7 @@ Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDa
             '',
         'Global Search Module.' => '',
         'Go to dashboard!' => 'Pergi ke papan pemuka!',
+        'Good PGP signature.' => '',
         'Google Authenticator' => 'Pengesah Google',
         'Graph: Bar Chart' => '',
         'Graph: Line Chart' => '',
@@ -7579,6 +7582,8 @@ Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDa
             'Ia adalah mungkin untuk mengkonfigurasi kulit yang berbeza, contohnya untuk membezakan antara pelanggan berbeza dari faktor, yang akan digunakan atas dasar per domain dalam aplikasi. Menggunakan ungkapan biasa (regex), anda boleh mengkonfigurasi sepasang Kunci / Kandungan untuk dipadankan domain. Nilai dalam "Key" harus sepadan domain, dan nilai dalam "Content" harus menjadi kulit yang sah pada sistem anda. Sila lihat catatan contoh untuk bentuk yang betul daripada regex.',
         'It is possible to configure different themes, for example to distinguish between agents and customers, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in "Key" should match the domain, and the value in "Content" should be a valid theme on your system. Please see the example entries for the proper form of the regex.' =>
             'Ia adalah mungkin untuk mengkonfigurasi tema yang berbeza, sebagai contoh untuk membezakan antara ejen dan pelanggan, yang akan digunakan atas dasar per domain dalam aplikasi. Menggunakan ungkapan biasa (regex), anda boleh mengkonfigurasi sepasang Kunci / Kandungan untuk dipadankan domain. Nilai dalam "Key" harus sepadan domain, dan nilai dalam "Content" harus menjadi tema yang sah pada sistem anda. Sila lihat catatan contoh untuk bentuk yang betul daripada regex.',
+        'It was not possible to check the PGP signature, this may be caused by a missing public key or an unsupported algorithm.' =>
+            '',
         'Italian' => 'Itali',
         'Italian stop words for fulltext index. These words will be removed from the search index.' =>
             'Perkataan berhenti Itali untuk indeks teks penuh. Perkataan ini akan dibuang dari indeks carian.',
@@ -7779,6 +7784,8 @@ Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDa
             'Status tiket yang mungkin yang seterusnya selepas menambah nota telefon dalam skrin tiket telefon masuk dari paparan ejen.',
         'Next possible ticket states after adding a phone note in the ticket phone outbound screen of the agent interface.' =>
             'Status tiket yang mungkin yang seterusnya selepas menambah nita telefon dalam skrin tiket telefon keluar dari paparan ejen.',
+        'No public key found.' => '',
+        'No valid OpenPGP data found.' => '',
         'None' => 'Tiada',
         'Norwegian' => 'Norway',
         'Notification Settings' => 'Tetapan Pemberitahuan',
@@ -8486,6 +8493,7 @@ Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDa
             '',
         'Shows time use complete description (days, hours, minutes), if enabled; or just first letter (d, h, m), if not enabled.' =>
             '',
+        'Signature data.' => '',
         'Signatures' => 'Tanda Tangan',
         'Simple' => '',
         'Skin' => 'Kulit',
@@ -8590,6 +8598,13 @@ Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDa
         'Templates ↔ Queues' => '',
         'Textarea' => 'Textarea',
         'Thai' => 'Thai',
+        'The PGP signature is expired.' => '',
+        'The PGP signature was made by a revoked key, this could mean that the signature is forged.' =>
+            '',
+        'The PGP signature was made by an expired key.' => '',
+        'The PGP signature with the keyid has not been verified successfully.' =>
+            '',
+        'The PGP signature with the keyid is good.' => '',
         'The agent skin\'s InternalName which should be used in the agent interface. Please check the available skins in Frontend::Agent::Skins.' =>
             'Kulit InternalName ejen yang patut digunakan dalam paparan ejen. Sila semak kulit yang tersedia dalam Frontend::Agent::Skins.',
         'The customer skin\'s InternalName which should be used in the customer interface. Please check the available skins in Frontend::Customer::Skins.' =>
@@ -8649,6 +8664,7 @@ Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDa
         'This is the default orange - black skin for the customer interface.' =>
             '',
         'This is the default orange - black skin.' => '',
+        'This key is not certified with a trusted signature!' => '',
         'This module and its PreRun() function will be executed, if defined, for every request. This module is useful to check some user options or to display news about new applications.' =>
             'Modul ini dan fungsi PreRun() akan dilaksanankan, jika ditakrifkan, untuk setiap permintaan. Modul ini berguna untuk semak beberapa pilihan pengguna atau untuk mempamerkan berita mengenai aplikasi baru.',
         'This module is part of the admin area of OTRS.' => '',

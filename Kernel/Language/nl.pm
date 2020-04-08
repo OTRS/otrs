@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D-%M-%Y';
     $Self->{DateInputFormat}     = '%D-%M-%Y';
     $Self->{DateInputFormatLong} = '%D-%M-%Y - %T';
-    $Self->{Completeness}        = 0.555649813369528;
+    $Self->{Completeness}        = 0.554520826278361;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -4995,6 +4995,8 @@ sub Data {
         'Client Connection Charset' => 'Client verbinding karakterset',
         'Setting character_set_client needs to be utf8.' => 'Instelling character_set_client moet staan op utf8',
         'Server Database Charset' => 'Server Database karakterinstelling',
+        'This character set is not yet supported, please see https://bugs.otrs.org/show_bug.cgi?id=12361. Please convert your database to the character set \'utf8\'.' =>
+            '',
         'The setting character_set_database needs to be \'utf8\'.' => '',
         'Table Charset' => 'Tabel Karacterset',
         'There were tables found which do not have \'utf8\' as charset.' =>
@@ -5909,7 +5911,7 @@ Bedankt voor uw belangstelling.
 
 Het Helpdesk Team
 ',
-        ' (work units)' => '(werk eenheden)',
+        ' (work units)' => ' (werk eenheden)',
         ' 2 minutes' => ' 2 minuten',
         ' 5 minutes' => ' 5 minuten',
         ' 7 minutes' => ' 7 minuten',
@@ -7428,6 +7430,7 @@ Het Helpdesk Team
             '',
         'Global Search Module.' => '',
         'Go to dashboard!' => 'Ga naar het dashboard!',
+        'Good PGP signature.' => '',
         'Google Authenticator' => 'Google Authenticator',
         'Graph: Bar Chart' => '',
         'Graph: Line Chart' => '',
@@ -7582,6 +7585,8 @@ Het Helpdesk Team
         'It is possible to configure different skins, for example to distinguish between diferent customers, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in "Key" should match the domain, and the value in "Content" should be a valid skin on your system. Please see the example entries for the proper form of the regex.' =>
             '',
         'It is possible to configure different themes, for example to distinguish between agents and customers, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in "Key" should match the domain, and the value in "Content" should be a valid theme on your system. Please see the example entries for the proper form of the regex.' =>
+            '',
+        'It was not possible to check the PGP signature, this may be caused by a missing public key or an unsupported algorithm.' =>
             '',
         'Italian' => '',
         'Italian stop words for fulltext index. These words will be removed from the search index.' =>
@@ -7783,6 +7788,8 @@ Het Helpdesk Team
             '',
         'Next possible ticket states after adding a phone note in the ticket phone outbound screen of the agent interface.' =>
             '',
+        'No public key found.' => '',
+        'No valid OpenPGP data found.' => '',
         'None' => 'Geen',
         'Norwegian' => '',
         'Notification Settings' => 'Notificatievoorkeuren',
@@ -8490,6 +8497,7 @@ Het Helpdesk Team
             '',
         'Shows time use complete description (days, hours, minutes), if enabled; or just first letter (d, h, m), if not enabled.' =>
             '',
+        'Signature data.' => '',
         'Signatures' => 'Handtekeningen',
         'Simple' => '',
         'Skin' => 'Skin',
@@ -8594,6 +8602,13 @@ Het Helpdesk Team
         'Templates ↔ Queues' => 'Sjablonen ↔ Wachtrijen',
         'Textarea' => 'Tekstvak',
         'Thai' => '',
+        'The PGP signature is expired.' => '',
+        'The PGP signature was made by a revoked key, this could mean that the signature is forged.' =>
+            '',
+        'The PGP signature was made by an expired key.' => '',
+        'The PGP signature with the keyid has not been verified successfully.' =>
+            '',
+        'The PGP signature with the keyid is good.' => '',
         'The agent skin\'s InternalName which should be used in the agent interface. Please check the available skins in Frontend::Agent::Skins.' =>
             '',
         'The customer skin\'s InternalName which should be used in the customer interface. Please check the available skins in Frontend::Customer::Skins.' =>
@@ -8653,6 +8668,7 @@ Het Helpdesk Team
         'This is the default orange - black skin for the customer interface.' =>
             '',
         'This is the default orange - black skin.' => '',
+        'This key is not certified with a trusted signature!' => '',
         'This module and its PreRun() function will be executed, if defined, for every request. This module is useful to check some user options or to display news about new applications.' =>
             '',
         'This module is part of the admin area of OTRS.' => '',

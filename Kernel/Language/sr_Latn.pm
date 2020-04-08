@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.99830335934849;
+    $Self->{Completeness}        = 0.9962749746021;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -4995,6 +4995,8 @@ sub Data {
         'Client Connection Charset' => 'Karakterset za povezivanje klijenta',
         'Setting character_set_client needs to be utf8.' => 'Podešavanje character_set_client mora biti utf8.',
         'Server Database Charset' => 'Karakterset serverske baze podataka',
+        'This character set is not yet supported, please see https://bugs.otrs.org/show_bug.cgi?id=12361. Please convert your database to the character set \'utf8\'.' =>
+            '',
         'The setting character_set_database needs to be \'utf8\'.' => 'Podešavanje character_set_database mora biti \'utf8\'.',
         'Table Charset' => 'Tabela karakterseta',
         'There were tables found which do not have \'utf8\' as charset.' =>
@@ -7428,6 +7430,7 @@ Vaša tehnička podrška
             'Omogućava krajnjim korisnicima da zamene separator za CSV datoteke, definisan u datotekama prevoda. Napomena: podešavanje \'Active\' na 0 će samo onemogućiti operaterima da menjaju svoja lična podešavanja iz ove grupe, ali će administratori i dalje moći da ih menjaju u njihovo ime. Podesite \'PreferenceGroup\' da biste odredili u kom delu interfejsa ova podešavanja treba da budu prikazana.',
         'Global Search Module.' => 'Modul opšte pretrage',
         'Go to dashboard!' => 'Idi na komandnu tablu!',
+        'Good PGP signature.' => '',
         'Google Authenticator' => 'Gugl autentifikacija',
         'Graph: Bar Chart' => 'Grafik: Trakasti grafikon',
         'Graph: Line Chart' => 'Grafik: Linijski grafikon',
@@ -7583,6 +7586,8 @@ Vaša tehnička podrška
             'Moguće je podesiti različite izglede za različite korisnike, koji se koriste na nivou domena u aplikaciji. Korišćenjem regularnog izraza (regex), možete podesiti par ključ/vrednost za prepoznavanje domena. Vrednost u Key bi trebalo da prepozna domen, a vrednost u Content bi trebalo da bude važeći izgled u sistemu. Molimo konsultujte primere za ispravan oblik regularnog izraza.',
         'It is possible to configure different themes, for example to distinguish between agents and customers, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in "Key" should match the domain, and the value in "Content" should be a valid theme on your system. Please see the example entries for the proper form of the regex.' =>
             'Moguće je podesiti različite teme za različite operatere i korisnike, koji se koriste na nivou domena u aplikaciji. Korišćenjem regularnog izraza (regex), možete podesiti par ključ/vrednost za prepoznavanje domena. Vrednost u Key bi trebalo da prepozna domen, a vrednost u Content bi trebalo da bude važeća tema u sistemu. Molimo konsultujte primere za ispravan oblik regularnog izraza.',
+        'It was not possible to check the PGP signature, this may be caused by a missing public key or an unsupported algorithm.' =>
+            '',
         'Italian' => 'Italijanski',
         'Italian stop words for fulltext index. These words will be removed from the search index.' =>
             'Italijanske zaustavne reči za indeks pretrage kompletnog teksta. Ove reči će biti uklonjene iz indeksa pretrage.',
@@ -7783,6 +7788,8 @@ Vaša tehnička podrška
             'Sledeći mogući status tiketa nakon dodavanja poziva u ekranu dolaznih poziva tiketa u interfejsu operatera.',
         'Next possible ticket states after adding a phone note in the ticket phone outbound screen of the agent interface.' =>
             'Sledeći mogući status tiketa nakon dodavanja poziva u ekranu odlaznih poziva tiketa u interfejsu operatera.',
+        'No public key found.' => '',
+        'No valid OpenPGP data found.' => '',
         'None' => 'Ni jedan',
         'Norwegian' => 'Norveški',
         'Notification Settings' => 'Podešavanja obaveštenja',
@@ -8490,6 +8497,7 @@ Vaša tehnička podrška
             'Prikazuje vreme u dužem formatu (dani, sati, minuti), ukoliko je uključeno; ili u kraćem formatu (dani, sati), ukoliko je isključeno.',
         'Shows time use complete description (days, hours, minutes), if enabled; or just first letter (d, h, m), if not enabled.' =>
             'Prikazuje potpun opis u vremenu (dani, sati, minuti), ukoliko je uključeno; ili samo prvo slovo (d, č, m), ukoliko je isključeno. ',
+        'Signature data.' => '',
         'Signatures' => 'Potpisi',
         'Simple' => 'Jednostavno',
         'Skin' => 'Izgled',
@@ -8594,6 +8602,13 @@ Vaša tehnička podrška
         'Templates ↔ Queues' => 'Šabloni ↔ redovi',
         'Textarea' => 'Oblast teksta',
         'Thai' => 'Tajlandski',
+        'The PGP signature is expired.' => '',
+        'The PGP signature was made by a revoked key, this could mean that the signature is forged.' =>
+            '',
+        'The PGP signature was made by an expired key.' => '',
+        'The PGP signature with the keyid has not been verified successfully.' =>
+            '',
+        'The PGP signature with the keyid is good.' => '',
         'The agent skin\'s InternalName which should be used in the agent interface. Please check the available skins in Frontend::Agent::Skins.' =>
             'Izled koji će se koristiti u interfejsu operatera. Molimo proverite dostupne izglede u Frontend::Agent::Skins.',
         'The customer skin\'s InternalName which should be used in the customer interface. Please check the available skins in Frontend::Customer::Skins.' =>
@@ -8653,6 +8668,7 @@ Vaša tehnička podrška
         'This is the default orange - black skin for the customer interface.' =>
             'Ovo je podrazumevani narandžasto-crni izgled klijentskog interfejsa.',
         'This is the default orange - black skin.' => 'Ovo je podrazumevani narandžasto-crni izgled.',
+        'This key is not certified with a trusted signature!' => '',
         'This module and its PreRun() function will be executed, if defined, for every request. This module is useful to check some user options or to display news about new applications.' =>
             'Ukoliko je uključen, ovaj modul i njegova PreRun() funkcija biće  izvršeni prilikom svakog zahteva. Koristi se za proveru opcija korisnika i prikaz vesti o aplikaciji.',
         'This module is part of the admin area of OTRS.' => 'Ovaj modul je deo OTRS administrativnog prostora.',

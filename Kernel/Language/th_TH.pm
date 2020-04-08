@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.586698337292161;
+    $Self->{Completeness}        = 0.585506264815442;
 
     # csv separator
     $Self->{Separator}         = ',';
@@ -4992,6 +4992,8 @@ sub Data {
         'Client Connection Charset' => 'การเชื่อมต่อลูกค้ากับชุดรหัสอักขระ',
         'Setting character_set_client needs to be utf8.' => 'การตั้งค่า character_set_client จะต้องเป็น utf8',
         'Server Database Charset' => 'ฐานข้อมูลชุดรหัสอักขระของเซิร์ฟเวอร์',
+        'This character set is not yet supported, please see https://bugs.otrs.org/show_bug.cgi?id=12361. Please convert your database to the character set \'utf8\'.' =>
+            '',
         'The setting character_set_database needs to be \'utf8\'.' => '',
         'Table Charset' => 'ตารางชุดรหัสอักขระ',
         'There were tables found which do not have \'utf8\' as charset.' =>
@@ -7428,6 +7430,7 @@ Thanks for your help!
             '',
         'Global Search Module.' => 'โมดูลการค้นหาทั่วโลก',
         'Go to dashboard!' => 'ไปที่แดชบอร์ด!',
+        'Good PGP signature.' => '',
         'Google Authenticator' => 'การรับรองความถูกต้องจาก Google',
         'Graph: Bar Chart' => 'กราฟ: กราฟแท่ง',
         'Graph: Line Chart' => 'กราฟ: แผนภูมิเส้น',
@@ -7582,6 +7585,8 @@ Thanks for your help!
         'It is possible to configure different skins, for example to distinguish between diferent customers, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in "Key" should match the domain, and the value in "Content" should be a valid skin on your system. Please see the example entries for the proper form of the regex.' =>
             '',
         'It is possible to configure different themes, for example to distinguish between agents and customers, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in "Key" should match the domain, and the value in "Content" should be a valid theme on your system. Please see the example entries for the proper form of the regex.' =>
+            '',
+        'It was not possible to check the PGP signature, this may be caused by a missing public key or an unsupported algorithm.' =>
             '',
         'Italian' => 'ภาษาอิตาลี',
         'Italian stop words for fulltext index. These words will be removed from the search index.' =>
@@ -7783,6 +7788,8 @@ Thanks for your help!
             '',
         'Next possible ticket states after adding a phone note in the ticket phone outbound screen of the agent interface.' =>
             '',
+        'No public key found.' => '',
+        'No valid OpenPGP data found.' => '',
         'None' => 'ไม่มี',
         'Norwegian' => 'ภาษานอร์เวย์',
         'Notification Settings' => 'การตั้งค่าการแจ้งเตือน',
@@ -8490,6 +8497,7 @@ Thanks for your help!
             '',
         'Shows time use complete description (days, hours, minutes), if enabled; or just first letter (d, h, m), if not enabled.' =>
             '',
+        'Signature data.' => '',
         'Signatures' => 'ลายเซ็น',
         'Simple' => 'ง่าย ๆ',
         'Skin' => 'ผิว',
@@ -8594,6 +8602,13 @@ Thanks for your help!
         'Templates ↔ Queues' => '',
         'Textarea' => 'Textarea',
         'Thai' => 'ภาษาไทย',
+        'The PGP signature is expired.' => '',
+        'The PGP signature was made by a revoked key, this could mean that the signature is forged.' =>
+            '',
+        'The PGP signature was made by an expired key.' => '',
+        'The PGP signature with the keyid has not been verified successfully.' =>
+            '',
+        'The PGP signature with the keyid is good.' => '',
         'The agent skin\'s InternalName which should be used in the agent interface. Please check the available skins in Frontend::Agent::Skins.' =>
             '',
         'The customer skin\'s InternalName which should be used in the customer interface. Please check the available skins in Frontend::Customer::Skins.' =>
@@ -8653,6 +8668,7 @@ Thanks for your help!
         'This is the default orange - black skin for the customer interface.' =>
             '',
         'This is the default orange - black skin.' => '',
+        'This key is not certified with a trusted signature!' => '',
         'This module and its PreRun() function will be executed, if defined, for every request. This module is useful to check some user options or to display news about new applications.' =>
             '',
         'This module is part of the admin area of OTRS.' => '',

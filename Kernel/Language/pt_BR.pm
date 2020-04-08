@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.940278249066848;
+    $Self->{Completeness}        = 0.938367761598375;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -4994,6 +4994,8 @@ sub Data {
         'Client Connection Charset' => 'Charset do Cliente de Conexão',
         'Setting character_set_client needs to be utf8.' => 'Parâmetro character_set_client deve ser utf8.',
         'Server Database Charset' => 'Charset do Banco de dados',
+        'This character set is not yet supported, please see https://bugs.otrs.org/show_bug.cgi?id=12361. Please convert your database to the character set \'utf8\'.' =>
+            '',
         'The setting character_set_database needs to be \'utf8\'.' => 'A definição character_set_database precisa ser \'utf8\'.',
         'Table Charset' => 'Chartset da Tabela',
         'There were tables found which do not have \'utf8\' as charset.' =>
@@ -7427,6 +7429,7 @@ Obrigado pela ajuda!
             'Permite que usuários possam sobrescrever o caracter de separação de arquivos CSV, definidos nos arquivos de tradução. Observação: definindo \'Active\' como 0 só irá prevenir que agentes editem definições deste grupo nas preferências pessoais, mas administradores ainda poderão editar estas definições em nome de outros usuários. Utilize \'PreferenceGroup\' para controlar em qual área estas dedinições devem ser exibidas na interface de usuário.',
         'Global Search Module.' => '',
         'Go to dashboard!' => 'Vá para o Painel de Controle',
+        'Good PGP signature.' => '',
         'Google Authenticator' => 'Autenticador Google',
         'Graph: Bar Chart' => 'Gráfico de Barras',
         'Graph: Line Chart' => 'Gráfico de Linhas',
@@ -7581,6 +7584,8 @@ Obrigado pela ajuda!
         'It is possible to configure different skins, for example to distinguish between diferent customers, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in "Key" should match the domain, and the value in "Content" should be a valid skin on your system. Please see the example entries for the proper form of the regex.' =>
             '',
         'It is possible to configure different themes, for example to distinguish between agents and customers, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in "Key" should match the domain, and the value in "Content" should be a valid theme on your system. Please see the example entries for the proper form of the regex.' =>
+            '',
+        'It was not possible to check the PGP signature, this may be caused by a missing public key or an unsupported algorithm.' =>
             '',
         'Italian' => 'Italiano',
         'Italian stop words for fulltext index. These words will be removed from the search index.' =>
@@ -7782,6 +7787,8 @@ Obrigado pela ajuda!
             'Próximos estados de ticket possíveis após adicionar uma nota de telefonema na tela de telefonema recebido da interface de agente.',
         'Next possible ticket states after adding a phone note in the ticket phone outbound screen of the agent interface.' =>
             'Próximos estados de ticket possíveis após adicionar uma nota de telefonema na tela de ticket de telefonema realizado da interface de agente.',
+        'No public key found.' => '',
+        'No valid OpenPGP data found.' => '',
         'None' => 'Nenhum',
         'Norwegian' => 'Norueguês',
         'Notification Settings' => 'Configurações de notificação',
@@ -8489,6 +8496,7 @@ Obrigado pela ajuda!
             'Mostra tempo em formato longo (dias, horas, minutos), se ativado; ou em formato curto (dias, horas), se desativado.',
         'Shows time use complete description (days, hours, minutes), if enabled; or just first letter (d, h, m), if not enabled.' =>
             'Horários exibidos utilizam descrição completa (dias, horas, minutos), se ativado; ou apenas a primeira letra (d, h, m), se inativado.',
+        'Signature data.' => '',
         'Signatures' => 'Assinaturas',
         'Simple' => 'Simples',
         'Skin' => 'Tema',
@@ -8593,6 +8601,13 @@ Obrigado pela ajuda!
         'Templates ↔ Queues' => 'Modelos ↔ Filas',
         'Textarea' => 'Área de texto',
         'Thai' => 'Thailandês',
+        'The PGP signature is expired.' => '',
+        'The PGP signature was made by a revoked key, this could mean that the signature is forged.' =>
+            '',
+        'The PGP signature was made by an expired key.' => '',
+        'The PGP signature with the keyid has not been verified successfully.' =>
+            '',
+        'The PGP signature with the keyid is good.' => '',
         'The agent skin\'s InternalName which should be used in the agent interface. Please check the available skins in Frontend::Agent::Skins.' =>
             'O Nome Interno do skin de agente que deve ser utilizado na interface de agente. Por favor verificar os skins disponíveis em Frontend::Agent::Skins.',
         'The customer skin\'s InternalName which should be used in the customer interface. Please check the available skins in Frontend::Customer::Skins.' =>
@@ -8652,6 +8667,7 @@ Obrigado pela ajuda!
         'This is the default orange - black skin for the customer interface.' =>
             '',
         'This is the default orange - black skin.' => '',
+        'This key is not certified with a trusted signature!' => '',
         'This module and its PreRun() function will be executed, if defined, for every request. This module is useful to check some user options or to display news about new applications.' =>
             '',
         'This module is part of the admin area of OTRS.' => 'Este modulo é parte da área administrativa do OTRS.',

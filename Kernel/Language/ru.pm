@@ -35,7 +35,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.9321343739396;
+    $Self->{Completeness}        = 0.930240433457501;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -5000,6 +5000,8 @@ sub Data {
         'Client Connection Charset' => 'Кодировка клиентского соединения',
         'Setting character_set_client needs to be utf8.' => 'Значение кодировки для клиента должно быть UNICODE or UTF8.',
         'Server Database Charset' => 'Кодировка для сервера базы данных',
+        'This character set is not yet supported, please see https://bugs.otrs.org/show_bug.cgi?id=12361. Please convert your database to the character set \'utf8\'.' =>
+            '',
         'The setting character_set_database needs to be \'utf8\'.' => 'Значение параметра character_set_database должно быть \'utf8\'. ',
         'Table Charset' => 'Кодировка для таблицы',
         'There were tables found which do not have \'utf8\' as charset.' =>
@@ -7433,6 +7435,7 @@ Thanks for your help!
             '',
         'Global Search Module.' => 'Модуль глобального поиска.',
         'Go to dashboard!' => 'Перейти в Дайджест!',
+        'Good PGP signature.' => '',
         'Google Authenticator' => 'Аутентификатор Google ',
         'Graph: Bar Chart' => 'Диаграммы: линейчатая',
         'Graph: Line Chart' => 'Диаграммы: Линейный график',
@@ -7588,6 +7591,8 @@ Thanks for your help!
             'Можно задать разные схемы оформления, напрмер, чтобы отличать клиентов из разных доменов. Используя регулярные выражения (regex), вы можете задать пары Ключ/Содержание, соответствующие доменам. Значение Ключа должно соответствовать домену, а значение Содержания - имя схемы (skin) в системе. Смотрите пример для правильного построения регулярного выражения.',
         'It is possible to configure different themes, for example to distinguish between agents and customers, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in "Key" should match the domain, and the value in "Content" should be a valid theme on your system. Please see the example entries for the proper form of the regex.' =>
             'Можно задать разные схемы оформления, напрмер, чтобы отличать агентов и клиентов, на основе принадлежности к доменам. Используя регулярные выражения (regex), вы можете задать пары Ключ/Содержание, соответствующие доменам. Значение Ключа должно соответствовать домену, а значение Содержания - имя схемы (skin) в системе. Смотрите пример для правильного построения регулярного выражения.',
+        'It was not possible to check the PGP signature, this may be caused by a missing public key or an unsupported algorithm.' =>
+            '',
         'Italian' => 'Итальянский',
         'Italian stop words for fulltext index. These words will be removed from the search index.' =>
             'Итальянские стоп-слова для полнотекстовой индексации. Эти слова будут удалены и поискового индекса.',
@@ -7788,6 +7793,8 @@ Thanks for your help!
             'Следующее доступное состояние после добавления заметки при регистрации входящего звонка в интерфейсе агента.',
         'Next possible ticket states after adding a phone note in the ticket phone outbound screen of the agent interface.' =>
             'Следующее доступное состояние после добавления заметки при регистрации исходящего звонка в интерфейсе агента.',
+        'No public key found.' => '',
+        'No valid OpenPGP data found.' => '',
         'None' => 'Нет',
         'Norwegian' => 'Норвежский',
         'Notification Settings' => 'Настройка Уведомлений',
@@ -8495,6 +8502,7 @@ Thanks for your help!
             '',
         'Shows time use complete description (days, hours, minutes), if enabled; or just first letter (d, h, m), if not enabled.' =>
             '',
+        'Signature data.' => '',
         'Signatures' => 'Подписи',
         'Simple' => 'Простой',
         'Skin' => 'Окрас',
@@ -8599,6 +8607,13 @@ Thanks for your help!
         'Templates ↔ Queues' => 'Шаблоны ↔ Очереди',
         'Textarea' => 'Textarea/Длинный текст',
         'Thai' => 'Тайский',
+        'The PGP signature is expired.' => '',
+        'The PGP signature was made by a revoked key, this could mean that the signature is forged.' =>
+            '',
+        'The PGP signature was made by an expired key.' => '',
+        'The PGP signature with the keyid has not been verified successfully.' =>
+            '',
+        'The PGP signature with the keyid is good.' => '',
         'The agent skin\'s InternalName which should be used in the agent interface. Please check the available skins in Frontend::Agent::Skins.' =>
             'Внутреннее имя окраса (skin) экрана для интерфейса агента. Доступные варианты заданы в Frontend::Agent::Skins.',
         'The customer skin\'s InternalName which should be used in the customer interface. Please check the available skins in Frontend::Customer::Skins.' =>
@@ -8658,6 +8673,7 @@ Thanks for your help!
         'This is the default orange - black skin for the customer interface.' =>
             'Это стандартная оранжево-черная тема для интерфейса клиента.',
         'This is the default orange - black skin.' => 'Это стандартная оранжево-черная тема.',
+        'This key is not certified with a trusted signature!' => '',
         'This module and its PreRun() function will be executed, if defined, for every request. This module is useful to check some user options or to display news about new applications.' =>
             'Этот модуль и его PreRun() функция будет запускаться, если он определен для каждого запроса. Он полезен для проверки некоторых атрибутов пользователя или отображать новости о новых приложениях.',
         'This module is part of the admin area of OTRS.' => 'Этот модуль является частью административного раздела OTRS.',
