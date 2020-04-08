@@ -2,18 +2,21 @@
 
 # 6.0.28 2020-04-20
  - 2020-04-07 Added more debugging information in the error log when system fails to create DateTime object.
- - 2020-03-24 Fixed bug#[14958](https://bugs.otrs.org/show_bug.cgi?id=14958) - Can't reply to an article create via 'OTRS' - Process and Webservice Problem.
- - 2020-03-19 Fixed bug#[14965](https://bugs.otrs.org/show_bug.cgi?id=14965) - Inconsistent behaviour in sending AddNote notification to "involved agent" who has no permissions on ticket queue.
+ - 2020-03-24 Fixed bug#[14958](https://bugs.otrs.org/show_bug.cgi?id=14958) - Can't reply to an article create using Internal communication channel.
+ - 2020-03-19 Fixed bug#[15031](https://bugs.otrs.org/show_bug.cgi?id=15031) - Inconsistent behavior in sending AddNote notification to "involved agent" who has no permissions on ticket queue.
  - 2020-03-18 Fixed bug#[14965](https://bugs.otrs.org/show_bug.cgi?id=14965) - Untranslated string in database charset check.
  - 2020-03-17 Fixed bug#[14948](https://bugs.otrs.org/show_bug.cgi?id=14948) - Line breaks in tag 'OTRS_APPOINTMENT_DESCRIPTION' are not replaced.
  - 2020-03-13 Fixed bug#[15017](https://bugs.otrs.org/show_bug.cgi?id=15017) - Untranslated strings in PGP status information.
  - 2020-03-12 Improved download of the private and public keys and certificates (S/MIME and PGP).
  - 2020-03-11 Fixed bug#[14956](https://bugs.otrs.org/show_bug.cgi?id=14956) - Add new key/value pair to the Hash element doesn't render proper element in SysConfig.
- - 2020-03-10 Fixed bug#[13657](https://bugs.otrs.org/show_bug.cgi?id=13657) - Duplicate entry for ticket seen flag.
- - 2020-03-06 Fixed bug#[13761](https://bugs.otrs.org/show_bug.cgi?id=13761) - All long description fields in processes are text fields, but the line break will ignored.
- - 2020-03-02 Fixed bug#[15005](https://bugs.otrs.org/show_bug.cgi?id=15005) - The service view does not work well with more than 10 000 tickets.
- - 2020-03-02 Fixed bug#[14975](https://bugs.otrs.org/show_bug.cgi?id=14975) - Ticket Timeline View - Event Type Filter 'Save as default' is not a global setting.
- - 2020-03-02 Fixed bug#[14930](https://bugs.otrs.org/show_bug.cgi?id=14930) - ACL Match Setting 'Frontend' causes a problem with changing in Type, Queue, Service or SLA.
+ - 2020-03-10 Fixed bug#[13657](https://bugs.otrs.org/show_bug.cgi?id=13657) - There are "Duplicate entry" error messages for the ticket seen flag in the log.
+ - 2020-03-06 Fixed bug#[13761](https://bugs.otrs.org/show_bug.cgi?id=13761) - Line breaks are not working in the long description fields in the Process management.
+ - 2020-03-02 Fixed bug#[15005](https://bugs.otrs.org/show_bug.cgi?id=15005) - The service view does not work well with more than 10000 tickets.
+  With the fix there is a limit of 20000 tickets.
+ - 2020-03-02 Fixed bug#[14975](https://bugs.otrs.org/show_bug.cgi?id=14975) - Setting Event Type Filter in the ticket timeline view is applied only to the current ticket.
+  Instead, it should be applied to all tickets.
+ - 2020-03-02 Fixed bug#[14930](https://bugs.otrs.org/show_bug.cgi?id=14930) - Matching 'Frontend' setting in the ACL's causes problem when changing Type, Queue, Service or SLA.
+  The issue occurs in combination with PossibleAdd parameter - the forbidden fields are still there (i.e. Free fields), but changes are not saved.
 
 # 6.0.27 2020-03-27
  - 2020-03-23 Mask user credentials in the SupportBundle.
