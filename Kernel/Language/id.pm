@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.677807940278249;
+    $Self->{Completeness}        = 0.676430748391466;
 
     # csv separator
     $Self->{Separator}         = ',';
@@ -4991,6 +4991,8 @@ bin/otrs.Daemon.pl status\').',
         'Client Connection Charset' => 'Koneksi klien charset',
         'Setting character_set_client needs to be utf8.' => 'Pengaturan character_set_client perlu utf 8.',
         'Server Database Charset' => 'Server database charset',
+        'This character set is not yet supported, please see https://bugs.otrs.org/show_bug.cgi?id=12361. Please convert your database to the character set \'utf8\'.' =>
+            '',
         'The setting character_set_database needs to be \'utf8\'.' => '',
         'Table Charset' => 'Tabel charset',
         'There were tables found which do not have \'utf8\' as charset.' =>
@@ -7425,6 +7427,7 @@ Helpdesk Team Anda
             '',
         'Global Search Module.' => 'Modul pencarian global',
         'Go to dashboard!' => 'Pergi ke dasbor',
+        'Good PGP signature.' => '',
         'Google Authenticator' => 'Google Authenticator',
         'Graph: Bar Chart' => 'Grafik: Bar Chart',
         'Graph: Line Chart' => 'Graph: Garis chart',
@@ -7580,6 +7583,8 @@ Helpdesk Team Anda
             'Hal ini dimungkinkan untuk mengkonfigurasi kulit yang berbeda, misalnya untuk membedakan antara pelanggan yang berbeda, untuk digunakan pada basis per-domain dalam aplikasi. Menggunakan ekspresi reguler (regex), Anda dapat mengkonfigurasi sepasang Konten / Key untuk mencocokkan domain. Nilai di "Key" harus sesuai domain, dan nilai dalam "Content" harus menjadi kulit valid pada sistem Anda. Silahkan lihat contoh entri untuk bentuk yang tepat dari regex.',
         'It is possible to configure different themes, for example to distinguish between agents and customers, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in "Key" should match the domain, and the value in "Content" should be a valid theme on your system. Please see the example entries for the proper form of the regex.' =>
             'Hal ini dimungkinkan untuk mengkonfigurasi tema yang berbeda, misalnya untuk membedakan antara agen dan pelanggan, untuk digunakan pada basis per-domain dalam aplikasi. Menggunakan ekspresi reguler (regex), Anda dapat mengkonfigurasi sepasang Konten / Key untuk mencocokkan domain. Nilai di "Key" harus sesuai domain, dan nilai dalam "Content" harus menjadi tema yang valid pada sistem Anda. Silahkan lihat contoh entri untuk bentuk yang tepat dari regex.',
+        'It was not possible to check the PGP signature, this may be caused by a missing public key or an unsupported algorithm.' =>
+            '',
         'Italian' => 'Italia',
         'Italian stop words for fulltext index. These words will be removed from the search index.' =>
             'kata berhenti Italia untuk indeks fulltext. Kata-kata ini akan dihapus dari indeks pencarian.',
@@ -7780,6 +7785,8 @@ Helpdesk Team Anda
             'Berikutnya state tiket memungkinkan setelah menambahkan catatan telepon di telepon tiket layar masuk dari interface agen.',
         'Next possible ticket states after adding a phone note in the ticket phone outbound screen of the agent interface.' =>
             'Berikutnya state tiket memungkinkan setelah menambahkan catatan telepon di layar keluar ponsel tiket dari antarmuka agen.',
+        'No public key found.' => '',
+        'No valid OpenPGP data found.' => '',
         'None' => 'None',
         'Norwegian' => 'Norwegian',
         'Notification Settings' => 'Pengaturan notifikasi',
@@ -8487,6 +8494,7 @@ Helpdesk Team Anda
             '',
         'Shows time use complete description (days, hours, minutes), if enabled; or just first letter (d, h, m), if not enabled.' =>
             '',
+        'Signature data.' => '',
         'Signatures' => 'Tanda tangan',
         'Simple' => 'Sederhana',
         'Skin' => 'Kulit',
@@ -8591,6 +8599,13 @@ Helpdesk Team Anda
         'Templates ↔ Queues' => '',
         'Textarea' => 'textarea',
         'Thai' => 'Thai',
+        'The PGP signature is expired.' => '',
+        'The PGP signature was made by a revoked key, this could mean that the signature is forged.' =>
+            '',
+        'The PGP signature was made by an expired key.' => '',
+        'The PGP signature with the keyid has not been verified successfully.' =>
+            '',
+        'The PGP signature with the keyid is good.' => '',
         'The agent skin\'s InternalName which should be used in the agent interface. Please check the available skins in Frontend::Agent::Skins.' =>
             'agen menguliti Nama internal yang harus digunakan dalam antarmuka agen. Silakan periksa kulit yang tersedia di  Frontend::Agent::Skins.',
         'The customer skin\'s InternalName which should be used in the customer interface. Please check the available skins in Frontend::Customer::Skins.' =>
@@ -8650,6 +8665,7 @@ Helpdesk Team Anda
         'This is the default orange - black skin for the customer interface.' =>
             'Ini adalah oranye standar - kulit hitam untuk antarmuka pelanggan.',
         'This is the default orange - black skin.' => 'Ini adalah oranye standar - kulit hitam.',
+        'This key is not certified with a trusted signature!' => '',
         'This module and its PreRun() function will be executed, if defined, for every request. This module is useful to check some user options or to display news about new applications.' =>
             'Modul ini dan fungsinya Pre Run () akan dieksekusi, jika ditetapkan, untuk setiap permintaan. Modul ini berguna untuk memeriksa beberapa pilihan pengguna atau untuk menampilkan berita tentang aplikasi baru.',
         'This module is part of the admin area of OTRS.' => 'Modul ini merupakan bagian admin dari OTRS.',

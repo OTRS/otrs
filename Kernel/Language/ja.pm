@@ -27,7 +27,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y/%M/%D';
     $Self->{DateInputFormat}     = '%Y/%M/%D';
     $Self->{DateInputFormatLong} = '%Y/%M/%D - %T';
-    $Self->{Completeness}        = 0.76263997285375;
+    $Self->{Completeness}        = 0.761090416525567;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -4996,6 +4996,8 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Client Connection Charset' => 'クライアントコネクションのキャラクターセット',
         'Setting character_set_client needs to be utf8.' => 'character_set_client は utf8 に設定する必要があります',
         'Server Database Charset' => 'データーベースサーバーのキャラクターセット',
+        'This character set is not yet supported, please see https://bugs.otrs.org/show_bug.cgi?id=12361. Please convert your database to the character set \'utf8\'.' =>
+            '',
         'The setting character_set_database needs to be \'utf8\'.' => '',
         'Table Charset' => 'Table キャラクターセット',
         'There were tables found which do not have \'utf8\' as charset.' =>
@@ -7436,6 +7438,7 @@ Contentはダイナミック・フィールドの形式によって設定内容�
             '',
         'Global Search Module.' => '',
         'Go to dashboard!' => 'ダッシュボードに移動する',
+        'Good PGP signature.' => '',
         'Google Authenticator' => '',
         'Graph: Bar Chart' => 'グラフ:棒グラフ',
         'Graph: Line Chart' => 'グラフ:折れ線グラフ',
@@ -7591,6 +7594,8 @@ Contentはダイナミック・フィールドの形式によって設定内容�
             'アプリケーション内でドメインごとのベースで使用される異なる顧客ごとを見分けるため、などの場合、異なるスキンを設定することも可能です。通常の表現を使用することで（regex）、Key/Contentのペアーをドメインにマッチするように設定することが可能です。"Key"の中の値はドメインにマッチするべきであり、"Content"の中の値はご利用のシステム上の有効なスキンであるべきです。Regrexの適切な形式への入力例をご覧ください。',
         'It is possible to configure different themes, for example to distinguish between agents and customers, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in "Key" should match the domain, and the value in "Content" should be a valid theme on your system. Please see the example entries for the proper form of the regex.' =>
             '異なるテーマを、担当者と顧客の間で異なるように、アプリケーション内でドメインごとの単位で使用されるように、設定することができます。regular expression (regex)を使用することにより、ドメインにマッチするようにKey/Contentを設定することが可能です。“Key”の値はドメインにマッチさせるべきであり、“Content”の値はご利用のシステムで有効なテーマとしてください。regrexの適切な形式のための入力例を確認してください。',
+        'It was not possible to check the PGP signature, this may be caused by a missing public key or an unsupported algorithm.' =>
+            '',
         'Italian' => 'イタリア語',
         'Italian stop words for fulltext index. These words will be removed from the search index.' =>
             '',
@@ -7792,6 +7797,8 @@ Contentはダイナミック・フィールドの形式によって設定内容�
             '',
         'Next possible ticket states after adding a phone note in the ticket phone outbound screen of the agent interface.' =>
             '担当者インタフェースのチケット電話アウトバウンド画面で、電話メモを追加した後の次の可能性あるチケットの状態です。',
+        'No public key found.' => '',
+        'No valid OpenPGP data found.' => '',
         'None' => 'なし',
         'Norwegian' => 'ノルウェー語',
         'Notification Settings' => '通知設定',
@@ -8499,6 +8506,7 @@ Contentはダイナミック・フィールドの形式によって設定内容�
             '',
         'Shows time use complete description (days, hours, minutes), if enabled; or just first letter (d, h, m), if not enabled.' =>
             '',
+        'Signature data.' => '',
         'Signatures' => '署名',
         'Simple' => 'シンプル',
         'Skin' => 'スキン',
@@ -8603,6 +8611,13 @@ Contentはダイナミック・フィールドの形式によって設定内容�
         'Templates ↔ Queues' => 'テンプレート ↔ キュー',
         'Textarea' => 'Textarea',
         'Thai' => 'タイ',
+        'The PGP signature is expired.' => '',
+        'The PGP signature was made by a revoked key, this could mean that the signature is forged.' =>
+            '',
+        'The PGP signature was made by an expired key.' => '',
+        'The PGP signature with the keyid has not been verified successfully.' =>
+            '',
+        'The PGP signature with the keyid is good.' => '',
         'The agent skin\'s InternalName which should be used in the agent interface. Please check the available skins in Frontend::Agent::Skins.' =>
             '担当者インタフェースで使用されるべき、担当者スキンのインターナル・ネームです。Frontend::Agent::Skinsにおける利用可能なスキンをチェックしてください。',
         'The customer skin\'s InternalName which should be used in the customer interface. Please check the available skins in Frontend::Customer::Skins.' =>
@@ -8662,6 +8677,7 @@ Contentはダイナミック・フィールドの形式によって設定内容�
         'This is the default orange - black skin for the customer interface.' =>
             'これは、デフォルトの黒地と橙色をモチーフにした、顧客インタフェース向けのスキンです。',
         'This is the default orange - black skin.' => 'これは、デフォルトの黒地と橙色をモチーフにしたスキンです。',
+        'This key is not certified with a trusted signature!' => '',
         'This module and its PreRun() function will be executed, if defined, for every request. This module is useful to check some user options or to display news about new applications.' =>
             '定義された場合、全てのリクエストに対して、本モジュールおよびそのPreRun()機能が実行されます。本モジュールは、いくつかのユーザ・オプションをチェックするため、または新しいアプリケーションのニュースを表示させるために、役立つものです。',
         'This module is part of the admin area of OTRS.' => 'このモジュールは、OTRS の管理者エリアの一機能です。',

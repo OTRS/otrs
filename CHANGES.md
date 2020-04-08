@@ -1,6 +1,7 @@
 # 6.0.29 ????-??-??
 
 # 6.0.28 2020-04-20
+ - 2020-04-08 Updated translations, thanks to all translators.
  - 2020-04-07 Added more debugging information in the error log when system fails to create DateTime object.
  - 2020-03-24 Fixed bug#[14958](https://bugs.otrs.org/show_bug.cgi?id=14958) - Can't reply to an article create using Internal communication channel.
  - 2020-03-19 Fixed bug#[15031](https://bugs.otrs.org/show_bug.cgi?id=15031) - Inconsistent behavior in sending AddNote notification to "involved agent" who has no permissions on ticket queue.

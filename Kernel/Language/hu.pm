@@ -4994,6 +4994,8 @@ sub Data {
         'Client Connection Charset' => 'Kliens kapcsolat karakterkészlete',
         'Setting character_set_client needs to be utf8.' => 'A character_set_client beállításnak utf8 értékűnek kell lennie.',
         'Server Database Charset' => 'Kiszolgáló adatbázis karakterkészlete',
+        'This character set is not yet supported, please see https://bugs.otrs.org/show_bug.cgi?id=12361. Please convert your database to the character set \'utf8\'.' =>
+            'Ez a karakterkészlet még nincs támogatva, nézze meg a https://bugs.otrs.org/show_bug.cgi?id=12361 hibajelentést. Alakítsa át az adatbázisát „utf8” karakterkészletre.',
         'The setting character_set_database needs to be \'utf8\'.' => 'A character_set_database beállításnak „utf8” értékűnek kell lennie.',
         'Table Charset' => 'Tábla karakterkészlete',
         'There were tables found which do not have \'utf8\' as charset.' =>
@@ -6287,7 +6289,7 @@ Az Ön segélyszolgálat csapata
         'Converts HTML mails into text messages.' => 'Átalakítja a HTML leveleket szöveges üzenetre.',
         'Create New process ticket.' => 'Új folyamatjegy létrehozása.',
         'Create Ticket' => 'Jegy létrehozása',
-        'Create a new calendar appointment linked to this ticket' => 'Ezzel a jeggyel összekapcsolt új naptáridőpont létrehozása',
+        'Create a new calendar appointment linked to this ticket' => 'Ehhez a jegyhez hozzákapcsolt új naptáridőpont létrehozása',
         'Create and manage Service Level Agreements (SLAs).' => 'Szolgáltatási megállapodások (SLA-k) létrehozása és kezelése.',
         'Create and manage agents.' => 'Ügyintézők létrehozása és kezelése.',
         'Create and manage appointment notifications.' => 'Időpont-értesítések létrehozása és kezelése.',
@@ -7427,6 +7429,7 @@ Az Ön segélyszolgálat csapata
             'Megadja a végfelhasználóknak azt a lehetőséget, hogy felülírják a CSV fájloknál a fordítási fájlokban meghatározott elválasztó karaktert. Ne feledje: az „Active” 0-ra állításával csak az ügyintézőknek akadályozza meg ezen csoport beállításainak szerkesztését a személyes beállításaikban, de az adminisztrátoroknak továbbra is lehetővé teszi a beállítások szerkesztését egy másik felhasználó nevében. Használja a „PreferenceGroup” kulcsot annak szabályozásához, hogy ezeknek a beállításoknak mely területen kell megjelenniük a felhasználói felületen.',
         'Global Search Module.' => 'Globális keresés modul.',
         'Go to dashboard!' => 'Ugrás a vezérlőpultra!',
+        'Good PGP signature.' => 'Jó PGP-aláírás.',
         'Google Authenticator' => 'Google hitelesítő',
         'Graph: Bar Chart' => 'Grafikon: oszlopdiagram',
         'Graph: Line Chart' => 'Grafikon: vonaldiagram',
@@ -7582,6 +7585,8 @@ Az Ön segélyszolgálat csapata
             'Lehetséges különféle felszínek beállítása, például különbséget lehet tenni az alkalmazáson belül különböző ügyfelek között tartományonkénti alapon használva. Egy reguláris kifejezés (regex) használatával beállíthat egy tartományra illeszkedő Kulcs/Tartalom párt. A „Kulcsban” lévő értéknek kell illeszkednie a tartományra, és a „Tartalomban” lévő értéknek a rendszeren lévő érvényes felszínnek kell lennie. Nézze meg a példabejegyzéseket a reguláris kifejezés megfelelő formájáért.',
         'It is possible to configure different themes, for example to distinguish between agents and customers, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in "Key" should match the domain, and the value in "Content" should be a valid theme on your system. Please see the example entries for the proper form of the regex.' =>
             'Lehetséges különféle témák beállítása, például különbséget lehet tenni az alkalmazáson belül ügyintézők és ügyfelek között tartományonkénti alapon használva. Egy reguláris kifejezés (regex) használatával beállíthat egy tartományra illeszkedő Kulcs/Tartalom párt. A „Kulcsban” lévő értéknek kell illeszkednie a tartományra, és a „Tartalomban” lévő értéknek a rendszeren lévő érvényes témának kell lennie. Nézze meg a példabejegyzéseket a reguláris kifejezés megfelelő formájáért.',
+        'It was not possible to check the PGP signature, this may be caused by a missing public key or an unsupported algorithm.' =>
+            'Nem volt lehetséges ellenőrizni a PGP-aláírást. Ezt egy hiányzó nyilvános kulcs vagy egy nem támogatott algoritmus okozhatja.',
         'Italian' => 'Olasz',
         'Italian stop words for fulltext index. These words will be removed from the search index.' =>
             'Olasz kiszűrendő szavak a szabad-szavas indexnél. Ezek a szavak el lesznek távolítva a keresési indexből.',
@@ -7782,6 +7787,8 @@ Az Ön segélyszolgálat csapata
             'A következő lehetséges jegyállapotok egy új telefonos jegyzet hozzáadása után az ügyintézői felület bejövő telefonhívás képernyőjén.',
         'Next possible ticket states after adding a phone note in the ticket phone outbound screen of the agent interface.' =>
             'A következő lehetséges jegyállapotok egy új telefonos jegyzet hozzáadása után az ügyintézői felület kimenő telefonhívás képernyőjén.',
+        'No public key found.' => 'Nem található nyilvános kulcs.',
+        'No valid OpenPGP data found.' => 'Nem található érvényes OpenPGP adat.',
         'None' => 'Nincs',
         'Norwegian' => 'Norvég',
         'Notification Settings' => 'Értesítési beállítások',
@@ -8489,6 +8496,7 @@ Az Ön segélyszolgálat csapata
             'Hosszú formátumban jeleníti meg az időt (nap, óra, perc), ha engedélyezve van, vagy rövid formátumban (nap, óra), ha nincs engedélyezve.',
         'Shows time use complete description (days, hours, minutes), if enabled; or just first letter (d, h, m), if not enabled.' =>
             'A teljes leírás használatával jeleníti meg az időt (nap, óra, perc), ha engedélyezve van, vagy csak az első betűt (n, ó, p), ha nincs engedélyezve.',
+        'Signature data.' => 'Aláírási adatok.',
         'Signatures' => 'Aláírások',
         'Simple' => 'Egyszerű',
         'Skin' => 'Felszín',
@@ -8593,6 +8601,13 @@ Az Ön segélyszolgálat csapata
         'Templates ↔ Queues' => 'Sablonok ↔ Várólisták',
         'Textarea' => 'Szövegdoboz',
         'Thai' => 'Thai',
+        'The PGP signature is expired.' => 'A PGP-aláírás lejárt.',
+        'The PGP signature was made by a revoked key, this could mean that the signature is forged.' =>
+            'A PGP-aláírás egy visszavont kulccsal készült. Ez azt jelentheti, hogy az aláírás hamis.',
+        'The PGP signature was made by an expired key.' => 'A PGP-aláírás egy lejárt kulccsal készült.',
+        'The PGP signature with the keyid has not been verified successfully.' =>
+            'A kulcsazonosítóval rendelkező PGP-aláírás nem lett sikeresen ellenőrizve.',
+        'The PGP signature with the keyid is good.' => 'A kulcsazonosítóval rendelkező PGP-aláírás jó.',
         'The agent skin\'s InternalName which should be used in the agent interface. Please check the available skins in Frontend::Agent::Skins.' =>
             'Az ügyintéző felszínének belső neve, amelyet az ügyintézői felületen kell használni. Ellenőrizze az elérhető felszíneket a Frontend::Agent::Skins helyen.',
         'The customer skin\'s InternalName which should be used in the customer interface. Please check the available skins in Frontend::Customer::Skins.' =>
@@ -8652,6 +8667,7 @@ Az Ön segélyszolgálat csapata
         'This is the default orange - black skin for the customer interface.' =>
             'Ez az alapértelmezett narancssárga-fekete felszín az ügyfélfelülethez.',
         'This is the default orange - black skin.' => 'Ez az alapértelmezett narancssárga-fekete felszín.',
+        'This key is not certified with a trusted signature!' => 'Ez a kulcs nincs tanúsítva egy megbízható aláírással!',
         'This module and its PreRun() function will be executed, if defined, for every request. This module is useful to check some user options or to display news about new applications.' =>
             'Ez a modul és annak PreRun() függvénye lesz végrehajtva minden kérésnél, ha meg van határozva. Ez a modul néhány felhasználói beállítás ellenőrzéséhez vagy az új alkalmazásokkal kapcsolatos hírek megjelenítéséhez hasznos.',
         'This module is part of the admin area of OTRS.' => 'Ez a modul az OTRS adminisztrációs területének a része.',

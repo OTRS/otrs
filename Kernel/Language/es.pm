@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.673227010519172;
+    $Self->{Completeness}        = 0.671859126312225;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -3468,7 +3468,7 @@ sub Data {
         'Successful' => '',
         'Processing' => '',
         'Failed' => 'Fracasado',
-        'Invalid Filter: %s!' => '¡Filtro no válido:% s!',
+        'Invalid Filter: %s!' => '¡Filtro no válido: %s!',
         'Less than a second' => '',
         'sorted descending' => 'orden descendente',
         'sorted ascending' => 'orden ascendente',
@@ -4070,7 +4070,7 @@ sub Data {
         'You need ro permission!' => 'Necesita permiso ro !',
         'Can not delete link with %s!' => '¡No se puede borrar el enlace con %s!',
         '%s Link(s) deleted successfully.' => '',
-        'Can not create link with %s! Object already linked as %s.' => '¡No se puede crear un enlace con % s! El objeto ya esta enlazado con % s.',
+        'Can not create link with %s! Object already linked as %s.' => '¡No se puede crear un enlace con %s! El objeto ya esta enlazado con %s.',
         'Can not create link with %s!' => 'No se puede crear enlace con %s!',
         '%s links added successfully.' => '',
         'The object %s cannot link with other object!' => 'El objeto %s no puede vincularse con otro objeto!',
@@ -4126,7 +4126,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AgentTicketBulk.pm
         'Can\'t lock Tickets, no TicketIDs are given!' => 'No se puede bloquear los Ticket, ningún TicketID está dado!',
-        'Ticket (%s) is not unlocked!' => '¡El ticket (% s) no está desbloqueado!',
+        'Ticket (%s) is not unlocked!' => '¡El ticket (%s) no está desbloqueado!',
         'The following tickets were ignored because they are locked by another agent or you don\'t have write access to tickets: %s.' =>
             '',
         'The following ticket was ignored because it is locked by another agent or you don\'t have write access to ticket: %s.' =>
@@ -4995,6 +4995,8 @@ sub Data {
         'Client Connection Charset' => 'Juego de Caracteres de la Conexión del Cliente',
         'Setting character_set_client needs to be utf8.' => 'El ajuste character_set_client necesita ser utf8.',
         'Server Database Charset' => 'Juego de Caracteres del Servidor de Base de Datos',
+        'This character set is not yet supported, please see https://bugs.otrs.org/show_bug.cgi?id=12361. Please convert your database to the character set \'utf8\'.' =>
+            '',
         'The setting character_set_database needs to be \'utf8\'.' => '',
         'Table Charset' => 'Juego de Caracter de la Tabla',
         'There were tables found which do not have \'utf8\' as charset.' =>
@@ -7434,6 +7436,7 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
             '',
         'Global Search Module.' => '',
         'Go to dashboard!' => '¡Ir al panel principal!',
+        'Good PGP signature.' => '',
         'Google Authenticator' => 'Google Authenticator',
         'Graph: Bar Chart' => 'Gráfico: Gráfico de barras',
         'Graph: Line Chart' => 'Gráfico: Gráfico de líneas',
@@ -7588,6 +7591,8 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'It is possible to configure different skins, for example to distinguish between diferent customers, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in "Key" should match the domain, and the value in "Content" should be a valid skin on your system. Please see the example entries for the proper form of the regex.' =>
             '',
         'It is possible to configure different themes, for example to distinguish between agents and customers, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in "Key" should match the domain, and the value in "Content" should be a valid theme on your system. Please see the example entries for the proper form of the regex.' =>
+            '',
+        'It was not possible to check the PGP signature, this may be caused by a missing public key or an unsupported algorithm.' =>
             '',
         'Italian' => 'Italiano',
         'Italian stop words for fulltext index. These words will be removed from the search index.' =>
@@ -7789,6 +7794,8 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
             'Siguiente estado posible del ticket después de agregar una nota en la pantalla de llamada telefónica entrante para la interfaz de agente.',
         'Next possible ticket states after adding a phone note in the ticket phone outbound screen of the agent interface.' =>
             'Siguiente estado posible del ticket después de agregar una nota en la pantalla de llamada telefónica saliente para la interfaz de agente.',
+        'No public key found.' => '',
+        'No valid OpenPGP data found.' => '',
         'None' => 'Ninguno',
         'Norwegian' => 'Noruego',
         'Notification Settings' => 'Preferencias de Notificaciones',
@@ -8496,6 +8503,7 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
             '',
         'Shows time use complete description (days, hours, minutes), if enabled; or just first letter (d, h, m), if not enabled.' =>
             '',
+        'Signature data.' => '',
         'Signatures' => 'Firmas',
         'Simple' => 'Simple',
         'Skin' => 'Apariencia',
@@ -8600,6 +8608,13 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'Templates ↔ Queues' => '',
         'Textarea' => 'Área de texto',
         'Thai' => 'Tailandés',
+        'The PGP signature is expired.' => '',
+        'The PGP signature was made by a revoked key, this could mean that the signature is forged.' =>
+            '',
+        'The PGP signature was made by an expired key.' => '',
+        'The PGP signature with the keyid has not been verified successfully.' =>
+            '',
+        'The PGP signature with the keyid is good.' => '',
         'The agent skin\'s InternalName which should be used in the agent interface. Please check the available skins in Frontend::Agent::Skins.' =>
             '',
         'The customer skin\'s InternalName which should be used in the customer interface. Please check the available skins in Frontend::Customer::Skins.' =>
@@ -8659,6 +8674,7 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'This is the default orange - black skin for the customer interface.' =>
             'Este es el aspecto predeterminado naranja - negro para la interfaz del cliente.',
         'This is the default orange - black skin.' => 'Este es el aspecto predeterminado naranja - negro.',
+        'This key is not certified with a trusted signature!' => '',
         'This module and its PreRun() function will be executed, if defined, for every request. This module is useful to check some user options or to display news about new applications.' =>
             '',
         'This module is part of the admin area of OTRS.' => 'Este módulo es parte del área de administración del OTRS.',

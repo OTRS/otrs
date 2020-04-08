@@ -26,7 +26,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.692229385816084;
+    $Self->{Completeness}        = 0.691500169319336;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -66,7 +66,7 @@ sub Data {
         'Validity' => 'اعتبار',
         'Export' => 'خروجی به',
         'Copy' => 'کپی',
-        'No data found.' => 'داده‌ای یافت نشد',
+        'No data found.' => 'داده‌ای یافت نشد.',
         'No matches found.' => 'هیچ موردی یافت نشد.',
 
         # Template: AdminACLEdit
@@ -1211,7 +1211,7 @@ sub Data {
         'Add Group' => 'ایجاد گروه',
         'Edit Group' => 'ویرایش گروه',
         'The admin group is to get in the admin area and the stats group to get stats area.' =>
-            'گروه admin برای دسترسی به بخش مدیریت سیستم و گروه stats برای دسترسی به بخش گزارشات است.',
+            'گروه admin برای دسترسی به بخش مدیریت سیستم و گروه stats برای دسترسی به بخش گزارش ها است.',
         'Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...). ' =>
             'گروه‌های جدید بسازید تا دسترسی‌ها را برای گروه‌های مختلف کارشناسان مدیریت کنید (مثال: بخش خرید، بخش پشتیبانی، بخش فروش و ...)',
         'It\'s useful for ASP solutions. ' => 'این برای راه‌حل‌های ASP مفید می‌باشد.',
@@ -2518,18 +2518,18 @@ sub Data {
         'Import Statistics Configuration' => '',
 
         # Template: AgentStatisticsOverview
-        'Statistics' => 'گزارشات',
-        'Run' => 'دویدن',
-        'Edit statistic "%s".' => 'ویرایش آمار \ " %s ".',
+        'Statistics' => 'گزارش ها',
+        'Run' => 'اجرا',
+        'Edit statistic "%s".' => 'ویرایش گزارش " %s ".',
         'Export statistic "%s"' => 'آمارارسال \ " %s "',
-        'Export statistic %s' => 'آمار ارسال %s',
-        'Delete statistic "%s"' => 'حذف آمار \ " %s "',
-        'Delete statistic %s' => 'حذف آمار %s',
+        'Export statistic %s' => 'استخراج گزارش "%s"',
+        'Delete statistic "%s"' => 'حذف گزارش "%s"',
+        'Delete statistic %s' => 'حذف گزارش "%s"',
 
         # Template: AgentStatisticsView
-        'Statistics Overview' => '',
-        'View Statistics' => '',
-        'Statistics Information' => '',
+        'Statistics Overview' => 'مرور گزارش ها',
+        'View Statistics' => 'مشاهده گزارش ها',
+        'Statistics Information' => 'اطلاعات گزارش ها',
         'Created by' => 'ایجاد شده توسط',
         'Changed by' => 'تغییر یافته توسط',
         'Sum rows' => 'جمع سطر‌ها',
@@ -2867,7 +2867,7 @@ sub Data {
             '',
         'Please see the documentation or ask your admin for further information.' =>
             'لطفا مستندات را مشاهده کنید یا از مدیر سیستم برای اطلاعات بیشتر سوال بپرسید.',
-        'One moment please, you are being redirected...' => 'لطفا چند لحظه صبرکنید ، شما در حال هدایت می شوید ...',
+        'One moment please, you are being redirected...' => 'چند لحظه صبر کنید، در حال هدایت...',
         'Login' => 'ورود به سیستم',
         'User name' => 'نام کاربری',
         'Your user name' => 'نام کاربری شما',
@@ -2891,7 +2891,7 @@ sub Data {
         # Template: CustomerNavigationBar
         'Incoming Chat Requests' => 'درخواست چت ورودی',
         'Edit personal preferences' => 'ویرایش تنظیمات شخصی',
-        'Logout %s' => '',
+        'Logout %s' => 'خروج %s',
 
         # Template: CustomerTicketMessage
         'Service level agreement' => 'توافقنامه سطح سرویس',
@@ -2972,7 +2972,7 @@ sub Data {
         'Notifications' => '',
         'Notifications (OTRS Business Solution™)' => '',
         'Personal preferences' => '',
-        'Logout' => 'خروج ',
+        'Logout' => 'خروج',
         'You are logged in as' => 'شما با این عنوان وارد شده‌اید',
 
         # Template: Installer
@@ -4994,6 +4994,8 @@ sub Data {
         'Client Connection Charset' => 'اتصال مشتری نویسهگان',
         'Setting character_set_client needs to be utf8.' => 'تنظیم character_set_client نیاز به UTF8 باشد.',
         'Server Database Charset' => 'سرور مجموعه کاراکتر پایگاه',
+        'This character set is not yet supported, please see https://bugs.otrs.org/show_bug.cgi?id=12361. Please convert your database to the character set \'utf8\'.' =>
+            '',
         'The setting character_set_database needs to be \'utf8\'.' => '',
         'Table Charset' => 'جدول مجموعه کاراکتر',
         'There were tables found which do not have \'utf8\' as charset.' =>
@@ -7427,6 +7429,7 @@ Thanks for your help!
             '',
         'Global Search Module.' => 'بازارهای ماژول جستجو.',
         'Go to dashboard!' => 'برو به داشبورد!',
+        'Good PGP signature.' => '',
         'Google Authenticator' => 'Google Authenticator را',
         'Graph: Bar Chart' => 'نمودار: نمودار نوار',
         'Graph: Line Chart' => 'نمودار: نمودار خط',
@@ -7582,6 +7585,8 @@ Thanks for your help!
             'ممکن است که به پیکربندی پوسته های مختلف، به عنوان مثال برای تمایز بین مشتریان مختلف، به بر اساس هر دامنه در داخل نرم افزار استفاده می شود. با استفاده از یک عبارت منظم (عبارت منظم)، شما می توانید یک جفت محتوا / کلیدی برای مطابقت با یک دامنه پیکربندی کنید. ارزش در \ "کلید " باید دامنه مطابقت، و ارزش در \ "محتوا " باید یک پوست معتبر بر روی سیستم شما می شود. لطفا برای فرم مناسب از عبارت منظم مشاهده نوشته های مثال.',
         'It is possible to configure different themes, for example to distinguish between agents and customers, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in "Key" should match the domain, and the value in "Content" should be a valid theme on your system. Please see the example entries for the proper form of the regex.' =>
             'ممکن است که به پیکربندی تم های مختلف، به عنوان مثال برای تمایز بین عوامل و مشتریان، به بر اساس هر دامنه در داخل نرم افزار استفاده می شود. با استفاده از یک عبارت منظم (عبارت منظم)، شما می توانید یک جفت محتوا / کلیدی برای مطابقت با یک دامنه پیکربندی کنید. ارزش در \ "کلید " باید دامنه مطابقت، و ارزش در \ "محتوا " باید یک موضوع معتبر بر روی سیستم شما می شود. لطفا برای فرم مناسب از عبارت منظم مشاهده نوشته های مثال.',
+        'It was not possible to check the PGP signature, this may be caused by a missing public key or an unsupported algorithm.' =>
+            '',
         'Italian' => 'ایتالیایی',
         'Italian stop words for fulltext index. These words will be removed from the search index.' =>
             'کلمات توقف ایتالیایی شاخص متن. این کلمات از صفحه اول جستجو حذف خواهند شد.',
@@ -7782,6 +7787,8 @@ Thanks for your help!
             'بعدی ایالات بلیط ممکن است پس از اضافه کردن یک یادداشت تلفن در گوشی بلیط صفحه نمایش بین المللی به درون رابط عامل.',
         'Next possible ticket states after adding a phone note in the ticket phone outbound screen of the agent interface.' =>
             'بعدی ایالات بلیط ممکن است پس از اضافه کردن یک یادداشت تلفن در صفحه نمایش خروجی تلفن بلیط رابط عامل.',
+        'No public key found.' => '',
+        'No valid OpenPGP data found.' => '',
         'None' => 'هیچ',
         'Norwegian' => 'نروژی',
         'Notification Settings' => 'تنظیمات اطلاع رسانی',
@@ -7964,7 +7971,7 @@ Thanks for your help!
             '',
         'Replaces the original sender with current customer\'s email address on compose answer in the ticket compose screen of the agent interface.' =>
             'جایگزین فرستنده اصلی با آدرس ایمیل مشتری فعلی در پاسخ نوشتن در صفحه نوشتن بلیط رابط عامل.',
-        'Reports' => 'گزارشات',
+        'Reports' => 'گزارش ها',
         'Reports (OTRS Business Solution™)' => 'گزارش (OTRS کسب و کار راه حل ™)',
         'Reprocess mails from spool directory that could not be imported in the first place.' =>
             'پردازش مجدد ایمیل از دایرکتوری قرقره است که نمی تواند در وهله اول وارد شود.',
@@ -8489,6 +8496,7 @@ Thanks for your help!
             '',
         'Shows time use complete description (days, hours, minutes), if enabled; or just first letter (d, h, m), if not enabled.' =>
             '',
+        'Signature data.' => '',
         'Signatures' => 'امضاء',
         'Simple' => 'ساده',
         'Skin' => 'پوسته',
@@ -8593,6 +8601,13 @@ Thanks for your help!
         'Templates ↔ Queues' => '',
         'Textarea' => 'ناحیه متنی',
         'Thai' => 'تایلندی',
+        'The PGP signature is expired.' => '',
+        'The PGP signature was made by a revoked key, this could mean that the signature is forged.' =>
+            '',
+        'The PGP signature was made by an expired key.' => '',
+        'The PGP signature with the keyid has not been verified successfully.' =>
+            '',
+        'The PGP signature with the keyid is good.' => '',
         'The agent skin\'s InternalName which should be used in the agent interface. Please check the available skins in Frontend::Agent::Skins.' =>
             'InternalName پوست عامل است که باید در رابط عامل استفاده شود. لطفا پوسته های موجود در ظاهر :: :: عامل پوسته را تیک بزنید.',
         'The customer skin\'s InternalName which should be used in the customer interface. Please check the available skins in Frontend::Customer::Skins.' =>
@@ -8652,6 +8667,7 @@ Thanks for your help!
         'This is the default orange - black skin for the customer interface.' =>
             'پوست سیاه و سفید برای رابط مشتری - این به طور پیش فرض نارنجی است.',
         'This is the default orange - black skin.' => 'پوست سیاه و سفید - این به طور پیش فرض نارنجی است.',
+        'This key is not certified with a trusted signature!' => '',
         'This module and its PreRun() function will be executed, if defined, for every request. This module is useful to check some user options or to display news about new applications.' =>
             'این ماژول و عملکرد PreRun () آن اجرا خواهد شد، اگر تعریف شده است، برای هر درخواست. این ماژول مفید است که برای بررسی برخی از گزینه های کاربران و یا برای نمایش اخبار در مورد برنامه های جدید.',
         'This module is part of the admin area of OTRS.' => 'این ماژول بخشی از بخش مدیریت OTRS موجود است.',
