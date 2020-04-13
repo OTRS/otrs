@@ -1,4 +1,5 @@
 # 6.0.29 ????-??-??
+- 2020-04-13 Fixed bug#[15035](https://bugs.otrs.org/show_bug.cgi?id=15035) - Perl Moo library missing in CheckModules script.
 
 # 6.0.28 2020-04-20
  - 2020-04-08 Updated translations, thanks to all translators.

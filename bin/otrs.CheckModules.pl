@@ -427,6 +427,17 @@ my @NeededModules = (
         },
     },
     {
+        Module    => 'Moo',
+        Required  => 1,
+        Comment   => 'Required for random number generator.',
+        InstTypes => {
+            aptget => 'libmoo-perl',
+            emerge => 'dev-perl/Moo',
+            zypper => 'perl-Moo',
+            ports  => 'devel/p5-Moo',
+        },
+    },
+    {
         Module               => 'Net::DNS',
         Required             => 1,
         VersionsNotSupported => [
