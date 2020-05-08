@@ -19,12 +19,13 @@ use Kernel::System::VariableCheck qw(:all);
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::Cache',
+    'Kernel::System::DateTime',
     'Kernel::System::DB',
     'Kernel::System::DynamicField',
     'Kernel::System::DynamicField::Backend',
     'Kernel::System::Encode',
     'Kernel::System::Log',
-    'Kernel::System::DateTime',
+    'Kernel::System::Main',
 );
 
 sub new {
@@ -1544,23 +1545,10 @@ sub SetPassword {
 sub GenerateRandomPassword {
     my ( $Self, %Param ) = @_;
 
-    # generated passwords are eight characters long by default.
-    my $Size = $Param{Size} || 8;
-
-    # The list of characters that can appear in a randomly generated password.
-    # Note that users can put any character into a password they choose themselves.
-    my @PwChars = ( 0 .. 9, 'A' .. 'Z', 'a' .. 'z', '-', '_', '!', '@', '#', '$', '%', '^', '&', '*' );
-
-    # number of characters in the list.
-    my $PwCharsLen = scalar(@PwChars);
-
-    # generate the password.
-    my $Password = '';
-    for ( my $i = 0; $i < $Size; $i++ ) {
-        $Password .= $PwChars[ rand $PwCharsLen ];
-    }
-
-    return $Password;
+    return $Kernel::OM->Get('Kernel::System::Main')->GenerateRandomString(
+        Length     => $Param{Size} || 8,
+        Dictionary => [ 0 .. 9, 'A' .. 'Z', 'a' .. 'z', '-', '_', '!', '@', '#', '$', '%', '^', '&', '*' ],
+    );
 }
 
 sub SetPreferences {

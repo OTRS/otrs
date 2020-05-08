@@ -20,7 +20,7 @@ use Unicode::Normalize;
 use List::Util qw();
 use Fcntl qw(:flock);
 use Encode;
-use Math::Random::Secure qw(rand);
+use Math::Random::Secure qw();
 
 use Kernel::System::VariableCheck qw(IsStringWithData);
 
@@ -1065,7 +1065,7 @@ sub GenerateRandomString {
 
     for ( 1 .. $Length ) {
 
-        my $Key = int rand $DictionaryLength;
+        my $Key = int Math::Random::Secure::rand $DictionaryLength;
 
         $String .= $DictionaryChars[$Key];
     }
