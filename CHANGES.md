@@ -1,4 +1,5 @@
 # 6.0.29 ????-??-??
+- 2020-05-13 Fixed bug#[15016](https://bugs.otrs.org/show_bug.cgi?id=15016) - Processing of sequence flows throws error for tickets assigned to unknown or invalid processes.
 - 2020-05-13 Fixed bug#[15075](https://bugs.otrs.org/show_bug.cgi?id=15075) - Wrong SMIME cert is selected in AgentTicketCompose.
 - 2020-05-08 Improved random number generator.
 - 2020-04-27 Fixed bug#[14997](https://bugs.otrs.org/show_bug.cgi?id=14997) - Problem with blur of RichText editor when it is left empty.

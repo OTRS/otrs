@@ -92,10 +92,16 @@ sub Run {
     #   later events might make a transition check neccessary.
     return if ( !$ProcessEntityID || !$ActivityEntityID );
 
-    # ok, now we know that we need to call the transition logic for this ticket.
-
-    # get process object
+    # Ticket can be ignored if it does not belong to an active or fadeaway process.
     my $ProcessObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::Process');
+    my $ProcessList   = $ProcessObject->ProcessList(
+        ProcessState => [ 'Active', 'FadeAway' ],
+        Interface    => 'all',
+        Silent       => 1,
+    );
+    return if !$ProcessList->{$ProcessEntityID};
+
+    # ok, now we know that we need to call the sequence flow logic for this ticket.
 
     # Remember that the event was executed for this ticket to avoid multiple executions.
     #   Store the information on the ticketobject, this needs to be done before the execution of the
