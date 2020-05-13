@@ -2915,11 +2915,6 @@ for my $Count ( 1 .. 3 ) {
 
     my @Keys = $SMIMEObject->PrivateSearch( Search => $Search{$Count} );
 
-    use Data::Dumper;
-    print STDERR "Debug - ModuleName - VariableName = " . Dumper( $Search{$Count} ) . "\n";
-
-    print STDERR "Debug - ModuleName - VariableName = " . Dumper( \@Keys ) . "\n";
-
     $Self->True(
         $Keys[0] || '',
         "#$Count PrivateSearch()",
