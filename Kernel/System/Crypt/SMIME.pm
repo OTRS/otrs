@@ -711,9 +711,14 @@ sub _CheckCertificateList {
         if ($Search) {
             ATTRIBUTE:
             for my $Attribute ( sort keys %Attributes ) {
-                if ( $Attributes{$Attribute} =~ m{\Q$Search\E}ixms ) {
-                    $Hit = 1;
-                    last ATTRIBUTE;
+
+                my @Items = split /[,;\s]+/, $Attributes{$Attribute};
+
+                for my $Item (@Items) {
+                    if ( $Item =~ m{^\Q$Search\E$}ixms ) {
+                        $Hit = 1;
+                        last ATTRIBUTE;
+                    }
                 }
             }
         }
@@ -1364,9 +1369,14 @@ sub PrivateSearch {
         if ($Search) {
             ATTRIBUTE:
             for my $Attribute ( sort keys %Attributes ) {
-                if ( $Attributes{$Attribute} =~ m{\Q$Search\E}ixms ) {
-                    $Hit = 1;
-                    last ATTRIBUTE;
+
+                my @Items = split /[,;\s]+/, $Attributes{$Attribute};
+
+                for my $Item (@Items) {
+                    if ( $Item =~ m{^\Q$Search\E$}ixms ) {
+                        $Hit = 1;
+                        last ATTRIBUTE;
+                    }
                 }
             }
         }

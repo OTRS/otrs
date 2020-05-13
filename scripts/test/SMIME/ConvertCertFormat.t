@@ -146,10 +146,21 @@ my $CertificateSearch = sub {
 
     my @Result;
     my $SMIMEObject = $Kernel::OM->Get('Kernel::System::Crypt::SMIME');
-    for my $SearchString ( ( '@example.org', 'smimeuser1@test.com' ) ) {
-        push @Result, $SMIMEObject->CertificateSearch(
-            Search => $SearchString,
-        );
+
+    my %Search = (
+        1 => 'unittest@example.org',
+        2 => 'unittest2@example.org',
+        3 => 'unittest3@example.org',
+        4 => 'unittest4@example.org',
+        5 => 'unittest5@example.org',
+    );
+    for my $SearchString ( values %Search, 'smimeuser1@test.com' ) {
+
+        my @Certificat = $SMIMEObject->CertificateSearch( Search => $SearchString );
+        if ( defined $Certificat[0]->{Filename} && !grep { $_->{Filename} eq $Certificat[0]->{Filename} } @Result ) {
+            push @Result, @Certificat;
+        }
+
     }
 
     return @Result;
