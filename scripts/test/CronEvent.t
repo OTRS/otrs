@@ -29,6 +29,12 @@ if ( grep { $^V eq $_ } @BlacklistPerlVersions ) {
     return 1;
 }
 
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+$ConfigObject->Set(
+    Key   => 'OTRSTimeZone',
+    Value => 'UTC',
+);
+
 my $SystemTime = $Kernel::OM->Create('Kernel::System::DateTime')->ToEpoch();
 
 # NextEventGet() tests
@@ -257,12 +263,29 @@ my @Tests = (
         ExpectedValue => '2016-02-29 02:02:00',
         Success       => 1,
     },
+    {
+        Name   => 'Correct daylight saving time date each hour',
+        Config => {
+            Schedule       => '0 * * * *',
+            StartTimeStamp => '2021-03-28 01:00:00',
+            TimeZone       => 'Europe/Belgrade',
+        },
+        ExpectedValue => '2021-03-28 03:00:00',
+        Success       => 1,
+    },
 );
 
 # get cron event object
 my $CronEventObject = $Kernel::OM->Get('Kernel::System::CronEvent');
 
 for my $Test (@Tests) {
+
+    if ( $Test->{Config}->{TimeZone} ) {
+        $ConfigObject->Set(
+            Key   => 'OTRSTimeZone',
+            Value => $Test->{Config}->{TimeZone},
+        );
+    }
 
     if ( $Test->{Config}->{StartTimeStamp} ) {
         $Test->{Config}->{StartDateTime} = $Kernel::OM->Create(
@@ -288,6 +311,14 @@ for my $Test (@Tests) {
             $EventTimeStamp,
             undef,
             "$Test->{Name} NextEvent()",
+        );
+    }
+
+    # Reset back OTRSTimeZone if it was changed.
+    if ( $Test->{Config}->{TimeZone} ) {
+        $ConfigObject->Set(
+            Key   => 'OTRSTimeZone',
+            Value => 'UTC',
         );
     }
 }
@@ -399,9 +430,40 @@ for my $Test (@Tests) {
         ],
         Success => 1,
     },
+    {
+        Name   => 'Correct daylight saving time each 10 minutes',
+        Config => {
+            Schedule       => '*/10 * * * *',
+            StartTimeStamp => '2021-03-28 01:00:00',
+            StopTimeStamp  => '2021-03-28 04:00:00',
+            TimeZone       => 'Europe/Belgrade'
+        },
+        ExpectedValue => [
+            '2021-03-28 01:10:00',
+            '2021-03-28 01:20:00',
+            '2021-03-28 01:30:00',
+            '2021-03-28 01:40:00',
+            '2021-03-28 01:50:00',
+            '2021-03-28 03:00:00',
+            '2021-03-28 03:10:00',
+            '2021-03-28 03:20:00',
+            '2021-03-28 03:30:00',
+            '2021-03-28 03:40:00',
+            '2021-03-28 03:50:00',
+            '2021-03-28 04:00:00',
+        ],
+        Success => 1,
+    },
 );
 
 for my $Test (@Tests) {
+
+    if ( $Test->{Config}->{TimeZone} ) {
+        $ConfigObject->Set(
+            Key   => 'OTRSTimeZone',
+            Value => $Test->{Config}->{TimeZone},
+        );
+    }
 
     if ( $Test->{Config}->{'StartTimeStamp'} ) {
         $Test->{Config}->{StartDateTime} = $Kernel::OM->Create(
@@ -435,6 +497,14 @@ for my $Test (@Tests) {
             \@NextEvents,
             [],
             "$Test->{Name} NextEventList()",
+        );
+    }
+
+    # Reset back OTRSTimeZone if it was changed.
+    if ( $Test->{Config}->{TimeZone} ) {
+        $ConfigObject->Set(
+            Key   => 'OTRSTimeZone',
+            Value => 'UTC',
         );
     }
 }
@@ -578,9 +648,26 @@ for my $Test (@Tests) {
         ExpectedValue => '2015-12-31 23:58:00',
         Success       => 1,
     },
+    {
+        Name   => 'Correct daylight saving time date on 30 minutes',
+        Config => {
+            Schedule       => '30 * * * *',
+            StartTimeStamp => '2021-03-28 03:15:00',
+            TimeZone       => 'Europe/Belgrade',
+        },
+        ExpectedValue => '2021-03-28 01:30:00',
+        Success       => 1,
+    },
 );
 
 for my $Test (@Tests) {
+
+    if ( $Test->{Config}->{TimeZone} ) {
+        $ConfigObject->Set(
+            Key   => 'OTRSTimeZone',
+            Value => $Test->{Config}->{TimeZone},
+        );
+    }
 
     if ( $Test->{Config}->{StartTimeStamp} ) {
         $Test->{Config}->{StartDateTime} = $Kernel::OM->Create(
@@ -606,6 +693,14 @@ for my $Test (@Tests) {
             $EventTimeStamp,
             undef,
             "$Test->{Name} NextEvent()",
+        );
+    }
+
+    # Reset back OTRSTimeZone if it was changed.
+    if ( $Test->{Config}->{TimeZone} ) {
+        $ConfigObject->Set(
+            Key   => 'OTRSTimeZone',
+            Value => 'UTC',
         );
     }
 }
