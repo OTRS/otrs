@@ -1,4 +1,5 @@
 # 6.0.29 ????-??-??
+ - 2020-05-26 Fixed bug#[15143](https://bugs.otrs.org/show_bug.cgi?id=15143) - SysConfig broken for editing array of hashes.
  - 2020-05-18 Fixed bug#[13924](https://bugs.otrs.org/show_bug.cgi?id=13924) - Error creating DateTime object.
  - 2020-05-13 Fixed bug#[15016](https://bugs.otrs.org/show_bug.cgi?id=15016) - Processing of sequence flows throws error for tickets assigned to unknown or invalid processes.
  - 2020-05-13 Fixed bug#[15075](https://bugs.otrs.org/show_bug.cgi?id=15075) - Wrong SMIME cert is selected in AgentTicketCompose.

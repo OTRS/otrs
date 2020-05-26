@@ -359,7 +359,18 @@
             </Array>
         </Value>
     </Setting>
-
+    <Setting Name="ExampleAoHEmpty" Required="0" Valid="1">
+        <Description Translatable="1">Test empty AoH.</Description>
+        <Navigation>SampleComplex</Navigation>
+        <Value>
+            <Array>
+                <DefaultItem>
+                    <Hash>
+                    </Hash>
+                </DefaultItem>
+            </Array>
+        </Value>
+    </Setting>
     <Setting Name="ExampleAoHSelect" Required="1" Valid="1">
         <Description Translatable="1">Test AoH Select.</Description>
         <Navigation>SampleComplex</Navigation>

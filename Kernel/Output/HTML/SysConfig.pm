@@ -345,13 +345,17 @@ sub SettingAddItem {
             }
         }
         else {
+            # Check if there is a defintion for this item in Default item.
             if ( $DefaultItem->{Hash} && $DefaultItem->{Hash}->[0]->{Item} ) {
                 ($DefaultItem) = grep { $_->{Key} eq $Param{Key} } @{ $DefaultItem->{Hash}->[0]->{Item} };
             }
-            elsif ( $DefaultItem->{Hash}->[0]->{DefaultItem}->[0] ) {
+
+            # If it's not found and there is Default item defined, use first value.
+            else {
                 $DefaultItem = $DefaultItem->{Hash}->[0]->{DefaultItem}->[0];
             }
 
+            # Fallback to the simple item.
             if ( !$DefaultItem ) {
                 $DefaultItem = {
                     Item => {
