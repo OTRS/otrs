@@ -52,7 +52,7 @@ Databases
 - MySQL 5.0 or higher (MySQL 8+ is [not supported](https://bugs.otrs.org/show_bug.cgi?id=13866))
 - MariaDB
 - PostgreSQL 9.2 or higher
-- Oracle 10g or higher
+- Oracle 10g or higher (OTRS 9 will not support Oracle as application database anymore)
 
 Browsers
 - Use a modern web browser.
