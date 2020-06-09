@@ -118,10 +118,10 @@ sub Run {
         keys %Stats
         )
     {
-        my $Strings      = $Stats{$Language}->{Total};
+        my $Strings      = $Stats{$Language}->{Total}      // 0;
         my $Translations = $Stats{$Language}->{Translated} // 0;
         $Self->Print( "\t" . sprintf( "%7s", $Language ) . ": " );
-        $Self->Print( sprintf( "%02d", int( ( $Translations / $Strings ) * 100 ) ) );
+        $Self->Print( sprintf( "%02d", int( ( $Translations / ( $Strings || 1 ) ) * 100 ) ) );
         $Self->Print( sprintf( "%% (%4d/%4d)\n", $Translations, $Strings ) );
 
     }
@@ -186,7 +186,7 @@ sub HandleLanguage {
     my $WritePOT = $Param{WritePO} || -e $TargetPOTFile;
 
     if ( !-w $TargetFile ) {
-        if ( -w $TargetPOFile ) {
+        if ( -w $TargetPOFile || $Self->GetOption('language') ) {
             $Self->Print(
                 "Creating missing file <yellow>$TargetFile</yellow>\n"
             );
@@ -459,27 +459,23 @@ sub HandleLanguage {
             }
 
             $File =~ s{^.*/(scripts/)}{$1}smx;
+            if ($IsSubTranslation) {
+                $File =~ s{^.*/(.+\.sopm)}{$1}smx;
+            }
 
             my $Content = ${$ContentRef};
 
             # do translation
             $Content =~ s{
-                <Data[^>]+Translatable="1"[^>]*>(.*?)</Data>
+                <(Data|Description)[^>]+Translatable="1"[^>]*>(.*?)</\1>
             }
             {
-                my $Word = $1 // '';
-
+                my $Word = $2 // '';
                 if ( $Word && !$UsedWords{$Word}++ ) {
-
-                    if ($IsSubTranslation) {
-                        $File =~ s{^.*/(.+\.sopm)}{$1}smx;
-                    }
-
                     push @OriginalTranslationStrings, {
-                        Location => "Database XML Definition: $File",
+                        Location => "Database XML / SOPM Definition: $File",
                         Source => $Word,
                     };
-
                 }
                 '';
             }egx;
