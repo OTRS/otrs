@@ -167,7 +167,7 @@ sub Run {
     my $Duration = sprintf( '%.3f', Time::HiRes::tv_interval($StartTimeHiRes) );
 
     my $Host           = $ConfigObject->Get('FQDN');
-    my $TestCountTotal = $Self->{TestCountOk} + $Self->{TestCountNotOk};
+    my $TestCountTotal = ( $Self->{TestCountOk} // 0 ) + ( $Self->{TestCountNotOk} // 0 );
 
     print "=====================================================================\n";
 
