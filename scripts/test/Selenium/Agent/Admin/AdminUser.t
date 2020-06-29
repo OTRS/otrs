@@ -317,6 +317,112 @@ $Selenium->RunTest(
             "Selected Service '$ServiceName' is in 'My Services'",
         );
 
+        # Create another test user.
+        my $TestUserLogin2 = $Helper->TestUserCreate(
+            Groups => [ 'admin', 'users' ],
+        ) || die "Did not get test user";
+
+        $Selenium->Login(
+            Type     => 'Agent',
+            User     => $TestUserLogin2,
+            Password => $TestUserLogin2,
+        );
+
+        my $SchedulerDBObject = $Kernel::OM->Get('Kernel::System::Daemon::SchedulerDB');
+
+        for my $Test (qw(ChangeUserLogin SetToInvalid)) {
+
+            # Navigate to AdminUser screen.
+            $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminUser");
+
+            # Remove scheduled asynchronous tasks from DB, as they may interfere with tests run later.
+            my @TaskIDs;
+            my @AllTasks = $SchedulerDBObject->TaskList(
+                Type => 'AsynchronousExecutor',
+            );
+            for my $Task (@AllTasks) {
+                if ( $Task->{Name} eq 'Kernel::System::AuthSession-RemoveSessionByUser()' ) {
+                    my $Success = $SchedulerDBObject->TaskDelete(
+                        TaskID => $Task->{TaskID},
+                    );
+                    $Self->True(
+                        $Success,
+                        "$Test - TaskID $Task->{TaskID} is deleted",
+                    );
+                }
+            }
+
+            if ( $Test eq 'ChangeUserLogin' ) {
+                $Selenium->WaitFor(
+                    JavaScript => "return typeof(\$) === 'function' && \$('#User a:contains($TestUserLogin)').length;"
+                );
+
+                $Selenium->find_element( $TestUserLogin, 'link_text' )->VerifiedClick();
+
+                $Selenium->WaitFor(
+                    JavaScript => "return typeof(\$) === 'function' && \$('#UserLogin').length;"
+                );
+
+                $Self->Is(
+                    $Selenium->find_element( "#UserLogin", 'css' )->get_value(),
+                    $TestUserLogin,
+                    "$Test - UserLogin value is correct",
+                );
+
+                $Selenium->find_element( "#UserLogin", 'css' )->send_keys('-edit');
+                $Selenium->find_element( "#Submit",    'css' )->VerifiedClick();
+            }
+            else {
+                $TestUserLogin .= '-edit';
+                $Selenium->WaitFor(
+                    JavaScript => "return typeof(\$) === 'function' && \$('#User a:contains($TestUserLogin)').length;"
+                );
+
+                $Selenium->find_element( $TestUserLogin, 'link_text' )->VerifiedClick();
+
+                $Selenium->WaitFor(
+                    JavaScript => "return typeof(\$) === 'function' && \$('#ValidID').length;"
+                );
+
+                $Self->Is(
+                    $Selenium->find_element( "#ValidID", 'css' )->get_value(),
+                    1,
+                    "$Test - ValidID value is correct",
+                );
+
+                $Selenium->InputFieldValueSet(
+                    Element => '#ValidID',
+                    Value   => 2,
+                );
+
+                $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
+            }
+
+            @AllTasks = $SchedulerDBObject->TaskList(
+                Type => 'AsynchronousExecutor',
+            );
+
+            for my $Task (@AllTasks) {
+                if ( $Task->{Name} eq 'Kernel::System::AuthSession-RemoveSessionByUser()' ) {
+                    $Self->True(
+                        $Task->{TaskID},
+                        "$Test - Task (Name 'RemoveSessionByUser()', TaskID $Task->{TaskID}) is found",
+                    );
+
+                    my $Success = $SchedulerDBObject->TaskDelete(
+                        TaskID => $Task->{TaskID},
+                    );
+                    $Self->True(
+                        $Success,
+                        "$Test - TaskID $Task->{TaskID} is deleted",
+                    );
+                }
+            }
+
+        }
+
+        # Cleanup.
+
         # Delete Queue.
         my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
         my $Success  = $DBObject->Do(
