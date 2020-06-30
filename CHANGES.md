@@ -1,4 +1,6 @@
-# 6.0.29 ????-??-??
+# 6.0.30 ????-??-??
+
+# 6.0.29 2020-07-20
  - 2020-06-29 Improved session handling.
  - 2020-05-28 Changed shebang commandline of Perl scripts from `/usr/bin/perl` (which hardcodes the system Perl) to `/usr/bin/env perl` (which uses the first found Perl from the $PATH). This should not cause any changes on systems where there is only one Perl installed, but more predictable behaviour on systems which have an additional "custom" Perl installed.
  - 2020-05-26 Fixed bug#[15143](https://bugs.otrs.org/show_bug.cgi?id=15143) - SysConfig broken for editing array of hashes.
