@@ -3,15 +3,15 @@
 # 6.0.29 2020-07-20
  - 2020-06-30 Updated Mozilla's CA certificate bundle.
  - 2020-06-29 Improved session handling.
- - 2020-05-28 Changed shebang commandline of Perl scripts from `/usr/bin/perl` (which hardcodes the system Perl) to `/usr/bin/env perl` (which uses the first found Perl from the $PATH). This should not cause any changes on systems where there is only one Perl installed, but more predictable behaviour on systems which have an additional "custom" Perl installed.
+ - 2020-05-28 Changed shebang command line of Perl scripts from `/usr/bin/perl` (which hardcodes the system Perl) to `/usr/bin/env perl` (which uses the first found Perl from the $PATH). This should not cause any changes on systems where there is only one Perl installed, but more predictable behavior on systems which have an additional "custom" Perl installed.
  - 2020-05-26 Fixed bug#[15143](https://bugs.otrs.org/show_bug.cgi?id=15143) - SysConfig broken for editing array of hashes.
- - 2020-05-18 Fixed bug#[13924](https://bugs.otrs.org/show_bug.cgi?id=13924) - Error creating DateTime object.
+ - 2020-05-18 Fixed bug#[13924](https://bugs.otrs.org/show_bug.cgi?id=13924) - `Error creating DateTime object` appears in the log during daylight saving time switch.
  - 2020-05-13 Fixed bug#[15016](https://bugs.otrs.org/show_bug.cgi?id=15016) - Processing of sequence flows throws error for tickets assigned to unknown or invalid processes.
- - 2020-05-13 Fixed bug#[15075](https://bugs.otrs.org/show_bug.cgi?id=15075) - Wrong SMIME cert is selected in AgentTicketCompose.
+ - 2020-05-13 Fixed bug#[15075](https://bugs.otrs.org/show_bug.cgi?id=15075) - Wrong S/MIME certificate is selected in AgentTicketCompose.
  - 2020-05-08 Improved random number generator.
- - 2020-04-27 Fixed bug#[14997](https://bugs.otrs.org/show_bug.cgi?id=14997) - Problem with blur of RichText editor when it is left empty.
- - 2020-04-13 Fixed bug#[15035](https://bugs.otrs.org/show_bug.cgi?id=15035) - Perl Moo library missing in CheckModules script.
-
+ - 2020-04-27 Fixed bug#[14997](https://bugs.otrs.org/show_bug.cgi?id=14997) - RichText editor is taking focus if required validation fails.
+  After updating jQuery library, it's not possible to leave it empty.
+ - 2020-04-13 Fixed bug#[15035](https://bugs.otrs.org/show_bug.cgi?id=15035) - Missing Perl dependency in CheckModules script (Moo).
 
 # 6.0.28 2020-04-20
  - 2020-04-08 Updated translations, thanks to all translators.
