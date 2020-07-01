@@ -2283,25 +2283,21 @@ msgstr "工单修改时间（在...之间）"
 
 #. Template: AdminGenericAgent
 #, fuzzy
-#| msgid "Last changed times"
 msgid "Last close times"
 msgstr "最后修改时间"
 
 #. Template: AdminGenericAgent
 #, fuzzy
-#| msgid "No close time settings."
 msgid "No last close time settings."
 msgstr "没有关闭时间设置。"
 
 #. Template: AdminGenericAgent
 #, fuzzy
-#| msgid "Ticket closed"
 msgid "Ticket last close"
 msgstr "工单关闭时间"
 
 #. Template: AdminGenericAgent
 #, fuzzy
-#| msgid "Ticket closed between"
 msgid "Ticket last close between"
 msgstr "工单关闭时间（在...之间）"
 
@@ -18441,9 +18437,6 @@ msgstr "通过搜索主题中的有效工单号，检查一个邮件是否是跟
 
 #. SysConfig
 #, fuzzy
-#| msgid ""
-#| "Checks if an E-Mail is a followup to an existing ticket by searching the "
-#| "subject for a valid ticket number."
 msgid ""
 "Checks if an email is a follow-up to an existing ticket with external ticket "
 "number which can be found by ExternalTicketNumberRecognition filter module."
@@ -22848,7 +22841,6 @@ msgstr "进入仪表板！"
 
 #. SysConfig
 #, fuzzy
-#| msgid "Add Signature"
 msgid "Good PGP signature."
 msgstr "添加签名"
 
@@ -24177,13 +24169,11 @@ msgstr "服务人员界面工单电话拨出屏幕在添加一个电话备注后
 
 #. SysConfig
 #, fuzzy
-#| msgid "No ticket data found."
 msgid "No public key found."
 msgstr "没有找到工单数据。"
 
 #. SysConfig
 #, fuzzy
-#| msgid "No ticket data found."
 msgid "No valid OpenPGP data found."
 msgstr "没有找到工单数据。"
 
@@ -27016,7 +27006,6 @@ msgstr ""
 
 #. SysConfig
 #, fuzzy
-#| msgid "Signature updated!"
 msgid "Signature data."
 msgstr "签名已更新!"
 
@@ -27407,7 +27396,6 @@ msgstr "泰国语"
 
 #. SysConfig
 #, fuzzy
-#| msgid "The signature for email answers."
 msgid "The PGP signature is expired."
 msgstr "回复邮件中的签名。"
 
@@ -27634,7 +27622,6 @@ msgstr "这是默认的橙色-黑色皮肤。"
 
 #. SysConfig
 #, fuzzy
-#| msgid "There is another field with the same name."
 msgid "This key is not certified with a trusted signature!"
 msgstr "存在同名的另一字段。"
 

@@ -2285,7 +2285,6 @@ msgstr ""
 
 #. Template: AdminGenericAgent
 #, fuzzy
-#| msgid "Close times"
 msgid "Last close times"
 msgstr "Uždarymo datos"
 
@@ -2295,13 +2294,11 @@ msgstr ""
 
 #. Template: AdminGenericAgent
 #, fuzzy
-#| msgid "Ticket closed"
 msgid "Ticket last close"
 msgstr "Triktis uždaryta"
 
 #. Template: AdminGenericAgent
 #, fuzzy
-#| msgid "Ticket closed between"
 msgid "Ticket last close between"
 msgstr "Triktis uždaryta tarp"
 
@@ -22272,7 +22269,6 @@ msgstr ""
 
 #. SysConfig
 #, fuzzy
-#| msgid "Add Signature"
 msgid "Good PGP signature."
 msgstr "Pridėti parašą"
 
@@ -23480,13 +23476,11 @@ msgstr ""
 
 #. SysConfig
 #, fuzzy
-#| msgid "No ticket data found."
 msgid "No public key found."
 msgstr "Nerasta duomenų apie triktį."
 
 #. SysConfig
 #, fuzzy
-#| msgid "No ticket data found."
 msgid "No valid OpenPGP data found."
 msgstr "Nerasta duomenų apie triktį."
 
@@ -25974,7 +25968,6 @@ msgstr ""
 
 #. SysConfig
 #, fuzzy
-#| msgid "Signature"
 msgid "Signature data."
 msgstr "Parašas"
 
@@ -26340,7 +26333,6 @@ msgstr ""
 
 #. SysConfig
 #, fuzzy
-#| msgid "The signature for email answers."
 msgid "The PGP signature is expired."
 msgstr "El. pašto atsakymų parašas."
 

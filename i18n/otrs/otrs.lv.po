@@ -2242,25 +2242,21 @@ msgstr "Pieteikums izmainīts starp"
 
 #. Template: AdminGenericAgent
 #, fuzzy
-#| msgid "Last changed times"
 msgid "Last close times"
 msgstr "Pēdējo izmaiņu laiks"
 
 #. Template: AdminGenericAgent
 #, fuzzy
-#| msgid "No close time settings."
 msgid "No last close time settings."
 msgstr "Nav aizvēršanas laika iestatījumu"
 
 #. Template: AdminGenericAgent
 #, fuzzy
-#| msgid "Ticket closed"
 msgid "Ticket last close"
 msgstr "Pieteikums aizvērts"
 
 #. Template: AdminGenericAgent
 #, fuzzy
-#| msgid "Ticket closed between"
 msgid "Ticket last close between"
 msgstr "Pieteikums aizvērts starp "
 
@@ -22171,7 +22167,6 @@ msgstr ""
 
 #. SysConfig
 #, fuzzy
-#| msgid "Add Signature"
 msgid "Good PGP signature."
 msgstr "Pievienot parakstu"
 
@@ -23379,13 +23374,11 @@ msgstr ""
 
 #. SysConfig
 #, fuzzy
-#| msgid "No matches found."
 msgid "No public key found."
 msgstr "Nekas nav atrasts."
 
 #. SysConfig
 #, fuzzy
-#| msgid "No data found."
 msgid "No valid OpenPGP data found."
 msgstr "Dati nav atrasti."
 
@@ -25871,7 +25864,6 @@ msgstr ""
 
 #. SysConfig
 #, fuzzy
-#| msgid "Signature updated!"
 msgid "Signature data."
 msgstr "Paraksts atjaunināts!"
 
@@ -26237,7 +26229,6 @@ msgstr ""
 
 #. SysConfig
 #, fuzzy
-#| msgid "The signature for email answers."
 msgid "The PGP signature is expired."
 msgstr "Paraksts e-pasta atbildēm."
 

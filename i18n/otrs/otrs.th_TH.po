@@ -2259,25 +2259,21 @@ msgstr "ตั๋วถูกเปลี่ยนแปลงระหว่า
 
 #. Template: AdminGenericAgent
 #, fuzzy
-#| msgid "Last changed times"
 msgid "Last close times"
 msgstr "เวลาการเปลี่ยนแปลงครั้งล่าสุด"
 
 #. Template: AdminGenericAgent
 #, fuzzy
-#| msgid "No close time settings."
 msgid "No last close time settings."
 msgstr "ไม่มีการตั้งค่าเวลาที่ปิด"
 
 #. Template: AdminGenericAgent
 #, fuzzy
-#| msgid "Ticket closed"
 msgid "Ticket last close"
 msgstr "ตั๋วถูกปิด"
 
 #. Template: AdminGenericAgent
 #, fuzzy
-#| msgid "Ticket closed between"
 msgid "Ticket last close between"
 msgstr "ตั๋วถูกปิดในระหว่าง"
 
@@ -18370,9 +18366,6 @@ msgstr "ตรวจสอบ หากอีเมลนั้นๆคือ�
 
 #. SysConfig
 #, fuzzy
-#| msgid ""
-#| "Checks if an E-Mail is a followup to an existing ticket by searching the "
-#| "subject for a valid ticket number."
 msgid ""
 "Checks if an email is a follow-up to an existing ticket with external ticket "
 "number which can be found by ExternalTicketNumberRecognition filter module."
@@ -22731,7 +22724,6 @@ msgstr "ไปที่แดชบอร์ด!"
 
 #. SysConfig
 #, fuzzy
-#| msgid "Add Signature"
 msgid "Good PGP signature."
 msgstr "เพิ่มลายเซ็น"
 
@@ -23973,13 +23965,11 @@ msgstr ""
 
 #. SysConfig
 #, fuzzy
-#| msgid "No ticket data found."
 msgid "No public key found."
 msgstr "ไม่พบข้อมูลตั๋ว"
 
 #. SysConfig
 #, fuzzy
-#| msgid "No ticket data found."
 msgid "No valid OpenPGP data found."
 msgstr "ไม่พบข้อมูลตั๋ว"
 
@@ -26467,7 +26457,6 @@ msgstr ""
 
 #. SysConfig
 #, fuzzy
-#| msgid "Signature updated!"
 msgid "Signature data."
 msgstr "อัพเดตลายเซ็นแล้ว!"
 
@@ -26833,7 +26822,6 @@ msgstr "ภาษาไทย"
 
 #. SysConfig
 #, fuzzy
-#| msgid "The signature for email answers."
 msgid "The PGP signature is expired."
 msgstr "ลายเซ็นสำหรับอีเมลคำตอบ"
 
@@ -27035,7 +27023,6 @@ msgstr ""
 
 #. SysConfig
 #, fuzzy
-#| msgid "There is another field with the same name."
 msgid "This key is not certified with a trusted signature!"
 msgstr "มีฟิลด์อื่นที่มีชื่อเดียวกัน"
 

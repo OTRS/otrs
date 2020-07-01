@@ -2278,25 +2278,21 @@ msgstr "Kartica mijenjana između"
 
 #. Template: AdminGenericAgent
 #, fuzzy
-#| msgid "Close times"
 msgid "Last close times"
 msgstr "Vremena zatvaranja"
 
 #. Template: AdminGenericAgent
 #, fuzzy
-#| msgid "No close time settings."
 msgid "No last close time settings."
 msgstr "Nije postavljeno vrijeme zatvaranja."
 
 #. Template: AdminGenericAgent
 #, fuzzy
-#| msgid "Ticket closed"
 msgid "Ticket last close"
 msgstr "Kartica zatvorena"
 
 #. Template: AdminGenericAgent
 #, fuzzy
-#| msgid "Ticket closed between"
 msgid "Ticket last close between"
 msgstr "Kartica zatvorena između"
 
@@ -22293,7 +22289,6 @@ msgstr ""
 
 #. SysConfig
 #, fuzzy
-#| msgid "Add Signature"
 msgid "Good PGP signature."
 msgstr "Dodaj podnožje/potpis"
 
@@ -23501,13 +23496,11 @@ msgstr ""
 
 #. SysConfig
 #, fuzzy
-#| msgid "No ticket data found."
 msgid "No public key found."
 msgstr "Nisu nađeni podaci o kartici"
 
 #. SysConfig
 #, fuzzy
-#| msgid "No ticket data found."
 msgid "No valid OpenPGP data found."
 msgstr "Nisu nađeni podaci o kartici"
 
@@ -26021,7 +26014,6 @@ msgstr ""
 
 #. SysConfig
 #, fuzzy
-#| msgid "Signature"
 msgid "Signature data."
 msgstr "Potpis"
 
@@ -26387,7 +26379,6 @@ msgstr ""
 
 #. SysConfig
 #, fuzzy
-#| msgid "The signature for email answers."
 msgid "The PGP signature is expired."
 msgstr "Podnožje/potpis za odgovore E-pošte."
 

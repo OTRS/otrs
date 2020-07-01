@@ -2290,25 +2290,21 @@ msgstr "Tichet modificat între"
 
 #. Template: AdminGenericAgent
 #, fuzzy
-#| msgid "Last changed times"
 msgid "Last close times"
 msgstr "Momentele ultimei modificări"
 
 #. Template: AdminGenericAgent
 #, fuzzy
-#| msgid "No close time settings."
 msgid "No last close time settings."
 msgstr "Nu există setări pentru momentul închiderii."
 
 #. Template: AdminGenericAgent
 #, fuzzy
-#| msgid "Ticket closed"
 msgid "Ticket last close"
 msgstr "Tichet închis"
 
 #. Template: AdminGenericAgent
 #, fuzzy
-#| msgid "Ticket closed between"
 msgid "Ticket last close between"
 msgstr "Tichet închis între"
 
@@ -23532,13 +23528,11 @@ msgstr ""
 
 #. SysConfig
 #, fuzzy
-#| msgid "No matches found."
 msgid "No public key found."
 msgstr "Nu au fost găsite rezultate."
 
 #. SysConfig
 #, fuzzy
-#| msgid "No data found."
 msgid "No valid OpenPGP data found."
 msgstr "Nu au fost găsite date."
 
@@ -26027,7 +26021,6 @@ msgstr ""
 
 #. SysConfig
 #, fuzzy
-#| msgid "Signature updated!"
 msgid "Signature data."
 msgstr "Semnătură actualizată!"
 

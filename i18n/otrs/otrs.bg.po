@@ -2324,25 +2324,21 @@ msgstr "Билета е променен между"
 
 #. Template: AdminGenericAgent
 #, fuzzy
-#| msgid "Last changed times"
 msgid "Last close times"
 msgstr "Последно променени времена"
 
 #. Template: AdminGenericAgent
 #, fuzzy
-#| msgid "No close time settings."
 msgid "No last close time settings."
 msgstr "Няма затворени временни настройки."
 
 #. Template: AdminGenericAgent
 #, fuzzy
-#| msgid "Ticket closed"
 msgid "Ticket last close"
 msgstr "Билета и затворен."
 
 #. Template: AdminGenericAgent
 #, fuzzy
-#| msgid "Ticket closed between"
 msgid "Ticket last close between"
 msgstr "Билета е затворен между "
 
@@ -22388,7 +22384,6 @@ msgstr "Отидете в контролния панел."
 
 #. SysConfig
 #, fuzzy
-#| msgid "Add Signature"
 msgid "Good PGP signature."
 msgstr "Добавяне на подпис"
 
@@ -23596,13 +23591,11 @@ msgstr ""
 
 #. SysConfig
 #, fuzzy
-#| msgid "No matches found."
 msgid "No public key found."
 msgstr "Не бяха открити резултати."
 
 #. SysConfig
 #, fuzzy
-#| msgid "No data found."
 msgid "No valid OpenPGP data found."
 msgstr "Няма намерена информация"
 
@@ -26091,7 +26084,6 @@ msgstr ""
 
 #. SysConfig
 #, fuzzy
-#| msgid "Signature updated!"
 msgid "Signature data."
 msgstr "Подписа е обновен"
 
@@ -26457,7 +26449,6 @@ msgstr ""
 
 #. SysConfig
 #, fuzzy
-#| msgid "The signature for email answers."
 msgid "The PGP signature is expired."
 msgstr "Подписът за отговорите по еМейл"
 

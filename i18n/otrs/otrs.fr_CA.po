@@ -2274,25 +2274,21 @@ msgstr "Demandes modifiées entre le"
 
 #. Template: AdminGenericAgent
 #, fuzzy
-#| msgid "Close times"
 msgid "Last close times"
 msgstr "Date de fermeture "
 
 #. Template: AdminGenericAgent
 #, fuzzy
-#| msgid "No close time settings."
 msgid "No last close time settings."
 msgstr "Ne pas utiliser la date de fermeture des demandes."
 
 #. Template: AdminGenericAgent
 #, fuzzy
-#| msgid "Ticket closed"
 msgid "Ticket last close"
 msgstr "Demandes fermées"
 
 #. Template: AdminGenericAgent
 #, fuzzy
-#| msgid "Ticket closed between"
 msgid "Ticket last close between"
 msgstr "Demandes fermées entre le"
 
@@ -22994,7 +22990,6 @@ msgstr ""
 
 #. SysConfig
 #, fuzzy
-#| msgid "Add Signature"
 msgid "Good PGP signature."
 msgstr "Ajouter une signature"
 
@@ -24397,13 +24392,11 @@ msgstr ""
 
 #. SysConfig
 #, fuzzy
-#| msgid "No ticket data found."
 msgid "No public key found."
 msgstr "Aucune donnée relative à la demande n'a été trouvée."
 
 #. SysConfig
 #, fuzzy
-#| msgid "No ticket data found."
 msgid "No valid OpenPGP data found."
 msgstr "Aucune donnée relative à la demande n'a été trouvée."
 
@@ -27185,7 +27178,6 @@ msgstr ""
 
 #. SysConfig
 #, fuzzy
-#| msgid "Signature updated!"
 msgid "Signature data."
 msgstr "Signature mise à jour!"
 
@@ -27593,7 +27585,6 @@ msgstr ""
 
 #. SysConfig
 #, fuzzy
-#| msgid "The signature for email answers."
 msgid "The PGP signature is expired."
 msgstr "La signature des réponses par courriel."
 

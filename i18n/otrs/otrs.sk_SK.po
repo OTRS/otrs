@@ -2266,25 +2266,21 @@ msgstr ""
 
 #. Template: AdminGenericAgent
 #, fuzzy
-#| msgid "Close Time"
 msgid "Last close times"
 msgstr "Čas uzatvorenia"
 
 #. Template: AdminGenericAgent
 #, fuzzy
-#| msgid "No time settings"
 msgid "No last close time settings."
 msgstr "Bez nastavenia času"
 
 #. Template: AdminGenericAgent
 #, fuzzy
-#| msgid "Ticket Close Time"
 msgid "Ticket last close"
 msgstr "Čas uzatvorenia tiketu"
 
 #. Template: AdminGenericAgent
 #, fuzzy
-#| msgid "Ticket created between"
 msgid "Ticket last close between"
 msgstr "Pripomienka vytvorená medzi"
 
@@ -23417,13 +23413,11 @@ msgstr ""
 
 #. SysConfig
 #, fuzzy
-#| msgid "No ticket data found."
 msgid "No public key found."
 msgstr "Neboli nájdené žiadne dáta ticketu"
 
 #. SysConfig
 #, fuzzy
-#| msgid "No ticket data found."
 msgid "No valid OpenPGP data found."
 msgstr "Neboli nájdené žiadne dáta ticketu"
 
@@ -25911,7 +25905,6 @@ msgstr ""
 
 #. SysConfig
 #, fuzzy
-#| msgid "Signature updated!"
 msgid "Signature data."
 msgstr "Signatúra zaktualizovaná!"
 

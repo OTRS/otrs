@@ -2377,25 +2377,21 @@ msgstr "Ticket gewijzigd tussen"
 
 #. Template: AdminGenericAgent
 #, fuzzy
-#| msgid "Last changed times"
 msgid "Last close times"
 msgstr "Tijdstip van laatste wijziging"
 
 #. Template: AdminGenericAgent
 #, fuzzy
-#| msgid "No close time settings."
 msgid "No last close time settings."
 msgstr "Alle"
 
 #. Template: AdminGenericAgent
 #, fuzzy
-#| msgid "Ticket closed"
 msgid "Ticket last close"
 msgstr "Ticket gesloten"
 
 #. Template: AdminGenericAgent
 #, fuzzy
-#| msgid "Ticket closed between"
 msgid "Ticket last close between"
 msgstr "Ticket gesloten tussen"
 
@@ -22873,7 +22869,6 @@ msgstr "Ga naar het dashboard!"
 
 #. SysConfig
 #, fuzzy
-#| msgid "Add Signature"
 msgid "Good PGP signature."
 msgstr "Nieuwe handtekening"
 
@@ -24116,13 +24111,11 @@ msgstr ""
 
 #. SysConfig
 #, fuzzy
-#| msgid "No ticket data found."
 msgid "No public key found."
 msgstr "Geen tickets gevonden."
 
 #. SysConfig
 #, fuzzy
-#| msgid "No ticket data found."
 msgid "No valid OpenPGP data found."
 msgstr "Geen tickets gevonden."
 
@@ -26621,7 +26614,6 @@ msgstr ""
 
 #. SysConfig
 #, fuzzy
-#| msgid "Signature updated!"
 msgid "Signature data."
 msgstr "Handtekening bijgewerkt."
 
@@ -26987,7 +26979,6 @@ msgstr ""
 
 #. SysConfig
 #, fuzzy
-#| msgid "The signature for email answers."
 msgid "The PGP signature is expired."
 msgstr "De ondertekening voor beantwoording van berichten per e-mail."
 
@@ -27191,7 +27182,6 @@ msgstr ""
 
 #. SysConfig
 #, fuzzy
-#| msgid "There is another field with the same name."
 msgid "This key is not certified with a trusted signature!"
 msgstr "Er is een ander veld met dezelfde naam."
 

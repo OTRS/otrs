@@ -2297,25 +2297,21 @@ msgstr "Ticket modificado entre"
 
 #. Template: AdminGenericAgent
 #, fuzzy
-#| msgid "Close times"
 msgid "Last close times"
 msgstr "Tiempos de cierre"
 
 #. Template: AdminGenericAgent
 #, fuzzy
-#| msgid "No close time settings."
 msgid "No last close time settings."
 msgstr "No existen configuraciones para tiempo de cierre."
 
 #. Template: AdminGenericAgent
 #, fuzzy
-#| msgid "Ticket closed"
 msgid "Ticket last close"
 msgstr "Ticket cerrado"
 
 #. Template: AdminGenericAgent
 #, fuzzy
-#| msgid "Ticket closed between"
 msgid "Ticket last close between"
 msgstr "Ticket cerrado entre"
 
@@ -22885,7 +22881,6 @@ msgstr "Ir al tablero!"
 
 #. SysConfig
 #, fuzzy
-#| msgid "Add Signature"
 msgid "Good PGP signature."
 msgstr "Añadir Firma"
 
@@ -24266,13 +24261,11 @@ msgstr ""
 
 #. SysConfig
 #, fuzzy
-#| msgid "No ticket data found."
 msgid "No public key found."
 msgstr "No se encontraron datos de ticket."
 
 #. SysConfig
 #, fuzzy
-#| msgid "No ticket data found."
 msgid "No valid OpenPGP data found."
 msgstr "No se encontraron datos de ticket."
 
@@ -27059,7 +27052,6 @@ msgstr ""
 
 #. SysConfig
 #, fuzzy
-#| msgid "Signature updated!"
 msgid "Signature data."
 msgstr "Firma actualizada!"
 
@@ -27461,7 +27453,6 @@ msgstr ""
 
 #. SysConfig
 #, fuzzy
-#| msgid "The signature for email answers."
 msgid "The PGP signature is expired."
 msgstr "Firma para respuestas por correo."
 

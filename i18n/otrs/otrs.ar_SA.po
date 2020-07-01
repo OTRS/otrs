@@ -2238,7 +2238,6 @@ msgstr ""
 
 #. Template: AdminGenericAgent
 #, fuzzy
-#| msgid "Close Time"
 msgid "Last close times"
 msgstr "وقت إقفال البطاقة"
 
@@ -2248,13 +2247,11 @@ msgstr ""
 
 #. Template: AdminGenericAgent
 #, fuzzy
-#| msgid "Ticket created"
 msgid "Ticket last close"
 msgstr "البطاقة أنشئت"
 
 #. Template: AdminGenericAgent
 #, fuzzy
-#| msgid "Ticket created between"
 msgid "Ticket last close between"
 msgstr "البطاقة أنشئت بين"
 
@@ -25836,7 +25833,6 @@ msgstr ""
 
 #. SysConfig
 #, fuzzy
-#| msgid "Signature"
 msgid "Signature data."
 msgstr "التوقيع"
 

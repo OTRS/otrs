@@ -2282,25 +2282,21 @@ msgstr "Vé thay đổi giữa"
 
 #. Template: AdminGenericAgent
 #, fuzzy
-#| msgid "Last changed times"
 msgid "Last close times"
 msgstr "Lần đã thay đổi cuối cùng "
 
 #. Template: AdminGenericAgent
 #, fuzzy
-#| msgid "No close time settings."
 msgid "No last close time settings."
 msgstr "Không có cài đặt thời gian đóng ."
 
 #. Template: AdminGenericAgent
 #, fuzzy
-#| msgid "Ticket last changed"
 msgid "Ticket last close"
 msgstr "Vé đã thay đổi lần cuối"
 
 #. Template: AdminGenericAgent
 #, fuzzy
-#| msgid "Ticket last changed between"
 msgid "Ticket last close between"
 msgstr "Vé đã thay đổi cuối cùng giữa"
 
@@ -22213,7 +22209,6 @@ msgstr ""
 
 #. SysConfig
 #, fuzzy
-#| msgid "Add Signature"
 msgid "Good PGP signature."
 msgstr "Thêm chữ ký"
 
@@ -23421,13 +23416,11 @@ msgstr ""
 
 #. SysConfig
 #, fuzzy
-#| msgid "No matches found."
 msgid "No public key found."
 msgstr "Không tìm thấy những sự phù hợp"
 
 #. SysConfig
 #, fuzzy
-#| msgid "No data found."
 msgid "No valid OpenPGP data found."
 msgstr "Không tìm thấy dữ liệu."
 
@@ -25913,7 +25906,6 @@ msgstr ""
 
 #. SysConfig
 #, fuzzy
-#| msgid "Signature"
 msgid "Signature data."
 msgstr "Chữ ký"
 
@@ -26279,7 +26271,6 @@ msgstr ""
 
 #. SysConfig
 #, fuzzy
-#| msgid "The signature for email answers."
 msgid "The PGP signature is expired."
 msgstr "Chữ ký cho các email trả lời."
 
