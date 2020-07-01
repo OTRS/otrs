@@ -327,7 +327,7 @@ sub Data {
 
         # Template: AdminCommunicationLog
         'Communication Log' => 'Журнал сеансов связи',
-        'Time Range' => 'Временной Интервал',
+        'Time Range' => 'Интервал времени',
         'Show only communication logs created in specific time range.' =>
             'Показать записи журнала связи созданные в определенном промежутке времени.',
         'Filter for Communications' => 'Фильтр по сеансам связи',
@@ -335,7 +335,7 @@ sub Data {
         'In this screen you can see an overview about incoming and outgoing communications.' =>
             'На этом экране вы можете видеть обзор входящих и исходящих сеансах связи.',
         'You can change the sort and order of the columns by clicking on the column header.' =>
-            'Вы можете поменять сортировку и порядок колонок, кликнув по заголовку. ',
+            'Чтобы изменить сортировку или порядок столбцов, щёлкните мышью по заголовку столбцов.',
         'If you click on the different entries, you will get redirected to a detailed screen about the message.' =>
             'Кликая по различным записям, вы будете перенаправляться на экран подробного просмотра о сообщении.',
         'Status for: %s' => 'Состояние: %s',
@@ -1144,7 +1144,7 @@ sub Data {
             '',
 
         # Template: AdminGenericInterfaceWebservice
-        'Add Web Service' => 'Добавить Веб-сервис',
+        'Add Web Service' => 'Добавить веб-сервис',
         'Edit Web Service' => 'Редактировать Веб-сервис',
         'Clone Web Service' => 'Клонировать Веб-сервис.',
         'The name must be unique.' => 'Имя должно быть уникальным',
@@ -1243,19 +1243,19 @@ sub Data {
             'Если ваша учётная запись помечена как доверенная, все уже существующие в письмах на момент получения заголовки X-OTRS (для выставления приоритета и прочих данных) будут приняты и использованы, например в фильтрах PostMaster.',
         'Outgoing email can be configured via the Sendmail* settings in %s.' =>
             'Исходящая почта может быть настроена через параметр Sendmail* в %s.',
-        'System Configuration' => 'Настройка Системы',
+        'System Configuration' => 'Настройка системы',
         'Host' => 'Сервер',
-        'Delete account' => 'Удалить учетную запись',
+        'Delete account' => 'Удалить учётную запись',
         'Fetch mail' => 'Забрать почту',
-        'Do you really want to delete this mail account?' => 'Вы действительно желаете удалить этот почтовый аккаунт?',
+        'Do you really want to delete this mail account?' => 'Действительно удалить эту почтовую учётную запись?',
         'Password' => 'Пароль',
         'Example: mail.example.com' => 'Пример: mail.example.com',
         'IMAP Folder' => 'Папка IMAP',
         'Only modify this if you need to fetch mail from a different folder than INBOX.' =>
-            'Изменение здесь требуется только в случае необходимости забирать почту из другой папки, не из INBOX.',
+            'Измените только в том случае, если нужно забирать почту из папки, отличной от INBOX.',
         'Trusted' => 'Доверенная',
         'Dispatching' => 'Перенаправление',
-        'Edit Mail Account' => 'Изменить почтовую учетную запись',
+        'Edit Mail Account' => 'Изменить почтовую учётную запись',
 
         # Template: AdminNavigationBar
         'Administration Overview' => 'Панель администратора',
@@ -1706,7 +1706,7 @@ sub Data {
 
         # Template: AdminQueue
         'Queue Management' => 'Управление Очередями',
-        'Add Queue' => 'Добавить Очередь',
+        'Add Queue' => 'Добавить очередь',
         'Edit Queue' => 'Изменить очередь',
         'Filter for Queues' => 'Фильтр для Очередей',
         'Filter for queues' => 'Фильтр для Очередей',
@@ -1968,7 +1968,7 @@ sub Data {
 
         # Template: AdminService
         'Service Management' => 'Управление сервисами',
-        'Add Service' => 'Добавить Сервис',
+        'Add Service' => 'Добавить сервис',
         'Edit Service' => 'Изменить Сервис',
         'Service name maximum length is 200 characters (with Sub-service).' =>
             'Максимальная длина названия сервиса 200 символов (с подсервисами).',
@@ -3610,7 +3610,7 @@ sub Data {
         '45 seconds' => '45 секунд',
         '1 minute' => '1 минута',
         '2 minutes' => '2 минуты',
-        '3 minutes' => ' 3 минуты',
+        '3 minutes' => '3 минуты',
         '4 minutes' => '4 минуты',
         '5 minutes' => '5 минут',
         '10 minutes' => '10 минут',
@@ -5382,7 +5382,7 @@ sub Data {
         # Perl Module: Kernel/System/Web/InterfaceInstaller.pm
         'Action "%s" not found!' => 'Действие  "%s" не найдено!',
 
-        # Database XML Definition: scripts/database/otrs-initial_insert.xml
+        # Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
         'invalid-temporarily' => 'временно недействительный',
         'Group for default access.' => 'Группа доступа по умолчанию.',
         'Group of all administrators.' => 'Группа для всех администраторов.',
@@ -5940,7 +5940,7 @@ Thanks for your help!
         '200 (Advanced)' => '200 (Продвинутый)',
         '30 Minutes' => '30 минут',
         '300 (Beginner)' => '300 (Начинающий)',
-        '5 Minutes' => ' 5 минут',
+        '5 Minutes' => '5 минут',
         'A TicketWatcher Module.' => 'Модуль TicketWatcher.',
         'A Website' => 'Веб сайт',
         'A list of dynamic fields that are merged into the main ticket during a merge operation. Only dynamic fields that are empty in the main ticket will be set.' =>

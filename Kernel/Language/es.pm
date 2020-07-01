@@ -2629,7 +2629,7 @@ sub Data {
         'Get all' => 'Obtener todo',
 
         # Template: AgentTicketEmailOutbound
-        'Outbound Email for %s%s%s' => 'Email de Salida para %s%s',
+        'Outbound Email for %s%s%s' => 'Email de Salida para %s%s%s',
 
         # Template: AgentTicketEmailResend
         'Resend Email for %s%s%s' => '',
@@ -5377,7 +5377,7 @@ sub Data {
         # Perl Module: Kernel/System/Web/InterfaceInstaller.pm
         'Action "%s" not found!' => '¡Acción "% s" no encontrada!',
 
-        # Database XML Definition: scripts/database/otrs-initial_insert.xml
+        # Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
         'invalid-temporarily' => 'temporalmente-no-válido',
         'Group for default access.' => 'Grupo para acceso por defecto.',
         'Group of all administrators.' => 'Grupo de todos los administradores.',

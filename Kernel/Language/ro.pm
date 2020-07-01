@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.264138164578395;
+    $Self->{Completeness}        = 0.264307483914663;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -76,7 +76,7 @@ sub Data {
         'Change settings' => 'Schimbă configurarea',
         'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is a white list, \'PossibleNot\' a black list.' =>
             '',
-        'Check the official %sdocumentation%s.' => '',
+        'Check the official %sdocumentation%s.' => 'Verifică documentațiile oficiale.',
         'Show or hide the content' => 'Prezintă sau ascunde conținutul',
         'Edit ACL Information' => 'Editează informații despre ACL',
         'Name' => 'Nume',
@@ -5371,7 +5371,7 @@ sub Data {
         # Perl Module: Kernel/System/Web/InterfaceInstaller.pm
         'Action "%s" not found!' => '',
 
-        # Database XML Definition: scripts/database/otrs-initial_insert.xml
+        # Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
         'invalid-temporarily' => 'invalid-temporar',
         'Group for default access.' => '',
         'Group of all administrators.' => '',

@@ -1,6 +1,7 @@
 # 6.0.30 ????-??-??
 
 # 6.0.29 2020-07-20
+ - 2020-07-01 Updated translations, thanks to all translators.
  - 2020-06-30 Updated Mozilla's CA certificate bundle.
  - 2020-06-29 Improved session handling.
  - 2020-05-28 Changed shebang command line of Perl scripts from `/usr/bin/perl` (which hardcodes the system Perl) to `/usr/bin/env perl` (which uses the first found Perl from the $PATH). This should not cause any changes on systems where there is only one Perl installed, but more predictable behavior on systems which have an additional "custom" Perl installed.

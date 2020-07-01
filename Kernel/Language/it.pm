@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.660176092109719;
+    $Self->{Completeness}        = 0.678123941754148;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -350,7 +350,7 @@ sub Data {
         'No active communications' => 'Nessuna comunicazione attiva',
         'Number of open communications: %s' => 'Numero di comunicazioni aperte: %s',
         'Average processing time' => 'Tempo medio di elaborazione',
-        'List of communications (%s)' => ' Elenco delle comunicazioni (%s)',
+        'List of communications (%s)' => 'Elenco delle comunicazioni (%s)',
         'Settings' => 'Impostazioni',
         'Entries per page' => 'Voci per pagina',
         'No communications found.' => 'Nessuna comunicazione trovata.',
@@ -372,7 +372,7 @@ sub Data {
         'Direction' => 'Direzione',
         'Start Time' => 'Istante di Inizio',
         'End Time' => 'Orario di termine',
-        'No communication log entries found.' => ' Nessuna voce del registro di comunicazione trovata.',
+        'No communication log entries found.' => 'Nessuna voce del registro di comunicazione trovata.',
 
         # Template: AdminCommunicationLogCommunications
         'Duration' => 'Durata',
@@ -386,7 +386,7 @@ sub Data {
 
         # Template: AdminCommunicationLogZoom
         'Detail view for %s communication started at %s' => 'Vista dettagliata per %s la comunicazione iniziata alle %s',
-        'Filter for Log Entries' => ' Filtro per voci di registro',
+        'Filter for Log Entries' => 'Filtro per voci di registro',
         'Filter for log entries' => 'Filtro per il log',
         'Show only entries with specific priority and higher:' => 'Mostrare solo le voci con priorità specifica e superiore:',
         'Communication Log Overview (%s)' => 'Panoramica del registro di comunicazione (%s)',
@@ -452,7 +452,7 @@ sub Data {
         'Login as' => 'Accedi come',
         'Switch to customer' => 'Impersona il cliente',
         'This customer backend is read only, but the customer user preferences can be changed!' =>
-            'Questo backend clienti è in sola lettura, ma è possibile cambiare le preferenze dell’utenza cliente.',
+            'Questo backend clienti è in sola lettura, ma è possibile cambiare le preferenze dell’utenza cliente!',
         'This field is required and needs to be a valid email address.' =>
             'Questo campo è obbligatorio e deve contenere un indirizzo email valido.',
         'This email address is not allowed due to the system configuration.' =>
@@ -461,7 +461,7 @@ sub Data {
         'DNS problem, please check your configuration and the error log.' =>
             'Problema con il DNS, verifica la tua configurazione e il log degli errori.',
         'The syntax of this email address is incorrect.' => 'La sintassi di questa email è errata.',
-        'This CustomerID is invalid.' => 'Questo CustomerID è  invalido',
+        'This CustomerID is invalid.' => 'Questo CustomerID è invalido',
         'Effective Permissions for Customer User' => 'Permessi effettivi per utenza cliente',
         'Group Permissions' => 'Permessi di gruppo',
         'This customer user has no group permissions.' => 'Questa utenza cliente non ha permessi di gruppo.',
@@ -697,10 +697,10 @@ sub Data {
         'No change time settings.' => 'Nessuna modifica tempo.',
         'Ticket changed' => 'Ticket cambiato',
         'Ticket changed between' => 'Ticket cambiato fra',
-        'Last close times' => '',
-        'No last close time settings.' => '',
-        'Ticket last close' => '',
-        'Ticket last close between' => '',
+        'Last close times' => 'Ultimi tempi di chiusura',
+        'No last close time settings.' => 'Nessuna ultima impostazione di chiusura.',
+        'Ticket last close' => 'Ultima chiusura del ticket',
+        'Ticket last close between' => 'Ultima chiusura del ticket tra',
         'Close times' => 'Tempi di chiusura',
         'No close time settings.' => 'Nessuna data di chiusura.',
         'Ticket closed' => 'Ticket chiusi',
@@ -717,11 +717,11 @@ sub Data {
         'Ticket first response time reached' => 'Tempo di prima risposta superato',
         'Ticket first response time reached between' => 'Tempo di prima risposta superato fra',
         'Escalation - update time' => 'Escalation - Aggiornamento',
-        'Ticket update time reached' => 'Tempo di gestione - Aggiorna scaduto ',
+        'Ticket update time reached' => 'Tempo di gestione - Aggiorna scaduto',
         'Ticket update time reached between' => 'Tempo di gestione - Aggiorna scaduto fra',
         'Escalation - solution time' => 'Escalation - Soluzione',
         'Ticket solution time reached' => 'Tempo per soluzione scaduto',
-        'Ticket solution time reached between' => 'Tempo per soluzione scaduto fra ',
+        'Ticket solution time reached between' => 'Tempo per soluzione scaduto fra',
         'Archive search option' => 'Opzione di ricerca in archivio',
         'Update/Add Ticket Attributes' => 'Aggiorna/Aggiungi attributi ticket',
         'Set new service' => 'Imposta nuovo servizio',
@@ -849,9 +849,9 @@ sub Data {
             'Nota: questo e tutti gli altri intervalli di tentativi si basano sul tempo di esecuzione del modulo di gestione degli errori per la richiesta iniziale.',
         'Factor for further retries' => 'Fattore per ulteriori tentativi',
         'If a request returns an error even after a first retry, define if subsequent retries are triggered using the same interval or in increasing intervals.' =>
-            'Se una richiesta restituisce un errore anche dopo un primo tentativo, definire se i tentativi successivi vengono attivati ​​utilizzando lo stesso intervallo o in intervalli crescenti.',
+            'Se una richiesta restituisce un errore anche dopo un primo tentativo, definire se i tentativi successivi vengono attivati utilizzando lo stesso intervallo o in intervalli crescenti.',
         'Example: If a request is initially triggered at 10:00 with initial interval at \'1 minute\' and retry factor at \'2\', retries would be triggered at 10:01 (1 minute), 10:03 (2*1=2 minutes), 10:07 (2*2=4 minutes), 10:15 (2*4=8 minutes), ...' =>
-            'Esempio: se una richiesta viene inizialmente attivata alle 10:00 con intervallo iniziale a \'1 minuto\' e fattore di ripetizione a \'2\', i tentativi verranno attivati ​​alle 10:01 (1 minuto), 10:03 (2*1 = 2 minuti), 10:07 (2*2 = 4 minuti), 10:15 (2*4 = 8 minuti), ...',
+            'Esempio: se una richiesta viene inizialmente attivata alle 10:00 con intervallo iniziale a \'1 minuto\' e fattore di ripetizione a \'2\', i tentativi verranno attivati alle 10:01 (1 minuto), 10:03 (2*1 = 2 minuti), 10:07 (2*2 = 4 minuti), 10:15 (2*4 = 8 minuti), ...',
         'Maximum retry interval' => 'Intervallo massimo di tentativi',
         'If a retry interval factor of \'1.5\' or \'2\' is selected, undesirably long intervals can be prevented by defining the largest interval allowed.' =>
             'Se si seleziona un fattore di intervallo di tentativi di \'1,5\' o \'2\', è possibile impedire intervalli indesiderabili lunghi definendo l\'intervallo massimo consentito.',
@@ -933,7 +933,7 @@ sub Data {
         'This rule will apply for all values with no mapping rule.' => 'Questa regola sarà applicata per tutti i valori senza regole specifiche di mapping',
         'New key map' => 'Nuova mappatura chiavi',
         'Add key mapping' => 'Aggiungi mappatura chiavi',
-        'Mapping for Key ' => 'Mappatura per la chiave',
+        'Mapping for Key ' => 'Mappatura per la chiave ',
         'Remove key mapping' => 'Rimuovere mappatura chiave',
         'Key mapping' => 'Mappatura chiave',
         'Map key' => 'Chiave Sorgente',
@@ -1228,7 +1228,7 @@ sub Data {
         'Message' => 'Messaggio',
 
         # Template: AdminMailAccount
-        'Mail Account Management' => 'Gestione Credenziali Mail ',
+        'Mail Account Management' => 'Gestione Credenziali Mail',
         'Add Mail Account' => 'Aggiungi account di posta',
         'Edit Mail Account for host' => 'Modifica account di posta per host',
         'and user account' => 'e account utente',
@@ -1291,7 +1291,7 @@ sub Data {
             'Questo campo è obbligatorio e deve contenere meno di 4000 caratteri.',
         'Notifications are sent to an agent or a customer.' => 'Le notifiche sono inviate ad un agente o a un cliente.',
         'To get the first 20 character of the subject (of the latest agent article).' =>
-            'Per avere i primi 20 caratteri mail - subject (agent) ',
+            'Per avere i primi 20 caratteri mail - subject (agent)',
         'To get the first 5 lines of the body (of the latest agent article).' =>
             'Per avere le prime 5 righe del corpo messaggio (dell\'ultimo articolo dell\'agente).',
         'To get the first 20 character of the subject (of the latest customer article).' =>
@@ -1455,7 +1455,7 @@ sub Data {
         'This package is verified by OTRSverify (tm)' => 'Questo pacchetto è verificato da OTRSverify (tm)',
         'Uninstall' => 'Disinstalla',
         'Package not correctly deployed! Please reinstall the package.' =>
-            'Estensione non installata correttamente! Reinstalla il pacchetto!',
+            'Estensione non installata correttamente! Reinstallare il pacchetto.',
         'Reinstall' => 'Re-installa',
         'Features for %s customers only' => 'Funzionalità solo per i clienti %s',
         'With %s, you can benefit from the following optional features. Please make contact with %s if you need more information.' =>
@@ -1481,12 +1481,12 @@ sub Data {
         'Performance Log' => 'Log delle Performance',
         'Range' => 'Intervallo',
         'last' => 'ultimo',
-        'This feature is enabled!' => 'Funzione abilitata',
-        'Just use this feature if you want to log each request.' => 'Usa questa funzionalità per tracciare ogni richiesta.',
+        'This feature is enabled!' => 'Questa funzione è abilitata!',
+        'Just use this feature if you want to log each request.' => 'Usa questa funzione solo se vuoi registrare ogni richiesta.',
         'Activating this feature might affect your system performance!' =>
-            'L\'attivazione di questa funzionalità può ridurre le prestazioni del sistema.',
-        'Disable it here!' => 'Disabilita funzione qui',
-        'Logfile too large!' => 'Log File troppo grande ',
+            'L\'attivazione di questa funzionalità può ridurre le prestazioni del sistema!',
+        'Disable it here!' => 'Disabilitalo qui!',
+        'Logfile too large!' => 'Log File troppo grande!',
         'The logfile is too large, you need to reset it' => 'Il file di log è troppo grande, è necessario un reset del file',
         'Reset' => 'Ripristina',
         'Overview' => 'Vista Globale',
@@ -1581,7 +1581,7 @@ sub Data {
             'Puoi ordinare gli elementi dell\'elenco anche attraverso il trascinamento.',
         'Filter available Activity Dialogs' => 'Imposta un filtro alle interazioni delle attività disponibili.',
         'Available Activity Dialogs' => 'Interazioni dell\'attività disponibili',
-        'Name: %s, EntityID: %s' => 'Nome: %s, EntityID:  %s',
+        'Name: %s, EntityID: %s' => 'Nome: %s, EntityID: %s',
         'Create New Activity Dialog' => 'Crea una nuova interazione per l\'attività',
         'Assigned Activity Dialogs' => 'Interazioni per l\'attività assegnati',
 
@@ -1889,7 +1889,7 @@ sub Data {
         'Please write only numbers!' => 'Usa solo numeri!',
 
         # Template: AdminSMIME
-        'S/MIME Management' => 'Gestione S/MIME ',
+        'S/MIME Management' => 'Gestione S/MIME',
         'Add Certificate' => 'Aggiungi certificato',
         'Add Private Key' => 'Aggiunti chiave privata',
         'SMIME support is disabled' => 'Il supporto SMIME è disabilitato',
@@ -1945,7 +1945,7 @@ sub Data {
             'Se non è attivata la modalità sicura, attivarla tramite SySConfig perché il programma è già in esecuzione.',
 
         # Template: AdminSelectBox
-        'SQL Box' => 'script SQL ',
+        'SQL Box' => 'script SQL',
         'Filter for Results' => 'Filtro per risultati',
         'Filter for results' => 'Filtra per risultati',
         'Here you can enter SQL to send it directly to the application database. It is not possible to change the content of the tables, only select queries are allowed.' =>
@@ -2172,13 +2172,13 @@ sub Data {
         'A standard template with this name already exists!' => 'Un modello standard con questo nome esiste già!',
         'Template' => 'Modello',
         'To get the first 20 characters of the subject of the current/latest agent article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
-            '',
+            'Per ottenere i primi 20 caratteri dell\'oggetto dell\'articolo agente corrente / più recente (corrente per risposta e inoltro, ultima per tipo di modello Nota). Questo tag non è supportato per altri tipi di modello.',
         'To get the first 5 lines of the body of the current/latest agent article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
-            '',
+            'Per ottenere le prime 5 righe del corpo dell\'articolo agente attuale / più recente (corrente per risposta e inoltro, ultima per tipo di modello Nota). Questo tag non è supportato per altri tipi di modello.',
         'To get the first 20 characters of the subject of the current/latest article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
-            '',
+            'Per ottenere i primi 20 caratteri dell\'oggetto dell\'articolo corrente / più recente (corrente per risposta e inoltro, ultima per il tipo di modello Nota). Questo tag non è supportato per altri tipi di modello.',
         'To get the first 5 lines of the body of the current/latest article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
-            '',
+            'Per ottenere le prime 5 righe del corpo dell\'articolo corrente / più recente (corrente per Risposta e Inoltra, ultima per il tipo di modello Nota). Questo tag non è supportato per altri tipi di modello.',
         'Create type templates only supports this smart tags' => 'Crea modelli di tipi supporta solo questi smart tag',
         'Example template' => 'Modello di esempio',
         'The current ticket state is' => 'Lo stato attuale del ticket è',
@@ -2585,7 +2585,7 @@ sub Data {
             'È necessario un indirizzo email valido o non usare un indirizzo email locale.',
         'Next ticket state' => 'Stato successivo del ticket',
         'Inform sender' => 'Informa il mittente',
-        'Send mail' => 'Invia messaggio!',
+        'Send mail' => 'Invia messaggio',
 
         # Template: AgentTicketBulk
         'Ticket Bulk Action' => 'Azioni multiple',
@@ -2848,7 +2848,7 @@ sub Data {
         # Template: CustomerError
         'An Error Occurred' => 'Si è verificato un errore',
         'Error Details' => 'Dettagli dell\'errore',
-        'Traceback' => 'Dettaglio della tracciatura ',
+        'Traceback' => 'Dettaglio della tracciatura',
 
         # Template: CustomerFooter
         '%s powered by %s™' => '%s offerto da %s™',
@@ -2902,7 +2902,7 @@ sub Data {
         # Template: CustomerTicketOverview
         'Welcome!' => 'Benvenuto!',
         'Please click the button below to create your first ticket.' => 'Usa il pulsante qui sotto per creare il tuo primo ticket.',
-        'Create your first ticket' => 'Crea il tuo primo ticket!',
+        'Create your first ticket' => 'Crea il tuo primo ticket',
 
         # Template: CustomerTicketSearch
         'Profile' => 'Profilo',
@@ -3026,7 +3026,7 @@ sub Data {
         # Template: InstallerDBResult
         'Done' => 'Fatto',
         'Error' => 'Errore',
-        'Database setup successful!' => 'Configurazione database terminata con successo',
+        'Database setup successful!' => 'Configurazione database terminata con successo!',
 
         # Template: InstallerDBStart
         'Install Type' => 'Tipo di installazione',
@@ -3190,7 +3190,7 @@ sub Data {
 
         # Template: RestrictionsWidget
         'Please select only one element or turn off the button \'Fixed\'.' =>
-            'Seleziona solo un elemento e togli  \'Fisso\'. ',
+            'Seleziona solo un elemento e togli \'Fisso\'.',
         'Absolute period' => 'Periodo assoluto',
         'Between %s and %s' => 'Tra %s e %s',
         'Relative period' => 'Periodo relativo',
@@ -3267,7 +3267,7 @@ sub Data {
 
         # Template: Actions
         'Edit search' => 'Modifica ricerca',
-        'Go back to admin: ' => 'Torna all\'amministratore:',
+        'Go back to admin: ' => 'Torna all\'amministratore: ',
         'Deployment' => 'Attivazione',
         'My favourite settings' => 'Le mie impostazioni preferite',
         'Invalid settings' => 'Impostazioni non valide',
@@ -3558,8 +3558,8 @@ sub Data {
         'minute(s)' => 'minuto(i)',
         'hour(s)' => 'ora(e)',
         'Time unit' => 'Unità di tempo',
-        'within the last ...' => 'negli ultimi ... ',
-        'within the next ...' => 'nei prossimi ... ',
+        'within the last ...' => 'negli ultimi ...',
+        'within the next ...' => 'nei prossimi ...',
         'more than ... ago' => 'più di ...',
         'Unarchived tickets' => 'Ticket non archiviati',
         'archive tickets' => 'ticket d\'archivio',
@@ -3630,7 +3630,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerDefault.pm
         'Could not determine config for invoker %s' => 'Impossibile determinare la configurazione per invoker %s',
-        'InvokerType %s is not registered' => 'InvokerType  %s non è registrato',
+        'InvokerType %s is not registered' => 'InvokerType %s non è registrato',
         'MappingType %s is not registered' => 'MappingType %s non è registrato',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
@@ -3775,18 +3775,18 @@ sub Data {
         'The package needs to be reinstalled' => 'Il pacchetto deve essere reinstallato',
         'The package contains cyclic dependencies' => 'Il pacchetto contiene dipendenze cicliche',
         'Not found in on-line repositories' => 'Non trovato nelle repository on-line',
-        'Required version is higher than available' => '',
-        'Dependencies fail to upgrade or install' => '',
-        'Package could not be installed' => '',
-        'Package could not be upgraded' => '',
-        'Repository List' => '',
+        'Required version is higher than available' => 'La versione richiesta è superiore a quella disponibile',
+        'Dependencies fail to upgrade or install' => 'Le dipendenze non riescono ad aggiornare o installare',
+        'Package could not be installed' => 'Impossibile installare il pacchetto',
+        'Package could not be upgraded' => 'Impossibile aggiornare il pacchetto',
+        'Repository List' => 'Elenco dei repository',
         'No packages found in selected repository. Please check log for more info!' =>
-            '',
+            'Nessun pacchetto trovato nel repository selezionato. Si prega di controllare il registro per maggiori informazioni!',
         'Package not verified due a communication issue with verification server!' =>
-            '',
-        'Can\'t connect to OTRS Feature Add-on list server!' => '',
-        'Can\'t get OTRS Feature Add-on list from server!' => '',
-        'Can\'t get OTRS Feature Add-on from server!' => '',
+            'Pacchetto non verificato a causa di un problema di comunicazione con il server di verifica!',
+        'Can\'t connect to OTRS Feature Add-on list server!' => 'Impossibile connettersi al server elenco componenti aggiuntivi OTRS!',
+        'Can\'t get OTRS Feature Add-on list from server!' => 'Impossibile ottenere l\'elenco dei componenti aggiuntivi OTRS dal server!',
+        'Can\'t get OTRS Feature Add-on from server!' => 'Impossibile ottenere il componente aggiuntivo OTRS dal server!',
 
         # Perl Module: Kernel/Modules/AdminPostMasterFilter.pm
         'No such filter: %s' => 'Nessun filtro: %s',
@@ -3797,96 +3797,96 @@ sub Data {
         # Perl Module: Kernel/Modules/AdminProcessManagement.pm
         'Process Management information from database is not in sync with the system configuration, please synchronize all processes.' =>
             'Le informazioni di Process Management del database non sono sincronizzate con la configurazione di sistema, sincronizza tutti i processi.',
-        'Need ExampleProcesses!' => '',
-        'Need ProcessID!' => '',
+        'Need ExampleProcesses!' => 'Un esempio Processo è necessario!',
+        'Need ProcessID!' => 'Il ProcessID è necessario!',
         'Yes (mandatory)' => 'Sì (obbligatorio)',
         'Unknown Process %s!' => 'Processo %s sconosciuto!',
         'There was an error generating a new EntityID for this Process' =>
-            '',
-        'The StateEntityID for state Inactive does not exists' => '',
-        'There was an error creating the Process' => '',
+            'Si è verificato un errore durante la generazione di un nuovo EntityID per questo processo',
+        'The StateEntityID for state Inactive does not exists' => 'StateEntityID per stato Inattivo non esiste',
+        'There was an error creating the Process' => 'Si è verificato un errore durante la creazione del processo',
         'There was an error setting the entity sync status for Process entity: %s' =>
-            '',
-        'Could not get data for ProcessID %s' => '',
-        'There was an error updating the Process' => '',
-        'Process: %s could not be deleted' => '',
-        'There was an error synchronizing the processes.' => '',
-        'The %s:%s is still in use' => '',
-        'The %s:%s has a different EntityID' => '',
+            'Si è verificato un errore durante l\'impostazione dello stato di sincronizzazione dell\'entità per Processo entity: %s',
+        'Could not get data for ProcessID %s' => 'Impossibile ottenere i dati per ProcessID %s',
+        'There was an error updating the Process' => 'Si è verificato un errore durante l\'aggiornamento del processo',
+        'Process: %s could not be deleted' => 'Il processo: %s non può essere cancellato',
+        'There was an error synchronizing the processes.' => 'Si è verificato un errore durante la sincronizzazione dei processi.',
+        'The %s:%s is still in use' => '%s:%s è ancora in uso',
+        'The %s:%s has a different EntityID' => '%s:%s ha un EntityID diverso',
         'Could not delete %s:%s' => 'Impossibile eliminare %s:%s',
         'There was an error setting the entity sync status for %s entity: %s' =>
-            '',
+            'Si è verificato un errore durante l\'impostazione dello stato di sincronizzazione dell\'entità %s entity: %s',
         'Could not get %s' => 'Impossibile ottenere %s',
         'Need %s!' => '%s richiesto!',
-        'Process: %s is not Inactive' => '',
+        'Process: %s is not Inactive' => 'il processo: %s non è attivo',
 
         # Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
         'There was an error generating a new EntityID for this Activity' =>
-            '',
-        'There was an error creating the Activity' => '',
+            'Si è verificato un errore durante la generazione di un nuovo EntityID per questa attività',
+        'There was an error creating the Activity' => 'Si è verificato un errore durante la creazione dell\'attività',
         'There was an error setting the entity sync status for Activity entity: %s' =>
-            '',
-        'Need ActivityID!' => '',
-        'Could not get data for ActivityID %s' => '',
-        'There was an error updating the Activity' => '',
-        'Missing Parameter: Need Activity and ActivityDialog!' => '',
+            'Si è verificato un errore durante l\'impostazione dello stato di sincronizzazione dell\'entità per l\'entità Attività: %s',
+        'Need ActivityID!' => 'ActivityID necessario!',
+        'Could not get data for ActivityID %s' => 'Impossibile ottenere i dati per ActivityID %s',
+        'There was an error updating the Activity' => 'Si è verificato un errore durante l\'aggiornamento dell\'attività',
+        'Missing Parameter: Need Activity and ActivityDialog!' => 'Parametro mancante: Need Activity e ActivityDialog!',
         'Activity not found!' => 'Attività non trovata!',
-        'ActivityDialog not found!' => '',
+        'ActivityDialog not found!' => 'ActivityDialog non trovato!',
         'ActivityDialog already assigned to Activity. You cannot add an ActivityDialog twice!' =>
-            '',
-        'Error while saving the Activity to the database!' => '',
-        'This subaction is not valid' => '',
-        'Edit Activity "%s"' => '',
+            'ActivityDialog già assegnato ad Activity. Non è possibile aggiungere un ActivityDialog due volte!',
+        'Error while saving the Activity to the database!' => 'Errore durante il salvataggio dell\'attività nel database!',
+        'This subaction is not valid' => 'Questa azione secondaria non è valida',
+        'Edit Activity "%s"' => 'Modifica attività "%s"',
 
         # Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
         'There was an error generating a new EntityID for this ActivityDialog' =>
-            '',
-        'There was an error creating the ActivityDialog' => '',
+            'Si è verificato un errore durante la generazione di un nuovo EntityID per questo ActivityDialog',
+        'There was an error creating the ActivityDialog' => 'Si è verificato un errore durante la creazione di ActivityDialog',
         'There was an error setting the entity sync status for ActivityDialog entity: %s' =>
-            '',
-        'Need ActivityDialogID!' => '',
-        'Could not get data for ActivityDialogID %s' => '',
-        'There was an error updating the ActivityDialog' => '',
-        'Edit Activity Dialog "%s"' => '',
-        'Agent Interface' => '',
+            'Si è verificato un errore durante l\'impostazione dello stato di sincronizzazione dell\'entità per l\'entità ActivityDialog: %s',
+        'Need ActivityDialogID!' => 'ActivityDialogID necessario!',
+        'Could not get data for ActivityDialogID %s' => 'Impossibile ottenere i dati per ActivityDialogID %s',
+        'There was an error updating the ActivityDialog' => 'Si è verificato un errore durante l\'aggiornamento di ActivityDialog',
+        'Edit Activity Dialog "%s"' => 'Finestra di dialogo Modifica attività "%s"',
+        'Agent Interface' => 'Interfaccia utenti interni',
         'Customer Interface' => 'Interfaccia clienti',
-        'Agent and Customer Interface' => 'Interfaccia agenti e clienti',
-        'Do not show Field' => '',
+        'Agent and Customer Interface' => 'Interfaccia utenti interni e clienti',
+        'Do not show Field' => 'Non mostrare il campo',
         'Show Field' => 'Mostra campo',
-        'Show Field As Mandatory' => '',
+        'Show Field As Mandatory' => 'Mostra campo come obbligatorio',
 
         # Perl Module: Kernel/Modules/AdminProcessManagementPath.pm
         'Edit Path' => 'Modifica percorso',
 
         # Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
         'There was an error generating a new EntityID for this Transition' =>
-            '',
-        'There was an error creating the Transition' => '',
+            'Si è verificato un errore durante la generazione di un nuovo EntityID per questa transizione',
+        'There was an error creating the Transition' => 'Si è verificato un errore durante la creazione della transizione',
         'There was an error setting the entity sync status for Transition entity: %s' =>
-            '',
-        'Need TransitionID!' => '',
-        'Could not get data for TransitionID %s' => '',
-        'There was an error updating the Transition' => '',
+            'Si è verificato un errore durante l\'impostazione dello stato di sincronizzazione dell\'entità per l\'entità di transizione: %s',
+        'Need TransitionID!' => 'TransitionID necessario!',
+        'Could not get data for TransitionID %s' => 'Impossibile ottenere i dati per TransitionID %s',
+        'There was an error updating the Transition' => 'Si è verificato un errore durante l\'aggiornamento della transizione',
         'Edit Transition "%s"' => 'Modifica transizione "%s"',
-        'Transition validation module' => '',
+        'Transition validation module' => 'Modulo di validazione della transizione',
 
         # Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
-        'At least one valid config parameter is required.' => '',
+        'At least one valid config parameter is required.' => 'È richiesto almeno un parametro di configurazione valido.',
         'There was an error generating a new EntityID for this TransitionAction' =>
-            '',
-        'There was an error creating the TransitionAction' => '',
+            'Si è verificato un errore durante la generazione di un nuovo EntityID per questa TransitionAction',
+        'There was an error creating the TransitionAction' => 'Si è verificato un errore durante la creazione di TransitionAction',
         'There was an error setting the entity sync status for TransitionAction entity: %s' =>
-            '',
-        'Need TransitionActionID!' => '',
-        'Could not get data for TransitionActionID %s' => '',
-        'There was an error updating the TransitionAction' => '',
-        'Edit Transition Action "%s"' => '',
-        'Error: Not all keys seem to have values or vice versa.' => '',
+            'Si è verificato un errore durante l\'impostazione dello stato di sincronizzazione dell\'entità per l\'entità TransitionAction: %s',
+        'Need TransitionActionID!' => 'TransitionActionID necessario!',
+        'Could not get data for TransitionActionID %s' => 'Impossibile ottenere i dati per TransitionActionID %s',
+        'There was an error updating the TransitionAction' => 'Si è verificato un errore durante l\'aggiornamento di TransitionAction',
+        'Edit Transition Action "%s"' => 'Modifica azione di transizione "%s"',
+        'Error: Not all keys seem to have values or vice versa.' => 'Errore: non tutte le chiavi sembrano avere valori o viceversa.',
 
         # Perl Module: Kernel/Modules/AdminQueue.pm
         'Queue updated!' => 'Coda aggiornata!',
         'Don\'t use :: in queue name!' => 'Non utilizzare :: nel nome della coda!',
-        'Click back and change it!' => '',
+        'Click back and change it!' => 'Fai clic indietro e modificalo!',
         '-none-' => '-nessuno-',
 
         # Perl Module: Kernel/Modules/AdminQueueAutoResponse.pm
@@ -3920,23 +3920,23 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminSMIME.pm
         'S/MIME environment is not working. Please check log for more info!' =>
-            '',
-        'Need param Filename to delete!' => '',
-        'Need param Filename to download!' => '',
-        'Needed CertFingerprint and CAFingerprint!' => '',
-        'CAFingerprint must be different than CertFingerprint' => '',
+            'L\'ambiente S/MIME non funziona. Si prega di controllare il registro per maggiori informazioni!',
+        'Need param Filename to delete!' => 'Il parametro Nome file è necessario per la cancellazione!',
+        'Need param Filename to download!' => 'Il parametro Nome file è necessario per effettuare il download!',
+        'Needed CertFingerprint and CAFingerprint!' => 'CertFingerprint e CAFingerprint sono necessari!',
+        'CAFingerprint must be different than CertFingerprint' => 'CAFingerprint deve essere diverso da CertFingerprint',
         'Relation exists!' => 'La relazione esiste!',
         'Relation added!' => 'Relazione aggiunta!',
-        'Impossible to add relation!' => '',
+        'Impossible to add relation!' => 'Impossibile aggiungere una relazione!',
         'Relation doesn\'t exists' => 'La relazione non esiste',
         'Relation deleted!' => 'Relazione eliminata!',
-        'Impossible to delete relation!' => '',
-        'Certificate %s could not be read!' => '',
-        'Needed Fingerprint' => '',
-        'Handle Private Certificate Relations' => '',
+        'Impossible to delete relation!' => 'Impossibile cancellare la relazione!',
+        'Certificate %s could not be read!' => 'Il certificato %s non può essere letto!',
+        'Needed Fingerprint' => 'Impronta digitale necessaria',
+        'Handle Private Certificate Relations' => 'Gestire le relazioni di certificati privati',
 
         # Perl Module: Kernel/Modules/AdminSalutation.pm
-        'Salutation added!' => '',
+        'Salutation added!' => 'Saluto aggiunto!',
 
         # Perl Module: Kernel/Modules/AdminSignature.pm
         'Signature updated!' => 'Firma aggiornata!',
@@ -3952,28 +3952,28 @@ sub Data {
         'System e-mail address added!' => 'Account di posta di sistema aggiunto!',
 
         # Perl Module: Kernel/Modules/AdminSystemConfiguration.pm
-        'Invalid Settings' => '',
-        'There are no invalid settings active at this time.' => '',
-        'You currently don\'t have any favourite settings.' => '',
-        'The following settings could not be found: %s' => '',
+        'Invalid Settings' => 'Impostazioni non valide',
+        'There are no invalid settings active at this time.' => 'Al momento non sono attive impostazioni non valide.',
+        'You currently don\'t have any favourite settings.' => 'Al momento non hai alcuna impostazione preferita.',
+        'The following settings could not be found: %s' => 'Impossibile trovare le seguenti impostazioni: %s',
         'Import not allowed!' => 'Importazione non consentita!',
         'System Configuration could not be imported due to an unknown error, please check OTRS logs for more information.' =>
-            '',
-        'Category Search' => '',
+            'Impossibile importare la configurazione del sistema a causa di un errore sconosciuto. Per ulteriori informazioni, consultare i registri OTRS.',
+        'Category Search' => 'Ricerca per categoria',
 
         # Perl Module: Kernel/Modules/AdminSystemConfigurationDeployment.pm
         'Some imported settings are not present in the current state of the configuration or it was not possible to update them. Please check the OTRS log for more information.' =>
-            '',
+            'Alcune impostazioni importate non sono presenti nello stato corrente della configurazione o non è stato possibile aggiornarle. Per ulteriori informazioni, consultare il registro OTRS.',
 
         # Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
-        'You need to enable the setting before locking!' => '',
+        'You need to enable the setting before locking!' => 'È necessario abilitare l\'impostazione prima del blocco!',
         'You can\'t work on this setting because %s (%s) is currently working on it.' =>
-            '',
-        'Missing setting name!' => '',
-        'Missing ResetOptions!' => '',
-        'Setting is locked by another user!' => '',
-        'System was not able to lock the setting!' => '',
-        'System was not able to reset the setting!' => '',
+            'Non puoi lavorare su questa impostazione perché %s (%s) ci sta attualmente lavorando.',
+        'Missing setting name!' => 'Nome impostazione mancante!',
+        'Missing ResetOptions!' => 'Opzione Reset mancante!',
+        'Setting is locked by another user!' => 'L\'impostazione è bloccata da un\'altro utente!',
+        'System was not able to lock the setting!' => 'Il sistema non è in grado di bloccare l\'impostazione !',
+        'System was not able to reset the setting!' => 'Il sistema non è in grado di resettare l\'impostazione!',
         'System was unable to update setting!' => '',
         'Missing setting name.' => '',
         'Setting not found.' => '',
@@ -4644,7 +4644,7 @@ sub Data {
         '%s Upgrade to %s now! %s' => '%s Aggiorna a %s ora! %s',
         'Please verify your license data!' => '',
         'The license for your %s is about to expire. Please make contact with %s to renew your contract!' =>
-            'La tua licenza %s sta per scadere. Contatta %s per rinnovare il tuo contratto.',
+            'La tua licenza %s sta per scadere. Contatta %s per rinnovare il tuo contratto!',
         'An update for your %s is available, but there is a conflict with your framework version! Please update your framework first!' =>
             'È disponibile un aggiornamento per te %s, ma è in conflitto con la versione del framework! Aggiorna prima il tuo framework!',
 
@@ -4774,7 +4774,7 @@ sub Data {
         'Add to list of watched tickets' => 'Aggiungere alla lista di ticket osservati',
 
         # Perl Module: Kernel/Output/HTML/TicketOverviewMenu/Sort.pm
-        'Order by' => 'Ordina per ',
+        'Order by' => 'Ordina per',
 
         # Perl Module: Kernel/Output/HTML/TicketZoom/TicketInformation.pm
         'Ticket Information' => 'Informazioni sul ticket',
@@ -4856,7 +4856,7 @@ sub Data {
         'Ignore this field.' => '',
 
         # Perl Module: Kernel/System/DynamicField/Driver/TextArea.pm
-        'This field is required or' => 'Questo campo è obbligatorio oppure ',
+        'This field is required or' => 'Questo campo è obbligatorio oppure',
         'The field content is too long!' => 'Il contenuto del campo è troppo lungo!',
         'Maximum size is %s characters.' => 'La dimensione massima è di %s caratteri.',
 
@@ -5365,7 +5365,7 @@ sub Data {
         'Authentication succeeded, but no customer record is found in the customer backend. Please contact the administrator.' =>
             '',
         'Reset password unsuccessful. Please contact the administrator.' =>
-            '',
+            'Reimpostazione della password fallita. Contattare l\'Amministratore.',
         'This e-mail address already exists. Please log in or reset your password.' =>
             'L\'indirizzo email inserito esiste già. Effettuare l\'accesso o reimposta la password.',
         'This email address is not allowed to register. Please contact support staff.' =>
@@ -5379,7 +5379,7 @@ sub Data {
         # Perl Module: Kernel/System/Web/InterfaceInstaller.pm
         'Action "%s" not found!' => 'Azione "%s" non trovata!',
 
-        # Database XML Definition: scripts/database/otrs-initial_insert.xml
+        # Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
         'invalid-temporarily' => 'non valido-temporaneamente',
         'Group for default access.' => 'Gruppo per l\'accesso predefinito.',
         'Group of all administrators.' => 'Gruppo di tutti gli amministratori.',
@@ -5614,14 +5614,14 @@ sub Data {
             'Non appena utilizzi il pulsante o il collegamento, abbandonerai questa schermata e lo stato corrente sarà salvato in automatico. Vuoi continuare?',
         'Delete Entity' => 'Elimina entità',
         'This Activity is already used in the Process. You cannot add it twice!' =>
-            'Questa attività è già in uso nel Processo. Non puoi aggiungerla due volte!.',
+            'Questa attività è già in uso nel Processo. Non puoi aggiungerla due volte!',
         'Error during AJAX communication' => '',
         'An unconnected transition is already placed on the canvas. Please connect this transition first before placing another transition.' =>
             '',
         'This Transition is already used for this Activity. You cannot use it twice!' =>
-            'Questa Transizione è già utilizzata per questa Attività. Non puoi aggiungerla due volte!.',
+            'Questa Transizione è già utilizzata per questa Attività. Non puoi aggiungerla due volte!',
         'This TransitionAction is already used in this Path. You cannot use it twice!' =>
-            'Questa Azione di Transizione è già in uso in questo percorso. Non puoi usarla due volte!.',
+            'Questa Azione di Transizione è già in uso in questo percorso. Non puoi usarla due volte!',
         'Hide EntityIDs' => 'Nascondi EntityID',
         'Edit Field Details' => 'Modifica i dettagli per il campo',
         'Customer interface does not support articles not visible for customers.' =>
@@ -6170,7 +6170,7 @@ Thanks for your help!
         'Change the priority for this ticket' => 'Cambia la priorità di questo ticket',
         'Change the responsible for this ticket' => 'Cambia il responsabile di questo ticket',
         'Change your avatar image.' => '',
-        'Change your password and more.' => '',
+        'Change your password and more.' => 'Cambia la password ed altro.',
         'Changed SLA to "%s" (%s).' => '',
         'Changed archive state to "%s".' => '',
         'Changed customer to "%s".' => 'Cliente cambiato in “%s”.',
@@ -6195,7 +6195,7 @@ Thanks for your help!
         'Checks if an E-Mail is a followup to an existing ticket by searching the subject for a valid ticket number.' =>
             'Verifica se una email è una prosecuzione a un ticket esistente cercando l\'oggetto di un numero ticket valido.',
         'Checks if an email is a follow-up to an existing ticket with external ticket number which can be found by ExternalTicketNumberRecognition filter module.' =>
-            '',
+            'Verifica se un\'e-mail è il seguito di un ticket esistente con un numero di ticket esterno che può essere trovato dal modulo filtro ExternalTicketNumberRecognition.',
         'Checks the SystemID in ticket number detection for follow-ups. If not enabled, SystemID will be changed after using the system.' =>
             '',
         'Checks the availability of OTRS Business Solution™ for this system.' =>
@@ -6577,7 +6577,7 @@ Thanks for your help!
         'Defines the available steps in time selections. Select "Minute" to be able to select all minutes of one hour from 1-59. Select "30 Minutes" to only make full and half hours available.' =>
             '',
         'Defines the body text for notification mails sent to agents, about new password.' =>
-            '',
+            'Definisce il corpo del testo per la mail di notifica inviata all\'agente, sulla nuova password.',
         'Defines the body text for notification mails sent to agents, with token about new requested password.' =>
             '',
         'Defines the body text for notification mails sent to customers, about new account.' =>
@@ -7421,7 +7421,7 @@ Thanks for your help!
             '',
         'Global Search Module.' => '',
         'Go to dashboard!' => 'Vai al cruscotto!',
-        'Good PGP signature.' => '',
+        'Good PGP signature.' => 'Buona firma PGP.',
         'Google Authenticator' => 'Autenticatore Google',
         'Graph: Bar Chart' => '',
         'Graph: Line Chart' => '',
@@ -7779,8 +7779,8 @@ Thanks for your help!
             '',
         'Next possible ticket states after adding a phone note in the ticket phone outbound screen of the agent interface.' =>
             '',
-        'No public key found.' => '',
-        'No valid OpenPGP data found.' => '',
+        'No public key found.' => 'Nessuna chiave pubblica trovata.',
+        'No valid OpenPGP data found.' => 'Nessun dato OpenPGP valido trovato.',
         'None' => 'Nessuno',
         'Norwegian' => 'Norvegese',
         'Notification Settings' => 'Impostazioni delle notifiche',
@@ -8488,7 +8488,7 @@ Thanks for your help!
             '',
         'Shows time use complete description (days, hours, minutes), if enabled; or just first letter (d, h, m), if not enabled.' =>
             '',
-        'Signature data.' => '',
+        'Signature data.' => 'Dati della firma.',
         'Signatures' => 'Firme',
         'Simple' => 'Semplice',
         'Skin' => 'Tema',
@@ -8593,7 +8593,7 @@ Thanks for your help!
         'Templates ↔ Queues' => '',
         'Textarea' => 'Area di testo',
         'Thai' => 'Thai',
-        'The PGP signature is expired.' => '',
+        'The PGP signature is expired.' => 'La firma PGP è scaduta.',
         'The PGP signature was made by a revoked key, this could mean that the signature is forged.' =>
             '',
         'The PGP signature was made by an expired key.' => '',
@@ -8659,7 +8659,7 @@ Thanks for your help!
         'This is the default orange - black skin for the customer interface.' =>
             'Questa è la skin arancione - nera predefinita per l\'interfaccia clienti.',
         'This is the default orange - black skin.' => 'Questo è il tema arancione - nero predefinito.',
-        'This key is not certified with a trusted signature!' => '',
+        'This key is not certified with a trusted signature!' => 'Questa chiave non è certificata con una firma attendibile!',
         'This module and its PreRun() function will be executed, if defined, for every request. This module is useful to check some user options or to display news about new applications.' =>
             'Questo modulo e la sua funzione PreRun() verranno eseguiti, se definiti, per ogni richiesta. Questo modulo è utile per verificare alcune opzioni utente o per visualizzare notizie su nuove applicazioni.',
         'This module is part of the admin area of OTRS.' => 'Questo modulo fa parte dell\'area di amministrazione di OTRS.',

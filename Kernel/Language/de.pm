@@ -828,7 +828,7 @@ sub Data {
         'Default behavior of GenericInterface web services is to send each request exactly once and not to reschedule after errors.' =>
             'Das standardmäßige Verhalten von GenericInterface Web-Services ist es, jede Anfrage nur genau einmal zu versenden und diese nach dem Auftreten von Fehlern nicht neu einzuplanen.',
         'If more than one module capable of scheduling a retry is executed for an individual request, the module executed last is authoritative and determines if a retry is scheduled.' =>
-            'Sofern für eine Anfrage mehr als ein Modul ausgeführt wird, welches die Planung von Wiederholungen ermöglicht, dann ist das zuletzt ausgeführte Modul maßgeblich für die Entscheidung ob eine Wiederholung eingeplant wird.',
+            'Wenn für eine einzelne Anfrage mehr als ein Modul ausgeführt wird, das in der Lage ist, einen Wiederholungsversuch zu planen, dann ist das zuletzt ausgeführte Modul maßgebend und bestimmt, ob ein Wiederholungsversuch geplant ist.',
         'Request retry options' => 'Optionen zur Wiederholung von Anfragen',
         'Retry options are applied when requests cause error handling module execution (based on processing options).' =>
             'Wiederholungsoptionen werden angewendet, wenn Anfragen die Ausführung von Fehlerbehandlungs-Modulen verursachen (basierend auf Verarbeitungsoptionen).',
@@ -5371,7 +5371,7 @@ sub Data {
         # Perl Module: Kernel/System/Web/InterfaceInstaller.pm
         'Action "%s" not found!' => 'Aktion "%s" nicht gefunden!',
 
-        # Database XML Definition: scripts/database/otrs-initial_insert.xml
+        # Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
         'invalid-temporarily' => 'ungültig-temporär',
         'Group for default access.' => 'Gruppe für den Standardzugriff.',
         'Group of all administrators.' => 'Gruppe aller Administratoren.',

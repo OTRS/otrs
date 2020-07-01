@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D-%M-%Y';
     $Self->{DateInputFormat}     = '%D-%M-%Y';
     $Self->{DateInputFormatLong} = '%D-%M-%Y - %T';
-    $Self->{Completeness}        = 0.554520826278361;
+    $Self->{Completeness}        = 0.555198103623434;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -3319,10 +3319,10 @@ sub Data {
         'Loading, please wait...' => '',
 
         # JS Template: UploadContainer
-        'Click to select a file for upload.' => '',
-        'Click to select files or just drop them here.' => '',
-        'Click to select a file or just drop it here.' => '',
-        'Uploading...' => '',
+        'Click to select a file for upload.' => 'Klik om een bestand te selecteren om te uploaden.',
+        'Click to select files or just drop them here.' => 'Klik om bestanden te selecteren of zet ze hier neer.',
+        'Click to select a file or just drop it here.' => 'Klik om een bestand te selecteren of zet het hier neer.',
+        'Uploading...' => 'Uploaden...',
 
         # JS Template: InformationDialog
         'Process state' => '',
@@ -5377,7 +5377,7 @@ sub Data {
         # Perl Module: Kernel/System/Web/InterfaceInstaller.pm
         'Action "%s" not found!' => '',
 
-        # Database XML Definition: scripts/database/otrs-initial_insert.xml
+        # Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
         'invalid-temporarily' => 'tijdelijk ongeldig',
         'Group for default access.' => 'Groep voor standaard toegang.',
         'Group of all administrators.' => 'Groep voor alle administrators.',
