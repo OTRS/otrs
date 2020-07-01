@@ -2388,25 +2388,21 @@ msgstr "Zgłoszenie zmieniono pomiędzy"
 
 #. Template: AdminGenericAgent
 #, fuzzy
-#| msgid "Last changed times"
 msgid "Last close times"
 msgstr "Data ostatnich modyfikacji"
 
 #. Template: AdminGenericAgent
 #, fuzzy
-#| msgid "No close time settings."
 msgid "No last close time settings."
 msgstr "Bez czasów zamkniecia."
 
 #. Template: AdminGenericAgent
 #, fuzzy
-#| msgid "Ticket closed"
 msgid "Ticket last close"
 msgstr "Zgłoszenie zamknięte"
 
 #. Template: AdminGenericAgent
 #, fuzzy
-#| msgid "Ticket closed between"
 msgid "Ticket last close between"
 msgstr "Zgłoszenie zamknięte między"
 
@@ -23165,7 +23161,6 @@ msgstr "Idź na pulpit!"
 
 #. SysConfig
 #, fuzzy
-#| msgid "Add Signature"
 msgid "Good PGP signature."
 msgstr "Dodaj podpis"
 
@@ -24473,13 +24468,11 @@ msgstr ""
 
 #. SysConfig
 #, fuzzy
-#| msgid "No ticket data found."
 msgid "No public key found."
 msgstr "Nie odnaleziono danych zgłoszenia."
 
 #. SysConfig
 #, fuzzy
-#| msgid "No ticket data found."
 msgid "No valid OpenPGP data found."
 msgstr "Nie odnaleziono danych zgłoszenia."
 
@@ -27193,7 +27186,6 @@ msgstr ""
 
 #. SysConfig
 #, fuzzy
-#| msgid "Signature updated!"
 msgid "Signature data."
 msgstr "Zaktualizowano podpis!"
 
@@ -27581,7 +27573,6 @@ msgstr "Tajski"
 
 #. SysConfig
 #, fuzzy
-#| msgid "The signature for email answers."
 msgid "The PGP signature is expired."
 msgstr "Podpis dla odpowiedzi e-mailowych."
 

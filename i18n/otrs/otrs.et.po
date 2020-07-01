@@ -2233,25 +2233,21 @@ msgstr ""
 
 #. Template: AdminGenericAgent
 #, fuzzy
-#| msgid "Close times"
 msgid "Last close times"
 msgstr "Sulgemisajad"
 
 #. Template: AdminGenericAgent
 #, fuzzy
-#| msgid "No create time settings."
 msgid "No last close time settings."
 msgstr "Loomisaja seadeid ei ole"
 
 #. Template: AdminGenericAgent
 #, fuzzy
-#| msgid "Ticket closed"
 msgid "Ticket last close"
 msgstr "Intsident suletud"
 
 #. Template: AdminGenericAgent
 #, fuzzy
-#| msgid "Ticket closed between"
 msgid "Ticket last close between"
 msgstr "Intsident suletud vahemikus"
 
@@ -22135,7 +22131,6 @@ msgstr ""
 
 #. SysConfig
 #, fuzzy
-#| msgid "Add Signature"
 msgid "Good PGP signature."
 msgstr "Lisa signatuur"
 
@@ -23343,13 +23338,11 @@ msgstr ""
 
 #. SysConfig
 #, fuzzy
-#| msgid "No matches found."
 msgid "No public key found."
 msgstr "Vasteid ei leitud."
 
 #. SysConfig
 #, fuzzy
-#| msgid "No data found."
 msgid "No valid OpenPGP data found."
 msgstr "Andmeid ei leitud."
 
@@ -25835,7 +25828,6 @@ msgstr ""
 
 #. SysConfig
 #, fuzzy
-#| msgid "Signature updated!"
 msgid "Signature data."
 msgstr "Allkiri muudetud!"
 
@@ -26201,7 +26193,6 @@ msgstr "Tai"
 
 #. SysConfig
 #, fuzzy
-#| msgid "The signature for email answers."
 msgid "The PGP signature is expired."
 msgstr "Signatuur e-posti vastustes."
 

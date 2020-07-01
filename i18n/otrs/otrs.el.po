@@ -2248,25 +2248,21 @@ msgstr ""
 
 #. Template: AdminGenericAgent
 #, fuzzy
-#| msgid "Close Time"
 msgid "Last close times"
 msgstr "Χρόνος Κλεισίματος"
 
 #. Template: AdminGenericAgent
 #, fuzzy
-#| msgid "No create time settings."
 msgid "No last close time settings."
 msgstr "Δεν υπάρχουν ρυθμίσεις χρόνου δημιουργίας"
 
 #. Template: AdminGenericAgent
 #, fuzzy
-#| msgid "Ticket Close Time"
 msgid "Ticket last close"
 msgstr "Ώρα Κλεισίματος Δελτίου"
 
 #. Template: AdminGenericAgent
 #, fuzzy
-#| msgid "Ticket created between"
 msgid "Ticket last close between"
 msgstr "Το Δελτίο δημιουργήθηκε μεταξύ"
 
@@ -22205,7 +22201,6 @@ msgstr "Μετάβαση στην επισκόπηση!"
 
 #. SysConfig
 #, fuzzy
-#| msgid "Add Signature"
 msgid "Good PGP signature."
 msgstr "Προσθήκη Υπογραφής"
 
@@ -23413,13 +23408,11 @@ msgstr ""
 
 #. SysConfig
 #, fuzzy
-#| msgid "No matches found."
 msgid "No public key found."
 msgstr "Δεν βρεθηκαν στοιχεία"
 
 #. SysConfig
 #, fuzzy
-#| msgid "No data found."
 msgid "No valid OpenPGP data found."
 msgstr "Δεν βρέθηκαν δεδομένα."
 
@@ -25909,7 +25902,6 @@ msgstr ""
 
 #. SysConfig
 #, fuzzy
-#| msgid "Signature updated!"
 msgid "Signature data."
 msgstr "Ενημερώθηκε η υπογραφή!"
 
@@ -26275,7 +26267,6 @@ msgstr ""
 
 #. SysConfig
 #, fuzzy
-#| msgid "The signature for email answers."
 msgid "The PGP signature is expired."
 msgstr "Υπογραφή για απαντήσεις μέσω Email."
 

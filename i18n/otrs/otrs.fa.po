@@ -2319,25 +2319,21 @@ msgstr "درخواست تغییر داده شده بین"
 
 #. Template: AdminGenericAgent
 #, fuzzy
-#| msgid "Last changed times"
 msgid "Last close times"
 msgstr "زمان آخرین تغییر "
 
 #. Template: AdminGenericAgent
 #, fuzzy
-#| msgid "No close time settings."
 msgid "No last close time settings."
 msgstr "زمان بستن تنظیم نشده است"
 
 #. Template: AdminGenericAgent
 #, fuzzy
-#| msgid "Ticket closed"
 msgid "Ticket last close"
 msgstr "درخواست بسته شده"
 
 #. Template: AdminGenericAgent
 #, fuzzy
-#| msgid "Ticket closed between"
 msgid "Ticket last close between"
 msgstr "درخواست بسته شده بین"
 
@@ -18773,9 +18769,6 @@ msgstr ""
 
 #. SysConfig
 #, fuzzy
-#| msgid ""
-#| "Checks if an E-Mail is a followup to an existing ticket by searching the "
-#| "subject for a valid ticket number."
 msgid ""
 "Checks if an email is a follow-up to an existing ticket with external ticket "
 "number which can be found by ExternalTicketNumberRecognition filter module."
@@ -23479,7 +23472,6 @@ msgstr "برو به داشبورد!"
 
 #. SysConfig
 #, fuzzy
-#| msgid "Add Signature"
 msgid "Good PGP signature."
 msgstr "افزودن امضاء"
 
@@ -24869,13 +24861,11 @@ msgstr ""
 
 #. SysConfig
 #, fuzzy
-#| msgid "No ticket data found."
 msgid "No public key found."
 msgstr "اطلاعات درخواست یافت نشد."
 
 #. SysConfig
 #, fuzzy
-#| msgid "No ticket data found."
 msgid "No valid OpenPGP data found."
 msgstr "اطلاعات درخواست یافت نشد."
 
@@ -27705,7 +27695,6 @@ msgstr ""
 
 #. SysConfig
 #, fuzzy
-#| msgid "Signature updated!"
 msgid "Signature data."
 msgstr "امضا به روز شده!"
 
@@ -28123,7 +28112,6 @@ msgstr "تایلندی"
 
 #. SysConfig
 #, fuzzy
-#| msgid "The signature for email answers."
 msgid "The PGP signature is expired."
 msgstr "یامضاء برای پاسخ‌های ایمیل "
 
@@ -28354,7 +28342,6 @@ msgstr "پوست سیاه و سفید - این به طور پیش فرض نار�
 
 #. SysConfig
 #, fuzzy
-#| msgid "There is another field with the same name."
 msgid "This key is not certified with a trusted signature!"
 msgstr " یکی دیگر از این زمینه با همین نام وجود دارد."
 
