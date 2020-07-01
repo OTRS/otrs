@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: 2020-04-08 06:39+0000\n"
-"PO-Revision-Date: 2020-04-08 16:54+0000\n"
+"PO-Revision-Date: 2020-07-01 07:00+0000\n"
 "Last-Translator: Balázs Úr <balazs.ur@otrs.com>\n"
 "Language-Team: Hungarian <https://translate.app.otrs.com/projects/otrs-6/"
 "otrs/hu/>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.11.3\n"
+"X-Generator: Weblate 4.0.4\n"
 
 #. Template: AdminACL
 msgid "ACL Management"
@@ -5801,7 +5801,7 @@ msgstr "Folyamat szerkesztése"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Print process information"
-msgstr "Folyamat-információk nyomtatása"
+msgstr "Folyamatinformációk nyomtatása"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Delete Process"
@@ -5860,7 +5860,7 @@ msgstr ""
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Edit Process Information"
-msgstr "Folyamat-információk szerkesztése"
+msgstr "Folyamatinformációk szerkesztése"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Process Name"
@@ -6165,7 +6165,7 @@ msgstr "Rendszercím"
 
 #. Template: AdminQueue
 msgid "Will be the sender address of this queue for email answers."
-msgstr "Lesz-e a várólista feladójának címe a válasz e-mailekhez."
+msgstr "A várólista küldőcíme lesz a válasz e-mailekhez."
 
 #. Template: AdminQueue
 msgid "Default sign key"
@@ -7812,7 +7812,7 @@ msgstr "Már létezik ilyen felhasználónevű felhasználó!"
 
 #. Template: AdminUser
 msgid "Will be auto-generated if left empty."
-msgstr "Legyen automatikusan előállított, ha üresen van hagyva."
+msgstr "Automatikusan elő lesz állítva, ha üresen van hagyva."
 
 #. Template: AdminUser
 msgid "Mobile"
@@ -10588,7 +10588,7 @@ msgstr ""
 
 #. Template: ActivityDialogHeader
 msgid "Process Information"
-msgstr "Folyamat-információk"
+msgstr "Folyamatinformációk"
 
 #. Template: ActivityDialogHeader
 msgid "Dialog"

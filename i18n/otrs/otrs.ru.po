@@ -40,7 +40,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: 2020-04-08 06:39+0000\n"
-"PO-Revision-Date: 2020-03-11 18:03+0000\n"
+"PO-Revision-Date: 2020-06-29 18:39+0000\n"
 "Last-Translator: Yuri Myasoedov <myasoedovys@gmail.com>\n"
 "Language-Team: Russian <https://translate.app.otrs.com/projects/otrs-6/otrs/"
 "ru/>\n"
@@ -51,7 +51,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
 "%100>=11 && n%100<=14)? 2 : 3);\n"
-"X-Generator: Weblate 3.11.2\n"
+"X-Generator: Weblate 4.0.4\n"
 
 #. Template: AdminACL
 msgid "ACL Management"
@@ -1106,7 +1106,7 @@ msgstr "Журнал сеансов связи"
 
 #. Template: AdminCommunicationLog
 msgid "Time Range"
-msgstr "Временной Интервал"
+msgstr "Интервал времени"
 
 #. Template: AdminCommunicationLog
 msgid "Show only communication logs created in specific time range."
@@ -1133,7 +1133,8 @@ msgid ""
 "You can change the sort and order of the columns by clicking on the column "
 "header."
 msgstr ""
-"Вы можете поменять сортировку и порядок колонок, кликнув по заголовку. "
+"Чтобы изменить сортировку или порядок столбцов, щёлкните мышью по заголовку "
+"столбцов."
 
 #. Template: AdminCommunicationLog
 msgid ""
@@ -2359,8 +2360,9 @@ msgid "Dynamic fields"
 msgstr "Динамические поля"
 
 #. Template: AdminGenericAgent
+#, fuzzy
 msgid "Add dynamic field"
-msgstr ""
+msgstr "Добавить динамическое поле"
 
 #. Template: AdminGenericAgent
 msgid "Create times"
@@ -4060,7 +4062,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Add Web Service"
-msgstr "Добавить Веб-сервис"
+msgstr "Добавить веб-сервис"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Edit Web Service"
@@ -4410,7 +4412,7 @@ msgstr "Исходящая почта может быть настроена ч�
 
 #. Template: AdminMailAccount
 msgid "System Configuration"
-msgstr "Настройка Системы"
+msgstr "Настройка системы"
 
 #. Template: AdminMailAccount
 msgid "Host"
@@ -4418,7 +4420,7 @@ msgstr "Сервер"
 
 #. Template: AdminMailAccount
 msgid "Delete account"
-msgstr "Удалить учетную запись"
+msgstr "Удалить учётную запись"
 
 #. Template: AdminMailAccount
 msgid "Fetch mail"
@@ -4426,7 +4428,7 @@ msgstr "Забрать почту"
 
 #. Template: AdminMailAccount
 msgid "Do you really want to delete this mail account?"
-msgstr "Вы действительно желаете удалить этот почтовый аккаунт?"
+msgstr "Действительно удалить эту почтовую учётную запись?"
 
 #. Template: AdminMailAccount
 msgid "Password"
@@ -4445,8 +4447,8 @@ msgid ""
 "Only modify this if you need to fetch mail from a different folder than "
 "INBOX."
 msgstr ""
-"Изменение здесь требуется только в случае необходимости забирать почту из "
-"другой папки, не из INBOX."
+"Измените только в том случае, если нужно забирать почту из папки, отличной "
+"от INBOX."
 
 #. Template: AdminMailAccount
 msgid "Trusted"
@@ -4458,7 +4460,7 @@ msgstr "Перенаправление"
 
 #. Template: AdminMailAccount
 msgid "Edit Mail Account"
-msgstr "Изменить почтовую учетную запись"
+msgstr "Изменить почтовую учётную запись"
 
 #. Template: AdminNavigationBar
 msgid "Administration Overview"
@@ -6002,7 +6004,7 @@ msgstr "Управление Очередями"
 
 #. Template: AdminQueue
 msgid "Add Queue"
-msgstr "Добавить Очередь"
+msgstr "Добавить очередь"
 
 #. Template: AdminQueue
 msgid "Edit Queue"
@@ -6909,7 +6911,7 @@ msgstr "Управление сервисами"
 
 #. Template: AdminService
 msgid "Add Service"
-msgstr "Добавить Сервис"
+msgstr "Добавить сервис"
 
 #. Template: AdminService
 msgid "Edit Service"
@@ -11882,7 +11884,7 @@ msgstr "2 минуты"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "3 minutes"
-msgstr " 3 минуты"
+msgstr "3 минуты"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "4 minutes"
@@ -18274,7 +18276,7 @@ msgstr "300 (Начинающий)"
 
 #. SysConfig
 msgid "5 Minutes"
-msgstr " 5 минут"
+msgstr "5 минут"
 
 #. SysConfig
 msgid "A TicketWatcher Module."

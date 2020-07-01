@@ -34,8 +34,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: 2020-04-08 06:39+0000\n"
-"PO-Revision-Date: 2020-04-08 16:54+0000\n"
-"Last-Translator: Balázs Úr <balazs.ur@otrs.com>\n"
+"PO-Revision-Date: 2020-04-29 09:22+0000\n"
+"Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Spanish <https://translate.app.otrs.com/projects/otrs-6/otrs/"
 "es/>\n"
 "Language: es\n"
@@ -8989,7 +8989,7 @@ msgstr "Obtener todo"
 
 #. Template: AgentTicketEmailOutbound
 msgid "Outbound Email for %s%s%s"
-msgstr "Email de Salida para %s%s"
+msgstr "Email de Salida para %s%s%s"
 
 #. Template: AgentTicketEmailResend
 msgid "Resend Email for %s%s%s"
@@ -13238,7 +13238,8 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentLinkObject.pm
 msgid "Can not create link with %s! Object already linked as %s."
-msgstr "¡No se puede crear un enlace con %s! El objeto ya esta enlazado con %s."
+msgstr ""
+"¡No se puede crear un enlace con %s! El objeto ya esta enlazado con %s."
 
 #. Perl Module: Kernel/Modules/AgentLinkObject.pm
 msgid "Can not create link with %s!"
