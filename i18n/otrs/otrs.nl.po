@@ -22,8 +22,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: 2020-04-08 06:39+0000\n"
-"PO-Revision-Date: 2020-04-08 16:54+0000\n"
-"Last-Translator: Balázs Úr <balazs.ur@otrs.com>\n"
+"PO-Revision-Date: 2020-06-11 14:31+0000\n"
+"Last-Translator: Philip Steeman <philip.steeman@vives.be>\n"
 "Language-Team: Dutch <https://translate.app.otrs.com/projects/otrs-6/otrs/nl/"
 ">\n"
 "Language: nl\n"
@@ -31,7 +31,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.11.3\n"
+"X-Generator: Weblate 4.0.4\n"
 
 #. Template: AdminACL
 msgid "ACL Management"
@@ -10732,19 +10732,19 @@ msgstr ""
 
 #. JS Template: UploadContainer
 msgid "Click to select a file for upload."
-msgstr ""
+msgstr "Klik om een bestand te selecteren om te uploaden."
 
 #. JS Template: UploadContainer
 msgid "Click to select files or just drop them here."
-msgstr ""
+msgstr "Klik om bestanden te selecteren of zet ze hier neer."
 
 #. JS Template: UploadContainer
 msgid "Click to select a file or just drop it here."
-msgstr ""
+msgstr "Klik om een bestand te selecteren of zet het hier neer."
 
 #. JS Template: UploadContainer
 msgid "Uploading..."
-msgstr ""
+msgstr "Uploaden..."
 
 #. JS Template: InformationDialog
 msgid "Process state"

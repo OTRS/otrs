@@ -13,15 +13,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: 2020-04-08 06:39+0000\n"
-"PO-Revision-Date: 2018-09-20 13:03+0000\n"
-"Last-Translator: Andrei Miron <andrei.miron@iqrate.ro>, 2019\n"
-"Language-Team: Romanian (https://www.transifex.com/otrs/teams/23435/ro/)\n"
+"PO-Revision-Date: 2020-06-27 23:49+0000\n"
+"Last-Translator: Bere Brigitta <brigittabere@gmail.com>\n"
+"Language-Team: Romanian <https://translate.app.otrs.com/projects/otrs-6/otrs/"
+"ro/>\n"
 "Language: ro\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?"
-"2:1));\n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
+"20)) ? 1 : 2;\n"
+"X-Generator: Weblate 4.0.4\n"
 
 #. Template: AdminACL
 msgid "ACL Management"
@@ -183,7 +185,7 @@ msgstr ""
 
 #. Template: AdminACLEdit
 msgid "Check the official %sdocumentation%s."
-msgstr ""
+msgstr "Verifică documentațiile oficiale."
 
 #. Template: AdminACLEdit
 msgid "Show or hide the content"
