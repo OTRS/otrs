@@ -1,5 +1,5 @@
 # 6.0.30 ????-??-??
- - 2020-05-26 Fixed bug#[15180](https://bugs.otrs.org/show_bug.cgi?id=15180) - Plain text article printing does not work well with citation.
+ - 2020-07-03 Fixed bug#[15180](https://bugs.otrs.org/show_bug.cgi?id=15180) - Plain text article printing does not work well with citation.
 
 # 6.0.29 2020-07-20
  - 2020-07-01 Updated translations, thanks to all translators.
