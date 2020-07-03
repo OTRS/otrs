@@ -133,10 +133,11 @@ test
     },
     {
         Input =>
-            "<div style=\"border:none;border-left:solid blue 1.5pt;padding:0cm 0cm 0cm 4.0pt\" type=\"cite\">Line 1<br/>
+            "<div>Line 0</div><div style=\"border:none;border-left:solid blue 1.5pt;padding:0cm 0cm 0cm 4.0pt\" type=\"cite\">Line 1<br/>
 Line 2<br/>
 Line 3</div>",
-        Result => "> Line 1
+        Result => "Line 0
+> Line 1
 > Line 2
 > Line 3
 ",
