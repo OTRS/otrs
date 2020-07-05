@@ -32,6 +32,15 @@ use Fcntl qw(:flock);
 
 use Kernel::System::ObjectManager;
 
+# Disable warnings for redefined subroutines by setting our own WARN signal handler.
+#   Output of these warnings on STDERR will trigger false task failures and sending of unnecessary emails to admins.
+#   Please see bug#15227 for more information.
+local $SIG{__WARN__} = sub {
+    my $Message = shift;
+    return if $Message =~ m{Subroutine .* redefined at};
+    warn $Message;
+};
+
 print STDOUT "\nManage the OTRS daemon process.\n\n";
 
 local $Kernel::OM = Kernel::System::ObjectManager->new(
