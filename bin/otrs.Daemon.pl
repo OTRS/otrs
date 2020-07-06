@@ -33,7 +33,14 @@ use Fcntl qw(:flock);
 use Kernel::System::ObjectManager;
 
 # Disable warnings for redefined subroutines by setting our own WARN signal handler.
-#   Output of these warnings on STDERR will trigger false task failures and sending of unnecessary emails to admins.
+#   Forcing package reloads in the object manager when discarding objects triggers warnings like these:
+#
+#     Subroutine HandleDelayedEvents redefined at /opt/otrs/Kernel/System/Event/Handler.pm line 67.
+#
+#   We must trap the warnings here as opposed in the object manager, as they might be emitted whenever any of the
+#   modules is reloaded in the current process. Output of the warnings on STDERR in the daemon context will trigger
+#   false task failures and sending of unnecessary emails to admins.
+#
 #   Please see bug#15227 for more information.
 local $SIG{__WARN__} = sub {
     my $Message = shift;
