@@ -14,57 +14,73 @@ use utf8;
 use vars (qw($Self));
 
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-
-my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
+my $Home   = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 
 my $Daemon = $Home . '/bin/otrs.Daemon.pl';
 
-# get daemon status (stop if necessary)
-my $PreviousDaemonStatus = `perl $Daemon status`;
+# Get current daemon status.
+my $PreviousDaemonStatus = `$Daemon status`;
 
-if ( !$PreviousDaemonStatus ) {
+# Check if there is permissions for daemon commands.
+if ( !defined $PreviousDaemonStatus ) {
     $Self->False(
-        1,
-        "Could not determine current daemon status!",
+        0,
+        'Permission denied for deamon commands, skipping test',
     );
-    die "Could not determine current daemon status!";
+    return 1;
 }
 
+# Stop daemon if it was already running before this test.
 if ( $PreviousDaemonStatus =~ m{Daemon running}i ) {
-    my $ResultMessage = system("perl $Daemon stop");
-}
-else {
-    $Self->True(
-        1,
-        "Daemon was already stopped.",
-    );
-}
+    `$^X $Daemon stop`;
 
-# Wait for slow systems
-my $SleepTime = 120;
-print "Waiting at most $SleepTime s until daemon stops\n";
-ACTIVESLEEP:
-for my $Seconds ( 1 .. $SleepTime ) {
-    my $DaemonStatus = `perl $Daemon status`;
-    if ( $DaemonStatus =~ m{Daemon not running}i ) {
-        last ACTIVESLEEP;
-    }
-    print "Sleeping for $Seconds seconds...\n";
-    sleep 1;
-}
+    my $SleepTime = 2;
 
-my $CurrentDaemonStatus = `perl $Daemon status`;
-
-$Self->True(
-    int $CurrentDaemonStatus =~ m{Daemon not running}i,
-    "Daemon is not running",
-);
-
-if ( $CurrentDaemonStatus !~ m{Daemon not running}i ) {
-    die "Daemon could not be stopped.";
+    # Wait to get daemon fully stopped before test continues.
+    print "A running Daemon was detected and need to be stopped...\n";
+    print 'Sleeping ' . $SleepTime . "s\n";
+    sleep $SleepTime;
 }
 
 my $SchedulerDBObject = $Kernel::OM->Get('Kernel::System::Daemon::SchedulerDB');
+my $TaskWorkerObject  = $Kernel::OM->Get('Kernel::System::Daemon::DaemonModules::SchedulerTaskWorker');
+
+my $RunTasks = sub {
+
+    local $SIG{CHLD} = "IGNORE";
+
+    my $ErrorMessage;
+
+    # Localize the standard error, to prevent redefining warnings.
+    #   WARNING: This also hides any task run errors.
+    local *STDERR;
+
+    # Redirect the standard error to a variable.
+    open STDERR, ">>", \$ErrorMessage;
+
+    # Wait until task is executed.
+    ACTIVESLEEP:
+    for my $Sec ( 1 .. 120 ) {
+
+        # Run the worker.
+        $TaskWorkerObject->Run();
+        $TaskWorkerObject->_WorkerPIDsCheck();
+
+        my @List = $SchedulerDBObject->TaskList();
+
+        last ACTIVESLEEP if !scalar @List;
+
+        sleep 1;
+
+        print "Waiting $Sec secs for scheduler tasks to be executed\n";
+    }
+};
+
+$Self->True(
+    1,
+    "Initial Task Cleanup...",
+);
+$RunTasks->();
 
 # Remove existing scheduled asynchronous tasks from DB, as they may interfere with tests run later.
 my @AsyncTasks = $SchedulerDBObject->TaskList(
@@ -95,25 +111,11 @@ my @Tests = (
     },
 );
 
-# get worker object
-my $WorkerObject = $Kernel::OM->Get('Kernel::System::Daemon::DaemonModules::SchedulerTaskWorker');
+# Make sure there is no other pending task to be executed.
+my $Success = $TaskWorkerObject->Run();
 
-# make sure there is no other pending task to be executed
-my $Success = $WorkerObject->Run();
+$RunTasks->();
 
-# Wait for slow systems
-$SleepTime = 120;
-print "Waiting at most $SleepTime s until tasks are executed\n";
-ACTIVESLEEP:
-for my $Seconds ( 1 .. $SleepTime ) {
-    my @List = $SchedulerDBObject->TaskList();
-    last ACTIVESLEEP if !scalar @List;
-    print "Sleeping for $Seconds seconds...\n";
-    sleep 1;
-    $WorkerObject->Run();
-}
-
-# get needed objects
 my $AsynchronousExecutorObject
     = $Kernel::OM->Get('scripts::test::sample::AsynchronousExecutor::TestAsynchronousExecutor');
 
@@ -136,19 +138,9 @@ for my $Test (@Tests) {
     );
 
     if ( $Function eq 'ExecuteAsyc' || $Function eq 'ExecuteAsycWithObjectName' ) {
-        $WorkerObject->Run();
+        $TaskWorkerObject->Run();
 
-        # Wait for slow systems
-        $SleepTime = 120;
-        print "Waiting at most $SleepTime s until tasks are executed\n";
-        ACTIVESLEEP:
-        for my $Seconds ( 1 .. $SleepTime ) {
-            my @List = $SchedulerDBObject->TaskList();
-            last ACTIVESLEEP if !scalar @List;
-            print "Sleeping for $Seconds seconds...\n";
-            sleep 1;
-            $WorkerObject->Run();
-        }
+        $RunTasks->();
     }
 
     $Self->True(
