@@ -352,6 +352,10 @@ $Selenium->RunTest(
                 }
             }
 
+            $Selenium->find_element( "#Search", 'css' )->clear();
+            $Selenium->find_element( "#Search", 'css' )->send_keys($TestUserLogin);
+            $Selenium->find_element("//button[\@value='Search'][\@type='submit']")->VerifiedClick();
+
             if ( $Test eq 'ChangeUserLogin' ) {
                 $Selenium->WaitFor(
                     JavaScript => "return typeof(\$) === 'function' && \$('#User a:contains($TestUserLogin)').length;"
