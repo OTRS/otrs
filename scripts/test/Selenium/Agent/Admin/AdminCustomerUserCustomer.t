@@ -285,14 +285,7 @@ $Selenium->RunTest(
             );
         }
 
-        # Get all customers that has been added for testing purpose.
-        # It is try to fix SaaS issue when there is more then 200 entries.
-        %CustomerCompanyList = $CustomerCompanyObject->CustomerCompanyList(
-            Search => '*test*',
-            Valid  => 1,
-        );
-
-        # Update all customers to invalid.
+        # Update all test customers to invalid.
         for my $CustomerCompanyID (@CustomerCompanyListInvalid) {
 
             my %CustomerCompany = $CustomerCompanyObject->CustomerCompanyGet(
@@ -310,12 +303,7 @@ $Selenium->RunTest(
             };
         }
 
-        # Get all customer users that has been added for testing purpose.
-        %CustomerUserList = $CustomerUserObject->CustomerSearch(
-            UserLogin => '*test*',
-        );
-
-        # Update all customer users to valid.
+        # Update all test customer users to valid.
         for my $CustomerUser (@CustomerUserListInvalid) {
 
             my %CustomerUserData = $CustomerUserObject->CustomerUserDataGet(
