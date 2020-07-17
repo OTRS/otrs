@@ -12,13 +12,14 @@ use utf8;
 
 use vars (qw($Self));
 
-# get selenium object
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
 
-        my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+        my $Helper                = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+        my $CustomerCompanyObject = $Kernel::OM->Get('Kernel::System::CustomerCompany');
+        my $CustomerUserObject    = $Kernel::OM->Get('Kernel::System::CustomerUser');
 
         # disable check email address
         $Kernel::OM->Get('Kernel::Config')->Set(
@@ -37,28 +38,66 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
-        # get script alias
+        # Get all customers that has been added before for testing purpose.
+        my %CustomerCompanyList = $CustomerCompanyObject->CustomerCompanyList(
+            Search => '*test*',
+            Valid  => 1,
+        );
+        my @CustomerCompanyListInvalid;
+
+        # Update all customers to invalid.
+        for my $CustomerCompanyID ( sort keys %CustomerCompanyList ) {
+
+            my %CustomerCompany = $CustomerCompanyObject->CustomerCompanyGet(
+                CustomerID => $CustomerCompanyID,
+            );
+
+            # It is done in eval block just is case avoid failing
+            #   if there is entity in relation table.
+            eval {
+                $CustomerCompanyObject->CustomerCompanyUpdate(
+                    %CustomerCompany,
+                    ValidID => 2,
+                    UserID  => 1,
+                );
+            };
+
+            push @CustomerCompanyListInvalid, $CustomerCompanyID;
+        }
+
+        # Get all customer users that has been added before for testing purpose.
+        my %CustomerUserList = $CustomerUserObject->CustomerSearch(
+            UserLogin => '*test*',
+            ValidID   => 1,
+        );
+        my @CustomerUserListInvalid;
+
+        # Update all customer users to invalid.
+        for my $CustomerUser ( sort keys %CustomerUserList ) {
+
+            my %CustomerUserData = $CustomerUserObject->CustomerUserDataGet(
+                User => $CustomerUser,
+            );
+
+            # It is done in eval block just is case avoid failing
+            #   if there is entity in relation table.
+            eval {
+                $CustomerUserObject->CustomerUserUpdate(
+                    %CustomerUserData,
+                    ID      => $CustomerUserData{UserLogin},
+                    ValidID => 2,
+                    UserID  => 1,
+                );
+            };
+
+            push @CustomerUserListInvalid, $CustomerUser;
+        }
+
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
-        # create test CustomerUser
-        my $CustomerUserName = "CustomerUser" . $Helper->GetRandomID();
-        my $CustomerUserID   = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserAdd(
-            UserFirstname  => $CustomerUserName,
-            UserLastname   => $CustomerUserName,
-            UserCustomerID => $CustomerUserName,
-            UserLogin      => $CustomerUserName,
-            UserEmail      => $CustomerUserName . '@localhost.com',
-            ValidID        => 1,
-            UserID         => 1,
-        );
-        $Self->True(
-            $CustomerUserID,
-            "CustomerUserAdd - $CustomerUserID",
-        );
-
-        # create test Customer
+        # Create test Customer.
         my $CustomerName = 'Customer' . $Helper->GetRandomID();
-        my $CustomerID   = $Kernel::OM->Get('Kernel::System::CustomerCompany')->CustomerCompanyAdd(
+        my $CustomerID   = $CustomerCompanyObject->CustomerCompanyAdd(
             CustomerID          => $CustomerName,
             CustomerCompanyName => $CustomerName,
             ValidID             => 1,
@@ -67,6 +106,35 @@ $Selenium->RunTest(
         $Self->True(
             $CustomerID,
             "CustomerCompanyAdd - $CustomerID",
+        );
+
+        # create second test Customer (primary Customer of CustomerUser)
+        my $CustomerName2 = 'Customer' . $Helper->GetRandomID();
+        my $CustomerID2   = $CustomerCompanyObject->CustomerCompanyAdd(
+            CustomerID          => $CustomerName2,
+            CustomerCompanyName => $CustomerName2,
+            ValidID             => 1,
+            UserID              => 1,
+        );
+        $Self->True(
+            $CustomerID2,
+            "CustomerCompanyAdd - $CustomerID2",
+        );
+
+        # create test CustomerUser
+        my $CustomerUserName = "CustomerUser" . $Helper->GetRandomID();
+        my $CustomerUserID   = $CustomerUserObject->CustomerUserAdd(
+            UserFirstname  => $CustomerUserName,
+            UserLastname   => $CustomerUserName,
+            UserCustomerID => $CustomerID2,
+            UserLogin      => $CustomerUserName,
+            UserEmail      => $CustomerUserName . '@localhost.com',
+            ValidID        => 1,
+            UserID         => 1,
+        );
+        $Self->True(
+            $CustomerUserID,
+            "CustomerUserAdd - $CustomerUserID",
         );
 
         # navigate AdminCustomerUserCustomer screen
@@ -192,7 +260,6 @@ $Selenium->RunTest(
             "Customer user is displayed correctly"
         );
 
-        # get DB object
         my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
         # delete created test entities
@@ -216,6 +283,55 @@ $Selenium->RunTest(
                 $Success,
                 "Deleted CustomerUser - $CustomerUserName",
             );
+        }
+
+        # Get all customers that has been added for testing purpose.
+        # It is try to fix SaaS issue when there is more then 200 entries.
+        %CustomerCompanyList = $CustomerCompanyObject->CustomerCompanyList(
+            Search => '*test*',
+            Valid  => 1,
+        );
+
+        # Update all customers to invalid.
+        for my $CustomerCompanyID (@CustomerCompanyListInvalid) {
+
+            my %CustomerCompany = $CustomerCompanyObject->CustomerCompanyGet(
+                CustomerID => $CustomerCompanyID,
+            );
+
+            # It is done in eval block just is case avoid failing
+            #   if there is entity in relation table.
+            eval {
+                $CustomerCompanyObject->CustomerCompanyUpdate(
+                    %CustomerCompany,
+                    ValidID => 1,
+                    UserID  => 1,
+                );
+            };
+        }
+
+        # Get all customer users that has been added for testing purpose.
+        %CustomerUserList = $CustomerUserObject->CustomerSearch(
+            UserLogin => '*test*',
+        );
+
+        # Update all customer users to valid.
+        for my $CustomerUser (@CustomerUserListInvalid) {
+
+            my %CustomerUserData = $CustomerUserObject->CustomerUserDataGet(
+                User => $CustomerUser,
+            );
+
+            # It is done in eval block just is case avoid failing
+            #   if there is entity in relation table.
+            eval {
+                $CustomerUserObject->CustomerUserUpdate(
+                    %CustomerUserData,
+                    ID      => $CustomerUserData{UserLogin},
+                    ValidID => 1,
+                    UserID  => 1,
+                );
+            };
         }
 
         # make sure the cache is correct.
