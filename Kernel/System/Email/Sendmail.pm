@@ -63,9 +63,12 @@ sub Send {
     }
 
     # from for arg
-    my $Arg = quotemeta( $Param{From} );
+    my $Arg;
     if ( !$Param{From} ) {
         $Arg = "''";
+    }
+    else {
+        $Arg = quotemeta( $Param{From} );
     }
 
     # get recipients

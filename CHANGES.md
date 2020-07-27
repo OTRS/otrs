@@ -1,4 +1,5 @@
 # 6.0.30 ????-??-??
+ - 2020-07-27 Fixed bug#[15263](https://bugs.otrs.org/show_bug.cgi?id=15263) - Error in Maint::Email::MailQueue because of using  uninitialized value.
  - 2020-07-03 Fixed bug#[15180](https://bugs.otrs.org/show_bug.cgi?id=15180) - Plain text article printing does not work well with citation.
 
 # 6.0.29 2020-07-20
