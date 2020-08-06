@@ -19,6 +19,7 @@ use Lingua::Translit;
 use Pod::Strip;
 
 use Kernel::Language;
+use Kernel::System::VariableCheck qw(DataIsDifferent);
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -812,6 +813,24 @@ sub WritePOTFile {
             -msgstr    => '',
             -automatic => $String->{Location},
         );
+    }
+
+    # Avoid writing the file if the content is the same. In this case,
+    #    only the CreationDate changes, which can cause issues in our toolchain.
+    if ( -e $Param{TargetPOTFile} ) {
+        my %PreviousPOTEntries = $Self->LoadPOFile( TargetPOFile => $Param{TargetPOTFile} );
+        my @PreviousPOTEntries = sort grep { length $_ } keys %PreviousPOTEntries;
+        my @NewPOTEntries      = sort map { $_->{Source} } @{ $Param{TranslationStrings} };
+        my $DataIsDifferent    = DataIsDifferent(
+            Data1 => \@PreviousPOTEntries,
+            Data2 => \@NewPOTEntries
+        );
+
+        if ( !$DataIsDifferent ) {
+
+            # File content is the same, don't write the file so the CreationDate stays the same.
+            return;
+        }
     }
 
     Locale::PO->save_file_fromarray( $Param{TargetPOTFile}, \@POTEntries )
