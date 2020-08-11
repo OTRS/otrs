@@ -299,6 +299,15 @@ sub _HandleFile {
 sub _SubmitResults {
     my ( $Self, %Param ) = @_;
 
+    # Disable some plugins which are not useful in unit test context.
+    $Kernel::OM->Get('Kernel::Config')->Set(
+        Key   => 'SupportDataCollector::DisablePlugins',
+        Value => [
+            'Kernel::System::SupportDataCollector::Plugin::OTRS::DaemonRunning',
+            'Kernel::System::SupportDataCollector::Plugin::OTRS::DefaultUser',
+        ],
+    );
+
     my %SupportData = $Kernel::OM->Get('Kernel::System::SupportDataCollector')->Collect();
     die "Could not collect SupportData.\n" if !$SupportData{Success};
 
