@@ -238,7 +238,8 @@ my $Host = $Helper->GetTestHTTPHostname();
 
 # create URL
 my $ScriptAlias   = $ConfigObject->Get('ScriptAlias');
-my $ApacheBaseURL = "http://$Host/${ScriptAlias}/nph-genericinterface.pl/";
+my $HttpType      = $ConfigObject->Get('HttpType');
+my $ApacheBaseURL = "$HttpType://$Host/${ScriptAlias}/nph-genericinterface.pl/";
 my $PlackBaseURL;
 if ( $ConfigObject->Get('UnitTestPlackServerPort') ) {
     $PlackBaseURL = "http://localhost:"
