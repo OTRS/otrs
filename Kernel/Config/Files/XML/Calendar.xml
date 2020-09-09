@@ -49,16 +49,16 @@
             <Hash>
                 <Item Key="CSS">
                     <Array>
-                        <Item>thirdparty/fullcalendar-3.4.0/fullcalendar.min.css</Item>
-                        <Item>thirdparty/fullcalendar-scheduler-1.6.2/scheduler.min.css</Item>
+                        <Item>thirdparty/fullcalendar-3.10.2/fullcalendar.min.css</Item>
+                        <Item>thirdparty/fullcalendar-scheduler-1.10.1/scheduler.min.css</Item>
                         <Item>Core.AppointmentCalendar.css</Item>
                     </Array>
                 </Item>
                 <Item Key="JavaScript">
                     <Array>
                         <Item>thirdparty/momentjs-2.18.1/moment.min.js</Item>
-                        <Item>thirdparty/fullcalendar-3.4.0/fullcalendar.min.js</Item>
-                        <Item>thirdparty/fullcalendar-scheduler-1.6.2/scheduler.min.js</Item>
+                        <Item>thirdparty/fullcalendar-3.10.2/fullcalendar.min.js</Item>
+                        <Item>thirdparty/fullcalendar-scheduler-1.10.1/scheduler.min.js</Item>
                         <Item>Core.Agent.AppointmentCalendar.js</Item>
                         <Item>thirdparty/clipboardjs-1.7.1/clipboard.min.js</Item>
                     </Array>
@@ -267,13 +267,13 @@
                 <Item Key="CSS">
                     <Array>
                         <Item>Core.AppointmentCalendar.Manage.css</Item>
-                        <Item>thirdparty/spectrum-1.8.0/spectrum.css</Item>
+                        <Item>thirdparty/spectrum-1.8.1/spectrum.css</Item>
                     </Array>
                 </Item>
                 <Item Key="JavaScript">
                     <Array>
                         <Item>thirdparty/clipboardjs-1.7.1/clipboard.min.js</Item>
-                        <Item>thirdparty/spectrum-1.8.0/spectrum.js</Item>
+                        <Item>thirdparty/spectrum-1.8.1/spectrum.js</Item>
                         <Item>Core.Agent.Admin.AppointmentCalendar.Manage.js</Item>
                     </Array>
                 </Item>
@@ -867,7 +867,7 @@
             <Hash>
                 <Item Key="CSS">
                     <Array>
-                        <Item>thirdparty/fullcalendar-3.4.0/fullcalendar.min.css</Item>
+                        <Item>thirdparty/fullcalendar-3.10.2/fullcalendar.min.css</Item>
                         <Item>Core.AppointmentCalendar.css</Item>
                         <Item>Core.AppointmentCalendar.Agenda.css</Item>
                     </Array>
@@ -875,7 +875,7 @@
                 <Item Key="JavaScript">
                     <Array>
                         <Item>thirdparty/momentjs-2.18.1/moment.min.js</Item>
-                        <Item>thirdparty/fullcalendar-3.4.0/fullcalendar.min.js</Item>
+                        <Item>thirdparty/fullcalendar-3.10.2/fullcalendar.min.js</Item>
                         <Item>Core.Agent.AppointmentCalendar.js</Item>
                     </Array>
                 </Item>

@@ -4232,14 +4232,14 @@ via the Preferences button after logging in.
                     <Array>
                         <Item>Core.Agent.Dashboard.css</Item>
                         <Item>Core.AllocationList.css</Item>
-                        <Item>thirdparty/fullcalendar-3.4.0/fullcalendar.min.css</Item>
+                        <Item>thirdparty/fullcalendar-3.10.2/fullcalendar.min.css</Item>
                         <Item>thirdparty/nvd3-1.7.1/nv.d3.css</Item>
                     </Array>
                 </Item>
                 <Item Key="JavaScript">
                     <Array>
                         <Item>thirdparty/momentjs-2.18.1/moment.min.js</Item>
-                        <Item>thirdparty/fullcalendar-3.4.0/fullcalendar.min.js</Item>
+                        <Item>thirdparty/fullcalendar-3.10.2/fullcalendar.min.js</Item>
                         <Item>thirdparty/d3-3.5.6/d3.min.js</Item>
                         <Item>thirdparty/nvd3-1.7.1/nvd3.min.js</Item>
                         <Item>thirdparty/nvd3-1.7.1/models/OTRSLineChart.js</Item>
@@ -8072,7 +8072,7 @@ via the Preferences button after logging in.
         <Navigation>Frontend::Base::Loader</Navigation>
         <Value>
             <Array>
-                <Item>thirdparty/jquery-3.4.1/jquery.js</Item>
+                <Item>thirdparty/jquery-3.5.1/jquery.js</Item>
                 <Item>thirdparty/jquery-browser-detection/jquery-browser-detection.js</Item>
                 <Item>thirdparty/jquery-ui-1.12.1/jquery-ui.js</Item>
                 <Item>thirdparty/jquery-ui-touch-punch-0.2.3/jquery.ui.touch-punch.js</Item>
@@ -8173,7 +8173,7 @@ via the Preferences button after logging in.
         <Navigation>Frontend::Base::Loader</Navigation>
         <Value>
             <Array>
-                <Item>thirdparty/jquery-3.4.1/jquery.js</Item>
+                <Item>thirdparty/jquery-3.5.1/jquery.js</Item>
                 <Item>thirdparty/jquery-browser-detection/jquery-browser-detection.js</Item>
                 <Item>thirdparty/jquery-validate-1.16.0/jquery.validate.js</Item>
                 <Item>thirdparty/jquery-ui-1.12.1/jquery-ui.js</Item>

@@ -509,6 +509,7 @@ Core.Agent.AppointmentCalendar = (function (TargetNS) {
 
         $.each(CalendarConfig, function (Index, Calendar) {
             CalendarSources[Calendar.CalendarID] = {
+                id: Calendar.CalendarID,
                 url: Core.Config.Get('CGIHandle'),
                 type: 'POST',
                 data: {
@@ -994,7 +995,7 @@ Core.Agent.AppointmentCalendar = (function (TargetNS) {
         if ($CalendarSwitch.prop('checked')) {
             $('#calendar').fullCalendar('addEventSource', CalendarSources[$CalendarSwitch.data('id')]);
         } else {
-            $('#calendar').fullCalendar('removeEventSource', CalendarSources[$CalendarSwitch.data('id')]);
+            $('#calendar').fullCalendar('removeEventSource', $CalendarSwitch.data('id'));
         }
 
         // Get all checked calendars
