@@ -365,15 +365,16 @@ sub HandleLanguage {
             push @PerlModuleList, @CustomPerlModuleList;
         }
 
-        # include var/packagesetup folder for modules
-        my $PackageSetupDir = "$ModuleDirectory/var/packagesetup";
-        if ( $IsSubTranslation && -d $PackageSetupDir ) {
-            my @PackageSetupModuleList = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
-                Directory => $PackageSetupDir,
-                Filter    => '*.pm',
-                Recursive => 1,
-            );
-            push @PerlModuleList, @PackageSetupModuleList;
+        # Include some additional folders for modules.
+        for my $AdditionalFolder ( 'var/packagesetup', 'var/processes/examples', 'var/webservices/examples' ) {
+            if ( $IsSubTranslation && -d "$ModuleDirectory/$AdditionalFolder" ) {
+                my @PackageSetupModuleList = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
+                    Directory => "$ModuleDirectory/$AdditionalFolder",
+                    Filter    => '*.pm',
+                    Recursive => 1,
+                );
+                push @PerlModuleList, @PackageSetupModuleList;
+            }
         }
 
         FILE:
@@ -392,7 +393,7 @@ sub HandleLanguage {
             }
 
             $File =~ s{^.*/(Kernel/)}{$1}smx;
-            $File =~ s{^.*/(var/packagesetup/)}{$1}smx;
+            $File =~ s{^.*/(var/)}{$1}smx;
 
             my $Content = ${$ContentRef};
 
