@@ -411,7 +411,7 @@ sub _PickSignKeyID {
     # Convert legacy stored default sign keys.
     if ( $SignKeyID =~ m{ (?: Inline|Detached ) }msx ) {
         my ( $Type, $SubType, $Key ) = split /::/, $SignKeyID;
-        $SignKeyID = "$Type::$Key";
+        $SignKeyID = "${Type}::${Key}";
     }
 
     # if there is a preselected key from the queue, use it.

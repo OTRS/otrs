@@ -122,116 +122,167 @@ $Selenium->RunTest(
             $SystemAddressID = $List{$SystemAddressEmail};
         }
 
-        my $QueueName = 'TestQueue' . $RandomID;
-
-        # Add new queue.
-        my $QueueID = $QueueObject->QueueAdd(
-            Name                => $QueueName,
-            ValidID             => 1,
-            GroupID             => 1,
-            FirstResponseTime   => 0,
-            FirstResponseNotify => 0,
-            UpdateTime          => 0,
-            UpdateNotify        => 0,
-            SolutionTime        => 0,
-            SolutionNotify      => 0,
-            SystemAddressID     => $SystemAddressID,
-            SalutationID        => 1,
-            SignatureID         => 1,
-            Comment             => 'Some Comment',
-
-            # Set expired signing key as default.
-            # See more information bug#14752.
-            DefaultSignKey => 'SMIME::Detached::49e7495e.2',
-            UserID         => 1,
+        my @Queues;
+        my @DefaultSignKeys = (
+            'SMIME::Detached::49e7495e.0',
+            'SMIME::Detached::49e7495e.2'
         );
 
-        $Self->True(
-            $QueueID,
-            "QueueAdd() - $QueueName, $QueueID",
-        );
+        for ( 1 .. 2 ) {
 
-        # Navigate to AgentTicketEmail screen.
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketEmail");
+            # Add new queue.
+            my $QueueName = "TestQueue$_" . $RandomID;
+            my $QueueID   = $QueueObject->QueueAdd(
+                Name                => $QueueName,
+                ValidID             => 1,
+                GroupID             => 1,
+                FirstResponseTime   => 0,
+                FirstResponseNotify => 0,
+                UpdateTime          => 0,
+                UpdateNotify        => 0,
+                SolutionTime        => 0,
+                SolutionNotify      => 0,
+                SystemAddressID     => $SystemAddressID,
+                SalutationID        => 1,
+                SignatureID         => 1,
+                Comment             => 'Some Comment',
 
-        $Selenium->WaitFor(
-            JavaScript =>
-                'return typeof($) === "function" && $("#Dest").length;'
-        );
+                # Set expired signing key as default.
+                # See more information bug#14752.
+                DefaultSignKey => $DefaultSignKeys[ $_ - 1 ],
+                UserID         => 1,
+            );
 
-        # Select test queue.
-        my $Option = $Selenium->execute_script(
-            "return \$('#Dest option').filter(function () { return \$(this).html() == '$QueueName'; }).val();"
-        );
-        $Selenium->InputFieldValueSet(
-            Element => '#Dest',
-            Value   => $Option,
-        );
+            $Self->True(
+                $QueueID,
+                "QueueAdd() - $QueueName, $QueueID",
+            );
 
-        $Selenium->WaitFor(
-            JavaScript =>
-                'return $("#EmailSecurityOptions").length && !$(".AJAXLoader:visible").length;'
-        );
-
-        # Select EmailSecurityOptions.
-        $Selenium->InputFieldValueSet(
-            Element => '#EmailSecurityOptions',
-            Value   => "SMIME::Sign::-",
-        );
-
-        $Selenium->WaitFor(
-            JavaScript =>
-                'return $("#SignKeyID").length && !$(".AJAXLoader:visible").length;'
-        );
+            push @Queues, {
+                QueueID   => $QueueID,
+                QueueName => $QueueName,
+            };
+        }
 
         my @Options = (
             {
                 Option   => 'WARNING: EXPIRED KEY',
-                Selected => 0,
-                Comment  => "expired, it is set as default in test queue",
+                Selected => {
+                    $Queues[0]->{QueueName} => 0,
+                    $Queues[1]->{QueueName} => 0,
+                },
+                Comment => "expired, it is set as default in the second test queue",
             },
             {
                 Option   => 'Feb 28 11:51:14 2030 GMT] SMIMEtest3@example.net',
-                Selected => 0,
-                Comment  => "valid, but not the longest valid certificate",
+                Selected => {
+                    $Queues[0]->{QueueName} => 1,
+                    $Queues[1]->{QueueName} => 0,
+                },
+                Comment => "valid, but not the longest valid certificate",
             },
             {
                 Option   => 'Mar  7 11:52:01 2040 GMT] SMIMEtest3@example.net',
-                Selected => 1,
-                Comment  => "valid and the longest valid certificate",
+                Selected => {
+                    $Queues[0]->{QueueName} => 0,
+                    $Queues[1]->{QueueName} => 1,
+                },
+                Comment => "valid and the longest valid certificate",
             }
         );
 
-        OPTION:
-        for my $Option (@Options) {
-            my $Text    = $Option->{Option};
-            my $Comment = $Option->{Comment};
+        for my $Queue (@Queues) {
 
-            $Self->True(
-                $Selenium->execute_script(
-                    "return \$('#SignKeyID option:contains(\"$Text\")').length;"
-                ),
-                "Found '$Text' - $Comment",
+            # Navigate to AgentTicketEmail screen.
+            $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketEmail");
+
+            $Selenium->WaitFor(
+                JavaScript => 'return typeof($) === "function" && $("#Dest").length;'
             );
 
-            next OPTION if !$Option->{Selected};
-
-            $Self->True(
-                $Selenium->execute_script(
-                    "return \$('#SignKeyID option:selected:contains(\"$Text\")').length;"
-                ),
-                "Selected key - '$Text' - $Comment",
+            # Select test queue.
+            my $Option = $Selenium->execute_script(
+                "return \$('#Dest option').filter(function () { return \$(this).html() == '$Queue->{QueueName}'; }).val();"
             );
+            $Selenium->InputFieldValueSet(
+                Element => '#Dest',
+                Value   => $Option,
+            );
+
+            $Selenium->WaitFor(
+                JavaScript =>
+                    'return $("#EmailSecurityOptions").length && !$(".AJAXLoader:visible").length;'
+            );
+
+            # Select EmailSecurityOptions.
+            $Selenium->InputFieldValueSet(
+                Element => '#EmailSecurityOptions',
+                Value   => "SMIME::Sign::-",
+            );
+
+            $Selenium->WaitFor(
+                JavaScript =>
+                    'return $("#SignKeyID").length && !$(".AJAXLoader:visible").length;'
+            );
+
+            OPTION:
+            for my $Option (@Options) {
+                my $Text    = $Option->{Option};
+                my $Comment = $Option->{Comment};
+
+                $Self->True(
+                    $Selenium->execute_script(
+                        "return \$('#SignKeyID option:contains(\"$Text\")').length;"
+                    ),
+                    "Found '$Text' - $Comment",
+                );
+
+                next OPTION if !$Option->{Selected}->{ $Queue->{QueueName} };
+
+                $Self->True(
+                    $Selenium->execute_script(
+                        "return \$('#SignKeyID option:selected:contains(\"$Text\")').length;"
+                    ),
+                    "Selected key - '$Text' - $Comment",
+                );
+            }
         }
 
         # Delete needed test directories.
+        my $Success;
         for my $Directory ( $CertPath, $PrivatePath ) {
-            my $Success = File::Path::rmtree( [$Directory] );
+            $Success = File::Path::rmtree( [$Directory] );
             $Self->True(
                 $Success,
                 "Directory deleted - '$Directory'",
             );
         }
+
+        my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+        for my $Queue (@Queues) {
+            $Success = $DBObject->Do(
+                SQL  => "DELETE FROM queue WHERE id = ?",
+                Bind => [ \$Queue->{QueueID} ],
+            );
+            $Self->True(
+                $Success,
+                "QueueID $Queue->{QueueID} is deleted",
+            );
+        }
+
+        if ($SystemAddressAdded) {
+            $Success = $DBObject->Do(
+                SQL => "DELETE FROM system_address WHERE id= $SystemAddressID",
+            );
+            $Self->True(
+                $Success,
+                "Deleted SystemAddress - $SystemAddressID",
+            );
+        }
+
+        # Make sure the cache is correct.
+        $Kernel::OM->Get('Kernel::System::Cache')->CleanUp();
     }
 );
 
