@@ -7844,7 +7844,7 @@ via the Preferences button after logging in.
                     <Hash>
                         <Item Key="Description">US-CERT NVD</Item>
                         <Item Key="URL">https://nvd.nist.gov/nvd.cfm?cvename=&lt;MATCH1&gt;-&lt;MATCH2&gt;-&lt;MATCH3&gt;</Item>
-                        <Item Key="Image">https://nvd.nist.gov/NVD/Media/images/favicons/favicon-16x16.png</Item>
+                        <Item Key="Image">https://nvd.nist.gov/site-media/images/favicons/favicon-16x16.png</Item>
                         <Item Key="Target">_blank</Item>
                     </Hash>
                 </Item>
