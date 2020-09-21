@@ -55,7 +55,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2020-04-08 06:39+0000\n"
+"POT-Creation-Date: 2020-07-01 07:05+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: possebon <possebon@gmail.com>, 2020\n"
 "Language-Team: Portuguese (Brazil) (https://www.transifex.com/otrs/"
@@ -16847,312 +16847,312 @@ msgstr ""
 msgid "Action \"%s\" not found!"
 msgstr "Ação \"%s\" não encontrada!"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "invalid-temporarily"
 msgstr "inválido-temporariamente"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "Group for default access."
 msgstr "Grupo de acesso padrão"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "Group of all administrators."
 msgstr "Grupo de todos os administradores."
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "Group for statistics access."
 msgstr "Grupo para acessar estatísticas"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "new"
 msgstr "novo"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "All new state types (default: viewable)."
 msgstr "Todos os tipos de estado (padrão: visível)."
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "open"
 msgstr "aberto"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "All open state types (default: viewable)."
 msgstr "Todos os tipos de estado aberto (padrão: visível)."
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "closed"
 msgstr "fechado"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "All closed state types (default: not viewable)."
 msgstr "Todos os tipos de estado fechado (padrão: não visível)."
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "pending reminder"
 msgstr "lembrete de pendente"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "All 'pending reminder' state types (default: viewable)."
 msgstr "Todos os tipos 'aviso de pendência' (padrão: visível)."
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "pending auto"
 msgstr "pendente automático"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "All 'pending auto *' state types (default: viewable)."
 msgstr "Todos os tipos 'pendente auto*' (padrão: visível)."
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "removed"
 msgstr "removido"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "All 'removed' state types (default: not viewable)."
 msgstr "Todos os tipos de estado 'removido' (padrão: não visível)."
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "merged"
 msgstr "agrupado"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "State type for merged tickets (default: not viewable)."
 msgstr "Tipo de estado para chamados agrupados (padrão: não visível)."
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "New ticket created by customer."
 msgstr "Novo chamado criado pelo cliente."
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "closed successful"
 msgstr "fechado com êxito"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket is closed successful."
 msgstr "Chamado fechado com sucesso."
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "closed unsuccessful"
 msgstr "fechado sem êxito"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket is closed unsuccessful."
 msgstr "Chamado fechado sem sucesso."
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "Open tickets."
 msgstr "Chamados abertos."
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "Customer removed ticket."
 msgstr "Cliente removeu o chamado."
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket is pending for agent reminder."
 msgstr "Chamado pendente com alerta de atendente."
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "pending auto close+"
 msgstr "pendente auto fechamento+"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket is pending for automatic close."
 msgstr "Chamado pendente com fechamento automático."
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "pending auto close-"
 msgstr "pendente auto fechamento-"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "State for merged tickets."
 msgstr "Estado para chamados agrupados."
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "system standard salutation (en)"
 msgstr "saudação padrão do sistema (en)"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "Standard Salutation."
 msgstr "Saudação Padrão."
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "system standard signature (en)"
 msgstr "assinatura padrão do sistema (en)"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "Standard Signature."
 msgstr "Assinatura Padrão."
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "Standard Address."
 msgstr "Endereço Padrão."
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "possible"
 msgstr "possível"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "Follow-ups for closed tickets are possible. Ticket will be reopened."
 msgstr ""
 "Atualização de status dos chamados fechados será possível. Chamados serão "
 "reabertos."
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "reject"
 msgstr "rejeitar"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid ""
 "Follow-ups for closed tickets are not possible. No new ticket will be "
 "created."
 msgstr ""
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "new ticket"
 msgstr "novo chamado"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid ""
 "Follow-ups for closed tickets are not possible. A new ticket will be created."
 msgstr ""
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "Postmaster queue."
 msgstr "Fila postmaster."
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "All default incoming tickets."
 msgstr "Todos tickets recebidos padrão."
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "All junk tickets."
 msgstr "Todos tickets lixo."
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "All misc tickets."
 msgstr "Todos tickets diversos."
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "auto reply"
 msgstr "Autorresponder"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid ""
 "Automatic reply which will be sent out after a new ticket has been created."
 msgstr ""
 "Resposta automática que será enviada depois que um novo ticket for criado."
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "auto reject"
 msgstr "Autorrejeitar"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid ""
 "Automatic reject which will be sent out after a follow-up has been rejected "
 "(in case queue follow-up option is \"reject\")."
 msgstr ""
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "auto follow up"
 msgstr "Autorrevisão"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid ""
 "Automatic confirmation which is sent out after a follow-up has been received "
 "for a ticket (in case queue follow-up option is \"possible\")."
 msgstr ""
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "auto reply/new ticket"
 msgstr "Autorresposta/novo chamado"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid ""
 "Automatic response which will be sent out after a follow-up has been "
 "rejected and a new ticket has been created (in case queue follow-up option "
 "is \"new ticket\")."
 msgstr ""
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "auto remove"
 msgstr "Autorremover"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "Auto remove will be sent out after a customer removed the request."
 msgstr ""
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "default reply (after new ticket has been created)"
 msgstr "Resposta padrão ( depois que novo chamado foi criado)"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "default reject (after follow-up and rejected of a closed ticket)"
 msgstr ""
 "Rejeição padrão (após rejeição do acompanhamento de um chamado fechado)."
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "default follow-up (after a ticket follow-up has been added)"
 msgstr ""
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid ""
 "default reject/new ticket created (after closed follow-up with new ticket "
 "creation)"
 msgstr ""
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "Unclassified"
 msgstr "Não classificado"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "1 very low"
 msgstr "1 Muito Baixo"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "2 low"
 msgstr "2 Baixo"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "3 normal"
 msgstr "3 Normal"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "4 high"
 msgstr "4 Alto"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "5 very high"
 msgstr "5 Muito Alto"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "unlock"
 msgstr "desbloqueado"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "lock"
 msgstr "bloqueado"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "tmp_lock"
 msgstr "tmp_lock"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "agent"
 msgstr "atendente"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "system"
 msgstr "sistema"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "customer"
 msgstr "cliente"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket create notification"
 msgstr "Notificação de criação de ticket"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid ""
 "You will receive a notification each time a new ticket is created in one of "
 "your \"My Queues\" or \"My Services\"."
@@ -17160,31 +17160,31 @@ msgstr ""
 "Você receberá uma notificação a cada vez que um novo ticket for criado em "
 "uma de suas \"Minhas Filas\" ou \"Meus Serviços\"."
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket follow-up notification (unlocked)"
 msgstr "Notificação de revisão de chamado (desbloqueado)"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid ""
 "You will receive a notification if a customer sends a follow-up to an "
 "unlocked ticket which is in your \"My Queues\" or \"My Services\"."
 msgstr ""
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket follow-up notification (locked)"
 msgstr "Notificação de revisão de chamado (bloqueado)"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid ""
 "You will receive a notification if a customer sends a follow-up to a locked "
 "ticket of which you are the ticket owner or responsible."
 msgstr ""
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket lock timeout notification"
 msgstr "Notificação de Expiração de Bloqueio de Chamado"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid ""
 "You will receive a notification as soon as a ticket owned by you is "
 "automatically unlocked."
@@ -17192,23 +17192,23 @@ msgstr ""
 "Você irá receber uma notificação assim que um ticket de sua propriedade for "
 "desbloqueado automaticamente."
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket owner update notification"
 msgstr "Notificação de atualização de proprietário de chamado"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket responsible update notification"
 msgstr "Notificação de atualização de responsável por um ticket"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket new note notification"
 msgstr "Notificação de nova nota em um ticket"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket queue update notification"
 msgstr "Notificação de atualização de fila de um ticket"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid ""
 "You will receive a notification if a ticket is moved into one of your \"My "
 "Queues\"."
@@ -17216,27 +17216,27 @@ msgstr ""
 "Você irá receber uma notificação se um ticket for movido a uma de \"Minhas "
 "Filas\"."
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket pending reminder notification (locked)"
 msgstr "Notificação de chamado pendente (bloqueado)"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket pending reminder notification (unlocked)"
 msgstr "Notificação de chamado pendente (desbloqueado)"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket escalation notification"
 msgstr "Notificação de escalação de chamado"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket escalation warning notification"
 msgstr "Notificação de alerta de escalação de chamado"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket service update notification"
 msgstr "Notificação de atualização de serviço do chamado"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid ""
 "You will receive a notification if a ticket's service is changed to one of "
 "your \"My Services\"."
@@ -17244,11 +17244,11 @@ msgstr ""
 "Você receberá uma notificação se o serviço de algum chamado for alterado "
 "para um de seus \"Meus Serviços\"."
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "Appointment reminder notification"
 msgstr "Notificação de lembrete do compromisso"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid ""
 "You will receive a notification each time a reminder time is reached for one "
 "of your appointments."
@@ -17256,7 +17256,7 @@ msgstr ""
 "Você receberá uma notificação toda vez que o tempo de lembrete para um de "
 "seus compromissos for atingido ."
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket email delivery failure notification"
 msgstr "Notificação de falha na entrega de ticket de e-mail"
 

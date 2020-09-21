@@ -10,17 +10,18 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2020-04-08 06:39+0000\n"
-"PO-Revision-Date: 2018-09-20 13:03+0000\n"
-"Last-Translator: Adam Sadovsky <sadovsky.adam@gmail.com>, 2018\n"
-"Language-Team: Slovak (Slovakia) (https://www.transifex.com/otrs/teams/23435/"
-"sk_SK/)\n"
+"POT-Creation-Date: 2020-07-01 07:05+0000\n"
+"PO-Revision-Date: 2020-09-10 14:20+0000\n"
+"Last-Translator: Jan Papez (honyczek) <honyczek@centrum.cz>\n"
+"Language-Team: Slovak <https://translate.app.otrs.com/projects/otrs-6/otrs/"
+"sk/>\n"
 "Language: sk_SK\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n "
 ">= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);\n"
+"X-Generator: Weblate 4.1.1\n"
 
 #. Template: AdminACL
 msgid "ACL Management"
@@ -2265,40 +2266,36 @@ msgid "Ticket changed between"
 msgstr ""
 
 #. Template: AdminGenericAgent
-#, fuzzy
 msgid "Last close times"
-msgstr "Čas uzatvorenia"
+msgstr "Časy posledného uzatvorenia"
 
 #. Template: AdminGenericAgent
-#, fuzzy
 msgid "No last close time settings."
-msgstr "Bez nastavenia času"
+msgstr "Bez nastavenia času posledného uzatvorenia."
 
 #. Template: AdminGenericAgent
-#, fuzzy
 msgid "Ticket last close"
-msgstr "Čas uzatvorenia tiketu"
+msgstr "Čas posledného uzatvorenia tiketu"
 
 #. Template: AdminGenericAgent
-#, fuzzy
 msgid "Ticket last close between"
-msgstr "Pripomienka vytvorená medzi"
+msgstr "Posledné uzatvorenie tiketu medzi"
 
 #. Template: AdminGenericAgent
 msgid "Close times"
-msgstr ""
+msgstr "Časy uzatvorenia"
 
 #. Template: AdminGenericAgent
 msgid "No close time settings."
-msgstr ""
+msgstr "Čas uzatvorenia nie je nastaven."
 
 #. Template: AdminGenericAgent
 msgid "Ticket closed"
-msgstr ""
+msgstr "Tiket uzatvoren"
 
 #. Template: AdminGenericAgent
 msgid "Ticket closed between"
-msgstr ""
+msgstr "Tiket uzatvoren medzi"
 
 #. Template: AdminGenericAgent
 msgid "Pending times"
@@ -5126,7 +5123,7 @@ msgstr ""
 
 #. Template: AdminProcessManagementActivity
 msgid "Cancel & close"
-msgstr ""
+msgstr "Zrušiť a uzatvoriť"
 
 #. Template: AdminProcessManagementActivity
 msgid "Go Back"
@@ -5465,7 +5462,7 @@ msgstr ""
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "cancel & close"
-msgstr ""
+msgstr "zrušiť a uzatvoriť"
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "Start Activity"
@@ -7618,7 +7615,7 @@ msgstr ""
 
 #. Template: AgentDashboardCommon
 msgid "Close this widget"
-msgstr ""
+msgstr "Uzatvoriť tuto pomôcku"
 
 #. Template: AgentDashboardCommon
 msgid "more"
@@ -7646,11 +7643,11 @@ msgstr "Zatvorený"
 
 #. Template: AgentDashboardCustomerIDList
 msgid "%s open ticket(s) of %s"
-msgstr "%s otvoril ticket(y) %s"
+msgstr "%s otvorených ticketov zo %s"
 
 #. Template: AgentDashboardCustomerIDList
 msgid "%s closed ticket(s) of %s"
-msgstr "%s uztvoril ticket(y) %s"
+msgstr "%s uzatvorených ticketov zo %s"
 
 #. Template: AgentDashboardCustomerIDList
 msgid "Edit customer ID"
@@ -7662,7 +7659,7 @@ msgstr "Vyeskalované tikety"
 
 #. Template: AgentDashboardCustomerIDStatus
 msgid "Open tickets"
-msgstr "otvorené tikety"
+msgstr "Otvorené tikety"
 
 #. Template: AgentDashboardCustomerIDStatus
 msgid "Closed tickets"
@@ -7789,7 +7786,7 @@ msgstr "Tikety kde som Zodpovedný"
 
 #. Template: AgentDashboardTicketGeneric
 msgid "Tickets in My Queues"
-msgstr "Tikety v mojich Queue"
+msgstr "Tikety v mojich radoch"
 
 #. Template: AgentDashboardTicketGeneric
 msgid "Tickets in My Services"
@@ -8118,7 +8115,7 @@ msgstr ""
 
 #. Template: AgentTicketActionCommon
 msgid "Close %s%s%s"
-msgstr ""
+msgstr "Uzatvoriť %s%s%s"
 
 #. Template: AgentTicketActionCommon
 msgid "Add Note to %s%s%s"
@@ -8146,7 +8143,7 @@ msgstr "Tiket bol uzamknutý"
 
 #. Template: AgentTicketActionCommon
 msgid "Undo & close"
-msgstr "Vrátit naspäť a uzatvoriť okno"
+msgstr "Vrátit naspäť a uzatvoriť"
 
 #. Template: AgentTicketActionCommon
 msgid "Ticket Settings"
@@ -8378,7 +8375,7 @@ msgstr "Príklad šablóny"
 
 #. Template: AgentTicketEmail
 msgid "From queue"
-msgstr "Z queue"
+msgstr "Z radu"
 
 #. Template: AgentTicketEmail
 msgid "To customer user"
@@ -8494,7 +8491,7 @@ msgstr ""
 
 #. Template: AgentTicketMove
 msgid "New Queue"
-msgstr "Nový queue"
+msgstr "Nový rad"
 
 #. Template: AgentTicketMove
 msgid "Move"
@@ -8530,11 +8527,11 @@ msgstr "Čas vyriešenia"
 
 #. Template: AgentTicketOverviewMedium
 msgid "Move ticket to a different queue"
-msgstr "Presunúť tiket do iného queue"
+msgstr "Presunúť tiket do iného radu"
 
 #. Template: AgentTicketOverviewMedium
 msgid "Change queue"
-msgstr "Zmeniť queue"
+msgstr "Zmeniť rad"
 
 #. Template: AgentTicketOverviewNavBar
 msgid "Remove active filters for this screen."
@@ -8574,7 +8571,7 @@ msgstr "Prosím doplňte aspoň jedného zákazníka pre tiket"
 
 #. Template: AgentTicketPhone
 msgid "To queue"
-msgstr "Do queue"
+msgstr "Do radu"
 
 #. Template: AgentTicketPhone
 msgid "Chat protocol"
@@ -8650,7 +8647,7 @@ msgstr ""
 
 #. Template: AgentTicketSearch
 msgid "Created in Queue"
-msgstr "Vytvorene v queue"
+msgstr "Vytvorene v rade"
 
 #. Template: AgentTicketSearch
 msgid "Lock state"
@@ -8710,11 +8707,11 @@ msgstr ""
 
 #. Template: AgentTicketSearch
 msgid "Ticket Close Time (before/after)"
-msgstr "Čas uzatvorenia tiketu(pred/po)"
+msgstr "Čas uzatvorenia tiketu (pred/po)"
 
 #. Template: AgentTicketSearch
 msgid "Ticket Close Time (between)"
-msgstr "Čas uzatvorenia tiketu(medzi)"
+msgstr "Čas uzatvorenia tiketu (medzi)"
 
 #. Template: AgentTicketSearch
 msgid "Ticket Escalation Time (before/after)"
@@ -8754,7 +8751,7 @@ msgstr "podľa"
 
 #. Template: AgentTicketZoom
 msgid "Change Queue"
-msgstr "Zmeň queue"
+msgstr "Zmeň rad"
 
 #. Template: AgentTicketZoom
 msgid "There are no dialogs available at this point in the process."
@@ -8871,8 +8868,9 @@ msgid ""
 "To open links in the following article, you might need to press Ctrl or Cmd "
 "or Shift key while clicking the link (depending on your browser and OS)."
 msgstr ""
-"Na otvorenie linky k článku, možete stlačiť klávesy Ctrl alebo Cmd ale Shift "
-"v závislosti podľa operačného systému alebo browsera"
+"Na otvorenie linky k článku možno bude treba pred klepnutím na linku stlačiť "
+"klávesy Ctrl alebo Cmd alebo Shift (v závislosti podľa operačného systému "
+"alebo browsera)"
 
 #. Template: MIMEBase
 msgid "Close this message"
@@ -9157,7 +9155,7 @@ msgstr "Zmeniť osobné nastavenia"
 
 #. Template: CustomerNavigationBar
 msgid "Logout %s"
-msgstr ""
+msgstr "Odhlásiť %s"
 
 #. Template: CustomerTicketMessage
 msgid "Service level agreement"
@@ -9757,11 +9755,11 @@ msgstr ""
 
 #. Template: MetaFloater
 msgid "Open URL in new tab"
-msgstr ""
+msgstr "Otvoriť URL na nové záložke"
 
 #. Template: MetaFloater
 msgid "Close preview"
-msgstr ""
+msgstr "Uzatvoriť predbežné zobrazenie"
 
 #. Template: MetaFloater
 msgid ""
@@ -11525,7 +11523,7 @@ msgstr "Posielam emailom =>  prijemca: pole"
 
 #. Perl Module: Kernel/Modules/AdminMailAccount.pm
 msgid "Dispatching by selected Queue."
-msgstr "Posielam vybraným queue."
+msgstr "Odosielanie dľa vybraného radu."
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "Agent who created the ticket"
@@ -12869,7 +12867,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketPhoneCommon.pm
 msgid "Ticket locked."
-msgstr "Tiket uzamknutý"
+msgstr "Tiket uzamknutý."
 
 #. Perl Module: Kernel/Modules/AgentTicketPlain.pm
 msgid "No ArticleID!"
@@ -13074,15 +13072,15 @@ msgstr "Volné tikety"
 
 #. Perl Module: Kernel/Modules/AgentTicketQueue.pm
 msgid "including subqueues"
-msgstr "zahrnúť pod-queue"
+msgstr "zahrnúť podriadené rady"
 
 #. Perl Module: Kernel/Modules/AgentTicketQueue.pm
 msgid "excluding subqueues"
-msgstr "vyradiť pod-queue"
+msgstr "vynechať podriadené rady"
 
 #. Perl Module: Kernel/Modules/AgentTicketQueue.pm
 msgid "QueueView"
-msgstr "Pohľad Queue"
+msgstr "Pohľad dľa radu"
 
 #. Perl Module: Kernel/Modules/AgentTicketResponsibleView.pm
 msgid "My Responsible Tickets"
@@ -13162,7 +13160,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Ticket Locked"
-msgstr ""
+msgstr "Tiket uzamknutý"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Pending Time Set"
@@ -13254,7 +13252,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Ticket Unlocked"
-msgstr ""
+msgstr "Tiket neuzamknutý"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Outgoing Email"
@@ -13489,7 +13487,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/CustomerTicketZoom.pm
 msgid "Can't reopen ticket, not possible in this queue!"
-msgstr ""
+msgstr "Nie možno opätovne otvoriť tiket, nie je to možno v tomto radu!"
 
 #. Perl Module: Kernel/Modules/CustomerTicketZoom.pm
 msgid "Create a new ticket!"
@@ -14010,7 +14008,7 @@ msgstr "klikni tu"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "to open it in a new window."
-msgstr "Otvoriť v novom okne"
+msgstr "pre otvorenie v novom okne."
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "Year"
@@ -14379,7 +14377,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/TicketMenu/Lock.pm
 msgid "Unlock to give it back to the queue"
-msgstr "Odomkni na vrátenie naspäť do queue"
+msgstr "Odomkni na vrátenie naspäť do radu"
 
 #. Perl Module: Kernel/Output/HTML/TicketMenu/Lock.pm
 msgid "Lock it to work on it"
@@ -15313,7 +15311,7 @@ msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
 msgid "Open Tickets"
-msgstr ""
+msgstr "Otvorené tikety"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DefaultSOAPUser.pm
 msgid "Default SOAP Username And Password"
@@ -15762,7 +15760,7 @@ msgstr ""
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Logout successful."
-msgstr ""
+msgstr "Odhlásenie bolo úspešné."
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Feature not active!"
@@ -15835,404 +15833,430 @@ msgstr ""
 msgid "Action \"%s\" not found!"
 msgstr ""
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "invalid-temporarily"
 msgstr "dočasne neplatný"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "Group for default access."
-msgstr ""
+msgstr "Skupina pre predvolený prístup."
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "Group of all administrators."
-msgstr ""
+msgstr "Skupina pre všetky správce."
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "Group for statistics access."
-msgstr ""
+msgstr "Skupina pre štatistický prístup."
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "new"
 msgstr "nový"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "All new state types (default: viewable)."
-msgstr ""
+msgstr "Všetky nové typy stavov (predvoľba: viditeľný)."
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "open"
-msgstr "otvoriť"
+msgstr "otvorený"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "All open state types (default: viewable)."
-msgstr ""
+msgstr "Všetky otvorené typy stavov (predvoľba: viditeľný)."
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "closed"
 msgstr "zatvorený"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "All closed state types (default: not viewable)."
-msgstr ""
+msgstr "Všetky uzatvorené typy stavov (predvoľba: nie je viditeľný)."
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "pending reminder"
 msgstr "nevybavená pripomienka"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "All 'pending reminder' state types (default: viewable)."
-msgstr ""
+msgstr "Všetky typy stavov 'nevybavená pripomienka' (predvoľba: viditeľný)."
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "pending auto"
 msgstr "automaticky nevybaviť"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "All 'pending auto *' state types (default: viewable)."
-msgstr ""
+msgstr "Všetky typy stavov 'automaticky nevybavený *' (predvoľba: viditeľný)."
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "removed"
 msgstr "odstránený"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "All 'removed' state types (default: not viewable)."
-msgstr ""
+msgstr "Všetky typy stavov 'odstránený' (predvoľba: nie je viditeľný)."
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "merged"
 msgstr "zlúčené"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "State type for merged tickets (default: not viewable)."
-msgstr ""
+msgstr "Typ stavu pro zlúčené tikety (predvoľba: nie je viditeľný)."
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "New ticket created by customer."
-msgstr ""
+msgstr "Nový tiket vytvorený zákazníkom."
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "closed successful"
-msgstr "úspešne zatvorené"
+msgstr "úspešne zatvorený"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket is closed successful."
-msgstr ""
+msgstr "Tiket je uzatvorený úspešne."
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "closed unsuccessful"
-msgstr "zatvorené neúspešne"
+msgstr "zatvorený neúspešne"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket is closed unsuccessful."
-msgstr ""
+msgstr "Tiket je uzatvorený neúspešne."
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "Open tickets."
-msgstr ""
+msgstr "Otvorené tikety."
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "Customer removed ticket."
-msgstr ""
+msgstr "Zákazník tiket odstránil."
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket is pending for agent reminder."
-msgstr ""
+msgstr "Tiket čaká na upomienku agenta."
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "pending auto close+"
 msgstr "počas automatického zatvárania +"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket is pending for automatic close."
-msgstr ""
+msgstr "Tiket čaká na automatické uzatvorenie."
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "pending auto close-"
 msgstr "počas automatického zatvárania -"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "State for merged tickets."
-msgstr ""
+msgstr "Stav pre zlúčené tikety."
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "system standard salutation (en)"
-msgstr ""
+msgstr "štandardné systémové oslovenie (en)"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "Standard Salutation."
-msgstr ""
+msgstr "Štandardné oslovenie."
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "system standard signature (en)"
-msgstr ""
+msgstr "štandardný systémový podpis (en)"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "Standard Signature."
-msgstr ""
+msgstr "Štandardný podpis."
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "Standard Address."
-msgstr ""
+msgstr "Štandardná adresa."
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "possible"
-msgstr "možný"
+msgstr "možné"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "Follow-ups for closed tickets are possible. Ticket will be reopened."
 msgstr ""
+"Následné správy pre uzatvorené tikety sú možné. Tiket bude opäť otvorený."
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "reject"
-msgstr "odmietnuť"
+msgstr "odmietnuté"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid ""
 "Follow-ups for closed tickets are not possible. No new ticket will be "
 "created."
 msgstr ""
+"Následné správy pre uzatvorené tikety nie sú možné. Nový tiket nie bude "
+"vytvorený."
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "new ticket"
-msgstr ""
+msgstr "nový tiket"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid ""
 "Follow-ups for closed tickets are not possible. A new ticket will be created."
 msgstr ""
+"Následné správy pre uzatvorené tikety nie sú možné. Bude vytvorený nový "
+"tiket."
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "Postmaster queue."
-msgstr ""
+msgstr "Rad postmastera."
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "All default incoming tickets."
-msgstr ""
+msgstr "Všetky predvolené prichádzajúcí tikety."
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "All junk tickets."
-msgstr ""
+msgstr "Všetky odhodené tikety."
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "All misc tickets."
-msgstr ""
+msgstr "Všetky zmiešané tikety."
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "auto reply"
 msgstr "automatická odozva"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid ""
 "Automatic reply which will be sent out after a new ticket has been created."
-msgstr ""
+msgstr "Automatická odpoveď po vytváranie nového tiketu."
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "auto reject"
 msgstr "automatické zamietnutie"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid ""
 "Automatic reject which will be sent out after a follow-up has been rejected "
 "(in case queue follow-up option is \"reject\")."
 msgstr ""
+"Automatické odmietnutie ktoré bude odosláno po odmietnuti následnej správy k "
+"uzatvorenému tiketu (v prípadě nastavenej predvoľby \"zamietnuť\")."
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "auto follow up"
 msgstr "automatické nasledovanie"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid ""
 "Automatic confirmation which is sent out after a follow-up has been received "
 "for a ticket (in case queue follow-up option is \"possible\")."
 msgstr ""
+"Automatické potvrdenie, ktoré bude odosláno po príjmu následnej správy k "
+"tiketu (v prípadě nastavenej predvoľby \"možné\")."
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "auto reply/new ticket"
 msgstr "automatická odozva/nový ticket"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid ""
 "Automatic response which will be sent out after a follow-up has been "
 "rejected and a new ticket has been created (in case queue follow-up option "
 "is \"new ticket\")."
 msgstr ""
+"Automatická odpoveď, ktorá bude odoslána po odmietnutí následnej správy a "
+"vytvoreném novém tiketu (v prípadě nastavenej predvoľby \"nový tiket\")."
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "auto remove"
 msgstr "automatické vymazanie"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "Auto remove will be sent out after a customer removed the request."
 msgstr ""
+"Automatické odstranenie bude odosláno v prípade odstranenia požiadavky "
+"zákazníkom."
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "default reply (after new ticket has been created)"
-msgstr ""
+msgstr "predvolená odpoveď (po vytvorení nového tiketu)"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "default reject (after follow-up and rejected of a closed ticket)"
 msgstr ""
+"predvolené odmietnutie (po následnej správe a odmietnutí uzatvoreného tiketu)"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "default follow-up (after a ticket follow-up has been added)"
-msgstr ""
+msgstr "predvolená následná odpoveď (po pridání následnej správy k tiketu)"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid ""
 "default reject/new ticket created (after closed follow-up with new ticket "
 "creation)"
 msgstr ""
+"predvolené odmietnutie/nový tiket vytvorený (po vytvorenie nového tiketu pri "
+"prijatej následnej správe k uzatvorenému tiketu)"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "Unclassified"
 msgstr ""
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "1 very low"
 msgstr "1 veľmi nízka"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "2 low"
 msgstr "2 nízka"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "3 normal"
 msgstr "3 normálna"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "4 high"
 msgstr "4 vysoká"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "5 very high"
 msgstr "5 veľmi vysoká"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "unlock"
 msgstr "odomknúť"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "lock"
 msgstr "zamknúť"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "tmp_lock"
 msgstr ""
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "agent"
-msgstr "Agent"
+msgstr "agent"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "system"
-msgstr "Systém"
+msgstr "systém"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "customer"
-msgstr "Zákazník"
+msgstr "zákazník"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket create notification"
-msgstr ""
+msgstr "Oznámenie vytvoreného tiketu"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid ""
 "You will receive a notification each time a new ticket is created in one of "
 "your \"My Queues\" or \"My Services\"."
 msgstr ""
+"Dostanete oznámenie vždy pri vytvorenie nového tiketu buď v \"Moje rady\" "
+"alebo \"Moje služby\"."
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket follow-up notification (unlocked)"
-msgstr ""
+msgstr "Oznámenie následnej správy tiketu (neuzamknutý)"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid ""
 "You will receive a notification if a customer sends a follow-up to an "
 "unlocked ticket which is in your \"My Queues\" or \"My Services\"."
 msgstr ""
+"Dostanete oznámenie pri príjmu následnej správy od zákazníka k neuzamknutému "
+"tiketu, ktorý je v \"Moje rady\" alebo \"Moje služby\"."
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket follow-up notification (locked)"
-msgstr ""
+msgstr "Oznámenie následnej správy k tiketu (uzamknutý)"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid ""
 "You will receive a notification if a customer sends a follow-up to a locked "
 "ticket of which you are the ticket owner or responsible."
 msgstr ""
+"Dostanete oznámenie pri príjmu následnej správy od zákazníka k uzamknutému "
+"tiketu, ktorý vlastníte alebo máte na vlastnú zodpovednosť."
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket lock timeout notification"
 msgstr "Notifikácia o prekročení časového limit uzamknutia tiketu."
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid ""
 "You will receive a notification as soon as a ticket owned by you is "
 "automatically unlocked."
-msgstr ""
+msgstr "Dostanete oznámenie kedže tiket, ktorý vlastníte, bode odomknutý."
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket owner update notification"
-msgstr ""
+msgstr "Oznámenie aktualizácie vlastníka tiketu"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket responsible update notification"
-msgstr ""
+msgstr "Oznámenie aktualizácie zodpovednosti k tiketu"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket new note notification"
-msgstr ""
+msgstr "Oznámenie novej poznámky k tiketu"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket queue update notification"
-msgstr ""
+msgstr "Oznámenie aktualizácie radu tiketu"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid ""
 "You will receive a notification if a ticket is moved into one of your \"My "
 "Queues\"."
 msgstr ""
+"Dostanete oznámenie pri presunu tiketu do jedné z vašich radov v \"Moje rady"
+"\"."
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket pending reminder notification (locked)"
-msgstr ""
+msgstr "Oznámenie počas pripomenutie tiketu (uzamknutý)"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket pending reminder notification (unlocked)"
-msgstr ""
+msgstr "Oznámenie počas pripomenutie tiketu (neuzamknutý)"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket escalation notification"
-msgstr ""
+msgstr "Oznámenie vystupňovanie tiketu"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket escalation warning notification"
-msgstr ""
+msgstr "Oznámenie varovania pri vystupňovanie tiketu"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket service update notification"
-msgstr ""
+msgstr "Oznámenie aktualizácie služby tiketu"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid ""
 "You will receive a notification if a ticket's service is changed to one of "
 "your \"My Services\"."
 msgstr ""
+"Dostanete oznámenie pri zmene služby niektorého vašho tiketu v \"Moje služby"
+"\"."
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "Appointment reminder notification"
-msgstr ""
+msgstr "Oznámenie pripomenutie stretnutia"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid ""
 "You will receive a notification each time a reminder time is reached for one "
 "of your appointments."
-msgstr ""
+msgstr "Dostanete oznámenie v čase pripomenutie jedné z vášich stretnutie."
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket email delivery failure notification"
-msgstr ""
+msgstr "Oznámenie zlýhania doručenia emailu"
 
 #. JS File: Core.AJAX
 msgid "Error during AJAX communication. Status: %s, Error: %s"
@@ -17004,7 +17028,7 @@ msgstr ""
 
 #. JS File: Core.UI.Datepicker
 msgid "Open date selection"
-msgstr "tvoriť výber dátumu"
+msgstr "Otvoriť výber dátumu"
 
 #. JS File: Core.UI.Datepicker
 msgid "Invalid date (need a future date)!"
@@ -17627,7 +17651,7 @@ msgstr "Všetky otvorené tikety - na ktorých sa ešte nezačalo pracovať"
 
 #. SysConfig
 msgid "All open tickets, these tickets have already been worked on."
-msgstr ""
+msgstr "Všetky otvorené tikety, tikety na ktorých sa práve pracuje."
 
 #. SysConfig
 msgid ""
@@ -18237,19 +18261,19 @@ msgstr "Vianoce"
 
 #. SysConfig
 msgid "Close"
-msgstr "Zatvorit"
+msgstr "Zatvoriť"
 
 #. SysConfig
 msgid "Close this ticket"
-msgstr "Uzatvor tiket"
+msgstr "Uzatvoriť tento tiket"
 
 #. SysConfig
 msgid "Closed tickets (customer user)"
-msgstr ""
+msgstr "Uzatvorené tikety (zákaznícký použivateľ)"
 
 #. SysConfig
 msgid "Closed tickets (customer)"
-msgstr ""
+msgstr "Uzatvorené tikety (zákazník)"
 
 #. SysConfig
 msgid "Cloud Services"
@@ -22975,11 +22999,11 @@ msgstr "Uzamknuté tikety"
 
 #. SysConfig
 msgid "Locked Tickets."
-msgstr ""
+msgstr "Uzamknuté tikety."
 
 #. SysConfig
 msgid "Locked ticket."
-msgstr "História: zamkni"
+msgstr "Uzamknutý tiket."
 
 #. SysConfig
 msgid "Logged in users."
@@ -23341,7 +23365,7 @@ msgstr "Hromadný výber"
 
 #. SysConfig
 msgid "My Queues"
-msgstr "Moje Queues."
+msgstr "Moje rady"
 
 #. SysConfig
 msgid "My Services"
@@ -23417,9 +23441,8 @@ msgid "No public key found."
 msgstr "Neboli nájdené žiadne dáta ticketu"
 
 #. SysConfig
-#, fuzzy
 msgid "No valid OpenPGP data found."
-msgstr "Neboli nájdené žiadne dáta ticketu"
+msgstr "Neboli nájdené žiadne platné dáta OpenPGP."
 
 #. SysConfig
 msgid "None"
@@ -23496,15 +23519,15 @@ msgstr ""
 
 #. SysConfig
 msgid "Open an external link!"
-msgstr ""
+msgstr "Otvoriť externú linku!"
 
 #. SysConfig
 msgid "Open tickets (customer user)"
-msgstr ""
+msgstr "Otvorené tikety (zákaznícky používateľ)"
 
 #. SysConfig
 msgid "Open tickets (customer)"
-msgstr ""
+msgstr "Otvorené tikety (zákazník)"
 
 #. SysConfig
 msgid "Option"
@@ -23578,11 +23601,11 @@ msgstr ""
 
 #. SysConfig
 msgid "Overview of all open Tickets."
-msgstr ""
+msgstr "Prehľad všetkých otvorených tiketov."
 
 #. SysConfig
 msgid "Overview of all open tickets."
-msgstr ""
+msgstr "Prehľad všetkých otvorených tiketov."
 
 #. SysConfig
 msgid "Overview of customer tickets."
@@ -26540,7 +26563,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Ticket Close."
-msgstr ""
+msgstr "Uzatvorenie tiketu."
 
 #. SysConfig
 msgid "Ticket Compose Bounce Email."
@@ -26799,7 +26822,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Unlocked ticket."
-msgstr "História: odomkni"
+msgstr "Neuzamknutý tiket."
 
 #. SysConfig
 msgid "Up"

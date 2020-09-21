@@ -13,10 +13,11 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2020-04-08 06:39+0000\n"
-"PO-Revision-Date: 2018-09-20 13:03+0000\n"
-"Last-Translator: Bohdan Melnychuk <base-w@yandex.ru>, 2019\n"
-"Language-Team: Ukrainian (https://www.transifex.com/otrs/teams/23435/uk/)\n"
+"POT-Creation-Date: 2020-07-01 07:05+0000\n"
+"PO-Revision-Date: 2020-09-10 23:40+0000\n"
+"Last-Translator: Vira Motorko <vira.motorko@gmail.com>\n"
+"Language-Team: Ukrainian <https://translate.app.otrs.com/projects/otrs-6/"
+"otrs/uk/>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -25,6 +26,7 @@ msgstr ""
 "11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % "
 "100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || "
 "(n % 100 >=11 && n % 100 <=14 )) ? 2: 3);\n"
+"X-Generator: Weblate 4.1.1\n"
 
 #. Template: AdminACL
 msgid "ACL Management"
@@ -56,7 +58,7 @@ msgstr "Просто почніть друкувати для фільтрува
 
 #. Template: AdminACL
 msgid "Configuration Import"
-msgstr "Імпорт Конфігурації"
+msgstr "Імпорт конфігурації"
 
 #. Template: AdminACL
 msgid ""
@@ -64,7 +66,7 @@ msgid ""
 "file needs to be in .yml format as exported by the ACL editor module."
 msgstr ""
 "Тут Ви можете завантажити файл конфігурації для імпорту ACL-ів у свою "
-"ситстему. Файл має бути у форматі .yml, як його експортував модуль "
+"систему. Файл має бути у форматі .yml, як його експортував модуль "
 "редагування ACL."
 
 #. Template: AdminACL
@@ -77,7 +79,7 @@ msgstr "Перезаписати наявні ACL-и?"
 
 #. Template: AdminACL
 msgid "Upload ACL configuration"
-msgstr "Завантажити конфігурацію ACL"
+msgstr "Вивантажити конфігурацію ACL"
 
 #. Template: AdminACL
 msgid "Import ACL configuration(s)"
@@ -195,15 +197,15 @@ msgstr ""
 
 #. Template: AdminACLEdit
 msgid "Check the official %sdocumentation%s."
-msgstr ""
+msgstr "Переглянути офіційну %sдокументацію%s."
 
 #. Template: AdminACLEdit
 msgid "Show or hide the content"
-msgstr "Відобразити або сховати вміст"
+msgstr "Показати або сховати вміст"
 
 #. Template: AdminACLEdit
 msgid "Edit ACL Information"
-msgstr ""
+msgstr "Редагувати інформацію ACL"
 
 #. Template: AdminACLEdit
 msgid "Name"
@@ -215,7 +217,7 @@ msgstr "Припинити перевірку після збігу"
 
 #. Template: AdminACLEdit
 msgid "Edit ACL Structure"
-msgstr ""
+msgstr "Редагувати структуру ACL"
 
 #. Template: AdminACLEdit
 msgid "Save ACL"
@@ -271,7 +273,7 @@ msgstr "Додати новий календар"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Import Appointments"
-msgstr "Імпортувати Події"
+msgstr "Імпортувати події"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Calendar Import"
@@ -283,17 +285,17 @@ msgid ""
 "system. The file needs to be in .yml format as exported by calendar "
 "management module."
 msgstr ""
-"Тут ви можете завантажити файл конфігурації, щоб імпортувати календар до "
-"Вашої системи.Файл повинен бути в .yml форматі, що експортуються модулем "
-"управління календаря"
+"Тут ви можете вивантажити файл конфігурації, щоб імпортувати календар до "
+"Вашої системи. Файл повинен бути в .yml форматі, в якому його експортував "
+"модуль управління календаря."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Overwrite existing entities"
-msgstr "Перезапис об'єктів що існують"
+msgstr "Перезаписати наявні об'єкти"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Upload calendar configuration"
-msgstr "Завантажити конфігурацію календаря"
+msgstr "Вивантажити конфігурацію календаря"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Import Calendar"
@@ -301,11 +303,11 @@ msgstr "Імпорт календаря"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Filter for Calendars"
-msgstr ""
+msgstr "Фільтрувати календарі"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Filter for calendars"
-msgstr "Фільтр для календаря"
+msgstr "Фільтр календарів"
 
 #. Template: AdminAppointmentCalendarManage
 msgid ""
@@ -313,13 +315,13 @@ msgid ""
 "calendar according to their permission level."
 msgstr ""
 "Залежно від поля групи, система надасть користувачам доступ до календаря "
-"відповідно до їх рівня доступу"
+"відповідно до їхнього рівня доступу."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Read only: users can see and export all appointments in the calendar."
 msgstr ""
 "Тільки для читання: користувачі зможуть переглядати та експортувати всі "
-"події в календарі"
+"події в календарі."
 
 #. Template: AdminAppointmentCalendarManage
 msgid ""
@@ -327,16 +329,16 @@ msgid ""
 "changing the calendar selection."
 msgstr ""
 "Перемістити в: користувачі можуть змінювати події в календарі, але без зміни "
-"вибору календаря"
+"вибору календаря."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Create: users can create and delete appointments in the calendar."
 msgstr ""
-"Створити: користувачі можуть створювати і видаляти зустрічі в календарі"
+"Створити: користувачі можуть створювати і видаляти зустрічі в календарі."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Read/write: users can manage the calendar itself."
-msgstr "Читання/запис: користувачі можуть управляти календарем самостійно"
+msgstr "Читання/запис: користувачі можуть управляти календарем самостійно."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Group"
@@ -376,11 +378,11 @@ msgstr "Каландар"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Calendar name"
-msgstr "Імя календаря"
+msgstr "Назва календаря"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Calendar with same name already exists."
-msgstr "Календар з таким імям уже існує"
+msgstr "Календар з такою назвою вже існує."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Color"
@@ -419,7 +421,7 @@ msgid ""
 "Use options below to narrow down for which tickets appointments will be "
 "automatically created."
 msgstr ""
-"Використовуйте опції нижче, щоб звузити, для яких тікетів події будуть "
+"Використовуйте опції нижче, щоб звузити, для яких заявок події будуть "
 "створені автоматично."
 
 #. Template: AdminAppointmentCalendarManage
@@ -428,7 +430,7 @@ msgstr "Черги"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Please select a valid queue."
-msgstr "Будь ласка виберіть дійсну чергу"
+msgstr "Будь ласка, виберіть дійсну чергу."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Search attributes"
@@ -447,8 +449,8 @@ msgid ""
 "Define rules for creating automatic appointments in this calendar based on "
 "ticket data."
 msgstr ""
-"Визначення правил для створення автоматичних подій в цьому календарі на "
-"підставі даних заявки"
+"Визначити правила створення автоматичних подій в цьому календарі на підставі "
+"даних заявки."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Add Rule"
@@ -460,69 +462,69 @@ msgstr "Відправити"
 
 #. Template: AdminAppointmentImport
 msgid "Appointment Import"
-msgstr "Імпортувати Подію"
+msgstr "Імпортувати подію"
 
 #. Template: AdminAppointmentImport
 msgid "Go back"
-msgstr ""
+msgstr "Повернутися"
 
 #. Template: AdminAppointmentImport
 msgid "Uploaded file must be in valid iCal format (.ics)."
-msgstr "Завантажений файл повинен бути в правильному ical форматі (.ics)"
+msgstr "Вивантажений файл повинен бути в правильному iCal форматі (.ics)."
 
 #. Template: AdminAppointmentImport
 msgid ""
 "If desired Calendar is not listed here, please make sure that you have at "
 "least 'create' permissions."
 msgstr ""
-"Якщо обраний календар не в списку, переконайтеся будь ласка, що у вас є "
-"повноваження на створення"
+"Якщо обраний календар не в списку, переконайтеся, будь ласка, що у вас є "
+"дозвіл на створення."
 
 #. Template: AdminAppointmentImport
 msgid "Upload"
-msgstr "Завантажити"
+msgstr "Вивантажити"
 
 #. Template: AdminAppointmentImport
 msgid "Update existing appointments?"
-msgstr "Оновити існуючі Події"
+msgstr "Оновити наявні події?"
 
 #. Template: AdminAppointmentImport
 msgid ""
 "All existing appointments in the calendar with same UniqueID will be "
 "overwritten."
-msgstr "Всі існуючі події в календарі з таким же UniqueID будуть перезаписані"
+msgstr "Усі наявні події в календарі з таким же UniqueID будуть перезаписані."
 
 #. Template: AdminAppointmentImport
 msgid "Upload calendar"
-msgstr "Завантажити календар"
+msgstr "Вивантажити календар"
 
 #. Template: AdminAppointmentImport
 msgid "Import appointments"
-msgstr "Імпортувати Події"
+msgstr "Імпортувати події"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Appointment Notification Management"
-msgstr "Управління повідомленнями Подій"
+msgstr "Керування повідомленнями подій"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Add Notification"
-msgstr "Додати повідомлення"
+msgstr "Додати сповіщення"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Edit Notification"
-msgstr "Редагувати повідомлення"
+msgstr "Редагувати сповіщення"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Export Notifications"
-msgstr "Експортувати Сповіщень"
+msgstr "Експортувати сповіщень"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Filter for Notifications"
-msgstr ""
+msgstr "Фільтрувати сповіщення"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Filter for notifications"
-msgstr ""
+msgstr "Фільтрувати сповіщення"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid ""
@@ -530,6 +532,9 @@ msgid ""
 "to your system. The file needs to be in .yml format as exported by the "
 "appointment notification module."
 msgstr ""
+"Тут ви можете вивантажити файл конфігурації для імпорту сповіщень про події "
+"до своєї системи. Файл повинен бути у форматі .yml, в якому його експортував "
+"модуль сповіщень про події."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Overwrite existing notifications?"
@@ -537,11 +542,11 @@ msgstr "Перезаписати наявні сповіщення?"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Upload Notification configuration"
-msgstr "Вивантажити конфігурацію Сповіщень"
+msgstr "Вивантажити конфігурацію сповіщень"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Import Notification configuration"
-msgstr "Імпортувати конфігурацію Сповіщень"
+msgstr "Імпортувати конфігурацію сповіщень"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "List"
@@ -589,6 +594,9 @@ msgid ""
 "additional appointment filter can be applied below to only send for "
 "appointments with certain criteria."
 msgstr ""
+"Тут ви можете вибрати, на які події спрацьовуватиме це сповіщення. "
+"Додатковий фільтр призначень можна застосувати нижче, щоб відправлення "
+"робилося лише для призначень з певним критерієм."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Appointment Filter"
@@ -2175,7 +2183,7 @@ msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Event Based Execution (Single Ticket)"
-msgstr ""
+msgstr "Виконання за подіями (одна заявка)"
 
 #. Template: AdminGenericAgent
 msgid "Event Triggers"
@@ -2194,7 +2202,7 @@ msgid ""
 "Additionally or alternatively to a periodic execution, you can define ticket "
 "events that will trigger this job."
 msgstr ""
-"Додатково або альтернативно до періодичного запуску, Ви можете визначити "
+"Додатково або альтернативно до періодичного запуску, ви можете визначити "
 "події заявок, що будуть тригерами цього завдання."
 
 #. Template: AdminGenericAgent
@@ -2203,7 +2211,7 @@ msgid ""
 "the ticket matches. Only then the job is run on that ticket."
 msgstr ""
 "Якщо сталась подія заявки, фільтр заявки буде застосовано для перевірки чи "
-"заявка співпадає. Лише тоді завдання буде запущено виконано для цієї заявки."
+"заявка співпадає. Лише тоді завдання буде запущено для цієї заявки."
 
 #. Template: AdminGenericAgent
 msgid "Do you really want to delete this event trigger?"
@@ -2215,7 +2223,7 @@ msgstr "Додати тригер події"
 
 #. Template: AdminGenericAgent
 msgid "To add a new event select the event object and event name"
-msgstr ""
+msgstr "Щоб додати нову подію, виберіть об'єкт події і назву події"
 
 #. Template: AdminGenericAgent
 msgid "Select Tickets"
@@ -2895,6 +2903,9 @@ msgid ""
 "If a retry interval factor of '1.5' or '2' is selected, undesirably long "
 "intervals can be prevented by defining the largest interval allowed."
 msgstr ""
+"Якщо вибрано значення інтервального фактора повторної спроби «1,5» або «2», "
+"небажано довгих інтервалів можна уникнути, вказавши найбільший дозволений "
+"інтервал."
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid ""
@@ -3041,11 +3052,11 @@ msgstr "Умова"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Edit this event"
-msgstr ""
+msgstr "Редагувати цю подію"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "This invoker will be triggered by the configured events."
-msgstr "Цей активатор буде викликаний сконфігурованою подією."
+msgstr "Цей активатор буде викликаний налаштованими подіями."
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Add Event"
@@ -3072,7 +3083,7 @@ msgid ""
 "Synchronous event triggers would be processed directly during the web "
 "request."
 msgstr ""
-"Синхронні тригери подій будуть обробляться безпосередньо під час веб-запиту."
+"Синхронні тригери подій будуть оброблятися безпосередньо під час вебзапиту."
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "GenericInterface Invoker Event Settings for Web Service %s"
@@ -3088,7 +3099,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "Do you really want to delete all the conditions for this event?"
-msgstr ""
+msgstr "Ви справді бажаєте вилучити усі умови для цієї події?"
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "General Settings"
@@ -3096,7 +3107,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "Event type"
-msgstr ""
+msgstr "Тип події"
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "Conditions"
@@ -4338,9 +4349,9 @@ msgid ""
 "additional ticket filter can be applied below to only send for ticket with "
 "certain criteria."
 msgstr ""
-"Тут ви можете вибрати події, що будуть вмикати це сповіщення. Додатковий "
-"фільтр квитків може бути доданий нижче, щоб відправити сповіщення для квитка "
-"з певними критеріями."
+"Тут ви можете вибрати події, що будуть вмикати це сповіщення. Нижче можна "
+"додати додатковий фільтр заявок, щоб сповіщення відправлялося лише для "
+"заявки з певними критеріями."
 
 #. Template: AdminNotificationEvent
 msgid "Ticket Filter"
@@ -4376,9 +4387,9 @@ msgid ""
 "specify an article filter as well. Please select at least one of the article "
 "filter fields."
 msgstr ""
-"Якщо ArticleCreate або ArticleSend використовуються як ініціюючи події, вам "
-"необхідно також вказати фільтр статті. Будь ласка виберіть принаймні одне "
-"поле фільтру статті."
+"Якщо ArticleCreate або ArticleSend використовуються як тригери, вам "
+"необхідно також вказати фільтр статей. Будь ласка, виберіть принаймні одне "
+"поле фільтру статей."
 
 #. Template: AdminNotificationEvent
 msgid "Customer visibility"
@@ -9102,7 +9113,7 @@ msgstr "Зберегти умови фільтра для показу за за
 
 #. Template: AgentTicketZoom
 msgid "Event Type"
-msgstr "Тип Події"
+msgstr "Тип події"
 
 #. Template: AgentTicketZoom
 msgid "Save as default"
@@ -9207,7 +9218,7 @@ msgstr "Весь Текст Статті"
 #. Template: AgentTicketZoom
 msgid "No more events found. Please try changing the filter settings."
 msgstr ""
-"Не знайдено більше подій. Будь ласка, спробуйте змінити налаштування "
+"Більше не знайдено подій. Будь ласка, спробуйте змінити налаштування "
 "фільтрів."
 
 #. Template: Chat
@@ -11424,7 +11435,7 @@ msgstr "Попередити уведення дати в майбутньому
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldDateTime.pm
 msgid "Prevent entry of dates in the past"
-msgstr "Попередити уведення дат в минулому"
+msgstr "Попередити введення дат в минулому"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldDropdown.pm
 msgid "This field value is duplicated."
@@ -11712,7 +11723,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
 msgid "Need Event!"
-msgstr ""
+msgstr "Потрібна подія!"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
 msgid "Could not get registered modules for Invoker"
@@ -11724,7 +11735,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
 msgid "The event %s is not valid."
-msgstr ""
+msgstr "Подія %s недійсна."
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
 msgid "Could not update configuration data for WebserviceID %s"
@@ -16373,396 +16384,396 @@ msgstr ""
 msgid "Action \"%s\" not found!"
 msgstr ""
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "invalid-temporarily"
 msgstr "тимчасово недійсний"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "Group for default access."
 msgstr ""
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "Group of all administrators."
 msgstr ""
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "Group for statistics access."
 msgstr ""
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "new"
 msgstr "нова"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "All new state types (default: viewable)."
 msgstr ""
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "open"
 msgstr "відкриті"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "All open state types (default: viewable)."
 msgstr ""
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "closed"
 msgstr "закриті"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "All closed state types (default: not viewable)."
 msgstr ""
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "pending reminder"
 msgstr "відкладене нагадування"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "All 'pending reminder' state types (default: viewable)."
 msgstr ""
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "pending auto"
 msgstr "чекає на авто"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "All 'pending auto *' state types (default: viewable)."
 msgstr ""
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "removed"
 msgstr "вилучені"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "All 'removed' state types (default: not viewable)."
 msgstr ""
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "merged"
 msgstr "об'єднано"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "State type for merged tickets (default: not viewable)."
 msgstr ""
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "New ticket created by customer."
 msgstr ""
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "closed successful"
 msgstr "закрито успішно"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket is closed successful."
 msgstr ""
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "closed unsuccessful"
 msgstr "закрито неуспішно"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket is closed unsuccessful."
 msgstr ""
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "Open tickets."
 msgstr ""
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "Customer removed ticket."
 msgstr ""
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket is pending for agent reminder."
 msgstr ""
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "pending auto close+"
 msgstr "чекає на автозакриття+"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket is pending for automatic close."
 msgstr ""
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "pending auto close-"
 msgstr "чекає на автозакриття-"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "State for merged tickets."
 msgstr ""
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "system standard salutation (en)"
 msgstr ""
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "Standard Salutation."
 msgstr ""
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "system standard signature (en)"
 msgstr ""
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "Standard Signature."
 msgstr ""
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "Standard Address."
 msgstr ""
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "possible"
 msgstr "імовірно"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "Follow-ups for closed tickets are possible. Ticket will be reopened."
 msgstr ""
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "reject"
 msgstr "відхилити"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid ""
 "Follow-ups for closed tickets are not possible. No new ticket will be "
 "created."
 msgstr ""
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "new ticket"
 msgstr ""
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid ""
 "Follow-ups for closed tickets are not possible. A new ticket will be created."
 msgstr ""
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "Postmaster queue."
 msgstr ""
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "All default incoming tickets."
 msgstr ""
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "All junk tickets."
 msgstr ""
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "All misc tickets."
 msgstr ""
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "auto reply"
 msgstr "автовідповідь"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid ""
 "Automatic reply which will be sent out after a new ticket has been created."
 msgstr ""
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "auto reject"
 msgstr "автовідхилення"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid ""
 "Automatic reject which will be sent out after a follow-up has been rejected "
 "(in case queue follow-up option is \"reject\")."
 msgstr ""
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "auto follow up"
 msgstr "автослідування"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid ""
 "Automatic confirmation which is sent out after a follow-up has been received "
 "for a ticket (in case queue follow-up option is \"possible\")."
 msgstr ""
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "auto reply/new ticket"
 msgstr "автовідповідь/нова заявка"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid ""
 "Automatic response which will be sent out after a follow-up has been "
 "rejected and a new ticket has been created (in case queue follow-up option "
 "is \"new ticket\")."
 msgstr ""
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "auto remove"
 msgstr "автовилучення"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "Auto remove will be sent out after a customer removed the request."
 msgstr ""
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "default reply (after new ticket has been created)"
 msgstr ""
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "default reject (after follow-up and rejected of a closed ticket)"
 msgstr ""
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "default follow-up (after a ticket follow-up has been added)"
 msgstr ""
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid ""
 "default reject/new ticket created (after closed follow-up with new ticket "
 "creation)"
 msgstr ""
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "Unclassified"
 msgstr ""
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "1 very low"
 msgstr "1 найнижчий"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "2 low"
 msgstr "2 низький"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "3 normal"
 msgstr "3 звичайний"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "4 high"
 msgstr "4 високий"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "5 very high"
 msgstr "5 невідкладний"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "unlock"
 msgstr "розблокована"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "lock"
 msgstr "блокована"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "tmp_lock"
 msgstr ""
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "agent"
 msgstr "агент"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "system"
 msgstr "система"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "customer"
 msgstr "клієнт"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket create notification"
 msgstr ""
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid ""
 "You will receive a notification each time a new ticket is created in one of "
 "your \"My Queues\" or \"My Services\"."
 msgstr ""
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket follow-up notification (unlocked)"
 msgstr ""
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid ""
 "You will receive a notification if a customer sends a follow-up to an "
 "unlocked ticket which is in your \"My Queues\" or \"My Services\"."
 msgstr ""
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket follow-up notification (locked)"
 msgstr ""
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid ""
 "You will receive a notification if a customer sends a follow-up to a locked "
 "ticket of which you are the ticket owner or responsible."
 msgstr ""
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket lock timeout notification"
 msgstr "Повідомлення про закічнення строку блокування заявки"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid ""
 "You will receive a notification as soon as a ticket owned by you is "
 "automatically unlocked."
 msgstr ""
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket owner update notification"
 msgstr ""
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket responsible update notification"
 msgstr ""
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket new note notification"
 msgstr ""
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket queue update notification"
 msgstr ""
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid ""
 "You will receive a notification if a ticket is moved into one of your \"My "
 "Queues\"."
 msgstr ""
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket pending reminder notification (locked)"
 msgstr ""
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket pending reminder notification (unlocked)"
 msgstr ""
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket escalation notification"
 msgstr "Сповіщення заявок з загостренням"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket escalation warning notification"
 msgstr "Сповіщення попереджень про загострення заявок"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket service update notification"
 msgstr ""
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid ""
 "You will receive a notification if a ticket's service is changed to one of "
 "your \"My Services\"."
 msgstr ""
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "Appointment reminder notification"
 msgstr "повідомлення нагадування про Подію"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid ""
 "You will receive a notification each time a reminder time is reached for one "
 "of your appointments."
@@ -16770,7 +16781,7 @@ msgstr ""
 "Ви будете отримувати повідомлення щоразу, як наставатиме визначений час (для "
 "Вашої Події)"
 
-#. Database XML Definition: scripts/database/otrs-initial_insert.xml
+#. Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket email delivery failure notification"
 msgstr ""
 
@@ -16896,7 +16907,7 @@ msgstr ""
 #. JS File: Core.Agent.Admin.GenericInterfaceInvoker
 msgid ""
 "It is not possible to add a new event trigger because the event is not set."
-msgstr ""
+msgstr "Неможливо додати новий тригер події, бо подія не налаштована."
 
 #. JS File: Core.Agent.Admin.GenericInterfaceInvoker
 msgid "Delete this Invoker"
@@ -17495,7 +17506,7 @@ msgstr "Застосувати"
 
 #. JS File: Core.Agent.TicketZoom
 msgid "Event Type Filter"
-msgstr "Фільтр Типу Події"
+msgstr "Фільтр типу події"
 
 #. JS File: Core.Agent
 msgid "Slide the navigation bar"
@@ -18459,13 +18470,17 @@ msgstr "Повідомлення по події"
 msgid ""
 "Appointment calendar event module that prepares notification entries for "
 "appointments."
-msgstr "модуль подій календаря, який готує записи повідомлення для подій"
+msgstr ""
+"Модуль подій календаря призначень, який готує записи сповіщень для "
+"призначень."
 
 #. SysConfig
 msgid ""
 "Appointment calendar event module that updates the ticket with data from "
 "ticket appointment."
-msgstr "модуль подій календаря, який оновлює тікет з даними від подій заявки"
+msgstr ""
+"Модуль подій календаря призначень, який оновлює заявку даними з призначення "
+"події."
 
 #. SysConfig
 msgid "Appointment edit screen."
@@ -20029,6 +20044,8 @@ msgstr ""
 msgid ""
 "Defines queues that's tickets are used for displaying as calendar events."
 msgstr ""
+"Визначає черги, заявки яких використовуються для показування у вигляді "
+"календарних подій."
 
 #. SysConfig
 msgid ""
