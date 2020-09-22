@@ -1,5 +1,3 @@
-# 6.0.31 ????-??-??
-
 # 6.0.30 2020-10-12
  - 2020-09-22 Updated translations, thanks to all translators.
  - 2020-09-15 Fixed bug#[15246](https://bugs.otrs.org/show_bug.cgi?id=15246) - Default encryption setting on queue is ignored.
