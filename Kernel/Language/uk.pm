@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%M/%D/%Y';
     $Self->{DateInputFormat}     = '%M/%D/%Y';
     $Self->{DateInputFormatLong} = '%M/%D/%Y - %T';
-    $Self->{Completeness}        = 0.494920419911954;
+    $Self->{Completeness}        = 0.49813748730105;
 
     # csv separator
     $Self->{Separator}         = ',';
@@ -41,12 +41,12 @@ sub Data {
         'Export ACLs' => 'Експортувати ACL-и',
         'Filter for ACLs' => 'Фільтри для ACL',
         'Just start typing to filter...' => 'Просто почніть друкувати для фільтрування…',
-        'Configuration Import' => 'Імпорт Конфігурації',
+        'Configuration Import' => 'Імпорт конфігурації',
         'Here you can upload a configuration file to import ACLs to your system. The file needs to be in .yml format as exported by the ACL editor module.' =>
-            'Тут Ви можете завантажити файл конфігурації для імпорту ACL-ів у свою ситстему. Файл має бути у форматі .yml, як його експортував модуль редагування ACL.',
+            'Тут Ви можете завантажити файл конфігурації для імпорту ACL-ів у свою систему. Файл має бути у форматі .yml, як його експортував модуль редагування ACL.',
         'This field is required.' => 'Це обов\'язкове поле.',
         'Overwrite existing ACLs?' => 'Перезаписати наявні ACL-и?',
-        'Upload ACL configuration' => 'Завантажити конфігурацію ACL',
+        'Upload ACL configuration' => 'Вивантажити конфігурацію ACL',
         'Import ACL configuration(s)' => 'Імпортувати конфігурацію(-ї) ACL',
         'Description' => 'Опис',
         'To create a new ACL you can either import ACLs which were exported from another system or create a complete new one.' =>
@@ -76,12 +76,12 @@ sub Data {
         'Change settings' => 'Змінити налаштування',
         'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is a white list, \'PossibleNot\' a black list.' =>
             'Установіть що Ви хочете змінити, якщо є відповідність критеріям. Майте на увазі, що «Можливо» — білий список, «Не можливо» — чорний список.',
-        'Check the official %sdocumentation%s.' => '',
-        'Show or hide the content' => 'Відобразити або сховати вміст',
-        'Edit ACL Information' => '',
+        'Check the official %sdocumentation%s.' => 'Переглянути офіційну %sдокументацію%s.',
+        'Show or hide the content' => 'Показати або сховати вміст',
+        'Edit ACL Information' => 'Редагувати інформацію ACL',
         'Name' => 'Ім\'я',
         'Stop after match' => 'Припинити перевірку після збігу',
-        'Edit ACL Structure' => '',
+        'Edit ACL Structure' => 'Редагувати структуру ACL',
         'Save ACL' => 'Зберегти ACL',
         'Save' => 'Зберегти',
         'or' => 'або',
@@ -99,24 +99,24 @@ sub Data {
         'Edit Calendar' => 'Редагувати календар',
         'Calendar Overview' => 'Перегляд календаря',
         'Add new Calendar' => 'Додати новий календар',
-        'Import Appointments' => 'Імпортувати Події',
+        'Import Appointments' => 'Імпортувати події',
         'Calendar Import' => 'Імпорт календаря',
         'Here you can upload a configuration file to import a calendar to your system. The file needs to be in .yml format as exported by calendar management module.' =>
-            'Тут ви можете завантажити файл конфігурації, щоб імпортувати календар до Вашої системи.Файл повинен бути в .yml форматі, що експортуються модулем управління календаря',
-        'Overwrite existing entities' => 'Перезапис об\'єктів що існують',
-        'Upload calendar configuration' => 'Завантажити конфігурацію календаря',
+            'Тут ви можете вивантажити файл конфігурації, щоб імпортувати календар до Вашої системи. Файл повинен бути в .yml форматі, в якому його експортував модуль управління календаря.',
+        'Overwrite existing entities' => 'Перезаписати наявні об\'єкти',
+        'Upload calendar configuration' => 'Вивантажити конфігурацію календаря',
         'Import Calendar' => 'Імпорт календаря',
-        'Filter for Calendars' => '',
-        'Filter for calendars' => 'Фільтр для календаря',
+        'Filter for Calendars' => 'Фільтрувати календарі',
+        'Filter for calendars' => 'Фільтр календарів',
         'Depending on the group field, the system will allow users the access to the calendar according to their permission level.' =>
-            'Залежно від поля групи, система надасть користувачам доступ до календаря відповідно до їх рівня доступу',
+            'Залежно від поля групи, система надасть користувачам доступ до календаря відповідно до їхнього рівня доступу.',
         'Read only: users can see and export all appointments in the calendar.' =>
-            'Тільки для читання: користувачі зможуть переглядати та експортувати всі події в календарі',
+            'Тільки для читання: користувачі зможуть переглядати та експортувати всі події в календарі.',
         'Move into: users can modify appointments in the calendar, but without changing the calendar selection.' =>
-            'Перемістити в: користувачі можуть змінювати події в календарі, але без зміни вибору календаря',
+            'Перемістити в: користувачі можуть змінювати події в календарі, але без зміни вибору календаря.',
         'Create: users can create and delete appointments in the calendar.' =>
-            'Створити: користувачі можуть створювати і видаляти зустрічі в календарі',
-        'Read/write: users can manage the calendar itself.' => 'Читання/запис: користувачі можуть управляти календарем самостійно',
+            'Створити: користувачі можуть створювати і видаляти зустрічі в календарі.',
+        'Read/write: users can manage the calendar itself.' => 'Читання/запис: користувачі можуть управляти календарем самостійно.',
         'Group' => 'Група',
         'Changed' => 'Змінено',
         'Created' => 'Створено',
@@ -126,8 +126,8 @@ sub Data {
         'Download calendar' => 'Завантажити календар',
         'Copy public calendar URL' => 'Копіювати URL публічного календаря',
         'Calendar' => 'Каландар',
-        'Calendar name' => 'Імя календаря',
-        'Calendar with same name already exists.' => 'Календар з таким імям уже існує',
+        'Calendar name' => 'Назва календаря',
+        'Calendar with same name already exists.' => 'Календар з такою назвою вже існує.',
         'Color' => 'Колір',
         'Permission group' => 'Група дозволів',
         'Ticket Appointments' => 'Події заявки',
@@ -137,42 +137,42 @@ sub Data {
         'Start date' => 'Дата початку',
         'End date' => 'Кінцева дата',
         'Use options below to narrow down for which tickets appointments will be automatically created.' =>
-            'Використовуйте опції нижче, щоб звузити, для яких тікетів події будуть створені автоматично.',
+            'Використовуйте опції нижче, щоб звузити, для яких заявок події будуть створені автоматично.',
         'Queues' => 'Черги',
-        'Please select a valid queue.' => 'Будь ласка виберіть дійсну чергу',
+        'Please select a valid queue.' => 'Будь ласка, виберіть дійсну чергу.',
         'Search attributes' => 'Пошук атрибутів',
         'Add entry' => 'Додати запис',
         'Add' => 'Додати',
         'Define rules for creating automatic appointments in this calendar based on ticket data.' =>
-            'Визначення правил для створення автоматичних подій в цьому календарі на підставі даних заявки',
+            'Визначити правила створення автоматичних подій в цьому календарі на підставі даних заявки.',
         'Add Rule' => 'Додати правило',
         'Submit' => 'Відправити',
 
         # Template: AdminAppointmentImport
-        'Appointment Import' => 'Імпортувати Подію',
-        'Go back' => '',
-        'Uploaded file must be in valid iCal format (.ics).' => 'Завантажений файл повинен бути в правильному ical форматі (.ics)',
+        'Appointment Import' => 'Імпортувати подію',
+        'Go back' => 'Повернутися',
+        'Uploaded file must be in valid iCal format (.ics).' => 'Вивантажений файл повинен бути в правильному iCal форматі (.ics).',
         'If desired Calendar is not listed here, please make sure that you have at least \'create\' permissions.' =>
-            'Якщо обраний календар не в списку, переконайтеся будь ласка, що у вас є повноваження на створення',
-        'Upload' => 'Завантажити',
-        'Update existing appointments?' => 'Оновити існуючі Події',
+            'Якщо обраний календар не в списку, переконайтеся, будь ласка, що у вас є дозвіл на створення.',
+        'Upload' => 'Вивантажити',
+        'Update existing appointments?' => 'Оновити наявні події?',
         'All existing appointments in the calendar with same UniqueID will be overwritten.' =>
-            'Всі існуючі події в календарі з таким же UniqueID будуть перезаписані',
-        'Upload calendar' => 'Завантажити календар',
-        'Import appointments' => 'Імпортувати Події',
+            'Усі наявні події в календарі з таким же UniqueID будуть перезаписані.',
+        'Upload calendar' => 'Вивантажити календар',
+        'Import appointments' => 'Імпортувати події',
 
         # Template: AdminAppointmentNotificationEvent
-        'Appointment Notification Management' => 'Управління повідомленнями Подій',
-        'Add Notification' => 'Додати повідомлення',
-        'Edit Notification' => 'Редагувати повідомлення',
-        'Export Notifications' => 'Експортувати Сповіщень',
-        'Filter for Notifications' => '',
-        'Filter for notifications' => '',
+        'Appointment Notification Management' => 'Керування повідомленнями подій',
+        'Add Notification' => 'Додати сповіщення',
+        'Edit Notification' => 'Редагувати сповіщення',
+        'Export Notifications' => 'Експортувати сповіщень',
+        'Filter for Notifications' => 'Фільтрувати сповіщення',
+        'Filter for notifications' => 'Фільтрувати сповіщення',
         'Here you can upload a configuration file to import appointment notifications to your system. The file needs to be in .yml format as exported by the appointment notification module.' =>
-            '',
+            'Тут ви можете вивантажити файл конфігурації для імпорту сповіщень про події до своєї системи. Файл повинен бути у форматі .yml, в якому його експортував модуль сповіщень про події.',
         'Overwrite existing notifications?' => 'Перезаписати наявні сповіщення?',
-        'Upload Notification configuration' => 'Вивантажити конфігурацію Сповіщень',
-        'Import Notification configuration' => 'Імпортувати конфігурацію Сповіщень',
+        'Upload Notification configuration' => 'Вивантажити конфігурацію сповіщень',
+        'Import Notification configuration' => 'Імпортувати конфігурацію сповіщень',
         'List' => 'Список',
         'Delete' => 'Вилучити',
         'Delete this notification' => 'Видалити це сповіщення',
@@ -184,7 +184,7 @@ sub Data {
         'Events' => 'Події',
         'Event' => 'Подія',
         'Here you can choose which events will trigger this notification. An additional appointment filter can be applied below to only send for appointments with certain criteria.' =>
-            '',
+            'Тут ви можете вибрати, на які події спрацьовуватиме це сповіщення. Додатковий фільтр призначень можна застосувати нижче, щоб відправлення робилося лише для призначень з певним критерієм.',
         'Appointment Filter' => 'Фільтр Подій',
         'Type' => 'Тип',
         'Title' => 'Заголовок',
@@ -647,17 +647,17 @@ sub Data {
             'Це завдання агента не запускається автоматично',
         'To enable automatic execution select at least one value from minutes, hours and days!' =>
             ' Для автоматичного запуску вкажіть як мінімум одне зі значень у хвилинах, годиннику або днях',
-        'Event Based Execution (Single Ticket)' => '',
+        'Event Based Execution (Single Ticket)' => 'Виконання за подіями (одна заявка)',
         'Event Triggers' => 'Тригери події',
         'List of all configured events' => 'Список усіх налаштованих подій',
         'Delete this event' => 'Вилучити цю подію',
         'Additionally or alternatively to a periodic execution, you can define ticket events that will trigger this job.' =>
-            'Додатково або альтернативно до періодичного запуску, Ви можете визначити події заявок, що будуть тригерами цього завдання.',
+            'Додатково або альтернативно до періодичного запуску, ви можете визначити події заявок, що будуть тригерами цього завдання.',
         'If a ticket event is fired, the ticket filter will be applied to check if the ticket matches. Only then the job is run on that ticket.' =>
-            'Якщо сталась подія заявки, фільтр заявки буде застосовано для перевірки чи заявка співпадає. Лише тоді завдання буде запущено виконано для цієї заявки.',
+            'Якщо сталась подія заявки, фільтр заявки буде застосовано для перевірки чи заявка співпадає. Лише тоді завдання буде запущено для цієї заявки.',
         'Do you really want to delete this event trigger?' => 'Ви дійсно хочете вилучити цей тригер події?',
         'Add Event Trigger' => 'Додати тригер події',
-        'To add a new event select the event object and event name' => '',
+        'To add a new event select the event object and event name' => 'Щоб додати нову подію, виберіть об\'єкт події і назву події',
         'Select Tickets' => 'Обрати заявки',
         '(e. g. 10*5155 or 105658*)' => '(наприклад, 10*5155 або 105658*)',
         '(e. g. 234321)' => '(наприклад, 234321)',
@@ -846,7 +846,7 @@ sub Data {
             '',
         'Maximum retry interval' => '',
         'If a retry interval factor of \'1.5\' or \'2\' is selected, undesirably long intervals can be prevented by defining the largest interval allowed.' =>
-            '',
+            'Якщо вибрано значення інтервального фактора повторної спроби «1,5» або «2», небажано довгих інтервалів можна уникнути, вказавши найбільший дозволений інтервал.',
         'Intervals calculated to exceed the maximum retry interval will then automatically be shortened accordingly.' =>
             '',
         'Example: If a request is initially triggered at 10:00 with initial interval at \'1 minute\', retry factor at \'2\' and maximum interval at \'5 minutes\', retries would be triggered at 10:01 (1 minute), 10:03 (2 minutes), 10:07 (4 minutes), 10:12 (8=>5 minutes), 10:17, ...' =>
@@ -888,24 +888,24 @@ sub Data {
             'Дані відповіді будуть оброблені цим відображенням так, щоб перетворити їх до того виду, що очікує активатор OTRS.',
         'Asynchronous' => 'Асинхронний',
         'Condition' => 'Умова',
-        'Edit this event' => '',
-        'This invoker will be triggered by the configured events.' => 'Цей активатор буде викликаний сконфігурованою подією.',
+        'Edit this event' => 'Редагувати цю подію',
+        'This invoker will be triggered by the configured events.' => 'Цей активатор буде викликаний налаштованими подіями.',
         'Add Event' => 'Додати подію',
         'To add a new event select the event object and event name and click on the "+" button' =>
             'Щоб додати нову подію, вкажіть об\'єкт події та назву події, після чого натисніть кнопку «+»',
         'Asynchronous event triggers are handled by the OTRS Scheduler Daemon in background (recommended).' =>
             'Асинхронні тригери подій будуть оброблятись Службою Планувальника OTRS у фоновому режимі (рекомендовано).',
         'Synchronous event triggers would be processed directly during the web request.' =>
-            'Синхронні тригери подій будуть обробляться безпосередньо під час веб-запиту.',
+            'Синхронні тригери подій будуть оброблятися безпосередньо під час вебзапиту.',
 
         # Template: AdminGenericInterfaceInvokerEvent
         'GenericInterface Invoker Event Settings for Web Service %s' => '',
         'Go back to' => 'Повернутися до',
         'Delete all conditions' => '',
         'Do you really want to delete all the conditions for this event?' =>
-            '',
+            'Ви справді бажаєте вилучити усі умови для цієї події?',
         'General Settings' => '',
-        'Event type' => '',
+        'Event type' => 'Тип події',
         'Conditions' => 'Умови',
         'Conditions can only operate on non-empty fields.' => 'Умови можуть діяти тільки з непорожніми полями.',
         'Type of Linking between Conditions' => 'Тип Зв\'язку між Умовами',
@@ -1264,7 +1264,7 @@ sub Data {
         'Here you can upload a configuration file to import Ticket Notifications to your system. The file needs to be in .yml format as exported by the Ticket Notification module.' =>
             'Тут ви можете вивантажити файл конфігурації для імпорту Сповіщень о Квитках до вашої системи. Файл повинен бути у .yml форматі такий як експортується модулем Сповіщення о Квитках.',
         'Here you can choose which events will trigger this notification. An additional ticket filter can be applied below to only send for ticket with certain criteria.' =>
-            'Тут ви можете вибрати події, що будуть вмикати це сповіщення. Додатковий фільтр квитків може бути доданий нижче, щоб відправити сповіщення для квитка з певними критеріями.',
+            'Тут ви можете вибрати події, що будуть вмикати це сповіщення. Нижче можна додати додатковий фільтр заявок, щоб сповіщення відправлялося лише для заявки з певними критеріями.',
         'Ticket Filter' => 'Фільтр заявок',
         'Lock' => 'Блокувати',
         'SLA' => 'Рівень обслуговування',
@@ -1273,7 +1273,7 @@ sub Data {
         'Only for ArticleCreate and ArticleSend event' => 'Тільки для подій ArticleCreate та ArticleSend ',
         'Article sender type' => 'Тип статті відправника',
         'If ArticleCreate or ArticleSend is used as a trigger event, you need to specify an article filter as well. Please select at least one of the article filter fields.' =>
-            'Якщо ArticleCreate або ArticleSend використовуються як ініціюючи події, вам необхідно також вказати фільтр статті. Будь ласка виберіть принаймні одне поле фільтру статті.',
+            'Якщо ArticleCreate або ArticleSend використовуються як тригери, вам необхідно також вказати фільтр статей. Будь ласка, виберіть принаймні одне поле фільтру статей.',
         'Customer visibility' => '',
         'Communication channel' => '',
         'Include attachments to notification' => 'Додати вкладення в повідомлення',
@@ -2743,7 +2743,7 @@ sub Data {
         # Template: AgentTicketZoom
         'Sender Type' => 'Тип відправника',
         'Save filter settings as default' => 'Зберегти умови фільтра для показу за замовчуванням',
-        'Event Type' => 'Тип Події',
+        'Event Type' => 'Тип події',
         'Save as default' => 'Зберегти як типовий',
         'Drafts' => '',
         'by' => 'ні',
@@ -2771,7 +2771,7 @@ sub Data {
         'Show Full Text' => 'Показати увесь текст',
         'Full Article Text' => 'Весь Текст Статті',
         'No more events found. Please try changing the filter settings.' =>
-            'Не знайдено більше подій. Будь ласка, спробуйте змінити налаштування фільтрів.',
+            'Більше не знайдено подій. Будь ласка, спробуйте змінити налаштування фільтрів.',
 
         # Template: Chat
         '#%s' => '',
@@ -3538,7 +3538,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldDateTime.pm
         'Prevent entry of dates in the future' => 'Попередити уведення дати в майбутньому',
-        'Prevent entry of dates in the past' => 'Попередити уведення дат в минулому',
+        'Prevent entry of dates in the past' => 'Попередити введення дат в минулому',
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldDropdown.pm
         'This field value is duplicated.' => 'Значення цього поля дублюється.',
@@ -3627,10 +3627,10 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
         'Need Invoker!' => '',
-        'Need Event!' => '',
+        'Need Event!' => 'Потрібна подія!',
         'Could not get registered modules for Invoker' => '',
         'Could not get backend for Invoker %s' => '',
-        'The event %s is not valid.' => '',
+        'The event %s is not valid.' => 'Подія %s недійсна.',
         'Could not update configuration data for WebserviceID %s' => 'Не можу оновити дані налаштування WebserviceID %s',
         'This sub-action is not valid' => '',
         'xor' => 'xor',
@@ -5532,7 +5532,7 @@ sub Data {
 
         # JS File: Core.Agent.Admin.GenericInterfaceInvoker
         'It is not possible to add a new event trigger because the event is not set.' =>
-            '',
+            'Неможливо додати новий тригер події, бо подія не налаштована.',
         'Delete this Invoker' => 'Вилучити цей активатор.',
 
         # JS File: Core.Agent.Admin.GenericInterfaceInvokerEvent
@@ -5773,7 +5773,7 @@ sub Data {
         # JS File: Core.Agent.TicketZoom
         'Article filter' => 'Фільтр статті',
         'Apply' => 'Застосувати',
-        'Event Type Filter' => 'Фільтр Типу Події',
+        'Event Type Filter' => 'Фільтр типу події',
 
         # JS File: Core.Agent
         'Slide the navigation bar' => 'Посунути панель навігації',
@@ -6105,9 +6105,9 @@ Thanks for your help!
         'Appointment Calendar overview page.' => 'Сторінка перегляду Подій календаря',
         'Appointment Notifications' => 'Повідомлення по події',
         'Appointment calendar event module that prepares notification entries for appointments.' =>
-            'модуль подій календаря, який готує записи повідомлення для подій',
+            'Модуль подій календаря призначень, який готує записи сповіщень для призначень.',
         'Appointment calendar event module that updates the ticket with data from ticket appointment.' =>
-            'модуль подій календаря, який оновлює тікет з даними від подій заявки',
+            'Модуль подій календаря призначень, який оновлює заявку даними з призначення події.',
         'Appointment edit screen.' => 'Екран редагування подій',
         'Appointment list' => 'Перелік подій',
         'Appointment list.' => 'Перелік подій',
@@ -6550,7 +6550,7 @@ Thanks for your help!
             '',
         'Defines phone communication channel.' => '',
         'Defines queues that\'s tickets are used for displaying as calendar events.' =>
-            '',
+            'Визначає черги, заявки яких використовуються для показування у вигляді календарних подій.',
         'Defines the HTTP hostname for the support data collection with the public module \'PublicSupportDataCollector\' (e.g. used from the OTRS Daemon).' =>
             '',
         'Defines the IP regular expression for accessing the local repository. You need to enable this to have access to your local repository and the package::RepositoryList is required on the remote host.' =>

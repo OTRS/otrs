@@ -807,7 +807,7 @@ sub Data {
         'Enter a regular expression to restrict which error messages should cause error handling module execution.' =>
             'Egy reguláris kifejezés megadása annak korlátozásához, hogy mely hibaüzeneteknek kell hibakezelési modul végrehajtást okoznia.',
         'Error message subject and data (as seen in the debugger error entry) will considered for a match.' =>
-            'A hibaüzenet tárgya és adatai (amint a hibakereső hibabejegyzésében létható) lesznek figyelembe véve egy egyezésnél.',
+            'A hibaüzenet tárgya és adatai (amint a hibakereső hibabejegyzésében látható) lesznek figyelembe véve egy egyezésnél.',
         'Example: Enter \'^.*401 Unauthorized.*\$\' to handle only authentication related errors.' =>
             'Példa: A „^.*401 Unauthorized.*\$” megadásával csak a hitelesítéssel kapcsolatos hibák kezelhetők.',
         'Error stage filter' => 'Hibaállapot szűrő',
@@ -1775,7 +1775,7 @@ sub Data {
         'Instructions' => 'Utasítások',
         'System Deregistration not Possible' => 'A rendszer regisztrációjának megszüntetése nem lehetséges',
         'Please note that you can\'t deregister your system if you\'re using the %s or having a valid service contract.' =>
-            'Ne feledje, hogy hogy nem tudja a rendszer regisztrációját megszüntetni az %s használatakor, vagy ha érvényes szolgáltatói szerződése van.',
+            'Ne feledje, hogy nem tudja a rendszer regisztrációját megszüntetni az %s használatakor, vagy ha érvényes szolgáltatói szerződése van.',
         'OTRS-ID Login' => 'OTRS-azonosító bejelentkezés',
         'Read more' => 'Olvassa tovább',
         'You need to log in with your OTRS-ID to register your system.' =>

@@ -35,7 +35,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.930240433457501;
+    $Self->{Completeness}        = 0.930748391466306;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -71,7 +71,7 @@ sub Data {
         'Comment' => 'Комментарий',
         'Validity' => 'Действительность',
         'Export' => 'Экспортировать',
-        'Copy' => 'Скопировать',
+        'Copy' => 'Копировать',
         'No data found.' => 'Данные не найдены.',
         'No matches found.' => 'Совпадений не найдено.',
 
@@ -392,13 +392,13 @@ sub Data {
         'Filter for Log Entries' => 'Фильтр для записей журнала',
         'Filter for log entries' => 'Фильтр для записей журнала',
         'Show only entries with specific priority and higher:' => 'Показывать записи только с указанным приоритетом и выше:',
-        'Communication Log Overview (%s)' => 'Просмотр журнала сеансов связи для:  (%s)',
+        'Communication Log Overview (%s)' => 'Просмотр журнала сеансов связи (%s)',
         'No communication objects found.' => 'Нет объектов сеансов связи.',
         'Communication Log Details' => 'Подробный просмотр журнала сеансов связи',
         'Please select an entry from the list.' => 'Выберите запись из списка.',
 
         # Template: AdminCustomerCompany
-        'Customer Management' => 'Управление Компаниями',
+        'Customer Management' => 'Управление компаниями',
         'Add Customer' => 'Добавить компанию',
         'Edit Customer' => 'Редактировать компанию',
         'Search' => 'Поиск',
@@ -418,7 +418,7 @@ sub Data {
         'Just use this feature if you want to define group permissions for customers.' =>
             'Просто используйте эту возможность, если хотите определить групповые права для клиентов.',
         'Enable it here!' => 'Включить функцию!',
-        'Edit Customer Default Groups' => 'Редактировать группы клиента по-умолчанию ',
+        'Edit Customer Default Groups' => 'Редактировать группы клиента по умолчанию',
         'These groups are automatically assigned to all customers.' => 'Эти группы автоматически назначаются всем клиентам.',
         'You can manage these groups via the configuration setting "CustomerGroupCompanyAlwaysGroups".' =>
             'Этими группами можно управлять в настройке конфигурации "CustomerGroupAlwaysGroups".',
@@ -447,12 +447,12 @@ sub Data {
         'Edit Customer User' => 'Изменить учётную запись клиента',
         'Back to search results' => 'Назад к результатам поиска',
         'Customer user are needed to have a customer history and to login via customer panel.' =>
-            'Необходимо для наличия данных о клиенте и подключения к системе через интерфейс клиента',
+            'Необходимо для наличия данных о клиенте и подключения к системе через интерфейс клиента.',
         'List (%s total)' => 'Список (%s всего)',
         'Username' => 'Логин',
         'Email' => 'Email',
         'Last Login' => 'Последний вход',
-        'Login as' => 'Зайти данным пользователем',
+        'Login as' => 'Войти как агент',
         'Switch to customer' => 'Переключиться на клиента',
         'This customer backend is read only, but the customer user preferences can be changed!' =>
             'Этот клиентский бэкенд - только для чтения, но личные настройки клиента можно менять!',
@@ -503,7 +503,7 @@ sub Data {
 
         # Template: AdminCustomerUserService
         'Manage Customer User-Service Relations' => 'Управление Клиент-Сервис связями',
-        'Edit default services' => 'Редактировать сервисы по-умолчанию',
+        'Edit default services' => 'Редактировать сервисы по умолчанию',
         'Filter for Services' => 'Фильтр для Сервисов',
         'Filter for services' => 'Фильтр для Сервисов',
         'Services' => 'Сервисы',
@@ -636,7 +636,7 @@ sub Data {
 
         # Template: AdminGenericAgent
         'Generic Agent Job Management' => 'Управление Заданиями Общего Агента',
-        'Edit Job' => 'Редактировать Задание',
+        'Edit Job' => 'Изменить задание',
         'Add Job' => 'Добавить Задание',
         'Run Job' => 'Выполнить Задание',
         'Filter for Jobs' => 'Фильтр Заданий',
@@ -690,9 +690,9 @@ sub Data {
         'Create times' => 'Когда создана',
         'No create time settings.' => 'Без учета времени создания.',
         'Ticket created' => 'Заявка создана',
-        'Ticket created between' => 'Заявка создана между ',
+        'Ticket created between' => 'Заявка создана между',
         'and' => 'и',
-        'Last changed times' => 'Время последнего изменения.',
+        'Last changed times' => 'Время последнего изменения',
         'No last changed time settings.' => 'Не заданы настройки для времени последнего изменения.',
         'Ticket last changed' => 'Последнее изменение заявки',
         'Ticket last changed between' => 'Время последнего изменения заявки между',
@@ -769,33 +769,33 @@ sub Data {
         'GenericInterface Web Service Management' => 'Управление  GenericInterface Web Service',
         'Web Service Management' => 'Управление веб-сервисами',
         'Debugger' => 'Отладчик',
-        'Go back to web service' => 'Перейти назад к веб-сервису',
+        'Go back to web service' => 'Вернуться к веб-сервису',
         'Clear' => 'Очистить',
         'Do you really want to clear the debug log of this web service?' =>
             'Действительно очистить журнал отладки для этого веб-сервиса?',
         'Request List' => 'Список запросов',
         'Time' => 'Время',
         'Communication ID' => 'Communication ID',
-        'Remote IP' => 'Удаленный IP-адрес',
+        'Remote IP' => 'Удалённый IP-адрес',
         'Loading' => 'Загрузка',
-        'Select a single request to see its details.' => 'Выберите одиночный запрос для просмотра деталей.',
-        'Filter by type' => 'Фильт по типу',
-        'Filter from' => 'Фильтр по from',
-        'Filter to' => 'Фильтр по to',
-        'Filter by remote IP' => 'Фильтр по удаленному IP-адресу',
-        'Limit' => 'Лимит',
+        'Select a single request to see its details.' => 'Выберите запрос для просмотра подробностей.',
+        'Filter by type' => 'Фильтр по типу',
+        'Filter from' => 'Фильтр с',
+        'Filter to' => 'Фильтр по',
+        'Filter by remote IP' => 'Фильтр по удалённому IP-адресу',
+        'Limit' => 'Ограничение',
         'Refresh' => 'Обновить',
 
         # Template: AdminGenericInterfaceErrorHandlingDefault
         'Add ErrorHandling' => 'Добавить ErrorHandling',
         'Edit ErrorHandling' => 'Редактировать ErrorHandling',
-        'Do you really want to delete this error handling module?' => 'Вы действительно желаете удалить этот модуль обработки ошибок?',
+        'Do you really want to delete this error handling module?' => 'Действительно удалить этот модуль обработки ошибок?',
         'All configuration data will be lost.' => 'Все данные конфигурации будут потеряны.',
         'General options' => 'Общие настройки',
         'The name can be used to distinguish different error handling configurations.' =>
             'Имя может быть использовано для для отличия настроек обработки ошибок.',
         'Please provide a unique name for this web service.' => 'Укажите уникальное имя для этого веб-сервиса.',
-        'Error handling module backend' => 'Error handling module backend',
+        'Error handling module backend' => 'Бэкенд-модуль обработки ошибок',
         'This OTRS error handling backend module will be called internally to process the error handling mechanism.' =>
             'Этот серверный модуль обработки ошибок OTRS будет вызываться скрыто для обеспечения работы механизма обработки ошибок.',
         'Processing options' => 'Настройки выполнения',
@@ -1016,7 +1016,7 @@ sub Data {
             'Запрашиваемые данные будут обработаны и преобразованы в формат поддерживаемый OTRS',
         'Mapping for outgoing response data' => 'Сопоставление данных для исходящего ответа',
         'The response data will be processed by this mapping, to transform it to the kind of data the remote system expects.' =>
-            'Данные ответа будут обработаны этим отображением, чтобы преобразовать его к виду данных, которые ожидает удаленная система.',
+            'Данные из ответа будут обработаны с помощью этого мапинга, чтобы преобразовать их к такому виду, который ожидает удалённая система.',
         'Include Ticket Data' => 'Вставить данные заявки',
         'Include ticket data in response.' => 'Включить данные заявки в ответе.',
 
@@ -1145,51 +1145,51 @@ sub Data {
 
         # Template: AdminGenericInterfaceWebservice
         'Add Web Service' => 'Добавить веб-сервис',
-        'Edit Web Service' => 'Редактировать Веб-сервис',
-        'Clone Web Service' => 'Клонировать Веб-сервис.',
-        'The name must be unique.' => 'Имя должно быть уникальным',
-        'Clone' => 'Скопировать',
+        'Edit Web Service' => 'Редактировать веб-сервис',
+        'Clone Web Service' => 'Клонировать веб-сервис',
+        'The name must be unique.' => 'Имя должно быть уникальным.',
+        'Clone' => 'Клонировать',
         'Export Web Service' => 'Экспортировать веб-сервис',
-        'Import web service' => 'Импорт Веб-сервиса',
+        'Import web service' => 'Импортировать веб-сервис',
         'Configuration File' => 'Файл конфигурации',
         'The file must be a valid web service configuration YAML file.' =>
             'Файл должен быть файлом конфигурации веб-сервисов формата YAML.',
         'Here you can specify a name for the webservice. If this field is empty, the name of the configuration file is used as name.' =>
             'Здесь вы можете указать имя веб-сервиса. Если оставлено пустым, в качестве имени используется название конфигурационного файла.',
         'Import' => 'Импорт',
-        'Configuration History' => 'История конфигурации.',
-        'Delete web service' => 'Удалить Веб-сервис',
+        'Configuration History' => 'История конфигурации',
+        'Delete web service' => 'Удалить веб-сервис',
         'Do you really want to delete this web service?' => 'Действительно удалить этот веб-сервис?',
         'Ready2Adopt Web Services' => 'Ready2Adopt веб-сервисы',
         'Here you can activate Ready2Adopt web services showcasing our best practices that are a part of %s.' =>
             'Здесь вы можете активировать Ready2Adopt веб-сервисы, демонстрирующие наши лучшие практики, которые являются частью %s.',
         'Please note that these web services may depend on other modules only available with certain %s contract levels (there will be a notification with further details when importing).' =>
-            'Пожалуйста, учтите, что эти веб-сервисы могут зависеть от других модулей, доступных только для определенных уровней контракта %s (во время импорта появится уведомление с подробностями)',
+            'Обратите внимание, что эти веб-сервисы могут зависеть от других модулей, доступных только для определённых уровней контракта %s (во время импортирования появится уведомление с подробностями).',
         'Import Ready2Adopt web service' => 'Импорт Ready2Adopt веб-сервис',
         'Would you like to benefit from web services created by experts? Upgrade to %s to import some sophisticated Ready2Adopt web services.' =>
             'Хотите ли получить выгоду от веб-сервисов, созданных экспертами? Обновитесь до %sдля импорта некоторых сложных Ready2Adopt веб-сервисов.',
         'After you save the configuration you will be redirected again to the edit screen.' =>
-            'После сохранения конфигурации вы вернетесь обратно на экран редактирования',
+            'После сохранения конфигурации вы будете перенаправлены обратно на экран редактирования.',
         'If you want to return to overview please click the "Go to overview" button.' =>
-            'Если желаете вернуться к обзору, нажмите кнопку Перейти к обзору.',
-        'Remote system' => 'Удаленная система',
+            'Чтобы вернуться к обзору, нажмите кнопку «Перейти к обзору».',
+        'Remote system' => 'Удалённая система',
         'Provider transport' => 'Транспорт провайдера',
-        'Requester transport' => 'Транспорт запрашиваюшего',
+        'Requester transport' => 'Транспорт запрашивающего',
         'Debug threshold' => 'Порог отладки',
         'In provider mode, OTRS offers web services which are used by remote systems.' =>
-            'В режиме provider, OTRS предлагает веб-сервисы используемые удаленной системой.',
+            'В режиме провайдера OTRS предоставляет удалённым системам веб-сервисы.',
         'In requester mode, OTRS uses web services of remote systems.' =>
-            'В режиме requester, OTRS использует веб-сервисы удаленной системы.',
+            'В режиме запрашивающего OTRS использует веб-сервисы удалённых систем.',
         'Network transport' => 'Сетевой транспорт',
         'Error Handling Modules' => 'Модули обработки ошибок',
         'Error handling modules are used to react in case of errors during the communication. Those modules are executed in a specific order, which can be changed by drag and drop.' =>
-            'Модули обработки ошибок используются для реагирования в случае ошибок во время связи. Эти модули выполняются в определенном порядке, который можно изменить путем перетаскивания.',
-        'Backend' => '',
-        'Add error handling module' => 'Добавить модуль обработки ошибок ',
+            'Модули обработки ошибок используются для реагирования на ошибки во время взаимодействия. Эти модули запускаются в определённом порядке, который можно изменить путём их перетаскивания с помощью мыши.',
+        'Backend' => 'Бэкенд',
+        'Add error handling module' => 'Добавить модуль обработки ошибок',
         'Operations are individual system functions which remote systems can request.' =>
-            'Операции - это отдельные системные функции которые удаленные системы могут запрашивать.',
+            'Операции — это отдельные системные функции, которые могут вызываться удалёнными системами.',
         'Invokers prepare data for a request to a remote web service, and process its response data.' =>
-            'Invokers подготавливает данные для запроса к удаленному веб-сервису и обрабатывает данные их ответа.',
+            'Вызывающие модули подготавливают данные для запроса к удалённому веб-сервису и обрабатывают полученные от них ответы.',
         'Controller' => 'Контроллер',
         'Inbound mapping' => 'Входящий мапинг',
         'Outbound mapping' => 'Исходящий мапинг',
@@ -1705,11 +1705,11 @@ sub Data {
         'Remove this Parameter' => 'Удалить этот параметр',
 
         # Template: AdminQueue
-        'Queue Management' => 'Управление Очередями',
+        'Queue Management' => 'Управление очередями',
         'Add Queue' => 'Добавить очередь',
         'Edit Queue' => 'Изменить очередь',
-        'Filter for Queues' => 'Фильтр для Очередей',
-        'Filter for queues' => 'Фильтр для Очередей',
+        'Filter for Queues' => 'Фильтр для очередей',
+        'Filter for queues' => 'Фильтр для очередей',
         'A queue with this name already exists!' => 'Очередь с таким именем уже существует!',
         'This queue is present in a SysConfig setting, confirmation for updating settings to point to the new queue is needed!' =>
             'Эта очередь указана в настройках SysConfig, требуется подтверждение для обновления настроек для её использования в системе!',
@@ -1728,9 +1728,9 @@ sub Data {
             'Когда к заявке добавляется сообщение, через клиентский портал или электронной почтой, счетчик времени эскалации по обновлению сбрасывается и начинает отсчитываться заново. Если к заявке не добавляются контакты клиента, либо телефонные, либо внешний email, до истечения указанного здесь времени, заявка эскалируется.',
         'If the ticket is not set to closed before the time defined here expires, the ticket is escalated.' =>
             'Если заявка не закрыта до истечения указанного здесь времени разрешения, она эскалируется.',
-        'Follow up Option' => 'Параметры повторных ответов',
+        'Follow up Option' => 'Последующие обращения',
         'Specifies if follow up to closed tickets would re-open the ticket, be rejected or lead to a new ticket.' =>
-            'Что делать с повторно полученными ответами клиента на уже закрытую заявку: открыть заново, отвергнуть или создать новую заявку.',
+            'Что делать с последующим обращением по уже закрытой заявке: переоткрывать заявку, отклонять обращение или создать новую заявку.',
         'Ticket lock after a follow up' => 'Блокировка заявки после получения повторного ответа клиента',
         'If a ticket is closed and the customer sends a follow up the ticket will be locked to the old owner.' =>
             'Если заявка закрыта, а клиент снова посылает ответ, заявка будет заблокирована на старого владельца.',
@@ -1740,7 +1740,7 @@ sub Data {
         'To use a sign key, PGP keys or S/MIME certificates need to be added with identifiers for selected queue system address.' =>
             '',
         'Salutation' => 'Приветствие',
-        'The salutation for email answers.' => 'Приветствие для писем',
+        'The salutation for email answers.' => 'Приветствие для ответов в электронных письмах.',
         'Signature' => 'Подпись',
         'The signature for email answers.' => 'Подпись для писем',
         'This queue is used in the following config settings:' => 'Эта очередь используется в следующих параметрах конфигурации:',
@@ -1934,9 +1934,9 @@ sub Data {
         # Template: AdminSalutation
         'Salutation Management' => 'Управление приветствиями',
         'Add Salutation' => 'Добавить приветствие',
-        'Edit Salutation' => 'Редактировать приветствие',
-        'Filter for Salutations' => 'Фильтр для Приветствий',
-        'Filter for salutations' => 'Фильтр для Приветствий',
+        'Edit Salutation' => 'Изменить приветствие',
+        'Filter for Salutations' => 'Фильтр для приветствий',
+        'Filter for salutations' => 'Фильтр для приветствий',
         'e. g.' => 'например,',
         'Example salutation' => 'Пример приветствия',
 
@@ -2021,13 +2021,13 @@ sub Data {
             'Эти данные отправляются в OTRS Group на регулярной основе. Чтобы прекратить отправку этих данных, обновите регистрацию вашей системы.',
         'You can manually trigger the Support Data sending by pressing this button:' =>
             'Вы можете вручную запустить передачу данных поддержки нажатием на эту кнопку:',
-        'Send Update' => 'Послать обновление',
+        'Send Update' => 'Отправить обновление',
         'Currently this data is only shown in this system.' => 'В настоящее время эти данные только отображаются в этой системе.',
         'A support bundle (including: system registration information, support data, a list of installed packages and all locally modified source code files) can be generated by pressing this button:' =>
             'Пакет поддержки (включая сведения о регистрации системы, данные поддержки, список установленных пакетов и локально изменённые файлы с исходным кодом) можно сгенерировать нажатием этой кнопки:',
         'Generate Support Bundle' => 'Сгенерировать пакет поддержки',
         'The Support Bundle has been Generated' => 'Пакет поддержки сгенерирован.',
-        'Please choose one of the following options.' => 'Пожалуйста, выберите одну из следующих опций.',
+        'Please choose one of the following options.' => 'Выберите одну из следующих опций.',
         'Send by Email' => 'Отправить электронной почтой',
         'The support bundle is too large to send it by email, this option has been disabled.' =>
             'Пакет поддержки слишком велик для отправки электронной почтой, эта функция будет отключена.',
@@ -2211,17 +2211,17 @@ sub Data {
         'Don\'t forget to add a new agent to groups and/or roles!' => 'Не забудьте добавить новых агентов в группы и/или роли!',
         'Please enter a search term to look for agents.' => 'Пожалуйста, введите поисковый запрос для поиска агентов.',
         'Last login' => 'Последний вход',
-        'Switch to agent' => 'Переключиться на агента.',
-        'Title or salutation' => 'Заголовок приветствия',
+        'Switch to agent' => 'Переключиться на агента',
+        'Title or salutation' => 'Заголовок или приветствие',
         'Firstname' => 'Имя',
         'Lastname' => 'Фамилия',
         'A user with this username already exists!' => 'Пользователь с таким именем уже существует!',
         'Will be auto-generated if left empty.' => 'Будет автоматически сгенерирован, если поле оставлено пустым.',
         'Mobile' => 'Мобильный телефон',
-        'Effective Permissions for Agent' => 'Действующие права для Агента',
+        'Effective Permissions for Agent' => 'Действующие права для агента',
         'This agent has no group permissions.' => 'Этот агент не имеет прав в группах.',
         'Table above shows effective group permissions for the agent. The matrix takes into account all inherited permissions (e.g. via roles).' =>
-            'Таблица выше показывает действующие права агентов в группах. Матрица учитывает все унаследованные разрешения (например, через Роли). ',
+            'Таблица показывает действующие права агентов в группах. Матрица учитывает все унаследованные разрешения (например, через роли).',
 
         # Template: AdminUserGroup
         'Manage Agent-Group Relations' => 'Связь агентов с группами',
@@ -2655,7 +2655,7 @@ sub Data {
         'History of %s%s%s' => 'История для %s%s%s',
         'Filter for history items' => 'Фильтр для элементов истории',
         'Expand/collapse all' => 'Развернуть/свернуть всё',
-        'CreateTime' => 'CreateTime',
+        'CreateTime' => 'ВремяСоздания',
         'Article' => 'Сообщение',
 
         # Template: AgentTicketMerge
@@ -3076,7 +3076,7 @@ sub Data {
         'System FQDN' => 'Системное FQDN',
         'Fully qualified domain name of your system.' => 'Полное доменное имя вашей системы.',
         'AdminEmail' => 'Адрес администратора',
-        'Email address of the system administrator.' => 'Адрес электронной почты администратора',
+        'Email address of the system administrator.' => 'Адрес электронной почты системного администратора.',
         'Organization' => 'Организация',
         'Log' => 'Журнал',
         'LogModule' => 'Модуль журнала ',
@@ -4426,10 +4426,10 @@ sub Data {
         'Database Selection' => 'Выбор базы данных',
         'Unknown Check!' => 'Неизвестная проверка!',
         'The check "%s" doesn\'t exist!' => 'Проверка "%s" не существует!',
-        'Enter the password for the database user.' => 'Введите пароль пользователя  базы данных',
+        'Enter the password for the database user.' => 'Введите пароль пользователя  базы данных.',
         'Database %s' => 'База данных %s',
         'Configure MySQL' => 'Конфигурировать MySQL',
-        'Enter the password for the administrative database user.' => 'Введите пароль администратора базы данных',
+        'Enter the password for the administrative database user.' => 'Введите пароль администратора базы данных.',
         'Configure PostgreSQL' => 'Конфигурировать PostgreSQL',
         'Configure Oracle' => 'Конфигурировать Oracle',
         'Unknown database type "%s".' => 'Неизвестный тип баз данных "%s".',
@@ -5418,16 +5418,16 @@ sub Data {
         'system standard signature (en)' => 'стандартная подпись системы (ru)',
         'Standard Signature.' => 'Стандартная подпись.',
         'Standard Address.' => 'Стандартный адрес.',
-        'possible' => 'возможно',
+        'possible' => 'разрешено',
         'Follow-ups for closed tickets are possible. Ticket will be reopened.' =>
-            'Дополнения к закрытым заявкам разрешены. Заявка будет открыта заново.',
-        'reject' => 'отвергнуть',
+            'Последующие обращения по закрытым заявкам разрешены. Заявка будет открыта заново.',
+        'reject' => 'запрещено',
         'Follow-ups for closed tickets are not possible. No new ticket will be created.' =>
-            'Дополнения к закрытым заявкам запрещены. Не будет создана новая заявка.',
+            'Последующие обращения по закрытым заявкам запрещены. Заявка создаваться не будет.',
         'new ticket' => 'новая заявка',
         'Follow-ups for closed tickets are not possible. A new ticket will be created.' =>
-            'Дополнения к закрытым заявкам запрещены. Будет создана новая заявка.',
-        'Postmaster queue.' => 'Очередь PostMaster',
+            'Последующие обращения по закрытым заявкам запрещены. Будет создана новая заявка.',
+        'Postmaster queue.' => 'Очередь Postmaster.',
         'All default incoming tickets.' => 'По умолчанию все входящие заявки.',
         'All junk tickets.' => 'Все "мусорные" заявки.',
         'All misc tickets.' => 'Все прочие заявки.',
@@ -5560,7 +5560,7 @@ sub Data {
         'Delete this Operation' => 'Удалить эту операцию',
 
         # JS File: Core.Agent.Admin.GenericInterfaceWebservice
-        'Clone web service' => 'Дублировать Веб-сервис',
+        'Clone web service' => 'Клонировать веб-сервис',
         'Delete operation' => 'Удалить операцию',
         'Delete invoker' => 'Удалить invoker',
 
@@ -6029,7 +6029,7 @@ Thanks for your help!
         'AgentTicketZoom widget that displays ticket data in the side bar.' =>
             'Виджет в AgentTicketZoom отображающий данные заявки  в боковой панели. ',
         'Agents ↔ Groups' => 'Агенты ↔ Группы',
-        'Agents ↔ Roles' => 'Агенты <-> Роли',
+        'Agents ↔ Roles' => 'Агенты ↔ Роли',
         'All CustomerIDs of a customer user.' => 'Все Компании клиента.',
         'All attachments (OTRS Business Solution™)' => 'Все вложения (OTRS Business Solution™)',
         'All customer users of a CustomerID' => 'Все клиенты Компании',
@@ -6252,15 +6252,15 @@ Thanks for your help!
         'Comment for new history entries in the customer interface.' => 'Комметарий для новых записей истории в интерфейсе клиента.',
         'Comment2' => 'Комментарий2',
         'Communication' => 'Взаимодействие',
-        'Communication & Notifications' => 'Каналы связи и Уведомления',
-        'Communication Log GUI' => 'Графический интерфейс Журнала сеансов связи',
+        'Communication & Notifications' => 'Каналы связи и уведомления',
+        'Communication Log GUI' => 'Журнала сеансов связи',
         'Communication log limit per page for Communication Log Overview.' =>
             '',
         'CommunicationLog Overview Limit' => '',
         'Company Status' => 'Информация по компании клиента',
         'Company Tickets.' => 'Заявки компании.',
         'Company name which will be included in outgoing emails as an X-Header.' =>
-            'Имя Компании, включаемое в исходящее письмо как X-Header.',
+            'Название компании, включаемое в исходящих письмах как X-Header.',
         'Compat module for AgentZoom to AgentTicketZoom.' => '',
         'Complex' => 'Complex/Комплексный',
         'Compose' => 'Создать',
@@ -7946,7 +7946,7 @@ Thanks for your help!
         'Process Ticket.' => 'Процессная заявка.',
         'Process pending tickets.' => 'Обработать отложенные заявки.',
         'ProcessID' => 'ProcessID',
-        'Processes & Automation' => '',
+        'Processes & Automation' => 'Процессы и автоматизация',
         'Product News' => 'Новости о продукте',
         'Protection against CSRF (Cross Site Request Forgery) exploits (for more info see https://en.wikipedia.org/wiki/Cross-site_request_forgery).' =>
             '',
@@ -8025,7 +8025,7 @@ Thanks for your help!
         'Retains all services in listings even if they are children of invalid elements.' =>
             'Оставляет все сервисы в списке, даже если они являются потомками от недействительных элементов.',
         'Right' => 'Правый',
-        'Roles ↔ Groups' => '',
+        'Roles ↔ Groups' => 'Роли ↔ Группы',
         'Romanian' => '',
         'Run file based generic agent jobs (Note: module name needs to be specified in -configuration-module param e.g. "Kernel::System::GenericAgent").' =>
             '',
@@ -8781,7 +8781,7 @@ Thanks for your help!
         'User Profile' => 'Профиль пользователя',
         'UserFirstname' => 'Имя',
         'UserLastname' => 'Фамилия',
-        'Users, Groups & Roles' => 'Пользователи, Группы и Роли',
+        'Users, Groups & Roles' => 'Пользователи, группы и роли',
         'Uses richtext for viewing and editing ticket notification.' => 'Использует форматированный текст для просмотра и редактирования уведомлений о заявках.',
         'Uses richtext for viewing and editing: articles, salutations, signatures, standard templates, auto responses and notifications.' =>
             'Использует форматированный текст для просмотра и редактирования: сообщений, приветствий, подписей, стандартных шаблонов, автоответов и уведомлений.',

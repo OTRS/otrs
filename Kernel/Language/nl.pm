@@ -40,13 +40,13 @@ sub Data {
     $Self->{Translation} = {
 
         # Template: AdminACL
-        'ACL Management' => 'ACL beheer',
+        'ACL Management' => 'ACL-beheer',
         'Actions' => 'Acties',
-        'Create New ACL' => 'Nieuwe ACL aanmaken',
-        'Deploy ACLs' => 'ACLs activeren',
-        'Export ACLs' => 'Exporteer ACLs',
-        'Filter for ACLs' => 'Filter op ACLs',
-        'Just start typing to filter...' => 'Start met typen om te filteren',
+        'Create New ACL' => 'Maak een nieuwe ACL',
+        'Deploy ACLs' => 'ACL\'s implementeren',
+        'Export ACLs' => 'Exporteer ACL\'s',
+        'Filter for ACLs' => 'Filter voor ACL\'s',
+        'Just start typing to filter...' => 'Begin gewoon met typen om te filteren...',
         'Configuration Import' => 'Configuratie importeren',
         'Here you can upload a configuration file to import ACLs to your system. The file needs to be in .yml format as exported by the ACL editor module.' =>
             'Hier kunt u een configuratiebestand met ACLs importeren in uw systeem. Het bestand moet in .yml formaat zijn, zoals geexporteerd door de ACL module.',

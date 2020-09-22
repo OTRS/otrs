@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.264307483914663;
+    $Self->{Completeness}        = 0.316457839485269;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -34,261 +34,261 @@ sub Data {
     $Self->{Translation} = {
 
         # Template: AdminACL
-        'ACL Management' => 'Controlul ACL',
+        'ACL Management' => 'Management ACL',
         'Actions' => 'Acțiuni',
-        'Create New ACL' => 'Crează o nouă ACL',
-        'Deploy ACLs' => 'Lansează ACL',
+        'Create New ACL' => 'Creează o nouă ACL',
+        'Deploy ACLs' => 'Lansează ACL-uri',
         'Export ACLs' => 'Exportă ACL-urile',
         'Filter for ACLs' => 'Filtre pentru ACL',
-        'Just start typing to filter...' => 'Filtrarea va începe imediat ce vor fi introduse date...',
-        'Configuration Import' => 'Importă Configurația',
+        'Just start typing to filter...' => 'Începeți să introduceți date pentru filtrare...',
+        'Configuration Import' => 'Importă configurația',
         'Here you can upload a configuration file to import ACLs to your system. The file needs to be in .yml format as exported by the ACL editor module.' =>
-            'Aici poți importa fișiere de configurare ACL în sistem. Fișierul trebuie să fie în format .yml ca cel pe care îl exportă modulul de editare ACL.',
+            'Aici puteți importa fișiere de configurare ACL în sistem. Fișierul trebuie să fie în format .yml ca și cel exportată de modulul de editare ACL.',
         'This field is required.' => 'Acest câmp este obligatoriu.',
-        'Overwrite existing ACLs?' => 'Suprascrie ACL-urile existente?',
+        'Overwrite existing ACLs?' => 'Suprascrieți ACL-urile existente?',
         'Upload ACL configuration' => 'Încarcă configurația ACL',
-        'Import ACL configuration(s)' => 'Importă configurația(iile) ACL?',
+        'Import ACL configuration(s)' => 'Importă configurația(ile) ACL',
         'Description' => 'Descriere',
         'To create a new ACL you can either import ACLs which were exported from another system or create a complete new one.' =>
-            'Pentru a crea un nou ACL puteți importa o lista ACL care a fost exportată din alt sistem sau să creați una nouă.',
+            'Pentru a crea un ACL nou, puteți importa ACL-uri exportate din alt sistem sau să creați una nouă.',
         'Changes to the ACLs here only affect the behavior of the system, if you deploy the ACL data afterwards. By deploying the ACL data, the newly made changes will be written to the configuration.' =>
             '',
         'ACLs' => 'ACL-uri',
         'Please note: This table represents the execution order of the ACLs. If you need to change the order in which ACLs are executed, please change the names of the affected ACLs.' =>
-            'Aveți în vedere că: acest tabel reprezintă ordinea în care se execută ACL. În cazul în care aveți nevoie să schimbați ordinea de execuție atunci schimbați numele ACL.',
+            'Să rețineți: acest tabel reprezintă ordinea în care se execută ACL-urile. Dacă trebuie să schimbați ordinea de execuție, atunci schimbați numele la ACL-uri afectate.',
         'ACL name' => 'Nume ACL',
         'Comment' => 'Comentariu',
         'Validity' => 'Valabilitate',
         'Export' => 'Export',
-        'Copy' => 'Copie',
+        'Copy' => 'Copiază',
         'No data found.' => 'Nu au fost găsite date.',
         'No matches found.' => 'Nu au fost găsite rezultate.',
 
         # Template: AdminACLEdit
-        'Edit ACL %s' => 'Editează ACL %s',
-        'Edit ACL' => 'Editează ACL',
-        'Go to overview' => 'Du-te la vedere generala',
-        'Delete ACL' => 'Șterge ACL',
-        'Delete Invalid ACL' => 'Șterge ACL incorect',
-        'Match settings' => 'Setari asocieri',
+        'Edit ACL %s' => 'Editează ACL-ul %s',
+        'Edit ACL' => 'Editează ACL-ul',
+        'Go to overview' => 'Salt la vedere generală',
+        'Delete ACL' => 'Șterge ACL-ul',
+        'Delete Invalid ACL' => 'Șterge ACL-ul incorect',
+        'Match settings' => 'Setări de potrivire',
         'Set up matching criteria for this ACL. Use \'Properties\' to match the current screen or \'PropertiesDatabase\' to match attributes of the current ticket that are in the database.' =>
             '',
-        'Change settings' => 'Schimbă configurarea',
+        'Change settings' => 'Schimbați setările',
         'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is a white list, \'PossibleNot\' a black list.' =>
-            '',
-        'Check the official %sdocumentation%s.' => 'Verifică documentațiile oficiale.',
-        'Show or hide the content' => 'Prezintă sau ascunde conținutul',
-        'Edit ACL Information' => 'Editează informații despre ACL',
+            'Setați ce doriți să schimbați dacă criteriile corespund. Rețineți că „Possible” este o listă albă, „PossibleNot” o listă neagră.',
+        'Check the official %sdocumentation%s.' => 'Verificați %sdocumentația%s oficială.',
+        'Show or hide the content' => 'Afișează sau ascunde conținutul',
+        'Edit ACL Information' => 'Editați informațiile ACL',
         'Name' => 'Nume',
         'Stop after match' => 'Oprește-te după găsire',
-        'Edit ACL Structure' => 'Editează structura ACL',
-        'Save ACL' => 'Salvează ACL',
-        'Save' => 'Salvează',
+        'Edit ACL Structure' => 'Editați structura ACL',
+        'Save ACL' => 'Salvare ACL',
+        'Save' => 'Salvare',
         'or' => 'sau',
-        'Save and finish' => 'Salvează și închide',
+        'Save and finish' => 'Salvare și finalizare',
         'Cancel' => 'Renunță',
-        'Do you really want to delete this ACL?' => 'Confirmi ștergerea acestei ACL?',
+        'Do you really want to delete this ACL?' => 'Sunteți sigur că doriți să ștergeți acest ACL?',
 
         # Template: AdminACLNew
         'Create a new ACL by submitting the form data. After creating the ACL, you will be able to add configuration items in edit mode.' =>
             '',
 
         # Template: AdminAppointmentCalendarManage
-        'Calendar Management' => '',
-        'Add Calendar' => 'Adaugă Calendar',
-        'Edit Calendar' => 'Editează Calendar',
-        'Calendar Overview' => 'Calendar Generalități',
-        'Add new Calendar' => 'Adaugă un nou Calendar',
-        'Import Appointments' => 'Importă Programări',
-        'Calendar Import' => 'Importă Calendar',
+        'Calendar Management' => 'Administrarea calendarului',
+        'Add Calendar' => 'Adăugare calendar',
+        'Edit Calendar' => 'Editare calendar',
+        'Calendar Overview' => 'Prezentare generală a calendarului',
+        'Add new Calendar' => 'Adaugă un calendar nou',
+        'Import Appointments' => 'Importați programările',
+        'Calendar Import' => 'Importați calendarul',
         'Here you can upload a configuration file to import a calendar to your system. The file needs to be in .yml format as exported by calendar management module.' =>
-            '',
-        'Overwrite existing entities' => '',
-        'Upload calendar configuration' => '',
-        'Import Calendar' => '',
-        'Filter for Calendars' => '',
-        'Filter for calendars' => '',
+            'Aici puteți încărca un fișier de configurare pentru a importa un calendar în sistemul dvs. Fișierul trebuie să fie în format .yml, astfel cum este exportat de modulul de gestionare a calendarului.',
+        'Overwrite existing entities' => 'Suprascrieți entitățile existente',
+        'Upload calendar configuration' => 'Încărcați configurația calendarului',
+        'Import Calendar' => 'Importați calendarul',
+        'Filter for Calendars' => 'Filtru pentru calendare',
+        'Filter for calendars' => 'Filtru pentru calendare',
         'Depending on the group field, the system will allow users the access to the calendar according to their permission level.' =>
-            '',
+            'În funcție de câmpul grupului, sistemul le va permite utilizatorilor accesul la calendar în funcție de nivelul lor de permisiune.',
         'Read only: users can see and export all appointments in the calendar.' =>
-            '',
+            'Doar citire: utilizatorii pot vedea și exporta toate programările din calendar.',
         'Move into: users can modify appointments in the calendar, but without changing the calendar selection.' =>
-            '',
+            'Mutați în: utilizatorii pot modifica programările în calendar, dar fără a schimba calendarul selectat.',
         'Create: users can create and delete appointments in the calendar.' =>
-            '',
-        'Read/write: users can manage the calendar itself.' => '',
+            'Creare: utilizatorii pot crea și șterge programări în calendar.',
+        'Read/write: users can manage the calendar itself.' => 'Citire/scriere: utilizatorii pot gestiona calendarul în sine.',
         'Group' => 'Grup',
         'Changed' => 'Modificat',
         'Created' => 'Creat',
-        'Download' => 'Descarca',
-        'URL' => '',
-        'Export calendar' => '',
-        'Download calendar' => '',
-        'Copy public calendar URL' => '',
+        'Download' => 'Descărcare',
+        'URL' => 'URL',
+        'Export calendar' => 'Exportați calendarul',
+        'Download calendar' => 'Descărcați calendarul',
+        'Copy public calendar URL' => 'Copiați adresa URL a calendarului public',
         'Calendar' => 'Calendar',
-        'Calendar name' => 'Nume Calendar',
-        'Calendar with same name already exists.' => 'Există un Calendar cu acest nume',
+        'Calendar name' => 'Nume calendar',
+        'Calendar with same name already exists.' => 'Există un calendar cu acest nume.',
         'Color' => 'Culoare',
-        'Permission group' => 'Drepturi Grup',
-        'Ticket Appointments' => '',
-        'Rule' => 'Regula',
-        'Remove this entry' => 'Șterge aceasta intrare',
+        'Permission group' => 'Drepturi grup',
+        'Ticket Appointments' => 'Programările tichetului',
+        'Rule' => 'Regulă',
+        'Remove this entry' => 'Eliminați această intrare',
         'Remove' => 'Șterge',
         'Start date' => 'Data de start',
         'End date' => 'Data de sfârșit',
         'Use options below to narrow down for which tickets appointments will be automatically created.' =>
-            '',
+            'Utilizați opțiunile de mai jos pentru a restrânge pentru care tichete se vor crea automat programări.',
         'Queues' => 'Cozi',
-        'Please select a valid queue.' => '',
-        'Search attributes' => 'Caută atribut',
-        'Add entry' => 'Adaugă o intrare',
-        'Add' => 'Adaugă',
+        'Please select a valid queue.' => 'Selectați o coadă validă.',
+        'Search attributes' => 'Atributele de căutare',
+        'Add entry' => 'Adăugați o intrare',
+        'Add' => 'Adăugare',
         'Define rules for creating automatic appointments in this calendar based on ticket data.' =>
-            '',
-        'Add Rule' => 'Adaugă o regula',
-        'Submit' => 'Transmite',
+            'Definiți regulile pentru crearea de programări automate în acest calendar pe baza datelor tichetului.',
+        'Add Rule' => 'Adăugați o regula',
+        'Submit' => 'Trimite',
 
         # Template: AdminAppointmentImport
-        'Appointment Import' => 'Importă Programări',
+        'Appointment Import' => 'Importați programarea',
         'Go back' => 'Înapoi',
-        'Uploaded file must be in valid iCal format (.ics).' => 'Fișierul încărcat trebuie să fie în format iCal (.ics)',
+        'Uploaded file must be in valid iCal format (.ics).' => 'Fișierul încărcat trebuie să fie în formatul iCal (.ics).',
         'If desired Calendar is not listed here, please make sure that you have at least \'create\' permissions.' =>
-            '',
+            'Dacă calendarul dorit nu este listat aici, vă rugăm să vă asigurați că aveți cel puțin permisiunile de „crea”.',
         'Upload' => 'Încarcă',
-        'Update existing appointments?' => 'Încarcă programări existente?',
+        'Update existing appointments?' => 'Actualizați programările existente?',
         'All existing appointments in the calendar with same UniqueID will be overwritten.' =>
-            '',
-        'Upload calendar' => 'Încarcă Calendar',
-        'Import appointments' => 'Importă programări',
+            'Toate programările existente în calendar cu același UniqueID vor fi rescrise.',
+        'Upload calendar' => 'Încărcare calendar',
+        'Import appointments' => 'Importare programări',
 
         # Template: AdminAppointmentNotificationEvent
-        'Appointment Notification Management' => '',
-        'Add Notification' => 'Adaugă Notificare',
-        'Edit Notification' => 'Modifică Notificarea',
-        'Export Notifications' => 'Exportă Notificările',
-        'Filter for Notifications' => '',
-        'Filter for notifications' => '',
+        'Appointment Notification Management' => 'Administrarea notificării programărilor',
+        'Add Notification' => 'Adăugare notificare',
+        'Edit Notification' => 'Editați notificarea',
+        'Export Notifications' => 'Exportați notificările',
+        'Filter for Notifications' => 'Filtru pentru notificări',
+        'Filter for notifications' => 'Filtru pentru notificări',
         'Here you can upload a configuration file to import appointment notifications to your system. The file needs to be in .yml format as exported by the appointment notification module.' =>
-            '',
-        'Overwrite existing notifications?' => 'Suprascrie notificările actuale?',
-        'Upload Notification configuration' => 'Încarcă configurația Notificărilor',
-        'Import Notification configuration' => 'Importă configurția Notificărilor',
+            'Aici puteți încărca un fișier de configurare pentru a importa notificările de programare în sistem. Fișierul trebuie să fie în format .yml, cum este exportat de modulul de notificare a programării.',
+        'Overwrite existing notifications?' => 'Suprascrieți notificările existente?',
+        'Upload Notification configuration' => 'Încărcați configurația notificărilor',
+        'Import Notification configuration' => 'Importați configurația notificărilor',
         'List' => 'Listă',
         'Delete' => 'Șterge',
         'Delete this notification' => 'Șterge această notificare',
-        'Show in agent preferences' => 'Prezintă în preferințele agentului',
-        'Agent preferences tooltip' => '',
+        'Show in agent preferences' => 'Afișați în preferințele agentului',
+        'Agent preferences tooltip' => 'Sfat de ecran al preferințelor agenților',
         'This message will be shown on the agent preferences screen as a tooltip for this notification.' =>
-            '',
-        'Toggle this widget' => 'Activeaza acest panou',
+            'Acest mesaj va fi afișat pe ecranul preferințelor agentului sub forma unei sfat de ecran pentru această notificare.',
+        'Toggle this widget' => 'Comutați acest widget',
         'Events' => 'Evenimente',
         'Event' => 'Eveniment',
         'Here you can choose which events will trigger this notification. An additional appointment filter can be applied below to only send for appointments with certain criteria.' =>
-            '',
-        'Appointment Filter' => '',
+            'Aici puteți alege ce evenimente vor declanșa această notificare. Mai jos se poate aplica un filtru suplimentar pentru a trimite doar pentru programări cu anumite criterii.',
+        'Appointment Filter' => 'Filtru de programare',
         'Type' => 'Tip',
         'Title' => 'Titlu',
-        'Location' => 'Amplasament',
+        'Location' => 'Locație',
         'Team' => 'Echipă',
         'Resource' => 'Resurse',
         'Recipients' => 'Destinatari',
-        'Send to' => 'Transmite către',
-        'Send to these agents' => 'Transmite către acești agenți',
-        'Send to all group members (agents only)' => 'Transmite către toți membrii grupului ( numai agenții )',
-        'Send to all role members' => 'Transmite către toți membrii cu acelasi rol',
+        'Send to' => 'Trimitere la',
+        'Send to these agents' => 'Trimitere la acești agenți',
+        'Send to all group members (agents only)' => 'Trimitere la toți membrii grupului (numai agenții)',
+        'Send to all role members' => 'Trimitere la toți membrii cu același rol',
         'Send on out of office' => 'Trimite când lipsești',
-        'Also send if the user is currently out of office.' => 'Transmite chiar dacă agentul nu este la birou.',
+        'Also send if the user is currently out of office.' => 'Trimitere chiar dacă agentul nu este la birou.',
         'Once per day' => 'Odată pe zi',
         'Notify user just once per day about a single appointment using a selected transport.' =>
             '',
         'Notification Methods' => 'Metode de notificare',
         'These are the possible methods that can be used to send this notification to each of the recipients. Please select at least one method below.' =>
-            'Acestea sunt metodele posibile ce pot fi folosite pentru a transmite notoficări către destinatari. Vă rog alegeți una dintre metodele de mai jos.',
+            'Acestea sunt metodele posibile ce pot fi folosite pentru a transmite notificări către destinatari. Vă rugăm să selectați cel puțin o metodă mai jos.',
         'Enable this notification method' => 'Activează această metodă de notificare',
         'Transport' => 'Transport',
         'At least one method is needed per notification.' => 'Este necesară cel puțin o metodă pentru fiecare notificare.',
-        'Active by default in agent preferences' => '',
+        'Active by default in agent preferences' => 'Activat implicit în preferințele agentului',
         'This is the default value for assigned recipient agents who didn\'t make a choice for this notification in their preferences yet. If the box is enabled, the notification will be sent to such agents.' =>
             '',
         'This feature is currently not available.' => 'Această opțiune nu este disponibilă.',
         'Upgrade to %s' => 'Actualizează la %s',
         'Please activate this transport in order to use it.' => '',
-        'No data found' => 'Nu au fost găsite date.',
-        'No notification method found.' => 'Nu a fost găsită o metodă de notificare.',
+        'No data found' => 'Nu au fost găsite date',
+        'No notification method found.' => 'Nu a fost găsită nicio metodă de notificare.',
         'Notification Text' => 'Textul Notificării',
         'This language is not present or enabled on the system. This notification text could be deleted if it is not needed anymore.' =>
-            '',
-        'Remove Notification Language' => 'Șterge Limba Notificării',
+            'Această limbă nu este prezentă sau activată în sistem. Se poate șterge acest text de notificare dacă nu mai este necesar.',
+        'Remove Notification Language' => 'Eliminați limba de notificare',
         'Subject' => 'Subiect',
         'Text' => 'Text',
         'Message body' => 'Corpul mesajului',
-        'Add new notification language' => 'Adaugă o nouă limbă de notificare',
-        'Save Changes' => 'Salvează Modificările',
-        'Tag Reference' => '',
-        'Notifications are sent to an agent.' => '',
+        'Add new notification language' => 'Adăugați o nouă limbă de notificare',
+        'Save Changes' => 'Salvare modificări',
+        'Tag Reference' => 'Referință pentru etichete',
+        'Notifications are sent to an agent.' => 'Notificările sunt trimise unui agent.',
         'You can use the following tags' => 'Puteți folosi următoarele etichete',
-        'To get the first 20 character of the appointment title.' => '',
-        'To get the appointment attribute' => '',
-        ' e. g.' => 'de ex.',
-        'To get the calendar attribute' => 'Pentru a obține atribut calendar',
-        'Attributes of the recipient user for the notification' => 'Opțiunile destinatarului notificării',
+        'To get the first 20 character of the appointment title.' => 'Pentru a obține primele 20 de caractere al titlului programării.',
+        'To get the appointment attribute' => 'Pentru a obține atributul programării',
+        ' e. g.' => ' de ex.',
+        'To get the calendar attribute' => 'Pentru a obține atributul calendarului',
+        'Attributes of the recipient user for the notification' => 'Atributele destinatarului pentru notificare',
         'Config options' => 'Opțiuni de configurare',
         'Example notification' => 'Exemplu de notificare',
 
         # Template: AdminAppointmentNotificationEventTransportEmailSettings
-        'Additional recipient email addresses' => 'Adrese de email adiționale pentru destinatari',
+        'Additional recipient email addresses' => 'Adrese de e-mail suplimentare destinatarului',
         'This field must have less then 200 characters.' => 'Câmpul trebuie să aibă mai puțin de 200 de caractere.',
         'Article visible for customer' => '',
         'An article will be created if the notification is sent to the customer or an additional email address.' =>
-            '',
+            'Un articol va fi creat dacă notificarea este trimisă clientului sau o adresă de e-mail suplimentară.',
         'Email template' => 'Șablon e-mail',
         'Use this template to generate the complete email (only for HTML emails).' =>
-            'Folosește acest șablon pentru a genera e-mailul complet (doar pt e-mail în format HTML)',
-        'Enable email security' => '',
-        'Email security level' => '',
-        'If signing key/certificate is missing' => '',
-        'If encryption key/certificate is missing' => '',
+            'Folosiți acest șablon pentru a genera e-mailul complet (doar pentru e-mail în format HTML).',
+        'Enable email security' => 'Activați securitatea e-mailului',
+        'Email security level' => 'Nivelul de securitate la e-mail',
+        'If signing key/certificate is missing' => 'Dacă cheia de semnare/certificatul lipsește',
+        'If encryption key/certificate is missing' => 'Dacă cheia de criptare/certificatul lipsește',
 
         # Template: AdminAttachment
         'Attachment Management' => 'Administrarea fișierelor atașate',
-        'Add Attachment' => 'Adaugă Fișier',
-        'Edit Attachment' => 'Schimbă Fișier',
-        'Filter for Attachments' => '',
-        'Filter for attachments' => '',
+        'Add Attachment' => 'Adăugare ataşare',
+        'Edit Attachment' => 'Editați atașamentul',
+        'Filter for Attachments' => 'Filtru pentru atașamente',
+        'Filter for attachments' => 'Filtru pentru atașamente',
         'Filename' => 'Numele fișierului',
-        'Download file' => 'Descarcă fișier',
-        'Delete this attachment' => 'Șterge un fișier',
-        'Do you really want to delete this attachment?' => '',
+        'Download file' => 'Descărcați fișierul',
+        'Delete this attachment' => 'Ștergeți acest atașament',
+        'Do you really want to delete this attachment?' => 'Doriți cu adevărat să ștergeți acest atașament?',
         'Attachment' => 'Atașament',
 
         # Template: AdminAutoResponse
-        'Auto Response Management' => 'Managementul răspunsurilor automate',
-        'Add Auto Response' => 'Adaugă un Răspuns Automat',
-        'Edit Auto Response' => 'Modifică un Răspuns Automat',
-        'Filter for Auto Responses' => '',
-        'Filter for auto responses' => '',
+        'Auto Response Management' => 'Administrarea răspunsului automat',
+        'Add Auto Response' => 'Adăugați un răspuns automat',
+        'Edit Auto Response' => 'Editați răspunsul automat',
+        'Filter for Auto Responses' => 'Filtru pentru răspunsuri automate',
+        'Filter for auto responses' => 'Filtru pentru răspunsuri automate',
         'Response' => 'Răspuns',
         'Auto response from' => 'Răspuns automat de la',
         'Reference' => 'Referință',
         'To get the first 20 character of the subject.' => 'Pentru a lua primele 20 de caractere ale subiectului.',
-        'To get the first 5 lines of the email.' => 'Pentru a lua primele 5 de caractere ale subiectului.',
-        'To get the name of the ticket\'s customer user (if given).' => '',
-        'To get the article attribute' => 'Pentru a lua detaliile articolului',
-        'Options of the current customer user data' => 'Opțiunile utilizatorului curent',
+        'To get the first 5 lines of the email.' => 'Pentru a obține primele 5 rânduri ale e-mailului.',
+        'To get the name of the ticket\'s customer user (if given).' => 'Pentru a obține numele utilizatorului client al biletului (dacă este dat).',
+        'To get the article attribute' => 'Pentru a obține atributul articolului',
+        'Options of the current customer user data' => 'Opțiunile datelor ale utilizatorului client curent',
         'Ticket owner options' => 'Opțiunile posesorului tichetului',
-        'Ticket responsible options' => 'Opțiunile reposnsabilului tichetului',
+        'Ticket responsible options' => 'Opțiunile reponsabilului tichetului',
         'Options of the current user who requested this action' => 'Opțiunile utilizatorului curent care a cerut această acțiune',
         'Options of the ticket data' => 'Opțiunile tichetului',
-        'Options of ticket dynamic fields internal key values' => 'Opțiuni ale valorilor cheie interne pentru câmpurilor dinamice din tichet.',
+        'Options of ticket dynamic fields internal key values' => 'Opțiuni ale valorilor cheie interne pentru câmpurile dinamice din tichet',
         'Options of ticket dynamic fields display values, useful for Dropdown and Multiselect fields' =>
-            'Opțiunile de afișare ale valorilor unui câmp dinamic al unui tichet, util pentru câmpurile de tip Listă sau cu Selecție Multiplă',
+            'Opțiunile de afișare al câmpurilor dinamice ale tichetului, utile pentru câmpurile Listă verticală și Selecție multiplă',
         'Example response' => 'Exemplu de răspuns',
 
         # Template: AdminCloudServiceSupportDataCollector
-        'Cloud Service Management' => '',
-        'Support Data Collector' => 'Colectare date suport',
+        'Cloud Service Management' => 'Administrarea serviciilor Cloud',
+        'Support Data Collector' => 'Colector de date suport',
         'Support data collector' => 'Colectare date suport',
-        'Hint' => 'Indiciu',
+        'Hint' => 'Sugestie',
         'Currently support data is only shown in this system.' => '',
         'It is highly recommended to send this data to OTRS Group in order to get better support.' =>
             'Este recomandat să trimiteți aceste date către OTRS Group pentru a avea un ajutor mai bun.',
@@ -296,7 +296,7 @@ sub Data {
         'Send support data' => 'Trimite datele către suport',
         'This will allow the system to send additional support data information to OTRS Group.' =>
             '',
-        'Update' => 'Instalează ultima versiune',
+        'Update' => 'Actualizare',
         'System Registration' => 'Înregistrare sistem',
         'To enable data sending, please register your system with OTRS Group or update your system registration information (make sure to activate the \'send support data\' option.)' =>
             '',
@@ -306,200 +306,200 @@ sub Data {
 
         # Template: AdminCloudServices
         'System registration is a service of OTRS Group, which provides a lot of advantages!' =>
-            'Înregistrarea sistemului este un serviciu furnizat de OTRS Group și vă oferă foarte multe avantaje!',
+            'Înregistrarea sistemului este un serviciu furnizat de OTRS Group, și oferă o mulțime de avantaje!',
         'Please note that the use of OTRS cloud services requires the system to be registered.' =>
-            '',
+            'Rețineți că utilizarea serviciilor cloud OTRS necesită înregistrarea sistemului.',
         'Register this system' => 'Înregistrați acest sistem',
         'Here you can configure available cloud services that communicate securely with %s.' =>
-            '',
-        'Available Cloud Services' => '',
+            'Aici puteți configura serviciile cloud disponibile care comunică în siguranță cu %s.',
+        'Available Cloud Services' => 'Servicii Cloud disponibile',
 
         # Template: AdminCommunicationLog
-        'Communication Log' => '',
-        'Time Range' => '',
+        'Communication Log' => 'Jurnal de comunicare',
+        'Time Range' => 'Interval de timp',
         'Show only communication logs created in specific time range.' =>
-            '',
-        'Filter for Communications' => '',
-        'Filter for communications' => '',
+            'Afișați doar jurnalele de comunicare create într-un interval de timp specific.',
+        'Filter for Communications' => 'Filtru pentru comunicații',
+        'Filter for communications' => 'Filtru pentru comunicații',
         'In this screen you can see an overview about incoming and outgoing communications.' =>
-            '',
+            'În acest ecran puteți vedea o imagine de ansamblu despre comunicațiile de intrare și de ieșire.',
         'You can change the sort and order of the columns by clicking on the column header.' =>
-            '',
+            'Puteți modifica sortarea și ordinea coloanelor făcând clic pe antetul coloanelor.',
         'If you click on the different entries, you will get redirected to a detailed screen about the message.' =>
-            '',
-        'Status for: %s' => '',
-        'Failing accounts' => '',
-        'Some account problems' => '',
-        'No account problems' => '',
-        'No account activity' => '',
-        'Number of accounts with problems: %s' => '',
-        'Number of accounts with warnings: %s' => '',
-        'Failing communications' => '',
-        'No communication problems' => '',
-        'No communication logs' => '',
-        'Number of reported problems: %s' => '',
-        'Open communications' => '',
-        'No active communications' => '',
-        'Number of open communications: %s' => '',
-        'Average processing time' => '',
-        'List of communications (%s)' => '',
+            'Dacă faceți clic pe diferitele intrări, veți fi redirecționat către un ecran detaliat despre mesaj.',
+        'Status for: %s' => 'Stare pentru: %s',
+        'Failing accounts' => 'Conturile eșuate',
+        'Some account problems' => 'Sunt probleme de cont',
+        'No account problems' => 'Nu sunt probleme de cont',
+        'No account activity' => 'Fără activitate de cont',
+        'Number of accounts with problems: %s' => 'Numărul conturilor cu probleme: %s',
+        'Number of accounts with warnings: %s' => 'Numărul conturilor cu avertismente: %s',
+        'Failing communications' => 'Comunicații nereușite',
+        'No communication problems' => 'Nu există probleme de comunicare',
+        'No communication logs' => 'Nu sunt jurnale de comunicare',
+        'Number of reported problems: %s' => 'Numărul de probleme raportate: %s',
+        'Open communications' => 'Comunicări deschise',
+        'No active communications' => 'Nu există comunicări active',
+        'Number of open communications: %s' => 'Numărul comunicațiilor deschise: %s',
+        'Average processing time' => 'Timpul mediu de procesare',
+        'List of communications (%s)' => 'Lista comunicațiilor (%s)',
         'Settings' => 'Setări',
-        'Entries per page' => '',
-        'No communications found.' => '',
-        '%s s' => '',
+        'Entries per page' => 'Intrări pe o pagină',
+        'No communications found.' => 'Nu s-au găsit comunicații.',
+        '%s s' => '%s s',
 
         # Template: AdminCommunicationLogAccounts
-        'Account Status' => '',
+        'Account Status' => 'Starea contului',
         'Back to overview' => '',
-        'Filter for Accounts' => '',
-        'Filter for accounts' => '',
+        'Filter for Accounts' => 'Filtru pentru conturi',
+        'Filter for accounts' => 'Filtru pentru conturi',
         'You can change the sort and order of those columns by clicking on the column header.' =>
-            '',
-        'Account status for: %s' => '',
+            'Puteți modifica sortarea și ordinea acestor coloane făcând clic pe antetul coloanei.',
+        'Account status for: %s' => 'Starea contului pentru: %s',
         'Status' => 'Starea',
-        'Account' => '',
+        'Account' => 'Cont',
         'Edit' => 'Editează',
-        'No accounts found.' => '',
-        'Communication Log Details (%s)' => '',
+        'No accounts found.' => 'Nu s-au găsit conturi.',
+        'Communication Log Details (%s)' => 'Detalii jurnal de comunicare (%s)',
         'Direction' => 'Direcție',
-        'Start Time' => '',
+        'Start Time' => 'Timpul de pornire',
         'End Time' => '',
-        'No communication log entries found.' => '',
+        'No communication log entries found.' => 'Nu s-au găsit înregistrări de jurnal de comunicare.',
 
         # Template: AdminCommunicationLogCommunications
-        'Duration' => '',
+        'Duration' => 'Durată',
 
         # Template: AdminCommunicationLogObjectLog
-        '#' => '',
+        '#' => '#',
         'Priority' => 'Prioritate',
         'Module' => 'Modul',
         'Information' => 'Informație',
-        'No log entries found.' => '',
+        'No log entries found.' => 'Nu s-au găsit înregistrări de jurnal.',
 
         # Template: AdminCommunicationLogZoom
-        'Detail view for %s communication started at %s' => '',
-        'Filter for Log Entries' => '',
-        'Filter for log entries' => '',
-        'Show only entries with specific priority and higher:' => '',
-        'Communication Log Overview (%s)' => '',
-        'No communication objects found.' => '',
-        'Communication Log Details' => '',
-        'Please select an entry from the list.' => '',
+        'Detail view for %s communication started at %s' => 'Vizualizare detaliată pentru comunicația %s început la %s',
+        'Filter for Log Entries' => 'Filtru pentru înregistrări de jurnal',
+        'Filter for log entries' => 'Filtru pentru înregistrări de jurnal',
+        'Show only entries with specific priority and higher:' => 'Afișați numai intrări cu prioritate specifică și mai mare:',
+        'Communication Log Overview (%s)' => 'Prezentare generală a jurnalului comunicațiilor (%s)',
+        'No communication objects found.' => 'Nu s-au găsit obiecte de comunicare.',
+        'Communication Log Details' => 'Detalii jurnal de comunicare',
+        'Please select an entry from the list.' => 'Vă rugăm să selectați o intrare din listă.',
 
         # Template: AdminCustomerCompany
-        'Customer Management' => 'Managementul Clientului',
-        'Add Customer' => 'Adaugă un Client',
-        'Edit Customer' => 'Modifică clientul',
+        'Customer Management' => 'Administrarea clienților',
+        'Add Customer' => 'Adăugare client',
+        'Edit Customer' => 'Editare client',
         'Search' => 'Căutare',
         'Wildcards like \'*\' are allowed.' => 'Sunt permise semne nedefinite ca „*”.',
-        'Select' => 'Selectează',
-        'List (only %s shown - more available)' => '',
+        'Select' => 'Selectare',
+        'List (only %s shown - more available)' => 'Lista (sunt afișate doar %s – sunt disponibile mai multe)',
         'total' => 'total',
-        'Please enter a search term to look for customers.' => 'Te rog să introduci un termen de căutare pentru clienți.',
+        'Please enter a search term to look for customers.' => 'Vă rugăm să introduceți un termen de căutare pentru a căuta clienți.',
         'Customer ID' => 'ID client',
-        'Please note' => '',
+        'Please note' => 'Vă rugăm să rețineți',
         'This customer backend is read only!' => '',
 
         # Template: AdminCustomerGroup
-        'Manage Customer-Group Relations' => 'Administrarea relațiilor Client-Grup',
-        'Notice' => 'Notă',
+        'Manage Customer-Group Relations' => 'Administrarea relațiilor client-grup',
+        'Notice' => 'Notificare',
         'This feature is disabled!' => 'Această opțiune este dezactivată!',
         'Just use this feature if you want to define group permissions for customers.' =>
-            'Folosiți această opțiune în cazul în care definiți permisiuni de grup pentru clienți.',
-        'Enable it here!' => 'Activează aici!',
-        'Edit Customer Default Groups' => 'Modifică Grupurile Implicite ale Clientului',
+            'Folosiți această opțiune numai în cazul în care definiți permisiuni de grup pentru clienți.',
+        'Enable it here!' => 'Activați aici!',
+        'Edit Customer Default Groups' => 'Editați grupurile implicite ale clienților',
         'These groups are automatically assigned to all customers.' => 'Aceste grupuri au fost alocate automat către toți clienții.',
         'You can manage these groups via the configuration setting "CustomerGroupCompanyAlwaysGroups".' =>
-            '',
-        'Filter for Groups' => 'Filtrează Grupurile',
-        'Select the customer:group permissions.' => 'Alege permisiunile pentru customer:group.',
+            'Aceste grupuri puteți gestiona prin setările de configurare „CustomerGroupCompanyAlwaysGroups”.',
+        'Filter for Groups' => 'Filtre pentru grupuri',
+        'Select the customer:group permissions.' => 'Selectarea permisiunilor client:grup.',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer).' =>
-            'În cazul în care nu este ales nimis atunci acestui grup nu ii este permis nimic (nici un tichet nu va fi disponibil pentru client).',
+            'Dacă nu este selectat nimic, atunci nu există permisiuni în acest grup (tichetele nu vor fi disponibile pentru client).',
         'Search Results' => 'Rezultatele căutării',
         'Customers' => 'Clienți',
         'Groups' => 'Grupuri',
-        'Change Group Relations for Customer' => 'Schimbă Relațiile Grupului pentru Client',
-        'Change Customer Relations for Group' => 'Schimbați Relațiile Clientului în acest Grup',
-        'Toggle %s Permission for all' => 'Schimbă permisiunile %s pentru toți',
-        'Toggle %s permission for %s' => 'Schimbă permisiunile %s pentru %s',
-        'Customer Default Groups:' => 'Grupurile Implicite ale Clientului:',
-        'No changes can be made to these groups.' => 'Nu pot fi făcute schimbări pentru aceste grupuri.',
-        'ro' => 'ro',
+        'Change Group Relations for Customer' => 'Schimbați relațiile de grup pentru client',
+        'Change Customer Relations for Group' => 'Schimbați relațiile de client pentru grup',
+        'Toggle %s Permission for all' => 'Comutați permisiunile %s pentru toți',
+        'Toggle %s permission for %s' => 'Comutați permisiunea %s pentru %s',
+        'Customer Default Groups:' => 'Grupurile implicite pentru client:',
+        'No changes can be made to these groups.' => 'Nu se pot face modificări la aceste grupuri.',
+        'ro' => 'doar în citire',
         'Read only access to the ticket in this group/queue.' => 'Tichetul poate fi doar citit în acest grup/coadă.',
-        'rw' => 'rw',
+        'rw' => 'citire, scriere',
         'Full read and write access to the tickets in this group/queue.' =>
             'Acces complet la citire și scriere pentru tichete în acest grup/coadă.',
 
         # Template: AdminCustomerUser
-        'Customer User Management' => 'Administrarea utilizatorilor clienților',
-        'Add Customer User' => 'Adaugă un utilizator pentru client',
-        'Edit Customer User' => 'Modifica utiliatorul clientului',
-        'Back to search results' => 'Înapoi la căutarea rezultatelor',
+        'Customer User Management' => 'Administrarea utilizatorilor clienți',
+        'Add Customer User' => 'Adăugați un utilizator client',
+        'Edit Customer User' => 'Editați utilizatorul client',
+        'Back to search results' => 'Înapoi la rezultatele căutării',
         'Customer user are needed to have a customer history and to login via customer panel.' =>
-            'Clientul are nevoie de un utilizator pentru a avea istoric și a se putea autentifica in fereastra de client.',
-        'List (%s total)' => '',
+            'Utilizatorul client este necesar ca să aibă istoric client și să se conecteze prin intermediul panoului client.',
+        'List (%s total)' => 'Listă (%s în total)',
         'Username' => 'Nume utilizator',
-        'Email' => 'Email',
+        'Email' => 'E-mail',
         'Last Login' => 'Ultima autentificare',
-        'Login as' => 'Autnetificat ca',
-        'Switch to customer' => 'Schimbă la clientul',
+        'Login as' => 'Autentificare ca',
+        'Switch to customer' => 'Comutați la client',
         'This customer backend is read only, but the customer user preferences can be changed!' =>
             '',
         'This field is required and needs to be a valid email address.' =>
-            'Acest câmp este obligatoriu și trebuie completat cu o adresa de email utilizată.',
+            'Acest câmp este obligatoriu și trebuie să fie o adresă de e-mail validă.',
         'This email address is not allowed due to the system configuration.' =>
-            'Aceasta adresa de email nu este permisă de configurarea sistemului.',
-        'This email address failed MX check.' => 'Această adresă de email nu a putut fi verificată de serverul MX.',
+            'Această adresă de e-mail nu este permisă datorită configurației sistemului.',
+        'This email address failed MX check.' => 'Această adresă de e-mail nu a reușit verificarea MX.',
         'DNS problem, please check your configuration and the error log.' =>
-            'Există o problemă cu DNS, vă rog verificați configurarea sistemului și jurnalul de erori.',
-        'The syntax of this email address is incorrect.' => 'Sintaxa adresei de email nu este corectă.',
-        'This CustomerID is invalid.' => '',
-        'Effective Permissions for Customer User' => '',
-        'Group Permissions' => '',
-        'This customer user has no group permissions.' => '',
+            'Problemă cu DNS, vă rog verificați configurarea sistemului și jurnalul de erori.',
+        'The syntax of this email address is incorrect.' => 'Sintaxa acestei adrese de e-mail este incorectă.',
+        'This CustomerID is invalid.' => 'Acest CustomerID nu este valid.',
+        'Effective Permissions for Customer User' => 'Permisii efective pentru clientul utilizator',
+        'Group Permissions' => 'Permisiuni de grup',
+        'This customer user has no group permissions.' => 'Acest client utilizator nu are permisiuni de grup.',
         'Table above shows effective group permissions for the customer user. The matrix takes into account all inherited permissions (e.g. via customer groups). Note: The table does not consider changes made to this form without submitting it.' =>
             '',
-        'Customer Access' => '',
+        'Customer Access' => 'Acces client',
         'Customer' => 'Client',
-        'This customer user has no customer access.' => '',
+        'This customer user has no customer access.' => 'Acest client utilizator nu are acces de client utilizator.',
         'Table above shows granted customer access for the customer user by permission context. The matrix takes into account all inherited access (e.g. via customer groups). Note: The table does not consider changes made to this form without submitting it.' =>
             '',
 
         # Template: AdminCustomerUserCustomer
-        'Manage Customer User-Customer Relations' => '',
-        'Select the customer user:customer relations.' => '',
-        'Customer Users' => '',
-        'Change Customer Relations for Customer User' => '',
-        'Change Customer User Relations for Customer' => '',
-        'Toggle active state for all' => 'Schimbă stările active pentru toate',
+        'Manage Customer User-Customer Relations' => 'Administrarea relațiilor client-utilizator - client',
+        'Select the customer user:customer relations.' => 'Selectați relațiile clientul-utilizator:client.',
+        'Customer Users' => 'Clienți utilizatori',
+        'Change Customer Relations for Customer User' => 'Schimbați relațiile la clientul utilizator',
+        'Change Customer User Relations for Customer' => 'Schimbați relațiile la clientul utilizator',
+        'Toggle active state for all' => 'Comutați starea activă pentru toți',
         'Active' => 'Activ',
-        'Toggle active state for %s' => 'Schimbă stările active pentru %s',
+        'Toggle active state for %s' => 'Comutați starea activă pentru %s',
 
         # Template: AdminCustomerUserGroup
-        'Manage Customer User-Group Relations' => '',
+        'Manage Customer User-Group Relations' => 'Administrarea relațiilor client-utilizator - grup',
         'Just use this feature if you want to define group permissions for customer users.' =>
-            '',
-        'Edit Customer User Default Groups' => '',
+            'Folosiți această caracteristică numai dacă doriți să definiți permisiunile de grup pentru clienți utilizatorii.',
+        'Edit Customer User Default Groups' => 'Editați grupurile implicite ale clientului utilizator',
         'These groups are automatically assigned to all customer users.' =>
-            '',
+            'Aceste grupuri sunt alocate automat tuturor clienților utilizatori.',
         'You can manage these groups via the configuration setting "CustomerGroupAlwaysGroups".' =>
-            'Puteți administra aceste grupuri prin configurarea „GrupulClientuluiÎntotdeunaGrupuri”.',
-        'Filter for groups' => '',
-        'Select the customer user - group permissions.' => '',
+            'Puteți administra aceste grupuri prin configurare la „CustomerGroupAlwaysGroups”.',
+        'Filter for groups' => 'Filtru pentru grupuri',
+        'Select the customer user - group permissions.' => 'Selectați permisiunile client-utilizator - grup.',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer user).' =>
-            '',
-        'Customer User Default Groups:' => '',
+            'Dacă nu este selectat nimic, atunci nu există permisiuni în acest grup (tichetele nu vor fi disponibile pentru clientul utilizator).',
+        'Customer User Default Groups:' => 'Grupuri implicite pentru clientul utilizator:',
 
         # Template: AdminCustomerUserService
-        'Manage Customer User-Service Relations' => '',
-        'Edit default services' => 'Schimbă servicii implicite',
-        'Filter for Services' => 'Filtru pentru Servicii',
-        'Filter for services' => '',
+        'Manage Customer User-Service Relations' => 'Administrați relațiile client-utilizator - serviciu',
+        'Edit default services' => 'Editarea serviciilor implicite',
+        'Filter for Services' => 'Filtru pentru servicii',
+        'Filter for services' => 'Filtru pentru servicii',
         'Services' => 'Servicii',
 
         # Template: AdminDynamicField
-        'Dynamic Fields Management' => 'Administrează Câmpurile Dinamice',
-        'Add new field for object' => 'Adaugă un câmp nou pentru obiect',
+        'Dynamic Fields Management' => 'Administrarea câmpurilor dinamice',
+        'Add new field for object' => 'Adăugați un câmp nou la obiect',
         'Filter for Dynamic Fields' => '',
         'Filter for dynamic fields' => '',
         'More Business Fields' => '',
@@ -508,39 +508,39 @@ sub Data {
         'Database' => 'Bază de date',
         'Use external databases as configurable data sources for this dynamic field.' =>
             '',
-        'Web service' => '',
+        'Web service' => 'Serviciu web',
         'External web services can be configured as data sources for this dynamic field.' =>
             '',
         'Contact with data' => '',
         'This feature allows to add (multiple) contacts with data to tickets.' =>
             '',
         'To add a new field, select the field type from one of the object\'s list, the object defines the boundary of the field and it can\'t be changed after the field creation.' =>
-            '',
-        'Dynamic Fields List' => 'Lista Câmpurilor Dinamice',
+            'Pentru a adăuga un câmp nou, selectați tipul de câmp dintr-una din lista obiectului, obiectul definește limitele câmpului și nu poate fi modificat după crearea câmpului.',
+        'Dynamic Fields List' => 'Lista câmpurilor dinamice',
         'Dynamic fields per page' => 'Câmpuri dinamice pe pagină',
         'Label' => 'Etichetă',
-        'Order' => 'Comandă',
+        'Order' => 'Ordine',
         'Object' => 'Obiect',
         'Delete this field' => 'Șterge acest câmp',
 
         # Template: AdminDynamicFieldCheckbox
         'Dynamic Fields' => 'Câmpuri dinamice',
-        'Go back to overview' => 'Înapoi la prezentarea generala',
+        'Go back to overview' => 'Înapoi la prezentarea generală',
         'General' => 'General',
         'This field is required, and the value should be alphabetic and numeric characters only.' =>
-            'Acest câmp este necesar iar valoarea trebuie să fie conțină doar litere și cifre.',
+            'Acest câmp este obligatoriu și valoarea trebuie să fie numai caractere alfabetice și numerice.',
         'Must be unique and only accept alphabetic and numeric characters.' =>
             'Trebuie să fie unic și să conțină doar litere și cifre.',
         'Changing this value will require manual changes in the system.' =>
-            'Schimbarea acestei valori va neesita modificări manuale în sistem.',
+            'Schimbarea acestei valori va necesita modificări manuale în sistem.',
         'This is the name to be shown on the screens where the field is active.' =>
             'Acest nume va fi prezentat în ecranele unde acest câmp este activ.',
-        'Field order' => 'Ordinea câmpurilor.',
+        'Field order' => 'Ordinea câmpurilor',
         'This field is required and must be numeric.' => 'Acest câmp este necesar și trebuie să fie numeric.',
         'This is the order in which this field will be shown on the screens where is active.' =>
             '',
         'Is not possible to invalidate this entry, all config settings have to be changed beforehand.' =>
-            '',
+            'Nu este posibil să invalidați această intrare, toate setările de configurare trebuie modificate în prealabil.',
         'Field type' => 'Tipul câmpului',
         'Object type' => 'Tipul obiectului',
         'Internal field' => 'Câmp intern',
@@ -556,238 +556,238 @@ sub Data {
         'This field must be numeric.' => 'Acest câmp trebuie să fie numeric.',
         'The difference from NOW (in seconds) to calculate the field default value (e.g. 3600 or -60).' =>
             'Diferența față de ACUM (în secunde) pentru calcularea valorii implicite a câmpului (de ex. 3600 sau -60).',
-        'Define years period' => 'Definește perioada în ani',
+        'Define years period' => 'Definiți perioada de ani',
         'Activate this feature to define a fixed range of years (in the future and in the past) to be displayed on the year part of the field.' =>
-            '',
+            'Activați această caracteristică pentru a defini o gamă fixă de ani (în viitor sau în trecut), care vor fi afișate pe partea de an al câmpului.',
         'Years in the past' => 'Ani în trecut',
         'Years in the past to display (default: 5 years).' => 'Ani în trecut ce vor fi afișați (implicit: 5 ani).',
         'Years in the future' => 'Ani în viitor',
-        'Years in the future to display (default: 5 years).' => 'Ani în viitor ce vor fi aifșați (implicit: 5 ani).',
-        'Show link' => 'Prezintă legătura',
+        'Years in the future to display (default: 5 years).' => 'Ani în viitor ce vor fi afișați (implicit: 5 ani).',
+        'Show link' => 'Afișați legătura',
         'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
             '',
         'If special characters (&, @, :, /, etc.) should not be encoded, use \'url\' instead of \'uri\' filter.' =>
-            '',
+            'Dacă caracterele speciale (&, @,:, /, etc.) nu trebuie codificate, folosiți filtrul „url” în loc de filtrul „uri”.',
         'Example' => 'Exemplu',
-        'Link for preview' => '',
+        'Link for preview' => 'Link pentru previzualizare',
         'If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too.' =>
             '',
-        'Restrict entering of dates' => 'Restricționează datele posibile',
-        'Here you can restrict the entering of dates of tickets.' => '',
+        'Restrict entering of dates' => 'Restricționare la introducerea datelor',
+        'Here you can restrict the entering of dates of tickets.' => 'Aici puteți restricționa introducerea datelor tichetelor.',
 
         # Template: AdminDynamicFieldDropdown
         'Possible values' => 'Valori posibile',
         'Key' => 'Cheie',
         'Value' => 'Valoare',
         'Remove value' => 'Șterge valoarea',
-        'Add value' => 'Adaugă valoarea',
-        'Add Value' => 'Adaugă Valoarea',
-        'Add empty value' => 'Adaugă o valoare goală',
-        'Activate this option to create an empty selectable value.' => 'Activează această opțiune pentru a crea o valoare ce poate fi selectată și este goală.',
-        'Tree View' => 'Vedere sub formă de Arbore',
-        'Activate this option to display values as a tree.' => 'Activează această opțiune pentru a prezenta valorile sub formă de arbore.',
-        'Translatable values' => 'Valori care pot fi traduse',
+        'Add value' => 'Adăugare valoare',
+        'Add Value' => 'Adăugați o valoare',
+        'Add empty value' => 'Adăugați o valoare goală',
+        'Activate this option to create an empty selectable value.' => 'Activați această opțiune pentru a crea o valoare selectabilă goală.',
+        'Tree View' => 'Vizualizare arborescentă',
+        'Activate this option to display values as a tree.' => 'Activați această opțiune pentru a afișa valorile sub formă de arbore.',
+        'Translatable values' => 'Valori traductibile',
         'If you activate this option the values will be translated to the user defined language.' =>
-            'Notă',
+            'Dacă activați această opțiune, valorile vor fi traduse în limba definită de utilizator.',
         'Note' => 'Notă',
         'You need to add the translations manually into the language translation files.' =>
-            'TRebuie să adăugați traducerile manual în fișierul cu traducerile limbilor.',
+            'Trebuie să adăugați manual traducerile în fișierul cu traducerile limbilor.',
 
         # Template: AdminDynamicFieldText
         'Number of rows' => 'Număr de rânduri',
         'Specify the height (in lines) for this field in the edit mode.' =>
-            'Specificați înălțimea (în linii) a acestui câmp atunci când este modificat.',
+            'Specificați înălțimea (în linii) pentru acest câmp în modul de editare.',
         'Number of cols' => 'Număr de coloane',
         'Specify the width (in characters) for this field in the edit mode.' =>
-            'Secificați lățimea (în caractere) a acestui câmp atunci când este modificat.',
-        'Check RegEx' => 'Verifică RegEx',
+            'Specificați lățimea (în caractere) pentru acest câmp în modul de editare.',
+        'Check RegEx' => 'Verificare RegEx',
         'Here you can specify a regular expression to check the value. The regex will be executed with the modifiers xms.' =>
-            '',
+            'Aici puteți specifica o expresie regulată pentru a verifica valoarea. Regex-ul va fi executat cu modificatorii xms.',
         'RegEx' => 'RegEx',
         'Invalid RegEx' => 'Expresie regulată (RegEx) incorectă',
-        'Error Message' => 'Mesaj de Eroare',
-        'Add RegEx' => 'Adaugă o RegEx (expresie regulată)',
+        'Error Message' => 'Mesaj de eroare',
+        'Add RegEx' => 'Adăugați RegEx (expresie regulată)',
 
         # Template: AdminEmail
-        'Admin Message' => '',
+        'Admin Message' => 'Mesaj de administrator',
         'With this module, administrators can send messages to agents, group or role members.' =>
-            'Administratorii pot transmite mesage agenților, grupurilor sau membrilor cu anumite roluri folosind acest modul.',
-        'Create Administrative Message' => 'Crează Mesaj Administrativ',
+            'Cu acest modul, administratorii pot trimite mesaje agenților, membrilor grupului sau ai rolului.',
+        'Create Administrative Message' => 'Creare mesaj administrativ',
         'Your message was sent to' => 'Mesajul dumneavoastră a fost trimis către',
         'From' => 'De la',
-        'Send message to users' => 'TRansmite mesaje utilizatorilor',
-        'Send message to group members' => 'Transmite mesaje membrilor grupului',
+        'Send message to users' => 'Trimite mesaj către utilizatori',
+        'Send message to group members' => 'Trimite mesaj către membrii grupului',
         'Group members need to have permission' => 'Membrii grupului au nevoie de permisiuni',
-        'Send message to role members' => 'Transmite mesaje membrilor cu un anumit rol',
-        'Also send to customers in groups' => 'De asemenea transmite clienților din grupuri',
+        'Send message to role members' => 'Trimite mesaj către membrii rolului',
+        'Also send to customers in groups' => 'Trimite și clienților din grupuri',
         'Body' => 'Corp',
-        'Send' => 'Transmite',
+        'Send' => 'Trimite',
 
         # Template: AdminGenericAgent
         'Generic Agent Job Management' => '',
-        'Edit Job' => '',
-        'Add Job' => '',
-        'Run Job' => '',
+        'Edit Job' => 'Editați sarcina',
+        'Add Job' => 'Adăugați o sarcină',
+        'Run Job' => 'Executați sarcina',
         'Filter for Jobs' => '',
         'Filter for jobs' => '',
         'Last run' => 'Ultima execuție',
         'Run Now!' => 'Execută acum!',
-        'Delete this task' => 'Șterge această sarcină',
+        'Delete this task' => 'Ștergeți această sarcină',
         'Run this task' => 'Execută această sarcină',
-        'Job Settings' => 'Setările Sarcinilor',
+        'Job Settings' => 'Setările sarcinilor',
         'Job name' => 'Numele sarcinei',
-        'The name you entered already exists.' => 'Numele pe care l-ați introdus deja există.',
-        'Automatic Execution (Multiple Tickets)' => '',
-        'Execution Schedule' => 'CAlendarul de Execuție',
-        'Schedule minutes' => 'programare minute',
-        'Schedule hours' => 'programare ore',
-        'Schedule days' => 'programare zile',
-        'Automatic execution values are in the system timezone.' => '',
+        'The name you entered already exists.' => 'Numele introdus există deja.',
+        'Automatic Execution (Multiple Tickets)' => 'Executare automată (mai multe tichete)',
+        'Execution Schedule' => 'Programul de execuție',
+        'Schedule minutes' => 'Programare minute',
+        'Schedule hours' => 'Programare ore',
+        'Schedule days' => 'Programare zile',
+        'Automatic execution values are in the system timezone.' => 'Valorile pentru execuție automată se află în fusul orar al sistemului.',
         'Currently this generic agent job will not run automatically.' =>
             '',
         'To enable automatic execution select at least one value from minutes, hours and days!' =>
-            'Pentru a putea porni executarea automata selectati cel putin o valoare de minute, ore si zile!',
-        'Event Based Execution (Single Ticket)' => '',
-        'Event Triggers' => 'declansatori de eveniment',
-        'List of all configured events' => 'Afișează toate evenimentele configurate',
+            'Pentru a activa execuția automată, selectați cel puțin o valoare din minute, ore și zile!',
+        'Event Based Execution (Single Ticket)' => 'Execuție bazată pe eveniment (un tichet)',
+        'Event Triggers' => 'Declanșatori de eveniment',
+        'List of all configured events' => 'Lista completă a evenimentelor configurate',
         'Delete this event' => 'Șterge acest eveniment',
         'Additionally or alternatively to a periodic execution, you can define ticket events that will trigger this job.' =>
             'Puteți defini evenimente ale tichetelor care vor porni execuția acestei sarcini pe lângă sau în locul execuției periodice.',
         'If a ticket event is fired, the ticket filter will be applied to check if the ticket matches. Only then the job is run on that ticket.' =>
             '',
-        'Do you really want to delete this event trigger?' => 'Sunteti sigur ca doriti stergerea acestui declansator de eveniment',
-        'Add Event Trigger' => 'Adaugare declansator de eveniment',
-        'To add a new event select the event object and event name' => '',
-        'Select Tickets' => 'Alege Tichetul',
+        'Do you really want to delete this event trigger?' => 'Sunteți sigur că doriți ștergerea acestui declanșator de eveniment?',
+        'Add Event Trigger' => 'Adăugare declanșator de eveniment',
+        'To add a new event select the event object and event name' => 'Pentru a adăuga un nou eveniment, selectați obiectul și numele evenimentului',
+        'Select Tickets' => 'Selectați tichetele',
         '(e. g. 10*5155 or 105658*)' => '(de ex. 10*5155 sau 105658*)',
-        '(e. g. 234321)' => '(de ex 234321)',
-        'Customer user ID' => '',
-        '(e. g. U5150)' => '(de ex U5150)',
-        'Fulltext-search in article (e. g. "Mar*in" or "Baue*").' => 'Căutare în textul articolului (de ex. „Mar*in” sai „Baue*”)',
+        '(e. g. 234321)' => '(de ex. 234321)',
+        'Customer user ID' => 'ID de client utilizator',
+        '(e. g. U5150)' => '(de ex. U5150)',
+        'Fulltext-search in article (e. g. "Mar*in" or "Baue*").' => 'Căutare în textul articolului (de ex. „Mar*in” sau „Baue*”).',
         'To' => 'Către',
-        'Cc' => 'Cc',
+        'Cc' => 'Copie',
         'Service' => 'Serviciu',
         'Service Level Agreement' => 'SLA',
         'Queue' => 'Coadă',
         'State' => 'Stare',
         'Agent' => 'Agent',
-        'Owner' => 'Posesor',
+        'Owner' => 'Proprietar',
         'Responsible' => 'Responsabil',
-        'Ticket lock' => 'Tichet blocat',
+        'Ticket lock' => 'Blocare tichet',
         'Dynamic fields' => 'Câmpuri dinamice',
         'Add dynamic field' => '',
-        'Create times' => 'Momentul creeării',
-        'No create time settings.' => 'Nu există setări pentru momentul creării.',
+        'Create times' => 'Momente de creării',
+        'No create time settings.' => 'Nu există setări pentru ora creării.',
         'Ticket created' => 'Tichet creat',
         'Ticket created between' => 'Tichet creat între',
         'and' => 'și',
-        'Last changed times' => 'Momentele ultimei modificări',
-        'No last changed time settings.' => 'Nu există setări pentru momentul ultimei modificări.',
+        'Last changed times' => 'Momentele ultimelor modificări',
+        'No last changed time settings.' => 'Nu există setări pentru ora ultimei modificări.',
         'Ticket last changed' => 'Ultima modificare a tichetului',
         'Ticket last changed between' => 'Ultima modificare a tichetului între',
-        'Change times' => 'Momentele modificării',
-        'No change time settings.' => 'Nu există setări pentru momentul schimbării.',
+        'Change times' => 'Momentele modificărilor',
+        'No change time settings.' => 'Nu există setări pentru ora schimbării.',
         'Ticket changed' => 'Tichet modificat',
         'Ticket changed between' => 'Tichet modificat între',
         'Last close times' => '',
-        'No last close time settings.' => '',
-        'Ticket last close' => '',
-        'Ticket last close between' => '',
-        'Close times' => 'Momentele închiderii',
-        'No close time settings.' => 'Nu există setări pentru momentul închiderii.',
+        'No last close time settings.' => 'Nu există setări pentru ora închiderii.',
+        'Ticket last close' => 'Ultima închidere a tichetului',
+        'Ticket last close between' => 'Tichet închis între',
+        'Close times' => 'Momentele de închidere',
+        'No close time settings.' => 'Nu există setări pentru ora închiderii.',
         'Ticket closed' => 'Tichet închis',
         'Ticket closed between' => 'Tichet închis între',
-        'Pending times' => 'Timpi de asteptare',
-        'No pending time settings.' => 'Nu sunt setari ale timpilor de asteptare',
-        'Ticket pending time reached' => 'Timp asteptare tichet absolvit',
-        'Ticket pending time reached between' => 'Timp asteptare tichet absolvit intre',
+        'Pending times' => 'Timpuri de așteptare',
+        'No pending time settings.' => 'Nu sunt setări ale timpilor de așteptare.',
+        'Ticket pending time reached' => 'Timpul de așteptare a tichetului atins',
+        'Ticket pending time reached between' => 'Timpul de așteptare a tichetului atins între',
         'Escalation times' => 'Momentul escaladării',
         'No escalation time settings.' => 'Nu există setări ale momentului escaladării.',
         'Ticket escalation time reached' => 'A fost atins momentul escaladării',
         'Ticket escalation time reached between' => 'Tichet escaladat între',
         'Escalation - first response time' => 'Escaladare - momentul primului răspuns',
-        'Ticket first response time reached' => 'A fost atins timpul primului răspuns',
-        'Ticket first response time reached between' => 'Tihcet răspuns prima dată între',
+        'Ticket first response time reached' => 'Timpul de prim răspuns al tichetului atins',
+        'Ticket first response time reached between' => 'Timpul de prim răspuns al tichetului atins între',
         'Escalation - update time' => 'Escaladare - momentul informării',
         'Ticket update time reached' => 'A fost atins timpul de informare',
         'Ticket update time reached between' => 'Tichet la care momentul informării este între',
         'Escalation - solution time' => 'Escaladare - timp de rezolvare',
         'Ticket solution time reached' => 'Tichetul a atins momentul de rezolvare',
-        'Ticket solution time reached between' => 'Tichet cu timpul de rezolvare între',
+        'Ticket solution time reached between' => 'Tichetul a atins momentul de rezolvare între',
         'Archive search option' => 'Opțiune de căutare în arhivă',
-        'Update/Add Ticket Attributes' => 'Modifică/Adaugă Atribute Tichetului',
-        'Set new service' => 'Adaugă un nou serviciu',
-        'Set new Service Level Agreement' => 'Pune SLA nou',
-        'Set new priority' => 'Configurează o nouă prioritate',
-        'Set new queue' => 'Configurează o nouă coadă',
-        'Set new state' => 'Configurează o nouă stare',
-        'Pending date' => 'Data limita asteptare',
-        'Set new agent' => 'Configurează un nou agent',
-        'new owner' => 'noul posesor',
+        'Update/Add Ticket Attributes' => 'Actualizare/Adăugare atribute tichetului',
+        'Set new service' => 'Setați un serviciu mou',
+        'Set new Service Level Agreement' => 'Setați un SLA nou',
+        'Set new priority' => 'Setați o prioritate nouă',
+        'Set new queue' => 'Setați o coadă nouă',
+        'Set new state' => 'Setați o stare nouă',
+        'Pending date' => 'Data în așteptare',
+        'Set new agent' => 'Setați un agent nou',
+        'new owner' => 'noul proprietar',
         'new responsible' => 'noul responsabil',
         'Set new ticket lock' => 'Blochează un tichet nou',
-        'New customer user ID' => '',
+        'New customer user ID' => 'ID nou de client utilizator',
         'New customer ID' => 'ID client nou',
         'New title' => 'Titlu nou',
         'New type' => 'Tip nou',
-        'Archive selected tickets' => 'Arhivează tichetele selctate',
-        'Add Note' => 'Adaugă o Notă',
+        'Archive selected tickets' => 'Arhivați tichetele selectate',
+        'Add Note' => 'Adăugați o notă',
         'Visible for customer' => '',
         'Time units' => 'Unități de timp',
         'Execute Ticket Commands' => 'Execută comenzile tichetului',
-        'Send agent/customer notifications on changes' => 'Trimite agentului/clientului notificări în momentul schimbării',
+        'Send agent/customer notifications on changes' => 'Trimiteți notificări agentului/clientului despre modificări',
         'CMD' => 'CMD',
         'This command will be executed. ARG[0] will be the ticket number. ARG[1] the ticket id.' =>
-            'Va fi executată această comandă. ARG[0] va fi numărul tichetului. ARG[1] va fi identificatorul tichetului.',
-        'Delete tickets' => 'Șterge tichetele',
+            'Această comandă va fi executată. ARG [0] va fi numărul tichetului. ARG [1] va fi identificatorul tichetului.',
+        'Delete tickets' => 'Ștergeți tichetele',
         'Warning: All affected tickets will be removed from the database and cannot be restored!' =>
-            'AtenșieȘ Toate tichetele găsite vor fi șterse din baza de date și nu vor mai putea fi recuperate!',
-        'Execute Custom Module' => 'Execută Modulul Adaptat',
-        'Param %s key' => 'Parametrul %s este cheie',
-        'Param %s value' => 'Parametrul %s este valoare',
-        'Results' => 'Rezultatele',
-        '%s Tickets affected! What do you want to do?' => '%s tichete găsite! Ce doriți să faceți?',
+            'Atenție: toate tichetele afectate vor fi eliminate din baza de date și nu pot fi restabilite!',
+        'Execute Custom Module' => 'Executați modulul personalizat',
+        'Param %s key' => 'Cheia parametrului %s',
+        'Param %s value' => 'Valoarea parametrului %s',
+        'Results' => 'Rezultate',
+        '%s Tickets affected! What do you want to do?' => '%s tichete afectate! Ce doriți să faceți?',
         'Warning: You used the DELETE option. All deleted tickets will be lost!' =>
-            'Atenșie: Ați folosit opțiunea de ȘTERGERE. Toate tichetele șterse vor fi pierdute!',
+            'Atenție: ați folosit opțiunea ȘTERGE. Toate tichetele șterse vor fi pierdute!',
         'Warning: There are %s tickets affected but only %s may be modified during one job execution!' =>
-            '',
-        'Affected Tickets' => 'Tichete Găsite',
+            'Avertisment: există %s tichete afectate, dar numai %s pot fi modificate în timpul unei execuții a lucrării!',
+        'Affected Tickets' => 'Tichete afectate',
         'Age' => 'Vârstă',
 
         # Template: AdminGenericInterfaceDebugger
         'GenericInterface Web Service Management' => '',
-        'Web Service Management' => '',
+        'Web Service Management' => 'Administrarea serviciilor web',
         'Debugger' => 'Debugger',
         'Go back to web service' => 'Înapoi la serviciul web',
         'Clear' => 'Șterge',
         'Do you really want to clear the debug log of this web service?' =>
-            'Sunteți sigur că vreți să ștergeți jurnalul de erori pentru acest serviciu web?',
-        'Request List' => 'Lista de Cereri',
-        'Time' => 'Moment de timp',
-        'Communication ID' => '',
-        'Remote IP' => 'Adresa IP distantă',
+            'Sunteți sigur că doriți să ștergeți jurnalul de erori pentru acest serviciu web?',
+        'Request List' => 'Lista de cereri',
+        'Time' => 'Timp',
+        'Communication ID' => 'ID de comunicare',
+        'Remote IP' => 'Adresa IP la distanță',
         'Loading' => 'Se încarcă',
-        'Select a single request to see its details.' => 'Alege o singură cerere pentru a-i vedea detaliile',
-        'Filter by type' => 'Filtru după tip',
-        'Filter from' => 'Filtru de la',
-        'Filter to' => 'Filtru după destinatar',
-        'Filter by remote IP' => 'Filtru după IP expeditor',
+        'Select a single request to see its details.' => 'Selectați o singură cerere pentru a vedea detaliile acesteia.',
+        'Filter by type' => 'Filtrare după tip',
+        'Filter from' => 'Filtrare de la',
+        'Filter to' => 'Filtrare la',
+        'Filter by remote IP' => 'Filtrare după IP la distanță',
         'Limit' => 'Limită',
-        'Refresh' => 'Actualizează',
+        'Refresh' => 'Actualizare',
 
         # Template: AdminGenericInterfaceErrorHandlingDefault
         'Add ErrorHandling' => '',
         'Edit ErrorHandling' => '',
         'Do you really want to delete this error handling module?' => '',
         'All configuration data will be lost.' => 'Toată configurația va fi pierdută.',
-        'General options' => '',
+        'General options' => 'Optiuni generale',
         'The name can be used to distinguish different error handling configurations.' =>
             '',
         'Please provide a unique name for this web service.' => '',
         'Error handling module backend' => '',
         'This OTRS error handling backend module will be called internally to process the error handling mechanism.' =>
             '',
-        'Processing options' => '',
+        'Processing options' => 'Opțiuni de procesare',
         'Configure filters to control error handling module execution.' =>
             '',
         'Only requests matching all configured filters (if any) will trigger module execution.' =>
@@ -835,39 +835,39 @@ sub Data {
         'Schedule retry' => '',
         'Should requests causing an error be triggered again at a later time?' =>
             '',
-        'Initial retry interval' => '',
-        'Interval after which to trigger the first retry.' => '',
+        'Initial retry interval' => 'Interval inițial de reluare',
+        'Interval after which to trigger the first retry.' => 'Interval după care să declanșeze prima încercare.',
         'Note: This and all further retry intervals are based on the error handling module execution time for the initial request.' =>
-            '',
-        'Factor for further retries' => '',
+            'Notă: Acesta și toate intervalele de încercare ulterioare se bazează pe timpul de execuție al modulului de gestionare a erorilor pentru cererea inițială.',
+        'Factor for further retries' => 'Factor pentru încercări ulterioare',
         'If a request returns an error even after a first retry, define if subsequent retries are triggered using the same interval or in increasing intervals.' =>
-            '',
+            'Dacă o solicitare returnează o eroare chiar și după prima încercare, definiți dacă încercările ulterioare sunt declanșate folosind același interval sau intervale în creștere.',
         'Example: If a request is initially triggered at 10:00 with initial interval at \'1 minute\' and retry factor at \'2\', retries would be triggered at 10:01 (1 minute), 10:03 (2*1=2 minutes), 10:07 (2*2=4 minutes), 10:15 (2*4=8 minutes), ...' =>
-            '',
-        'Maximum retry interval' => '',
+            'Exemplu: dacă o solicitare este inițial declanșată la 10:00 cu intervalul inițial la „1 minut” și factorul de încercare la „2”, reîncercările ar fi declanșate la 10:01 (1 minut), 10:03 (2*1=2 minute), 10:07 (2*2=4 minute), 10:15 (2*4=8 minute), etc.',
+        'Maximum retry interval' => 'Interval maxim de reluare',
         'If a retry interval factor of \'1.5\' or \'2\' is selected, undesirably long intervals can be prevented by defining the largest interval allowed.' =>
             '',
         'Intervals calculated to exceed the maximum retry interval will then automatically be shortened accordingly.' =>
-            '',
+            'Intervalele calculate care depășesc intervalul maxim de reîncercare vor fi scurtate automat.',
         'Example: If a request is initially triggered at 10:00 with initial interval at \'1 minute\', retry factor at \'2\' and maximum interval at \'5 minutes\', retries would be triggered at 10:01 (1 minute), 10:03 (2 minutes), 10:07 (4 minutes), 10:12 (8=>5 minutes), 10:17, ...' =>
-            '',
-        'Maximum retry count' => '',
+            'Exemplu: dacă o solicitare este inițial declanșată la 10:00 cu intervalul inițial la „1 minut”, factorul de încercare din nou la „2” și intervalul maxim la „5 minute”, încercările vor fi declanșate la 10:01 (1 minut), 10:03 (2 minute), 10:07 (4 minute), 10:12 (8 => 5 minute), 10:17, etc.',
+        'Maximum retry count' => 'Numărul maxim de reluare',
         'Maximum number of retries before a failing request is discarded, not counting the initial request.' =>
-            '',
+            'Numărul maxim de reluări înainte ca o solicitare eșuată să fie aruncată, fără a ține cont de cererea inițială.',
         'Example: If a request is initially triggered at 10:00 with initial interval at \'1 minute\', retry factor at \'2\' and maximum retry count at \'2\', retries would be triggered at 10:01 and 10:02 only.' =>
             '',
         'Note: Maximum retry count might not be reached if a maximum retry period is configured as well and reached earlier.' =>
-            '',
-        'This field must be empty or contain a positive number.' => '',
-        'Maximum retry period' => '',
+            'Notă: numărul maxim de reîncărcare nu poate fi atins dacă a fost configurată o perioadă de reîncărcare maximă și atinsă mai devreme.',
+        'This field must be empty or contain a positive number.' => 'Acest câmp trebuie să fie gol sau să conțină un număr pozitiv.',
+        'Maximum retry period' => 'Perioada maximă de reluare',
         'Maximum period of time for retries of failing requests before they are discarded (based on the error handling module execution time for the initial request).' =>
-            '',
+            'Perioada maximă de timp pentru reluarea cererilor eșuate înainte de a fi aruncate (pe baza timpului de execuție a modulului de gestionare a erorilor pentru cererea inițială).',
         'Retries that would normally be triggered after maximum period is elapsed (according to retry interval calculation) will automatically be triggered at maximum period exactly.' =>
-            '',
+            'Încercările care, în mod normal, ar fi declanșate după expirarea perioadei maxime (conform calculului intervalului de încercare) vor fi declanșate automat exact la perioada maximă.',
         'Example: If a request is initially triggered at 10:00 with initial interval at \'1 minute\', retry factor at \'2\' and maximum retry period at \'30 minutes\', retries would be triggered at 10:01, 10:03, 10:07, 10:15 and finally at 10:31=>10:30.' =>
-            '',
+            'Exemplu: dacă o solicitare este inițial declanșată la 10:00 cu intervalul inițial la „1 minut”, factorul de reîncercare la „2” și perioada maximă de încercare la „30 minute”, încercările vor fi declanșate la 10:01, 10:03, 10:07, 10:15 și în final la 10:31 => 10:30.',
         'Note: Maximum retry period might not be reached if a maximum retry count is configured as well and reached earlier.' =>
-            '',
+            'Notă: s-ar putea să nu fie atinsă perioada de reîncărcare maximă dacă un număr maxim de reîncărcare este configurat și atins mai devreme.',
 
         # Template: AdminGenericInterfaceInvokerDefault
         'Add Invoker' => '',
@@ -875,24 +875,24 @@ sub Data {
         'Do you really want to delete this invoker?' => '',
         'Invoker Details' => '',
         'The name is typically used to call up an operation of a remote web service.' =>
-            '',
+            'Numele este folosit de obicei pentru apelarea unei operații a unui serviciu web de la distanță.',
         'Invoker backend' => '',
         'This OTRS invoker backend module will be called to prepare the data to be sent to the remote system, and to process its response data.' =>
             '',
         'Mapping for outgoing request data' => '',
-        'Configure' => 'Configurează',
+        'Configure' => 'Configurare',
         'The data from the invoker of OTRS will be processed by this mapping, to transform it to the kind of data the remote system expects.' =>
             '',
         'Mapping for incoming response data' => '',
         'The response data will be processed by this mapping, to transform it to the kind of data the invoker of OTRS expects.' =>
             '',
         'Asynchronous' => 'Asincron',
-        'Condition' => '',
-        'Edit this event' => '',
+        'Condition' => 'Condiție',
+        'Edit this event' => 'Editați acest eveniment',
         'This invoker will be triggered by the configured events.' => '',
-        'Add Event' => 'Adaugă Eveniment',
+        'Add Event' => 'Adăugare eveniment',
         'To add a new event select the event object and event name and click on the "+" button' =>
-            '',
+            'Pentru a adăuga un nou eveniment, selectați obiectul și numele evenimentului și faceți clic pe butonul „+”',
         'Asynchronous event triggers are handled by the OTRS Scheduler Daemon in background (recommended).' =>
             '',
         'Synchronous event triggers would be processed directly during the web request.' =>
@@ -900,22 +900,22 @@ sub Data {
 
         # Template: AdminGenericInterfaceInvokerEvent
         'GenericInterface Invoker Event Settings for Web Service %s' => '',
-        'Go back to' => 'Întoarce-te',
-        'Delete all conditions' => '',
+        'Go back to' => 'Înapoi la',
+        'Delete all conditions' => 'Ștergeți toate condițiile',
         'Do you really want to delete all the conditions for this event?' =>
-            '',
-        'General Settings' => '',
-        'Event type' => '',
-        'Conditions' => '',
-        'Conditions can only operate on non-empty fields.' => '',
+            'Sunteți sigur că doriți să ștergeți toate condițiile pentru acest eveniment?',
+        'General Settings' => 'Setări generale',
+        'Event type' => 'Tip de eveniment',
+        'Conditions' => 'Condiții',
+        'Conditions can only operate on non-empty fields.' => 'Condițiile pot funcționa numai pe câmpuri care nu sunt goale.',
         'Type of Linking between Conditions' => '',
-        'Remove this Condition' => '',
+        'Remove this Condition' => 'Eliminați această condiție',
         'Type of Linking' => '',
         'Fields' => 'Câmpuri',
-        'Add a new Field' => '',
-        'Remove this Field' => '',
-        'And can\'t be repeated on the same condition.' => '',
-        'Add New Condition' => '',
+        'Add a new Field' => 'Adăugați un câmp nou',
+        'Remove this Field' => 'Ștergeți acest câmp',
+        'And can\'t be repeated on the same condition.' => 'Și nu se poate repeta în aceleași condiții.',
+        'Add New Condition' => 'Adăugați o condiție nouă',
 
         # Template: AdminGenericInterfaceMappingSimple
         'Mapping Simple' => '',
@@ -929,34 +929,34 @@ sub Data {
         'Remove key mapping' => '',
         'Key mapping' => '',
         'Map key' => '',
-        'matching the' => '',
-        'to new key' => '',
+        'matching the' => 'potrivindu-se',
+        'to new key' => 'la cheie nouă',
         'Value mapping' => '',
         'Map value' => '',
-        'to new value' => '',
+        'to new value' => 'la o valoare nouă',
         'Remove value mapping' => '',
         'New value map' => '',
         'Add value mapping' => '',
         'Do you really want to delete this key mapping?' => '',
 
         # Template: AdminGenericInterfaceMappingXSLT
-        'General Shortcuts' => '',
-        'MacOS Shortcuts' => '',
+        'General Shortcuts' => 'Comenzi rapide generale',
+        'MacOS Shortcuts' => 'Comenzile rapide la MacOS',
         'Comment code' => '',
         'Uncomment code' => '',
         'Auto format code' => '',
-        'Expand/Collapse code block' => '',
-        'Find' => '',
-        'Find next' => '',
-        'Find previous' => '',
-        'Find and replace' => '',
-        'Find and replace all' => '',
+        'Expand/Collapse code block' => 'Extindeți/Restrângeți blocul de cod',
+        'Find' => 'Căutare',
+        'Find next' => 'Căutați următorul',
+        'Find previous' => 'Căutați anteriorul',
+        'Find and replace' => 'Căutare și înlocuire',
+        'Find and replace all' => 'Căutați și înlocuiți toate',
         'XSLT Mapping' => '',
-        'XSLT stylesheet' => '',
-        'The entered data is not a valid XSLT style sheet.' => '',
+        'XSLT stylesheet' => 'Fișă de stil XSLT',
+        'The entered data is not a valid XSLT style sheet.' => 'Datele introduse nu sunt o foaie de stil XSLT valabilă.',
         'Here you can add or modify your XSLT mapping code.' => '',
         'The editing field allows you to use different functions like automatic formatting, window resize as well as tag- and bracket-completion.' =>
-            '',
+            'Câmpul de editare vă permite să utilizați diferite funcții, cum ar fi formatarea automată, redimensionarea ferestrei, precum și completarea etichetelor și a parantezelor.',
         'Data includes' => '',
         'Select one or more sets of data that were created at earlier request/response stages to be included in mappable data.' =>
             '',
@@ -964,25 +964,25 @@ sub Data {
             '',
         'Data key regex filters (before mapping)' => '',
         'Data key regex filters (after mapping)' => '',
-        'Regular expressions' => '',
-        'Replace' => '',
-        'Remove regex' => '',
-        'Add regex' => '',
+        'Regular expressions' => 'Expresii regulate',
+        'Replace' => 'Înlocuire',
+        'Remove regex' => 'Îndepărtați regex-ul',
+        'Add regex' => 'Adăugați regex',
         'These filters can be used to transform keys using regular expressions.' =>
-            '',
+            'Aceste filtre pot fi utilizate pentru a transforma tastele folosind expresii regulate.',
         'The data structure will be traversed recursively and all configured regexes will be applied to all keys.' =>
-            '',
+            'Structura de date va fi traversată recursiv și toate expresiile regulate configurate vor fi aplicate tuturor tastelor.',
         'Use cases are e.g. removing key prefixes that are undesired or correcting keys that are invalid as XML element names.' =>
             '',
         'Example 1: Search = \'^jira:\' / Replace = \'\' turns \'jira:element\' into \'element\'.' =>
-            '',
+            'Exemplul 1: căutare = „^ jira:” / înlocuire = „” transformă „jira: element” în „element”.',
         'Example 2: Search = \'^\' / Replace = \'_\' turns \'16x16\' into \'_16x16\'.' =>
-            '',
+            'Exemplul 2: Căutare = „^” / înlocuire = „_” transformă „16x16” în „_16x16”.',
         'Example 3: Search = \'^(?<number>\d+) (?<text>.+?)\$\' / Replace = \'_\$+{text}_\$+{number}\' turns \'16 elementname\' into \'_elementname_16\'.' =>
-            '',
+            'Exemplul 3: căutare = „^(?<număr>\d+) (?<text>.+?)\$” / înlocuire = „_\$+{text}_\$+{număr}” transformă „16 numeelement” în „_numeelement_16”.',
         'For information about regular expressions in Perl please see here:' =>
-            '',
-        'Perl regular expressions tutorial' => '',
+            'Pentru informații despre expresiile regulate din Perl, vă rugăm să consultați aici:',
+        'Perl regular expressions tutorial' => 'Tutorial de expresii regulate Perl',
         'If modifiers are desired they have to be specified within the regexes themselves.' =>
             '',
         'Regular expressions defined here will be applied before the XSLT mapping.' =>
@@ -991,12 +991,12 @@ sub Data {
             '',
 
         # Template: AdminGenericInterfaceOperationDefault
-        'Add Operation' => '',
-        'Edit Operation' => '',
-        'Do you really want to delete this operation?' => 'Sunteți sigur că vreți să ștergeți operațiunea?',
-        'Operation Details' => 'Detaliile Operațiunii',
+        'Add Operation' => 'Adăugați operațiune',
+        'Edit Operation' => 'Editați operațiunea',
+        'Do you really want to delete this operation?' => 'Sunteți sigur că doriți să ștergeți operațiunea?',
+        'Operation Details' => 'Detaliile operațiunii',
         'The name is typically used to call up this web service operation from a remote system.' =>
-            '',
+            'Numele este folosit de obicei pentru a apela această operațiune de servicii web de la un sistem la distanță.',
         'Operation backend' => '',
         'This OTRS operation backend module will be called internally to process the request, generating data for the response.' =>
             '',
@@ -1006,55 +1006,55 @@ sub Data {
         'Mapping for outgoing response data' => '',
         'The response data will be processed by this mapping, to transform it to the kind of data the remote system expects.' =>
             '',
-        'Include Ticket Data' => '',
-        'Include ticket data in response.' => '',
+        'Include Ticket Data' => 'Includeți datele tichetelor',
+        'Include ticket data in response.' => 'Includeți datele tichetului în răspuns.',
 
         # Template: AdminGenericInterfaceTransportHTTPREST
-        'Network Transport' => '',
+        'Network Transport' => 'Transport în rețea',
         'Properties' => 'Proprietăți',
         'Route mapping for Operation' => '',
         'Define the route that should get mapped to this operation. Variables marked by a \':\' will get mapped to the entered name and passed along with the others to the mapping. (e.g. /Ticket/:TicketID).' =>
             '',
-        'Valid request methods for Operation' => '',
+        'Valid request methods for Operation' => 'Metode de solicitare valabile pentru operațiune',
         'Limit this Operation to specific request methods. If no method is selected all requests will be accepted.' =>
-            '',
+            'Limitați această operațiune la metode de solicitare specifice. Dacă nu este selectată nicio metodă, toate cererile vor fi acceptate.',
         'Maximum message length' => 'Lungimea maximă a mesajului',
-        'This field should be an integer number.' => 'Acest câmp trebuie să aibă o valoarea întreagă.',
+        'This field should be an integer number.' => 'Acest câmp trebuie să fie un număr întreg.',
         'Here you can specify the maximum size (in bytes) of REST messages that OTRS will process.' =>
             'Aici puteți specifica dimensiunea maximă (în octeți) a mesajelor tip REST pe care le va procesa OTRS.',
         'Send Keep-Alive' => 'Trimite semnal keep-alive',
         'This configuration defines if incoming connections should get closed or kept alive.' =>
-            'Aceasta setare defineste daca conexiunile care sosesc se inchid sau raman deschise',
-        'Additional response headers' => '',
-        'Add response header' => '',
-        'Endpoint' => '',
+            'Această setare definește dacă conexiunile sosite se închid sau rămân deschise.',
+        'Additional response headers' => 'Anteturi de răspuns suplimentare',
+        'Add response header' => 'Adăugați antetul de răspuns',
+        'Endpoint' => 'Punct final',
         'URI to indicate specific location for accessing a web service.' =>
-            '',
+            'URI pentru a indica locația specifică pentru accesarea unui serviciu web.',
         'e.g https://www.otrs.com:10745/api/v1.0 (without trailing backslash)' =>
-            'de ex. https://www.otrs.com:10745/api/v1.0 (fără bacslaș la sfârșit)',
+            'de ex. https://www.otrs.com:10745/api/v1.0 (fără backslash la sfârșit)',
         'Timeout' => '',
         'Timeout value for requests.' => '',
         'Authentication' => 'Autentificare',
         'An optional authentication mechanism to access the remote system.' =>
-            '',
+            'Un mecanism opțional de autentificare pentru a accesa sistemul de la distanță.',
         'BasicAuth User' => '',
-        'The user name to be used to access the remote system.' => 'Numele utilizatorului folosit pentru autentificare la conectarea cu sistemul distant.',
+        'The user name to be used to access the remote system.' => 'Numele utilizatorului folosit pentru a accesa sistemul de la distanță.',
         'BasicAuth Password' => '',
         'The password for the privileged user.' => 'Parola utilizatorului privilegiat.',
         'Use Proxy Options' => '',
         'Show or hide Proxy options to connect to the remote system.' => '',
         'Proxy Server' => 'Server proxy',
-        'URI of a proxy server to be used (if needed).' => 'URI folosit pentru server-ul proxy (daca e necesar)',
+        'URI of a proxy server to be used (if needed).' => 'URI-ul folosit pentru serverul proxy (dacă e necesar).',
         'e.g. http://proxy_hostname:8080' => 'de ex. http://proxy_hostname:8080',
         'Proxy User' => 'Utilizator proxy',
-        'The user name to be used to access the proxy server.' => 'Numele utilizatorului folosit pentru accessul pe server-ul proxy',
+        'The user name to be used to access the proxy server.' => 'Numele utilizatorului folosit pentru accesul pe serverul proxy.',
         'Proxy Password' => 'Parola pentru proxy',
-        'The password for the proxy user.' => 'Parola pentru utilizatorul proxy',
+        'The password for the proxy user.' => 'Parola pentru utilizatorul proxy.',
         'Skip Proxy' => '',
         'Skip proxy servers that might be configured globally?' => '',
-        'Use SSL Options' => 'Folosește opțiuni SSL',
-        'Show or hide SSL options to connect to the remote system.' => 'Arată sau ascunde opțiuni SSL pentru conectarea la sistemul distant.',
-        'Client Certificate' => '',
+        'Use SSL Options' => 'Folosiți opțiuni SSL',
+        'Show or hide SSL options to connect to the remote system.' => 'Arată sau ascunde opțiunile SSL pentru conectarea la sistemul de la distanță.',
+        'Client Certificate' => 'Certificat de client',
         'The full path and name of the SSL client certificate file (must be in PEM, DER or PKCS#12 format).' =>
             '',
         'e.g. /opt/otrs/var/certificates/SOAP/certificate.pem' => '',
@@ -1080,7 +1080,7 @@ sub Data {
         'A specific HTTP command to use for the requests with this Invoker (optional).' =>
             '',
         'Default command' => 'Comanda implicită',
-        'The default HTTP command to use for the requests.' => 'Comanda HTTP implicită ce va fi folosită pentru aceste cereri.',
+        'The default HTTP command to use for the requests.' => 'Comanda HTTP implicită folosită pentru cereri.',
 
         # Template: AdminGenericInterfaceTransportHTTPSOAP
         'e.g. https://local.otrs.com:8000/Webservice/Example' => '',
@@ -1105,7 +1105,7 @@ sub Data {
         'URI to give SOAP methods a context, reducing ambiguities.' => 'URI pentru a da un context metodelor SOAP astfel reducând ambiguitățile.',
         'e.g urn:otrs-com:soap:functions or http://www.otrs.com/GenericInterface/actions' =>
             'de ex. urn:otrs-com:soap:functions sau http://www.otrs.com/GenericInterface/actions',
-        'Request name scheme' => 'Cerere pentru a schema a numelor',
+        'Request name scheme' => 'Schema pentru nume de solicitare',
         'Select how SOAP request function wrapper should be constructed.' =>
             '',
         '\'FunctionName\' is used as example for actual invoker/operation name.' =>
@@ -1122,12 +1122,12 @@ sub Data {
             '',
         'Response name free text' => '',
         'Here you can specify the maximum size (in bytes) of SOAP messages that OTRS will process.' =>
-            'Aici puteți scpecifica mărimea maximă (în octeți) a mesajelor SOAP pe care le va procesa OTRS.',
+            'Aici puteți specifica dimensiunea maximă (în octeți) a mesajelor SOAP pe care le va procesa OTRS.',
         'Encoding' => 'Codare',
         'The character encoding for the SOAP message contents.' => '',
         'e.g utf-8, latin1, iso-8859-1, cp1250, Etc.' => 'de ex. utf-8, latin1, iso-8859-1, cp1250, etc.',
         'Sort options' => 'Opțiuni de sortare',
-        'Add new first level element' => 'Adaugă un nou element pe primul nivel',
+        'Add new first level element' => 'Adăugați un element nou de prim nivel',
         'Element' => 'Element',
         'Outbound sort order for xml fields (structure starting below function name wrapper) - see documentation for SOAP transport.' =>
             '',
@@ -1136,16 +1136,16 @@ sub Data {
         'Add Web Service' => '',
         'Edit Web Service' => '',
         'Clone Web Service' => '',
-        'The name must be unique.' => 'Numele trenuie să fie unic.',
+        'The name must be unique.' => 'Numele trebuie să fie unic.',
         'Clone' => 'Clonează',
         'Export Web Service' => '',
         'Import web service' => 'Importă un serviciu web',
         'Configuration File' => 'Fișierul de configurare',
         'The file must be a valid web service configuration YAML file.' =>
-            'Fișierul trebuie să conțină o configurație YAML corectă de serviciu web.',
+            'Fișierul trebuie să fie o configurație YAML corectă de serviciu web.',
         'Here you can specify a name for the webservice. If this field is empty, the name of the configuration file is used as name.' =>
             '',
-        'Import' => 'Importă',
+        'Import' => 'Importați',
         'Configuration History' => '',
         'Delete web service' => 'Șterge serviciul web',
         'Do you really want to delete this web service?' => 'Sunteți sigur că vreți să ștergeți acest serviciu web?',
@@ -1162,13 +1162,13 @@ sub Data {
         'If you want to return to overview please click the "Go to overview" button.' =>
             '',
         'Remote system' => 'Sistem distant',
-        'Provider transport' => 'Furnizor de transport',
+        'Provider transport' => 'Transport furnizor',
         'Requester transport' => '',
         'Debug threshold' => 'Pragul de depanare',
         'In provider mode, OTRS offers web services which are used by remote systems.' =>
-            'În modul furnizor OTRS oferă servicii web ce sunt folosite de alte sisteme.',
+            'În modul furnizor, OTRS oferă servicii web utilizate de sisteme la distanță.',
         'In requester mode, OTRS uses web services of remote systems.' =>
-            'În modul client OTRS folosește servicii web furnizate de alte sisteme.',
+            'În modul solicitant, OTRS utilizează servicii web ale sistemelor la distanță.',
         'Network transport' => 'Transport rețea',
         'Error Handling Modules' => '',
         'Error handling modules are used to react in case of errors during the communication. Those modules are executed in a specific order, which can be changed by drag and drop.' =>
@@ -1176,52 +1176,52 @@ sub Data {
         'Backend' => '',
         'Add error handling module' => '',
         'Operations are individual system functions which remote systems can request.' =>
-            'Operațiunile sunt duncții de sistem individuale ce port fi accesate de alte sisteme.',
+            'Operațiunile sunt funcții de sistem individuale ce pot fi accesate de sistemele de la distanță.',
         'Invokers prepare data for a request to a remote web service, and process its response data.' =>
             '',
         'Controller' => '',
         'Inbound mapping' => '',
         'Outbound mapping' => '',
-        'Delete this action' => 'Șterge această acțiune',
+        'Delete this action' => 'Ștergeți această acțiune',
         'At least one %s has a controller that is either not active or not present, please check the controller registration or delete the %s' =>
             '',
 
         # Template: AdminGenericInterfaceWebserviceHistory
         'History' => 'Istoric',
-        'Go back to Web Service' => 'Întoarce-te ls Serviciul Web',
+        'Go back to Web Service' => 'Înapoi la Serviciul Web',
         'Here you can view older versions of the current web service\'s configuration, export or even restore them.' =>
-            'Aici puteți vedea versiuni mai vechi ale configurațiilor serviciilor web aflate în utilizare, exportul lor sau chiar revenirea la o variantă mai veche.',
-        'Configuration History List' => 'Istoric Configurații',
+            'Aici puteți vedea versiuni mai vechi ale configurației serviciului web curent, puteți exporta sau chiar restaura.',
+        'Configuration History List' => 'Istoricul configurației',
         'Version' => 'Versiune',
-        'Create time' => 'Momentul creării',
-        'Select a single configuration version to see its details.' => 'Alege o versiune a configurației pentru a-i vedea detaliile.',
-        'Export web service configuration' => 'Exportă configurație serviciu web',
-        'Restore web service configuration' => 'Revino la o configurație a serviciului web',
+        'Create time' => 'Ora creării',
+        'Select a single configuration version to see its details.' => 'Selectați o singură versiune de configurare pentru a vedea detaliile acesteia.',
+        'Export web service configuration' => 'Exportați configurația serviciului web',
+        'Restore web service configuration' => 'Restaurați configurația serviciului web',
         'Do you really want to restore this version of the web service configuration?' =>
-            'Sunteți sigur că doriți revenirea la această versiune a configurației serviciului web?',
+            'Sunteți sigur că doriți să restaurați această versiune a configurației serviciului web?',
         'Your current web service configuration will be overwritten.' => 'Configurația actuală a serviciului web va fi suprascrisă.',
 
         # Template: AdminGroup
-        'Group Management' => 'Administrarea Grupurilor',
-        'Add Group' => 'Adaugă Grup',
-        'Edit Group' => 'Modifică Grup',
+        'Group Management' => 'Administrarea grupurilor',
+        'Add Group' => 'Adăugați un grup',
+        'Edit Group' => 'Editați grupul',
         'The admin group is to get in the admin area and the stats group to get stats area.' =>
-            'Grupul de administrare este pentru zona de administrare iar grupul de statistici este pentru zona de statistici.',
+            'Grupul de admin este de a intra în zona de administrare și grupul de statistici pentru zona de statistici.',
         'Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...). ' =>
-            'Crează grupuri noi pentru administrarea drepturilor de acces a grupurilor de agenți ( de ex. departamentul de achiziții, departamentul de suport, departametnul de vânzări, ...)',
+            'Creează grupuri noi pentru administrarea drepturilor de acces a grupurilor de agenți (de ex. departamentul de achiziții, departamentul de suport, departamentul de vânzări, ...). ',
         'It\'s useful for ASP solutions. ' => '',
 
         # Template: AdminLog
-        'System Log' => 'Jurnalul Sistemului',
-        'Here you will find log information about your system.' => 'Aici veți găsi informații despre sistem.',
-        'Hide this message' => 'Ascunde acest mesaj',
-        'Recent Log Entries' => 'Intrări Recente în Jurnal',
+        'System Log' => 'Jurnalul sistemului',
+        'Here you will find log information about your system.' => 'Aici veți găsi informații de jurnal despre sistemul dvs.',
+        'Hide this message' => 'Ascundeți acest mesaj',
+        'Recent Log Entries' => 'Înregistrări recente de jurnal',
         'Facility' => 'Facilitate',
         'Message' => 'Mesaj',
 
         # Template: AdminMailAccount
-        'Mail Account Management' => 'Administrarea Conturilor de Email',
-        'Add Mail Account' => 'Adaugă căsuță de email',
+        'Mail Account Management' => 'Administrarea conturilor de e-mail',
+        'Add Mail Account' => 'Adăugați o căsuță de e-mail',
         'Edit Mail Account for host' => '',
         'and user account' => '',
         'Filter for Mail Accounts' => '',
@@ -1233,18 +1233,18 @@ sub Data {
         'Outgoing email can be configured via the Sendmail* settings in %s.' =>
             '',
         'System Configuration' => '',
-        'Host' => 'Host',
-        'Delete account' => 'Șterge contul',
+        'Host' => 'Gazdă',
+        'Delete account' => 'Ștergeți contul',
         'Fetch mail' => 'Citește contul de email',
         'Do you really want to delete this mail account?' => '',
         'Password' => 'Parolă',
         'Example: mail.example.com' => 'Exemplu: mail.exemplu.com',
-        'IMAP Folder' => 'Directorul IMAP',
+        'IMAP Folder' => 'Folderul IMAP',
         'Only modify this if you need to fetch mail from a different folder than INBOX.' =>
-            'Modifică-l doar dacă trebuie să citești emailul din alt director decât INBOX.',
+            'Modificați numai dacă trebuie să preluați e-mailuri dintr-un alt folder decât INBOX.',
         'Trusted' => '',
         'Dispatching' => 'Distribuie',
-        'Edit Mail Account' => 'Modifică Contul de Email',
+        'Edit Mail Account' => 'Editați contul de e-mail',
 
         # Template: AdminNavigationBar
         'Administration Overview' => '',
@@ -1256,27 +1256,27 @@ sub Data {
         'Links' => '',
         'View the admin manual on Github' => '',
         'No Matches' => '',
-        'Sorry, your search didn\'t match any items.' => '',
-        'Set as favorite' => '',
+        'Sorry, your search didn\'t match any items.' => 'Ne pare rău, căutarea dvs. nu a corespuns niciunui articol.',
+        'Set as favorite' => 'Setare ca favorit',
 
         # Template: AdminNotificationEvent
-        'Ticket Notification Management' => 'Administrarea Notificărilor Tichetelor',
+        'Ticket Notification Management' => 'Administrarea notificărilor tichetelor',
         'Here you can upload a configuration file to import Ticket Notifications to your system. The file needs to be in .yml format as exported by the Ticket Notification module.' =>
-            'Aici puteți adăuga un fișier cu o configurație a Notificarilor Tichetelor pentru sistemul dvs. Fișierul trebuie să fie în format .yml ca cel exportat de modulul de Notificări Tichete.',
+            'Aici puteți încărca un fișier cu configurația Notificărilor tichetelor pentru sistemul dvs. Fișierul trebuie să fie în formatul .yml ca cel exportat de modulul de Notificări tichete.',
         'Here you can choose which events will trigger this notification. An additional ticket filter can be applied below to only send for ticket with certain criteria.' =>
-            'Aici puteți alege ce evenimente vor genera această notificare. Un filtru suplimentar pentru tichete poate ulterior să permită transmiterea tichetelor după anumite criterii.',
-        'Ticket Filter' => 'Filtru pentru Tichete',
-        'Lock' => 'Blocat',
+            'Aici puteți alege ce evenimente vor declanșa această notificare. Un filtru suplimentar de tichet poate fi aplicat mai jos pentru a trimite doar tichetului cu anumite criterii.',
+        'Ticket Filter' => 'Filtru pentru tichete',
+        'Lock' => 'Blocare',
         'SLA' => 'SLA',
         'Customer User ID' => '',
-        'Article Filter' => 'Filtru pentru Articole',
-        'Only for ArticleCreate and ArticleSend event' => 'Doar pentru evenimentul ArticleCreate și ArticleSend',
-        'Article sender type' => 'Tipul articolului expeditorului',
+        'Article Filter' => 'Filtru pentru articole',
+        'Only for ArticleCreate and ArticleSend event' => 'Numai pentru evenimentul ArticleCreate și ArticleSend',
+        'Article sender type' => 'Tipul expeditorului de articol',
         'If ArticleCreate or ArticleSend is used as a trigger event, you need to specify an article filter as well. Please select at least one of the article filter fields.' =>
-            'Dacă este folosit CreareArticol sau TrimitereArticol este folosit ca eveniment de generare atunci trebuie să specificați un filtru pentru articole. Vă rog alegeți unul din câpurile filtrului pentru articole.',
-        'Customer visibility' => '',
-        'Communication channel' => '',
-        'Include attachments to notification' => 'Adaugă atașamentele la notificare',
+            'Dacă ArticleCreate sau ArticleSend sunt utilizate ca eveniment declanșator, trebuie să specificați și un filtru de articole. Vă rugăm să selectați cel puțin unul dintre câmpurile de filtrare a articolului.',
+        'Customer visibility' => 'Vizibilitatea clientului',
+        'Communication channel' => 'Canal de comunicare',
+        'Include attachments to notification' => 'Includeți atașamente la notificare',
         'Notify user just once per day about a single ticket using a selected transport.' =>
             'Notifică utilizatorul o dată pe zi despre un tichet folosind mijlocul de transport ales.',
         'This field is required and must have less than 4000 characters.' =>
@@ -1290,20 +1290,20 @@ sub Data {
             'Pentru a lua primele 20 de caractere ale subiectului (din ultimul articol al clientului).',
         'To get the first 5 lines of the body (of the latest customer article).' =>
             'Pentru a lua primele 5 linii din corpul mesajului (ultimul articol al clientului).',
-        'Attributes of the current customer user data' => 'Opțiuni ale datelor utilizatorului clientului curent',
-        'Attributes of the current ticket owner user data' => '',
-        'Attributes of the current ticket responsible user data' => '',
+        'Attributes of the current customer user data' => 'Atributele datelor ale utilizatorului clientului curent',
+        'Attributes of the current ticket owner user data' => 'Atributele datelor ale utilizatorului proprietar al tichetului curent',
+        'Attributes of the current ticket responsible user data' => 'Atributele datelor utilizatorului responsabil al tichetului curent',
         'Attributes of the current agent user who requested this action' =>
-            'Opțiunile agentului care a cerut această acțiune',
-        'Attributes of the ticket data' => 'Opțiunile tichetului',
+            'Atributele utilizatorului agentului actual care a solicitat această acțiune',
+        'Attributes of the ticket data' => 'Atributele datelor tichetului',
         'Ticket dynamic fields internal key values' => 'Valorile interne pentru câmpurile dinamice ale tichetului',
         'Ticket dynamic fields display values, useful for Dropdown and Multiselect fields' =>
-            'Valorile afișate ale unui câmp dinamic al unui tichet, util pentru câmpurile de tip Listă sau cu Selecție Multiplă',
+            'Valorile afișate ale câmpurilor dinamice al unui tichet, util pentru câmpurile Listă verticală și Selecție multiplă',
 
         # Template: AdminNotificationEventTransportEmailSettings
-        'Use comma or semicolon to separate email addresses.' => '',
+        'Use comma or semicolon to separate email addresses.' => 'Utilizați virgula sau punct și virgulă pentru a separa adresele de e-mail.',
         'You can use OTRS-tags like <OTRS_TICKET_DynamicField_...> to insert values from the current ticket.' =>
-            '',
+            'Puteți utiliza etichete OTRS precum <OTRS_TICKET_DynamicField _...> pentru a insera valori din tichetul curent.',
 
         # Template: AdminOTRSBusinessInstalled
         'Manage %s' => 'Administrează %s',
@@ -1311,7 +1311,7 @@ sub Data {
         'Read documentation' => 'Citește documentația',
         '%s makes contact regularly with cloud.otrs.com to check on available updates and the validity of the underlying contract.' =>
             '',
-        'Unauthorized Usage Detected' => 'A fost detectată o utilizare neautorizată',
+        'Unauthorized Usage Detected' => 'Utilizare neautorizată detectată',
         'This system uses the %s without a proper license! Please make contact with %s to renew or activate your contract!' =>
             'Sistemul folosit de %s nu are licență! Vă rugam luați legătura cu %s pentru a vă reînoi licența sau activarea contractului!',
         '%s not Correctly Installed' => '%s nu a fost Corect Instalat',
@@ -1333,7 +1333,7 @@ sub Data {
             'Felicitări %s a fost instalată corect și sistemul are ultima versiune!',
 
         # Template: AdminOTRSBusinessNotInstalled
-        'Go to the OTRS customer portal' => '',
+        'Go to the OTRS customer portal' => 'Salt la portalul clienților OTRS',
         '%s will be available soon. Please check again in a few days.' =>
             '% va fi disponibilă în curând. Vă rugăm reveniți peste câteva zile.',
         'Please have a look at %s for more information.' => '',
@@ -1344,7 +1344,7 @@ sub Data {
         'Connection to cloud.otrs.com via HTTPS couldn\'t be established. Please make sure that your OTRS can connect to cloud.otrs.com via port 443.' =>
             '',
         'Package installation requires patch level update of OTRS.' => '',
-        'Please visit our customer portal and file a request.' => '',
+        'Please visit our customer portal and file a request.' => 'Vă rugăm să vizitați portalul nostru pentru clienți și să depuneți o solicitare.',
         'Everything else will be done as part of your contract.' => '',
         'Your installed OTRS version is %s.' => '',
         'To install this package, you need to update to OTRS %s or higher.' =>
@@ -1352,7 +1352,7 @@ sub Data {
         'To install this package, the Maximum OTRS Version is %s.' => '',
         'To install this package, the required Framework version is %s.' =>
             '',
-        'Why should I keep OTRS up to date?' => '',
+        'Why should I keep OTRS up to date?' => 'De ce trebuie să țin OTRS la zi?',
         'You will receive updates about relevant security issues.' => '',
         'You will receive updates for all other relevant OTRS issues' => '',
         'With your existing contract you can only use a small part of the %s.' =>
@@ -1380,92 +1380,92 @@ sub Data {
         'The %s skin' => '',
 
         # Template: AdminPGP
-        'PGP Management' => '',
-        'Add PGP Key' => '',
+        'PGP Management' => 'Administrarea PGP',
+        'Add PGP Key' => 'Adăugați cheia PGP',
         'PGP support is disabled' => '',
-        'To be able to use PGP in OTRS, you have to enable it first.' => '',
+        'To be able to use PGP in OTRS, you have to enable it first.' => 'Pentru a putea utiliza PGP în OTRS, trebuie să îl activați mai întâi.',
         'Enable PGP support' => '',
-        'Faulty PGP configuration' => '',
+        'Faulty PGP configuration' => 'Configurație PGP greşit',
         'PGP support is enabled, but the relevant configuration contains errors. Please check the configuration using the button below.' =>
             '',
-        'Configure it here!' => 'Configurează aici!',
-        'Check PGP configuration' => '',
+        'Configure it here!' => 'Configurați aici!',
+        'Check PGP configuration' => 'Verificați configurația PGP',
         'In this way you can directly edit the keyring configured in SysConfig.' =>
             '',
-        'Introduction to PGP' => '',
+        'Introduction to PGP' => 'Introducere în PGP',
         'Identifier' => 'Identificator',
         'Bit' => 'Bit',
         'Fingerprint' => 'Amprenta',
         'Expires' => 'Expiră',
-        'Delete this key' => 'Șterge această cheie',
+        'Delete this key' => 'Ștergeți această cheie',
         'PGP key' => 'Cheie PGP',
 
         # Template: AdminPackageManager
         'Package Manager' => 'Manager de pachete',
-        'Uninstall Package' => 'Dezinstalează Pachet',
-        'Uninstall package' => 'Dezinstalează pachet',
-        'Do you really want to uninstall this package?' => 'Ești sigur că vrei să dezinstalezi acest pachet?',
-        'Reinstall package' => 'Reinstalează pachet',
+        'Uninstall Package' => 'Dezinstalare pachet',
+        'Uninstall package' => 'Dezinstalare pachet',
+        'Do you really want to uninstall this package?' => 'Sunteți sigur că doriți să dezinstalați acest pachet?',
+        'Reinstall package' => 'Reinstalare pachet',
         'Do you really want to reinstall this package? Any manual changes will be lost.' =>
-            'Ești sigur că vrei să reinstalezi acest pachet? Modificările făcute manual se vor pierde.',
-        'Go to updating instructions' => '',
-        'package information' => '',
+            'Sunteți sigur că doriți să reinstalați acest pachet? Modificările făcute manual se vor pierde.',
+        'Go to updating instructions' => 'Salt la instrucțiunile de actualizare',
+        'package information' => 'informații despre pachet',
         'Package installation requires a patch level update of OTRS.' => '',
         'Package update requires a patch level update of OTRS.' => '',
         'If you are a OTRS Business Solution™ customer, please visit our customer portal and file a request.' =>
             '',
-        'Please note that your installed OTRS version is %s.' => '',
+        'Please note that your installed OTRS version is %s.' => 'Rețineți că versiunea dvs. OTRS instalată este %s.',
         'To install this package, you need to update OTRS to version %s or newer.' =>
-            '',
+            'Pentru a instala acest pachet, trebuie să actualizați OTRS la versiunea %s sau mai nouă.',
         'This package can only be installed on OTRS version %s or older.' =>
-            '',
+            'Acest pachet poate fi instalat doar pe versiunea OTRS %s sau mai veche.',
         'This package can only be installed on OTRS version %s or newer.' =>
-            '',
+            'Acest pachet poate fi instalat doar pe versiunea OTRS %s sau mai nouă.',
         'You will receive updates for all other relevant OTRS issues.' =>
             '',
         'How can I do a patch level update if I don’t have a contract?' =>
             '',
         'Please find all relevant information within the updating instructions at %s.' =>
-            '',
+            'Găsiți toate informațiile relevante în instrucțiunile de actualizare la %s.',
         'In case you would have further questions we would be glad to answer them.' =>
             '',
-        'Install Package' => '',
-        'Update Package' => '',
-        'Continue' => 'Continuă',
+        'Install Package' => 'Instalare pachet',
+        'Update Package' => 'Actualizare pachet',
+        'Continue' => 'Continuare',
         'Please make sure your database accepts packages over %s MB in size (it currently only accepts packages up to %s MB). Please adapt the max_allowed_packet setting of your database in order to avoid errors.' =>
-            '',
-        'Install' => '',
-        'Update repository information' => '',
-        'Cloud services are currently disabled.' => '',
-        'OTRS Verify™ can not continue!' => '',
-        'Enable cloud services' => '',
-        'Update all installed packages' => '',
-        'Online Repository' => '',
+            'Vă rugăm să vă asigurați că baza de date acceptă pachete cu o dimensiune de peste %s MB (în prezent acceptă doar pachete de până la %s MB). Vă rugăm să adaptați setarea max_allowed_packet a bazei de date pentru a evita erorile.',
+        'Install' => 'Instalare',
+        'Update repository information' => 'Actualizați informațiile despre depozit',
+        'Cloud services are currently disabled.' => 'În prezent, serviciile cloud sunt dezactivate.',
+        'OTRS Verify™ can not continue!' => 'OTRS Verify™ nu poate continua!',
+        'Enable cloud services' => 'Activați serviciile cloud',
+        'Update all installed packages' => 'Actualizați toate pachetele instalate',
+        'Online Repository' => 'Depozitul online',
         'Action' => 'Acțiune',
-        'Module documentation' => '',
-        'Local Repository' => '',
-        'This package is verified by OTRSverify (tm)' => '',
-        'Uninstall' => 'Dezinstaleaza',
+        'Module documentation' => 'Documentația modulului',
+        'Local Repository' => 'Depozitul local',
+        'This package is verified by OTRSverify (tm)' => 'Acest pachet a fost verificat de OTRSverify (tm)',
+        'Uninstall' => 'Dezinstalare',
         'Package not correctly deployed! Please reinstall the package.' =>
-            'pachetul nu a fost instalat corect! Vă rog instalați pachetul din nou!',
-        'Reinstall' => 'Reinstaleaza',
+            'Pachetul nu a fost instalat corect! Vă rog, instalați pachetul din nou.',
+        'Reinstall' => 'Reinstalare',
         'Features for %s customers only' => '',
         'With %s, you can benefit from the following optional features. Please make contact with %s if you need more information.' =>
             '',
-        'Package Information' => '',
-        'Download package' => 'Descarca pachet',
+        'Package Information' => 'Informații despre pachet',
+        'Download package' => 'Descărcare pachet',
         'Rebuild package' => '',
         'Metadata' => '',
         'Change Log' => '',
-        'Date' => 'Date',
-        'List of Files' => '',
-        'Permission' => '',
+        'Date' => 'Dată',
+        'List of Files' => 'Lista de fișiere',
+        'Permission' => 'Permisiune',
         'Download file from package!' => '',
-        'Required' => 'Necesar',
+        'Required' => 'Obligatoriu',
         'Size' => 'Dimensiune',
         'Primary Key' => '',
         'Auto Increment' => '',
-        'SQL' => 'Limită',
+        'SQL' => 'SQL',
         'File Differences for File %s' => '',
         'File differences for file %s' => '',
 
@@ -1480,8 +1480,8 @@ sub Data {
         'Disable it here!' => '',
         'Logfile too large!' => '',
         'The logfile is too large, you need to reset it' => '',
-        'Reset' => 'Anulează',
-        'Overview' => 'Vedere de ansamblu',
+        'Reset' => 'Resetare',
+        'Overview' => 'Prezentare generală',
         'Interface' => 'Interfață',
         'Requests' => 'Cereri',
         'Min Response' => 'Timp minim de răspuns',
@@ -1494,7 +1494,7 @@ sub Data {
         'Average' => 'Medie',
 
         # Template: AdminPostMasterFilter
-        'PostMaster Filter Management' => 'Managementul filtrelor PostMaster',
+        'PostMaster Filter Management' => 'Administrarea filtrelor PostMaster',
         'Add PostMaster Filter' => '',
         'Edit PostMaster Filter' => '',
         'Filter for PostMaster Filters' => '',
@@ -1524,9 +1524,9 @@ sub Data {
         'Header' => 'Antet',
 
         # Template: AdminPriority
-        'Priority Management' => 'Managementul priorităților',
-        'Add Priority' => 'Adaugă prioritate',
-        'Edit Priority' => 'Editează prioritate',
+        'Priority Management' => 'Administrarea priorităților',
+        'Add Priority' => 'Adăugați o prioritate',
+        'Edit Priority' => 'Editați prioritatea',
         'Filter for Priorities' => '',
         'Filter for priorities' => '',
         'This priority is present in a SysConfig setting, confirmation for updating settings to point to the new priority is needed!' =>
@@ -1534,7 +1534,7 @@ sub Data {
         'This priority is used in the following config settings:' => '',
 
         # Template: AdminProcessManagement
-        'Process Management' => '',
+        'Process Management' => 'Administrarea procesului',
         'Filter for Processes' => '',
         'Filter for processes' => '',
         'Create New Process' => '',
@@ -1555,12 +1555,12 @@ sub Data {
             '',
         'Processes' => 'Procese',
         'Process name' => '',
-        'Print' => 'Imprima',
+        'Print' => 'Imprimare',
         'Export Process Configuration' => '',
         'Copy Process' => '',
 
         # Template: AdminProcessManagementActivity
-        'Cancel & close' => 'Abandonează și închide',
+        'Cancel & close' => 'Anulează și închide',
         'Go Back' => 'Înapoi',
         'Please note, that changing this activity will affect the following processes' =>
             '',
@@ -1590,15 +1590,15 @@ sub Data {
         'Description (short)' => '',
         'Description (long)' => '',
         'The selected permission does not exist.' => '',
-        'Required Lock' => 'Blocare ceruta',
+        'Required Lock' => 'Blocarea e necesară',
         'The selected required lock does not exist.' => '',
         'Submit Advice Text' => '',
         'Submit Button Text' => '',
         'You can assign Fields to this Activity Dialog by dragging the elements with the mouse from the left list to the right list.' =>
             '',
-        'Filter available fields' => 'Filtrează câmpurile disponibile',
-        'Available Fields' => 'Câmpurile disponibile',
-        'Assigned Fields' => 'Câmpuri asociate',
+        'Filter available fields' => 'Filtrați câmpurile disponibile',
+        'Available Fields' => 'Câmpuri disponibile',
+        'Assigned Fields' => 'Câmpuri atribuite',
         'Communication Channel' => '',
         'Is visible for customer' => '',
         'Display' => '',
@@ -1626,7 +1626,7 @@ sub Data {
 
         # Template: AdminProcessManagementProcessEdit
         'Edit Process' => '',
-        'Print process information' => 'Afiseaza informatii despre proces',
+        'Print process information' => 'Tipăriți informațiile despre proces',
         'Delete Process' => '',
         'Delete Inactive Process' => '',
         'Available Process Elements' => '',
@@ -1694,9 +1694,9 @@ sub Data {
         'Remove this Parameter' => '',
 
         # Template: AdminQueue
-        'Queue Management' => '',
-        'Add Queue' => 'Adaugă coadă',
-        'Edit Queue' => 'Editează coadă',
+        'Queue Management' => 'Administrarea cozilor',
+        'Add Queue' => 'Adăugați o coadă',
+        'Edit Queue' => 'Editați coada',
         'Filter for Queues' => '',
         'Filter for queues' => '',
         'A queue with this name already exists!' => 'O coadă cu acest nume există deja!',
@@ -1704,12 +1704,12 @@ sub Data {
             '',
         'Sub-queue of' => '',
         'Unlock timeout' => 'Timp expirare blocare',
-        '0 = no unlock' => '0 = fara blocare',
+        '0 = no unlock' => '0 = fără deblocare',
         'hours' => 'ore',
         'Only business hours are counted.' => '',
         'If an agent locks a ticket and does not close it before the unlock timeout has passed, the ticket will unlock and will become available for other agents.' =>
             '',
-        'Notify by' => 'Notifică prin',
+        'Notify by' => 'Notificare prin',
         '0 = no escalation' => '',
         'If there is not added a customer contact, either email-external or phone, to a new ticket before the time defined here expires, the ticket is escalated.' =>
             '',
@@ -1720,7 +1720,7 @@ sub Data {
         'Follow up Option' => '',
         'Specifies if follow up to closed tickets would re-open the ticket, be rejected or lead to a new ticket.' =>
             '',
-        'Ticket lock after a follow up' => 'Blocheaza tichet dupa o reactualizare.',
+        'Ticket lock after a follow up' => 'Blocarea tichetului după o monitorizare',
         'If a ticket is closed and the customer sends a follow up the ticket will be locked to the old owner.' =>
             '',
         'System address' => '',
@@ -1750,7 +1750,7 @@ sub Data {
         'Templates' => '',
 
         # Template: AdminRegistration
-        'System Registration Management' => '',
+        'System Registration Management' => 'Administrarea înregistrării de sistem',
         'Edit System Registration' => '',
         'System Registration Overview' => '',
         'Register System' => '',
@@ -1835,7 +1835,7 @@ sub Data {
         'Support Data' => '',
 
         # Template: AdminRole
-        'Role Management' => '',
+        'Role Management' => 'Administrarea rolurilor',
         'Add Role' => '',
         'Edit Role' => '',
         'Filter for Roles' => '',
@@ -1874,14 +1874,14 @@ sub Data {
         'Manage Role-Agent Relations' => '',
 
         # Template: AdminSLA
-        'SLA Management' => 'SLA',
+        'SLA Management' => 'Administrarea SLA',
         'Edit SLA' => '',
         'Add SLA' => '',
         'Filter for SLAs' => '',
         'Please write only numbers!' => '',
 
         # Template: AdminSMIME
-        'S/MIME Management' => 'S/MIME',
+        'S/MIME Management' => 'Administrarea S/MIME',
         'Add Certificate' => '',
         'Add Private Key' => '',
         'SMIME support is disabled' => '',
@@ -1921,7 +1921,7 @@ sub Data {
         'Certificate Details' => '',
 
         # Template: AdminSalutation
-        'Salutation Management' => '',
+        'Salutation Management' => 'Administrarea salutului',
         'Add Salutation' => '',
         'Edit Salutation' => '',
         'Filter for Salutations' => '',
@@ -1956,7 +1956,7 @@ sub Data {
         'Query is executed.' => '',
 
         # Template: AdminService
-        'Service Management' => '',
+        'Service Management' => 'Administrarea serviciilor',
         'Add Service' => '',
         'Edit Service' => '',
         'Service name maximum length is 200 characters (with Sub-service).' =>
@@ -1964,7 +1964,7 @@ sub Data {
         'Sub-service of' => '',
 
         # Template: AdminSession
-        'Session Management' => '',
+        'Session Management' => 'Administrarea sesiunilor',
         'Detail Session View for %s (%s)' => '',
         'All sessions' => '',
         'Agent sessions' => '',
@@ -1981,7 +1981,7 @@ sub Data {
         'Detail View for SessionID: %s - %s' => '',
 
         # Template: AdminSignature
-        'Signature Management' => '',
+        'Signature Management' => 'Administrarea semnăturilor',
         'Add Signature' => '',
         'Edit Signature' => '',
         'Filter for Signatures' => '',
@@ -2022,7 +2022,7 @@ sub Data {
             '',
         'The email address for this user is invalid, this option has been disabled.' =>
             '',
-        'Sending' => 'Expeditor',
+        'Sending' => 'Se trimite',
         'The support bundle will be sent to OTRS Group via email automatically.' =>
             '',
         'Download File' => '',
@@ -2032,7 +2032,7 @@ sub Data {
         'Details' => '',
 
         # Template: AdminSystemAddress
-        'System Email Addresses Management' => '',
+        'System Email Addresses Management' => 'Administrarea adreselor de e-mail de sistem',
         'Add System Email Address' => '',
         'Edit System Email Address' => '',
         'Add System Address' => '',
@@ -2152,7 +2152,7 @@ sub Data {
         'Kill all Sessions, except for your own' => '',
 
         # Template: AdminTemplate
-        'Template Management' => '',
+        'Template Management' => 'Administrarea șabloanelor',
         'Add Template' => '',
         'Edit Template' => '',
         'A template is a default text which helps your agents to write faster tickets, answers or forwards.' =>
@@ -2172,9 +2172,9 @@ sub Data {
         'To get the first 5 lines of the body of the current/latest article (current for Answer and Forward, latest for Note template type). This tag is not supported for other template types.' =>
             '',
         'Create type templates only supports this smart tags' => '',
-        'Example template' => 'Model de șablon',
+        'Example template' => 'Exemplu de șablon',
         'The current ticket state is' => 'Starea curentă a tichetului este',
-        'Your email address is' => 'Adresa ta de e-mail este',
+        'Your email address is' => 'Adresa dvs. de e-mail este',
 
         # Template: AdminTemplateAttachment
         'Manage Template-Attachment Relations' => '',
@@ -2182,7 +2182,7 @@ sub Data {
         'Link %s to selected %s' => '',
 
         # Template: AdminType
-        'Type Management' => '',
+        'Type Management' => 'Administrarea tipurilor',
         'Add Type' => '',
         'Edit Type' => '',
         'Filter for Types' => '',
@@ -2193,7 +2193,7 @@ sub Data {
         'This type is used in the following config settings:' => '',
 
         # Template: AdminUser
-        'Agent Management' => 'Administrarea Agenților',
+        'Agent Management' => 'Administrarea agenților',
         'Edit Agent' => '',
         'Edit personal preferences for this agent' => '',
         'Agents will be needed to handle tickets.' => '',
@@ -2204,7 +2204,7 @@ sub Data {
         'Title or salutation' => '',
         'Firstname' => 'Prenume',
         'Lastname' => 'Nume',
-        'A user with this username already exists!' => 'Există deja un utilizator cu același nume!',
+        'A user with this username already exists!' => 'Există deja un utilizator cu acest nume!',
         'Will be auto-generated if left empty.' => 'Va fi auto-generat dacă este lăsat gol.',
         'Mobile' => 'Mobil',
         'Effective Permissions for Agent' => '',
@@ -2230,12 +2230,12 @@ sub Data {
 
         # Template: AgentAppointmentCalendarOverview
         'Add new Appointment' => '',
-        'Calendars' => '',
+        'Calendars' => 'Calendare',
 
         # Template: AgentAppointmentEdit
         'Basic information' => '',
         'Date/Time' => '',
-        'Invalid date!' => 'Dată inexistentă!',
+        'Invalid date!' => 'Data nevalidă!',
         'Please set this to value before End date.' => '',
         'Please set this to value after Start date.' => '',
         'This an occurrence of a repeating appointment.' => '',
@@ -2294,7 +2294,7 @@ sub Data {
         'Customer Information Center' => 'Centru informații clienți',
 
         # Template: AgentCustomerInformationCenterSearch
-        'Customer User' => 'Utilizator client ',
+        'Customer User' => 'Utilizator client',
 
         # Template: AgentCustomerTableView
         'Note: Customer is invalid!' => 'Notă: client invalid!',
@@ -2342,7 +2342,7 @@ sub Data {
             '',
 
         # Template: AgentDashboard
-        'Dashboard' => 'Panou',
+        'Dashboard' => 'Panou de comandă',
 
         # Template: AgentDashboardAppointmentCalendar
         'New Appointment' => '',
@@ -2375,7 +2375,7 @@ sub Data {
         'Open tickets' => 'Tichete deschise',
         'Closed tickets' => 'Tichete închise',
         'All tickets' => 'Toate tichetele',
-        'Archived tickets' => 'Tichete Arhivate',
+        'Archived tickets' => 'Tichete arhivate',
 
         # Template: AgentDashboardCustomerUserInformation
         'Note: Customer User is invalid!' => '',
@@ -2394,7 +2394,7 @@ sub Data {
         'Level' => 'Nivel',
 
         # Template: AgentDashboardRSSOverview
-        'Posted %s ago.' => 'Publicat cu %s inainte',
+        'Posted %s ago.' => 'Publicat cu %s inainte.',
 
         # Template: AgentDashboardStats
         'The configuration for this statistic widget contains errors, please review your settings.' =>
@@ -2449,7 +2449,7 @@ sub Data {
             '',
 
         # Template: AgentPreferences
-        'Edit your preferences' => 'Editează preferințele tale',
+        'Edit your preferences' => 'Editarea preferințelor',
         'Personal Preferences' => '',
         'Preferences' => 'Preferințe',
         'Please note: you\'re currently editing the preferences of %s.' =>
@@ -2480,7 +2480,7 @@ sub Data {
         # Template: AgentPreferencesOverview
         'Choose from the groups on the right to find the settings you\'d wish to change.' =>
             '',
-        'Did you know?' => '',
+        'Did you know?' => 'Știați?',
         'You can change your avatar by registering with your email address %s on %s' =>
             '',
 
@@ -2543,9 +2543,9 @@ sub Data {
         'Change Priority of %s%s%s' => '',
         'Change Responsible of %s%s%s' => '',
         'All fields marked with an asterisk (*) are mandatory.' => '',
-        'The ticket has been locked' => 'Tichetul a fost deblocat',
+        'The ticket has been locked' => 'Tichetul a fost blocat',
         'Undo & close' => 'Refă și închide',
-        'Ticket Settings' => 'Setările Tichetelor',
+        'Ticket Settings' => 'Setările tichetelor',
         'Queue invalid.' => '',
         'Service invalid.' => '',
         'SLA invalid.' => '',
@@ -2589,7 +2589,7 @@ sub Data {
         'Link together' => 'Leagă împreună',
         'Link to parent' => 'Leagă cu părintele',
         'Unlock tickets' => 'Deblocheaza tichetele',
-        'Execute Bulk Action' => 'Execută acțiune asupra grupului',
+        'Execute Bulk Action' => 'Executați acțiunea în masă',
 
         # Template: AgentTicketCompose
         'Compose Answer for %s%s%s' => '',
@@ -2610,8 +2610,8 @@ sub Data {
 
         # Template: AgentTicketCustomer
         'Change Customer of %s%s%s' => '',
-        'Customer Information' => 'Informații client',
-        'Customer user' => 'Utilizator client',
+        'Customer Information' => 'Informații despre clienți',
+        'Customer user' => 'Client utilizator',
 
         # Template: AgentTicketEmail
         'Create New Email Ticket' => 'Crează tichet nou pornind de la e-mail',
@@ -2630,8 +2630,8 @@ sub Data {
         'Resend Email for %s%s%s' => '',
 
         # Template: AgentTicketEscalation
-        'Ticket %s: first response time is over (%s/%s)!' => 'Timpul limita a primului raspuns  pentru tichetul %s a depașit (%s%s)!',
-        'Ticket %s: first response time will be over in %s/%s!' => 'Timpul limita a primului raspuns  pentru tichetul %s va fi depășit în %s%s!',
+        'Ticket %s: first response time is over (%s/%s)!' => 'Timpul limita a primului raspuns pentru tichetul %s a depașit (%s/%s)!',
+        'Ticket %s: first response time will be over in %s/%s!' => 'Timpul limita a primului raspuns pentru tichetul %s va fi depășit în %s/%s!',
         'Ticket %s: update time is over (%s/%s)!' => '',
         'Ticket %s: update time will be over in %s/%s!' => '',
         'Ticket %s: solution time is over (%s/%s)!' => '',
@@ -2661,21 +2661,21 @@ sub Data {
         # Template: AgentTicketMove
         'Move %s%s%s' => '',
         'New Queue' => 'Coadă nouă',
-        'Move' => 'Mută',
+        'Move' => 'Mutare',
 
         # Template: AgentTicketOverviewMedium
         'No ticket data found.' => '',
         'Open / Close ticket action menu' => 'Deschide/închide meniul pentru acțiuni tichet',
         'Select this ticket' => 'Selectează acest tichet',
         'Sender' => 'Expeditor',
-        'First Response Time' => 'Timpul primului raspuns',
-        'Update Time' => 'Durata actualizării',
-        'Solution Time' => 'Durata soluționării',
+        'First Response Time' => 'Timpul primului răspuns',
+        'Update Time' => 'Momentul actualizării',
+        'Solution Time' => 'Momentul soluționării',
         'Move ticket to a different queue' => 'Mută tichetul într-o coadă diferită',
         'Change queue' => 'Schimbă coada',
 
         # Template: AgentTicketOverviewNavBar
-        'Remove active filters for this screen.' => 'Șterge filtrele active pentru acest ecran',
+        'Remove active filters for this screen.' => 'Șterge filtrele active pentru acest ecran.',
         'Tickets per page' => 'Nr tichete pe pagină',
 
         # Template: AgentTicketOverviewPreview
@@ -2719,7 +2719,7 @@ sub Data {
         '(e. g. U51*)' => '',
         'Assigned to Customer User Login (exact match)' => '',
         'Accessible to Customer User Login (exact match)' => '',
-        'Created in Queue' => 'Creat în Coada',
+        'Created in Queue' => 'Creat în coadă',
         'Lock state' => 'Starea Blocat',
         'Watcher' => 'Urmăritor',
         'Article Create Time (before/after)' => 'Momentul Creării articolului (înainte/după)',
@@ -2738,7 +2738,7 @@ sub Data {
         'Ticket Close Time (between)' => 'Momentul Închiderii Tichetului (între)',
         'Ticket Escalation Time (before/after)' => 'Momentul escaladării tichetului (înainte/după)',
         'Ticket Escalation Time (between)' => 'Momentul escaladării tichetului (între)',
-        'Archive Search' => 'Căutare în Arhivă',
+        'Archive Search' => 'Căutare în arhivă',
 
         # Template: AgentTicketZoom
         'Sender Type' => 'Tipul Expeditorului',
@@ -2750,7 +2750,7 @@ sub Data {
         'Change Queue' => 'Schimbă Coada',
         'There are no dialogs available at this point in the process.' =>
             '',
-        'This item has no articles yet.' => 'Acest obiect nu are încă articole.',
+        'This item has no articles yet.' => 'Acest element nu are încă articole.',
         'Ticket Timeline View' => 'Vedere desfășurare în timp a tichetului',
         'Article Overview - %s Article(s)' => '',
         'Page %s' => '',
@@ -2785,7 +2785,7 @@ sub Data {
         'To open links in the following article, you might need to press Ctrl or Cmd or Shift key while clicking the link (depending on your browser and OS).' =>
             '',
         'Close this message' => 'Închide acest mesaj',
-        'Image' => '',
+        'Image' => 'Imagine',
         'PDF' => '',
         'Unknown' => 'Necunoscut',
         'View' => 'Vizualizare',
@@ -2811,8 +2811,8 @@ sub Data {
             '',
 
         # Template: AttachmentBlocker
-        'To protect your privacy, remote content was blocked.' => 'Pentru a te proteja continutul aflat la pe alte servere a fost blocat.',
-        'Load blocked content.' => 'Incarca continutul blocat.',
+        'To protect your privacy, remote content was blocked.' => 'Pentru a vă proteja confidențialitatea, conținutul de la distanță a fost blocat.',
+        'Load blocked content.' => 'Încărcați conținutul blocat.',
 
         # Template: Breadcrumb
         'Home' => '',
@@ -2820,7 +2820,7 @@ sub Data {
 
         # Template: CloudServicesDisabled
         'This Feature Requires Cloud Services' => '',
-        'You can' => 'Poți',
+        'You can' => 'Puteți',
         'go back to the previous page' => 'înapoi la pagina precedentă',
 
         # Template: CustomerAccept
@@ -2853,7 +2853,7 @@ sub Data {
             '',
 
         # Template: CustomerLogin
-        'JavaScript Not Available' => 'Nu este disponibil JavaScript',
+        'JavaScript Not Available' => 'JavaScript-ul nu este disponibil',
         'In order to experience this software, you\'ll need to enable JavaScript in your browser.' =>
             '',
         'Browser Warning' => '',
@@ -2861,8 +2861,8 @@ sub Data {
         'This software runs with a huge lists of browsers, please upgrade to one of these.' =>
             '',
         'Please see the documentation or ask your admin for further information.' =>
-            'Vă rugăm să verificați în manual sau să întrebați administratorul sistemului pentru mai multe informații.',
-        'One moment please, you are being redirected...' => 'Un moment vă rog sunteți transferat...',
+            'Vă rugăm să consultați documentația sau să întrebați administratorul pentru mai multe informații.',
+        'One moment please, you are being redirected...' => 'Un moment vă rog, sunteți transferat...',
         'Login' => '',
         'User name' => 'Nume utilizator',
         'Your user name' => 'Numele dvs. de utilizator',
@@ -2876,7 +2876,7 @@ sub Data {
         'Request New Password' => '',
         'Your User Name' => 'Numele Dvs. de Utilizator',
         'A new password will be sent to your email address.' => 'O nouă parolă va fi trimisă pe adresa dvs. de email.',
-        'Create Account' => 'Crează Cont',
+        'Create Account' => 'Creare cont',
         'Please fill out this form to receive login credentials.' => '',
         'How we should address you' => 'Modul de adresare dorit',
         'Your First Name' => 'Prenume',
@@ -2918,14 +2918,14 @@ sub Data {
         'Output to' => 'Ieșire către',
 
         # Template: CustomerTicketSearchResultShort
-        'of' => 'a',
+        'of' => 'din',
         'Page' => 'Pagină',
         'Search Results for' => 'Caută rezultate pentru',
         'Remove this Search Term.' => 'Elimină acest termen de căutare.',
 
         # Template: CustomerTicketZoom
         'Start a chat from this ticket' => 'Inițiază un chat pornind de la acest tichet',
-        'Next Steps' => 'Următorii pași',
+        'Next Steps' => 'Pașii următori',
         'Reply' => 'Răspunde',
 
         # Template: Chat
@@ -2945,7 +2945,7 @@ sub Data {
             '',
         'Contact our service team now.' => '',
         'Send a bugreport' => '',
-        'Expand' => 'Dezvoltă',
+        'Expand' => 'Extindere',
 
         # Template: AttachmentList
         'Click to delete this attachment.' => '',
@@ -2967,7 +2967,7 @@ sub Data {
         'Notifications' => '',
         'Notifications (OTRS Business Solution™)' => '',
         'Personal preferences' => '',
-        'Logout' => 'Ieșire din sistem',
+        'Logout' => 'Deconectare',
         'You are logged in as' => '',
 
         # Template: Installer
@@ -3033,7 +3033,7 @@ sub Data {
         'Result of database check' => '',
         'Database check successful.' => '',
         'Database User' => '',
-        'New' => 'Noi',
+        'New' => 'Nou',
         'A new database user with limited permissions will be created for this OTRS system.' =>
             '',
         'Repeat Password' => '',
@@ -3059,7 +3059,7 @@ sub Data {
         'Accept license and continue' => '',
 
         # Template: InstallerSystem
-        'SystemID' => 'IDSistem',
+        'SystemID' => 'Sistem ID',
         'The identifier of the system. Each ticket number and each HTTP session ID contain this number.' =>
             '',
         'System FQDN' => '',
@@ -3107,7 +3107,7 @@ sub Data {
 
         # Template: NoPermission
         'Insufficient Rights' => '',
-        'Back to the previous page' => '',
+        'Back to the previous page' => 'Înapoi la pagina anterioară',
 
         # Template: Alert
         'Alert' => '',
@@ -3115,7 +3115,7 @@ sub Data {
 
         # Template: Pagination
         'Show first page' => '',
-        'Show previous pages' => '',
+        'Show previous pages' => 'Afișați paginile anterioare',
         'Show page %s' => '',
         'Show next pages' => '',
         'Show last page' => '',
@@ -3294,7 +3294,7 @@ sub Data {
         'Counter' => '',
 
         # Template: Warning
-        'Go back to the previous page' => '',
+        'Go back to the previous page' => 'Înapoi la pagina anterioară',
 
         # JS Template: CalendarSettingsDialog
         'Show' => '',
@@ -3360,12 +3360,12 @@ sub Data {
         'Zip' => 'Cod poștal',
         'City' => 'Oraș',
         'Country' => 'Țară',
-        'Valid' => 'Validitate',
+        'Valid' => 'Valid',
         'Mr.' => 'Dl.',
         'Mrs.' => 'Dna.',
         'Address' => 'Adresa',
         'View system log messages.' => '',
-        'Edit the system configuration settings.' => 'Modifică configurarea sistemului.',
+        'Edit the system configuration settings.' => 'Editarea setărilor de configurare a sistemului.',
         'Update and extend your system with software packages.' => '',
 
         # Perl Module: Kernel/Modules/AdminACL.pm
@@ -3377,7 +3377,7 @@ sub Data {
         'The following ACLs have been updated successfully: %s' => '',
         'There where errors adding/updating the following ACLs: %s. Please check the log file for more information.' =>
             '',
-        'This field is required' => '',
+        'This field is required' => 'Acest câmp este obligatoriu',
         'There was an error creating the ACL' => '',
         'Need ACLID!' => '',
         'Could not get data for ACLID %s' => '',
@@ -3409,9 +3409,9 @@ sub Data {
         'Need CalendarID!' => '',
         'Could not retrieve data for given CalendarID' => '',
         'Successfully imported %s appointment(s) to calendar %s.' => '',
-        '+5 minutes' => '',
-        '+15 minutes' => '',
-        '+30 minutes' => '',
+        '+5 minutes' => '+5 minute',
+        '+15 minutes' => '+15 minute',
+        '+30 minutes' => '+30 de minute',
         '+1 hour' => '',
 
         # Perl Module: Kernel/Modules/AdminAppointmentImport.pm
@@ -3598,13 +3598,13 @@ sub Data {
         '30 seconds' => '',
         '45 seconds' => '',
         '1 minute' => '',
-        '2 minutes' => '',
-        '3 minutes' => '',
-        '4 minutes' => '',
-        '5 minutes' => '',
+        '2 minutes' => '2 minute',
+        '3 minutes' => '3 minute',
+        '4 minutes' => '4 minute',
+        '5 minutes' => '5 minute',
         '10 minutes' => '10 minute',
         '15 minutes' => '15 minute',
-        '30 minutes' => '',
+        '30 minutes' => '30 de minute',
         '1 hour' => '',
         '2 hours' => '',
         '3 hours' => '',
@@ -3695,7 +3695,7 @@ sub Data {
         'Web service "%s" deleted!' => '',
         'OTRS as provider' => 'OTRS ca și furnizor',
         'Operations' => '',
-        'OTRS as requester' => 'OTRS ca și client',
+        'OTRS as requester' => 'OTRS ca și solicitant',
         'Invokers' => '',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceWebserviceHistory.pm
@@ -3706,7 +3706,7 @@ sub Data {
         'Group updated!' => 'Grupul a fost actualizat!',
 
         # Perl Module: Kernel/Modules/AdminMailAccount.pm
-        'Mail account added!' => 'Contul de email a fost adăugat!',
+        'Mail account added!' => 'Cont de e-mail adăugat!',
         'Email account fetch already fetched by another process. Please try again later!' =>
             '',
         'Dispatching by email To: field.' => 'Transmite pe email către: câmp.',
@@ -3714,10 +3714,10 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminNotificationEvent.pm
         'Agent who created the ticket' => '',
-        'Agent who owns the ticket' => 'Agentul ',
+        'Agent who owns the ticket' => 'Agentul, care deține tichetul',
         'Agent who is responsible for the ticket' => 'Agentul responsabil de tichet',
         'All agents watching the ticket' => 'Toți agenții care urmăresc tichetul',
-        'All agents with write permission for the ticket' => 'Toți agenții cu drepturi de scriere pentru tichet',
+        'All agents with write permission for the ticket' => 'Toți agenții cu drepturi de scriere la tichet',
         'All agents subscribed to the ticket\'s queue' => '',
         'All agents subscribed to the ticket\'s service' => '',
         'All agents subscribed to both the ticket\'s queue and service' =>
@@ -3726,7 +3726,7 @@ sub Data {
         'All recipients of the first article' => '',
         'All recipients of the last article' => '',
         'Invisible to customer' => '',
-        'Visible to customer' => '',
+        'Visible to customer' => 'Vizibil pentru client',
 
         # Perl Module: Kernel/Modules/AdminOTRSBusiness.pm
         'Your system was successfully upgraded to %s.' => 'Noua versiune %s a sistemului dumneavoastră a fost instalată cu succes.',
@@ -3788,7 +3788,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminProcessManagement.pm
         'Process Management information from database is not in sync with the system configuration, please synchronize all processes.' =>
-            'Informațiile procesului de management din baza de date nu sunt sincronizate cu configurația sistemului așa că vă rog sincronizați toate procesele.',
+            'Informațiile procesului de management din baza de date nu sunt sincronizate cu configurația sistemului, sincronizați toate procesele.',
         'Need ExampleProcesses!' => '',
         'Need ProcessID!' => '',
         'Yes (mandatory)' => '',
@@ -3840,12 +3840,12 @@ sub Data {
         'Could not get data for ActivityDialogID %s' => '',
         'There was an error updating the ActivityDialog' => '',
         'Edit Activity Dialog "%s"' => '',
-        'Agent Interface' => 'Interfață agent',
+        'Agent Interface' => 'Interfața agentului',
         'Customer Interface' => 'Interfață client',
         'Agent and Customer Interface' => '',
-        'Do not show Field' => 'Nu arăta câmp',
-        'Show Field' => 'Arată câmp',
-        'Show Field As Mandatory' => 'Arată câmp în mod obligatoriu',
+        'Do not show Field' => 'Nu afișați câmpul',
+        'Show Field' => 'Afișați câmpul',
+        'Show Field As Mandatory' => 'Afișați câmpul ca obligatoriu',
 
         # Perl Module: Kernel/Modules/AdminProcessManagementPath.pm
         'Edit Path' => '',
@@ -3879,7 +3879,7 @@ sub Data {
         'Queue updated!' => 'Coada a fost actualizată!',
         'Don\'t use :: in queue name!' => '',
         'Click back and change it!' => '',
-        '-none-' => '-niciunul-',
+        '-none-' => '-nici unul-',
 
         # Perl Module: Kernel/Modules/AdminQueueAutoResponse.pm
         'Queues ( without auto responses )' => 'Cozi (fără răspuns automat)',
@@ -3895,8 +3895,8 @@ sub Data {
         'Development' => '',
 
         # Perl Module: Kernel/Modules/AdminRole.pm
-        'Role updated!' => 'Rolul a fost actualizat!',
-        'Role added!' => 'Rolul a fost adăugat!',
+        'Role updated!' => 'Rolul actualizat!',
+        'Role added!' => 'Rolul adăugat!',
 
         # Perl Module: Kernel/Modules/AdminRoleGroup.pm
         'Change Group Relations for Role' => '',
@@ -3908,7 +3908,7 @@ sub Data {
         'Change Agent Relations for Role' => '',
 
         # Perl Module: Kernel/Modules/AdminSLA.pm
-        'Please activate %s first!' => 'Vă rog întâi activați %s!',
+        'Please activate %s first!' => 'Vă rugăm să activați %s mai întâi!',
 
         # Perl Module: Kernel/Modules/AdminSMIME.pm
         'S/MIME environment is not working. Please check log for more info!' =>
@@ -3935,13 +3935,13 @@ sub Data {
         'Signature added!' => 'Semnătură adăugată!',
 
         # Perl Module: Kernel/Modules/AdminState.pm
-        'State added!' => 'Starea a fost adăugată!',
+        'State added!' => 'Starea adăugată!',
 
         # Perl Module: Kernel/Modules/AdminSupportDataCollector.pm
         'File %s could not be read!' => '',
 
         # Perl Module: Kernel/Modules/AdminSystemAddress.pm
-        'System e-mail address added!' => 'Adresa de email a sistemului a fost adăugată!',
+        'System e-mail address added!' => 'Adresa de e-mail a sistemului adăugată!',
 
         # Perl Module: Kernel/Modules/AdminSystemConfiguration.pm
         'Invalid Settings' => '',
@@ -3993,10 +3993,10 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminType.pm
         'Need Type!' => 'Tipul este necesar!',
-        'Type added!' => 'Tipul a fost adăugat!',
+        'Type added!' => 'Tipul adăugat!',
 
         # Perl Module: Kernel/Modules/AdminUser.pm
-        'Agent updated!' => 'Informațiile despre agent au fost actualizate!',
+        'Agent updated!' => 'Agent actualizat!',
 
         # Perl Module: Kernel/Modules/AdminUserGroup.pm
         'Change Group Relations for Agent' => '',
@@ -4005,7 +4005,7 @@ sub Data {
         # Perl Module: Kernel/Modules/AgentAppointmentAgendaOverview.pm
         'Month' => '',
         'Week' => '',
-        'Day' => '',
+        'Day' => 'Ziuă',
 
         # Perl Module: Kernel/Modules/AgentAppointmentCalendarOverview.pm
         'All appointments' => '',
@@ -4046,7 +4046,7 @@ sub Data {
         '+%s more' => '',
 
         # Perl Module: Kernel/Modules/AgentCustomerSearch.pm
-        'Customer History' => 'Istoricul Clientului',
+        'Customer History' => 'Istoricul clientului',
 
         # Perl Module: Kernel/Modules/AgentCustomerUserAddressBook.pm
         'No RecipientField is given!' => '',
@@ -4139,7 +4139,7 @@ sub Data {
         'Article subject will be empty if the subject contains only the ticket hook!' =>
             '',
         'Address %s replaced with registered customer address.' => 'Adresa %s a fost înlocuită cu adresa clientului înregistrat.',
-        'Customer user automatically added in Cc.' => 'Utilizatorul clientului a fost adăugat automat in Cc.',
+        'Customer user automatically added in Cc.' => 'Clientul utilizator a fost adăugat automat în Cc.',
 
         # Perl Module: Kernel/Modules/AgentTicketEmail.pm
         'Ticket "%s" created!' => 'Tichetul „%s” a fost creat!',
@@ -4273,7 +4273,7 @@ sub Data {
         'Untitled' => '',
         'Ticket Number' => 'Numărul tichetului',
         'Ticket' => 'Tichet',
-        'printed by' => 'imprimat de catre',
+        'printed by' => 'imprimat de',
         'CustomerID (complex search)' => '',
         'CustomerID (exact match)' => '',
         'Invalid Users' => 'Utilizatori inactivi',
@@ -4485,7 +4485,7 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
         'Contact us at sales@otrs.com' => '',
-        'Get Help' => '',
+        'Get Help' => 'Ajutor',
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/MarkAsImportant.pm
         'Mark' => 'Marcheaza',
@@ -4595,13 +4595,13 @@ sub Data {
         'This ticket does not exist, or you don\'t have permissions to access it in its current state. You can take one of the following actions:' =>
             '',
         'This is a' => 'Acesta este un',
-        'email' => 'email',
+        'email' => 'e-mail',
         'click here' => 'apasă aici',
         'to open it in a new window.' => 'pentru a-l deschide într-o fereastră nouă.',
-        'Year' => '',
+        'Year' => 'An',
         'Hours' => 'Ore',
         'Minutes' => 'Minute',
-        'Check to activate this date' => 'Verifică activarea acestei date',
+        'Check to activate this date' => 'Bifați pentru activarea acestei date',
         '%s TB' => '',
         '%s GB' => '',
         '%s MB' => '',
@@ -4659,7 +4659,7 @@ sub Data {
             '',
 
         # Perl Module: Kernel/Output/HTML/Notification/DaemonCheck.pm
-        'OTRS Daemon is not running.' => 'Serviciul OTRS nu ruleaza',
+        'OTRS Daemon is not running.' => 'Serviciul OTRS nu rulează.',
 
         # Perl Module: Kernel/Output/HTML/Notification/OutofOfficeCheck.pm
         'You have Out of Office enabled, would you like to disable it?' =>
@@ -4688,7 +4688,7 @@ sub Data {
         # Perl Module: Kernel/Output/HTML/Preferences/AppointmentNotificationEvent.pm
         'Please make sure you\'ve chosen at least one transport method for mandatory notifications.' =>
             '',
-        'Preferences updated successfully!' => 'Setările preferate au fost salvate cu succes!',
+        'Preferences updated successfully!' => 'Preferințele au fost actualizate cu succes!',
 
         # Perl Module: Kernel/Output/HTML/Preferences/Language.pm
         '(in process)' => '',
@@ -4697,9 +4697,9 @@ sub Data {
         'Please specify an end date that is after the start date.' => '',
 
         # Perl Module: Kernel/Output/HTML/Preferences/Password.pm
-        'Current password' => 'Parola existentă',
+        'Current password' => 'Parola actuală',
         'New password' => 'Parola nouă',
-        'Verify password' => 'Verifică parola',
+        'Verify password' => 'Verificați parola',
         'The current password is not correct. Please try again!' => 'Parola este greșită. Vă rog încercați din nou!',
         'Please supply your new password!' => '',
         'Can\'t update password, your new passwords do not match. Please try again!' =>
@@ -4707,10 +4707,10 @@ sub Data {
         'This password is forbidden by the current system configuration. Please contact the administrator if you have additional questions.' =>
             '',
         'Can\'t update password, it must be at least %s characters long!' =>
-            'Parola nu a fost schimbată pentru ca nu are cel puțin %s caractere!',
+            'Parola nu a fost schimbată, trebuie să aibă cel puțin %s caractere!',
         'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase letter characters!' =>
             '',
-        'Can\'t update password, it must contain at least 1 digit!' => 'Parola nu a fost modificată pentru că trebuie să conțină cel puțin o cifră!',
+        'Can\'t update password, it must contain at least 1 digit!' => 'Parola nu a fost modificată, trebuie să conțină cel puțin o cifră!',
         'Can\'t update password, it must contain at least 2 letter characters!' =>
             '',
 
@@ -4753,16 +4753,16 @@ sub Data {
         'Cancel editing and unlock this setting' => '',
         'Reset this setting to its default value.' => '',
         'Unable to load %s!' => '',
-        'Content' => '',
+        'Content' => 'Conținut',
 
         # Perl Module: Kernel/Output/HTML/TicketMenu/Lock.pm
         'Unlock to give it back to the queue' => 'Deblochează-l pentru a putea fi pus înapoi in coadă',
-        'Lock it to work on it' => 'Blochează-l pentru a lucra la el',
+        'Lock it to work on it' => 'Blocați-l pentru a lucra la el',
 
         # Perl Module: Kernel/Output/HTML/TicketMenu/TicketWatcher.pm
         'Unwatch' => 'Oprește urmărire',
         'Remove from list of watched tickets' => 'Scoate-l din lista de tichete aflate în supraveghere',
-        'Watch' => 'Urmăresc',
+        'Watch' => 'Urmărire',
         'Add to list of watched tickets' => 'Adaugă la lista de tichete urmărite',
 
         # Perl Module: Kernel/Output/HTML/TicketOverviewMenu/Sort.pm
@@ -4773,17 +4773,17 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/ToolBar/TicketLocked.pm
         'Locked Tickets New' => 'Tichete Noi Blocate',
-        'Locked Tickets Reminder Reached' => 'Timpul limită de atenționare pentru tichetele blocate a fost atins.',
+        'Locked Tickets Reminder Reached' => 'Timpul limită de atenționare pentru tichetele blocate a fost atins',
         'Locked Tickets Total' => 'Totalul tichetelor blocate',
 
         # Perl Module: Kernel/Output/HTML/ToolBar/TicketResponsible.pm
         'Responsible Tickets New' => 'Noi tichete în responsabilitate',
-        'Responsible Tickets Reminder Reached' => 'Timpul limită pentru tichetele de care esti respunzator a fost atins.',
+        'Responsible Tickets Reminder Reached' => 'Timpul limită pentru tichetele de care ești răspunzător a fost atins',
         'Responsible Tickets Total' => 'Total tichete în responsabilitate',
 
         # Perl Module: Kernel/Output/HTML/ToolBar/TicketWatcher.pm
         'Watched Tickets New' => 'Tichete noi în urmărire',
-        'Watched Tickets Reminder Reached' => 'Timpul limită pentru tichetele urmărite de tine a fost atins.',
+        'Watched Tickets Reminder Reached' => 'Timpul limită pentru tichetele urmărite de tine a fost atins',
         'Watched Tickets Total' => 'Total tichete urmărite',
 
         # Perl Module: Kernel/Output/PDF/Ticket.pm
@@ -4807,8 +4807,8 @@ sub Data {
         'Session per user limit reached!' => '',
 
         # Perl Module: Kernel/System/AuthSession/DB.pm
-        'Session invalid. Please log in again.' => 'Sesiune indisponibilă. Vă rog să vă autentificați din nou.',
-        'Session has timed out. Please log in again.' => 'Sesiunea a expirat. Va rog să vă autentificați din nou.',
+        'Session invalid. Please log in again.' => 'Sesiune invalidă. Vă rugăm să vă autentificați din nou.',
+        'Session has timed out. Please log in again.' => 'Sesiunea a expirat. Vă rugăm să vă autentificați din nou.',
 
         # Perl Module: Kernel/System/Calendar/Event/Transport/Email.pm
         'PGP sign only' => '',
@@ -4848,8 +4848,8 @@ sub Data {
         'Ignore this field.' => '',
 
         # Perl Module: Kernel/System/DynamicField/Driver/TextArea.pm
-        'This field is required or' => 'Completarea câmpului este necesară pentru',
-        'The field content is too long!' => 'Conținuutl câmpului este prea mare!',
+        'This field is required or' => 'Acest câmp este obligatoriu sau',
+        'The field content is too long!' => 'Conținutul câmpului este prea lung!',
         'Maximum size is %s characters.' => 'Dimensiunea maximă este de %s caractere.',
 
         # Perl Module: Kernel/System/NotificationEvent.pm
@@ -4861,7 +4861,7 @@ sub Data {
         # Perl Module: Kernel/System/Package.pm
         'not installed' => '',
         'installed' => 'instalat',
-        'Unable to parse repository index document.' => 'Nu pot accesa sistemul de indexare a documentelor.',
+        'Unable to parse repository index document.' => 'Imposibil de analizat documentul index al depozitului.',
         'No packages for your framework version found in this repository, it only contains packages for other framework versions.' =>
             'Nu sunt disponibile în acest loc pachete pentru versiunea pe care o aveți dumneavoastră, aici există pachete doar pentru alte versiuni.',
         'File is not installed!' => '',
@@ -4881,11 +4881,11 @@ sub Data {
         'FadeAway' => '',
 
         # Perl Module: Kernel/System/Registration.pm
-        'Can\'t contact registration server. Please try again later.' => 'Nu se poate realiza o conexiune la serverul de înregistrare. Vă rugăm să încercați mai târziu.',
+        'Can\'t contact registration server. Please try again later.' => 'Nu se poate contacta serverul de înregistrare. Vă rugăm să încercați mai târziu.',
         'No content received from registration server. Please try again later.' =>
-            'Nu a fost recepționat nici un fel de conținut de la serverul de înregistrare. Vă rugăm să reveniți.',
+            'Fără conținut primit de la serverul de înregistrare. Vă rugăm să încercați mai târziu.',
         'Can\'t get Token from sever' => '',
-        'Username and password do not match. Please try again.' => 'Utilizatorul și parola nu se potrivesc. Vă rugăm să încercați mai târziu.',
+        'Username and password do not match. Please try again.' => 'Utilizatorul și parola nu se potrivesc. Vă rugăm să încercați din nou.',
         'Problems processing server result. Please try again later.' => 'Au apărut probleme în procesarea informațiilor de la server. Vă rugăm să încercați mai târziu.',
 
         # Perl Module: Kernel/System/Stats.pm
@@ -4896,8 +4896,8 @@ sub Data {
 
         # Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
         'State Type' => '',
-        'Created Priority' => 'Prioritatea creată',
-        'Created State' => 'Starea creată',
+        'Created Priority' => 'Prioritate creată',
+        'Created State' => 'Stare creată',
         'Create Time' => 'Momentul creării',
         'Pending until time' => '',
         'Close Time' => 'Momentul închiderii',
@@ -4906,7 +4906,7 @@ sub Data {
         'Escalation - Update Time' => '',
         'Escalation - Solution Time' => '',
         'Agent/Owner' => 'Agent/Posesor',
-        'Created by Agent/Owner' => 'Creat de Agentul/Posesorul',
+        'Created by Agent/Owner' => 'Creat de agentul/posesorul',
         'Assigned to Customer User Login' => '',
 
         # Perl Module: Kernel/System/Stats/Dynamic/TicketAccountedTime.pm
@@ -4915,7 +4915,7 @@ sub Data {
         'Ticket Create Time' => 'Momentul creării tichetului',
         'Ticket Close Time' => 'Momentul închiderii tichetului',
         'Accounted time by Agent' => 'Timpul contorizat pe agent',
-        'Total Time' => 'Timp total',
+        'Total Time' => 'Timpul total',
         'Ticket Average' => 'Media tichetelor',
         'Ticket Min Time' => 'Timp min tichet',
         'Ticket Max Time' => 'Timp max tichet',
@@ -4973,17 +4973,17 @@ sub Data {
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/TablePresence.pm
         'Table Presence' => 'Tabel de prezență',
         'Internal Error: Could not open file.' => 'Eroare internă: fișierul nu a putut fi deschis.',
-        'Table Check' => 'Tabel de verificare',
+        'Table Check' => 'Verificarea tabelului',
         'Internal Error: Could not read file.' => 'Eroare internă: fișierul nu a putut fi citit.',
-        'Tables found which are not present in the database.' => 'Au fost găsite tabele care nu se regăsesc in baza de date.',
+        'Tables found which are not present in the database.' => 'Au fost găsite tabele care nu se regăsesc în baza de date.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mssql/Size.pm
         'Database Size' => 'Dimensiunea bazei de date',
-        'Could not determine database size.' => 'Nu a putut fi determinată dimensiunea bazei de date.',
+        'Could not determine database size.' => 'Nu s-a putut determina dimensiunea bazei de date.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mssql/Version.pm
         'Database Version' => 'Versiunea bazei de date',
-        'Could not determine database version.' => 'Nu a putut fi găsită versiunea bazei de date.',
+        'Could not determine database version.' => 'Nu s-a putut determina versiunea bazei de date.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Charset.pm
         'Client Connection Charset' => 'Setul de caractere al conexiunii clientului',
@@ -4998,7 +4998,7 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/InnoDBLogFileSize.pm
         'InnoDB Log File Size' => 'Dimensiunea fișierului de log pentru InnoDB',
-        'The setting innodb_log_file_size must be at least 256 MB.' => 'Setarea innodb_log_file_size trebuie să fie cel puțin 256 MB.',
+        'The setting innodb_log_file_size must be at least 256 MB.' => 'Setarea innodb_log_file_size trebuie să fie de cel puțin 256 MB.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/InvalidDefaultValues.pm
         'Invalid Default Values' => '',
@@ -5019,7 +5019,7 @@ sub Data {
         'Default Storage Engine' => 'Tipul implicit de baze de date',
         'Table Storage Engine' => '',
         'Tables with a different storage engine than the default engine were found.' =>
-            'Au fost găsite în baza de date tabele care au alt tip decât cel implicit al bazei de date.',
+            'Au fost găsite tabele cu un motor de stocare diferit de cel implicit.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Version.pm
         'MySQL 5.x or higher is required.' => 'Este necesar MySQL 5.x sau mai mare.',
@@ -5029,7 +5029,7 @@ sub Data {
         'NLS_LANG must be set to al32utf8 (e.g. GERMAN_GERMANY.AL32UTF8).' =>
             '',
         'NLS_DATE_FORMAT Setting' => 'Setarea NLS_DATE_FORMAT',
-        'NLS_DATE_FORMAT must be set to \'YYYY-MM-DD HH24:MI:SS\'.' => 'NLS_DATE_FORMAT trebuie să fie de forma \'AAAA-LL-ZZ OO24:MI:SS\'.',
+        'NLS_DATE_FORMAT must be set to \'YYYY-MM-DD HH24:MI:SS\'.' => 'NLS_DATE_FORMAT trebuie să fie de forma „AAAA-LL-ZZ OO24:MI:SS”.',
         'NLS_DATE_FORMAT Setting SQL Check' => 'Setarea de verificare SQL NLS_DATE_FORMAT',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/oracle/PrimaryKeySequencesAndTriggers.pm
@@ -5058,25 +5058,25 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/DiskSpace.pm
         'Disk Usage' => 'Utilizarea discului',
-        'The partition where OTRS is located is almost full.' => 'Partiția pe care se află OTRS este aproape plină.',
+        'The partition where OTRS is located is almost full.' => 'Partiția pe care se află OTRS-ul este aproape plină.',
         'The partition where OTRS is located has no disk space problems.' =>
-            'Nu sunt probleme de spațiu pe partiția pe care se află OTRS.',
+            'Nu sunt probleme de spațiu pe partiția pe care se află OTRS-ul.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/DiskSpacePartitions.pm
         'Disk Partitions Usage' => 'Utilizarea partițiilor',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Distribution.pm
-        'Distribution' => 'Distribuția',
+        'Distribution' => 'Distribuție',
         'Could not determine distribution.' => 'Nu a putut fi determinată distribuția.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/KernelVersion.pm
         'Kernel Version' => 'Versiunea kernelului',
-        'Could not determine kernel version.' => 'Nu a putut fi găsită versiunea kernelului.',
+        'Could not determine kernel version.' => 'Nu s-a putut determina versiunea kernelului.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Load.pm
         'System Load' => 'Încărcarea sistemului',
         'The system load should be at maximum the number of CPUs the system has (e.g. a load of 8 or less on a system with 8 CPUs is OK).' =>
-            'Încărcarea maximă a sistemului trebuie să fie egală cu numărul de procesoare instalate (de ex. incărcarea unui server cu 8 CPU trebuie să fie maxim 8).',
+            'Încărcarea maximă a sistemului trebuie să fie egală cu numărul de procesoare instalate (de ex. încărcarea unui server cu 8 CPU trebuie să fie maxim 8).',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/PerlModules.pm
         'Perl Modules' => 'Module Perl',
@@ -5093,7 +5093,7 @@ sub Data {
         'Free Swap Space (%)' => 'Spațiu disponibil pe partiția de swap (%)',
         'No swap enabled.' => '',
         'Used Swap Space (MB)' => 'Utilizarea spațiului de swap (MB)',
-        'There should be more than 60% free swap space.' => 'Ar trebui să fie mai mult de 60% spațiu liber în partiția de swap.',
+        'There should be more than 60% free swap space.' => 'Ar trebui să existe mai mult de 60% spațiu liber în partiția de swap.',
         'There should be no more than 200 MB swap space used.' => 'Nu trebuie să fie utilizat mai mult de 200 MB din partiția de swap.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/ArticleSearchIndexStatus.pm
@@ -5118,8 +5118,8 @@ sub Data {
         'intermittent connection errors' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/ConfigSettings.pm
-        'Config Settings' => 'Setări de configurare',
-        'Could not determine value.' => 'Nu a putut fi determinată valoarea.',
+        'Config Settings' => 'Setările de configurare',
+        'Could not determine value.' => 'Nu s-a putut determina valoarea.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DaemonRunning.pm
         'Daemon' => '',
@@ -5127,15 +5127,15 @@ sub Data {
         'Daemon is not running.' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
-        'Database Records' => 'Înregistrări în baza de date.',
+        'Database Records' => 'Înregistrări în baza de date',
         'Tickets' => 'Tichete',
         'Ticket History Entries' => 'Istoricul tichetului',
         'Articles' => 'Articole',
-        'Attachments (DB, Without HTML)' => 'Fișiere incluse (în baza de date fără HTML)',
+        'Attachments (DB, Without HTML)' => 'Fișiere atașate (DB, fără HTML)',
         'Customers With At Least One Ticket' => 'Clienți cu cel puțin un tichet',
         'Dynamic Field Values' => 'Valori ale câmpurilor dinamice',
-        'Invalid Dynamic Fields' => 'Câmpuri dinamice indisponibil',
-        'Invalid Dynamic Field Values' => 'Valori ale câmpurilor dinamice indisponibile',
+        'Invalid Dynamic Fields' => 'Câmpuri dinamice invalide',
+        'Invalid Dynamic Field Values' => 'Valori de câmp dinamic nevalide',
         'GenericInterface Webservices' => 'InterfațaGenerică pentru servicii web',
         'Process Tickets' => '',
         'Months Between First And Last Ticket' => 'Luni între primul și ultimul tichet',
@@ -5197,7 +5197,7 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SystemID.pm
         'Your SystemID setting is invalid, it should only contain digits.' =>
-            'Setarea IDSistem nu este corectă, ar trebui să conțină doar cifre.',
+            'Setarea de Sistem ID nu este validă, ar trebui să conțină doar cifre.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/DefaultType.pm
         'Default Ticket Type' => '',
@@ -5210,12 +5210,12 @@ sub Data {
             'Aveți mai mult de 60.000 de tichete și ar trebui să folosiți sistemul StaticDB. Găsiți mai multe informații în manualul de administrare (Mărirea performanței).',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/InvalidUsersWithLockedTickets.pm
-        'Invalid Users with Locked Tickets' => 'Utilizatori dezactivati cu tichete blocate',
-        'There are invalid users with locked tickets.' => 'Exista utilizatori dezactivati cu tichete blocate.',
+        'Invalid Users with Locked Tickets' => 'Utilizatori dezactivați cu tichete blocate',
+        'There are invalid users with locked tickets.' => 'Există utilizatori nevalide cu tichete blocate.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/OpenTickets.pm
         'You should not have more than 8,000 open tickets in your system.' =>
-            'Nu ar trebui să aveți mai mult de 8.000 de tichete deschise.',
+            'Nu ar trebui să aveți mai mult de 8.000 de tichete deschise în sistemul dvs.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/SearchIndexModule.pm
         'Ticket Search Index Module' => '',
@@ -5314,7 +5314,7 @@ sub Data {
         'Value doesn\'t satisfy regex (%s).' => '',
 
         # Perl Module: Kernel/System/SysConfig/ValueType/Checkbox.pm
-        'Enabled' => '',
+        'Enabled' => 'Activat',
         'Disabled' => '',
 
         # Perl Module: Kernel/System/SysConfig/ValueType/Date.pm
@@ -5341,7 +5341,7 @@ sub Data {
 
         # Perl Module: Kernel/System/Web/InterfaceAgent.pm
         'Login failed! Your user name or password was entered incorrectly.' =>
-            'Autnetificarea a eșuat! Numele de utilizator sau parola sunt incorecte.',
+            'Autentificare eșuată! Numele de utilizator sau parola sunt incorecte.',
         'Authentication succeeded, but no user data record is found in the database. Please contact the administrator.' =>
             '',
         'Can`t remove SessionID.' => '',
@@ -5359,9 +5359,9 @@ sub Data {
         'Reset password unsuccessful. Please contact the administrator.' =>
             '',
         'This e-mail address already exists. Please log in or reset your password.' =>
-            'Această adresă de email este deja înregistrată în sistem. Vă rog să vă autnetificați sau să vă schimbați parola.',
+            'Această adresă de e-mail există deja. Vă rugăm să vă autentificați sau să vă resetați parola.',
         'This email address is not allowed to register. Please contact support staff.' =>
-            'Această adresă de email nu poate fi folosită pentru înregistrarea in sistem. Vă rog să contactați persoanele de contact.',
+            'Această adresă de e-mail nu este permisă la înregistrarea. Vă rugăm să contactați personalul de asistență.',
         'Added via Customer Panel (%s)' => '',
         'Customer user can\'t be added!' => '',
         'Can\'t send account info!' => '',
@@ -5407,13 +5407,13 @@ sub Data {
         'system standard signature (en)' => '',
         'Standard Signature.' => '',
         'Standard Address.' => '',
-        'possible' => 'permis',
+        'possible' => 'posibil',
         'Follow-ups for closed tickets are possible. Ticket will be reopened.' =>
-            'Reactualizări pentru tichete închise nu sunt permise. Tichetul va fi redeschis.',
+            'Este posibilă urmărirea tichetelor închise. Tichetul va fi redeschis.',
         'reject' => 'refuzat',
         'Follow-ups for closed tickets are not possible. No new ticket will be created.' =>
-            'Reactualizări pentru tichete închise nu sunt permise. Nu va fi creat un tichet nou.',
-        'new ticket' => 'tichet Nou',
+            'Urmărirea tichetelor închise nu este permis. Nu va fi creat un tichet nou.',
+        'new ticket' => 'tichet nou',
         'Follow-ups for closed tickets are not possible. A new ticket will be created.' =>
             '',
         'Postmaster queue.' => '',
@@ -5422,17 +5422,17 @@ sub Data {
         'All misc tickets.' => 'Toate tichetele diverse.',
         'auto reply' => 'răspuns automat',
         'Automatic reply which will be sent out after a new ticket has been created.' =>
-            'Răspuns automat care va fi trimis dupa ce un tichet nou a fost creat.',
-        'auto reject' => 'respinge automat',
+            'Răspuns automat care va fi trimis după crearea unui tichet nou.',
+        'auto reject' => 'respingere automată',
         'Automatic reject which will be sent out after a follow-up has been rejected (in case queue follow-up option is "reject").' =>
             '',
-        'auto follow up' => 'relansare automata',
+        'auto follow up' => 'urmărire automată',
         'Automatic confirmation which is sent out after a follow-up has been received for a ticket (in case queue follow-up option is "possible").' =>
             '',
         'auto reply/new ticket' => 'răspuns automat/tichet nou',
         'Automatic response which will be sent out after a follow-up has been rejected and a new ticket has been created (in case queue follow-up option is "new ticket").' =>
             '',
-        'auto remove' => 'înlătură automat',
+        'auto remove' => 'înlăturare automată',
         'Auto remove will be sent out after a customer removed the request.' =>
             '',
         'default reply (after new ticket has been created)' => '',
@@ -5456,18 +5456,18 @@ sub Data {
         'Ticket create notification' => 'Notificare creare tichet nou',
         'You will receive a notification each time a new ticket is created in one of your "My Queues" or "My Services".' =>
             '',
-        'Ticket follow-up notification (unlocked)' => 'Notificare de reactualizare a tichetului (deblocat)',
+        'Ticket follow-up notification (unlocked)' => 'Notificare de urmărire a tichetului (deblocat)',
         'You will receive a notification if a customer sends a follow-up to an unlocked ticket which is in your "My Queues" or "My Services".' =>
             '',
-        'Ticket follow-up notification (locked)' => 'Notificare de reactualizare a tichetului (blocat)',
+        'Ticket follow-up notification (locked)' => 'Notificare de urmărire a tichetului (blocat)',
         'You will receive a notification if a customer sends a follow-up to a locked ticket of which you are the ticket owner or responsible.' =>
             'Veti primi o notificare daca un client trimite un mesaj de reactualizare pentru un tichet blocat si pentru care esti titular sau responsabil.',
         'Ticket lock timeout notification' => 'Notificare pentru expirarea ticmpului de blocare a unui tichet',
         'You will receive a notification as soon as a ticket owned by you is automatically unlocked.' =>
-            'Vei primi o notificare imediat ce un tichet pentru care esti titular este deblocat automat.',
+            'Veți primi o notificare de îndată ce un tichet deținut de dvs. este deblocat automat.',
         'Ticket owner update notification' => 'Notificare posesor asupra modificării tichetului',
-        'Ticket responsible update notification' => 'Notificare actualizare  responsabil tichet',
-        'Ticket new note notification' => 'Notificare notă noua tichet',
+        'Ticket responsible update notification' => 'Notificare actualizare responsabil tichet',
+        'Ticket new note notification' => 'Notificare notă noua la tichet',
         'Ticket queue update notification' => '',
         'You will receive a notification if a ticket is moved into one of your "My Queues".' =>
             '',
@@ -5489,9 +5489,9 @@ sub Data {
 
         # JS File: Core.Agent.Admin.ACL
         'Add all' => 'Și toate',
-        'An item with this name is already present.' => 'Există deja un lucru cu acest nume în sistem.',
+        'An item with this name is already present.' => 'Există deja un element cu acest nume.',
         'This item still contains sub items. Are you sure you want to remove this item including its sub items?' =>
-            'Acest lucru conține și alte elemente. Confirmi ștergerea lui și a celorlalte elemente incluse?',
+            'Acest element conține în continuare sub-elemente. Sigur doriți să eliminați acest element, inclusiv sub-elementele sale?',
 
         # JS File: Core.Agent.Admin.AppointmentCalendar.Manage
         'More' => '',
@@ -5507,25 +5507,25 @@ sub Data {
 
         # JS File: Core.Agent.Admin.DynamicField
         'Do you really want to delete this dynamic field? ALL associated data will be LOST!' =>
-            'Confirmi ștergerea acestui câmp dinamic? TOATE datele asociate acestuia vor fi PIERDUTE!',
-        'Delete field' => 'Șterge câmpul',
-        'Deleting the field and its data. This may take a while...' => 'Sterg campul si datele asociate. Asteptati...',
+            'Sunteți sigur că doriți să ștergeți acest câmp dinamic? TOATE datele asociate acestuia vor fi PIERDUTE!',
+        'Delete field' => 'Ștergeți câmpul',
+        'Deleting the field and its data. This may take a while...' => 'Ștergerea câmpului și a datelor sale. Așteptați...',
 
         # JS File: Core.Agent.Admin.GenericAgent
         'Remove this dynamic field' => '',
-        'Remove selection' => 'Șterge selecția',
+        'Remove selection' => 'Ștergeți selecția',
         'Do you really want to delete this generic agent job?' => '',
-        'Delete this Event Trigger' => 'Stergerea acestui declansator de eveniment',
-        'Duplicate event.' => 'Eveniment dublat.',
+        'Delete this Event Trigger' => 'Ștergeți acest declanșator de evenimente',
+        'Duplicate event.' => 'Duplicarea evenimentului.',
         'This event is already attached to the job, Please use a different one.' =>
             '',
 
         # JS File: Core.Agent.Admin.GenericInterfaceDebugger
-        'An error occurred during communication.' => 'A apărut o eroare în timpul comunicației',
-        'Request Details' => 'Detaliile Cererii',
+        'An error occurred during communication.' => 'A apărut o eroare în timpul comunicației.',
+        'Request Details' => 'Detaliile cererii',
         'Request Details for Communication ID' => '',
-        'Show or hide the content.' => 'Arată sau ascunde conținutul',
-        'Clear debug log' => 'Sterge datele din jurnalul de depanare',
+        'Show or hide the content.' => 'Arată sau ascunde conținutul.',
+        'Clear debug log' => 'Ștergeți jurnalul de depanare',
 
         # JS File: Core.Agent.Admin.GenericInterfaceErrorHandling
         'Delete error handling module' => '',
@@ -5546,11 +5546,11 @@ sub Data {
         'Delete this Key Mapping' => '',
 
         # JS File: Core.Agent.Admin.GenericInterfaceOperation
-        'Delete this Operation' => 'Șterge această Operațiune',
+        'Delete this Operation' => 'Ștergeți această operațiune',
 
         # JS File: Core.Agent.Admin.GenericInterfaceWebservice
-        'Clone web service' => 'Clonează un serviciu web',
-        'Delete operation' => 'Șterge această operație',
+        'Clone web service' => 'Clonează serviciul web',
+        'Delete operation' => 'Ștergeți operațiunea',
         'Delete invoker' => '',
 
         # JS File: Core.Agent.Admin.Group
@@ -5564,7 +5564,7 @@ sub Data {
 
         # JS File: Core.Agent.Admin.NotificationEvent
         'Do you really want to delete this notification language?' => 'Sunteți sigur că doriți ștergerea acestei limbi de notificare?',
-        'Do you really want to delete this notification?' => 'Sunteți sigur că doriți ștergerea acestei notificări?',
+        'Do you really want to delete this notification?' => 'Sunteți sigur că doriți să ștergeți această notificare?',
 
         # JS File: Core.Agent.Admin.PGP
         'Do you really want to delete this key?' => '',
@@ -5615,7 +5615,7 @@ sub Data {
         'This TransitionAction is already used in this Path. You cannot use it twice!' =>
             '',
         'Hide EntityIDs' => '',
-        'Edit Field Details' => 'Editeaza setările câmpului',
+        'Edit Field Details' => 'Editează detaliile câmpului',
         'Customer interface does not support articles not visible for customers.' =>
             '',
         'Sorry, the only existing parameter can\'t be removed.' => '',
@@ -5647,7 +5647,7 @@ sub Data {
             '',
 
         # JS File: Core.Agent.Admin.SystemConfiguration
-        'Loading...' => 'Încarc...',
+        'Loading...' => 'Încărcare...',
         'Search the System Configuration' => '',
         'Please enter at least one search word to find anything.' => '',
         'Unfortunately deploying is currently not possible, maybe because another agent is already deploying. Please try again later.' =>
@@ -5702,7 +5702,7 @@ sub Data {
         # JS File: Core.Agent.CustomerSearch
         'First select a customer user, then select a customer ID to assign to this ticket.' =>
             '',
-        'Duplicated entry' => 'Câmp  dublat',
+        'Duplicated entry' => 'Câmp dublat',
         'It is going to be deleted from the field, please try again.' => '',
 
         # JS File: Core.Agent.CustomerUserAddressBook
@@ -5740,7 +5740,7 @@ sub Data {
             '',
 
         # JS File: Core.Agent.Responsive
-        'Switch to desktop mode' => 'Activează modul de afișare desktop',
+        'Switch to desktop mode' => 'Treceți la modul de afișare desktop',
 
         # JS File: Core.Agent.Search
         'Please remove the following words from your search as they cannot be searched for:' =>
@@ -5777,11 +5777,11 @@ sub Data {
 
         # JS File: Core.Agent
         'Slide the navigation bar' => '',
-        'Please turn off Compatibility Mode in Internet Explorer!' => 'Te rog oprește modul "Compatibility Mode" în Internet Explorer!',
+        'Please turn off Compatibility Mode in Internet Explorer!' => 'Vă rugăm să dezactivați Modul de compatibilitate în Internet Explorer!',
         'Find out more' => '',
 
         # JS File: Core.App.Responsive
-        'Switch to mobile mode' => 'Activează modul de afișare mobil',
+        'Switch to mobile mode' => 'Treceți la modul de afișare mobil',
 
         # JS File: Core.App
         'Error: Browser Check failed!' => '',
@@ -5797,7 +5797,7 @@ sub Data {
             '',
 
         # JS File: Core.Form.Validate
-        'One or more errors occurred!' => 'Există una sau mai multe erori!',
+        'One or more errors occurred!' => 'A apărut una sau mai multe erori!',
 
         # JS File: Core.Installer
         'Mail check successful.' => '',
@@ -5813,21 +5813,21 @@ sub Data {
 
         # JS File: Core.UI.Datepicker
         'Open date selection' => 'Deschide selectia de data',
-        'Invalid date (need a future date)!' => 'Data invalida (trebuie specificata o data in viitor)',
-        'Invalid date (need a past date)!' => 'Data invalida (trebuie specificata o data in trecut)',
+        'Invalid date (need a future date)!' => 'Data nevalidă (specificați o dată viitoare)!',
+        'Invalid date (need a past date)!' => 'Data nevalidă (specificați o dată trecută)!',
 
         # JS File: Core.UI.InputFields
         'Not available' => 'Nu este disponibil',
-        'and %s more...' => 'și încă %s',
+        'and %s more...' => 'și încă %s ...',
         'Show current selection' => '',
         'Current selection' => '',
         'Clear all' => 'Șterge tot',
         'Filters' => 'Filtre',
-        'Clear search' => 'Șterge căutare',
+        'Clear search' => 'Ștergeți căutarea',
 
         # JS File: Core.UI.Popup
         'If you now leave this page, all open popup windows will be closed, too!' =>
-            'Dacă părăsești aceasta pagină, toate ferestrele asociate vor fi închise de asemenea!',
+            'Dacă părăsiți această pagină, toate ferestrele asociate vor fi închise și ele!',
         'A popup of this screen is already open. Do you want to close it and load this one instead?' =>
             'O fereastră asociată acestui ecran este deja deschisă. Dorești să o închizi și să o încarci pe aceasta nouă in loc?',
         'Could not open popup window. Please disable any popup blockers for this application.' =>
@@ -5895,9 +5895,9 @@ Thanks for your help!
  Your Helpdesk Team
 ' => '',
         ' (work units)' => '',
-        ' 2 minutes' => '2 minute',
-        ' 5 minutes' => '5 minute',
-        ' 7 minutes' => '7 minute',
+        ' 2 minutes' => ' 2 minute',
+        ' 5 minutes' => ' 5 minute',
+        ' 7 minutes' => ' 7 minute',
         '"Slim" skin which tries to save screen space for power users.' =>
             '',
         '%s' => '',
@@ -6101,7 +6101,7 @@ Thanks for your help!
         'Allows to set a new ticket state in the move ticket screen of the agent interface.' =>
             '',
         'Always show RichText if available' => '',
-        'Answer' => 'Răspunde',
+        'Answer' => 'Răspuns',
         'Appointment Calendar overview page.' => '',
         'Appointment Notifications' => '',
         'Appointment calendar event module that prepares notification entries for appointments.' =>
@@ -6112,7 +6112,7 @@ Thanks for your help!
         'Appointment list' => '',
         'Appointment list.' => '',
         'Appointment notifications' => '',
-        'Appointments' => '',
+        'Appointments' => 'Programări',
         'Arabic (Saudi Arabia)' => '',
         'ArticleTree' => '',
         'Attachment Name' => 'Nume atașament',
@@ -6136,9 +6136,9 @@ Thanks for your help!
             '',
         'Blocks all the incoming emails that do not have a valid ticket number in subject with From: @example.com address.' =>
             '',
-        'Bounced to "%s".' => 'Redirectionat catre "%s".',
+        'Bounced to "%s".' => 'Redirecționat către „%s”.',
         'Bulgarian' => '',
-        'Bulk Action' => 'Actiune asupra grupului',
+        'Bulk Action' => 'Acțiune in masa',
         'CMD example setup. Ignores emails where external CMD returns some output on STDOUT (email will be piped into STDIN of some.bin).' =>
             '',
         'CSV Separator' => 'Separator în fișier tip CSV',
@@ -6203,7 +6203,7 @@ Thanks for your help!
         'Choose which notifications you\'d like to receive.' => '',
         'Christmas Eve' => 'Ajunul Crăciunului',
         'Close' => 'Închide',
-        'Close this ticket' => 'Închide acest tichet',
+        'Close this ticket' => 'Închideți acest tichet',
         'Closed tickets (customer user)' => '',
         'Closed tickets (customer)' => '',
         'Cloud Services' => '',
@@ -6311,7 +6311,7 @@ Thanks for your help!
         'Custom text for the page shown to customers that have no tickets yet (if you need those text translated add them to a custom translation module).' =>
             '',
         'Customer Administration' => '',
-        'Customer Companies' => 'Companii Client',
+        'Customer Companies' => 'Companii client',
         'Customer IDs' => '',
         'Customer Information Center Search.' => '',
         'Customer Information Center search.' => '',
@@ -7098,7 +7098,7 @@ Thanks for your help!
         'Delete expired sessions.' => '',
         'Delete expired ticket draft entries.' => '',
         'Delete expired upload cache hourly.' => '',
-        'Delete this ticket' => 'Șterge acest tichet',
+        'Delete this ticket' => 'Ștergeți acest tichet',
         'Deleted link to ticket "%s".' => '',
         'Deletes a session if the session id is used with an invalid remote IP address.' =>
             '',
@@ -7356,7 +7356,7 @@ Thanks for your help!
         'Forces to choose a different ticket state (from current) after lock action. Define the current state as key, and the next state after lock action as content.' =>
             '',
         'Forces to unlock tickets after being moved to another queue.' =>
-            'Forteaza deblocarea tichetelor la mutarea lor in alta coada.',
+            'Forțează deblocarea tichetelor la mutarea lor în altă coadă.',
         'Forwarded to "%s".' => '',
         'Free Fields' => 'Câmpuri independente',
         'French' => '',
@@ -7562,7 +7562,7 @@ Thanks for your help!
         'Input' => '',
         'Interface language' => '',
         'Internal communication channel.' => '',
-        'International Workers\' Day' => 'Ziua Internațională a Muncii',
+        'International Workers\' Day' => 'Ziua internaționala a muncii',
         'It is possible to configure different skins, for example to distinguish between diferent agents, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in "Key" should match the domain, and the value in "Content" should be a valid skin on your system. Please see the example entries for the proper form of the regex.' =>
             '',
         'It is possible to configure different skins, for example to distinguish between diferent customers, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in "Key" should match the domain, and the value in "Content" should be a valid skin on your system. Please see the example entries for the proper form of the regex.' =>
@@ -7750,7 +7750,7 @@ Thanks for your help!
             '',
         'Module to use database filter storage.' => '',
         'Module used to detect if attachments are present.' => '',
-        'Multiselect' => 'Selectie multipla',
+        'Multiselect' => 'Selecție multiplă',
         'My Queues' => 'Cozile mele',
         'My Services' => '',
         'My Tickets.' => '',
@@ -7759,7 +7759,7 @@ Thanks for your help!
         'Name of custom service. The custom service is a service selection of your preferred services and can be selected in the preferences settings.' =>
             '',
         'NameX' => '',
-        'New Ticket' => 'Tichet Nou',
+        'New Ticket' => 'Tichet nou',
         'New Tickets' => 'Tichete Noi',
         'New Window' => '',
         'New Year\'s Day' => 'Anul Nou',
@@ -7771,11 +7771,11 @@ Thanks for your help!
             '',
         'Next possible ticket states after adding a phone note in the ticket phone outbound screen of the agent interface.' =>
             '',
-        'No public key found.' => '',
-        'No valid OpenPGP data found.' => '',
+        'No public key found.' => 'Nu a fost găsită nicio cheie publică.',
+        'No valid OpenPGP data found.' => 'Nu au fost găsite date OpenPGP valide.',
         'None' => '',
         'Norwegian' => '',
-        'Notification Settings' => 'Administrarea Notificărilor',
+        'Notification Settings' => 'Setările notificărilor',
         'Notified about response time escalation.' => '',
         'Notified about solution time escalation.' => '',
         'Notified about update time escalation.' => '',
@@ -7820,7 +7820,7 @@ Thanks for your help!
         'Overview of all open tickets.' => '',
         'Overview of customer tickets.' => '',
         'PGP Key' => 'Cheie PGP',
-        'PGP Key Management' => '',
+        'PGP Key Management' => 'Administrarea cheilor PGP',
         'PGP Keys' => 'Chei PGP',
         'Package event module file a scheduler task for update registration.' =>
             '',
@@ -8017,7 +8017,7 @@ Thanks for your help!
         'Russian' => '',
         'S/MIME Certificates' => 'Certificate S/MIME',
         'SMS' => '',
-        'SMS (Short Message Service)' => '',
+        'SMS (Short Message Service)' => 'SMS (serviciu de mesaje scurte)',
         'Salutations' => 'Moduri de salut',
         'Sample command output' => '',
         'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when "FS" is used.' =>
@@ -8031,7 +8031,7 @@ Thanks for your help!
         'Search backend default router.' => '',
         'Search backend router.' => '',
         'Search.' => '',
-        'Second Christmas Day' => 'A oua zi de Crăciun',
+        'Second Christmas Day' => 'A doua zi de Crăciun',
         'Second Queue' => '',
         'Select after which period ticket overviews should refresh automatically.' =>
             '',
@@ -8480,7 +8480,7 @@ Thanks for your help!
             '',
         'Shows time use complete description (days, hours, minutes), if enabled; or just first letter (d, h, m), if not enabled.' =>
             '',
-        'Signature data.' => '',
+        'Signature data.' => 'Date de semnătură.',
         'Signatures' => 'Semnături',
         'Simple' => '',
         'Skin' => '',
@@ -8563,7 +8563,7 @@ Thanks for your help!
         'Starts a wildcard search of the active object after the link object mask is started.' =>
             '',
         'Stat#' => '',
-        'States' => 'Starea',
+        'States' => 'Stări',
         'Statistic Reports overview.' => '',
         'Statistics overview.' => '',
         'Status view' => '',
@@ -8606,14 +8606,14 @@ Thanks for your help!
         'The daemon registration for the system configuration deployment sync manager.' =>
             '',
         'The divider between TicketHook and ticket number. E.g \': \'.' =>
-            '',
+            'Divizorul dintre TicketHook și numărul tichetului. De exemplu „: ”.',
         'The duration in minutes after emitting an event, in which the new escalation notify and start events are suppressed.' =>
             '',
         'The format of the subject. \'Left\' means \'[TicketHook#:12345] Some Subject\', \'Right\' means \'Some Subject [TicketHook#:12345]\', \'None\' means \'Some Subject\' and no ticket number. In the latter case you should verify that the setting PostMaster::CheckFollowUpModule###0200-References is activated to recognize followups based on email headers.' =>
-            '',
+            'Formatul subiectului. „Stânga” înseamnă „[TicketHook#:12345] Subiectul”, „Dreapta” înseamnă „Subiectul [TicketHook#:12345]”, „Nimic” înseamnă „Subiectul” fără numărul de tichet. În ultimul caz, trebuie să verificați dacă setarea PostMaster::CheckFollowUpModule###0200-References este activată pentru a recunoaște urmărirea bazată pe anteturile de e-mail.',
         'The headline shown in the customer interface.' => '',
         'The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.' =>
-            '',
+            'Identificatorul unui tichet, de ex. Ticket#, Call#, MyTicket#. Valoarea implicită este Ticket#.',
         'The logo shown in the header of the agent interface for the skin "High Contrast". See "AgentLogo" for further description.' =>
             '',
         'The logo shown in the header of the agent interface for the skin "default". See "AgentLogo" for further description.' =>
@@ -8635,11 +8635,11 @@ Thanks for your help!
         'The maximal number of articles shown on a single page in AgentTicketZoom.' =>
             '',
         'The maximum number of mails fetched at once before reconnecting to the server.' =>
-            '',
+            'Numărul maxim de e-mailuri preluate simultan înainte de a vă reconecta la server.',
         'The secret you supplied is invalid. The secret must only contain letters (A-Z, uppercase) and numbers (2-7) and must consist of 16 characters.' =>
             '',
         'The text at the beginning of the subject in an email reply, e.g. RE, AW, or AS.' =>
-            '',
+            'Textul la începutul subiectului într-un răspuns pe e-mail, de ex. RE, AW sau AS.',
         'The text at the beginning of the subject when an email is forwarded, e.g. FW, Fwd, or WG.' =>
             '',
         'The value of the From field' => '',
@@ -8651,7 +8651,7 @@ Thanks for your help!
         'This is the default orange - black skin for the customer interface.' =>
             '',
         'This is the default orange - black skin.' => '',
-        'This key is not certified with a trusted signature!' => '',
+        'This key is not certified with a trusted signature!' => 'Această cheie nu este certificată cu o semnătură de încredere!',
         'This module and its PreRun() function will be executed, if defined, for every request. This module is useful to check some user options or to display news about new applications.' =>
             '',
         'This module is part of the admin area of OTRS.' => '',
@@ -8666,7 +8666,7 @@ Thanks for your help!
         'This option will deny the access to customer company tickets, which are not created by the customer user.' =>
             '',
         'This setting allows you to override the built-in country list with your own list of countries. This is particularly handy if you just want to use a small select group of countries.' =>
-            '',
+            'Această setare vă permite să înlocuiți lista de țări încorporată pe lista proprie de țări. Acest lucru este util dacă doriți să utilizați doar un grup mic de țări.',
         'This setting is deprecated. Set OTRSTimeZone instead.' => '',
         'This setting shows the sorting attributes in all overview screen, not only in queue view.' =>
             '',
@@ -8680,16 +8680,16 @@ Thanks for your help!
         'Ticket History.' => 'Istoric tichet.',
         'Ticket Lock.' => 'Tichet blocat.',
         'Ticket Merge.' => '',
-        'Ticket Move.' => 'Mutare Tichet',
+        'Ticket Move.' => 'Mutare Tichet.',
         'Ticket Note.' => '',
         'Ticket Notifications' => '',
         'Ticket Outbound Email.' => '',
-        'Ticket Overview "Medium" Limit' => 'Limita vedere de ansamblu "Medium" tichet ',
+        'Ticket Overview "Medium" Limit' => 'Limita vedere de ansamblu "Medium" tichet',
         'Ticket Overview "Preview" Limit' => 'Limită previzualizare vedere de ansamblu tichete',
-        'Ticket Overview "Small" Limit' => 'Limita vedere de ansamblu "Small" tichet ',
+        'Ticket Overview "Small" Limit' => 'Limita vedere de ansamblu "Small" tichet',
         'Ticket Owner.' => '',
         'Ticket Pending.' => '',
-        'Ticket Print.' => 'Imprima tichet',
+        'Ticket Print.' => 'Tipărire tichet.',
         'Ticket Priority.' => 'Prioritate Tichet.',
         'Ticket Queue Overview' => '',
         'Ticket Responsible.' => 'Responsabil Tichet.',
@@ -8750,16 +8750,16 @@ Thanks for your help!
         'Updates the ticket escalation index after a ticket attribute got updated.' =>
             '',
         'Updates the ticket index accelerator.' => '',
-        'Upload your PGP key.' => 'Încarcă cheia PGP',
-        'Upload your S/MIME certificate.' => 'Încarcă certificatul S/MIME',
+        'Upload your PGP key.' => 'Încărcați cheia PGP.',
+        'Upload your S/MIME certificate.' => 'Încărcați certificatul S/MIME.',
         'Use new type of select and autocomplete fields in agent interface, where applicable (InputFields).' =>
             '',
         'Use new type of select and autocomplete fields in customer interface, where applicable (InputFields).' =>
             '',
-        'User Profile' => 'Profil Utilizator',
+        'User Profile' => 'Profil utilizator',
         'UserFirstname' => 'UtilizatorPrenume',
         'UserLastname' => 'UtilizatorNume',
-        'Users, Groups & Roles' => 'Utilizatori,Grupuri și Roluri',
+        'Users, Groups & Roles' => 'Utilizatori, grupuri și roluri',
         'Uses richtext for viewing and editing ticket notification.' => '',
         'Uses richtext for viewing and editing: articles, salutations, signatures, standard templates, auto responses and notifications.' =>
             '',
@@ -8768,7 +8768,7 @@ Thanks for your help!
         'View performance benchmark results.' => 'Vezi rezultatele testelor de performanta.',
         'Watch this ticket' => 'Urmărește acest tichet',
         'Watched Tickets' => 'Tichete urmărite',
-        'Watched Tickets.' => 'Tichete urmărite',
+        'Watched Tickets.' => 'Tichete urmărite.',
         'We are performing scheduled maintenance.' => 'Se realizeaza lucrari de mentenanta.',
         'We are performing scheduled maintenance. Login is temporarily not available.' =>
             'Se realizeaza lucrari de mentenanta. Conectarea este temporar indisponibila.',
@@ -8811,7 +8811,7 @@ Thanks for your help!
         'pending' => 'în așteptare',
         'phone' => 'telefon',
         'responsible' => 'responsabil',
-        'reverse' => 'înapoi',
+        'reverse' => 'inversare',
         'stats' => '',
 
     };

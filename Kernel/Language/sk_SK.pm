@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.181510328479512;
+    $Self->{Completeness}        = 0.197087707416187;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -689,14 +689,14 @@ sub Data {
         'No change time settings.' => '',
         'Ticket changed' => '',
         'Ticket changed between' => '',
-        'Last close times' => '',
-        'No last close time settings.' => '',
-        'Ticket last close' => '',
-        'Ticket last close between' => '',
-        'Close times' => '',
-        'No close time settings.' => '',
-        'Ticket closed' => '',
-        'Ticket closed between' => '',
+        'Last close times' => 'Časy posledného uzatvorenia',
+        'No last close time settings.' => 'Bez nastavenia času posledného uzatvorenia.',
+        'Ticket last close' => 'Čas posledného uzatvorenia tiketu',
+        'Ticket last close between' => 'Posledné uzatvorenie tiketu medzi',
+        'Close times' => 'Časy uzatvorenia',
+        'No close time settings.' => 'Čas uzatvorenia nie je nastaven.',
+        'Ticket closed' => 'Tiket uzatvoren',
+        'Ticket closed between' => 'Tiket uzatvoren medzi',
         'Pending times' => '',
         'No pending time settings.' => '',
         'Ticket pending time reached' => '',
@@ -1560,7 +1560,7 @@ sub Data {
         'Copy Process' => '',
 
         # Template: AdminProcessManagementActivity
-        'Cancel & close' => '',
+        'Cancel & close' => 'Zrušiť a uzatvoriť',
         'Go Back' => '',
         'Please note, that changing this activity will affect the following processes' =>
             '',
@@ -1665,7 +1665,7 @@ sub Data {
             '',
 
         # Template: AdminProcessManagementProcessPrint
-        'cancel & close' => '',
+        'cancel & close' => 'zrušiť a uzatvoriť',
         'Start Activity' => '',
         'Contains %s dialog(s)' => '',
         'Assigned dialogs' => '',
@@ -2357,7 +2357,7 @@ sub Data {
 
         # Template: AgentDashboardCommon
         'Save settings' => '',
-        'Close this widget' => '',
+        'Close this widget' => 'Uzatvoriť tuto pomôcku',
         'more' => 'viac',
         'Available Columns' => 'Dostupné stĺpce',
         'Visible Columns (order by drag & drop)' => 'Viditelné stĺpce(zoraditelné cez drag & drop)',
@@ -2366,13 +2366,13 @@ sub Data {
         'Change Customer Relations' => '',
         'Open' => 'Otvorený',
         'Closed' => 'Zatvorený',
-        '%s open ticket(s) of %s' => '%s otvoril ticket(y) %s',
-        '%s closed ticket(s) of %s' => '%s uztvoril ticket(y) %s',
+        '%s open ticket(s) of %s' => '%s otvorených ticketov zo %s',
+        '%s closed ticket(s) of %s' => '%s uzatvorených ticketov zo %s',
         'Edit customer ID' => '',
 
         # Template: AgentDashboardCustomerIDStatus
         'Escalated tickets' => 'Vyeskalované tikety',
-        'Open tickets' => 'otvorené tikety',
+        'Open tickets' => 'Otvorené tikety',
         'Closed tickets' => 'Uzatvorené tikety',
         'All tickets' => 'Všetky tikety',
         'Archived tickets' => 'Archivované tikety',
@@ -2417,7 +2417,7 @@ sub Data {
         'My locked tickets' => 'Moje uzamknuté tikety',
         'My watched tickets' => 'Moje sledované tikety',
         'My responsibilities' => 'Tikety kde som Zodpovedný',
-        'Tickets in My Queues' => 'Tikety v mojich Queue',
+        'Tickets in My Queues' => 'Tikety v mojich radoch',
         'Tickets in My Services' => 'Tikety v mojich Servisoch',
         'Service Time' => 'Servisný čas',
 
@@ -2537,14 +2537,14 @@ sub Data {
         # Template: AgentTicketActionCommon
         'Change Free Text of %s%s%s' => '',
         'Change Owner of %s%s%s' => '',
-        'Close %s%s%s' => '',
+        'Close %s%s%s' => 'Uzatvoriť %s%s%s',
         'Add Note to %s%s%s' => '',
         'Set Pending Time for %s%s%s' => '',
         'Change Priority of %s%s%s' => '',
         'Change Responsible of %s%s%s' => '',
         'All fields marked with an asterisk (*) are mandatory.' => 'Všetky polia vyznačené hviezdičkou(*) sú povinné',
         'The ticket has been locked' => 'Tiket bol uzamknutý',
-        'Undo & close' => 'Vrátit naspäť a uzatvoriť okno',
+        'Undo & close' => 'Vrátit naspäť a uzatvoriť',
         'Ticket Settings' => '',
         'Queue invalid.' => '',
         'Service invalid.' => 'Chybný servis',
@@ -2616,7 +2616,7 @@ sub Data {
         # Template: AgentTicketEmail
         'Create New Email Ticket' => 'Vytvoriť nový e-mail tiket',
         'Example Template' => 'Príklad šablóny',
-        'From queue' => 'Z queue',
+        'From queue' => 'Z radu',
         'To customer user' => 'Používateľovi',
         'Please include at least one customer user for the ticket.' => 'Pridajte aspon jedného používateľa pre tiket',
         'Select this customer as the main customer.' => 'Vybrat tohoto použivateľa ako hlavného',
@@ -2660,7 +2660,7 @@ sub Data {
 
         # Template: AgentTicketMove
         'Move %s%s%s' => '',
-        'New Queue' => 'Nový queue',
+        'New Queue' => 'Nový rad',
         'Move' => 'Presunúť',
 
         # Template: AgentTicketOverviewMedium
@@ -2671,8 +2671,8 @@ sub Data {
         'First Response Time' => 'Čas prvej odozvy',
         'Update Time' => 'Čas aktualizácie',
         'Solution Time' => 'Čas vyriešenia',
-        'Move ticket to a different queue' => 'Presunúť tiket do iného queue',
-        'Change queue' => 'Zmeniť queue',
+        'Move ticket to a different queue' => 'Presunúť tiket do iného radu',
+        'Change queue' => 'Zmeniť rad',
 
         # Template: AgentTicketOverviewNavBar
         'Remove active filters for this screen.' => 'Vymaž aktívne filtre pre túto obrazovku',
@@ -2690,7 +2690,7 @@ sub Data {
         'Save Chat Into New Phone Ticket' => 'Ulož čat do nového Telefón tiketu',
         'Create New Phone Ticket' => 'Vytvor nový Telefón tiket',
         'Please include at least one customer for the ticket.' => 'Prosím doplňte aspoň jedného zákazníka pre tiket',
-        'To queue' => 'Do queue',
+        'To queue' => 'Do radu',
         'Chat protocol' => 'Četovací protokol',
         'The chat will be appended as a separate article.' => 'Tento čet bude pridaný ako samostatný článok',
 
@@ -2719,7 +2719,7 @@ sub Data {
         '(e. g. U51*)' => '',
         'Assigned to Customer User Login (exact match)' => '',
         'Accessible to Customer User Login (exact match)' => '',
-        'Created in Queue' => 'Vytvorene v queue',
+        'Created in Queue' => 'Vytvorene v rade',
         'Lock state' => 'Uzamkni stav',
         'Watcher' => 'Sledovač',
         'Article Create Time (before/after)' => 'Čas vytvorenia článku(pred/po)',
@@ -2734,8 +2734,8 @@ sub Data {
         'Ticket Last Change Time (between)' => 'Čas poslednej aktualizácie tiketu(medzi)',
         'Ticket Pending Until Time (before/after)' => '',
         'Ticket Pending Until Time (between)' => '',
-        'Ticket Close Time (before/after)' => 'Čas uzatvorenia tiketu(pred/po)',
-        'Ticket Close Time (between)' => 'Čas uzatvorenia tiketu(medzi)',
+        'Ticket Close Time (before/after)' => 'Čas uzatvorenia tiketu (pred/po)',
+        'Ticket Close Time (between)' => 'Čas uzatvorenia tiketu (medzi)',
         'Ticket Escalation Time (before/after)' => 'Čas eskalácie tiketu(pred/po)',
         'Ticket Escalation Time (between)' => 'Čas eskalácie tiketu(medzi)',
         'Archive Search' => 'Prehľadávať archív',
@@ -2747,7 +2747,7 @@ sub Data {
         'Save as default' => 'Uložiť do prednastavených',
         'Drafts' => '',
         'by' => 'podľa',
-        'Change Queue' => 'Zmeň queue',
+        'Change Queue' => 'Zmeň rad',
         'There are no dialogs available at this point in the process.' =>
             'V tejto časti procesu nie je žiadna možnosť dialógu',
         'This item has no articles yet.' => 'Táto položka už nemá žiaden článok',
@@ -2783,7 +2783,7 @@ sub Data {
         'This message is being processed. Already tried to send %s time(s). Next try will be %s.' =>
             '',
         'To open links in the following article, you might need to press Ctrl or Cmd or Shift key while clicking the link (depending on your browser and OS).' =>
-            'Na otvorenie linky k článku, možete stlačiť klávesy Ctrl alebo Cmd ale Shift v závislosti podľa operačného systému alebo browsera',
+            'Na otvorenie linky k článku možno bude treba pred klepnutím na linku stlačiť klávesy Ctrl alebo Cmd alebo Shift (v závislosti podľa operačného systému alebo browsera)',
         'Close this message' => 'Uzatvoriť túto správu',
         'Image' => '',
         'PDF' => '',
@@ -2886,7 +2886,7 @@ sub Data {
         # Template: CustomerNavigationBar
         'Incoming Chat Requests' => 'Prichádzajúca žiadosť o čet',
         'Edit personal preferences' => 'Zmeniť osobné nastavenia',
-        'Logout %s' => '',
+        'Logout %s' => 'Odhlásiť %s',
 
         # Template: CustomerTicketMessage
         'Service level agreement' => '',
@@ -3091,8 +3091,8 @@ sub Data {
 
         # Template: MetaFloater
         'Scale preview content' => '',
-        'Open URL in new tab' => '',
-        'Close preview' => '',
+        'Open URL in new tab' => 'Otvoriť URL na nové záložke',
+        'Close preview' => 'Uzatvoriť predbežné zobrazenie',
         'A preview of this website can\'t be provided because it didn\'t allow to be embedded.' =>
             '',
 
@@ -3710,7 +3710,7 @@ sub Data {
         'Email account fetch already fetched by another process. Please try again later!' =>
             '',
         'Dispatching by email To: field.' => 'Posielam emailom =>  prijemca: pole',
-        'Dispatching by selected Queue.' => 'Posielam vybraným queue.',
+        'Dispatching by selected Queue.' => 'Odosielanie dľa vybraného radu.',
 
         # Perl Module: Kernel/Modules/AdminNotificationEvent.pm
         'Agent who created the ticket' => '',
@@ -4190,7 +4190,7 @@ sub Data {
         'This chat has been closed and will be removed in %s hours.' => '',
 
         # Perl Module: Kernel/Modules/AgentTicketPhoneCommon.pm
-        'Ticket locked.' => 'Tiket uzamknutý',
+        'Ticket locked.' => 'Tiket uzamknutý.',
 
         # Perl Module: Kernel/Modules/AgentTicketPlain.pm
         'No ArticleID!' => '',
@@ -4261,9 +4261,9 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AgentTicketQueue.pm
         'Available tickets' => 'Volné tikety',
-        'including subqueues' => 'zahrnúť pod-queue',
-        'excluding subqueues' => 'vyradiť pod-queue',
-        'QueueView' => 'Pohľad Queue',
+        'including subqueues' => 'zahrnúť podriadené rady',
+        'excluding subqueues' => 'vynechať podriadené rady',
+        'QueueView' => 'Pohľad dľa radu',
 
         # Perl Module: Kernel/Modules/AgentTicketResponsibleView.pm
         'My Responsible Tickets' => 'Tikety kde som Zodpovedný',
@@ -4297,7 +4297,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AgentTicketZoom.pm
         'Link Deleted' => '',
-        'Ticket Locked' => '',
+        'Ticket Locked' => 'Tiket uzamknutý',
         'Pending Time Set' => '',
         'Dynamic Field Updated' => '',
         'Outgoing Email (internal)' => '',
@@ -4320,7 +4320,7 @@ sub Data {
         'Incoming Customer Email' => '',
         'Incoming Web Request' => '',
         'Priority Updated' => '',
-        'Ticket Unlocked' => '',
+        'Ticket Unlocked' => 'Tiket neuzamknutý',
         'Outgoing Email' => '',
         'Title Updated' => '',
         'Ticket Merged' => '',
@@ -4396,7 +4396,7 @@ sub Data {
             'Prosím vymažte nasleduúce slová, nakolko nemôžu byť použité na vyhľadávanie',
 
         # Perl Module: Kernel/Modules/CustomerTicketZoom.pm
-        'Can\'t reopen ticket, not possible in this queue!' => '',
+        'Can\'t reopen ticket, not possible in this queue!' => 'Nie možno opätovne otvoriť tiket, nie je to možno v tomto radu!',
         'Create a new ticket!' => '',
 
         # Perl Module: Kernel/Modules/Installer.pm
@@ -4597,7 +4597,7 @@ sub Data {
         'This is a' => 'To je',
         'email' => 'e-mail',
         'click here' => 'klikni tu',
-        'to open it in a new window.' => 'Otvoriť v novom okne',
+        'to open it in a new window.' => 'pre otvorenie v novom okne.',
         'Year' => '',
         'Hours' => 'Hodín',
         'Minutes' => 'Minút',
@@ -4756,7 +4756,7 @@ sub Data {
         'Content' => '',
 
         # Perl Module: Kernel/Output/HTML/TicketMenu/Lock.pm
-        'Unlock to give it back to the queue' => 'Odomkni na vrátenie naspäť do queue',
+        'Unlock to give it back to the queue' => 'Odomkni na vrátenie naspäť do radu',
         'Lock it to work on it' => 'Uzamkni na dalšiu prácu',
 
         # Perl Module: Kernel/Output/HTML/TicketMenu/TicketWatcher.pm
@@ -5140,7 +5140,7 @@ sub Data {
         'Process Tickets' => '',
         'Months Between First And Last Ticket' => '',
         'Tickets Per Month (avg)' => '',
-        'Open Tickets' => '',
+        'Open Tickets' => 'Otvorené tikety',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DefaultSOAPUser.pm
         'Default SOAP Username And Password' => '',
@@ -5345,7 +5345,7 @@ sub Data {
         'Authentication succeeded, but no user data record is found in the database. Please contact the administrator.' =>
             '',
         'Can`t remove SessionID.' => '',
-        'Logout successful.' => '',
+        'Logout successful.' => 'Odhlásenie bolo úspešné.',
         'Feature not active!' => 'Funkcia neaktívna!',
         'Sent password reset instructions. Please check your email.' => 'Na Váš email boli odoslané inštrukcie pre obnovu hesla. Skontrolujte si svoj email.',
         'Invalid Token!' => 'Nesprávny token!',
@@ -5373,74 +5373,74 @@ sub Data {
 
         # Database XML / SOPM Definition: scripts/database/otrs-initial_insert.xml
         'invalid-temporarily' => 'dočasne neplatný',
-        'Group for default access.' => '',
-        'Group of all administrators.' => '',
-        'Group for statistics access.' => '',
+        'Group for default access.' => 'Skupina pre predvolený prístup.',
+        'Group of all administrators.' => 'Skupina pre všetky správce.',
+        'Group for statistics access.' => 'Skupina pre štatistický prístup.',
         'new' => 'nový',
-        'All new state types (default: viewable).' => '',
-        'open' => 'otvoriť',
-        'All open state types (default: viewable).' => '',
+        'All new state types (default: viewable).' => 'Všetky nové typy stavov (predvoľba: viditeľný).',
+        'open' => 'otvorený',
+        'All open state types (default: viewable).' => 'Všetky otvorené typy stavov (predvoľba: viditeľný).',
         'closed' => 'zatvorený',
-        'All closed state types (default: not viewable).' => '',
+        'All closed state types (default: not viewable).' => 'Všetky uzatvorené typy stavov (predvoľba: nie je viditeľný).',
         'pending reminder' => 'nevybavená pripomienka',
-        'All \'pending reminder\' state types (default: viewable).' => '',
+        'All \'pending reminder\' state types (default: viewable).' => 'Všetky typy stavov \'nevybavená pripomienka\' (predvoľba: viditeľný).',
         'pending auto' => 'automaticky nevybaviť',
-        'All \'pending auto *\' state types (default: viewable).' => '',
+        'All \'pending auto *\' state types (default: viewable).' => 'Všetky typy stavov \'automaticky nevybavený *\' (predvoľba: viditeľný).',
         'removed' => 'odstránený',
-        'All \'removed\' state types (default: not viewable).' => '',
+        'All \'removed\' state types (default: not viewable).' => 'Všetky typy stavov \'odstránený\' (predvoľba: nie je viditeľný).',
         'merged' => 'zlúčené',
-        'State type for merged tickets (default: not viewable).' => '',
-        'New ticket created by customer.' => '',
-        'closed successful' => 'úspešne zatvorené',
-        'Ticket is closed successful.' => '',
-        'closed unsuccessful' => 'zatvorené neúspešne',
-        'Ticket is closed unsuccessful.' => '',
-        'Open tickets.' => '',
-        'Customer removed ticket.' => '',
-        'Ticket is pending for agent reminder.' => '',
+        'State type for merged tickets (default: not viewable).' => 'Typ stavu pro zlúčené tikety (predvoľba: nie je viditeľný).',
+        'New ticket created by customer.' => 'Nový tiket vytvorený zákazníkom.',
+        'closed successful' => 'úspešne zatvorený',
+        'Ticket is closed successful.' => 'Tiket je uzatvorený úspešne.',
+        'closed unsuccessful' => 'zatvorený neúspešne',
+        'Ticket is closed unsuccessful.' => 'Tiket je uzatvorený neúspešne.',
+        'Open tickets.' => 'Otvorené tikety.',
+        'Customer removed ticket.' => 'Zákazník tiket odstránil.',
+        'Ticket is pending for agent reminder.' => 'Tiket čaká na upomienku agenta.',
         'pending auto close+' => 'počas automatického zatvárania +',
-        'Ticket is pending for automatic close.' => '',
+        'Ticket is pending for automatic close.' => 'Tiket čaká na automatické uzatvorenie.',
         'pending auto close-' => 'počas automatického zatvárania -',
-        'State for merged tickets.' => '',
-        'system standard salutation (en)' => '',
-        'Standard Salutation.' => '',
-        'system standard signature (en)' => '',
-        'Standard Signature.' => '',
-        'Standard Address.' => '',
-        'possible' => 'možný',
+        'State for merged tickets.' => 'Stav pre zlúčené tikety.',
+        'system standard salutation (en)' => 'štandardné systémové oslovenie (en)',
+        'Standard Salutation.' => 'Štandardné oslovenie.',
+        'system standard signature (en)' => 'štandardný systémový podpis (en)',
+        'Standard Signature.' => 'Štandardný podpis.',
+        'Standard Address.' => 'Štandardná adresa.',
+        'possible' => 'možné',
         'Follow-ups for closed tickets are possible. Ticket will be reopened.' =>
-            '',
-        'reject' => 'odmietnuť',
+            'Následné správy pre uzatvorené tikety sú možné. Tiket bude opäť otvorený.',
+        'reject' => 'odmietnuté',
         'Follow-ups for closed tickets are not possible. No new ticket will be created.' =>
-            '',
-        'new ticket' => '',
+            'Následné správy pre uzatvorené tikety nie sú možné. Nový tiket nie bude vytvorený.',
+        'new ticket' => 'nový tiket',
         'Follow-ups for closed tickets are not possible. A new ticket will be created.' =>
-            '',
-        'Postmaster queue.' => '',
-        'All default incoming tickets.' => '',
-        'All junk tickets.' => '',
-        'All misc tickets.' => '',
+            'Následné správy pre uzatvorené tikety nie sú možné. Bude vytvorený nový tiket.',
+        'Postmaster queue.' => 'Rad postmastera.',
+        'All default incoming tickets.' => 'Všetky predvolené prichádzajúcí tikety.',
+        'All junk tickets.' => 'Všetky odhodené tikety.',
+        'All misc tickets.' => 'Všetky zmiešané tikety.',
         'auto reply' => 'automatická odozva',
         'Automatic reply which will be sent out after a new ticket has been created.' =>
-            '',
+            'Automatická odpoveď po vytváranie nového tiketu.',
         'auto reject' => 'automatické zamietnutie',
         'Automatic reject which will be sent out after a follow-up has been rejected (in case queue follow-up option is "reject").' =>
-            '',
+            'Automatické odmietnutie ktoré bude odosláno po odmietnuti následnej správy k uzatvorenému tiketu (v prípadě nastavenej predvoľby "zamietnuť").',
         'auto follow up' => 'automatické nasledovanie',
         'Automatic confirmation which is sent out after a follow-up has been received for a ticket (in case queue follow-up option is "possible").' =>
-            '',
+            'Automatické potvrdenie, ktoré bude odosláno po príjmu následnej správy k tiketu (v prípadě nastavenej predvoľby "možné").',
         'auto reply/new ticket' => 'automatická odozva/nový ticket',
         'Automatic response which will be sent out after a follow-up has been rejected and a new ticket has been created (in case queue follow-up option is "new ticket").' =>
-            '',
+            'Automatická odpoveď, ktorá bude odoslána po odmietnutí následnej správy a vytvoreném novém tiketu (v prípadě nastavenej predvoľby "nový tiket").',
         'auto remove' => 'automatické vymazanie',
         'Auto remove will be sent out after a customer removed the request.' =>
-            '',
-        'default reply (after new ticket has been created)' => '',
+            'Automatické odstranenie bude odosláno v prípade odstranenia požiadavky zákazníkom.',
+        'default reply (after new ticket has been created)' => 'predvolená odpoveď (po vytvorení nového tiketu)',
         'default reject (after follow-up and rejected of a closed ticket)' =>
-            '',
-        'default follow-up (after a ticket follow-up has been added)' => '',
+            'predvolené odmietnutie (po následnej správe a odmietnutí uzatvoreného tiketu)',
+        'default follow-up (after a ticket follow-up has been added)' => 'predvolená následná odpoveď (po pridání následnej správy k tiketu)',
         'default reject/new ticket created (after closed follow-up with new ticket creation)' =>
-            '',
+            'predvolené odmietnutie/nový tiket vytvorený (po vytvorenie nového tiketu pri prijatej následnej správe k uzatvorenému tiketu)',
         'Unclassified' => '',
         '1 very low' => '1 veľmi nízka',
         '2 low' => '2 nízka',
@@ -5450,38 +5450,38 @@ sub Data {
         'unlock' => 'odomknúť',
         'lock' => 'zamknúť',
         'tmp_lock' => '',
-        'agent' => 'Agent',
-        'system' => 'Systém',
-        'customer' => 'Zákazník',
-        'Ticket create notification' => '',
+        'agent' => 'agent',
+        'system' => 'systém',
+        'customer' => 'zákazník',
+        'Ticket create notification' => 'Oznámenie vytvoreného tiketu',
         'You will receive a notification each time a new ticket is created in one of your "My Queues" or "My Services".' =>
-            '',
-        'Ticket follow-up notification (unlocked)' => '',
+            'Dostanete oznámenie vždy pri vytvorenie nového tiketu buď v "Moje rady" alebo "Moje služby".',
+        'Ticket follow-up notification (unlocked)' => 'Oznámenie následnej správy tiketu (neuzamknutý)',
         'You will receive a notification if a customer sends a follow-up to an unlocked ticket which is in your "My Queues" or "My Services".' =>
-            '',
-        'Ticket follow-up notification (locked)' => '',
+            'Dostanete oznámenie pri príjmu následnej správy od zákazníka k neuzamknutému tiketu, ktorý je v "Moje rady" alebo "Moje služby".',
+        'Ticket follow-up notification (locked)' => 'Oznámenie následnej správy k tiketu (uzamknutý)',
         'You will receive a notification if a customer sends a follow-up to a locked ticket of which you are the ticket owner or responsible.' =>
-            '',
+            'Dostanete oznámenie pri príjmu následnej správy od zákazníka k uzamknutému tiketu, ktorý vlastníte alebo máte na vlastnú zodpovednosť.',
         'Ticket lock timeout notification' => 'Notifikácia o prekročení časového limit uzamknutia tiketu.',
         'You will receive a notification as soon as a ticket owned by you is automatically unlocked.' =>
-            '',
-        'Ticket owner update notification' => '',
-        'Ticket responsible update notification' => '',
-        'Ticket new note notification' => '',
-        'Ticket queue update notification' => '',
+            'Dostanete oznámenie kedže tiket, ktorý vlastníte, bode odomknutý.',
+        'Ticket owner update notification' => 'Oznámenie aktualizácie vlastníka tiketu',
+        'Ticket responsible update notification' => 'Oznámenie aktualizácie zodpovednosti k tiketu',
+        'Ticket new note notification' => 'Oznámenie novej poznámky k tiketu',
+        'Ticket queue update notification' => 'Oznámenie aktualizácie radu tiketu',
         'You will receive a notification if a ticket is moved into one of your "My Queues".' =>
-            '',
-        'Ticket pending reminder notification (locked)' => '',
-        'Ticket pending reminder notification (unlocked)' => '',
-        'Ticket escalation notification' => '',
-        'Ticket escalation warning notification' => '',
-        'Ticket service update notification' => '',
+            'Dostanete oznámenie pri presunu tiketu do jedné z vašich radov v "Moje rady".',
+        'Ticket pending reminder notification (locked)' => 'Oznámenie počas pripomenutie tiketu (uzamknutý)',
+        'Ticket pending reminder notification (unlocked)' => 'Oznámenie počas pripomenutie tiketu (neuzamknutý)',
+        'Ticket escalation notification' => 'Oznámenie vystupňovanie tiketu',
+        'Ticket escalation warning notification' => 'Oznámenie varovania pri vystupňovanie tiketu',
+        'Ticket service update notification' => 'Oznámenie aktualizácie služby tiketu',
         'You will receive a notification if a ticket\'s service is changed to one of your "My Services".' =>
-            '',
-        'Appointment reminder notification' => '',
+            'Dostanete oznámenie pri zmene služby niektorého vašho tiketu v "Moje služby".',
+        'Appointment reminder notification' => 'Oznámenie pripomenutie stretnutia',
         'You will receive a notification each time a reminder time is reached for one of your appointments.' =>
-            '',
-        'Ticket email delivery failure notification' => '',
+            'Dostanete oznámenie v čase pripomenutie jedné z vášich stretnutie.',
+        'Ticket email delivery failure notification' => 'Oznámenie zlýhania doručenia emailu',
 
         # JS File: Core.AJAX
         'Error during AJAX communication. Status: %s, Error: %s' => '',
@@ -5812,7 +5812,7 @@ sub Data {
             '',
 
         # JS File: Core.UI.Datepicker
-        'Open date selection' => 'tvoriť výber dátumu',
+        'Open date selection' => 'Otvoriť výber dátumu',
         'Invalid date (need a future date)!' => 'Chybný dátum(treba zadať dátum v budúcnosti)',
         'Invalid date (need a past date)!' => 'Chybný dátum(treba zadať dátum v minulosti)',
 
@@ -6014,7 +6014,7 @@ Thanks for your help!
         'All escalated tickets' => 'Všetky vyeskalované tikety',
         'All new tickets, these tickets have not been worked on yet' => 'Všetky otvorené tikety - na ktorých sa ešte nezačalo pracovať',
         'All open tickets, these tickets have already been worked on.' =>
-            '',
+            'Všetky otvorené tikety, tikety na ktorých sa práve pracuje.',
         'All tickets with a reminder set where the reminder date has been reached' =>
             'Všetky tikety s prekročným pripomínačom',
         'Allows adding notes in the close ticket screen of the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
@@ -6202,10 +6202,10 @@ Thanks for your help!
             '',
         'Choose which notifications you\'d like to receive.' => '',
         'Christmas Eve' => 'Vianoce',
-        'Close' => 'Zatvorit',
-        'Close this ticket' => 'Uzatvor tiket',
-        'Closed tickets (customer user)' => '',
-        'Closed tickets (customer)' => '',
+        'Close' => 'Zatvoriť',
+        'Close this ticket' => 'Uzatvoriť tento tiket',
+        'Closed tickets (customer user)' => 'Uzatvorené tikety (zákaznícký použivateľ)',
+        'Closed tickets (customer)' => 'Uzatvorené tikety (zákazník)',
         'Cloud Services' => '',
         'Cloud service admin module registration for the transport layer.' =>
             '',
@@ -7639,8 +7639,8 @@ Thanks for your help!
         'Loader module registration for the customer interface.' => '',
         'Lock / unlock this ticket' => '',
         'Locked Tickets' => 'Uzamknuté tikety',
-        'Locked Tickets.' => '',
-        'Locked ticket.' => 'História: zamkni',
+        'Locked Tickets.' => 'Uzamknuté tikety.',
+        'Locked ticket.' => 'Uzamknutý tiket.',
         'Logged in users.' => '',
         'Logged-In Users' => '',
         'Logout of customer panel.' => '',
@@ -7751,7 +7751,7 @@ Thanks for your help!
         'Module to use database filter storage.' => '',
         'Module used to detect if attachments are present.' => '',
         'Multiselect' => 'Hromadný výber',
-        'My Queues' => 'Moje Queues.',
+        'My Queues' => 'Moje rady',
         'My Services' => 'Moje služby',
         'My Tickets.' => '',
         'Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings.' =>
@@ -7772,7 +7772,7 @@ Thanks for your help!
         'Next possible ticket states after adding a phone note in the ticket phone outbound screen of the agent interface.' =>
             '',
         'No public key found.' => '',
-        'No valid OpenPGP data found.' => '',
+        'No valid OpenPGP data found.' => 'Neboli nájdené žiadne platné dáta OpenPGP.',
         'None' => '',
         'Norwegian' => '',
         'Notification Settings' => 'Nastavenie notifikácií',
@@ -7793,9 +7793,9 @@ Thanks for your help!
             '',
         'OTRS doesn\'t support recurring Appointments without end date or number of iterations. During import process, it might happen that ICS file contains such Appointments. Instead, system creates all Appointments in the past, plus Appointments for the next N months (120 months/10 years by default).' =>
             '',
-        'Open an external link!' => '',
-        'Open tickets (customer user)' => '',
-        'Open tickets (customer)' => '',
+        'Open an external link!' => 'Otvoriť externú linku!',
+        'Open tickets (customer user)' => 'Otvorené tikety (zákaznícky používateľ)',
+        'Open tickets (customer)' => 'Otvorené tikety (zákazník)',
         'Option' => '',
         'Optional queue limitation for the CreatorCheck permission module. If set, permission is only granted for tickets in the specified queues.' =>
             '',
@@ -7816,8 +7816,8 @@ Thanks for your help!
         'Overview of all Tickets per assigned Queue.' => '',
         'Overview of all appointments.' => '',
         'Overview of all escalated tickets.' => '',
-        'Overview of all open Tickets.' => '',
-        'Overview of all open tickets.' => '',
+        'Overview of all open Tickets.' => 'Prehľad všetkých otvorených tiketov.',
+        'Overview of all open tickets.' => 'Prehľad všetkých otvorených tiketov.',
         'Overview of customer tickets.' => '',
         'PGP Key' => 'PGP kľúč',
         'PGP Key Management' => '',
@@ -8671,7 +8671,7 @@ Thanks for your help!
         'This setting shows the sorting attributes in all overview screen, not only in queue view.' =>
             '',
         'This will allow the system to send text messages via SMS.' => '',
-        'Ticket Close.' => '',
+        'Ticket Close.' => 'Uzatvorenie tiketu.',
         'Ticket Compose Bounce Email.' => '',
         'Ticket Compose email Answer.' => '',
         'Ticket Customer.' => '',
@@ -8741,7 +8741,7 @@ Thanks for your help!
         'Unlock tickets that are past their unlock timeout.' => '',
         'Unlock tickets whenever a note is added and the owner is out of office.' =>
             '',
-        'Unlocked ticket.' => 'História: odomkni',
+        'Unlocked ticket.' => 'Neuzamknutý tiket.',
         'Up' => 'Hore',
         'Upcoming Events' => 'Nadchádzajúce udalosti.',
         'Update Ticket "Seen" flag if every article got seen or a new Article got created.' =>
