@@ -1,4 +1,6 @@
-# 6.0.30 ????-??-??
+# 6.0.31 ????-??-??
+
+# 6.0.30 2020-10-12
  - 2020-09-22 Updated translations, thanks to all translators.
  - 2020-09-15 Fixed bug#[15246](https://bugs.otrs.org/show_bug.cgi?id=15246) - Default encryption setting on queue is ignored.
  - 2020-09-09 Updated third party libraries: jquery to 3.5.1, fullcalendar to 3.10.2, fullcalendar-scheduler to 1.10.1 and spectrum to 1.8.1.
