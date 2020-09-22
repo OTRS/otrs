@@ -3,8 +3,9 @@
 # 6.0.30 2020-10-12
  - 2020-09-22 Updated translations, thanks to all translators.
  - 2020-09-15 Fixed bug#[15246](https://bugs.otrs.org/show_bug.cgi?id=15246) - Default encryption setting on queue is ignored.
+  If there are more than one S/MIME keys available, the newest one is selected in AgentTicketEmail and not the one selected for this queue. Also the setting in the queue about the certification to use is ignored by the ticket notifications.
  - 2020-09-09 Updated third party libraries: jquery to 3.5.1, fullcalendar to 3.10.2, fullcalendar-scheduler to 1.10.1 and spectrum to 1.8.1.
- - 2020-07-27 Fixed bug#[15263](https://bugs.otrs.org/show_bug.cgi?id=15263) - Error in Maint::Email::MailQueue because of using  uninitialized value.
+ - 2020-07-27 Fixed bug#[15263](https://bugs.otrs.org/show_bug.cgi?id=15263) - Maint::Email::MailQueue adds error log entry because of using uninitialized value.
  - 2020-07-03 Fixed bug#[15180](https://bugs.otrs.org/show_bug.cgi?id=15180) - Plain text article printing does not work well with citation.
 
 # 6.0.29 2020-07-20
