@@ -470,12 +470,15 @@ sub _SubmitResults {
     *STDOUT->flush();
     *STDERR->flush();
 
+    # Resolve wildcards in attachment paths late, when the files already exist.
+    my @AttachmentPaths = map { glob($_) } ( @{ $Param{AttachmentPath} // [] } );
+
     # Limit attachment sizes to 20MB in total.
-    my $AttachmentCount = scalar grep { -r $_ } @{ $Param{AttachmentPath} // [] };
+    my $AttachmentCount = scalar grep { -r $_ } @AttachmentPaths;
     my $AttachmentsSize = 1024 * 1024 * 20;
 
     ATTACHMENT_PATH:
-    for my $AttachmentPath ( @{ $Param{AttachmentPath} // [] } ) {
+    for my $AttachmentPath (@AttachmentPaths) {
         my $FileHandle;
         my $Content;
 
