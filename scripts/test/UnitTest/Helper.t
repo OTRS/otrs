@@ -28,7 +28,7 @@ my %SeenRandomIDs;
 my $DuplicateIDFound;
 
 LOOP:
-for my $I ( 1 .. 1_000_000 ) {
+for my $I ( 1 .. 1_000 ) {
     my $RandomID = $Helper->GetRandomID();
     if ( $SeenRandomIDs{$RandomID}++ ) {
         $Self->True(
@@ -50,7 +50,7 @@ my %SeenRandomNumbers;
 my $DuplicateNumbersFound;
 
 LOOP:
-for my $I ( 1 .. 1_000_000 ) {
+for my $I ( 1 .. 1_000 ) {
     my $RandomNumber = $Helper->GetRandomNumber();
     if ( $SeenRandomNumbers{$RandomNumber}++ ) {
         $Self->True(
