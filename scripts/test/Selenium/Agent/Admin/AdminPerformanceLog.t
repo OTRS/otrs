@@ -91,6 +91,9 @@ $Selenium->RunTest(
 
         }
 
+        # Clean-up.
+        unlink $Kernel::OM->Get('Kernel::Config')->Get('Home') . "/var/log/Performance.log";
+
     }
 
 );

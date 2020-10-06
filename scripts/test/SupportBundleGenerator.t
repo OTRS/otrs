@@ -94,7 +94,7 @@ if ( !-e $ArchiveGeneratorTool ) {
 }
 
 # execute ARCHIVE generator tool
-my $Result = `$ArchiveGeneratorTool -a create`;
+my $Result = `$ArchiveGeneratorTool -a create 2>&1`;
 
 if ( !-e $Home . '/ARCHIVE' || -z $Home . '/ARCHIVE' ) {
 
