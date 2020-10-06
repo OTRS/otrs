@@ -77,4 +77,9 @@ for my $Module (qw(DB FS)) {
     );
 }
 
+# Clean-up.
+for my $File ( glob $ConfigObject->Get('Home') . '/var/log/LoopProtection*.log' ) {
+    unlink $File;
+}
+
 1;

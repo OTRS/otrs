@@ -101,14 +101,14 @@ if ( !-e $Home . '/ARCHIVE' || -z $Home . '/ARCHIVE' ) {
     # if ARCHIVE file is not present we can't continue
     $Self->True(
         0,
-        "ARCHIVE file is not generated, we can't continue",
+        "ARCHIVE file is not generated, we can't continue. Script output was: $Result",
     );
     return;
 }
 else {
     $Self->True(
         1,
-        "ARCHIVE file is generated for UnitTest purpose",
+        "ARCHIVE file is generated for UnitTest purpose. Script output was: $Result",
     );
 
     # delete Kernel/Config.pm file from archive file
