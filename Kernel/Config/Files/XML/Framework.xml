@@ -7777,11 +7777,11 @@ via the Preferences button after logging in.
                 <Item Key="Title" Translatable="1">A Website</Item>
                 <Item Key="Description" Translatable="1">Some description!</Item>
                 <Item Key="Block">ContentLarge</Item>
-                <Item Key="URL">https://www.otrs.org/</Item>
+                <Item Key="URL">https://otrs.com/</Item>
                 <Item Key="Group"></Item>
                 <Item Key="Default">1</Item>
-                <Item Key="Link">https://otrs.org/</Item>
-                <Item Key="LinkTitle">OTRS.org/</Item>
+                <Item Key="Link">https://otrs.com/</Item>
+                <Item Key="LinkTitle">OTRS.com/</Item>
                 <Item Key="Width">1024</Item>
                 <Item Key="Height">800</Item>
                 <Item Key="Marginheight">5</Item>
