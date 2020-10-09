@@ -272,7 +272,10 @@ sub _HandleFile {
         $ResultData->{TestNotOk}++;
     }
 
-    $Self->{ResultData}->{ $Param{File} } = $ResultData;
+    my $Home         = $Kernel::OM->Get('Kernel::Config')->Get('Home');
+    my $RelativeFile = substr( $Param{File}, length($Home) + 1 );
+
+    $Self->{ResultData}->{$RelativeFile} = $ResultData;
     $Self->{TestCountOk}    += $ResultData->{TestOk}    // 0;
     $Self->{TestCountNotOk} += $ResultData->{TestNotOk} // 0;
 
