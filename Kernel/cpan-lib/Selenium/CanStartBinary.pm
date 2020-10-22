@@ -1,5 +1,5 @@
 package Selenium::CanStartBinary;
-$Selenium::CanStartBinary::VERSION = '1.36';
+$Selenium::CanStartBinary::VERSION = '1.38';
 use strict;
 use warnings;
 
@@ -250,10 +250,10 @@ sub _handle_firefox_setup {
 sub shutdown_binary {
     my ($self) = @_;
 
-    if ( $self->auto_close && defined $self->session_id ) {
+    return unless $self->auto_close();
+    if ( defined $self->session_id ) {
         $self->quit();
     }
-
     if ( $self->has_binary_mode && $self->binary_mode ) {
 
         # Tell the binary itself to shutdown
@@ -381,7 +381,7 @@ Selenium::CanStartBinary - Teach a WebDriver how to start its own binary aka no 
 
 =head1 VERSION
 
-version 1.36
+version 1.38
 
 =head1 DESCRIPTION
 

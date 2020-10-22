@@ -1,5 +1,5 @@
 package Selenium::Remote::Spec;
-$Selenium::Remote::Spec::VERSION = '1.36';
+$Selenium::Remote::Spec::VERSION = '1.38';
 use strict;
 use warnings;
 
@@ -114,7 +114,7 @@ has '_caps' => (
             'proxy',                   'pageLoadStrategy',
             'setWindowRect',           'timeouts',
             'unhandledPromptBehavior', 'moz:firefoxOptions',
-            'goog:chromeOptions',
+            'goog:chromeOptions',      'goog:loggingPrefs',
         ];
     }
 );
@@ -254,7 +254,7 @@ Selenium::Remote::Spec - Implement commands for Selenium::Remote::Driver
 
 =head1 VERSION
 
-version 1.36
+version 1.38
 
 =head1 DESCRIPTION
 
