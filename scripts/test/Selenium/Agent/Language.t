@@ -38,9 +38,7 @@ $Selenium->RunTest(
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentPreferences");
         sleep 2;
 
-        my @Languages = sort keys %{ $ConfigObject->Get('DefaultUsedLanguages') };
-
-        for my $Language (@Languages) {
+        for my $Language (qw(de es ru zh_CN sr_Cyrl en)) {
 
             # Change AgentPreference language.
             $Selenium->execute_script(
