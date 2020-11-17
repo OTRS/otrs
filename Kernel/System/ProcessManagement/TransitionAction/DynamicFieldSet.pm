@@ -24,7 +24,7 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::ProcessManagement::TransitionAction::DynamicFieldSet - A module to set a new ticket owner
+Kernel::System::ProcessManagement::TransitionAction::DynamicFieldSet - A module to set ticket dynamic field values
 
 =head1 DESCRIPTION
 
