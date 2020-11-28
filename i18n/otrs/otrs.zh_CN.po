@@ -20,16 +20,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: 2020-07-01 07:05+0000\n"
-"PO-Revision-Date: 2020-01-31 03:51+0000\n"
+"PO-Revision-Date: 2020-11-14 18:36+0000\n"
 "Last-Translator: Huimin Wang <whuim@qq.com>\n"
-"Language-Team: Chinese (Simplified) <https://translate.app.otrs.com/projects/"
+"Language-Team: Chinese (Simplified) <https://translate.otrs.com/projects/"
 "otrs-6/otrs/zh_Hans/>\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 3.10\n"
+"X-Generator: Weblate 4.2.2\n"
 
 #. Template: AdminACL
 msgid "ACL Management"
@@ -2282,24 +2282,20 @@ msgid "Ticket changed between"
 msgstr "工单修改时间（在...之间）"
 
 #. Template: AdminGenericAgent
-#, fuzzy
 msgid "Last close times"
-msgstr "最后修改时间"
+msgstr "最后关闭时间"
 
 #. Template: AdminGenericAgent
-#, fuzzy
 msgid "No last close time settings."
-msgstr "没有关闭时间设置。"
+msgstr "没有最后关闭时间设置。"
 
 #. Template: AdminGenericAgent
-#, fuzzy
 msgid "Ticket last close"
-msgstr "工单关闭时间"
+msgstr "工单最后关闭时间"
 
 #. Template: AdminGenericAgent
-#, fuzzy
 msgid "Ticket last close between"
-msgstr "工单关闭时间（在...之间）"
+msgstr "工单最后关闭时间（在...之间）"
 
 #. Template: AdminGenericAgent
 msgid "Close times"
@@ -2857,9 +2853,8 @@ msgid ""
 "retries would be triggered at 10:01 (1 minute), 10:03 (2 minutes), 10:07 (4 "
 "minutes), 10:12 (8=>5 minutes), 10:17, ..."
 msgstr ""
-"示例：示例：如果一个请求的初始时间间隔为“1分钟”，重试因子为“2”，最大间隔为“5"
-"分钟”，初始触发在10:00，重试将触发在10:01（1分钟），10 ：03（2分钟），"
-"10:07（4分钟），10:12（8 => 5分钟），10:17，..."
+"示例：如果一个请求的初始时间间隔为“1分钟”，重试因子为“2”，最大间隔为“5分钟”，初始触发在10:00，重试将触发在10:01（1分钟），10 "
+"：03（2分钟），10:07（4分钟），10:12（8 => 5分钟），10:17，..."
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "Maximum retry count"
@@ -7144,28 +7139,28 @@ msgid ""
 "To get the first 20 characters of the subject of the current/latest agent "
 "article (current for Answer and Forward, latest for Note template type). "
 "This tag is not supported for other template types."
-msgstr ""
+msgstr "获取当前/最新服务人员文章主题的前20个字符(当前用于回复和转发，最新用于备注模板类型)。其它模板类型不支持此标记。"
 
 #. Template: AdminTemplate
 msgid ""
 "To get the first 5 lines of the body of the current/latest agent article "
 "(current for Answer and Forward, latest for Note template type). This tag is "
 "not supported for other template types."
-msgstr ""
+msgstr "获取当前/最新服务人员文章正文的前5行(当前用于回复和转发，最新用于备注模板类型)。其它模板类型不支持此标记。"
 
 #. Template: AdminTemplate
 msgid ""
 "To get the first 20 characters of the subject of the current/latest article "
 "(current for Answer and Forward, latest for Note template type). This tag is "
 "not supported for other template types."
-msgstr ""
+msgstr "获取当前/最新文章主题的前20个字符(当前用于回复和转发，最新用于备注模板类型)。其它模板类型不支持此标记。"
 
 #. Template: AdminTemplate
 msgid ""
 "To get the first 5 lines of the body of the current/latest article (current "
 "for Answer and Forward, latest for Note template type). This tag is not "
 "supported for other template types."
-msgstr ""
+msgstr "获取当前/最新文章正文的前5行(当前用于回复和转发，最新用于备注模板类型)。其它模板类型不支持此标记。"
 
 #. Template: AdminTemplate
 msgid "Create type templates only supports this smart tags"
@@ -15119,6 +15114,7 @@ msgid ""
 "show_bug.cgi?id=12361. Please convert your database to the character set "
 "'utf8'."
 msgstr ""
+"尚不支持此字符集，请参阅https://bugs.otrs.org/show_bug.cgi?id=12361。请将您的数据库转换为字符集‘utf8’。"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Charset.pm
 msgid "The setting character_set_database needs to be 'utf8'."
@@ -17388,6 +17384,7 @@ msgstr ""
 "请通过客户网页创建一个新的工单。\n"
 "\n"
 "感谢您的支持！\n"
+"\n"
 "您的服务台团队\n"
 
 #. SysConfig
@@ -18436,11 +18433,11 @@ msgid ""
 msgstr "通过搜索主题中的有效工单号，检查一个邮件是否是跟进到已存在的工单。"
 
 #. SysConfig
-#, fuzzy
 msgid ""
 "Checks if an email is a follow-up to an existing ticket with external ticket "
 "number which can be found by ExternalTicketNumberRecognition filter module."
-msgstr "通过搜索主题中的有效工单号，检查一个邮件是否是跟进到已存在的工单。"
+msgstr ""
+"检查电子邮件是否是带有外部工单编号的现有工单的跟进邮件，该工单编号可由ExternalTicketNumberRecognition过滤器模块找到。"
 
 #. SysConfig
 msgid ""
@@ -21929,7 +21926,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Disable autocomplete in the login screen."
-msgstr ""
+msgstr "在登录屏幕中禁用自动完成功能。"
 
 #. SysConfig
 msgid "Disable cloud services"
@@ -22840,9 +22837,8 @@ msgid "Go to dashboard!"
 msgstr "进入仪表板！"
 
 #. SysConfig
-#, fuzzy
 msgid "Good PGP signature."
-msgstr "添加签名"
+msgstr "良好的PGP签名。"
 
 #. SysConfig
 msgid "Google Authenticator"
@@ -23470,7 +23466,7 @@ msgstr ""
 msgid ""
 "It was not possible to check the PGP signature, this may be caused by a "
 "missing public key or an unsupported algorithm."
-msgstr ""
+msgstr "无法检查PGP签名，这可能是由于缺少公钥或不支持的算法造成的。"
 
 #. SysConfig
 msgid "Italian"
@@ -24168,14 +24164,12 @@ msgid ""
 msgstr "服务人员界面工单电话拨出屏幕在添加一个电话备注后工单可能的下一状态。"
 
 #. SysConfig
-#, fuzzy
 msgid "No public key found."
-msgstr "没有找到工单数据。"
+msgstr "没有找到公钥。"
 
 #. SysConfig
-#, fuzzy
 msgid "No valid OpenPGP data found."
-msgstr "没有找到工单数据。"
+msgstr "没有找到有效的OpenPGP数据。"
 
 #. SysConfig
 msgid "None"
@@ -27005,9 +26999,8 @@ msgstr ""
 "首字母（d-天，h-时,m-分）。"
 
 #. SysConfig
-#, fuzzy
 msgid "Signature data."
-msgstr "签名已更新!"
+msgstr "签名数据。"
 
 #. SysConfig
 msgid "Signatures"
@@ -27395,27 +27388,26 @@ msgid "Thai"
 msgstr "泰国语"
 
 #. SysConfig
-#, fuzzy
 msgid "The PGP signature is expired."
-msgstr "回复邮件中的签名。"
+msgstr "PGP签名已过期。"
 
 #. SysConfig
 msgid ""
 "The PGP signature was made by a revoked key, this could mean that the "
 "signature is forged."
-msgstr ""
+msgstr "PGP签名是由撤销的密钥生成的，这可能意味着签名是伪造的。"
 
 #. SysConfig
 msgid "The PGP signature was made by an expired key."
-msgstr ""
+msgstr "PGP签名是由过期密钥创建的。"
 
 #. SysConfig
 msgid "The PGP signature with the keyid has not been verified successfully."
-msgstr ""
+msgstr "未成功验证带有密钥ID的PGP签名。"
 
 #. SysConfig
 msgid "The PGP signature with the keyid is good."
-msgstr ""
+msgstr "带有密钥ID的PGP签名是好的。"
 
 #. SysConfig
 msgid ""
@@ -27621,9 +27613,8 @@ msgid "This is the default orange - black skin."
 msgstr "这是默认的橙色-黑色皮肤。"
 
 #. SysConfig
-#, fuzzy
 msgid "This key is not certified with a trusted signature!"
-msgstr "存在同名的另一字段。"
+msgstr "此密钥未使用可信签名进行认证！"
 
 #. SysConfig
 msgid ""

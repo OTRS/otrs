@@ -40,10 +40,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: 2020-07-01 07:05+0000\n"
-"PO-Revision-Date: 2020-09-16 13:27+0000\n"
+"PO-Revision-Date: 2020-10-01 16:30+0000\n"
 "Last-Translator: Yuri Myasoedov <myasoedovys@gmail.com>\n"
-"Language-Team: Russian <https://translate.app.otrs.com/projects/otrs-6/otrs/"
-"ru/>\n"
+"Language-Team: Russian <https://translate.otrs.com/projects/otrs-6/otrs/ru/>"
+"\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -51,7 +51,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
 "%100>=11 && n%100<=14)? 2 : 3);\n"
-"X-Generator: Weblate 4.1.1\n"
+"X-Generator: Weblate 4.2.2\n"
 
 #. Template: AdminACL
 msgid "ACL Management"
@@ -13297,7 +13297,7 @@ msgstr "Отчет не может быть импортирован"
 
 #. Perl Module: Kernel/Modules/AgentStatistics.pm
 msgid "Please upload a valid statistic file."
-msgstr "Пожалуйста загрузите правильный файл отчета."
+msgstr "Загрузите корректный файл отчёта."
 
 #. Perl Module: Kernel/Modules/AgentStatistics.pm
 msgid "Export: Need StatID!"
@@ -13321,7 +13321,7 @@ msgstr "Добавить новый отчет"
 
 #. Perl Module: Kernel/Modules/AgentStatistics.pm
 msgid "Could not create statistic."
-msgstr "Не удалось создать статистику"
+msgstr "Не удалось создать отчёт."
 
 #. Perl Module: Kernel/Modules/AgentStatistics.pm
 msgid "Run: Get no %s!"
@@ -13347,11 +13347,11 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
 msgid "Please change the owner first."
-msgstr "Пожалуйста, сначала измените владельца"
+msgstr "Сначала измените владельца."
 
 #. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
 msgid "FormDraft functionality disabled!"
-msgstr "Опция FormDraft отключена!"
+msgstr "Функция FormDraft отключена!"
 
 #. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
 msgid "Draft name is required!"
@@ -13415,27 +13415,31 @@ msgstr "Неправильный Subaction!"
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid "Can't lock Tickets, no TicketIDs are given!"
-msgstr "Невозможно заблокировать заявку, не задан TicketID!"
+msgstr "Невозможно заблокировать заявки, не указаны TicketID!"
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid "Ticket (%s) is not unlocked!"
-msgstr "Заявка (%s) была разблокирована!"
+msgstr "Заявка (%s) не была разблокирована!"
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid ""
 "The following tickets were ignored because they are locked by another agent "
 "or you don't have write access to tickets: %s."
 msgstr ""
+"Следующие заявки были проигнорированы, потому что они были заблокированы "
+"другим агентом или у вас нет прав на изменение этих заявок: %s."
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid ""
 "The following ticket was ignored because it is locked by another agent or "
 "you don't have write access to ticket: %s."
 msgstr ""
+"Следующая заявка была проигнорирована, потому что она была заблокирована "
+"другим агентом или у вас нет прав на изменение заявки: %s."
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid "You need to select at least one ticket."
-msgstr "Вам нужно выбрать как минимум одну заявку."
+msgstr "Выберите хотя бы одну заявку."
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid "Bulk feature is not enabled!"
@@ -13468,15 +13472,15 @@ msgstr "Текущие заявки были заблокированы: %s."
 #. Perl Module: Kernel/Modules/AgentTicketCompose.pm
 msgid ""
 "Article subject will be empty if the subject contains only the ticket hook!"
-msgstr ""
+msgstr "Тема заметки будет пустой, если тема состоит только из хука заявки!"
 
 #. Perl Module: Kernel/Modules/AgentTicketCompose.pm
 msgid "Address %s replaced with registered customer address."
-msgstr "Адрес %s заменен зарегистрированным адресом клиента"
+msgstr "Адрес %s заменён зарегистрированным адресом клиента."
 
 #. Perl Module: Kernel/Modules/AgentTicketCompose.pm
 msgid "Customer user automatically added in Cc."
-msgstr "Клиент автоматически добавлен в поле Сс"
+msgstr "Клиент автоматически добавлен копию сообщения."
 
 #. Perl Module: Kernel/Modules/AgentTicketEmail.pm
 msgid "Ticket \"%s\" created!"
@@ -13488,7 +13492,7 @@ msgstr "Нет Subaction!"
 
 #. Perl Module: Kernel/Modules/AgentTicketEmailOutbound.pm
 msgid "Got no TicketID!"
-msgstr "Не получен TicketID!"
+msgstr "Не указан TicketID!"
 
 #. Perl Module: Kernel/Modules/AgentTicketEmailOutbound.pm
 msgid "System Error!"
@@ -13496,7 +13500,7 @@ msgstr "Системная ошибка!"
 
 #. Perl Module: Kernel/Modules/AgentTicketEmailResend.pm
 msgid "No ArticleID is given!"
-msgstr "Не задан ArticleID!"
+msgstr "Не указан ArticleID!"
 
 #. Perl Module: Kernel/Modules/AgentTicketEscalationView.pm
 msgid "Next week"
@@ -14925,7 +14929,7 @@ msgstr "Период обслуживания системы: начало в %s
 
 #. Perl Module: Kernel/Output/HTML/Notification/DaemonCheck.pm
 msgid "OTRS Daemon is not running."
-msgstr "Служба OTRS не запущена"
+msgstr "Служба OTRS не запущена."
 
 #. Perl Module: Kernel/Output/HTML/Notification/OutofOfficeCheck.pm
 msgid "You have Out of Office enabled, would you like to disable it?"
@@ -16084,7 +16088,7 @@ msgstr "Демон работает."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DaemonRunning.pm
 msgid "Daemon is not running."
-msgstr "Служба не запущена"
+msgstr "Служба не запущена."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
 msgid "Database Records"
