@@ -99,7 +99,7 @@ sub new {
         ActivityEntityID         => 'A123',
         TransitionEntityID       => 'T123',
         TransitionActionEntityID => 'TA123',
-        Config => {
+        Config                   => {
             SenderType           => 'agent',
             IsVisibleForCustomer => 1,
             CommunicationChannel => 'Internal',
@@ -117,34 +117,34 @@ sub new {
         },
     );
 
-    Chat article example:
+    Email article example:
 
     my $TicketArticleCreateResult = $TicketArticleCreateActionObject->Run(
         UserID => 123,
         Ticket => {
-            TicketNumber       => '20101027000001',
-            Title              => 'some title',
-            TicketID           => 123,
-            State              => 'some state',
+            TicketNumber => '20101027000001',
+            Title        => 'some title',
+            TicketID     => 123,
+            State        => 'some state',
             # ... (all ticket properties, as the result from Kernel::System::Ticket::TicketGet)
         },
         ProcessEntityID          => 'P123',
         ActivityEntityID         => 'A123',
         TransitionEntityID       => 'T123',
         TransitionActionEntityID => 'TA123',
-        Config => {
+        Config                   => {
             SenderType           => 'agent',
             IsVisibleForCustomer => 1,
-            CommunicationChannel => 'Internal',
+            CommunicationChannel => 'Email',
 
-            # Internal article data payload.
+            # Email article data payload.
             From             => 'Some Agent <email@example.com>',
             To               => 'Some Customer A <customer-a@example.com>',
             Subject          => 'some short description',
             Body             => 'the message text',
             Charset          => 'ISO-8859-15',
             MimeType         => 'text/plain',
-            HistoryType      => 'OwnerUpdate',
+            HistoryType      => 'EmailAgent',
             HistoryComment   => 'Some free text!',
             UnlockOnAway     => 1,
         },
@@ -168,7 +168,7 @@ sub new {
         Config                   => {
             SenderType           => 'agent',
             IsVisibleForCustomer => 1,
-            CommunicationChannel => 'Internal',
+            CommunicationChannel => 'Chat',
 
             # Chat article data payload.
             ChatMessageList => [
@@ -183,7 +183,7 @@ sub new {
                 },
                 # ...
             ],
-            HistoryType    => 'OwnerUpdate',
+            HistoryType    => 'Misc',
             HistoryComment => 'Some free text!',
         },
     );
