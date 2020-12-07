@@ -14,16 +14,17 @@ use warnings;
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::Output::HTML::Layout',
-    'Kernel::System::LinkObject',
-    'Kernel::System::Log',
-    'Kernel::System::PDF',
-    'Kernel::System::JSON',
-    'Kernel::System::User',
+    'Kernel::System::CommunicationChannel',
     'Kernel::System::CustomerUser',
-    'Kernel::System::Ticket',
-    'Kernel::System::Ticket::Article',
     'Kernel::System::DynamicField',
     'Kernel::System::DynamicField::Backend',
+    'Kernel::System::LinkObject',
+    'Kernel::System::Log',
+    'Kernel::System::JSON',
+    'Kernel::System::PDF',
+    'Kernel::System::User',
+    'Kernel::System::Ticket',
+    'Kernel::System::Ticket::Article',
 );
 
 use Kernel::System::VariableCheck qw(IsHashRefWithData);
@@ -1061,6 +1062,9 @@ sub _PDFOutputArticles {
             Y    => 2,
         );
 
+        my @CommunicationChannelList = $Kernel::OM->Get('Kernel::System::CommunicationChannel')->ChannelList();
+        my %CommunicationChannels    = map { $_->{ChannelID} => $_->{ChannelName} } @CommunicationChannelList;
+
         my %ArticleFields = $LayoutObject->ArticleFields(%Article);
 
         # Display article fields.
@@ -1076,10 +1080,29 @@ sub _PDFOutputArticles {
             next ARTICLE_FIELD if $ArticleField{HideInTicketPrint};
             next ARTICLE_FIELD if !$ArticleField{Value};
 
+            my $FieldValue = $ArticleField{Value};
+
+            if (
+                $CommunicationChannels{ $Article{CommunicationChannelID} } eq 'Internal'
+                && $Article{SenderType} eq 'agent'
+                && $Param{Interface}->{Customer}
+                && $ArticleFieldKey eq 'From'
+                )
+            {
+
+                my $DisplayNoteFrom = $ConfigObject->Get('Ticket::Frontend::CustomerTicketZoom')->{DisplayNoteFrom}
+                    || '';
+
+                if ( $DisplayNoteFrom && $DisplayNoteFrom eq 'DefaultAgentName' ) {
+                    $FieldValue = $ConfigObject->Get('Ticket::Frontend::CustomerTicketZoom')->{DefaultAgentName}
+                        || 'Support Agent';
+                }
+            }
+
             $TableParam1{CellData}[$Row][0]{Content}
                 = $LayoutObject->{LanguageObject}->Translate( $ArticleField{Label} ) . ':';
             $TableParam1{CellData}[$Row][0]{Font}    = 'ProportionalBold';
-            $TableParam1{CellData}[$Row][1]{Content} = $ArticleField{Value};
+            $TableParam1{CellData}[$Row][1]{Content} = $FieldValue;
             $Row++;
         }
 
