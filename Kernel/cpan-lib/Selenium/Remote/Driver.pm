@@ -1,5 +1,5 @@
 package Selenium::Remote::Driver;
-$Selenium::Remote::Driver::VERSION = '1.38';
+$Selenium::Remote::Driver::VERSION = '1.39';
 use strict;
 use warnings;
 
@@ -230,6 +230,11 @@ has 'firefox_profile' => (
     clearer   => 1
 );
 
+has debug => (
+    is => 'lazy',
+    default => sub { 0 },
+);
+
 has 'desired_capabilities' => (
     is        => 'lazy',
     predicate => 'has_desired_capabilities'
@@ -289,6 +294,9 @@ sub BUILD {
         my $size = $self->inner_window_size;
         $self->set_inner_window_size(@$size);
     }
+
+    #Set debug if needed
+    $self->debug_on() if $self->debug;
 
     # Setup non-croaking, parameter versions of finders
     foreach my $by ( keys %{ $self->FINDERS } ) {
@@ -419,7 +427,7 @@ sub new_session {
             'browserName'       => $self->browser_name,
             'platform'          => $self->platform,
             'javascriptEnabled' => $self->javascript,
-            'version'           => $self->version,
+            'version'           => $self->version // '',
             'acceptSslCerts'    => $self->accept_ssl_certs,
             %$extra_capabilities,
         },
@@ -1142,6 +1150,7 @@ sub switch_to_frame {
     $id = ( defined $id ) ? $id : $json_null;
 
     my $res = { 'command' => 'switchToFrame' };
+
     if ( ref $id eq $self->webelement_class ) {
         if ( $self->{is_wd3} ) {
             $params =
@@ -1656,7 +1665,8 @@ sub _get_button {
         return $button_enum->{ uc $1 };
     }
     if ( defined $button && $button =~ /(0|1|2)/ ) {
-        return $1;
+        #Handle user error sending in "1"
+        return int($1);
     }
     return 0;
 }
@@ -1672,7 +1682,7 @@ sub double_click {
     {
         $self->click( $button, 1 );
         $self->click( $button, 1 );
-        $self->general_action();
+        return $self->general_action();
     }
 
     my $res = { 'command' => 'doubleClick' };
@@ -1880,7 +1890,7 @@ Selenium::Remote::Driver - Perl Client for Selenium Remote Driver
 
 =head1 VERSION
 
-version 1.38
+version 1.39
 
 =head1 SYNOPSIS
 
@@ -2140,6 +2150,8 @@ Desired capabilities - HASH - Following options are accepted:
 =item B<pageLoadStrategy>   - STRING   - OPTIONAL, 'normal|eager|none'. default 'normal'. WebDriver3 only.
 
 =item B<extra_capabilities> - HASH     - Any other extra capabilities.  Accepted keys will vary by browser.  If firefox_profile is passed, the args (or profile) key will be overwritten, depending on how it was passed.
+
+=item B<debug>              - BOOL     - Turn Debug mode on from the start if true, rather than having to call debug_on().
 
 =back
 
@@ -2555,6 +2567,16 @@ Called with no arguments, it simply executes the existing action queue.
 
 If you are looking for pre-baked action chains that aren't currently part of L<Selenium::Remote::Driver>,
 consider L<Selenium::ActionChains>, which is shipped with this distribution instead.
+
+=head3 COMPATIBILITY
+
+Like most places, the WC3 standard is openly ignored by the driver binaries.
+Generally an "actions" object will only accept:
+
+    { type => ..., value => ... }
+
+When using the direct drivers (E.G. Selenium::Chrome, Selenium::Firefox).
+This is not documented anywhere but here, as far as I can tell.
 
 =head2 release_general_action
 
@@ -2979,6 +3001,10 @@ To conveniently write the screenshot to a file, see L</capture_screenshot>.
     $driver->switch_to_frame('frame_1');
     or
     $driver->switch_to_frame($driver->find_element('iframe', 'tag_name'));
+
+=head3 COMPATIBILITY
+
+Chromedriver will vomit if you pass anything but a webElement, so you probably should do that from now on.
 
 =head2 switch_to_parent_frame
 
@@ -3731,7 +3757,7 @@ Aditya Ivaturi <ivaturi@gmail.com>
 
 =head1 CONTRIBUTORS
 
-=for stopwords Allen Lew A.MacLeay Andy Jack Bas Bloemsaat Blake GH Brian Horakh Charles Howes Chris Davies Daniel Fackrell Dave Rolsky Dmitry Karasik Doug Bell Dylan Streb Eric Johnson Gabor Szabo George S. Baugh Gerhard Jungwirth Gordon Child GreatFlamingFoo Ivan Kurmanov Joe Higton Jon Hermansen Keita Sugama Ken Swanson lembark Luke Closs Martin Gruner Matthew Spahr Max O'Cull Michael Prokop mk654321 Peter Mottram (SysPete) Phil Kania Mitchell Prateek Goyal Richard Sailer Robert Utter rouzier Tetsuya Tatsumi Tod Hagan Tom Hukins Vangelis Katsikaros Vishwanath Janmanchi Viťas Strádal Yves Lavoie
+=for stopwords Allen Lew A.MacLeay Andy Jack Bas Bloemsaat Blake GH Brian Horakh Charles Howes Chris Davies Daniel Fackrell Dave Rolsky Dmitry Karasik Doug Bell Dylan Streb Eric Johnson Gabor Szabo George S. Baugh Gerhard Jungwirth Gordon Child GreatFlamingFoo Ivan Kurmanov Joe Higton Jon Hermansen Keita Sugama Ken Swanson lembark Luke Closs Martin Gruner Matthew Spahr Max O'Cull Michael Prokop mk654321 Peter Mottram (SysPete) Phil Kania Mitchell Prateek Goyal Richard Sailer Robert Utter rouzier Tetsuya Tatsumi Tod Hagan Tom Hukins Vangelis Katsikaros Vishwanath Janmanchi Viťas Strádal Yuki Kimoto Yves Lavoie
 
 =over 4
 
@@ -3918,6 +3944,10 @@ Vishwanath Janmanchi <jvishwanath@gmail.com>
 =item *
 
 Viťas Strádal <vitas@matfyz.cz>
+
+=item *
+
+Yuki Kimoto <kimoto.yuki@gmail.com>
 
 =item *
 

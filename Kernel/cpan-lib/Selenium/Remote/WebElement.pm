@@ -1,5 +1,5 @@
 package Selenium::Remote::WebElement;
-$Selenium::Remote::WebElement::VERSION = '1.38';
+$Selenium::Remote::WebElement::VERSION = '1.39';
 # ABSTRACT: Representation of an HTML Element used by Selenium Remote Driver
 
 use strict;
@@ -64,6 +64,24 @@ sub click {
 }
 
 
+sub execute_script {
+    my ($self, $script, @args) = @_;
+    return $self->driver->execute_script(
+        $script,
+        { 'element-6066-11e4-a52e-4f735466cecf' => $self->{id} },
+        @args );
+}
+
+sub execute_async_script {
+    my ($self, $script, @args) = @_;
+    return $self->driver->execute_async_script(
+        $script,
+        { 'element-6066-11e4-a52e-4f735466cecf' => $self->{id} },
+        @args );
+}
+
+
+
 sub submit {
     my ($self) = @_;
     if (
@@ -111,7 +129,8 @@ sub send_keys {
 sub is_selected {
     my ($self) = @_;
 
-    return $self->get_property('checked')
+    my $to_check = $self->get_tag_name() eq 'option' ? 'selected' : 'checked';
+    return $self->get_property($to_check)
       if $self->driver->{is_wd3}
       && !( grep { $self->driver->browser_name eq $_ }
         qw{chrome MicrosoftEdge} );
@@ -395,7 +414,7 @@ Selenium::Remote::WebElement - Representation of an HTML Element used by Seleniu
 
 =head1 VERSION
 
-version 1.38
+version 1.39
 
 =head1 DESCRIPTION
 
@@ -476,6 +495,11 @@ Alias to Selenium::Remote::Driver::find_child_element and find_child_elements, r
 
  Usage:
     $elem->click();
+
+=head2 execute_script($script, @args), execute_async_script($script, @args)
+
+Convenience method to execute a script with the element passed as the first argument to the script function, and the remaining args appended.
+See the documentation for Selenium::Remote::Driver::execute_script for more information.
 
 =head2 submit
 

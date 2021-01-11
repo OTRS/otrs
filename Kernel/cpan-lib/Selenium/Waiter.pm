@@ -1,5 +1,5 @@
 package Selenium::Waiter;
-$Selenium::Waiter::VERSION = '1.38';
+$Selenium::Waiter::VERSION = '1.39';
 use strict;
 use warnings;
 
@@ -16,6 +16,7 @@ sub wait_until (&%) {
         timeout  => 30,
         interval => 1,
         debug    => 0,
+        die      => 0,
         @_
     };
 
@@ -34,6 +35,7 @@ sub wait_until (&%) {
         }
         catch {
             $exception = $_;
+            die $_  if $args->{die};
             warn $_ if $args->{debug};
             return '';
         }
@@ -65,7 +67,7 @@ Selenium::Waiter - Provides a utility wait_until function
 
 =head1 VERSION
 
-version 1.38
+version 1.39
 
 =head1 SYNOPSIS
 
@@ -122,6 +124,11 @@ to see the massacre:
 
     # carps: "kept from dying" once a second for thirty seconds
     wait_until { die 'kept from dying' } debug => 1;
+
+If you want to die anyways, just pass die => 1 to wait_until instead:
+
+    # Dies on the first failure, do your own error handling:
+    wait_until { die 'oops' } die => 1;
 
 =head4 Timeouts and Intervals
 
