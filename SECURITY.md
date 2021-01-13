@@ -55,7 +55,7 @@ Older versions are not supported and have known vulnerabilities.
 | ------- | ------------------ |------------------------ |
 | 8.x     | :white_check_mark: |:x:                      |
 | 7.x     | :white_check_mark: |:x:                      |
-| 6.x     | :white_check_mark: |:x:                      |
+| 6.x     | :x:                |:bomb:                   |
 | 5.x     | :x:                |:bomb:                   |
 | < 5.x   | :x:                |:bomb:                   |
 
